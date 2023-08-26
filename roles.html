@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Role Management | Tonga</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
+        type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
+        type="text/css" />
+
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <!-- Custom Css-->
+    <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body data-sidebar="dark">
+
+    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box d-flex justify-content-center align-items-center">
+
+                        <a href="index.html" class="logo logo-light">
+                            <span class="logo-sm">
+                                <!-- <img src="assets/images/logo-light.svg" alt="" height="22"> -->
+                                <h1 class="text-white">Tonga</h1>
+                            </span>
+                            <span class="logo-lg">
+                                <!-- <img src="assets/images/logo-light.png" alt="" height="19"> -->
+                                <h1 class="text-white">Tonga</h1>
+                            </span>
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect"
+                        id="vertical-menu-btn">
+                        <i class="fa fa-fw fa-bars"></i>
+                    </button>
+
+                    <!-- App Search-->
+                    <form class="app-search d-none d-lg-block">
+                        <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="bx bx-search-alt"></span>
+                        </div>
+                    </form>
+
+
+                </div>
+
+                <div class="d-flex">
+
+                    <div class="dropdown d-inline-block d-lg-none ms-2">
+                        <button type="button" class="btn header-item noti-icon waves-effect"
+                            id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="mdi mdi-magnify"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                            aria-labelledby="page-header-search-dropdown">
+
+                            <form class="p-3">
+                                <div class="form-group m-0">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search ..."
+                                            aria-label="Recipient's username">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit"><i
+                                                    class="mdi mdi-magnify"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <img id="header-lang-img" src="assets/images/flags/us.jpg" alt="Header Language"
+                                height="16">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="en">
+                                <img src="assets/images/flags/us.jpg" alt="user-image" class="me-1" height="12"> <span
+                                    class="align-middle">English</span>
+                            </a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="sp">
+                                <img src="assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12">
+                                <span class="align-middle">Spanish</span>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="gr">
+                                <img src="assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12">
+                                <span class="align-middle">German</span>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="it">
+                                <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12">
+                                <span class="align-middle">Italian</span>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ru">
+                                <img src="assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12">
+                                <span class="align-middle">Russian</span>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <button type="button" class="btn header-item noti-icon waves-effect"
+                            data-bs-toggle="fullscreen">
+                            <i class="bx bx-fullscreen"></i>
+                        </button>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item noti-icon waves-effect"
+                            id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="bx bx-bell bx-tada"></i>
+                            <span class="badge bg-danger rounded-pill">3</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                            aria-labelledby="page-header-notifications-dropdown">
+                            <div class="p-3">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h6 class="m-0" key="t-notifications"> Notifications </h6>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="#!" class="small" key="t-view-all"> View All</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-simplebar style="max-height: 230px;">
+                                <a href="javascript: void(0);" class="text-reset notification-item">
+                                    <div class="d-flex">
+                                        <div class="avatar-xs me-3">
+                                            <span class="avatar-title bg-primary rounded-circle font-size-16">
+                                                <i class="bx bx-cart"></i>
+                                            </span>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1" key="t-your-order">Your order is placed</h6>
+                                            <div class="font-size-12 text-muted">
+                                                <p class="mb-1" key="t-grammer">If several languages coalesce the
+                                                    grammar</p>
+                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span
+                                                        key="t-min-ago">3 min ago</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="javascript: void(0);" class="text-reset notification-item">
+                                    <div class="d-flex">
+                                        <img src="assets/images/users/avatar-3.jpg"
+                                            class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">James Lemire</h6>
+                                            <div class="font-size-12 text-muted">
+                                                <p class="mb-1" key="t-simplified">It will seem like simplified English.
+                                                </p>
+                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span
+                                                        key="t-hours-ago">1 hours ago</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="javascript: void(0);" class="text-reset notification-item">
+                                    <div class="d-flex">
+                                        <div class="avatar-xs me-3">
+                                            <span class="avatar-title bg-success rounded-circle font-size-16">
+                                                <i class="bx bx-badge-check"></i>
+                                            </span>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1" key="t-shipped">Your item is shipped</h6>
+                                            <div class="font-size-12 text-muted">
+                                                <p class="mb-1" key="t-grammer">If several languages coalesce the
+                                                    grammar</p>
+                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span
+                                                        key="t-min-ago">3 min ago</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="javascript: void(0);" class="text-reset notification-item">
+                                    <div class="d-flex">
+                                        <img src="assets/images/users/avatar-4.jpg"
+                                            class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Salena Layfield</h6>
+                                            <div class="font-size-12 text-muted">
+                                                <p class="mb-1" key="t-occidental">As a skeptical Cambridge friend of
+                                                    mine occidental.</p>
+                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span
+                                                        key="t-hours-ago">1 hours ago</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="p-2 border-top d-grid">
+                                <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                                    <i class="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">View
+                                        More..</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg"
+                                alt="Header Avatar">
+                            <span class="d-none d-xl-inline-block ms-1" key="t-henry">Henry</span>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle me-1"></i>
+                                <span key="t-profile">Profile</span></a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="bx bx-wallet font-size-16 align-middle me-1"></i> <span key="t-my-wallet">My
+                                    Wallet</span></a>
+                            <a class="dropdown-item d-block" href="#"><span
+                                    class="badge bg-success float-end">11</span><i
+                                    class="bx bx-wrench font-size-16 align-middle me-1"></i> <span
+                                    key="t-settings">Settings</span></a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="bx bx-lock-open font-size-16 align-middle me-1"></i> <span
+                                    key="t-lock-screen">Lock screen</span></a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i
+                                    class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
+                                    key="t-logout">Logout</span></a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </header>
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+
+            <div data-simplebar class="h-100">
+
+               <!--- Sidemenu -->
+               <div id="sidebar-menu">
+                <!-- Left Menu Start -->
+                <ul class="metismenu list-unstyled" id="side-menu">
+                    <li class="menu-title" key="t-menu">Main</li>
+
+                    <li>
+                        <a href="index.html" class="waves-effect">
+                            <i class="bx bx-home-circle"></i><span
+                                class="badge rounded-pill bg-warning ms-2 float-end">04</span>
+                            <span key="t-dashboards">Dashboard</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="lead.html" class="waves-effect">
+                            <i class="bx bx-task"></i>
+                            <span key="t-dashboards">Lead Management</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="user-managment.html" class="waves-effect">
+                            <i class="bx bx-user"></i>
+                            <span key="t-dashboards">user Management</span>
+                        </a>
+
+                    </li>
+                    <li class="">
+                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                            <i class="bx bx-check-shield"></i>
+                            <span key="t-maps">Roles & Permissions</span>
+                        </a>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false" style="height: 0px;">
+                            <li><a href="roles.html">Roles</a></li>
+                            <li><a href="permission.html">Permission</a></li>
+                        </ul>
+                    </li>
+
+
+
+
+
+
+                </ul>
+            </div>
+            <!-- Sidebar -->
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-18">Role Management</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                        <li class="breadcrumb-item active">Role Management</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                                        <div class="row w-50">
+
+                                            
+                                            <div class="col-xl-7">
+                                                <div class="d-flex" role="search">
+                                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> <button class="btn btn-light" type="submit">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addRoleModal"><i class="bx bx-plus me-1 fw-semibold align-middle"></i>Add New Role</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Role cards -->
+                  
+                    <div class="row g-4">
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-normal">Total 4 users</h6>
+                                        <div class="avatar-group">
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-4">
+                                                    <img src="assets/images/users/avatar-4.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-5">
+                                                    <img src="assets/images/users/avatar-5.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-6">
+                                                    <img src="assets/images/users/avatar-2.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block">
+                                                    <div class="avatar-xs">
+                                                        <span
+                                                            class="avatar-title rounded-circle bg-info text-white font-size-16">
+                                                            3+
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="role-heading">
+                                            <h4 class="mb-2 text-primary fw-bold">Administrator</h4>
+                                            <a href="javascript:;" data-bs-toggle="modal"
+                                                data-bs-target="#editRoleModal"
+                                                class="btn btn-sm btn-primary role-edit-modal"><small>Edit
+                                                    Role</small></a>
+                                        </div>
+                                        <a href="javascript:void(0);" class="text-muted"><i
+                                                class="bx bx-copy fs-4"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-normal">Total 7 users</h6>
+                                        <div class="avatar-group">
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-4">
+                                                    <img src="assets/images/users/avatar-4.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-5">
+                                                    <img src="assets/images/users/avatar-5.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-6">
+                                                    <img src="assets/images/users/avatar-2.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block">
+                                                    <div class="avatar-xs">
+                                                        <span
+                                                            class="avatar-title rounded-circle bg-info text-white font-size-16">
+                                                            3+
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="role-heading">
+                                            <h4 class="mb-2 text-primary fw-bold">Manager</h4>
+                                            <a href="javascript:;" data-bs-toggle="modal"
+                                                data-bs-target="#editRoleModal"
+                                                class="btn btn-sm btn-primary role-edit-modal"><small>Edit
+                                                    Role</small></a>
+                                        </div>
+                                        <a href="javascript:void(0);" class="text-muted"><i
+                                                class="bx bx-copy fs-4"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-normal">Total 5 users</h6>
+                                        <div class="avatar-group">
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-4">
+                                                    <img src="assets/images/users/avatar-4.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-5">
+                                                    <img src="assets/images/users/avatar-5.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-6">
+                                                    <img src="assets/images/users/avatar-2.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block">
+                                                    <div class="avatar-xs">
+                                                        <span
+                                                            class="avatar-title rounded-circle bg-info text-white font-size-16">
+                                                            3+
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="role-heading">
+                                            <h4 class="mb-2 text-primary fw-bold">Users</h4>
+                                            <a href="javascript:;" data-bs-toggle="modal"
+                                                data-bs-target="#editRoleModal"
+                                                class="btn btn-sm btn-primary role-edit-modal"><small>Edit
+                                                    Role</small></a>
+                                        </div>
+                                        <a href="javascript:void(0);" class="text-muted"><i
+                                                class="bx bx-copy fs-4"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-normal">Total 3 users</h6>
+                                        <div class="avatar-group">
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-4">
+                                                    <img src="assets/images/users/avatar-4.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-5">
+                                                    <img src="assets/images/users/avatar-5.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-6">
+                                                    <img src="assets/images/users/avatar-2.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block">
+                                                    <div class="avatar-xs">
+                                                        <span
+                                                            class="avatar-title rounded-circle bg-info text-white font-size-16">
+                                                            3+
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="role-heading">
+                                            <h4 class="mb-2 text-primary fw-bold">Support</h4>
+                                            <a href="javascript:;" data-bs-toggle="modal"
+                                                data-bs-target="#editRoleModal"
+                                                class="btn btn-sm btn-primary role-edit-modal"><small>Edit
+                                                    Role</small></a>
+                                        </div>
+                                        <a href="javascript:void(0);" class="text-muted"><i
+                                                class="bx bx-copy fs-4"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-normal">Total 2 users</h6>
+                                        <div class="avatar-group">
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-4">
+                                                    <img src="assets/images/users/avatar-4.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-5">
+                                                    <img src="assets/images/users/avatar-5.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block" value="member-6">
+                                                    <img src="assets/images/users/avatar-2.jpg" alt=""
+                                                        class="rounded-circle avatar-xs">
+                                                </a>
+                                            </div>
+                                            <div class="avatar-group-item">
+                                                <a href="javascript: void(0);" class="d-inline-block">
+                                                    <div class="avatar-xs">
+                                                        <span
+                                                            class="avatar-title rounded-circle bg-info text-white font-size-16">
+                                                            3+
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="role-heading">
+                                            <h4 class="mb-2 text-primary fw-bold">Restricted User</h4>
+                                            <a href="javascript:;" data-bs-toggle="modal"
+                                                data-bs-target="#editRoleModal"
+                                                class="btn btn-sm btn-primary role-edit-modal"><small>Edit
+                                                    Role</small></a>
+                                        </div>
+                                        <a href="javascript:void(0);" class="text-muted"><i
+                                                class="bx bx-copy fs-4"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <!-- Role Table -->
+                            <div class="card ">
+                                <div class="card-header justify-content-between">
+                                    <div class="card-title">Role List </div>
+                                   
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">S.No</th>
+                                                    <th scope="col">User</th>
+                                                    <th scope="col">Role</th>
+                                                    <th scope="col">Created At</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> 1 </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center lh-1">
+                                                            <div class="me-2"> <span class="avatar avatar-sm avatar-rounded"> <img
+                                                                        src="../assets/images/faces/1.jpg" alt="">
+                                                                </span> </div>
+                                                            <div>Jhone Doe</div>
+                                                        </div>
+                                                    </td>
+                                                    <td> Sub-Admin </td>
+                                                   
+                                                    <td> 29-05-2023 </td>
+                                                    <td> <span class="badge badge-soft-success">Active</span> </td>
+                                                    <td> <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-info rounded-pill"><i class="mdi mdi-eye"></i></a> </td>
+                                                   
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <!--/ Role Table -->
+                        </div>
+                    </div>
+                    <!--/ Role cards -->
+
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            <div class="modal fade" id="addRoleModal" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="role-title">Add New Role</h3>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <!-- Add role form -->
+                            <form id="addRoleForm" class="row g-3 "
+                                onsubmit="return false" novalidate="novalidate">
+                                <div class="col-12 mb-4 fv-plugins-icon-container">
+                                    <label class="form-label" for="modalRoleName">Role Name</label>
+                                    <input type="text" id="modalRoleName" name="modalRoleName" class="form-control"
+                                        placeholder="Enter a role name" tabindex="-1">
+                                    
+                                </div>
+                                <div class="col-12">
+                                    <h4>Role Permissions</h4>
+                                    <!-- Permission table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-flush-spacing">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Administrator Access <i
+                                                            class="bx bx-info-circle bx-xs" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            aria-label="Allows a full access to the system"
+                                                            data-bs-original-title="Allows a full access to the system"></i>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="selectAll">
+                                                            <label class="form-check-label" for="selectAll">
+                                                                Select All
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">User Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementRead">
+                                                                <label class="form-check-label"
+                                                                    for="userManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementWrite">
+                                                                <label class="form-check-label"
+                                                                    for="userManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementCreate">
+                                                                <label class="form-check-label"
+                                                                    for="userManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Content Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementRead">
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementWrite">
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementCreate">
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Financial Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementRead">
+                                                                <label class="form-check-label" for="finManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementWrite">
+                                                                <label class="form-check-label"
+                                                                    for="finManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementCreate">
+                                                                <label class="form-check-label"
+                                                                    for="finManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Reporting</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingRead">
+                                                                <label class="form-check-label" for="reportingRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingWrite">
+                                                                <label class="form-check-label" for="reportingWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingCreate">
+                                                                <label class="form-check-label" for="reportingCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            
+                                               
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Payroll</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollRead">
+                                                                <label class="form-check-label" for="payrollRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollWrite">
+                                                                <label class="form-check-label" for="payrollWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollCreate">
+                                                                <label class="form-check-label" for="payrollCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- Permission table -->
+                                </div>
+
+                            </form>
+                            <!--/ Add role form -->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                                        aria-label="Close">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="editRoleModal" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="role-title">Edit Role</h3>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <!-- Add role form -->
+                            <form id="addRoleForm" class="row g-3 "
+                                onsubmit="return false" novalidate="novalidate">
+                                <div class="col-12 mb-4 fv-plugins-icon-container">
+                                    <label class="form-label" for="modalRoleName">Role Name</label>
+                                    <input type="text" id="modalRoleName" name="modalRoleName" class="form-control"
+                                        placeholder="Enter a role name" tabindex="-1">
+                                    
+                                </div>
+                                <div class="col-12">
+                                    <h4>Role Permissions</h4>
+                                    <!-- Permission table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-flush-spacing">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Administrator Access <i
+                                                            class="bx bx-info-circle bx-xs" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            aria-label="Allows a full access to the system"
+                                                            data-bs-original-title="Allows a full access to the system"></i>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="selectAll">
+                                                            <label class="form-check-label" for="selectAll">
+                                                                Select All
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">User Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementRead">
+                                                                <label class="form-check-label"
+                                                                    for="userManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementWrite">
+                                                                <label class="form-check-label"
+                                                                    for="userManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementCreate">
+                                                                <label class="form-check-label"
+                                                                    for="userManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Content Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementRead">
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementWrite">
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementCreate">
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Financial Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementRead">
+                                                                <label class="form-check-label" for="finManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementWrite">
+                                                                <label class="form-check-label"
+                                                                    for="finManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementCreate">
+                                                                <label class="form-check-label"
+                                                                    for="finManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Reporting</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingRead">
+                                                                <label class="form-check-label" for="reportingRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingWrite">
+                                                                <label class="form-check-label" for="reportingWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingCreate">
+                                                                <label class="form-check-label" for="reportingCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                                
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Payroll</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollRead">
+                                                                <label class="form-check-label" for="payrollRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollWrite">
+                                                                <label class="form-check-label" for="payrollWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollCreate">
+                                                                <label class="form-check-label" for="payrollCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- Permission table -->
+                                </div>
+
+                            </form>
+                            <!--/ Add role form -->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                                        aria-label="Close">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script> © Skote.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Themesbrand
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+
+
+    <!-- JAVASCRIPT -->
+    <script src="assets/libs/jquery/jquery.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="assets/libs/node-waves/waves.min.js"></script>
+
+    <!-- Required datatable js -->
+    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="assets/libs/jszip/jszip.min.js"></script>
+    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    
+    <!-- Responsive examples -->
+    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="assets/js/pages/datatables.init.js"></script>  
+
+
+    <script src="assets/js/app.js"></script>
+
+
+</body>
+
+</html>

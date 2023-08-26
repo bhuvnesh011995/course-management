@@ -1,0 +1,109 @@
+*::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+    transition: all ease 0.05s;
+    background-color: #cececf;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background: #556ee6;
+    border-radius: 50px;
+  }
+.avatar.avatar-rounded {
+    border-radius: 50%;
+}
+.avatar {
+    position: relative;
+    height: 2.625rem;
+    width: 2.625rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-weight: 500;
+}
+.avatar.avatar-sm {
+    width: 1.75rem;
+    height: 1.75rem;
+    line-height: 1.75rem;
+    font-size: .65rem;
+}
+.avatar.avatar-rounded img {
+    border-radius: 50%;
+}
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+}
+.courses-instructors li {
+    -webkit-margin-after: 1rem;
+    margin-block-end: 1rem;
+}
+.category-link {
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid #f3f3f3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #8c9097;
+    transition: all ease .3s;
+}
+.category-link.primary .category-svg {
+    fill: #845adf;
+}
+.category-link.secondary .category-svg {
+    fill: #23b7e5;
+}
+.category-link.warning .category-svg {
+    fill: #f5b849;
+}
+.category-link.success .category-svg {
+    fill: rgb(38,191,148);
+}
+.category-link .category-svg {
+    height: 1.875rem;
+    width: 1.875rem;
+    -webkit-margin-after: 1rem;
+    margin-block-end: 1rem;
+    transition: all ease .3s;
+}
+.category-link.primary.active, .category-link.primary:not(.active):hover {
+    color: #845adf;
+    background-color: #845adf1a;
+    border-color: #845adf33;
+}
+.category-link.secondary.active, .category-link.secondary:not(.active):hover {
+    color: #23b7e5;
+    background-color: #23b7e51a;
+    border-color: rgba(35,183,229,.2);
+}
+.category-link.warning.active, .category-link.warning:not(.active):hover {
+    color: rgb(245,184,73);
+    background-color: rgba(245,184,73,.1);
+    border-color: rgba(245,184,73,.2);
+}
+.category-link.success.active, .category-link.success:not(.active):hover {
+    color: rgb(38,191,148);
+    background-color: rgba(38,191,148,.1);
+    border-color: rgba(38,191,148,.2);
+}
+.kanban-board {
+    display: flex;
+    overflow-x: auto;
+    align-items: stretch;
+    margin-bottom: 0.75rem;
+    padding: 1.5rem;
+    background-color: #f0f1f7;
+    border-radius: 0.5rem;
+    border: 2px solid #556ee6;
+    border-bottom: none;
+}
+.kanban-board .kanban-tasks-type {
+    min-width: 20rem;
+    -webkit-margin-end:1rem;
+    margin-inline-end: 1rem;
+}
