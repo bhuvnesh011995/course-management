@@ -36,6 +36,9 @@
         .img-20 {
             width: 20px !important;
         }
+        .select2-container {
+            width: 100% !important;
+        }
     </style>
 </head>
 
@@ -292,6 +295,13 @@
             <a href="user-managment.html" class="waves-effect">
                 <i class="bx bx-user"></i>
                 <span key="t-dashboards">user Management</span>
+            </a>
+
+        </li>
+        <li>
+            <a href="trainers.html" class="waves-effect">
+                <i class="bx bxs-user-detail"></i>
+                <span key="t-dashboards">Trainer's Management</span>
             </a>
 
         </li>
@@ -1522,49 +1532,58 @@
                         </div>
                         <div class="modal-body">
                             <form id="studentForm" class="row" role="form">
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="studentname" class="col-form-label">Student Name<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <input id="studentname" name="studentname" type="text"
-                                            class="form-control validate" placeholder="Enter Student Name..." required>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userPhoto" class="form-label">Photo</label>
+                                    <input type="file" class="form-control" id="userPhoto" accept="image/*">
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="coursename" class="col-form-label">Course Name<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="coursename" required>
-                                            <option value="" selected>Select Course Name...</option>
-                                            <option value="Math">Math</option>
-                                            <option value="Science">Science</option>
-                                            <option value="History">History</option>
-                                            <!-- Add more course options here -->
-                                        </select>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userFirstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required>
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="studentphoto" class="col-form-label">Upload Photo</label>
-                                    <div class="col-lg-12">
-                                        <input id="studentphoto" name="studentphoto" type="file" class="form-control">
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userLastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required>
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="phonenumber" class="col-form-label">Phone Number</label>
-                                    <div class="col-lg-12">
-                                        <input id="phonenumber" name="phonenumber" type="text" class="form-control"
-                                            placeholder="Enter Phone Number">
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userUsername" class="form-label">User Name</label>
+                                    <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required>
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="email" class="col-form-label">Email<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <input id="email" name="email" type="email" class="form-control validate"
-                                            placeholder="Enter Email..." required>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required>
                                 </div>
-                                <div class="col-md-6 form-group mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label for="userDOB" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="userDOB" placeholder="Select date of birth" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userContact" class="form-label">Contact Number</label>
+                                    <input type="tel" class="form-control" id="userContact" placeholder="Enter contact number" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userGender" class="form-label">Gender</label>
+                                    <select class="form-select" id="userGender" required>
+                                        <option value="" disabled selected>Select gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userCourse" class="form-label">Courses</label>
+                                    <select class="form-control select2" id="userCourse-add" required>
+                                        <option value="" disabled selected>Select courses</option>
+                                        <option value="Web Development">Web Development</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="UI/UX Design">UI/UX Design</option>
+                                        <!-- Add more course options here -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
                                     <label for="studentstatus" class="col-form-label">Status<span
                                             class="text-danger">*</span></label>
                                     <div class="col-lg-12">
@@ -1574,6 +1593,21 @@
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="studentstatus" class="col-form-label">Payment Status<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-12">
+                                        <select class="form-select validate" id="studentstatus" required>
+                                            <option value="" selected>Choose Status..</option>
+                                            <option value="Active">Paid</option>
+                                            <option value="Inactive">Unpaid</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="viewUserDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" id="viewUserDescription" rows="4" placeholder="Enter description" ></textarea>
                                 </div>
                             </form>
                         </div>
@@ -1603,61 +1637,86 @@
                         </div>
                         <div class="modal-body">
                             <form id="studentForm" class="row" role="form">
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="studentname" class="col-form-label">Student Name<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <input id="studentname" name="studentname" type="text"
-                                            class="form-control validate" placeholder="Enter Student Name..." required
-                                            value="John Doe" disabled>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userPhoto" class="form-label">Photo</label>
+                                    <input type="file" class="form-control" id="userPhoto" accept="image/*" disabled>
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="coursename" class="col-form-label">Course Name<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="coursename" required disabled>
-                                            <option value="">Select Course Name...</option>
-                                            <option value="Math" selected>Math</option>
-                                            <option value="Science">Science</option>
-                                            <option value="History">History</option>
-                                        </select>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userFirstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required value="John" disabled>
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="studentphoto" class="col-form-label">Upload Photo</label>
-                                    <div class="col-lg-12">
-                                        <input id="studentphoto" name="studentphoto" type="file" class="form-control">
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userLastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required value="Doe" disabled>
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="phonenumber" class="col-form-label">Phone Number</label>
-                                    <div class="col-lg-12">
-                                        <input id="phonenumber" name="phonenumber" type="text" class="form-control"
-                                            placeholder="Enter Phone Number" value="123-456-7890" disabled>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userUsername" class="form-label">User Name</label>
+                                    <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required value="johndoe" disabled>
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="email" class="col-form-label">Email<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <input id="email" name="email" type="email" class="form-control validate"
-                                            placeholder="Enter Email..." required value="johndoe@example.com" disabled>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required value="yourpassword" disabled>
                                 </div>
-                                <div class="col-md-6 form-group mb-4">
-                                    <label for="studentstatus" class="col-form-label">Status<span
-                                            class="text-danger">*</span></label>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userDOB" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="userDOB" placeholder="Select date of birth" required value="1990-01-01" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required value="johndoe@example.com" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userContact" class="form-label">Contact Number</label>
+                                    <input type="tel" class="form-control" id="userContact" placeholder="Enter contact number" required value="1234567890" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userGender" class="form-label">Gender</label>
+                                    <select class="form-select" id="userGender" required disabled>
+                                        <option value="" disabled selected>Select gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userCourse" class="form-label">Courses</label>
+                                    <select class="form-control select2" id="userCourse" required disabled>
+                                        <option value="" disabled selected>Select courses</option>
+                                        <option value="Web Development">Web Development</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="UI/UX Design">UI/UX Design</option>
+                                        <!-- Add more course options here -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="studentstatus" class="col-form-label">Status<span class="text-danger">*</span></label>
                                     <div class="col-lg-12">
                                         <select class="form-select validate" id="studentstatus" required disabled>
-                                            <option value="">Choose Status..</option>
-                                            <option value="Active" selected>Active</option>
+                                            <option value="" selected>Choose Status..</option>
+                                            <option value="Active">Active</option>
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="studentstatus" class="col-form-label">Payment Status<span class="text-danger">*</span></label>
+                                    <div class="col-lg-12">
+                                        <select class="form-select validate" id="studentstatus" required disabled>
+                                            <option value="" selected>Choose Status..</option>
+                                            <option value="Active">Paid</option>
+                                            <option value="Inactive">Unpaid</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="viewUserDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" id="viewUserDescription" rows="4" placeholder="Enter description" disabled>This is a default description.</textarea>
+                                </div>
                             </form>
                         </div>
+                        
+                        
+                        
                         <div class="modal-footer">
                             <div class="row">
                                 <div class="col-lg-12 text-end">
@@ -1682,57 +1741,82 @@
                         </div>
                         <div class="modal-body">
                             <form id="studentForm" class="row" role="form">
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="studentname" class="col-form-label">Student Name<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <input id="studentname" name="studentname" type="text"
-                                            class="form-control validate" value="John Doe">
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userPhoto" class="form-label">Photo</label>
+                                    <input type="file" class="form-control" id="userPhoto" accept="image/*">
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="coursename" class="col-form-label">Course Name<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="coursename" required>
-                                            <option value="">Select Course Name...</option>
-                                            <option value="Math" selected>Math</option>
-                                            <option value="Science">Science</option>
-                                            <option value="History">History</option>
-                                        </select>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userFirstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required value="John">
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="studentphoto" class="col-form-label">Upload Photo</label>
-                                    <div class="col-lg-12">
-                                        <input id="studentphoto" name="studentphoto" type="file" class="form-control">
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userLastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required value="Doe">
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="phonenumber" class="col-form-label">Phone Number</label>
-                                    <div class="col-lg-12">
-                                        <input id="phonenumber" name="phonenumber" type="text" class="form-control"
-                                            value="123-456-7890" d>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userUsername" class="form-label">User Name</label>
+                                    <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required value="johndoe">
                                 </div>
-                                <div class="col-md-6 form-group mb-3">
-                                    <label for="email" class="col-form-label">Email<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <input id="email" name="email" type="email" class="form-control validate"
-                                            value="johndoe@example.com" d>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required value="yourpassword">
                                 </div>
-                                <div class="col-md-6 form-group mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label for="userDOB" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="userDOB" placeholder="Select date of birth" required value="1990-01-01">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required value="johndoe@example.com">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userContact" class="form-label">Contact Number</label>
+                                    <input type="tel" class="form-control" id="userContact" placeholder="Enter contact number" required value="1234567890">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userGender" class="form-label">Gender</label>
+                                    <select class="form-select" id="userGender" required>
+                                        <option value="" disabled>Select gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="userCourse" class="form-label">Courses</label>
+                                    <select class="form-control select2" id="userCourse-view" required>
+                                        <option value="" disabled>Select courses</option>
+                                        <option value="Web Development">Web Development</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="UI/UX Design">UI/UX Design</option>
+                                        <!-- Add more course options here -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
                                     <label for="studentstatus" class="col-form-label">Status<span
                                             class="text-danger">*</span></label>
                                     <div class="col-lg-12">
                                         <select class="form-select validate" id="studentstatus" required>
-                                            <option value="">Choose Status..</option>
-                                            <option value="Active" selected>Active</option>
+                                            <option value="" selected>Choose Status..</option>
+                                            <option value="Active">Active</option>
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="studentstatus" class="col-form-label">Payment Status<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-12">
+                                        <select class="form-select validate" id="studentstatus" required>
+                                            <option value="" selected>Choose Status..</option>
+                                            <option value="Active">Paid</option>
+                                            <option value="Inactive">Unpaid</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="viewUserDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" id="viewUserDescription" rows="4" placeholder="Enter description">This is a default description.</textarea>
                                 </div>
                             </form>
                         </div>
@@ -1759,7 +1843,7 @@
                         </div>
                         <div class="modal-body px-4">
                             <div class="row">
-                                <div class="col-xl-12"> <label for="board-title" class="form-label">Task Board
+                                <div class="col-xl-12"> <label for="board-title" class="form-label">Board
                                         Title</label> <input type="text" class="form-control" id="board-title"
                                         placeholder="Board Title"> </div>
                             </div>
@@ -1774,11 +1858,11 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <script>document.write(new Date().getFullYear())</script> © Skote.
+                            <script>document.write(new Date().getFullYear())</script> © Tonga.
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Themesbrand
+                                Design & Develop by <a href="https://braincavesoft.com" target="_blank">Braincave Software Pvt.Ltd.</a>
                             </div>
                         </div>
                     </div>
@@ -1803,6 +1887,32 @@
     <script src="assets/js/app.js"></script>
     <!-- form advanced init -->
     <script src="assets/js/pages/form-advanced.init.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $("#userCourse-add").select2({
+
+                dropdownParent: $("#add-new")
+
+            });
+
+        });
+
+    </script>
+     <script>
+
+        $(document).ready(function () {
+
+            $("#userCourse-view").select2({
+
+                dropdownParent: $("#add-new")
+
+            });
+
+        });
+
+    </script>
 </body>
 
 </html>

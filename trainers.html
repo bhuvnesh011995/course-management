@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>User Management | Tonga</title>
+    <title>Trainer's Management | Tonga</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -34,6 +34,7 @@
             width: 100% !important;
         }
     </style>
+
 </head>
 
 <body data-sidebar="dark">
@@ -361,12 +362,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">User Management</h4>
+                                <h4 class="mb-sm-0 font-size-18">Trainer's Management</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                        <li class="breadcrumb-item active">User Management</li>
+                                        <li class="breadcrumb-item active">Trainer's Management</li>
                                     </ol>
                                 </div>
 
@@ -400,16 +401,17 @@
                                             </div>
                                         </div>
 
-                                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addUserModal"><i
+                                        <button class="btn btn-primary me-2" data-bs-toggle="modal"
+                                            data-bs-target="#addTrainerModal"><i
                                                 class="bx bx-plus me-1 fw-semibold align-middle"></i>Add New
-                                            Student</button>
+                                            Trainer</button>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Role cards -->
+
 
                     <div class="row g-4">
 
@@ -418,7 +420,7 @@
                             <!-- Role Table -->
                             <div class="card ">
                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">User List </div>
+                                    <div class="card-title">Trainers List </div>
 
                                 </div>
                                 <div class="card-body">
@@ -427,71 +429,41 @@
                                             class="table table-bordered dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">S.No</th>
+                                                    <th>ID</th>
                                                     <th>Name</th>
-                                                    <th>User Name</th>
-                                                    <th>Password</th>
+
                                                     <th>Date of Birth</th>
                                                     <th>Email</th>
                                                     <th>Contact Number</th>
-                                                    <th>User Right</th>
+                                                    <th>Gender</th>
+                                                    <th>Specialization</th>
+                                                    <th>Description</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td>1</td>
-                                                    <td>Jane Doe</td>
-                                                    <td>jhone123</td>
-                                                    <td>jhone@123</td>
-                                                    <td>15 May,1996</td>
-                                                    <td>jane@example.com</td>
-                                                    <td>987-654-3210</td>
-                                                    
+                                                    <td data-bs-toggle="modal" data-bs-target="#viewTrainerModal"
+                                                        style="cursor: pointer;">John Doe</td>
+
+                                                    <td>1 Jan, 1990</td>
+                                                    <td>john@example.com</td>
+                                                    <td>123-456-7890</td>
+                                                    <td>Male</td>
+                                                    <td>Web Development</td>
+                                                    <td>This is a trainer's description.</td>
 
                                                     <td>
-                                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assignUserRoleModal">
-                                                            <i
-                                                            class="bx bx-plus me-1 fw-semibold align-middle"></i> Assign Role
-                                                          </button>
-                                                    </td>
-                                                    <td>
+
                                                         <a aria-label="anchor" href="javascript:void(0);"
-                                                            class="btn btn-icon btn-sm btn-warning rounded-pill" data-bs-toggle="modal" data-bs-target="#viewUserModal"><i
-                                                                class="mdi mdi-eye"></i></a>
-                                                        <a aria-label="anchor" href="javascript:void(0);"
-                                                            class="btn btn-icon btn-sm btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#editUserModal"><i
+                                                            class="btn btn-icon btn-sm btn-primary rounded-pill"
+                                                            data-bs-toggle="modal" data-bs-target="#editTrainerModal"><i
                                                                 class="mdi mdi-pencil"></i></a>
                                                         <a aria-label="anchor" href="javascript:void(0);"
                                                             class="btn btn-icon btn-sm btn-danger rounded-pill"><i
                                                                 class="mdi mdi-trash-can"></i></a>
-                                                        
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Mane Doe</td>
-                                                    <td>mhone123</td>
-                                                    <td>mhone@123</td>
-                                                    <td>25 May,1998</td>
-                                                    <td>mane@example.com</td>
-                                                    <td>987-654-3210</td>
-                                                    
 
-                                                    <td>
-                                                        <span class="badge badge-soft-primary">Manager</span>
-                                                    </td>
-                                                    <td>
-                                                        <a aria-label="anchor" href="javascript:void(0);"
-                                                            class="btn btn-icon btn-sm btn-warning rounded-pill" data-bs-toggle="modal" data-bs-target="#viewUserModal"><i
-                                                                class="mdi mdi-eye"></i></a>
-                                                        <a aria-label="anchor" href="javascript:void(0);"
-                                                            class="btn btn-icon btn-sm btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#editUserModal"><i
-                                                                class="mdi mdi-pencil"></i></a>
-                                                        <a aria-label="anchor" href="javascript:void(0);"
-                                                            class="btn btn-icon btn-sm btn-danger rounded-pill"><i
-                                                                class="mdi mdi-trash-can"></i></a>
-                                                        
                                                     </td>
                                                 </tr>
                                                 <!-- Add more rows as needed -->
@@ -505,280 +477,224 @@
                             <!--/ Role Table -->
                         </div>
                     </div>
-                    <!--/ Role cards -->
+
 
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
 
-<!-- User Role Assignment Modal -->
-<div class="modal fade" id="assignUserRoleModal" tabindex="-1" aria-labelledby="assignUserRoleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="assignUserRoleModalLabel">Assign User Role</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="userRoleSelect" class="form-label">Select Role:</label>
-              <select class="form-select" id="userRoleSelect">
-                <option value="Admin">Admin</option>
-                <option value="Trainer">Trainer</option>
-                <option value="Student">Student</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Assign Role</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
 
-<!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="userPhoto" class="form-label">Photo</label>
-                        <input type="file" class="form-control" id="userPhoto" accept="image/*">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userFirstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userLastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userUsername" class="form-label">User Name</label>
-                        <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDOB" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" id="userDOB" placeholder="Select date of birth" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userContact" class="form-label">Contact Number</label>
-                        <input type="tel" class="form-control" id="userContact" placeholder="Enter contact number" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userGender" class="form-label">Gender</label>
-                        <select class="form-select" id="userGender" required>
-                            <option value="" disabled selected>Select gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userCourse" class="form-label">Courses</label>
-                        <select class="form-control select2" id="userCourse" required>
-                            <option value="" disabled selected>Select courses</option>
-                            <option value="Web Development">Web Development</option>
-                            <option value="Data Science">Data Science</option>
-                            <option value="UI/UX Design">UI/UX Design</option>
-                            <!-- Add more course options here -->
-                        </select>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="userDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="userDescription" rows="4" placeholder="Enter description" required></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add User</button>
-            </div>
-        </div>
-    </div>
-</div>
+            <div class="modal fade" id="addTrainerModal" tabindex="-1" aria-labelledby="addTrainerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addTrainerModalLabel">Add Trainer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="trainerPhoto" class="form-label">Photo</label>
+                                    <input type="file" class="form-control" id="trainerPhoto">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="trainerFirstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="trainerFirstName"
+                                        placeholder="Enter first name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="trainerLastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="trainerLastName"
+                                        placeholder="Enter last name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="trainerEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="trainerEmail" placeholder="Enter email"
+                                        required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="trainerPhone" class="form-label">Contact Number</label>
+                                    <input type="tel" class="form-control" id="trainerPhone"
+                                        placeholder="Enter contact number" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="trainerGender" class="form-label">Gender</label>
+                                    <select class="form-select" id="trainerGender">
+                                        <option value="0">Male</option>
+                                        <option value="1">Female</option>
+                                        <option value="2">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="trainerDOB" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="trainerDOB" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="trainerSpecialization" class="form-label">Specialization</label>
+                                    <select class="form-control select2" id="trainerSpecialization" required>
+                                        <option value="Web Development">Web Development</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="UI/UX Design">UI/UX Design</option>
+                                        <!-- Add more specialization options here -->
+                                    </select>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="trainerDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" id="trainerDescription" rows="4"
+                                        placeholder="Enter trainer description" required></textarea>
+                                </div>
+                            </form>
+                        </div>
 
-<!-- Edit User Modal -->
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Add Trainer</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserPhoto" class="form-label">Photo</label>
-                        <input type="file" class="form-control" id="editUserPhoto" accept="image/*">
+            <!-- View Trainer Modal -->
+            <div class="modal fade" id="viewTrainerModal" tabindex="-1" aria-labelledby="viewTrainerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewTrainerModalLabel">View Trainer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="viewTrainerPhoto" class="form-label">Photo</label>
+                                    <input type="file" class="form-control" id="viewTrainerPhoto" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="viewTrainerFirstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="viewTrainerFirstName" value="John"
+                                        disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="viewTrainerLastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="viewTrainerLastName" value="Doe"
+                                        disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="viewTrainerDOB" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="viewTrainerDOB" value="1990-01-01"
+                                        disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="viewTrainerEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="viewTrainerEmail"
+                                        value="john@example.com" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="viewTrainerPhone" class="form-label">Contact Number</label>
+                                    <input type="tel" class="form-control" id="viewTrainerPhone" value="123-456-7890"
+                                        disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="viewTrainerGender" class="form-label">Gender</label>
+                                    <select class="form-select" id="viewTrainerGender" disabled>
+                                        <option value="0">Male</option>
+                                        <option value="1">Female</option>
+                                        <option value="2">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="viewTrainerSpecialization" class="form-label">Specialization</label>
+                                    <input type="text" class="form-control" id="viewTrainerSpecialization"
+                                        value="Web Development" disabled>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="viewTrainerDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" id="viewTrainerDescription" rows="4"
+                                        disabled>This is a trainer's description.</textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserFirstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="editUserFirstName" placeholder="Enter first name" value="John" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserLastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="editUserLastName" placeholder="Enter last name" value="Doe" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserUsername" class="form-label">User Name</label>
-                        <input type="text" class="form-control" id="editUserUsername" placeholder="Enter username" value="johndoe" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="editUserPassword" placeholder="Enter password" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserDOB" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" id="editUserDOB" value="1995-04-20" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="editUserEmail" placeholder="Enter email" value="johndoe@example.com" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserContact" class="form-label">Contact Number</label>
-                        <input type="tel" class="form-control" id="editUserContact" placeholder="Enter contact number" value="9876543210" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserGender" class="form-label">Gender</label>
-                        <select class="form-select" id="editUserGender" required>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="editUserRights" class="form-label">User Rights</label>
-                        <select class="form-control select2" id="editUserRights" required>
-                            <option value="Admin">Admin</option>
-                            <option value="Trainer">Trainer</option>
-                            <option value="Student">Student</option>
-                        </select>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="editUserCourses" class="form-label">Courses</label>
-                        <select class="form-control select2" id="editUserCourses" required>
-                            <option value="Web Development">Web Development</option>
-                            <option value="Data Science">Data Science</option>
-                            <option value="UI/UX Design">UI/UX Design</option>
-                        </select>
-                    </div>
-                   
-                    <div class="col-md-12 mb-3">
-                        <label for="editUserDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="editUserDescription" rows="4" placeholder="Enter description" required></textarea>
-                    </div>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Save Changes</button>
+            <!-- Edit Trainer Modal -->
+            <!-- Edit Trainer Modal -->
+            <!-- Edit Trainer Modal -->
+            <div class="modal fade" id="editTrainerModal" tabindex="-1" aria-labelledby="editTrainerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editTrainerModalLabel">Edit Trainer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="editTrainerPhoto" class="form-label">Photo</label>
+                                    <input type="file" class="form-control" id="editTrainerPhoto">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editTrainerFirstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="editTrainerFirstName" value="John"
+                                        required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editTrainerLastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="editTrainerLastName" value="Doe"
+                                        required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editTrainerDOB" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="editTrainerDOB" value="1990-01-01"
+                                        required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editTrainerEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="editTrainerEmail"
+                                        value="john@example.com" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editTrainerPhone" class="form-label">Contact Number</label>
+                                    <input type="tel" class="form-control" id="editTrainerPhone" value="123-456-7890"
+                                        required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editTrainerGender" class="form-label">Gender</label>
+                                    <select class="form-select" id="editTrainerGender" required>
+                                        <option value="0" selected>Male</option>
+                                        <option value="1">Female</option>
+                                        <option value="2">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editTrainerSpecialization" class="form-label">Specialization</label>
+                                    <select class="form-control select2" id="editTrainerSpecialization" required>
+                                        <option value="Web Development" selected>Web Development</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="UI/UX Design">UI/UX Design</option>
+                                        <!-- Add more specialization options here -->
+                                    </select>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="editTrainerDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" id="editTrainerDescription" rows="4"
+                                        required>This is a trainer's description.</textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- View User Modal -->
-<div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewUserModalLabel">View User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserPhoto" class="form-label">Photo</label>
-                        <input type="file" class="form-control" id="viewUserPhoto" accept="image/*" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserFirstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="viewUserFirstName" placeholder="Enter first name" value="John" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserLastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="viewUserLastName" placeholder="Enter last name" value="Doe" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserUsername" class="form-label">User Name</label>
-                        <input type="text" class="form-control" id="viewUserUsername" placeholder="Enter username" value="johndoe" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="viewUserPassword" placeholder="Enter password" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserDOB" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" id="viewUserDOB" value="1995-04-20" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="viewUserEmail" placeholder="Enter email" value="johndoe@example.com" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserContact" class="form-label">Contact Number</label>
-                        <input type="tel" class="form-control" id="viewUserContact" placeholder="Enter contact number" value="9876543210" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserGender" class="form-label">Gender</label>
-                        <select class="form-select" id="viewUserGender" disabled>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="col-md-6 mb-3">
-                        <label for="viewUserRights" class="form-label">User Rights</label>
-                        <select class="form-control select2" id="viewUserRights" disabled>
-                            <option value="Admin">Admin</option>
-                            <option value="Trainer">Trainer</option>
-                            <option value="Student">Student</option>
-                        </select>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="viewUserCourses" class="form-label">Courses</label>
-                        <select class="form-control select2" id="viewUserCourses" disabled>
-                            <option value="Web Development">Web Development</option>
-                            <option value="Data Science">Data Science</option>
-                            <option value="UI/UX Design">UI/UX Design</option>
-                        </select>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="viewUserDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="viewUserDescription" rows="4" placeholder="Enter description" disabled>Sample description</textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
-  
-  
 
 
             <footer class="footer">
@@ -836,31 +752,19 @@
     <script src="assets/js/app.js"></script>
     <!-- form advanced init -->
     <script src="assets/js/pages/form-advanced.init.js"></script>
+
     <script>
 
         $(document).ready(function () {
 
             $(".select2").select2({
 
-                dropdownParent: $("#addUserModal")
+                dropdownParent: $("#addTrainerModal")
 
             });
 
         });
 
-    </script>
-    <script>
-
-            $(document).ready(function () {
-    
-                $(".select2").select2({
-    
-                    dropdownParent: $("#editUserModal")
-    
-                });
-    
-            });
-    
     </script>
 </body>
 
