@@ -3612,9 +3612,9 @@ input[switch=dark]:checked+label:before {
     background: 0 0 !important
 }
 
-.tox .tox-tbtn {
+/* .tox .tox-tbtn {
     color: transparent !important
-}
+} */
 
 .tox .tox-tbtn svg {
     fill: #495057 !important

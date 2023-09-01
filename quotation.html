@@ -1,0 +1,2085 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <title>Quotation Management | Tonga</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="#" name="description" />
+  <meta content="Themesbrand" name="author" />
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+  <!-- DataTables -->
+  <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+  <!-- Responsive datatable examples -->
+  <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
+    type="text/css" />
+
+  <!-- Bootstrap Css -->
+  <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+
+  <link href="assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css">
+
+  <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+  <!-- Icons Css -->
+  <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+  <!-- App Css-->
+  <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+  <!-- Custom Css-->
+  <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" href="assets/libs/smart-wizaed/smart-wizaed.css">
+
+
+  <style>
+    .select2-container {
+      width: 100% !important;
+    }
+
+    .input-icon {
+      position: relative;
+    }
+
+    .input-icon input {
+      padding-right: 2.5rem;
+    }
+
+    .input-icon-addon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.5rem;
+      color: #6c7a91;
+      pointer-events: none;
+      font-size: 1.2em;
+    }
+
+    label .radio-card {
+      cursor: pointer;
+    }
+
+    label.radio-card .card-content-wrapper {
+      background: #fff;
+      border-radius: 5px;
+      max-width: 280px;
+      padding: 15px;
+      display: grid;
+      box-shadow: 0 2px 4px 0 rgba(219, 215, 215, 0.04);
+      transition: 200ms linear;
+    }
+
+    .card-content {
+      margin-top: 1rem;
+    }
+
+    .card-content .form-check {
+      margin-top: 1rem;
+    }
+
+    label.radio-card .check-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      border: solid 2px #e3e3e3;
+      border-radius: 50%;
+      transition: 200ms linear;
+      position: relative;
+    }
+
+    label.radio-card .check-icon:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.93552 4.58423C0.890286 4.53718 0.854262 4.48209 0.829309 4.42179C0.779553 4.28741 0.779553 4.13965 0.829309 4.00527C0.853759 3.94471 0.889842 3.88952 0.93552 3.84283L1.68941 3.12018C1.73378 3.06821 1.7893 3.02692 1.85185 2.99939C1.91206 2.97215 1.97736 2.95796 2.04345 2.95774C2.11507 2.95635 2.18613 2.97056 2.2517 2.99939C2.31652 3.02822 2.3752 3.06922 2.42456 3.12018L4.69872 5.39851L9.58026 0.516971C9.62828 0.466328 9.68554 0.42533 9.74895 0.396182C9.81468 0.367844 9.88563 0.353653 9.95721 0.354531C10.0244 0.354903 10.0907 0.369582 10.1517 0.397592C10.2128 0.425602 10.2672 0.466298 10.3112 0.516971L11.0651 1.25003C11.1108 1.29672 11.1469 1.35191 11.1713 1.41247C11.2211 1.54686 11.2211 1.69461 11.1713 1.82899C11.1464 1.88929 11.1104 1.94439 11.0651 1.99143L5.06525 7.96007C5.02054 8.0122 4.96514 8.0541 4.90281 8.08294C4.76944 8.13802 4.61967 8.13802 4.4863 8.08294C4.42397 8.0541 4.36857 8.0122 4.32386 7.96007L0.93552 4.58423Z' fill='white'/%3E%3C/svg%3E%0A");
+      background-repeat: no-repeat;
+      background-size: 12px;
+      background-position: center center;
+      transform: scale(1.6);
+      transition: 200ms linear;
+      opacity: 0;
+    }
+
+    label.radio-card input[name='radio-card'] {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    label.radio-card input[type='radio']:checked+.card-content-wrapper {
+      box-shadow: 0 2px 4px 0 rgba(219, 215, 215, 0.5), 0 0 0 2px #3057d5;
+    }
+
+    label.radio-card input[type='radio']:checked+.card-content-wrapper .check-icon {
+      background: #3057d5;
+      border-color: #3057d5;
+      transform: scale(1.2);
+    }
+
+    label.radio-card input[type='radio']:checked+.card-content-wrapper .check-icon:before {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    label.radio-card input[type='radio']:focus+.card-content-wrapper .check-icon {
+      box-shadow: 0 0 0 4px rgba(48, 86, 213, 0.2);
+      border-color: #3056d5;
+    }
+
+    label.radio-card .card-content img {
+      margin-bottom: 10px;
+    }
+
+    label.radio-card .card-content h4 {
+      font-size: 16px;
+      letter-spacing: -0.24px;
+      color: #1f2949;
+      margin-bottom: 10px;
+    }
+
+    label.radio-card .card-content h5 {
+      font-size: 14px;
+      line-height: 1.4;
+      color: #686d73;
+    }
+  </style>
+</head>
+
+<body data-sidebar="dark">
+
+ 
+
+  <!-- Start layout-wrapper -->
+  <div id="layout-wrapper">
+
+
+    <header id="page-topbar">
+      <div class="navbar-header">
+        <div class="d-flex">
+          <!-- LOGO -->
+          <div class="navbar-brand-box d-flex justify-content-center align-items-center">
+
+            <a href="index.html" class="logo logo-light">
+              <span class="logo-sm">
+                <!-- <img src="assets/images/logo-light.svg" alt="" height="22"> -->
+                <h1 class="text-white">Tonga</h1>
+              </span>
+              <span class="logo-lg">
+                <!-- <img src="assets/images/logo-light.png" alt="" height="19"> -->
+                <h1 class="text-white">Tonga</h1>
+              </span>
+            </a>
+          </div>
+
+          <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
+            <i class="fa fa-fw fa-bars"></i>
+          </button>
+
+          <!-- App Search-->
+          <form class="app-search d-none d-lg-block">
+            <div class="position-relative">
+              <input type="text" class="form-control" placeholder="Search...">
+              <span class="bx bx-search-alt"></span>
+            </div>
+          </form>
+
+
+        </div>
+
+        <div class="d-flex">
+
+          <div class="dropdown d-inline-block d-lg-none ms-2">
+            <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="mdi mdi-magnify"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+              aria-labelledby="page-header-search-dropdown">
+
+              <form class="p-3">
+                <div class="form-group m-0">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="dropdown d-inline-block">
+            <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+              <img id="header-lang-img" src="assets/images/flags/us.jpg" alt="Header Language" height="16">
+            </button>
+            <div class="dropdown-menu dropdown-menu-end">
+
+              <!-- item-->
+              <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="en">
+                <img src="assets/images/flags/us.jpg" alt="user-image" class="me-1" height="12"> <span
+                  class="align-middle">English</span>
+              </a>
+              <!-- item-->
+              <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="sp">
+                <img src="assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12">
+                <span class="align-middle">Spanish</span>
+              </a>
+
+              <!-- item-->
+              <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="gr">
+                <img src="assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12">
+                <span class="align-middle">German</span>
+              </a>
+
+              <!-- item-->
+              <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="it">
+                <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12">
+                <span class="align-middle">Italian</span>
+              </a>
+
+              <!-- item-->
+              <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ru">
+                <img src="assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12">
+                <span class="align-middle">Russian</span>
+              </a>
+            </div>
+          </div>
+
+
+
+          <div class="dropdown d-none d-lg-inline-block ms-1">
+            <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
+              <i class="bx bx-fullscreen"></i>
+            </button>
+          </div>
+
+          <div class="dropdown d-inline-block">
+            <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bx bx-bell bx-tada"></i>
+              <span class="badge bg-danger rounded-pill">3</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+              aria-labelledby="page-header-notifications-dropdown">
+              <div class="p-3">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h6 class="m-0" key="t-notifications"> Notifications </h6>
+                  </div>
+                  <div class="col-auto">
+                    <a href="#!" class="small" key="t-view-all"> View All</a>
+                  </div>
+                </div>
+              </div>
+              <div data-simplebar style="max-height: 230px;">
+                <a href="javascript: void(0);" class="text-reset notification-item">
+                  <div class="d-flex">
+                    <div class="avatar-xs me-3">
+                      <span class="avatar-title bg-primary rounded-circle font-size-16">
+                        <i class="bx bx-cart"></i>
+                      </span>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="mb-1" key="t-your-order">Your order is placed</h6>
+                      <div class="font-size-12 text-muted">
+                        <p class="mb-1" key="t-grammer">If several languages coalesce the
+                          grammar</p>
+                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span key="t-min-ago">3 min ago</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a href="javascript: void(0);" class="text-reset notification-item">
+                  <div class="d-flex">
+                    <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-1">James Lemire</h6>
+                      <div class="font-size-12 text-muted">
+                        <p class="mb-1" key="t-simplified">It will seem like simplified English.
+                        </p>
+                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span key="t-hours-ago">1 hours ago</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a href="javascript: void(0);" class="text-reset notification-item">
+                  <div class="d-flex">
+                    <div class="avatar-xs me-3">
+                      <span class="avatar-title bg-success rounded-circle font-size-16">
+                        <i class="bx bx-badge-check"></i>
+                      </span>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="mb-1" key="t-shipped">Your item is shipped</h6>
+                      <div class="font-size-12 text-muted">
+                        <p class="mb-1" key="t-grammer">If several languages coalesce the
+                          grammar</p>
+                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span key="t-min-ago">3 min ago</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+
+                <a href="javascript: void(0);" class="text-reset notification-item">
+                  <div class="d-flex">
+                    <img src="assets/images/users/avatar-4.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-1">Salena Layfield</h6>
+                      <div class="font-size-12 text-muted">
+                        <p class="mb-1" key="t-occidental">As a skeptical Cambridge friend of
+                          mine occidental.</p>
+                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span key="t-hours-ago">1 hours ago</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="p-2 border-top d-grid">
+                <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                  <i class="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">View
+                    More..</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown d-inline-block">
+            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg"
+                alt="Header Avatar">
+              <span class="d-none d-xl-inline-block ms-1" key="t-henry">Henry</span>
+              <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end">
+              <!-- item-->
+              <a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle me-1"></i>
+                <span key="t-profile">Profile</span></a>
+              <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle me-1"></i> <span
+                  key="t-my-wallet">My
+                  Wallet</span></a>
+              <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end">11</span><i
+                  class="bx bx-wrench font-size-16 align-middle me-1"></i> <span key="t-settings">Settings</span></a>
+              <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle me-1"></i> <span
+                  key="t-lock-screen">Lock screen</span></a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="#"><i
+                  class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
+                  key="t-logout">Logout</span></a>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="vertical-menu">
+
+      <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+          <!-- Left Menu Start -->
+          <ul class="metismenu list-unstyled" id="side-menu">
+            <li>
+              <a href="index.html" class="waves-effect">
+                <i class="bx bx-home-circle"></i><span class="badge rounded-pill bg-info float-end">02</span>
+                <span key="t-dashboards">Dashboard</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="javascript: void(0);" class="has-arrow waves-effect">
+                <i class="bx bx-user"></i>
+                <span key="t-staff">Staff Management</span>
+              </a>
+              <ul class="sub-menu" aria-expanded="true">
+                <li><a href="user-managment.html">User Management</a></li>
+
+                <li>
+                  <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and Permission</a>
+                  <ul class="sub-menu mm-collapse" aria-expanded="true">
+                    <li><a href="roles.html" key="t-roles">Roles</a></li>
+                    <li><a href="permission.html" key="t-permission">Permissions</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="lead.html" class="waves-effect" aria-expanded="false">
+                <i class="bx bx-task"></i>
+                <span key="t-lead">Lead Management</span>
+              </a>
+
+            </li>
+
+            <li>
+              <a href="sceduling.html" class="waves-effect" aria-expanded="false">
+                <i class="bx bx-calendar"></i>
+                <span key="t-scedule">Scedule Management</span>
+              </a>
+
+            </li>
+            <li>
+              <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                <i class="bx bx-dollar"></i>
+                <span key="t-finance">Finance Management</span>
+              </a>
+              <ul class="sub-menu mm-collapse" aria-expanded="false">
+                <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
+                <li><a href="#" key="sales">Sales Quotation</a></li>
+                <li><a href="#" key="invoice">Invoice Management</a></li>
+
+
+
+              </ul>
+            </li>
+            <li>
+              <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                <i class="bx bx-food-menu"></i>
+
+                <span key="t-course">Course Management</span>
+              </a>
+              <ul class="sub-menu mm-collapse" aria-expanded="false">
+                <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
+
+                <li><a href="task.html" key="t-task">Task Management</a></li>
+
+                <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
+                <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
+                <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
+                <li><a href="#" key="t-client-portal">Integrate with Client Portal</a></li>
+
+
+
+              </ul>
+            </li>
+            <li>
+              <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                <i class="bx bx-customize"></i>
+
+                <span key="t-hrms">HRMS</span>
+              </a>
+              <ul class="sub-menu mm-collapse" aria-expanded="false">
+                <li><a href="employee.html" key="t-employee">Employee Management</a></li>
+                <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
+                <li><a href="leave.html" key="t-leave">Leave Management</a></li>
+                <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+        <!-- Sidebar -->
+      </div>
+    </div>
+    <!-- ========== Left Sidebar End ========== -->
+
+
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+      <div class="page-content">
+        <div class="container-fluid">
+
+          <!-- start page title -->
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">Quotation Management</h4>
+
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Quotation Management</li>
+                  </ol>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- end page title -->
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="card">
+                <div class="card-body p-3">
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div class="row w-50">
+                      <div class="col-xl-5">
+                        <select class="form-select">
+
+                          <option value="CA">Newest</option>
+                          <option value="NV">Oldest</option>
+                          <option value="OR">Recent</option>
+
+
+                        </select>
+                      </div>
+
+                      <div class="col-xl-7">
+                        <div class="d-flex" role="search">
+                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                          <button class="btn btn-light" type="submit">Search</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#add-quotation"><i
+                        class="bx bx-plus me-1 fw-semibold align-middle"></i>Add New
+                      Quotation</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Role cards -->
+
+          <div class="row g-4">
+
+
+            <div class="col-md-12">
+              <!-- Role Table -->
+              <div class="card ">
+                <div class="card-header justify-content-between">
+                  <div class="card-title">Quotation List </div>
+
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                      <thead>
+                        <tr>
+                          <th>Quotation No.</th>
+                          <th>Student Name</th>
+
+                          <th>Email</th>
+
+                          <th>Mobile</th>
+                          <th>Created on</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>001401</td>
+                          <td data-bs-toggle="modal" data-bs-target="#viewTrainerModal" style="cursor: pointer;">John
+                            Doe</td>
+
+
+                          <td>john@example.com</td>
+                          <td>123-456-7890</td>
+                          <td>1 Jan, 1990</td>
+                          <td><span class="badge bg-danger">Pending</span></td>
+
+
+                          <td>
+                            <a aria-label="anchor" href="javascript:void(0);"
+                              class="btn btn-icon btn-sm btn-warning rounded-pill" data-bs-toggle="modal"
+                              data-bs-target="#view-quotation"><i class="mdi mdi-eye"></i></a>
+                            <a aria-label="anchor" href="javascript:void(0);"
+                              class="btn btn-icon btn-sm btn-primary rounded-pill" data-bs-toggle="modal"
+                              data-bs-target="#edit-quotation"><i class="mdi mdi-pencil"></i></a>
+                            <a aria-label="anchor" href="javascript:void(0);"
+                              class="btn btn-icon btn-sm btn-danger rounded-pill"><i class="mdi mdi-trash-can"></i></a>
+
+                          </td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+
+              </div>
+              <!--/ Role Table -->
+            </div>
+          </div>
+          <!--/ Role cards -->
+
+        </div> <!-- container-fluid -->
+      </div>
+      <!-- End Page-content -->
+
+
+      <div class="modal fade" id="add-quotation" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add New Quotation</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="row text-left">
+
+                <div id="smartwizard" style="border: none; height: auto;">
+
+                  <ul class="nav">
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-1">
+                        <div class="num">1</div>
+                        Student
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-2">
+                        <span class="num">2</span>
+                        Course
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-3">
+                        <span class="num">3</span>
+                        Address
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#step-4">
+                        <span class="num">4</span>
+                        Preview
+                      </a>
+                    </li>
+
+                  </ul>
+
+                  <div class="tab-content mt-3" style="border: none;">
+                    <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                      <div class="row">
+                        <div class="col-md-3">
+
+                          <div class="mb-3">
+                            <label class="form-label">Search By</label>
+                            <div class="input-icon mb-3">
+                              <input type="text" value="" class="form-control" placeholder="Search…">
+                              <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                  stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                  <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                  <path d="M21 21l-6 -6"></path>
+                                </svg>
+                              </span>
+                            </div>
+
+                          </div>
+                          <div class="mb-3">
+                            <div class="card border border-primary" style="cursor: pointer;">
+
+                              <div class="card-body">
+                                <div class="my-auto">
+                                  <label class="mb-0 text-Primary fw-bold d-flex align-items-center "
+                                    style="font-size: 16px">
+                                    <i class="bx bxs-graduation me-2 fs-4 text-primary"></i>Will Smith
+                                  </label>
+                                  <p class="m-0 ps-4">Tel - +91 9825804569</p>
+
+                                </div>
+
+
+
+                              </div>
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <div class="col-md-9">
+                          <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                            <h5 class="modal-title">Student Details</h5>
+
+
+                            <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#add-customer">
+                              <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 5l0 14"></path>
+                                <path d="M5 12l14 0"></path>
+                              </svg>
+                              Add New
+                            </a>
+
+
+                          </div>
+                          <div class="card border border-primary mt-3">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Enrollment ID</b> </label>
+                                  <p class="m-0">e102</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Student Name</b> </label>
+                                  <p class="m-0">Mr. Jhone Doe</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""><b>Mobile</b> </label>
+                                  <p class="m-0">+91-2589631470</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Email</b></label>
+                                  <p class="m-0">abc@gmail.com</p>
+                                </div>
+
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>UserName</b></label>
+                                  <p class="m-0">john123</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Password</b></label>
+                                  <p class="m-0">john@123</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Date of Birth</b></label>
+                                  <p class="m-0">15-03-1999</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Gender</b></label>
+                                  <p class="m-0">Male</p>
+                                </div>
+
+
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""><b>Country</b> </label>
+                                  <p class="m-0">India</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""><b>State</b> </label>
+                                  <p class="m-0">Gujrat</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>City</b></label>
+                                  <p class="m-0">Ahmedabad</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Pincode</b></label>
+                                  <p class="m-0">380001</p>
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""><b>Status</b> </label>
+                                  <p><span class="badge badge-soft-danger">Pending</span></p>
+                                </div>
+                                <div class="col-md-9">
+                                  <label class="mb-0" for=""><b>Address</b> </label>
+                                  <p class="m-0">123 Main Street, City, Country</p>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                      <div class="row">
+                        <div class="col-md-4 ">
+                          <div class="card">
+                            <div class="card-body">
+
+
+                              <div class="row">
+                                <div class="col-md-12">
+
+                                  <div class="mb-3">
+                                    <label class="form-label">Select Course<span class="text-danger">*</span></label>
+                                    <select type="text" class="form-select" value="">
+                                      <option value="a">Course-1</option>
+                                      <option value="b">Course-2</option>
+                                      <option value="c">Course-3</option>
+                                      <option value="d">Course-4</option>
+                                      <option value="e">Course-5</option>
+                                      <option value="f">Course-6</option>
+                                    </select>
+                                  </div>
+
+                                  <div class="">
+                                    <label class="form-label">Search By</label>
+                                    <div class="input-icon mb-3">
+                                      <input type="text" value="" class="form-control" placeholder="Search…">
+                                      <span class="input-icon-addon">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                          stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                          <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                          <path d="M21 21l-6 -6"></path>
+                                        </svg>
+                                      </span>
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <div class="table-responsive">
+                                    <table class="table text-center text-nowrap table-bordered border-primary">
+                                      <thead>
+                                        <tr>
+                                          <th>Course Code</th>
+                                          <th>Course Name</th>
+                                          <th>Course Duration</th>
+                                          <th>Trainer</th>
+                                          <th>Unit Price</th>
+                                          <th>Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>CS101</td>
+
+                                          <td>Computer Science</td>
+                                          <td>12 weeks</td>
+                                          <td>John Doe</td>
+                                          <td>$308.00</td>
+                                          <td>
+                                            <button class="btn btn-primary" type="button">
+                                              <svg xmlns="http://www.w3.org/2000/svg" class="icon m-0" width="20"
+                                                height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M12 5l0 14"></path>
+                                                <path d="M5 12l14 0"></path>
+                                              </svg>
+                                            </button>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                </div>
+
+
+                              </div>
+
+
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-md-8 pe-0">
+                          <div id="service-table">
+                            <div class="card">
+                              <div class="card-body p-0">
+                                <div class="table-responsive">
+                                  <table class="table card-table table-vcenter text-center text-nowrap" id=""
+                                    style="width:100%">
+                                    <thead>
+                                      <tr>
+                                        <th>SL NO</th>
+                                        <th>Course Name</th>
+
+                                        <th>Unit Price</th>
+                                        <th>Discount (%)</th>
+                                        <th>Gross Amt ($)</th>
+                                        <th>Tax</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>1</td>
+                                        <td>Floor Cleaning</td>
+
+                                        <td><input type="number" class="form-control"></td>
+
+                                        <td>5%</td>
+                                        <td>$543</td>
+                                        <td>18%</td>
+
+                                        <td>
+                                          <button class="btn btn-danger ripple" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                              class="icon icon-tabler icon-tabler-playstation-x m-0" width="20"
+                                              height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                              fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                              <path
+                                                d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z">
+                                              </path>
+                                              <path d="M8.5 8.5l7 7"></path>
+                                              <path d="M8.5 15.5l7 -7"></path>
+                                            </svg>
+                                          </button>
+                                        </td>
+                                      </tr>
+
+                                    </tbody>
+                                    <thead>
+                                      <tr>
+                                        <th colspan="5" style="text-align: end;">Total discount </th>
+                                        <th colspan="2">5%</th>
+                                      </tr>
+                                      <tr>
+                                        <th colspan="5" style="text-align: end;">Total tax </th>
+                                        <th colspan="2">18%</th>
+                                      </tr>
+                                      <tr>
+                                        <th colspan="5" style="text-align: end;">Grand total</th>
+                                        <th colspan="2">$ 616.00</th>
+                                      </tr>
+                                    </thead>
+                                    <thead id="package-total" style="display: none;">
+                                      <tr>
+                                        <th colspan="7" style="text-align: end;">Package Amount</th>
+                                        <th colspan="2"><input type="text" class="form-control"></th>
+                                      </tr>
+                                    </thead>
+                                  </table>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="card border border-primary">
+
+                            <div class="card-body">
+                              <h3 class="card-title mb-2" style="color: #1F3BB3;"><b class="me-2">Jhone DOe</b><span
+                                  class="badge bg-red">Residential</span>
+                              </h3>
+
+                              <p class="card-p d-flex align-items-center mb-2 ">
+                                <i class="bx bx-phone me-2" style="font-size: 14px;"></i>+91
+                                9758697820
+                              </p>
+                              <p class="card-p  d-flex align-items-center mb-2">
+                                <i class="bx bx-envelope me-2" style="font-size: 14px;"></i>abc@pvtltd.com
+                              </p>
+
+
+                              <hr class="my-3">
+                              <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                                <b>Course Details</b>
+                              </h3>
+                              <div class="amount">
+                                <p class="m-0 card-p">Cyber Security</p>
+                                <p class="m-0 card-p">HTML</p>
+
+
+                              </div>
+                              <hr class="my-3">
+                              <div class="driver mt-2">
+                                <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                                  <b>Amount Details</b>
+                                </h3>
+                                <div class="row">
+                                  <div class="col-md-7">
+                                    <p class="m-0"> Total:</p>
+                                  </div>
+                                  <div class="col-md-5">
+                                    <p class="m-0">$200.00</p>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-9">
+                          <div class="card">
+                            <div class="card-body">
+                              <ul class="nav nav-pills nav-pills-primary" data-bs-toggle="tabs" role="tablist">
+                                <li class="nav-item me-2" role="presentation">
+                                  <a href="#tab-one" class="nav-link active" data-bs-toggle="tab" aria-selected="true"
+                                    role="tab">Address</a>
+                                </li>
+
+                                <li class="nav-item me-2" role="presentation">
+                                  <a href="#tab-three" class="nav-link" data-bs-toggle="tab" aria-selected="false"
+                                    role="tab" tabindex="-1">Additional Info</a>
+                                </li>
+
+
+                              </ul>
+                              <div class="tab-content">
+                                <div class="tab-pane active show" id="tab-one" role="tabpanel">
+                                  <div class="row my-3">
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                      <label for="radio-card-1" class="radio-card">
+                                        <input type="radio" name="radio-card" id="radio-card-1" checked />
+                                        <div class="card-content-wrapper">
+                                          <span class="check-icon"></span>
+                                          <div class="card-content">
+                                            <h4>Sky Enterprice</h4>
+                                            <p class="mb-1"> <strong>Contact No:</strong>1234567890</p>
+                                            <p class="mb-1"> <strong>Email ID:</strong>ABC@gmail.com</p>
+
+                                            <p class="mb-1"><strong>Address:</strong>8 Shopping Centre, 9 Bishan Place,
+                                              Singapore 579837
+                                            </p>
+
+                                            <div class="form-check">
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault2" checked>
+                                              <label class="form-check-label" for="flexRadioDefault2">
+                                                Default Address
+                                              </label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </label>
+
+                                    </div>
+                                  </div>
+
+
+
+                                </div>
+
+                                <div class="tab-pane" id="tab-three" role="tabpanel">
+                                  <div class="row mt-3">
+
+
+
+                                    <div class="form-group col-lg-6 col-md-6 col-sm-12 text-start">
+                                      <label for="message-text" class="col-form-label">Date</label>
+                                      <input type="date" class="form-control">
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-6 col-sm-12 text-start">
+                                      <label for="message-text" class="col-form-label">Time</label>
+                                      <input type="time" class="form-control" placeholder="Time of Cleaning">
+                                    </div>
+
+
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                    <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="card border border-primary">
+
+                            <div class="card-body">
+
+                              <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                                <b>Address</b>
+                              </h3>
+
+
+                              <p class="m-0">BLK 3017 BEDOK NORTH STREET 5
+                                #01-22 GOURMET EAST KITCHEN
+                                SINGAPORE 486121</p>
+
+                              <hr class="my-3">
+                              <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                                <b>Course Details</b>
+                              </h3>
+
+
+                              <p class="m-0">Duration : 12 Weeks</p>
+                              <p class="m-0">Date: 25/04/2023</p>
+                              <p class="m-0">Time: 05:47 PM</p>
+
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-9">
+                          <div class="row">
+                            <div class="col-md-8">
+                              <div class="card">
+                                <div class="card-body p-0">
+                                  <div class="table-responsive">
+                                    <table class="table card-table table-vcenter text-center text-nowrap datatable">
+                                      <thead>
+                                        <tr>
+                                          <th>SL NO</th>
+                                          <th>Course Name</th>
+                                          <th>Unit Price</th>
+                                          <th>Quantity</th>
+                                          <th>Gross Amount ($)</th>
+                                          <th>Discount (%)</th>
+
+
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>1</td>
+                                          <td>Html</td>
+
+                                          <td>$308.00</td>
+                                          <td>2</td>
+
+                                          <td>$308.00</td>
+                                          <td>8%</td>
+                                        </tr>
+
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="col-md-4">
+                              <div class="card border border-primary">
+
+                                <div class="card-body">
+                                  <h3 class="card-title mb-1" style="color: #1F3BB3;"><b class="me-2">Student
+                                      Details</b>
+                                  </h3>
+
+                                  <p class="m-0">
+                                    <i class="bx bx-user me-2 pt-1" style="font-size: 14px;"></i>
+                                    Jhone Doe
+                                  </p>
+                                  <p class="m-0">
+                                    <i class="bx bx-phone me-2 pt-1" style="font-size: 14px;"></i>
+                                    +91-9737155901
+                                  </p>
+
+
+                                  <hr class="my-3">
+                                  <h3 class="card-title mb-1" style="color: #1F3BB3;"><b class="me-2">Amount Details</b>
+                                  </h3>
+
+                                  <div class="row">
+                                    <div class="col-md-7">
+                                      <p class="m-0">Total <small>(before tax):</small></p>
+                                      <p class="m-0">Total Tax:</p>
+                                      <p class="m-0">Total Discount:</p>
+                                      <h6>Grand Total:</h6>
+                                    </div>
+                                    <div class="col-md-5">
+                                      <p class="m-0">$200.00</p>
+                                      <p class="m-0">$0.00</p>
+                                      <p class="m-0">$0.00</p>
+                                      <h6>$200.00</h6>
+                                    </div>
+                                  </div>
+                                  <button type="button" class="btn btn-info w-100 mt-3"
+                                    data-dismiss="modal">Confirm</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- Include optional progressbar HTML -->
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0"
+                      aria-valuemax="100"></div>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
+
+            <!-- <div class="modal-footer">
+                                    <button type="button" class="btn me-auto sw-btn-prev sw-btn">Previous</button>
+                                    <button type="button" class="btn btn-primary next-btn" >Next</button>
+                                </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="edit-quotation" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Quotation</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="row text-left">
+
+                <div id="smartwizard-edit" style="border: none; height: auto;">
+
+                  <ul class="nav">
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-1">
+                        <div class="num">1</div>
+                        Student
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-2">
+                        <span class="num">2</span>
+                        Course
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-3">
+                        <span class="num">3</span>
+                        Address
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#step-4">
+                        <span class="num">4</span>
+                        Preview
+                      </a>
+                    </li>
+
+                  </ul>
+
+                  <div class="tab-content mt-3" style="border: none;">
+                    <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                      <div class="row">
+                        <div class="col-md-3">
+
+                          <div class="mb-3">
+                            <label class="form-label">Search By</label>
+                            <div class="input-icon mb-3">
+                              <input type="text" value="" class="form-control" placeholder="Search…">
+                              <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                  stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                  <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                  <path d="M21 21l-6 -6"></path>
+                                </svg>
+                              </span>
+                            </div>
+
+                          </div>
+                          <div class="mb-3">
+                            <div class="card border border-primary" style="cursor: pointer;">
+
+                              <div class="card-body">
+                                <div class="my-auto">
+                                  <label class="mb-0 text-Primary fw-bold d-flex align-items-center "
+                                    style="font-size: 16px">
+                                    <i class="bx bxs-graduation me-2 fs-4 text-primary"></i>Will Smith
+                                  </label>
+                                  <p class="m-0 ps-4">Tel - +91 9825804569</p>
+
+                                </div>
+
+
+
+                              </div>
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <div class="col-md-9">
+                          <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                            <h5 class="modal-title">Student Details</h5>
+
+
+                            <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#add-customer">
+                              <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 5l0 14"></path>
+                                <path d="M5 12l14 0"></path>
+                              </svg>
+                              Add New
+                            </a>
+
+
+                          </div>
+                          <div class="card border border-primary mt-3">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Enrollment ID</b> </label>
+                                  <p class="m-0">e102</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Student Name</b> </label>
+                                  <p class="m-0">Mr. Jhone Doe</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""><b>Mobile</b> </label>
+                                  <p class="m-0">+91-2589631470</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Email</b></label>
+                                  <p class="m-0">abc@gmail.com</p>
+                                </div>
+
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>UserName</b></label>
+                                  <p class="m-0">john123</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Password</b></label>
+                                  <p class="m-0">john@123</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Date of Birth</b></label>
+                                  <p class="m-0">15-03-1999</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Gender</b></label>
+                                  <p class="m-0">Male</p>
+                                </div>
+
+
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""><b>Country</b> </label>
+                                  <p class="m-0">India</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""><b>State</b> </label>
+                                  <p class="m-0">Gujrat</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>City</b></label>
+                                  <p class="m-0">Ahmedabad</p>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""> <b>Pincode</b></label>
+                                  <p class="m-0">380001</p>
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-md-3">
+                                  <label class="mb-0" for=""><b>Status</b> </label>
+                                  <p><span class="badge badge-soft-danger">Pending</span></p>
+                                </div>
+                                <div class="col-md-9">
+                                  <label class="mb-0" for=""><b>Address</b> </label>
+                                  <p class="m-0">123 Main Street, City, Country</p>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                      <div class="row">
+                        <div class="col-md-4 ">
+                          <div class="card">
+                            <div class="card-body">
+
+
+                              <div class="row">
+                                <div class="col-md-12">
+
+                                  <div class="mb-3">
+                                    <label class="form-label">Select Course<span class="text-danger">*</span></label>
+                                    <select type="text" class="form-select" value="">
+                                      <option value="a">Course-1</option>
+                                      <option value="b">Course-2</option>
+                                      <option value="c">Course-3</option>
+                                      <option value="d">Course-4</option>
+                                      <option value="e">Course-5</option>
+                                      <option value="f">Course-6</option>
+                                    </select>
+                                  </div>
+
+                                  <div class="">
+                                    <label class="form-label">Search By</label>
+                                    <div class="input-icon mb-3">
+                                      <input type="text" value="" class="form-control" placeholder="Search…">
+                                      <span class="input-icon-addon">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                          stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                          <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                          <path d="M21 21l-6 -6"></path>
+                                        </svg>
+                                      </span>
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <div class="table-responsive">
+                                    <table class="table text-center text-nowrap table-bordered border-primary">
+                                      <thead>
+                                        <tr>
+                                          <th>Course Code</th>
+                                          <th>Course Name</th>
+                                          <th>Course Duration</th>
+                                          <th>Trainer</th>
+                                          <th>Unit Price</th>
+                                          <th>Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>CS101</td>
+
+                                          <td>Computer Science</td>
+                                          <td>12 weeks</td>
+                                          <td>John Doe</td>
+                                          <td>$308.00</td>
+                                          <td>
+                                            <button class="btn btn-primary" type="button">
+                                              <svg xmlns="http://www.w3.org/2000/svg" class="icon m-0" width="20"
+                                                height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M12 5l0 14"></path>
+                                                <path d="M5 12l14 0"></path>
+                                              </svg>
+                                            </button>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                </div>
+
+
+                              </div>
+
+
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-md-8 pe-0">
+                          <div id="service-table">
+                            <div class="card">
+                              <div class="card-body p-0">
+                                <div class="table-responsive">
+                                  <table class="table card-table table-vcenter text-center text-nowrap" id=""
+                                    style="width:100%">
+                                    <thead>
+                                      <tr>
+                                        <th>SL NO</th>
+                                        <th>Course Name</th>
+
+                                        <th>Unit Price</th>
+                                        <th>Discount (%)</th>
+                                        <th>Gross Amt ($)</th>
+                                        <th>Tax</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>1</td>
+                                        <td>Floor Cleaning</td>
+
+                                        <td><input type="number" class="form-control"></td>
+
+                                        <td>5%</td>
+                                        <td>$543</td>
+                                        <td>18%</td>
+
+                                        <td>
+                                          <button class="btn btn-danger ripple" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                              class="icon icon-tabler icon-tabler-playstation-x m-0" width="20"
+                                              height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                              fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                              <path
+                                                d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z">
+                                              </path>
+                                              <path d="M8.5 8.5l7 7"></path>
+                                              <path d="M8.5 15.5l7 -7"></path>
+                                            </svg>
+                                          </button>
+                                        </td>
+                                      </tr>
+
+                                    </tbody>
+                                    <thead>
+                                      <tr>
+                                        <th colspan="5" style="text-align: end;">Total discount </th>
+                                        <th colspan="2">5%</th>
+                                      </tr>
+                                      <tr>
+                                        <th colspan="5" style="text-align: end;">Total tax </th>
+                                        <th colspan="2">18%</th>
+                                      </tr>
+                                      <tr>
+                                        <th colspan="5" style="text-align: end;">Grand total</th>
+                                        <th colspan="2">$ 616.00</th>
+                                      </tr>
+                                    </thead>
+                                    <thead id="package-total" style="display: none;">
+                                      <tr>
+                                        <th colspan="7" style="text-align: end;">Package Amount</th>
+                                        <th colspan="2"><input type="text" class="form-control"></th>
+                                      </tr>
+                                    </thead>
+                                  </table>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="card border border-primary">
+
+                            <div class="card-body">
+                              <h3 class="card-title mb-2" style="color: #1F3BB3;"><b class="me-2">Jhone DOe</b><span
+                                  class="badge bg-red">Residential</span>
+                              </h3>
+
+                              <p class="card-p d-flex align-items-center mb-2 ">
+                                <i class="bx bx-phone me-2" style="font-size: 14px;"></i>+91
+                                9758697820
+                              </p>
+                              <p class="card-p  d-flex align-items-center mb-2">
+                                <i class="bx bx-envelope me-2" style="font-size: 14px;"></i>abc@pvtltd.com
+                              </p>
+
+
+                              <hr class="my-3">
+                              <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                                <b>Course Details</b>
+                              </h3>
+                              <div class="amount">
+                                <p class="m-0 card-p">Cyber Security</p>
+                                <p class="m-0 card-p">HTML</p>
+
+
+                              </div>
+                              <hr class="my-3">
+                              <div class="driver mt-2">
+                                <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                                  <b>Amount Details</b>
+                                </h3>
+                                <div class="row">
+                                  <div class="col-md-7">
+                                    <p class="m-0"> Total:</p>
+                                  </div>
+                                  <div class="col-md-5">
+                                    <p class="m-0">$200.00</p>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-9">
+                          <div class="card">
+                            <div class="card-body">
+                              <ul class="nav nav-pills nav-pills-primary" data-bs-toggle="tabs" role="tablist">
+                                <li class="nav-item me-2" role="presentation">
+                                  <a href="#tab-one" class="nav-link active" data-bs-toggle="tab" aria-selected="true"
+                                    role="tab">Address</a>
+                                </li>
+
+                                <li class="nav-item me-2" role="presentation">
+                                  <a href="#tab-three" class="nav-link" data-bs-toggle="tab" aria-selected="false"
+                                    role="tab" tabindex="-1">Additional Info</a>
+                                </li>
+
+
+                              </ul>
+                              <div class="tab-content">
+                                <div class="tab-pane active show" id="tab-one" role="tabpanel">
+                                  <div class="row my-3">
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                      <label for="radio-card-1" class="radio-card">
+                                        <input type="radio" name="radio-card" id="radio-card-1" checked />
+                                        <div class="card-content-wrapper">
+                                          <span class="check-icon"></span>
+                                          <div class="card-content">
+                                            <h4>Sky Enterprice</h4>
+                                            <p class="mb-1"> <strong>Contact No:</strong>1234567890</p>
+                                            <p class="mb-1"> <strong>Email ID:</strong>ABC@gmail.com</p>
+
+                                            <p class="mb-1"><strong>Address:</strong>8 Shopping Centre, 9 Bishan Place,
+                                              Singapore 579837
+                                            </p>
+
+                                            <div class="form-check">
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault2" checked>
+                                              <label class="form-check-label" for="flexRadioDefault2">
+                                                Default Address
+                                              </label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </label>
+
+                                    </div>
+                                  </div>
+
+
+
+                                </div>
+
+                                <div class="tab-pane" id="tab-three" role="tabpanel">
+                                  <div class="row mt-3">
+
+
+
+                                    <div class="form-group col-lg-6 col-md-6 col-sm-12 text-start">
+                                      <label for="message-text" class="col-form-label">Date</label>
+                                      <input type="date" class="form-control">
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-6 col-sm-12 text-start">
+                                      <label for="message-text" class="col-form-label">Time</label>
+                                      <input type="time" class="form-control" placeholder="Time of Cleaning">
+                                    </div>
+
+
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                    <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="card border border-primary">
+
+                            <div class="card-body">
+
+                              <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                                <b>Address</b>
+                              </h3>
+
+
+                              <p class="m-0">BLK 3017 BEDOK NORTH STREET 5
+                                #01-22 GOURMET EAST KITCHEN
+                                SINGAPORE 486121</p>
+
+                              <hr class="my-3">
+                              <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                                <b>Course Details</b>
+                              </h3>
+
+
+                              <p class="m-0">Duration : 12 Weeks</p>
+                              <p class="m-0">Date: 25/04/2023</p>
+                              <p class="m-0">Time: 05:47 PM</p>
+
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-9">
+                          <div class="row">
+                            <div class="col-md-8">
+                              <div class="card">
+                                <div class="card-body p-0">
+                                  <div class="table-responsive">
+                                    <table class="table card-table table-vcenter text-center text-nowrap datatable">
+                                      <thead>
+                                        <tr>
+                                          <th>SL NO</th>
+                                          <th>Course Name</th>
+                                          <th>Unit Price</th>
+                                          <th>Quantity</th>
+                                          <th>Gross Amount ($)</th>
+                                          <th>Discount (%)</th>
+
+
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>1</td>
+                                          <td>Html</td>
+
+                                          <td>$308.00</td>
+                                          <td>2</td>
+
+                                          <td>$308.00</td>
+                                          <td>8%</td>
+                                        </tr>
+
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="col-md-4">
+                              <div class="card border border-primary">
+
+                                <div class="card-body">
+                                  <h3 class="card-title mb-1" style="color: #1F3BB3;"><b class="me-2">Student
+                                      Details</b>
+                                  </h3>
+
+                                  <p class="m-0">
+                                    <i class="bx bx-user me-2 pt-1" style="font-size: 14px;"></i>
+                                    Jhone Doe
+                                  </p>
+                                  <p class="m-0">
+                                    <i class="bx bx-phone me-2 pt-1" style="font-size: 14px;"></i>
+                                    +91-9737155901
+                                  </p>
+
+
+                                  <hr class="my-3">
+                                  <h3 class="card-title mb-1" style="color: #1F3BB3;"><b class="me-2">Amount Details</b>
+                                  </h3>
+
+                                  <div class="row">
+                                    <div class="col-md-7">
+                                      <p class="m-0">Total <small>(before tax):</small></p>
+                                      <p class="m-0">Total Tax:</p>
+                                      <p class="m-0">Total Discount:</p>
+                                      <h6>Grand Total:</h6>
+                                    </div>
+                                    <div class="col-md-5">
+                                      <p class="m-0">$200.00</p>
+                                      <p class="m-0">$0.00</p>
+                                      <p class="m-0">$0.00</p>
+                                      <h6>$200.00</h6>
+                                    </div>
+                                  </div>
+                                  <button type="button" class="btn btn-info w-100 mt-3"
+                                    data-dismiss="modal">Confirm</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- Include optional progressbar HTML -->
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0"
+                      aria-valuemax="100"></div>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
+
+            <!-- <div class="modal-footer">
+                                    <button type="button" class="btn me-auto sw-btn-prev sw-btn">Previous</button>
+                                    <button type="button" class="btn btn-primary next-btn" >Next</button>
+                                </div> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="view-quotation" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">View Quotation</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="row text-left">
+
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="card border border-primary">
+
+                      <div class="card-body">
+
+                        <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                          <b>Address</b>
+                        </h3>
+
+
+                        <p class="m-0">BLK 3017 BEDOK NORTH STREET 5
+                          #01-22 GOURMET EAST KITCHEN
+                          SINGAPORE 486121</p>
+
+                        <hr class="my-3">
+                        <h3 class="card-title mb-1" style="color: #1F3BB3;">
+
+                          <b>Course Details</b>
+                        </h3>
+
+
+                        <p class="m-0">Duration : 12 Weeks</p>
+                        <p class="m-0">Date: 25/04/2023</p>
+                        <p class="m-0">Time: 05:47 PM</p>
+
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="card">
+                          <div class="card-body p-0">
+                            <div class="table-responsive">
+                              <table class="table card-table table-vcenter text-center text-nowrap datatable">
+                                <thead>
+                                  <tr>
+                                    <th>SL NO</th>
+                                    <th>Course Name</th>
+                                    <th>Unit Price</th>
+                                    <th>Quantity</th>
+                                    <th>Gross Amount ($)</th>
+                                    <th>Discount (%)</th>
+
+
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>1</td>
+                                    <td>Html</td>
+
+                                    <td>$308.00</td>
+                                    <td>2</td>
+
+                                    <td>$308.00</td>
+                                    <td>8%</td>
+                                  </tr>
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-md-4">
+                        <div class="card border border-primary">
+
+                          <div class="card-body">
+                            <h3 class="card-title mb-1" style="color: #1F3BB3;"><b class="me-2">Student Details</b>
+                            </h3>
+
+                            <p class="m-0">
+                              <i class="bx bx-user me-2 pt-1" style="font-size: 14px;"></i>
+                              Jhone Doe
+                            </p>
+                            <p class="m-0">
+                              <i class="bx bx-phone me-2 pt-1" style="font-size: 14px;"></i>
+                              +91-9737155901
+                            </p>
+
+
+                            <hr class="my-3">
+                            <h3 class="card-title mb-1" style="color: #1F3BB3;"><b class="me-2">Amount Details</b>
+                            </h3>
+
+                            <div class="row">
+                              <div class="col-md-7">
+                                <p class="m-0">Total <small>(before tax):</small></p>
+                                <p class="m-0">Total Tax:</p>
+                                <p class="m-0">Total Discount:</p>
+                                <h6>Grand Total:</h6>
+                              </div>
+                              <div class="col-md-5">
+                                <p class="m-0">$200.00</p>
+                                <p class="m-0">$0.00</p>
+                                <p class="m-0">$0.00</p>
+                                <h6>$200.00</h6>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-info w-100 mt-3" data-dismiss="modal">Confirm</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
+
+            <div class="modal-footer">
+
+              <button type="button" class="btn btn-primary">Discard</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6">
+              <script>document.write(new Date().getFullYear())</script> © Tonga.
+            </div>
+            <div class="col-sm-6">
+              <div class="text-sm-end d-none d-sm-block">
+                Design & Develop by <a href="https://braincavesoft.com" target="_blank">Braincave
+                  Software Pvt.Ltd.</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- end main content-->
+
+  </div>
+  <!-- END layout-wrapper -->
+
+
+
+  <!-- JAVASCRIPT -->
+  <script src="assets/libs/jquery/jquery.min.js"></script>
+  <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/libs/smart-wizaed/smart-wizaed.js"></script>
+  <script src="assets/libs/metismenu/metisMenu.min.js"></script>
+  <script src="assets/libs/simplebar/simplebar.min.js"></script>
+  <script src="assets/libs/node-waves/waves.min.js"></script>
+  <script src="assets/libs/select2/js/select2.min.js"></script>
+  <script src="assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+  <script src="assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+
+  <!-- Required datatable js -->
+  <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <!-- Buttons examples -->
+  <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+  <script src="assets/libs/jszip/jszip.min.js"></script>
+  <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+  <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+  <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+  <!-- Responsive examples -->
+  <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+  <!-- Datatable init js -->
+  <script src="assets/js/pages/datatables.init.js"></script>
+
+
+  <script src="assets/js/app.js"></script>
+  <!-- form advanced init -->
+  <script src="assets/js/pages/form-advanced.init.js"></script>
+  <script>
+    $('#smartwizard').smartWizard({
+      transition: {
+        animation: 'slideHorizontal', // Effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
+      }
+    });
+    $('#smartwizard-edit').smartWizard({
+      transition: {
+        animation: 'slideHorizontal', // Effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
+      }
+    });
+  </script>
+  <script>
+
+    $(document).ready(function () {
+
+      $(".select2").select2({
+
+        dropdownParent: $("#addClassModal")
+
+      });
+
+    });
+
+  </script>
+  <script>
+
+    $(document).ready(function () {
+
+      $(".select2").select2({
+
+        dropdownParent: $("#editUserModal")
+
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>

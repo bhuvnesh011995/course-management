@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>User Management | Tonga</title>
+    <title>TimeSheet Tracking | Tonga</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -33,21 +33,8 @@
         .select2-container {
             width: 100% !important;
         }
-                /* Styling for the custom file input container */
-                .custom-file-input {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        /* Styling for the actual file input */
-        .custom-file-input input[type="file"] {
-            display: none;
-        }
     </style>
+
 </head>
 
 <body data-sidebar="dark">
@@ -416,12 +403,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">User Management</h4>
+                                <h4 class="mb-sm-0 font-size-18">TimeSheet Tracking</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                        <li class="breadcrumb-item active">User Management</li>
+                                        <li class="breadcrumb-item active">Timesheet Tracking</li>
                                     </ol>
                                 </div>
 
@@ -455,16 +442,17 @@
                                             </div>
                                         </div>
 
-                                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addUserModal"><i
+                                        <button class="btn btn-primary me-2" data-bs-toggle="modal"
+                                            data-bs-target="#addWorkHoursModal"><i
                                                 class="bx bx-plus me-1 fw-semibold align-middle"></i>Add New
-                                            User</button>
+                                           </button>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Role cards -->
+
 
                     <div class="row g-4">
 
@@ -473,56 +461,50 @@
                             <!-- Role Table -->
                             <div class="card ">
                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">User List </div>
+                                    <div class="card-title">TimeSheet Tracking List </div>
 
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                        <table id="datatable-buttons"
+                                            class="table table-bordered dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">User ID</th>
-                                                    <th>Name</th>
-                                                    <th>User Name</th>
-                                                    <th>Password</th>
-                                                    <th>Date of Birth</th>
-                                                    <th>Email</th>
-                                                    <th>Contact Number</th>
-                                                    <th>User Right</th>
-                                                    <th>Actions</th>
+                                                    <th>Date</th>
+                                                    <th>Employee</th>
+                                                    <th>Hours Worked</th>
+                                                    <th>Overtime Hours</th>
+                                                    <th>Shift</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>123</td>
+                                                    <td>2023-09-01</td>
                                                     <td>Jane Doe</td>
-                                                    <td>jhone123</td>
-                                                    <td>jhone@123</td>
-                                                    <td>15 May, 1996</td>
-                                                    <td>jane@example.com</td>
-                                                    <td>987-654-3210</td>
+                                                    <td>8</td>
+                                                    <td>2</td>
+                                                    <td>Day Shift</td>
+
                                                     <td>
-                                                        <span class="badge badge-soft-primary">Manager</span>
-                                                    </td>
-                                                    <td>
-                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-warning rounded-pill" data-bs-toggle="modal" data-bs-target="#viewUserModal">
-                                                            <i class="mdi mdi-eye"></i>
-                                                        </a>
-                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#editUserModal">
-                                                            <i class="mdi mdi-pencil"></i>
-                                                        </a>
-                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger rounded-pill">
-                                                            <i class="mdi mdi-trash-can"></i>
-                                                        </a>
-                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#varify-user">
-                                                            <i class="mdi mdi-check-circle"></i>
-                                                        </a>
+                                                        
+                                                        <a aria-label="anchor" href="javascript:void(0);"
+                                                        class="btn btn-icon btn-sm btn-warning rounded-pill"
+                                                        data-bs-toggle="modal" data-bs-target="#viewWorkHoursModal"><i
+                                                            class="mdi mdi-eye"></i></a>
+                                                            <a aria-label="anchor" href="javascript:void(0);"
+                                                            class="btn btn-icon btn-sm btn-primary rounded-pill"
+                                                            data-bs-toggle="modal" data-bs-target="#editWorkHoursModal"><i
+                                                                class="mdi mdi-pencil"></i></a>
+                                                        <a aria-label="anchor" href="javascript:void(0);"
+                                                            class="btn btn-icon btn-sm btn-danger rounded-pill"><i
+                                                                class="mdi mdi-trash-can"></i></a>
+
                                                     </td>
                                                 </tr>
-
+                                                <!-- Add more rows as needed -->
                                             </tbody>
                                         </table>
-                                        
 
                                     </div>
                                 </div>
@@ -531,180 +513,136 @@
                             <!--/ Role Table -->
                         </div>
                     </div>
-                    <!--/ Role cards -->
+
 
                 </div> <!-- container-fluid -->
             </div>
-            <!-- End Page-content -->  
+            <!-- End Page-content -->
 
-<!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+           <!-- Add Work Hours Modal -->
+<!-- Add Work Hours Modal -->
+<div class="modal fade" id="addWorkHoursModal" tabindex="-1" aria-labelledby="addWorkHoursModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                <h5 class="modal-title" id="addWorkHoursModalLabel">Add Work Hours</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form >
-                <div class="row">
-                   
-                    
-                    <div class="col-md-6 mb-3">
-                        <label for="userFirstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required>
+                <form>
+                    <div class="mb-3">
+                        <label for="addDate" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="addDate" required>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userLastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userContact" class="form-label">Mobile</label>
-                        <input type="tel" class="form-control" id="userContact" placeholder="Enter Mobile" required>
-                    </div>
-                   
-                    <div class="col-md-6 mb-3">
-                        <label for="userUsername" class="form-label">User Name</label>
-                        <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required>
-                    </div>
-               
-                    <div class="col-md-6 mb-3">
-                        <label for="userPhoto" class="form-label">Upload Photo</label>
-                        <input type="file" class="form-control" id="userPhoto" accept="image/*">
-                    </div>
-             
-                   
-                
-                   
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">Country</label>
-                        <select name="" id="" class="form-select">
-                            <option value="0" selected>-- Please Select --</option>
-                            <option value="1">India</option>
+                    <div class="mb-3">
+                        <label for="addEmployee" class="form-label">Employee</label>
+                        <select class="form-select" id="addEmployee" required>
+                            <option value="" selected>Select an employee</option>
+                            <option value="employee1">Employee 1</option>
+                            <option value="employee2">Employee 2</option>
+                            <!-- Add more options for other employees -->
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">State</label>
-                        <select name="" id="" class="form-select">
-                            <option value="0" selected>-- Please Select --</option>
-                            <option value="1">Gujrat</option>
+                    <div class="mb-3">
+                        <label for="addHoursWorked" class="form-label">Hours Worked</label>
+                        <input type="number" class="form-control" id="addHoursWorked" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addOvertimeHours" class="form-label">Overtime Hours</label>
+                        <input type="number" class="form-control" id="addOvertimeHours" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addShift" class="form-label">Shift</label>
+                        <select class="form-select" id="addShift" required>
+                            <option value="Day Shift">Day Shift</option>
+                            <option value="Night Shift">Night Shift</option>
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">City</label>
-                        <select name="" id="" class="form-select">
-                            <option value="0" selected>-- Please Select --</option>
-                            <option value="1">Ahmedabad</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">Pincode</label>
-                       <input type="text" class="form-control" placeholder="Enter Pincode">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">Status</label>
-                        <select name="" id="" class="form-select">
-                            <option value="0" selected>-- Please Select --</option>
-                            <option value="1">Active</option>
-                            <option value="2">Inactive</option>
-                        </select>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="userDescription" class="form-label">Address</label>
-                        <textarea class="form-control" id="userDescription" rows="3" placeholder="Enter Adress" required></textarea>
-                    </div>
-                </div>
-                  
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add User</button>
+                <button type="button" class="btn btn-primary">Add Work Hours</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Edit User Modal -->
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<!-- View Work Hours Modal -->
+<div class="modal fade" id="viewWorkHoursModal" tabindex="-1" aria-labelledby="viewWorkHoursModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <h5 class="modal-title" id="viewWorkHoursModalLabel">View Work Hours</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserFirstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="editUserFirstName" value="Jane">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="editUserLastName" value="Doe">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="editUserEmail" value="jane@example.com">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserContact" class="form-label">Mobile</label>
-                            <input type="tel" class="form-control" id="editUserContact" value="987-654-3210">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserUsername" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="editUserUsername" value="jane123">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="editUserPassword" value="********">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserPhoto" class="form-label">Upload Photo</label>
-                            <input type="file" class="form-control" id="editUserPhoto" accept="image/*">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserCountry" class="form-label">Country</label>
-                            <select class="form-select" id="editUserCountry">
-                                <option value="1" selected>India</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserState" class="form-label">State</label>
-                            <select class="form-select" id="editUserState">
-                                <option value="1" selected>Gujrat</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserCity" class="form-label">City</label>
-                            <select class="form-select" id="editUserCity">
-                                <option value="1" selected>Ahmedabad</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserPincode" class="form-label">Pincode</label>
-                            <input type="text" class="form-control" id="editUserPincode" value="380001">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserStatus" class="form-label">Status</label>
-                            <select class="form-select" id="editUserStatus">
-                                <option value="1" selected>Active</option>
-                                <option value="2">Inactive</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="editUserAddress" class="form-label">Address</label>
-                            <textarea class="form-control" id="editUserAddress" rows="3">123 Main Street, City, Country</textarea>
-                        </div>
+                    <div class="mb-3">
+                        <label for="viewDate" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="viewDate" value="2023-09-01" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewEmployee" class="form-label">Employee</label>
+                        <input type="text" class="form-control" id="viewEmployee" value="Jane Doe" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewHoursWorked" class="form-label">Hours Worked</label>
+                        <input type="number" class="form-control" id="viewHoursWorked" value="8" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewOvertimeHours" class="form-label">Overtime Hours</label>
+                        <input type="number" class="form-control" id="viewOvertimeHours" value="2" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewShift" class="form-label">Shift</label>
+                        <input type="text" class="form-control" id="viewShift" value="Day Shift" readonly>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+         <!-- Edit Work Hours Modal -->
+<div class="modal fade" id="editWorkHoursModal" tabindex="-1" aria-labelledby="editWorkHoursModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editWorkHoursModalLabel">Edit Work Hours</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="editDate" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="editDate" value="2023-09-01">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEmployee" class="form-label">Employee</label>
+                        <select class="form-select" id="editEmployee">
+                            <option value="employee1">Employee 1</option>
+                            <option value="employee2">Employee 2</option>
+                            <!-- Add more options for other employees -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editHoursWorked" class="form-label">Hours Worked</label>
+                        <input type="number" class="form-control" id="editHoursWorked" value="8">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editOvertimeHours" class="form-label">Overtime Hours</label>
+                        <input type="number" class="form-control" id="editOvertimeHours" value="2">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editShift" class="form-label">Shift</label>
+                        <select class="form-select" id="editShift">
+                            <option value="Day Shift">Day Shift</option>
+                            <option value="Night Shift">Night Shift</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -715,140 +653,15 @@
         </div>
     </div>
 </div>
+   
+            
+            
+            
+            
+            
+            
 
 
-
-<!-- View User Modal -->
-<div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewUserModalLabel">View User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserFirstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="viewUserFirstName" value="Jane" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="viewUserLastName" value="Doe" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="viewUserEmail" value="jane@example.com" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserContact" class="form-label">Mobile</label>
-                            <input type="tel" class="form-control" id="viewUserContact" value="987-654-3210" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserUsername" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="viewUserUsername" value="jane123" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="viewUserPassword" value="********" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserPhoto" class="form-label">Upload Photo</label>
-                            <div class="d-flex gap-2 align-items-center">
-                               <input type="text" class="form-control w-75" value="jhone.png" readonly>
-                          
-                                <span class="avatar avatar-rounded"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
-                            </div>
-                            
-                            
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserDescription" class="form-label">Country</label>
-                            <select class="form-select" id="viewUserCountry" disabled>
-                                <option value="1" selected>India</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserState" class="form-label">State</label>
-                            <select class="form-select" id="viewUserState" disabled>
-                                <option value="1" selected>Gujrat</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserCity" class="form-label">City</label>
-                            <select class="form-select" id="viewUserCity" disabled>
-                                <option value="1" selected>Ahmedabad</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserPincode" class="form-label">Pincode</label>
-                            <input type="text" class="form-control" id="viewUserPincode" value="380001" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserStatus" class="form-label">Status</label>
-                            <select class="form-select" id="viewUserStatus" disabled>
-                                <option value="1" selected>Active</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="viewUserAddress" class="form-label">Address</label>
-                            <textarea class="form-control" id="viewUserAddress" rows="3" readonly>123 Main Street, City, Country</textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="varify-user" tabindex="-1" aria-labelledby="viewUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewUserModalLabel">Send Verification Email</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <div class="mb-3">
-                        <input type="email" class="form-control" placeholder="To : jhone@123">
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Subject : Verify Email Address">
-                    </div>
-                    <div class="mb-3">
-                        <form method="post">
-                            <textarea id="open-source-plugins">
-                                <p>Congratulations! Your account has been successfully registered. Please confirm your email address by clicking the link below.</p>
-                                <p>We may need to send you critical information about our service, and it is important that we have an accurate email address.</p>
-                               
-                                <a href="#" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #fff; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #34c38f; margin: 0; border-color: #34c38f; border-style: solid; border-width: 8px 16px;">Confirm email address</a>
-                                <p><strong>Tonga</strong> <br>
-                                    Support Team
-                                </p>
-
-                                
-                            </textarea>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success">Send</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-  
-  
 
 
             <footer class="footer">
@@ -905,33 +718,20 @@
 
     <script src="assets/js/app.js"></script>
     <!-- form advanced init -->
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5.10.7-133/tinymce.min.js"></script>
-    <script src="assets/js/pages/email-editor.js"></script>
+    <script src="assets/js/pages/form-advanced.init.js"></script>
+
     <script>
 
         $(document).ready(function () {
 
             $(".select2").select2({
 
-                dropdownParent: $("#addUserModal")
+                dropdownParent: $("#addEmployeeModal")
 
             });
 
         });
 
-    </script>
-    <script>
-
-            $(document).ready(function () {
-    
-                $(".select2").select2({
-    
-                    dropdownParent: $("#editUserModal")
-    
-                });
-    
-            });
-    
     </script>
 </body>
 

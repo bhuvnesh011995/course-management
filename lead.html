@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title>Lead Management | Tonga</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="#" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
@@ -43,8 +43,8 @@
 </head>
 
 <body data-sidebar="dark">
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
-    <!-- Begin page -->
+   
+    <!-- Start layout-wrapper -->
     <div id="layout-wrapper">
         <header id="page-topbar">
             <div class="navbar-header">
@@ -268,63 +268,104 @@
         </header>
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
+
             <div data-simplebar class="h-100">
-                
-<!--- Sidemenu -->
-<div id="sidebar-menu">
-    <!-- Left Menu Start -->
-    <ul class="metismenu list-unstyled" id="side-menu">
-        <li class="menu-title" key="t-menu">Main</li>
 
-        <li>
-            <a href="index.html" class="waves-effect">
-                <i class="bx bx-home-circle"></i><span
-                    class="badge rounded-pill bg-warning ms-2 float-end">04</span>
-                <span key="t-dashboards">Dashboard</span>
-            </a>
-
-        </li>
-        <li>
-            <a href="lead.html" class="waves-effect">
-                <i class="bx bx-task"></i>
-                <span key="t-dashboards">Lead Management</span>
-            </a>
-
-        </li>
-        <li>
-            <a href="user-managment.html" class="waves-effect">
-                <i class="bx bx-user"></i>
-                <span key="t-dashboards">user Management</span>
-            </a>
-
-        </li>
-        <li>
-            <a href="trainers.html" class="waves-effect">
-                <i class="bx bxs-user-detail"></i>
-                <span key="t-dashboards">Trainer's Management</span>
-            </a>
-
-        </li>
-        <li class="">
-            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                <i class="bx bx-check-shield"></i>
-                <span key="t-maps">Roles & Permissions</span>
-            </a>
-            <ul class="sub-menu mm-collapse" aria-expanded="false" style="height: 0px;">
-                <li><a href="roles.html">Roles</a></li>
-                <li><a href="permission.html">Permission</a></li>
-            </ul>
-        </li>
-
-
-
-
-
-
-    </ul>
-</div>
-<!-- Sidebar -->
-
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                      <li>
+                          <a href="index.html" class="waves-effect">
+                              <i class="bx bx-home-circle"></i><span
+                                  class="badge rounded-pill bg-info float-end">02</span>
+                              <span key="t-dashboards">Dashboard</span>
+                          </a>
+                      </li>
+  
+                      <li>
+                          <a href="javascript: void(0);" class="has-arrow waves-effect">
+                              <i class="bx bx-user"></i>
+                              <span key="t-staff">Staff Management</span>
+                          </a>
+                          <ul class="sub-menu" aria-expanded="true">
+                              <li><a href="user-managment.html">User Management</a></li>
+                                
+                                  <li>
+                                      <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and Permission</a>
+                                      <ul class="sub-menu mm-collapse" aria-expanded="true">
+                                          <li><a href="roles.html" key="t-roles">Roles</a></li>
+                                          <li><a href="permission.html" key="t-permission">Permissions</a></li>
+                                      </ul>
+                                  </li>
+                          </ul>
+                      </li>
+                      <li>
+                          <a href="lead.html" class="waves-effect" aria-expanded="false">
+                              <i class="bx bx-task"></i>
+                              <span key="t-lead">Lead Management</span>
+                          </a>
+                          
+                      </li>
+  
+                      <li>
+                          <a href="sceduling.html" class="waves-effect" aria-expanded="false">
+                              <i class="bx bx-calendar"></i>
+                              <span key="t-scedule">Scedule Management</span>
+                          </a>
+                         
+                      </li>
+                      <li>
+                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                              <i class="bx bx-dollar"></i>
+                              <span key="t-finance">Finance Management</span>
+                          </a>
+                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
+                              <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
+                              <li><a href="#" key="sales">Sales Quotation</a></li>
+                              <li><a href="#" key="invoice">Invoice Management</a></li>
+                             
+                            
+                              
+                          </ul>
+                      </li>
+                      <li>
+                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                              <i class="bx bx-food-menu"></i>
+  
+                              <span key="t-course">Course Management</span>
+                          </a>
+                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
+                              <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
+                          
+                              <li><a href="task.html" key="t-task">Task Management</a></li>
+  
+                              <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
+                              <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
+                              <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
+                              <li><a href="#" key="t-client-portal">Integrate with Client Portal</a></li>
+                             
+                            
+                              
+                          </ul>
+                      </li>
+                      <li>
+                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                              <i class="bx bx-customize"></i>
+  
+                              <span key="t-hrms">HRMS</span>
+                          </a>
+                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
+                              <li><a href="employee.html" key="t-employee">Employee Management</a></li>
+                              <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
+                              <li><a href="leave.html" key="t-leave">Leave Management</a></li>
+                              <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
+                          </ul>
+                      </li>
+  
+                  </ul>
+                </div>
+                <!-- Sidebar -->
             </div>
         </div>
         <!-- Left Sidebar End -->
@@ -1531,86 +1572,98 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="studentForm" class="row" role="form">
-                                <div class="col-md-6 mb-3">
-                                    <label for="userPhoto" class="form-label">Photo</label>
-                                    <input type="file" class="form-control" id="userPhoto" accept="image/*">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userFirstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userLastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userUsername" class="form-label">User Name</label>
-                                    <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userPassword" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userDOB" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" id="userDOB" placeholder="Select date of birth" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userContact" class="form-label">Contact Number</label>
-                                    <input type="tel" class="form-control" id="userContact" placeholder="Enter contact number" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userGender" class="form-label">Gender</label>
-                                    <select class="form-select" id="userGender" required>
-                                        <option value="" disabled selected>Select gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userCourse" class="form-label">Courses</label>
-                                    <select class="form-control select2" id="userCourse-add" required>
-                                        <option value="" disabled selected>Select courses</option>
-                                        <option value="Web Development">Web Development</option>
-                                        <option value="Data Science">Data Science</option>
-                                        <option value="UI/UX Design">UI/UX Design</option>
-                                        <!-- Add more course options here -->
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="studentstatus" class="col-form-label">Status<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="studentstatus" required>
-                                            <option value="" selected>Choose Status..</option>
-                                            <option value="Active">Active</option>
-                                            <option value="Inactive">Inactive</option>
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="enrollmentId" class="form-label">Enrollment ID</label>
+                                        <input type="text" class="form-control" id="enrollmentId" value="e102" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userFirstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userLastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userContact" class="form-label">Mobile</label>
+                                        <input type="tel" class="form-control" id="userContact" placeholder="Enter Mobile" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userUsername" class="form-label">User Name</label>
+                                        <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDOB" class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" id="userDOB" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userPhoto" class="form-label">Upload Photo</label>
+                                        <input type="file" class="form-control" id="userPhoto" accept="image/*">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userGender" class="form-label">Gender</label>
+                                        <select class="form-select" id="userGender" required>
+                                            <option value="" disabled selected>Select gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="studentstatus" class="col-form-label">Payment Status<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="studentstatus" required>
-                                            <option value="" selected>Choose Status..</option>
-                                            <option value="Active">Paid</option>
-                                            <option value="Inactive">Unpaid</option>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userCourse" class="form-label">Course</label>
+                                        <select class="form-select" id="userCourse" required>
+                                            <option value="" disabled selected>Select course</option>
+                                            <option value="Course-1">Course-1</option>
+                                            <option value="Course-2">Course-2</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label for="viewUserDescription" class="form-label">Description</label>
-                                    <textarea class="form-control" id="viewUserDescription" rows="4" placeholder="Enter description" ></textarea>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">Country</label>
+                                        <select class="form-select" id="userCountry">
+                                            <option value="1" selected>India</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">State</label>
+                                        <select class="form-select" id="userState">
+                                            <option value="1" selected>Gujrat</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">City</label>
+                                        <select class="form-select" id="userCity">
+                                            <option value="1" selected>Ahmedabad</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">Pincode</label>
+                                        <input type="text" class="form-control" id="userPincode" placeholder="Enter Pincode">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">Status</label>
+                                        <select class="form-select" id="userStatus">
+                                            <option value="1" selected>Active</option>
+                                            <option value="2">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="userDescription" class="form-label">Address</label>
+                                        <textarea class="form-control" id="userAddress" rows="3" placeholder="Enter Address" required></textarea>
+                                    </div>
                                 </div>
                             </form>
                         </div>
+                        
                         <div class="modal-footer">
                             <div class="row">
                                 <div class="col-lg-12 text-end">
@@ -1636,81 +1689,76 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="studentForm" class="row" role="form">
-                                <div class="col-md-6 mb-3">
-                                    <label for="userPhoto" class="form-label">Photo</label>
-                                    <input type="file" class="form-control" id="userPhoto" accept="image/*" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userFirstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required value="John" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userLastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required value="Doe" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userUsername" class="form-label">User Name</label>
-                                    <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required value="johndoe" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userPassword" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required value="yourpassword" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userDOB" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" id="userDOB" placeholder="Select date of birth" required value="1990-01-01" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required value="johndoe@example.com" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userContact" class="form-label">Contact Number</label>
-                                    <input type="tel" class="form-control" id="userContact" placeholder="Enter contact number" required value="1234567890" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userGender" class="form-label">Gender</label>
-                                    <select class="form-select" id="userGender" required disabled>
-                                        <option value="" disabled selected>Select gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userCourse" class="form-label">Courses</label>
-                                    <select class="form-control select2" id="userCourse" required disabled>
-                                        <option value="" disabled selected>Select courses</option>
-                                        <option value="Web Development">Web Development</option>
-                                        <option value="Data Science">Data Science</option>
-                                        <option value="UI/UX Design">UI/UX Design</option>
-                                        <!-- Add more course options here -->
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="studentstatus" class="col-form-label">Status<span class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="studentstatus" required disabled>
-                                            <option value="" selected>Choose Status..</option>
-                                            <option value="Active">Active</option>
-                                            <option value="Inactive">Inactive</option>
-                                        </select>
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewEnrollmentId" class="form-label">Enrollment ID</label>
+                                        <input type="text" class="form-control" id="viewEnrollmentId" value="e102" readonly>
                                     </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="studentstatus" class="col-form-label">Payment Status<span class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="studentstatus" required disabled>
-                                            <option value="" selected>Choose Status..</option>
-                                            <option value="Active">Paid</option>
-                                            <option value="Inactive">Unpaid</option>
-                                        </select>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewFirstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="viewFirstName" value="John" readonly>
                                     </div>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label for="viewUserDescription" class="form-label">Description</label>
-                                    <textarea class="form-control" id="viewUserDescription" rows="4" placeholder="Enter description" disabled>This is a default description.</textarea>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewLastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="viewLastName" value="Doe" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="viewEmail" value="john@example.com" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewContact" class="form-label">Mobile</label>
+                                        <input type="tel" class="form-control" id="viewContact" value="987-654-3210" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewUsername" class="form-label">User Name</label>
+                                        <input type="text" class="form-control" id="viewUsername" value="john123" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="userPassword" value="******" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewDOB" class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" id="viewDOB" value="1995-08-15" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewPhoto" class="form-label">Profile Photo</label>
+                                        <input type="file" class="form-control" id="viewPhoto" disabled>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewGender" class="form-label">Gender</label>
+                                        <input type="text" class="form-control" id="viewGender" value="Male" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewCourse" class="form-label">Course</label>
+                                        <input type="text" class="form-control" id="viewCourse" value="Course-1" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewCountry" class="form-label">Country</label>
+                                        <input type="text" class="form-control" id="viewCountry" value="India" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewState" class="form-label">State</label>
+                                        <input type="text" class="form-control" id="viewState" value="Gujrat" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewCity" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="viewCity" value="Ahmedabad" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewPincode" class="form-label">Pincode</label>
+                                        <input type="text" class="form-control" id="viewPincode" value="380001" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewStatus" class="form-label">Status</label>
+                                        <input type="text" class="form-control" id="viewStatus" value="Active" readonly>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="viewAddress" class="form-label">Address</label>
+                                        <textarea class="form-control" id="viewAddress" rows="3" readonly>123 Main Street, City, Country</textarea>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -1740,83 +1788,94 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="studentForm" class="row" role="form">
-                                <div class="col-md-6 mb-3">
-                                    <label for="userPhoto" class="form-label">Photo</label>
-                                    <input type="file" class="form-control" id="userPhoto" accept="image/*">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userFirstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required value="John">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userLastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required value="Doe">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userUsername" class="form-label">User Name</label>
-                                    <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required value="johndoe">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userPassword" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required value="yourpassword">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userDOB" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" id="userDOB" placeholder="Select date of birth" required value="1990-01-01">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required value="johndoe@example.com">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userContact" class="form-label">Contact Number</label>
-                                    <input type="tel" class="form-control" id="userContact" placeholder="Enter contact number" required value="1234567890">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userGender" class="form-label">Gender</label>
-                                    <select class="form-select" id="userGender" required>
-                                        <option value="" disabled>Select gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="userCourse" class="form-label">Courses</label>
-                                    <select class="form-control select2" id="userCourse-view" required>
-                                        <option value="" disabled>Select courses</option>
-                                        <option value="Web Development">Web Development</option>
-                                        <option value="Data Science">Data Science</option>
-                                        <option value="UI/UX Design">UI/UX Design</option>
-                                        <!-- Add more course options here -->
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="studentstatus" class="col-form-label">Status<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="studentstatus" required>
-                                            <option value="" selected>Choose Status..</option>
-                                            <option value="Active">Active</option>
-                                            <option value="Inactive">Inactive</option>
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editEnrollmentId" class="form-label">Enrollment ID</label>
+                                        <input type="text" class="form-control" id="editEnrollmentId" value="e102" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editFirstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="editFirstName" value="John" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editLastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="editLastName" value="Doe" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="editEmail" value="john@example.com" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editContact" class="form-label">Mobile</label>
+                                        <input type="tel" class="form-control" id="editContact" value="987-654-3210" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editUsername" class="form-label">User Name</label>
+                                        <input type="text" class="form-control" id="editUsername" value="john123" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="userPassword" value="jhone@123">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editDOB" class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" id="editDOB" value="1995-08-15" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editPhoto" class="form-label">Profile Photo</label>
+                                        <input type="file" class="form-control" id="editPhoto" accept="image/*">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editGender" class="form-label">Gender</label>
+                                        <select class="form-select" id="editGender" required>
+                                            <option value="" disabled>Select gender</option>
+                                            <option value="Male" selected>Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="studentstatus" class="col-form-label">Payment Status<span
-                                            class="text-danger">*</span></label>
-                                    <div class="col-lg-12">
-                                        <select class="form-select validate" id="studentstatus" required>
-                                            <option value="" selected>Choose Status..</option>
-                                            <option value="Active">Paid</option>
-                                            <option value="Inactive">Unpaid</option>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editCourse" class="form-label">Course</label>
+                                        <select class="form-select" id="editCourse" required>
+                                            <option value="" disabled>Select course</option>
+                                            <option value="Course-1" selected>Course-1</option>
+                                            <option value="Course-2">Course-2</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label for="viewUserDescription" class="form-label">Description</label>
-                                    <textarea class="form-control" id="viewUserDescription" rows="4" placeholder="Enter description">This is a default description.</textarea>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editCountry" class="form-label">Country</label>
+                                        <select class="form-select" id="editCountry">
+                                            <option value="1" selected>India</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editState" class="form-label">State</label>
+                                        <select class="form-select" id="editState">
+                                            <option value="1" selected>Gujrat</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editCity" class="form-label">City</label>
+                                        <select class="form-select" id="editCity">
+                                            <option value="1" selected>Ahmedabad</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editPincode" class="form-label">Pincode</label>
+                                        <input type="text" class="form-control" id="editPincode" value="380001">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="editStatus" required>
+                                            <option value="1" selected>Active</option>
+                                            <option value="2">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="editAddress" class="form-label">Address</label>
+                                        <textarea class="form-control" id="editAddress" rows="3" required>123 Main Street, City, Country</textarea>
+                                    </div>
                                 </div>
                             </form>
                         </div>
