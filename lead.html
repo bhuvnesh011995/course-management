@@ -39,6 +39,24 @@
         .select2-container {
             width: 100% !important;
         }
+        .custom-file-input {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            padding: 0.47rem 1.75rem 0.47rem 0.75rem;
+            border-radius: 5px;
+           width: 90%;
+        }
+
+        /* Styling for the actual file input */
+        .custom-file-input input[type="file"] {
+            display: none;
+        }
+        .avatar-md{
+height: 2rem;
+width: 2rem;
+        }
     </style>
 </head>
 
@@ -301,6 +319,18 @@
                           </ul>
                       </li>
                       <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bxs-graduation"></i>
+                            <span key="t-student">Student Management</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            <li><a href="student-maagment.html">Student Profile</a></li>
+                            <li><a href="account-history.html">Account History</a></li>
+                              
+                               
+                        </ul>
+                      </li>
+                      <li>
                           <a href="lead.html" class="waves-effect" aria-expanded="false">
                               <i class="bx bx-task"></i>
                               <span key="t-lead">Lead Management</span>
@@ -322,8 +352,8 @@
                           </a>
                           <ul class="sub-menu mm-collapse" aria-expanded="false" >
                               <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
-                              <li><a href="#" key="sales">Sales Quotation</a></li>
-                              <li><a href="#" key="invoice">Invoice Management</a></li>
+                              <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
+                              <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
                              
                             
                               
@@ -1607,8 +1637,15 @@
                                         <input type="date" class="form-control" id="userDOB" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userPhoto" class="form-label">Upload Photo</label>
-                                        <input type="file" class="form-control" id="userPhoto" accept="image/*">
+                                        <label for="">Upload Photo</label> <br>
+                                        <div class="d-flex gap-2">
+                                            <label class="custom-file-input form-control">
+                                                <span id="fileName">Upload Photo</span>
+                                                <input type="file" id="viewUserPhoto" accept="image/*">
+                                            </label>
+                                            <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
+                                        </div>
+                                        
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="userGender" class="form-label">Gender</label>
@@ -1724,8 +1761,14 @@
                                         <input type="date" class="form-control" id="viewDOB" value="1995-08-15" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewPhoto" class="form-label">Profile Photo</label>
-                                        <input type="file" class="form-control" id="viewPhoto" disabled>
+                                        <label for="viewUserPhoto" class="form-label">Upload Photo</label>
+                                        <div class="d-flex gap-2 align-items-center">
+                                           <input type="text" class="form-control" value="jhone.png" readonly="">
+                                      
+                                            <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
+                                        </div>
+                                        
+                                        
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="viewGender" class="form-label">Gender</label>
@@ -1823,8 +1866,15 @@
                                         <input type="date" class="form-control" id="editDOB" value="1995-08-15" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editPhoto" class="form-label">Profile Photo</label>
-                                        <input type="file" class="form-control" id="editPhoto" accept="image/*">
+                                        <label for="">Upload Photo</label> <br>
+                                        <div class="d-flex gap-2">
+                                            <label class="custom-file-input form-control">
+                                                <span id="fileName">jhone.png</span>
+                                                <input type="file" id="viewUserPhoto" accept="image/*">
+                                            </label>
+                                            <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
+                                        </div>
+                                        
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="editGender" class="form-label">Gender</label>

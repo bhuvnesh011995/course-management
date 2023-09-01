@@ -314,6 +314,18 @@
                           </ul>
                       </li>
                       <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bxs-graduation"></i>
+                            <span key="t-student">Student Management</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            <li><a href="student-maagment.html">Student Profile</a></li>
+                            <li><a href="account-history.html">Account History</a></li>
+                              
+                               
+                        </ul>
+                      </li>
+                      <li>
                           <a href="lead.html" class="waves-effect" aria-expanded="false">
                               <i class="bx bx-task"></i>
                               <span key="t-lead">Lead Management</span>
@@ -335,8 +347,8 @@
                           </a>
                           <ul class="sub-menu mm-collapse" aria-expanded="false" >
                               <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
-                              <li><a href="#" key="sales">Sales Quotation</a></li>
-                              <li><a href="#" key="invoice">Invoice Management</a></li>
+                              <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
+                              <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
                              
                             
                               
@@ -474,8 +486,9 @@
                                     </div>
                                     <div class="d-flex justify-content-between align-items-end">
                                         <div class="role-heading">
-                                            <h4 class="mb-2 text-primary fw-bold">Administrator</h4>
-                                            <a href="javascript:;" data-bs-toggle="modal"
+                                            <h4 class="mb-2 text-primary fw-bold"><a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#viewRoleModal">Administrator</a></h4>
+                                            <a href="javascript:void(0);" data-bs-toggle="modal"
                                                 data-bs-target="#editRoleModal"
                                                 class="btn btn-sm btn-primary role-edit-modal"><small>Edit
                                                     Role</small></a>
@@ -955,11 +968,11 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="editRoleModal" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal fade" id="viewRoleModal" tabindex="-1" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="role-title">Edit Role</h3>
+                            <h3 class="role-title">View Role</h3>
 
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -971,7 +984,7 @@
                                 <div class="col-12 mb-4 fv-plugins-icon-container">
                                     <label class="form-label" for="modalRoleName">Role Name</label>
                                     <input type="text" id="modalRoleName" name="modalRoleName" class="form-control"
-                                        placeholder="Enter a role name" tabindex="-1">
+                                        value="Administrator" tabindex="-1" readonly>
                                     
                                 </div>
                                 <div class="col-12">
@@ -990,7 +1003,7 @@
                                                     <td>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox"
-                                                                id="selectAll">
+                                                                id="selectAll" checked disabled>
                                                             <label class="form-check-label" for="selectAll">
                                                                 Select All
                                                             </label>
@@ -1003,7 +1016,7 @@
                                                         <div class="d-flex">
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="userManagementRead">
+                                                                    id="userManagementRead" checked disabled>
                                                                 <label class="form-check-label"
                                                                     for="userManagementRead">
                                                                     Read
@@ -1011,7 +1024,7 @@
                                                             </div>
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="userManagementWrite">
+                                                                    id="userManagementWrite" checked disabled>
                                                                 <label class="form-check-label"
                                                                     for="userManagementWrite">
                                                                     Write
@@ -1019,7 +1032,7 @@
                                                             </div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="userManagementCreate">
+                                                                    id="userManagementCreate" checked disabled>
                                                                 <label class="form-check-label"
                                                                     for="userManagementCreate">
                                                                     Create
@@ -1034,7 +1047,7 @@
                                                         <div class="d-flex">
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="contentManagementRead">
+                                                                    id="contentManagementRead" checked disabled>
                                                                 <label class="form-check-label"
                                                                     for="contentManagementRead">
                                                                     Read
@@ -1042,7 +1055,7 @@
                                                             </div>
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="contentManagementWrite">
+                                                                    id="contentManagementWrite" checked disabled>
                                                                 <label class="form-check-label"
                                                                     for="contentManagementWrite">
                                                                     Write
@@ -1050,7 +1063,221 @@
                                                             </div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="contentManagementCreate">
+                                                                    id="contentManagementCreate" checked disabled>
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Financial Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementRead" checked disabled>
+                                                                <label class="form-check-label" for="finManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementWrite" checked disabled>
+                                                                <label class="form-check-label"
+                                                                    for="finManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="finManagementCreate" checked disabled>
+                                                                <label class="form-check-label"
+                                                                    for="finManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Reporting</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingRead" checked disabled>
+                                                                <label class="form-check-label" for="reportingRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingWrite" checked disabled>
+                                                                <label class="form-check-label" for="reportingWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="reportingCreate" checked disabled>
+                                                                <label class="form-check-label" for="reportingCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            
+                                               
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Payroll</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollRead" checked disabled>
+                                                                <label class="form-check-label" for="payrollRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollWrite" checked disabled>
+                                                                <label class="form-check-label" for="payrollWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="payrollCreate" checked disabled>
+                                                                <label class="form-check-label" for="payrollCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- Permission table -->
+                                </div>
+
+                            </form>
+                            <!--/ Add role form -->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                                        aria-label="Close">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="editRoleModal" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="role-title">Edit Role</h3>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <!-- Add role form -->
+                            <form id="addRoleForm" class="row g-3 "
+                                onsubmit="return false" novalidate="novalidate">
+                                <div class="col-12 mb-4 fv-plugins-icon-container">
+                                    <label class="form-label" for="modalRoleName">Role Name</label>
+                                    <input type="text" id="modalRoleName" name="modalRoleName" class="form-control"
+                                        value="Administrator" checked tabindex="-1">
+                                    
+                                </div>
+                                <div class="col-12">
+                                    <h4>Role Permissions</h4>
+                                    <!-- Permission table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-flush-spacing">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Administrator Access <i
+                                                            class="bx bx-info-circle bx-xs" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            aria-label="Allows a full access to the system"
+                                                            data-bs-original-title="Allows a full access to the system"></i>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="selectAll" checked>
+                                                            <label class="form-check-label" for="selectAll">
+                                                                Select All
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">User Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementRead" checked>
+                                                                <label class="form-check-label"
+                                                                    for="userManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementWrite" checked>
+                                                                <label class="form-check-label"
+                                                                    for="userManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="userManagementCreate" checked>
+                                                                <label class="form-check-label"
+                                                                    for="userManagementCreate">
+                                                                    Create
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap fw-medium">Content Management</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementRead" checked>
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementRead">
+                                                                    Read
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check me-3 me-lg-5">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementWrite" checked>
+                                                                <label class="form-check-label"
+                                                                    for="contentManagementWrite">
+                                                                    Write
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="contentManagementCreate" checked>
                                                                 <label class="form-check-label"
                                                                     for="contentManagementCreate">
                                                                     Create
@@ -1066,14 +1293,14 @@
                                                         <div class="d-flex">
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="finManagementRead">
+                                                                    id="finManagementRead" checked>
                                                                 <label class="form-check-label" for="finManagementRead">
                                                                     Read
                                                                 </label>
                                                             </div>
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="finManagementWrite">
+                                                                    id="finManagementWrite" checked>
                                                                 <label class="form-check-label"
                                                                     for="finManagementWrite">
                                                                     Write
@@ -1081,7 +1308,7 @@
                                                             </div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="finManagementCreate">
+                                                                    id="finManagementCreate" checked>
                                                                 <label class="form-check-label"
                                                                     for="finManagementCreate">
                                                                     Create
@@ -1096,21 +1323,21 @@
                                                         <div class="d-flex">
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="reportingRead">
+                                                                    id="reportingRead" checked>
                                                                 <label class="form-check-label" for="reportingRead">
                                                                     Read
                                                                 </label>
                                                             </div>
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="reportingWrite">
+                                                                    id="reportingWrite" checked>
                                                                 <label class="form-check-label" for="reportingWrite">
                                                                     Write
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="reportingCreate">
+                                                                    id="reportingCreate" checked>
                                                                 <label class="form-check-label" for="reportingCreate">
                                                                     Create
                                                                 </label>
@@ -1126,21 +1353,21 @@
                                                         <div class="d-flex">
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="payrollRead">
+                                                                    id="payrollRead" checked>
                                                                 <label class="form-check-label" for="payrollRead">
                                                                     Read
                                                                 </label>
                                                             </div>
                                                             <div class="form-check me-3 me-lg-5">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="payrollWrite">
+                                                                    id="payrollWrite" checked>
                                                                 <label class="form-check-label" for="payrollWrite">
                                                                     Write
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="payrollCreate">
+                                                                    id="payrollCreate" checked>
                                                                 <label class="form-check-label" for="payrollCreate">
                                                                     Create
                                                                 </label>
