@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>TimeSheet Tracking | Tonga</title>
+    <title>Trainer Management | Tonga</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -33,13 +33,33 @@
         .select2-container {
             width: 100% !important;
         }
-    </style>
 
+        /* Styling for the custom file input container */
+        .custom-file-input {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            padding: 0.47rem 1.75rem 0.47rem 0.75rem;
+            border-radius: 5px;
+            width: 90%;
+        }
+
+        /* Styling for the actual file input */
+        .custom-file-input input[type="file"] {
+            display: none;
+        }
+
+        .avatar-md {
+            height: 2rem;
+            width: 2rem;
+        }
+    </style>
 </head>
 
 <body data-sidebar="dark">
 
-   
+
 
     <!-- Start layout-wrapper -->
     <div id="layout-wrapper">
@@ -294,47 +314,48 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                      <li>
-                          <a href="index.html" class="waves-effect">
-                              <i class="bx bx-home-circle"></i><span
-                                  class="badge rounded-pill bg-info float-end">02</span>
-                              <span key="t-dashboards">Dashboard</span>
-                          </a>
-                      </li>
-  
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect">
-                              <i class="bx bx-user"></i>
-                              <span key="t-staff">Staff Management</span>
-                          </a>
-                          <ul class="sub-menu" aria-expanded="true">
-                              <li><a href="user-managment.html">User Management</a></li>
-                                
-                                  <li>
-                                      <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and Permission</a>
-                                      <ul class="sub-menu mm-collapse" aria-expanded="true">
-                                          <li><a href="roles.html" key="t-roles">Roles</a></li>
-                                          <li><a href="permission.html" key="t-permission">Permissions</a></li>
-                                      </ul>
-                                  </li>
-                          </ul>
-                      </li>
-                      <li>
-                        <a href="student-maagment.html" class="waves-effect">
-                            <i class="bx bxs-graduation"></i>
-                            <span key="t-student">Student Management</span>
-                        </a>
-                        
-                      </li>
-                      <li>
-                          <a href="lead.html" class="waves-effect" aria-expanded="false">
-                              <i class="bx bx-task"></i>
-                              <span key="t-lead">Lead Management</span>
-                          </a>
-                          
-                      </li>
-  
-                      <li>
+                        <li>
+                            <a href="index.html" class="waves-effect">
+                                <i class="bx bx-home-circle"></i><span
+                                    class="badge rounded-pill bg-info float-end">02</span>
+                                <span key="t-dashboards">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="bx bx-user"></i>
+                                <span key="t-staff">Staff Management</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="user-managment.html">User Management</a></li>
+
+                                <li>
+                                    <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and
+                                        Permission</a>
+                                    <ul class="sub-menu mm-collapse" aria-expanded="true">
+                                        <li><a href="roles.html" key="t-roles">Roles</a></li>
+                                        <li><a href="permission.html" key="t-permission">Permissions</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="student-maagment.html" class="waves-effect">
+                                <i class="bx bxs-graduation"></i>
+                                <span key="t-student">Student Management</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="lead.html" class="waves-effect" aria-expanded="false">
+                                <i class="bx bx-task"></i>
+                                <span key="t-lead">Lead Management</span>
+                            </a>
+
+                        </li>
+
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                                 <i class="bx bx-calendar"></i>
                                 <span key="t-scedule">Scedule Management</span>
@@ -349,50 +370,50 @@
 
                             </ul>
                         </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-dollar"></i>
-                              <span key="t-finance">Finance Management</span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
-                              <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
-                              <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
-                             
-                            
-                              
-                          </ul>
-                      </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-food-menu"></i>
-  
-                              <span key="t-course">Course Management</span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
-                              <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
-                              <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
-                              <li><a href="task.html" key="t-task">Task Management</a></li>
-                              <li><a href="attendance.html" key="t-client-portal">Attendance Management</a></li>
-                              <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-dollar"></i>
+                                <span key="t-finance">Finance Management</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
+                                <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
+                                <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
+
+
+
                             </ul>
-                      </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-customize"></i>
-  
-                              <span key="t-hrms">HRMS</span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="employee.html" key="t-employee">Employee Management</a></li>
-                              <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
-                              <li><a href="leave.html" key="t-leave">Leave Management</a></li>
-                              <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
-                          </ul>
-                      </li>
-  
-                  </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-food-menu"></i>
+
+                                <span key="t-course">Course Management</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
+                                <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
+                                <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
+                                <li><a href="task.html" key="t-task">Task Management</a></li>
+                                <li><a href="attendance.html" key="t-client-portal">Attendance Management</a></li>
+                                <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-customize"></i>
+
+                                <span key="t-hrms">HRMS</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="employee.html" key="t-employee">Employee Management</a></li>
+                                <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
+                                <li><a href="leave.html" key="t-leave">Leave Management</a></li>
+                                <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
                 </div>
                 <!-- Sidebar -->
             </div>
@@ -413,12 +434,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">TimeSheet Tracking</h4>
+                                <h4 class="mb-sm-0 font-size-18">Trainer Management</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                        <li class="breadcrumb-item active">Timesheet Tracking</li>
+                                        <li class="breadcrumb-item active">Trainer Management</li>
                                     </ol>
                                 </div>
 
@@ -453,16 +474,16 @@
                                         </div>
 
                                         <button class="btn btn-primary me-2" data-bs-toggle="modal"
-                                            data-bs-target="#addWorkHoursModal"><i
+                                            data-bs-target="#addTrainerModal"><i
                                                 class="bx bx-plus me-1 fw-semibold align-middle"></i>Add New
-                                           </button>
+                                            Trainer</button>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <!-- Role cards -->
 
                     <div class="row g-4">
 
@@ -471,7 +492,7 @@
                             <!-- Role Table -->
                             <div class="card ">
                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">TimeSheet Tracking List </div>
+                                    <div class="card-title">Trainer's List </div>
 
                                 </div>
                                 <div class="card-body">
@@ -480,41 +501,46 @@
                                             class="table table-bordered dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
-                                                    <th>Date</th>
-                                                    <th>Employee</th>
-                                                    <th>Hours Worked</th>
-                                                    <th>Overtime Hours</th>
-                                                    <th>Shift</th>
-                                                    <th>Action</th>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Email ID</th>
+                                                    <th>Mobile No.</th>
+                                                    <th>DOB</th>
+                                                    <th>Designation</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>2023-09-01</td>
-                                                    <td>Jane Doe</td>
-                                                    <td>8</td>
-                                                    <td>2</td>
-                                                    <td>Day Shift</td>
+                                                    <td>1</td>
+                                                    <td>John Doe</td>
+                                                    <td>johndoe@example.com</td>
+                                                    <td>123-456-7890</td>
+                                                    <td>1990-01-01</td>
+                                                    <td>Trainer</td>
 
                                                     <td>
-                                                        
                                                         <a aria-label="anchor" href="javascript:void(0);"
-                                                        class="btn btn-icon btn-sm btn-warning rounded-pill"
-                                                        data-bs-toggle="modal" data-bs-target="#viewWorkHoursModal"><i
-                                                            class="mdi mdi-eye"></i></a>
-                                                            <a aria-label="anchor" href="javascript:void(0);"
+                                                            class="btn btn-icon btn-sm btn-warning rounded-pill"
+                                                            data-bs-toggle="modal" data-bs-target="#viewTrainerModal">
+                                                            <i class="mdi mdi-eye"></i>
+                                                        </a>
+                                                        <a aria-label="anchor" href="javascript:void(0);"
                                                             class="btn btn-icon btn-sm btn-primary rounded-pill"
-                                                            data-bs-toggle="modal" data-bs-target="#editWorkHoursModal"><i
-                                                                class="mdi mdi-pencil"></i></a>
+                                                            data-bs-toggle="modal" data-bs-target="#editTrainerModal">
+                                                            <i class="mdi mdi-pencil"></i>
+                                                        </a>
                                                         <a aria-label="anchor" href="javascript:void(0);"
-                                                            class="btn btn-icon btn-sm btn-danger rounded-pill"><i
-                                                                class="mdi mdi-trash-can"></i></a>
+                                                            class="btn btn-icon btn-sm btn-danger rounded-pill">
+                                                            <i class="mdi mdi-trash-can"></i>
+                                                        </a>
 
                                                     </td>
                                                 </tr>
-                                                <!-- Add more rows as needed -->
+
                                             </tbody>
                                         </table>
+
 
                                     </div>
                                 </div>
@@ -523,153 +549,212 @@
                             <!--/ Role Table -->
                         </div>
                     </div>
-
+                    <!--/ Role cards -->
 
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
 
-           <!-- Add Work Hours Modal -->
-<!-- Add Work Hours Modal -->
-<div class="modal fade" id="addWorkHoursModal" tabindex="-1" aria-labelledby="addWorkHoursModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addWorkHoursModalLabel">Add Work Hours</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Add Trainer Modal -->
+            <div class="modal fade" id="addTrainerModal" tabindex="-1" aria-labelledby="addTrainerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addTrainerModalLabel">Add Trainer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="trainerName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="trainerName"
+                                            placeholder="Enter trainer's name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="trainerEmail" class="form-label">Email ID</label>
+                                        <input type="email" class="form-control" id="trainerEmail"
+                                            placeholder="Enter email" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="trainerMobile" class="form-label">Mobile No.</label>
+                                        <input type="tel" class="form-control" id="trainerMobile"
+                                            placeholder="Enter mobile number" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="trainerDOB" class="form-label">DOB (Date of Birth)</label>
+                                        <input type="date" class="form-control" id="trainerDOB" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="trainerDesignation" class="form-label">Designation</label>
+                                        <select class="form-select" id="trainerDesignation" required>
+                                            <option value="" disabled selected>Select Designation</option>
+                                            <option value="Trainer">Trainer</option>
+                                            <option value="Instructor">Instructor</option>
+                                            <option value="Coach">Coach</option>
+                                            <!-- Add more options as needed -->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="">Upload Photo</label> <br>
+                                        <div class="d-flex gap-2">
+                                            <label class="custom-file-input form-control">
+                                                <span id="trainerFileName">Upload Photo</span>
+                                                <input type="file" id="viewTrainerPhoto" accept="image/*">
+                                            </label>
+                                            <span class="avatar avatar-rounded avatar-md"> <img
+                                                    src="../assets/images/faces/1.jpg" alt=""> </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="trainerAddress" class="form-label">Address</label>
+                                        <textarea class="form-control" id="trainerAddress" rows="3"
+                                            placeholder="Enter Address" required></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Add Trainer</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="addDate" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="addDate" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addEmployee" class="form-label">Employee</label>
-                        <select class="form-select" id="addEmployee" required>
-                            <option value="" selected>Select an employee</option>
-                            <option value="employee1">Employee 1</option>
-                            <option value="employee2">Employee 2</option>
-                            <!-- Add more options for other employees -->
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addHoursWorked" class="form-label">Hours Worked</label>
-                        <input type="number" class="form-control" id="addHoursWorked" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addOvertimeHours" class="form-label">Overtime Hours</label>
-                        <input type="number" class="form-control" id="addOvertimeHours" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addShift" class="form-label">Shift</label>
-                        <select class="form-select" id="addShift" required>
-                            <option value="Day Shift">Day Shift</option>
-                            <option value="Night Shift">Night Shift</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add Work Hours</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- View Work Hours Modal -->
-<div class="modal fade" id="viewWorkHoursModal" tabindex="-1" aria-labelledby="viewWorkHoursModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewWorkHoursModalLabel">View Work Hours</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- View Trainer Modal -->
+            <div class="modal fade" id="viewTrainerModal" tabindex="-1" aria-labelledby="viewTrainerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewTrainerModalLabel">View Trainer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewTrainerName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="viewTrainerName" readonly
+                                            value="John Doe">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewTrainerEmail" class="form-label">Email ID</label>
+                                        <input type="email" class="form-control" id="viewTrainerEmail" readonly
+                                            value="johndoe@example.com">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewTrainerMobile" class="form-label">Mobile No.</label>
+                                        <input type="tel" class="form-control" id="viewTrainerMobile" readonly
+                                            value="123-456-7890">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewTrainerDOB" class="form-label">DOB (Date of Birth)</label>
+                                        <input type="date" class="form-control" id="viewTrainerDOB" readonly
+                                            value="1990-01-01">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="viewTrainerDesignation" class="form-label">Designation</label>
+                                        <select class="form-select" id="viewTrainerDesignation" disabled>
+                                            <option value="" disabled>Select Designation</option>
+                                            <option value="Trainer" selected>Trainer</option>
+                                            <option value="Instructor">Instructor</option>
+                                            <option value="Coach">Coach</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="">Upload Photo</label> <br>
+                                        <div class="d-flex gap-2">
+                                            <label class="custom-file-input form-control">
+                                                <span id="trainerFileName">jhone.png</span>
+                                                <input type="file" id="viewTrainerPhoto" accept="image/*">
+                                            </label>
+                                            <span class="avatar avatar-rounded avatar-md"> <img
+                                                    src="../assets/images/faces/1.jpg" alt=""> </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="viewTrainerAddress" class="form-label">Address</label>
+                                        <textarea class="form-control" id="viewTrainerAddress" rows="3"
+                                            readonly>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed commodo vel ex non bibendum.</textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="viewDate" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="viewDate" value="2023-09-01" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="viewEmployee" class="form-label">Employee</label>
-                        <input type="text" class="form-control" id="viewEmployee" value="Jane Doe" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="viewHoursWorked" class="form-label">Hours Worked</label>
-                        <input type="number" class="form-control" id="viewHoursWorked" value="8" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="viewOvertimeHours" class="form-label">Overtime Hours</label>
-                        <input type="number" class="form-control" id="viewOvertimeHours" value="2" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="viewShift" class="form-label">Shift</label>
-                        <input type="text" class="form-control" id="viewShift" value="Day Shift" readonly>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-         <!-- Edit Work Hours Modal -->
-<div class="modal fade" id="editWorkHoursModal" tabindex="-1" aria-labelledby="editWorkHoursModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editWorkHoursModalLabel">Edit Work Hours</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Edit Trainer Modal -->
+            <div class="modal fade" id="editTrainerModal" tabindex="-1" aria-labelledby="editTrainerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editTrainerModalLabel">Edit Trainer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editTrainerName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="editTrainerName" value="John Doe">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editTrainerEmail" class="form-label">Email ID</label>
+                                        <input type="email" class="form-control" id="editTrainerEmail"
+                                            value="johndoe@example.com">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editTrainerMobile" class="form-label">Mobile No.</label>
+                                        <input type="tel" class="form-control" id="editTrainerMobile"
+                                            value="123-456-7890">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editTrainerDOB" class="form-label">DOB (Date of Birth)</label>
+                                        <input type="date" class="form-control" id="editTrainerDOB" value="1990-01-01">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editTrainerDesignation" class="form-label">Designation</label>
+                                        <select class="form-select" id="editTrainerDesignation">
+                                            <option value="" disabled>Select Designation</option>
+                                            <option value="Trainer" selected>Trainer</option>
+                                            <option value="Instructor">Instructor</option>
+                                            <option value="Coach">Coach</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="editTrainerPhoto" class="form-label">Photo</label> <br>
+                                        <label class="custom-file-input form-control">
+                                            <span id="editFileName">Upload Photo</span>
+                                            <input type="file" id="editTrainerPhoto" accept="image/*">
+                                        </label>
+                                        <span class="avatar avatar-rounded avatar-md"> <img
+                                                src="../assets/images/faces/1.jpg" alt=""> </span>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="editTrainerAddress" class="form-label">Address</label>
+                                        <textarea class="form-control" id="editTrainerAddress"
+                                            rows="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed commodo vel ex non bibendum.</textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="editDate" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="editDate" value="2023-09-01">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editEmployee" class="form-label">Employee</label>
-                        <select class="form-select" id="editEmployee">
-                            <option value="employee1">Employee 1</option>
-                            <option value="employee2">Employee 2</option>
-                            <!-- Add more options for other employees -->
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editHoursWorked" class="form-label">Hours Worked</label>
-                        <input type="number" class="form-control" id="editHoursWorked" value="8">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editOvertimeHours" class="form-label">Overtime Hours</label>
-                        <input type="number" class="form-control" id="editOvertimeHours" value="2">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editShift" class="form-label">Shift</label>
-                        <select class="form-select" id="editShift">
-                            <option value="Day Shift">Day Shift</option>
-                            <option value="Night Shift">Night Shift</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Save Changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-   
-            
-            
-            
-            
-            
-            
+
+
 
 
 
@@ -728,15 +813,29 @@
 
     <script src="assets/js/app.js"></script>
     <!-- form advanced init -->
-    <script src="assets/js/pages/form-advanced.init.js"></script>
-
+    <script
+        src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5.10.7-133/tinymce.min.js"></script>
+    <script src="assets/js/pages/email-editor.js"></script>
     <script>
 
         $(document).ready(function () {
 
             $(".select2").select2({
 
-                dropdownParent: $("#addEmployeeModal")
+                dropdownParent: $("#addUserModal")
+
+            });
+
+        });
+
+    </script>
+    <script>
+
+        $(document).ready(function () {
+
+            $(".select2").select2({
+
+                dropdownParent: $("#editUserModal")
 
             });
 

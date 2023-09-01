@@ -29,6 +29,7 @@
     <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Custom Css-->
     <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="assets/libs/smart-wizaed/smart-wizaed.css">
     <style>
         .select2-container {
             width: 100% !important;
@@ -52,6 +53,7 @@
 height: 2rem;
 width: 2rem;
         }
+
     </style>
 </head>
 
@@ -338,16 +340,11 @@ width: 2rem;
                           </ul>
                       </li>
                       <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <a href="student-maagment.html" class="waves-effect">
                             <i class="bx bxs-graduation"></i>
                             <span key="t-student">Student Management</span>
                         </a>
-                        <ul class="sub-menu" aria-expanded="true">
-                            <li><a href="student-maagment.html">Student Profile</a></li>
-                            <li><a href="account-history.html">Account History</a></li>
-                              
-                               
-                        </ul>
+                        
                       </li>
                       <li>
                           <a href="lead.html" class="waves-effect" aria-expanded="false">
@@ -358,12 +355,20 @@ width: 2rem;
                       </li>
   
                       <li>
-                          <a href="sceduling.html" class="waves-effect" aria-expanded="false">
-                              <i class="bx bx-calendar"></i>
-                              <span key="t-scedule">Scedule Management</span>
-                          </a>
-                         
-                      </li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-calendar"></i>
+                                <span key="t-scedule">Scedule Management</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="sceduling.html" key="calendar">Calendar</a></li>
+                                <li><a href="trainer.html" key="trainer">Trainers</a></li>
+                                <li><a href="date-range.html" key="date-range">Date Range</a></li>
+                                <li><a href="monitor-venue-availability.html" key="venue">Monitor Venue Availability</a></li>
+
+
+
+                            </ul>
+                        </li>
                       <li>
                           <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                               <i class="bx bx-dollar"></i>
@@ -386,17 +391,12 @@ width: 2rem;
                           </a>
                           <ul class="sub-menu mm-collapse" aria-expanded="false" >
                               <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
-                          
-                              <li><a href="task.html" key="t-task">Task Management</a></li>
-  
                               <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
                               <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
+                              <li><a href="task.html" key="t-task">Task Management</a></li>
+                              <li><a href="attendance.html" key="t-client-portal">Attendance Management</a></li>
                               <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
-                              <li><a href="#" key="t-client-portal">Integrate with Client Portal</a></li>
-                             
-                            
-                              
-                          </ul>
+                            </ul>
                       </li>
                       <li>
                           <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
@@ -451,7 +451,7 @@ width: 2rem;
                             <div class="card">
                                 <div class="card-body p-3">
                                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                                        <div class="row w-100">
+                                        <div class="row w-50">
                                             <div class="col-xl-5">
                                                 <select class="form-select">
 
@@ -472,7 +472,8 @@ width: 2rem;
                                             </div>
                                         </div>
 
-                                        
+                                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#add-new"><i class="bx bx-plus me-1 fw-semibold align-middle"></i>Add New
+                                            Student</button>
                                     </div>
 
                                 </div>
@@ -553,7 +554,7 @@ width: 2rem;
         <!-- /.modal -->
               <div id="view" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
               aria-labelledby="myLargeModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-lg">
+              <div class="modal-dialog modal-xl modal-dialog-scrollable">
                   <div class="modal-content">
                       <div class="modal-header">
                           <h5 class="modal-title add-student-title">View Student</h5>
@@ -561,100 +562,314 @@ width: 2rem;
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                          <form>
-                              <div class="row">
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewEnrollmentId" class="form-label">Enrollment ID</label>
-                                      <input type="text" class="form-control" id="viewEnrollmentId" value="e102" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewFirstName" class="form-label">First Name</label>
-                                      <input type="text" class="form-control" id="viewFirstName" value="John" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewLastName" class="form-label">Last Name</label>
-                                      <input type="text" class="form-control" id="viewLastName" value="Doe" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewEmail" class="form-label">Email</label>
-                                      <input type="email" class="form-control" id="viewEmail" value="john@example.com" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewContact" class="form-label">Mobile</label>
-                                      <input type="tel" class="form-control" id="viewContact" value="987-654-3210" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewUsername" class="form-label">User Name</label>
-                                      <input type="text" class="form-control" id="viewUsername" value="john123" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="userPassword" class="form-label">Password</label>
-                                      <input type="password" class="form-control" id="userPassword" value="******" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewDOB" class="form-label">Date of Birth</label>
-                                      <input type="date" class="form-control" id="viewDOB" value="1995-08-15" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                    <label for="viewUserPhoto" class="form-label">Upload Photo</label>
-                                    <div class="d-flex gap-2 align-items-center">
-                                       <input type="text" class="form-control" value="jhone.png" readonly="">
-                                  
-                                        <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
+                        <form class="row text-left">
+          
+                          <div id="smartwizard" style="border: none; height: auto;">
+          
+                            <ul class="nav">
+                              <li class="nav-item">
+                                <a class="nav-link" href="#step-11">
+                                  <div class="num">1</div>
+                                  Student Details
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#step-22">
+                                  <span class="num">2</span>
+                                  Account History
+                                </a>
+                              </li>
+                              
+          
+                            </ul>
+          
+                            <div class="tab-content mt-3" style="border: none;">
+                              <div id="step-11" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                                <div class="row">
+                                 
+                                  <div class="col-md-12">
+                                    <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                                      <h5 class="modal-title">Student Details</h5>
+          
+          
+                                      
+          
+          
                                     </div>
-                                    
-                                    
+                                    <div class="card border border-primary mt-3">
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>Enrollment ID</b> </label>
+                                            <p class="m-0">e102</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>Student Name</b> </label>
+                                            <p class="m-0">Mr. Jhone Doe</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""><b>Mobile</b> </label>
+                                            <p class="m-0">+91-2589631470</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>Email</b></label>
+                                            <p class="m-0">abc@gmail.com</p>
+                                          </div>
+          
+                                        </div>
+                                        <div class="row mt-3">
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>UserName</b></label>
+                                            <p class="m-0">john123</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>Password</b></label>
+                                            <p class="m-0">john@123</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>Date of Birth</b></label>
+                                            <p class="m-0">15-03-1999</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>Gender</b></label>
+                                            <p class="m-0">Male</p>
+                                          </div>
+          
+          
+                                        </div>
+                                        <div class="row mt-3">
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""><b>Country</b> </label>
+                                            <p class="m-0">India</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""><b>State</b> </label>
+                                            <p class="m-0">Gujrat</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>City</b></label>
+                                            <p class="m-0">Ahmedabad</p>
+                                          </div>
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""> <b>Pincode</b></label>
+                                            <p class="m-0">380001</p>
+                                          </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                          <div class="col-md-3">
+                                            <label class="mb-0" for=""><b>Status</b> </label>
+                                            <p><span class="badge badge-soft-danger">Pending</span></p>
+                                          </div>
+                                          <div class="col-md-9">
+                                            <label class="mb-0" for=""><b>Address</b> </label>
+                                            <p class="m-0">123 Main Street, City, Country</p>
+                                          </div>
+                                        </div>
+          
+                                      </div>
+                                    </div>
+          
+                                  </div>
                                 </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewGender" class="form-label">Gender</label>
-                                      <input type="text" class="form-control" id="viewGender" value="Male" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewCourse" class="form-label">Course</label>
-                                      <input type="text" class="form-control" id="viewCourse" value="Course-1" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewCountry" class="form-label">Country</label>
-                                      <input type="text" class="form-control" id="viewCountry" value="India" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewState" class="form-label">State</label>
-                                      <input type="text" class="form-control" id="viewState" value="Gujrat" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewCity" class="form-label">City</label>
-                                      <input type="text" class="form-control" id="viewCity" value="Ahmedabad" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewPincode" class="form-label">Pincode</label>
-                                      <input type="text" class="form-control" id="viewPincode" value="380001" readonly>
-                                  </div>
-                                  <div class="col-md-6 mb-3">
-                                      <label for="viewStatus" class="form-label">Status</label>
-                                      <input type="text" class="form-control" id="viewStatus" value="Active" readonly>
-                                  </div>
-                                  <div class="col-md-12 mb-3">
-                                      <label for="viewAddress" class="form-label">Address</label>
-                                      <textarea class="form-control" id="viewAddress" rows="3" readonly>123 Main Street, City, Country</textarea>
-                                  </div>
                               </div>
-                          </form>
+          
+                              <div id="step-22" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header justify-content-between">
+                                            <div class="card-title">Account History List </div>
+        
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <div id="datatable-buttons_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dt-buttons btn-group flex-wrap">      <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="datatable-buttons" type="button"><span>Copy</span></button> <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="datatable-buttons" type="button"><span>Excel</span></button> <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="datatable-buttons" type="button"><span>PDF</span></button> <div class="btn-group"><button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="datatable-buttons" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div><div class="col-sm-12 col-md-6"><div id="datatable-buttons_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="datatable-buttons"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100 dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable-buttons_info" style="width: 1022px;">
+                                                    <thead>
+                                                        <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 100px;" aria-sort="ascending" aria-label="Enrollment ID: activate to sort column descending">Enrollment ID</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 52px;" aria-label="Name: activate to sort column ascending">Name</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 128px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 146px;" aria-label="Quotation History: activate to sort column ascending">Quotation History</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 119px;" aria-label="Past Invoices: activate to sort column ascending">Past Invoices</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 125px;" aria-label="Activities Record: activate to sort column ascending">Activities Record</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 51px;" aria-label="Action: activate to sort column ascending">Action</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        
+        
+                                                    <tr class="odd">
+                                                            <td class="sorting_1 dtr-control">E102</td>
+                                                            <td>John Doe</td>
+                                                            <td>john@example.com</td>
+                                                            <td>
+                                                                <a href="#" class="btn btn-outline-primary btn-sm" onclick="openSecondModal()">View Quotation History</a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="#" class="btn btn-outline-info btn-sm" onclick="openThirdModal()">View Past Invoices</a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="#" class="btn btn-outline-secondary btn-sm" onclick="openFourthModal()">View Activities</a>
+                                                            </td>
+                                                            <td>
+                                                               
+                                                                <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger rounded-pill">
+                                                                    <i class="mdi mdi-trash-can"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr></tbody>
+                                                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="datatable-buttons_info" role="status" aria-live="polite">Showing 1 to 1 of 1 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="datatable-buttons_previous"><a href="#" aria-controls="datatable-buttons" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="datatable-buttons" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="datatable-buttons_next"><a href="#" aria-controls="datatable-buttons" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                                                
+        
+                                            </div>
+                                        </div>
+        
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+          
+                            <!-- Include optional progressbar HTML -->
+                            <div class="progress">
+                              <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div>
+                          </div>
+          
+                        </form>
+          
                       </div>
                       
                       
                       
-                      <div class="modal-footer">
+                      <!-- <div class="modal-footer">
                           <div class="row">
                               <div class="col-lg-12 text-end">
                                   <button type="button" class="btn btn-secondary">Discard</button>
                               </div>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
                   <!-- /.modal-content -->
               </div>
               <!-- /.modal-dialog -->
           </div>
+          <div id="add-new" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title add-student-title">Add New Student</h5>
+                            <h5 class="modal-title update-student-title" style="display: none;">Update Student</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="enrollmentId" class="form-label">Enrollment ID</label>
+                                        <input type="text" class="form-control" id="enrollmentId" value="e102" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userFirstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userLastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userContact" class="form-label">Mobile</label>
+                                        <input type="tel" class="form-control" id="userContact" placeholder="Enter Mobile" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userUsername" class="form-label">User Name</label>
+                                        <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDOB" class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" id="userDOB" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="">Upload Photo</label> <br>
+                                        <div class="d-flex gap-2">
+                                            <label class="custom-file-input form-control">
+                                                <span id="fileName">Upload Photo</span>
+                                                <input type="file" id="viewUserPhoto" accept="image/*">
+                                            </label>
+                                            <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userGender" class="form-label">Gender</label>
+                                        <select class="form-select" id="userGender" required>
+                                            <option value="" disabled selected>Select gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userCourse" class="form-label">Course</label>
+                                        <select class="form-select" id="userCourse" required>
+                                            <option value="" disabled selected>Select course</option>
+                                            <option value="Course-1">Course-1</option>
+                                            <option value="Course-2">Course-2</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">Country</label>
+                                        <select class="form-select" id="userCountry">
+                                            <option value="1" selected>India</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">State</label>
+                                        <select class="form-select" id="userState">
+                                            <option value="1" selected>Gujrat</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">City</label>
+                                        <select class="form-select" id="userCity">
+                                            <option value="1" selected>Ahmedabad</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">Pincode</label>
+                                        <input type="text" class="form-control" id="userPincode" placeholder="Enter Pincode">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="userDescription" class="form-label">Status</label>
+                                        <select class="form-select" id="userStatus">
+                                            <option value="1" selected>Active</option>
+                                            <option value="2">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="userDescription" class="form-label">Address</label>
+                                        <textarea class="form-control" id="userAddress" rows="3" placeholder="Enter Address" required></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-lg-12 text-end">
+                                    <button type="button" class="btn btn-primary">Add
+                                        New</button>
+                                    <button type="button" class="btn btn-secondary">Discard</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
             <!-- /.modal -->
             <div id="edit" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -778,7 +993,121 @@ width: 2rem;
                 <!-- /.modal-dialog -->
             </div>
   
-
+            <div class="modal fade" id="viewQuotationHistoryModal" tabindex="-1" aria-labelledby="viewQuotationHistoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered ">
+                    <div class="modal-content border border-2 border-primary">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewQuotationHistoryModalLabel">Quotation History</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Course</th>
+                                        <th>Amount</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2023-08-01</td>
+                                        <td>Course-1</td>
+                                        <td>$1500</td>
+                                        <td>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-warning me-1 rounded-pill">
+                                                <i class="mdi mdi-eye"></i>
+                                            </a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-primary rounded-pill">
+                                                <i class="mdi mdi-download"></i>
+                                        </td>
+                                    </tr>
+                  
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="viewPastInvoiceModal" tabindex="-1" aria-labelledby="viewPastInvoiceModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content border border-2 border-primary">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewPastInvoiceModalLabel">View Past Invoice</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Course</th>
+                                        <th>Amount</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2023-08-15</td>
+                                        <td>Course-1</td>
+                                        <td>$1500</td>
+                                        <td>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-warning me-1 rounded-pill">
+                                                <i class="mdi mdi-eye"></i>
+                                            </a>
+                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-primary rounded-pill">
+                                                <i class="mdi mdi-download"></i>
+                                        </td>
+                                    </tr>
+                                    <!-- Add more rows for other invoices -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="viewActivitiesModal" tabindex="-1" aria-labelledby="viewActivitiesModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content border border-2 border-primary">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewActivitiesModalLabel">Activities Record</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Activity Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2023-08-20</td>
+                                        <td>Logged In</td>
+                                        <td>User logged in to the system.</td>
+                                    </tr>
+                                    <!-- Add more rows for other activities -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <footer class="footer">
                 <div class="container-fluid">
@@ -806,6 +1135,7 @@ width: 2rem;
     <!-- JAVASCRIPT -->
     <script src="assets/libs/jquery/jquery.min.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/smart-wizaed/smart-wizaed.js"></script>
     <script src="assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
@@ -861,7 +1191,30 @@ width: 2rem;
             });
     
     </script>
-    
+    <script>
+            $('#smartwizard').smartWizard({
+      transition: {
+        animation: 'slideHorizontal', // Effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
+      }
+    });
+    </script>
+    <script>
+// Function to open the second modal from the first modal
+function openSecondModal() {
+    $('#viewQuotationHistoryModal').modal('show');
+}
+
+// Function to open the third modal from the first modal
+function openThirdModal() {
+    $('#viewPastInvoiceModal').modal('show');
+}
+
+// Function to open the fourth modal from the first modal
+function openFourthModal() {
+    $('#viewActivitiesModal').modal('show');
+}
+
+    </script>
 </body>
 
 </html>

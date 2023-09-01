@@ -319,16 +319,11 @@ width: 2rem;
                           </ul>
                       </li>
                       <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <a href="student-maagment.html" class="waves-effect">
                             <i class="bx bxs-graduation"></i>
                             <span key="t-student">Student Management</span>
                         </a>
-                        <ul class="sub-menu" aria-expanded="true">
-                            <li><a href="student-maagment.html">Student Profile</a></li>
-                            <li><a href="account-history.html">Account History</a></li>
-                              
-                               
-                        </ul>
+                        
                       </li>
                       <li>
                           <a href="lead.html" class="waves-effect" aria-expanded="false">
@@ -339,12 +334,20 @@ width: 2rem;
                       </li>
   
                       <li>
-                          <a href="sceduling.html" class="waves-effect" aria-expanded="false">
-                              <i class="bx bx-calendar"></i>
-                              <span key="t-scedule">Scedule Management</span>
-                          </a>
-                         
-                      </li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-calendar"></i>
+                                <span key="t-scedule">Scedule Management</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="sceduling.html" key="calendar">Calendar</a></li>
+                                <li><a href="trainer.html" key="trainer">Trainers</a></li>
+                                <li><a href="date-range.html" key="date-range">Date Range</a></li>
+                                <li><a href="monitor-venue-availability.html" key="venue">Monitor Venue Availability</a></li>
+
+
+
+                            </ul>
+                        </li>
                       <li>
                           <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                               <i class="bx bx-dollar"></i>
@@ -367,17 +370,12 @@ width: 2rem;
                           </a>
                           <ul class="sub-menu mm-collapse" aria-expanded="false" >
                               <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
-                          
-                              <li><a href="task.html" key="t-task">Task Management</a></li>
-  
                               <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
                               <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
+                              <li><a href="task.html" key="t-task">Task Management</a></li>
+                              <li><a href="attendance.html" key="t-client-portal">Attendance Management</a></li>
                               <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
-                              <li><a href="#" key="t-client-portal">Integrate with Client Portal</a></li>
-                             
-                            
-                              
-                          </ul>
+                            </ul>
                       </li>
                       <li>
                           <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
@@ -1605,97 +1603,76 @@ width: 2rem;
                             <form>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="enrollmentId" class="form-label">Enrollment ID</label>
-                                        <input type="text" class="form-control" id="enrollmentId" value="e102" readonly>
+                                        <label for="companyName" class="form-label">Company Name</label>
+                                        <input type="text" class="form-control" id="companyName" placeholder="Enter Company Name" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userFirstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="userFirstName" placeholder="Enter first name" required>
+                                        <label for="companyUEN" class="form-label">Company UEN No.</label>
+                                        <input type="text" class="form-control" id="companyUEN" placeholder="Enter Company UEN No." required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userLastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="userLastName" placeholder="Enter last name" required>
+                                        <label for="companyAddress" class="form-label">Company Address</label>
+                                        <input type="text" class="form-control" id="companyAddress" placeholder="Enter Company Address" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="userEmail" placeholder="Enter email" required>
+                                        <label for="postalCode" class="form-label">Postal Code</label>
+                                        <input type="text" class="form-control" id="postalCode" placeholder="Enter Postal Code" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userContact" class="form-label">Mobile</label>
-                                        <input type="tel" class="form-control" id="userContact" placeholder="Enter Mobile" required>
+                                        <label for="contactPerson" class="form-label">Contact Person</label>
+                                        <input type="text" class="form-control" id="contactPerson" placeholder="Enter Contact Person" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userUsername" class="form-label">User Name</label>
-                                        <input type="text" class="form-control" id="userUsername" placeholder="Enter username" required>
+                                        <label for="contactPersonMobile" class="form-label">Contact Person's Mobile</label>
+                                        <input type="tel" class="form-control" id="contactPersonMobile" placeholder="Enter Contact Person's Mobile" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userPassword" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required>
+                                        <label for="contactPersonEmail" class="form-label">Contact Person's Email Address</label>
+                                        <input type="email" class="form-control" id="contactPersonEmail" placeholder="Enter Contact Person's Email Address" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userDOB" class="form-label">Date of Birth</label>
-                                        <input type="date" class="form-control" id="userDOB" required>
+                                        <label for="officeTelephone" class="form-label">Office Telephone No.</label>
+                                        <input type="tel" class="form-control" id="officeTelephone" placeholder="Enter Office Telephone No." required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="">Upload Photo</label> <br>
-                                        <div class="d-flex gap-2">
-                                            <label class="custom-file-input form-control">
-                                                <span id="fileName">Upload Photo</span>
-                                                <input type="file" id="viewUserPhoto" accept="image/*">
-                                            </label>
-                                            <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
-                                        </div>
-                                        
+                                        <label for="officeFax" class="form-label">Office Fax No.</label>
+                                        <input type="tel" class="form-control" id="officeFax" placeholder="Enter Office Fax No." required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userGender" class="form-label">Gender</label>
-                                        <select class="form-select" id="userGender" required>
-                                            <option value="" disabled selected>Select gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Other">Other</option>
+                                        <label for="participantName" class="form-label">Name of Participant</label>
+                                        <input type="text" class="form-control" id="participantName" placeholder="Enter Name of Participant" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="participantNRIC" class="form-label">Participant's NRIC / FIN No.</label>
+                                        <input type="text" class="form-control" id="participantNRIC" placeholder="Enter Participant's NRIC / FIN No." required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="participantMobile" class="form-label">Participant's Mobile</label>
+                                        <input type="tel" class="form-control" id="participantMobile" placeholder="Enter Participant's Mobile" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="alternateMobile" class="form-label">Alternate Mobile Number (if any)</label>
+                                        <input type="tel" class="form-control" id="alternateMobile" placeholder="Enter Alternate Mobile Number (if any)">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tradeType" class="form-label">Trade Type</label>
+                                        <select class="form-select" id="tradeType" required>
+                                            <option value="" disabled selected>Select Trade Type</option>
+                                            <option value="TradeType-1">TradeType-1</option>
+                                            <option value="TradeType-2">TradeType-2</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userCourse" class="form-label">Course</label>
-                                        <select class="form-select" id="userCourse" required>
-                                            <option value="" disabled selected>Select course</option>
-                                            <option value="Course-1">Course-1</option>
-                                            <option value="Course-2">Course-2</option>
-                                        </select>
+                                        <label for="coreTradeRegNo" class="form-label">CoreTrade / Multi-skilling/Direct R1 Registration No</label>
+                                        <input type="text" class="form-control" id="coreTradeRegNo" placeholder="Enter CoreTrade / Multi-skilling/Direct R1 Registration No">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userDescription" class="form-label">Country</label>
-                                        <select class="form-select" id="userCountry">
-                                            <option value="1" selected>India</option>
-                                        </select>
+                                        <label for="acknowledgementNotice" class="form-label">Valid BCA Acknowledgement Notice</label>
+                                        <input type="file" class="form-control" id="acknowledgementNotice" accept="image/*">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userDescription" class="form-label">State</label>
-                                        <select class="form-select" id="userState">
-                                            <option value="1" selected>Gujrat</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="userDescription" class="form-label">City</label>
-                                        <select class="form-select" id="userCity">
-                                            <option value="1" selected>Ahmedabad</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="userDescription" class="form-label">Pincode</label>
-                                        <input type="text" class="form-control" id="userPincode" placeholder="Enter Pincode">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="userDescription" class="form-label">Status</label>
-                                        <select class="form-select" id="userStatus">
-                                            <option value="1" selected>Active</option>
-                                            <option value="2">Inactive</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="userDescription" class="form-label">Address</label>
-                                        <textarea class="form-control" id="userAddress" rows="3" placeholder="Enter Address" required></textarea>
+                                        <label for="nricWorkDocument" class="form-label">Valid copy of NRIC / Work document</label>
+                                        <input type="file" class="form-control" id="nricWorkDocument" accept="image/*">
                                     </div>
                                 </div>
                             </form>
@@ -1729,80 +1706,78 @@ width: 2rem;
                             <form>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewEnrollmentId" class="form-label">Enrollment ID</label>
-                                        <input type="text" class="form-control" id="viewEnrollmentId" value="e102" readonly>
+                                        <label for="companyName" class="form-label">Company Name</label>
+                                        <input type="text" class="form-control" id="companyName" value="ABC Corporation" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewFirstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="viewFirstName" value="John" readonly>
+                                        <label for="companyUEN" class="form-label">Company UEN No.</label>
+                                        <input type="text" class="form-control" id="companyUEN" value="UEN1234567" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewLastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="viewLastName" value="Doe" readonly>
+                                        <label for="companyAddress" class="form-label">Company Address</label>
+                                        <input type="text" class="form-control" id="companyAddress" value="123 Main Street" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="viewEmail" value="john@example.com" readonly>
+                                        <label for="postalCode" class="form-label">Postal Code</label>
+                                        <input type="text" class="form-control" id="postalCode" value="12345" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewContact" class="form-label">Mobile</label>
-                                        <input type="tel" class="form-control" id="viewContact" value="987-654-3210" readonly>
+                                        <label for="contactPerson" class="form-label">Contact Person</label>
+                                        <input type="text" class="form-control" id="contactPerson" value="John Smith" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewUsername" class="form-label">User Name</label>
-                                        <input type="text" class="form-control" id="viewUsername" value="john123" readonly>
+                                        <label for="contactPersonMobile" class="form-label">Contact Person's Mobile</label>
+                                        <input type="tel" class="form-control" id="contactPersonMobile" value="9876543210" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userPassword" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="userPassword" value="******" readonly>
+                                        <label for="contactPersonEmail" class="form-label">Contact Person's Email Address</label>
+                                        <input type="email" class="form-control" id="contactPersonEmail" value="john@example.com" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewDOB" class="form-label">Date of Birth</label>
-                                        <input type="date" class="form-control" id="viewDOB" value="1995-08-15" readonly>
+                                        <label for="officeTelephone" class="form-label">Office Telephone No.</label>
+                                        <input type="tel" class="form-control" id="officeTelephone" value="555-123-4567" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewUserPhoto" class="form-label">Upload Photo</label>
-                                        <div class="d-flex gap-2 align-items-center">
-                                           <input type="text" class="form-control" value="jhone.png" readonly="">
-                                      
-                                            <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
-                                        </div>
-                                        
-                                        
+                                        <label for="officeFax" class="form-label">Office Fax No.</label>
+                                        <input type="tel" class="form-control" id="officeFax" value="555-987-6543" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewGender" class="form-label">Gender</label>
-                                        <input type="text" class="form-control" id="viewGender" value="Male" readonly>
+                                        <label for="participantName" class="form-label">Name of Participant</label>
+                                        <input type="text" class="form-control" id="participantName" value="Alice Johnson" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewCourse" class="form-label">Course</label>
-                                        <input type="text" class="form-control" id="viewCourse" value="Course-1" readonly>
+                                        <label for="participantNRIC" class="form-label">Participant's NRIC / FIN No.</label>
+                                        <input type="text" class="form-control" id="participantNRIC" value="S1234567A" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewCountry" class="form-label">Country</label>
-                                        <input type="text" class="form-control" id="viewCountry" value="India" readonly>
+                                        <label for="participantMobile" class="form-label">Participant's Mobile</label>
+                                        <input type="tel" class="form-control" id="participantMobile" value="9876543210" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewState" class="form-label">State</label>
-                                        <input type="text" class="form-control" id="viewState" value="Gujrat" readonly>
+                                        <label for="alternateMobile" class="form-label">Alternate Mobile Number (if any)</label>
+                                        <input type="tel" class="form-control" id="alternateMobile" value="" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewCity" class="form-label">City</label>
-                                        <input type="text" class="form-control" id="viewCity" value="Ahmedabad" readonly>
+                                        <label for="tradeType" class="form-label">Trade Type</label>
+                                        <select class="form-select" id="tradeType" disabled>
+                                            <option value="TradeType-1" selected>TradeType-1</option>
+                                            <option value="TradeType-2">TradeType-2</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewPincode" class="form-label">Pincode</label>
-                                        <input type="text" class="form-control" id="viewPincode" value="380001" readonly>
+                                        <label for="coreTradeRegNo" class="form-label">CoreTrade / Multi-skilling/Direct R1 Registration No</label>
+                                        <input type="text" class="form-control" id="coreTradeRegNo" value="CT1234567" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="viewStatus" class="form-label">Status</label>
-                                        <input type="text" class="form-control" id="viewStatus" value="Active" readonly>
+                                        <label for="acknowledgementNotice" class="form-label">Valid BCA Acknowledgement Notice</label>
+                                        <input type="file" class="form-control" id="acknowledgementNotice" accept="image/*" readonly>
                                     </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="viewAddress" class="form-label">Address</label>
-                                        <textarea class="form-control" id="viewAddress" rows="3" readonly>123 Main Street, City, Country</textarea>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nricWorkDocument" class="form-label">Valid copy of NRIC / Work document</label>
+                                        <input type="file" class="form-control" id="nricWorkDocument" accept="image/*" readonly>
                                     </div>
                                 </div>
+                                
                             </form>
                         </div>
                         
@@ -1834,99 +1809,78 @@ width: 2rem;
                             <form>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="editEnrollmentId" class="form-label">Enrollment ID</label>
-                                        <input type="text" class="form-control" id="editEnrollmentId" value="e102" readonly>
+                                        <label for="companyName" class="form-label">Company Name</label>
+                                        <input type="text" class="form-control" id="companyName" value="ABC Corporation">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editFirstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="editFirstName" value="John" required>
+                                        <label for="companyUEN" class="form-label">Company UEN No.</label>
+                                        <input type="text" class="form-control" id="companyUEN" value="UEN1234567">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editLastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="editLastName" value="Doe" required>
+                                        <label for="companyAddress" class="form-label">Company Address</label>
+                                        <input type="text" class="form-control" id="companyAddress" value="123 Main Street">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="editEmail" value="john@example.com" required>
+                                        <label for="postalCode" class="form-label">Postal Code</label>
+                                        <input type="text" class="form-control" id="postalCode" value="12345">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editContact" class="form-label">Mobile</label>
-                                        <input type="tel" class="form-control" id="editContact" value="987-654-3210" required>
+                                        <label for="contactPerson" class="form-label">Contact Person</label>
+                                        <input type="text" class="form-control" id="contactPerson" value="John Smith">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editUsername" class="form-label">User Name</label>
-                                        <input type="text" class="form-control" id="editUsername" value="john123" required>
+                                        <label for="contactPersonMobile" class="form-label">Contact Person's Mobile</label>
+                                        <input type="tel" class="form-control" id="contactPersonMobile" value="9876543210">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="userPassword" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="userPassword" value="jhone@123">
+                                        <label for="contactPersonEmail" class="form-label">Contact Person's Email Address</label>
+                                        <input type="email" class="form-control" id="contactPersonEmail" value="john@example.com">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editDOB" class="form-label">Date of Birth</label>
-                                        <input type="date" class="form-control" id="editDOB" value="1995-08-15" required>
+                                        <label for="officeTelephone" class="form-label">Office Telephone No.</label>
+                                        <input type="tel" class="form-control" id="officeTelephone" value="555-123-4567">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="">Upload Photo</label> <br>
-                                        <div class="d-flex gap-2">
-                                            <label class="custom-file-input form-control">
-                                                <span id="fileName">jhone.png</span>
-                                                <input type="file" id="viewUserPhoto" accept="image/*">
-                                            </label>
-                                            <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
-                                        </div>
-                                        
+                                        <label for="officeFax" class="form-label">Office Fax No.</label>
+                                        <input type="tel" class="form-control" id="officeFax" value="555-987-6543">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editGender" class="form-label">Gender</label>
-                                        <select class="form-select" id="editGender" required>
-                                            <option value="" disabled>Select gender</option>
-                                            <option value="Male" selected>Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Other">Other</option>
+                                        <label for="participantName" class="form-label">Name of Participant</label>
+                                        <input type="text" class="form-control" id="participantName" value="Alice Johnson">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="participantNRIC" class="form-label">Participant's NRIC / FIN No.</label>
+                                        <input type="text" class="form-control" id="participantNRIC" value="S1234567A">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="participantMobile" class="form-label">Participant's Mobile</label>
+                                        <input type="tel" class="form-control" id="participantMobile" value="9876543210">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="alternateMobile" class="form-label">Alternate Mobile Number (if any)</label>
+                                        <input type="tel" class="form-control" id="alternateMobile" value="">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tradeType" class="form-label">Trade Type</label>
+                                        <select class="form-select" id="tradeType">
+                                            <option value="TradeType-1">TradeType-1</option>
+                                            <option value="TradeType-2">TradeType-2</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editCourse" class="form-label">Course</label>
-                                        <select class="form-select" id="editCourse" required>
-                                            <option value="" disabled>Select course</option>
-                                            <option value="Course-1" selected>Course-1</option>
-                                            <option value="Course-2">Course-2</option>
-                                        </select>
+                                        <label for="coreTradeRegNo" class="form-label">CoreTrade / Multi-skilling/Direct R1 Registration No</label>
+                                        <input type="text" class="form-control" id="coreTradeRegNo" value="CT1234567">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editCountry" class="form-label">Country</label>
-                                        <select class="form-select" id="editCountry">
-                                            <option value="1" selected>India</option>
-                                        </select>
+                                        <label for="acknowledgementNotice" class="form-label">Valid BCA Acknowledgement Notice</label>
+                                        <input type="file" class="form-control" id="acknowledgementNotice" accept="image/*">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="editState" class="form-label">State</label>
-                                        <select class="form-select" id="editState">
-                                            <option value="1" selected>Gujrat</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="editCity" class="form-label">City</label>
-                                        <select class="form-select" id="editCity">
-                                            <option value="1" selected>Ahmedabad</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="editPincode" class="form-label">Pincode</label>
-                                        <input type="text" class="form-control" id="editPincode" value="380001">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="editStatus" class="form-label">Status</label>
-                                        <select class="form-select" id="editStatus" required>
-                                            <option value="1" selected>Active</option>
-                                            <option value="2">Inactive</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="editAddress" class="form-label">Address</label>
-                                        <textarea class="form-control" id="editAddress" rows="3" required>123 Main Street, City, Country</textarea>
+                                        <label for="nricWorkDocument" class="form-label">Valid copy of NRIC / Work document</label>
+                                        <input type="file" class="form-control" id="nricWorkDocument" accept="image/*">
                                     </div>
                                 </div>
+                                
                             </form>
                         </div>
                         <div class="modal-footer">
