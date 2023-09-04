@@ -323,7 +323,7 @@ width: 2rem;
                       <li>
                           <a href="javascript: void(0);" class="has-arrow waves-effect">
                               <i class="bx bx-user"></i>
-                              <span key="t-staff">Staff Management</span>
+                              <span key="t-admin">Admin Management</span>
                           </a>
                           <ul class="sub-menu" aria-expanded="true">
                               <li><a href="user-managment.html">User Management</a></li>
@@ -340,7 +340,7 @@ width: 2rem;
                       <li>
                         <a href="customer-maagment.html" class="waves-effect">
                                 <i class="bx bxs-graduation"></i>
-                                <span key="t-student">Customer Management</span>
+                                <span key="t-Customer">Customer Management</span>
                             </a>
                         
                       </li>
@@ -499,7 +499,7 @@ width: 2rem;
                                                     <th scope="col">User ID</th>
                                                     <th>Name</th>
                                                     <th>User Name</th>
-                                                    <th>Password</th>
+                                                   
                                                     <th>Date of Birth</th>
                                                     <th>Email</th>
                                                     <th>Contact Number</th>
@@ -512,7 +512,7 @@ width: 2rem;
                                                     <td>123</td>
                                                     <td>Jane Doe</td>
                                                     <td>jhone123</td>
-                                                    <td>jhone@123</td>
+                                                  
                                                     <td>15 May, 1996</td>
                                                     <td>jane@example.com</td>
                                                     <td>987-654-3210</td>
@@ -590,59 +590,23 @@ width: 2rem;
                         <label for="userPassword" class="form-label">Password</label>
                         <input type="password" class="form-control" id="userPassword" placeholder="Enter password" required>
                     </div>
-               
                     <div class="col-md-6 mb-3">
-                        <label for="">Upload Photo</label> <br>
-                        <div class="d-flex gap-2">
-                            <label class="custom-file-input form-control">
-                                <span id="fileName" >Upload Photo</span>
-                                <input type="file" id="viewUserPhoto" accept="image/*">
-                            </label>
-                            <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
-                        </div>
-                        
+                        <label for="viewUserDescription" class="form-label">User Roles</label>
+                        <select class="form-select" id="userroles">
+                            <option value="0" selected>-- select --</option>
+                            <option value="1" >Admin</option>
+                            <option value="2" >Sub-Admin</option>
+                        </select>
                     </div>
-             
-                   
                 
-                   
                     <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">Country</label>
-                        <select name="" id="" class="form-select">
-                            <option value="0" selected>-- Please Select --</option>
-                            <option value="1">India</option>
+                        <label for="viewUserStatus" class="form-label">Status</label>
+                        <select class="form-select" id="viewUserStatus">
+                            <option value="0" selected>-- select --</option>
+                            <option value="1" >Active</option>
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">State</label>
-                        <select name="" id="" class="form-select">
-                            <option value="0" selected>-- Please Select --</option>
-                            <option value="1">Gujrat</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">City</label>
-                        <select name="" id="" class="form-select">
-                            <option value="0" selected>-- Please Select --</option>
-                            <option value="1">Ahmedabad</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">Pincode</label>
-                       <input type="text" class="form-control" placeholder="Enter Pincode">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="userDescription" class="form-label">Status</label>
-                        <select name="" id="" class="form-select">
-                            <option value="0" selected>-- Please Select --</option>
-                            <option value="1">Active</option>
-                            <option value="2">Inactive</option>
-                        </select>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="userDescription" class="form-label">Address</label>
-                        <textarea class="form-control" id="userDescription" rows="3" placeholder="Enter Adress" required></textarea>
-                    </div>
+
                 </div>
                   
                 </form>
@@ -691,48 +655,18 @@ width: 2rem;
                             <input type="password" class="form-control" id="editUserPassword" value="********">
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="">Upload Photo</label> <br>
-                            <div class="d-flex gap-2">
-                                <label class="custom-file-input form-control">
-                                    <span id="fileName" >jhone.png</span>
-                                    <input type="file" id="viewUserPhoto" accept="image/*">
-                                </label>
-                                <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
-                            </div>
-                            
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserCountry" class="form-label">Country</label>
-                            <select class="form-select" id="editUserCountry">
-                                <option value="1" selected>India</option>
+                            <label for="viewUserDescription" class="form-label">User Roles</label>
+                            <select class="form-select" id="userroles">
+                                <option value="1" selected>Admin</option>
+                                <option value="2" selected>Sub-Admin</option>
                             </select>
                         </div>
+                    
                         <div class="col-md-6 mb-3">
-                            <label for="editUserState" class="form-label">State</label>
-                            <select class="form-select" id="editUserState">
-                                <option value="1" selected>Gujrat</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserCity" class="form-label">City</label>
-                            <select class="form-select" id="editUserCity">
-                                <option value="1" selected>Ahmedabad</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserPincode" class="form-label">Pincode</label>
-                            <input type="text" class="form-control" id="editUserPincode" value="380001">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="editUserStatus" class="form-label">Status</label>
-                            <select class="form-select" id="editUserStatus">
+                            <label for="viewUserStatus" class="form-label">Status</label>
+                            <select class="form-select" id="viewUserStatus">
                                 <option value="1" selected>Active</option>
-                                <option value="2">Inactive</option>
                             </select>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="editUserAddress" class="form-label">Address</label>
-                            <textarea class="form-control" id="editUserAddress" rows="3">123 Main Street, City, Country</textarea>
                         </div>
                     </div>
                 </form>
@@ -782,48 +716,22 @@ width: 2rem;
                             <label for="viewUserPassword" class="form-label">Password</label>
                             <input type="password" class="form-control" id="viewUserPassword" value="********" readonly>
                         </div>
+                       
                         <div class="col-md-6 mb-3">
-                            <label for="viewUserPhoto" class="form-label">Upload Photo</label>
-                            <div class="d-flex gap-2 align-items-center">
-                               <input type="text" class="form-control" value="jhone.png" readonly>
-                          
-                                <span class="avatar avatar-rounded avatar-md"> <img src="../assets/images/faces/1.jpg" alt=""> </span>
-                            </div>
-                            
-                            
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserDescription" class="form-label">Country</label>
-                            <select class="form-select" id="viewUserCountry" disabled>
-                                <option value="1" selected>India</option>
+                            <label for="viewUserDescription" class="form-label">User Roles</label>
+                            <select class="form-select" id="userroles" disabled>
+                                <option value="1" selected>Admin</option>
+                                <option value="2" selected>Sub-Admin</option>
                             </select>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserState" class="form-label">State</label>
-                            <select class="form-select" id="viewUserState" disabled>
-                                <option value="1" selected>Gujrat</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserCity" class="form-label">City</label>
-                            <select class="form-select" id="viewUserCity" disabled>
-                                <option value="1" selected>Ahmedabad</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="viewUserPincode" class="form-label">Pincode</label>
-                            <input type="text" class="form-control" id="viewUserPincode" value="380001" readonly>
-                        </div>
+                    
                         <div class="col-md-6 mb-3">
                             <label for="viewUserStatus" class="form-label">Status</label>
                             <select class="form-select" id="viewUserStatus" disabled>
                                 <option value="1" selected>Active</option>
                             </select>
                         </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="viewUserAddress" class="form-label">Address</label>
-                            <textarea class="form-control" id="viewUserAddress" rows="3" readonly>123 Main Street, City, Country</textarea>
-                        </div>
+                      
                     </div>
                 </form>
             </div>
