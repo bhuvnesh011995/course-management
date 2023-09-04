@@ -1,41 +1,44 @@
-
 <!doctype html>
 <html lang="en">
 
-    <head>
+<head>
 
-        <meta charset="utf-8" />
-        <title>Calendar | Tonga</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="#" name="description" />
-        <meta content="Themesbrand" name="author" />
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <meta charset="utf-8" />
+    <title>Calendar | Tonga</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="#" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-        <link href="assets/libs/@fullcalendar/core/main.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/@fullcalendar/daygrid/main.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/@fullcalendar/bootstrap/main.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/@fullcalendar/timegrid/main.min.css" rel="stylesheet" type="text/css" />
-        
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.css" rel="stylesheet">
 
-        <!-- Bootstrap Css -->
-        <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
-        <!-- Icons Css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
-        <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 
-    </head>
+    <!-- Bootstrap Css -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 
-    <body data-sidebar="dark" data-layout-mode="light">
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <style>
+        .fc-event,
+        .fc-event-dot {
+            background-color: #556ee6;
+            color: #fff;
+        }
+    </style>
+</head>
 
-   
+<body data-sidebar="dark" data-layout-mode="light">
 
-        <!-- Start layout-wrapper -->
-        <div id="layout-wrapper">
 
-            
+
+    <!-- Start layout-wrapper -->
+    <div id="layout-wrapper">
+
+
         <header id="page-topbar">
             <div class="navbar-header">
                 <div class="d-flex">
@@ -285,47 +288,48 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                      <li>
-                          <a href="index.html" class="waves-effect">
-                              <i class="bx bx-home-circle"></i><span
-                                  class="badge rounded-pill bg-info float-end">02</span>
-                              <span key="t-dashboards">Dashboard</span>
-                          </a>
-                      </li>
-  
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect">
-                              <i class="bx bx-user"></i>
-                              <span key="t-staff">Staff Management</span>
-                          </a>
-                          <ul class="sub-menu" aria-expanded="true">
-                              <li><a href="user-managment.html">User Management</a></li>
-                                
-                                  <li>
-                                      <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and Permission</a>
-                                      <ul class="sub-menu mm-collapse" aria-expanded="true">
-                                          <li><a href="roles.html" key="t-roles">Roles</a></li>
-                                          <li><a href="permission.html" key="t-permission">Permissions</a></li>
-                                      </ul>
-                                  </li>
-                          </ul>
-                      </li>
-                      <li>
-                        <a href="student-maagment.html" class="waves-effect">
-                            <i class="bx bxs-graduation"></i>
-                            <span key="t-student">Student Management</span>
-                        </a>
-                        
-                      </li>
-                      <li>
-                          <a href="lead.html" class="waves-effect" aria-expanded="false">
-                              <i class="bx bx-task"></i>
-                              <span key="t-lead">Lead Management</span>
-                          </a>
-                          
-                      </li>
-  
-                      <li>
+                        <li>
+                            <a href="index.html" class="waves-effect">
+                                <i class="bx bx-home-circle"></i><span
+                                    class="badge rounded-pill bg-info float-end">02</span>
+                                <span key="t-dashboards">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="bx bx-user"></i>
+                                <span key="t-staff">Staff Management</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="user-managment.html">User Management</a></li>
+
+                                <li>
+                                    <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and
+                                        Permission</a>
+                                    <ul class="sub-menu mm-collapse" aria-expanded="true">
+                                        <li><a href="roles.html" key="t-roles">Roles</a></li>
+                                        <li><a href="permission.html" key="t-permission">Permissions</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="customer-maagment.html" class="waves-effect">
+                                <i class="bx bxs-graduation"></i>
+                                <span key="t-student">Customer Management</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="lead.html" class="waves-effect" aria-expanded="false">
+                                <i class="bx bx-task"></i>
+                                <span key="t-lead">Lead Management</span>
+                            </a>
+
+                        </li>
+
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                                 <i class="bx bx-calendar"></i>
                                 <span key="t-scedule">Scedule Management</span>
@@ -334,247 +338,453 @@
                                 <li><a href="sceduling.html" key="calendar">Calendar</a></li>
                                 <li><a href="trainer.html" key="trainer">Trainers</a></li>
                                 <li><a href="date-range.html" key="date-range">Date Range</a></li>
-                                <li><a href="monitor-venue-availability.html" key="venue">Monitor Venue Availability</a></li>
+                                <li><a href="monitor-venue-availability.html" key="venue">Monitor Venue Availability</a>
+                                </li>
 
 
 
                             </ul>
                         </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-dollar"></i>
-                              <span key="t-finance">Finance Management</span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
-                              <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
-                              <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
-                             
-                            
-                              
-                          </ul>
-                      </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-food-menu"></i>
-  
-                              <span key="t-course">Course Management</span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
-                              <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
-                              <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
-                              <li><a href="task.html" key="t-task">Task Management</a></li>
-                              <li><a href="attendance.html" key="t-client-portal">Attendance Management</a></li>
-                              <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-dollar"></i>
+                                <span key="t-finance">Finance Management</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
+                                <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
+                                <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
+
+
+
                             </ul>
-                      </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-customize"></i>
-  
-                              <span key="t-hrms">HRMS</span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="employee.html" key="t-employee">Employee Management</a></li>
-                              <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
-                              <li><a href="leave.html" key="t-leave">Leave Management</a></li>
-                              <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
-                          </ul>
-                      </li>
-  
-                  </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-food-menu"></i>
+
+                                <span key="t-course">Course Management</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
+                                <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
+                                <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
+                                <li><a href="task.html" key="t-task">Task Management</a></li>
+                                <li><a href="attendance.html" key="t-client-portal">Attendance Management</a></li>
+                                <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-customize"></i>
+
+                                <span key="t-hrms">HRMS</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="employee.html" key="t-employee">Employee Management</a></li>
+                                <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
+                                <li><a href="leave.html" key="t-leave">Leave Management</a></li>
+                                <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
                 </div>
                 <!-- Sidebar -->
             </div>
         </div>
         <!-- Left Sidebar End -->
 
-            
 
-            <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            <!-- ============================================================== -->
-            <div class="main-content">
 
-                <div class="page-content">
-                    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
 
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Scedule</h4>
+            <div class="page-content">
+                <div class="container-fluid">
 
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">Scedule</li>
-                                        </ol>
-                                    </div>
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-18">Scedule</h4>
 
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item active">Scedule</li>
+                                    </ol>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- end page title -->
 
-                        <div class="row">
-                            <div class="col-12">
-                               
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="d-grid">
-                                                    <button class="btn font-16 btn-primary" id="btn-new-event"><i class="mdi mdi-plus-circle-outline"></i> Add New</button>
-                                                </div>
-                                            
-                                               
-                                                
-                                                <div id="external-events" class="mt-2">
-                                                    <br>
-                                                    <p class="text-muted">Drag and drop your event or click in the calendar</p>
-                                                    <div class="external-event fc-event bg-success" data-class="bg-success">
-                                                        <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Course-1
-                                                    </div>
-                                                    <div class="external-event fc-event bg-info" data-class="bg-info">
-                                                        <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Course-2
-                                                    </div>
-                                                    <div class="external-event fc-event bg-warning" data-class="bg-warning">
-                                                        <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Course-3
-                                                    </div>
-                                                    <div class="external-event fc-event bg-danger" data-class="bg-danger">
-                                                        <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Course-4
-                                                    </div>
-                                                </div>
-
-                                                <div class="row justify-content-center mt-5">
-                                                    <img src="assets/images/verification-img.png" alt="" class="img-fluid d-block">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> <!-- end col-->
-
-                                    <div class="col-lg-9">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div id="calendar"></div>
-                                            </div>
-                                        </div>
-                                    </div> <!-- end col -->
-
-                                </div> 
-
-                                <div style='clear:both'></div>
-
-
-                                <!-- Add New Event MODAL -->
-                                <div class="modal fade" id="event-modal" tabindex="-1">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header py-3 px-4 ">
-                                                <h5 class="modal-title" id="modal-title">Event</h5>
-
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-
-                                            </div>
-                                            <div class="modal-body p-4">
-                                                <form class="needs-validation" name="event-form" id="form-event" novalidate>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Course Name</label>
-                                                                <input class="form-control" placeholder="Enter Course Name"
-                                                                    type="text" name="title" id="course-name" required value="" />
-                                                                <div class="invalid-feedback">Please provide a valid event name</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Course Category</label>
-                                                                <select class="form-control form-select" name="category" id="course-category">
-                                                                    <option  selected> --Select-- </option>
-                                                                    <option value="bg-danger">Danger</option>
-                                                                    <option value="bg-success">Success</option>
-                                                                    <option value="bg-primary">Primary</option>
-                                                                    <option value="bg-info">Info</option>
-                                                                    <option value="bg-dark">Dark</option>
-                                                                    <option value="bg-warning">Warning</option>
-                                                                </select>
-                                                                <div class="invalid-feedback">Please select a valid event category</div>
-                                                            </div>
-                                                        </div>
-                                                       
-                                                    </div>
-                                                    <div class="row mt-2">
-                                                        <div class="col-6">
-                                                            <button type="button" class="btn btn-danger" id="btn-delete-event">Delete</button>
-                                                        </div>
-                                                        <div class="col-6 text-end">
-                                                            <button type="button" class="btn btn-light me-1" data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-success" id="btn-save-event">Save</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div> <!-- end modal-content-->
-                                    </div> <!-- end modal dialog-->
-                                </div>
-                                <!-- end modal-->
-                                
-                                
-                            </div>
-                        </div>
-                        
-                    </div> <!-- container-fluid -->
-                </div>
-                <!-- End Page-content -->
-
-                
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <script>document.write(new Date().getFullYear())</script> © Skote.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by Themesbrand
-                                </div>
                             </div>
                         </div>
                     </div>
-                </footer>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-grid">
+                                                <button class="btn font-16 btn-primary" id="add-course-button"
+                                                    data-bs-toggle="modal" data-bs-target="#addCourseModal"><i
+                                                        class="mdi mdi-plus-circle-outline"></i> Add New</button>
+                                            </div>
+                                            <h5 class="text-primary my-3">Sort By :</h5>
+                                            <div class="mb-3">
+                                                <label for="courseFilter" class="form-label">Course Filter</label>
+                                                <select class="selectpicker form-select" id="courseFilter"
+                                                    name="courseFilter">
+                                                    <option value="">All Courses</option>
+                                                    <option value="Course 1">Course 1</option>
+                                                    <option value="Course 2">Course 2</option>
+                                                    <option value="Course 3">Course 3</option>
+
+                                                </select>
+                                            </div>
+
+
+                                            <div class="mb-3">
+                                                <label for="trainerFilter" class="form-label">Trainer Filter</label>
+                                                <select class="selectpicker form-select" id="trainerFilter"
+                                                    name="trainerFilter">
+                                                    <option value="">All Trainers</option>
+                                                    <option value="Trainer 1">Trainer 1</option>
+                                                    <option value="Trainer 2">Trainer 2</option>
+                                                    <option value="Trainer 3">Trainer 3</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="classFilter" class="form-label">Class Filter</label>
+                                                <select class="selectpicker form-select" id="classFilter"
+                                                    name="classFilter">
+                                                    <option value="">All Classes</option>
+                                                    <option value="Class A">Class A</option>
+                                                    <option value="Class B">Class B</option>
+                                                    <option value="Class C">Class C</option>
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-9">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div id="calendar"></div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+
+                            </div>
+
+                            <div style='clear:both'></div>
+
+
+                            <!-- Add New Event MODAL -->
+                            <div class="modal fade" id="addCourseModal" tabindex="-1"
+                                aria-labelledby="addCourseModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addCourseModalLabel">Add Course</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Add course form elements here -->
+                                            <form id="courseForm">
+                                                <div class="mb-3">
+                                                    <label for="courseName" class="form-label">Course Name</label>
+                                                    <select class="selectpicker form-control" id="courseName"
+                                                        name="courseName" data-live-search="true" required>
+                                                        <option value="Course 1">Course 1</option>
+                                                        <option value="Course 2">Course 2</option>
+                                                        <option value="Course 3">Course 3</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="trainer" class="form-label">Trainer</label>
+                                                    <select class="selectpicker form-control" id="trainer"
+                                                        name="trainer" data-live-search="true" required>
+                                                        <option value="Trainer 1">Trainer 1</option>
+                                                        <option value="Trainer 2">Trainer 2</option>
+                                                        <option value="Trainer 3">Trainer 3</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="class" class="form-label">Class</label>
+                                                    <select class="selectpicker form-control" id="class" name="class"
+                                                        required>
+                                                        <option value="Class A">Class A</option>
+                                                        <option value="Class B">Class B</option>
+                                                        <option value="Class C">Class C</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="classTime" class="form-label">Class Time</label>
+                                                    <div class="input-group date" id="classTimePicker"
+                                                        data-target-input="nearest">
+                                                        <input type="text" class="form-control datetimepicker-input"
+                                                            data-target="#classTimePicker" id="classTime"
+                                                            name="classTime" required>
+                                                        <div class="input-group-append" data-target="#classTimePicker"
+                                                            data-toggle="datetimepicker">
+                                                            <div class="input-group-text"><i class="fa fa-clock"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="startDate" class="form-label">Start Date</label>
+                                                    <input type="date" class="form-control" id="startDate"
+                                                        name="startDate" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="endDate" class="form-label">End Date</label>
+                                                    <input type="date" class="form-control" id="endDate" name="endDate"
+                                                        required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="location" class="form-label">Location</label>
+                                                    <select class="selectpicker form-control" id="location"
+                                                        name="location" required>
+                                                        <option value="Location A">Location A</option>
+                                                        <option value="Location B">Location B</option>
+                                                        <option value="Location C">Location C</option>
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end modal-->
+
+
+                        </div>
+                    </div>
+
+                </div> <!-- container-fluid -->
             </div>
-            <!-- end main content-->
+            <!-- End Page-content -->
 
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script> © Skote.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Themesbrand
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
-        <!-- END layout-wrapper -->
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
 
 
 
-        <!-- JAVASCRIPT -->
-        <script src="assets/libs/jquery/jquery.min.js"></script>
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="assets/libs/node-waves/waves.min.js"></script>
+    <script src="assets/libs/jquery/jquery.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/interaction/main.js"></script>
 
-        <!-- plugin js -->
-        <script src="assets/libs/moment/min/moment.min.js"></script>
-        <script src="assets/libs/jquery-ui-dist/jquery-ui.min.js"></script>
-        <script src="assets/libs/@fullcalendar/core/main.min.js"></script>
-        <script src="assets/libs/@fullcalendar/bootstrap/main.min.js"></script>
-        <script src="assets/libs/@fullcalendar/daygrid/main.min.js"></script>
-        <script src="assets/libs/@fullcalendar/timegrid/main.min.js"></script>
-        <script src="assets/libs/@fullcalendar/interaction/main.min.js"></script>
-        <script src="assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0/dist/js/i18n/defaults-en_US.js"></script>
 
-        <!-- Calendar init -->
-        <script src="assets/js/pages/calendars-full.init.js"></script>
 
-        <!-- App js -->
-        <script src="assets/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/build/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    </body>
+    <script>
+        $(document).ready(function () {
+            $('#classTimePicker').datetimepicker({
+                format: 'HH:mm',
+                icons: {
+                    time: 'fa fa-clock',
+                    date: 'fa fa-calendar',
+                    up: 'fa fa-chevron-up',
+                    down: 'fa fa-chevron-down',
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-calendar-check-o',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-times',
+                },
+            });
+        });
+
+        var allEvents = [
+            {
+                title: 'Course 1',
+                start: '2023-09-10T10:00:00',
+                end: '2023-09-10T12:00:00',
+                trainer: 'Trainer 1',
+                description: 'Description 1',
+                class: 'Class A',
+                classTime: '09:00 AM - 11:00 AM',
+                location: 'Location A',
+                editable: true,
+            },
+            {
+                title: 'Course 2',
+                start: '2023-09-15T14:00:00',
+                end: '2023-09-15T16:00:00',
+                trainer: 'Trainer 2',
+                description: 'Description 2',
+                class: 'Class B',
+                classTime: '02:00 PM - 04:00 PM',
+                location: 'Location B',
+                editable: true,
+            },
+        ];
+
+        // Define an array to store all events
+        var allEvents = [
+            {
+                title: 'Course 1',
+                start: '2023-09-10T10:00:00',
+                end: '2023-09-10T12:00:00',
+                trainer: 'Trainer 1',
+                description: 'Description 1',
+                class: 'Class A',
+                classTime: '09:00 AM - 11:00 AM',
+                location: 'Location A',
+                editable: true,
+            },
+            {
+                title: 'Course 2',
+                start: '2023-09-15T14:00:00',
+                end: '2023-09-15T16:00:00',
+                trainer: 'Trainer 2',
+                description: 'Description 2',
+                class: 'Class B',
+                classTime: '02:00 PM - 04:00 PM',
+                location: 'Location B',
+                editable: true,
+            },
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                views: {
+                    dayGridMonth: {
+                        type: 'dayGridMonth',
+                    },
+                    timeGridWeek: {
+                        type: 'timeGridWeek',
+                    },
+                    timeGridDay: {
+                        type: 'timeGridDay',
+                    },
+                    listWeek: {
+                        type: 'listWeek',
+                    },
+                },
+                events: allEvents, // Use the allEvents array for initial events
+                eventClick: function (info) {
+                    $(info.el).popover({
+                        title: info.event.title,
+                        content: `
+                            Trainer: ${info.event.extendedProps.trainer}<br>
+                            Description: ${info.event.extendedProps.description}<br>
+                            Class: ${info.event.extendedProps.class}<br>
+                            Class Time: ${info.event.extendedProps.classTime}<br>
+                            Location: ${info.event.extendedProps.location}<br>
+                            Start Date: ${info.event.start.toLocaleDateString()}<br>
+                            End Date: ${info.event.end.toLocaleDateString()}
+                        `,
+                        trigger: 'click',
+                        placement: 'top',
+                        container: 'body',
+                        html: true,
+                    });
+                    $(info.el).popover('show');
+                },
+                editable: true,
+                eventDrop: function (info) { },
+            });
+
+            calendar.render();
+
+            $('#courseForm').on('submit', function (e) {
+                e.preventDefault();
+                var courseName = $('#courseName').val();
+                var trainer = $('#trainer').val();
+                var classTime = $('#classTime').val();
+                var startDate = $('#startDate').val();
+                var endDate = $('#endDate').val();
+                var courseDescription = $('#courseDescription').val();
+                var courseClass = $('#class').val();
+                var location = $('#location').val(); // Get the selected location
+
+                var newEvent = {
+                    title: courseName,
+                    start: startDate,
+                    end: endDate,
+                    trainer: trainer,
+                    description: courseDescription,
+                    classTime: classTime,
+                    class: courseClass,
+                    location: location, // Add location property
+                    editable: true,
+                };
+
+                // Add the new event to the allEvents array
+                allEvents.push(newEvent);
+
+                // Update the calendar's events with the new array
+                calendar.removeAllEvents();
+                calendar.addEventSource(allEvents);
+
+                $('#addCourseModal').modal('hide');
+                $('#courseForm')[0].reset();
+            });
+
+            $('#courseFilter, #trainerFilter, #classFilter').on('change', function () {
+                var selectedCourse = $('#courseFilter').val();
+                var selectedTrainer = $('#trainerFilter').val();
+                var selectedClass = $('#classFilter').val();
+
+                var filteredEvents = allEvents.filter(function (event) {
+                    return (selectedCourse === '' || event.title === selectedCourse) &&
+                        (selectedTrainer === '' || event.trainer === selectedTrainer) &&
+                        (selectedClass === '' || event.class === selectedClass);
+                });
+
+                calendar.getEventSources().forEach(function (source) {
+                    source.remove();
+                });
+                calendar.addEventSource(filteredEvents);
+            });
+        });
+    </script>
+</body>
+
 </html>
