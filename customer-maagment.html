@@ -455,9 +455,9 @@
                                 <div class="card-body p-3">
                                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                                         <div class="row w-100">
-                                            <div class="col-xl-5">
+                                            <div class="col-xl-4">
                                                 <select class="form-select">
-
+                                                    <option value="0" selected>Sort By</option>
                                                     <option value="CA">Newest</option>
                                                     <option value="NV">Oldest</option>
                                                     <option value="OR">Recent</option>
@@ -465,8 +465,17 @@
 
                                                 </select>
                                             </div>
+<div class="col-xl-4">
+    <select class="form-select">
+        <option value="0" selected>Select Company</option>
+        <option value="CA">Company-1</option>
+        <option value="NV">Company-2</option>
+        <option value="OR">Company-3</option>
 
-                                            <div class="col-xl-7">
+
+    </select>
+</div>
+                                            <div class="col-xl-4">
                                                 <div class="d-flex" role="search">
                                                     <input class="form-control me-2" type="search" placeholder="Search"
                                                         aria-label="Search"> <button class="btn btn-light"
@@ -500,25 +509,20 @@
                                             class="table table-bordered dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
-
-                                                    <th>Company Name</th>
-                                                    <th>Company UEN No.</th>
-                                                    <th>Contact Person</th>
                                                     <th>Name of Participant</th>
+                                                    <th>Company Name</th>
+                                                    <th>Contact Person</th>
                                                     <th>Participant's Mobile</th>
-                                                    <th>Participant's NRIC / FIN No.</th>
                                                     <th>Action</th>
 
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Company ABC</td>
-                                                    <td>123456789A</td>
-                                                    <td>John Doe</td>
                                                     <td>Alice Smith</td>
+                                                    <td>Company ABC</td>
+                                                    <td>John Doe</td>
                                                     <td>789-123-4567</td>
-                                                    <td>S1234567A</td>
                                                     <td>
                                                         <a aria-label="anchor" href="javascript:void(0);"
                                                             class="btn btn-icon btn-sm btn-warning rounded-pill"
@@ -733,31 +737,31 @@
                                                                 <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Company Name</th>
-                                                                            <th>Company UEN No.</th>
-                                                                            <th>Name of Participant</th>
-                                                                            <th>Participant's Email</th>
-                                                                            <th>Quotation History</th>
-                                                                            <th>Past Invoices</th>
-                                                                            <th>Activities Record</th>
+                                                                            <th>Course</th>
+                                                                            <th>class</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Purchase Date</th>
+                                                                            <th>Payment Status</th>
+                                                                            <th>Invoices</th>
                                                                             <th>Action</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <td>Company ABC</td>
-                                                                            <td>123456789A</td>
-                                                                            <td>Alice Smith</td>
-                                                                            <td>alicesmith@gmail.com</td>
+                                                                            <td>Course 1</td>
+                                                                            <td>Class A</td>
+                                                                            <td>$ 99</td>
+                                                                            <td>22 may 2022</td>
+                                                                            <td><span class="badge badge-soft-danger">Unpaid</span></td>
                                                                             <td>
-                                                                                <a href="#" class="btn btn-outline-primary btn-sm" onclick="openSecondModal()">View Quotation History</a>
+                                                                                <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-warning rounded-pill">
+                                                                                    <i class="mdi mdi-eye"></i>
+                                                                                </a>
+                                                                                <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-success rounded-pill">
+                                                                                    <i class="mdi mdi-download"></i>
+                                                                                </a>
                                                                             </td>
-                                                                            <td>
-                                                                                <a href="#" class="btn btn-outline-info btn-sm" onclick="openThirdModal()">View Past Invoices</a>
-                                                                            </td>
-                                                                            <td>
-                                                                                <a href="#" class="btn btn-outline-secondary btn-sm" onclick="openFourthModal()">View Activities</a>
-                                                                            </td>
+                                                                         
                                                                             <td>
                                                                                 <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger rounded-pill">
                                                                                     <i class="mdi mdi-trash-can"></i>
@@ -913,128 +917,6 @@
                 <!-- /.modal-dialog -->
             </div>
 
-            <div class="modal fade" id="viewQuotationHistoryModal" tabindex="-1"
-                aria-labelledby="viewQuotationHistoryModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered ">
-                    <div class="modal-content border border-2 border-primary">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="viewQuotationHistoryModalLabel">Quotation History</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Course</th>
-                                        <th>Amount</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2023-08-01</td>
-                                        <td>Course-1</td>
-                                        <td>$1500</td>
-                                        <td>
-                                            <a aria-label="anchor" href="javascript:void(0);"
-                                                class="btn btn-icon btn-sm btn-warning me-1 rounded-pill">
-                                                <i class="mdi mdi-eye"></i>
-                                            </a>
-                                            <a aria-label="anchor" href="javascript:void(0);"
-                                                class="btn btn-icon btn-sm btn-primary rounded-pill">
-                                                <i class="mdi mdi-download"></i>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="viewPastInvoiceModal" tabindex="-1" aria-labelledby="viewPastInvoiceModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content border border-2 border-primary">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="viewPastInvoiceModalLabel">View Past Invoice</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Course</th>
-                                        <th>Amount</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2023-08-15</td>
-                                        <td>Course-1</td>
-                                        <td>$1500</td>
-                                        <td>
-                                            <a aria-label="anchor" href="javascript:void(0);"
-                                                class="btn btn-icon btn-sm btn-warning me-1 rounded-pill">
-                                                <i class="mdi mdi-eye"></i>
-                                            </a>
-                                            <a aria-label="anchor" href="javascript:void(0);"
-                                                class="btn btn-icon btn-sm btn-primary rounded-pill">
-                                                <i class="mdi mdi-download"></i>
-                                        </td>
-                                    </tr>
-                                    <!-- Add more rows for other invoices -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="viewActivitiesModal" tabindex="-1" aria-labelledby="viewActivitiesModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content border border-2 border-primary">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="viewActivitiesModalLabel">Activities Record</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Activity Type</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2023-08-20</td>
-                                        <td>Logged In</td>
-                                        <td>User logged in to the system.</td>
-                                    </tr>
-                                    <!-- Add more rows for other activities -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <footer class="footer">
                 <div class="container-fluid">
