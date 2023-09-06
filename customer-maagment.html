@@ -734,7 +734,7 @@
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="table-responsive">
-                                                                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                                                <table id="datatable-buttons" class="table display table-bordered dt-responsive nowrap w-100">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Course</th>
@@ -974,6 +974,11 @@
     <script src="assets/js/app.js"></script>
     <!-- form advanced init -->
     <script src="assets/js/pages/form-advanced.init.js"></script>
+    <script>
+        $(document).ready(function() {
+  $('table.display').DataTable();
+} );
+    </script>
     <script>
 
         $(document).ready(function () {
