@@ -29,7 +29,13 @@
     <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Custom Css-->
     <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="assets/libs/smart-wizaed/smart-wizaed.css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.css" rel="stylesheet">
     <style>
+        #calendar {
+    width: 100%;
+    height: 100%;
+}
         .select2-container {
             width: 100% !important;
         }
@@ -53,6 +59,9 @@
         .avatar-md {
             height: 2rem;
             width: 2rem;
+        }
+        .sw>.tab-content {
+            height: 100% !important;
         }
     </style>
 </head>
@@ -325,10 +334,10 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="bx bx-user"></i>
-                                <span key="t-admin">Admin Management</span>
+                                <span key="t-admin">Admin</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="user-managment.html">User Management</a></li>
+                                <li><a href="user-managment.html">User Managment</a></li>
 
                                 <li>
                                     <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and
@@ -343,14 +352,14 @@
                         <li>
                             <a href="Customer-maagment.html" class="waves-effect">
                                 <i class="bx bxs-graduation"></i>
-                                <span key="t-Customer">Customer Management</span>
+                                <span key="t-Customer">Customer </span>
                             </a>
 
                         </li>
                         <li>
                             <a href="lead.html" class="waves-effect" aria-expanded="false">
                                 <i class="bx bx-task"></i>
-                                <span key="t-lead">Lead Management</span>
+                                <span key="t-lead">Lead </span>
                             </a>
 
                         </li>
@@ -358,13 +367,13 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                                 <i class="bx bx-calendar"></i>
-                                <span key="t-scedule">Scedule Management</span>
+                                <span key="t-scedule">Scedule </span>
                             </a>
                             <ul class="sub-menu mm-collapse" aria-expanded="false">
                                 <li><a href="sceduling.html" key="calendar">Calendar</a></li>
                                 <li><a href="trainer.html" key="trainer">Trainers</a></li>
-                                <li><a href="date-range.html" key="date-range">Date Range</a></li>
-                                <li><a href="monitor-venue-availability.html" key="venue">Monitor Venue Availability</a></li>
+                                <li><a href="date-range.html" key="date-range">Holidays</a></li>
+                                
 
 
 
@@ -373,7 +382,7 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                                 <i class="bx bx-dollar"></i>
-                                <span key="t-finance">Finance Management</span>
+                                <span key="t-finance">Finance </span>
                             </a>
                             <ul class="sub-menu mm-collapse" aria-expanded="false">
                                 <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
@@ -388,15 +397,17 @@
                             <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                                 <i class="bx bx-food-menu"></i>
 
-                                <span key="t-course">Course Management</span>
+                                <span key="t-course">Course</span>
                             </a>
                             <ul class="sub-menu mm-collapse" aria-expanded="false">
-                                <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
-                                <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
+                                <li><a href="course.html" key="t-course-dashboard">Course</a></li>
+                                <li><a href="categoery.html" key="t-course-categoery">Course categoery</a></li>
+                                <li><a href="sub-categoery.html" key="t-course-subcategoery">Course SubCategoery</a></li>
+                                <li><a href="class.html" key="t-class-managment">Class</a></li>
                                 <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
-                                <li><a href="task.html" key="t-task">Task Management</a></li>
-                                <li><a href="attendance.html" key="t-client-portal">Attendance Management</a></li>
-                                <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
+                                <li><a href="task.html" key="t-task">Task </a></li>
+                                <li><a href="attendance.html" key="t-client-portal">Attendance</a></li>
+                                <li><a href="feedback.html" key="t-feedback">Feedback</a></li>
                             </ul>
                         </li>
                         <li>
@@ -626,66 +637,168 @@
             <!-- View Trainer Modal -->
             <div class="modal fade" id="viewTrainerModal" tabindex="-1" aria-labelledby="viewTrainerModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="viewTrainerModalLabel">View Trainer</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="viewTrainerName" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="viewTrainerName" readonly
-                                            value="John Doe">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="viewTrainerEmail" class="form-label">Email ID</label>
-                                        <input type="email" class="form-control" id="viewTrainerEmail" readonly
-                                            value="johndoe@example.com">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="viewTrainerMobile" class="form-label">Mobile No.</label>
-                                        <input type="tel" class="form-control" id="viewTrainerMobile" readonly
-                                            value="123-456-7890">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="viewTrainerDOB" class="form-label">DOB (Date of Birth)</label>
-                                        <input type="date" class="form-control" id="viewTrainerDOB" readonly
-                                            value="1990-01-01">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="viewTrainerDesignation" class="form-label">Designation</label>
-                                        <select class="form-select" id="viewTrainerDesignation" disabled>
-                                            <option value="" disabled>Select Designation</option>
-                                            <option value="Trainer" selected>Trainer</option>
-                                            <option value="Instructor">Instructor</option>
-                                            <option value="Coach">Coach</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="">Upload Photo</label> <br>
-                                        <div class="d-flex gap-2">
-                                            <label class="custom-file-input form-control">
-                                                <span id="trainerFileName">jhone.png</span>
-                                                <input type="file" id="viewTrainerPhoto" accept="image/*">
-                                            </label>
-                                            <span class="avatar avatar-rounded avatar-md"> <img
-                                                    src="../assets/images/faces/1.jpg" alt=""> </span>
+                            <div id="smartwizard" style="border: none; height: auto;">
+
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#step-11">
+                                            <div class="num">1</div>
+                                            Trainer's Details
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#step-22">
+                                            <span class="num">2</span>
+                                            Course Details
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#step-33">
+                                            <span class="num">3</span>
+                                           Scedule
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                <div class="tab-content mt-3" style="border: none;">
+                                    <div id="step-11" class="tab-pane" role="tabpanel" aria-labelledby="step-11">
+                                        <div class="row">
+
+                                            <div class="col-md-12">
+                                                <div class="d-flex"
+                                                    style="justify-content: space-between; align-items: center;">
+                                                    <h5 class="modal-title">Trainer's Details</h5>
+
+
+
+
+
+                                                </div>
+                                                <div class="card border border-primary mt-3">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label class="mb-0" for=""> <b>Name</b>
+                                                                </label>
+                                                                <p class="m-0">John Doe</p>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="mb-0" for=""> <b>Email ID</b>
+                                                                </label>
+                                                                <p class="m-0">johndoe@example.com</p>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="mb-0" for=""><b>Mobile No.</b>
+                                                                </label>
+                                                                <p class="m-0">123-456-7890</p>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="mb-0" for=""> <b>DOB (Date of Birth)</b></label>
+                                                                <p class="m-0">01-01-90</p>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-md-3">
+                                                                <label class="mb-0" for=""> <b>Designation</b></label>
+                                                                <p class="m-0">John Doe</p>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="mb-0" for=""> <b>Designation</b></label>
+                                                                <p class="m-0">Trainer</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="mb-0" for=""> <b>Address</b></label>
+                                                                <p class="m-0">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia, veritatis?</p>
+                                                            </div>
+                                                          
+
+
+                                                        </div>
+                                                    
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="viewTrainerAddress" class="form-label">Address</label>
-                                        <textarea class="form-control" id="viewTrainerAddress" rows="3"
-                                            readonly>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed commodo vel ex non bibendum.</textarea>
+
+                                    <div id="step-22" class="tab-pane" role="tabpanel" aria-labelledby="step-22">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="card">
+                                                    <div class="card-header justify-content-between">
+                                                        <div class="card-title">Course</div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table id="datatable-buttons" class="table display table-bordered dt-responsive nowrap w-100">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Course</th>
+                                                                        <th>class</th>
+                                                                        <th>Date</th>
+                                                                        <th>Time</th>
+                                                                        <th>Lec In Week</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Course 1</td>
+                                                                        <td>Class A</td>
+                                                                       
+                                                                        <td>22 may 2022</td>
+                                                                        <td>4:00pm To 6:pm</td>
+                                                                        <td>
+                                                                            <span class="badge badge-soft-primary">Monday</span>
+                                                                            <span class="badge badge-soft-success">wednasday</span><span class="badge badge-soft-warning">saturday</span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-primary rounded-pill">
+                                                                                <i class="mdi mdi-pencil"></i>
+                                                                            </a>
+                                                                          
+                                                                       
+                                                                            <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger rounded-pill">
+                                                                                <i class="mdi mdi-trash-can"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div id="step-33" class="tab-pane" role="tabpanel" aria-labelledby="step-33">
+                                        <div id="calendar"></div>
+                                        
                                     </div>
                                 </div>
-                            </form>
+
+                                <!-- Include optional progressbar HTML -->
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                          
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div> -->
                     </div>
                 </div>
             </div>
@@ -789,6 +902,7 @@
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/select2/js/select2.min.js"></script>
+    <script src="assets/libs/smart-wizaed/smart-wizaed.js"></script>
 
     <!-- Required datatable js -->
     <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -816,6 +930,39 @@
     <script
         src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5.10.7-133/tinymce.min.js"></script>
     <script src="assets/js/pages/email-editor.js"></script>
+    
+   
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.js"></script>
+<script>
+    $('#smartwizard').smartWizard({
+        transition: {
+            animation: 'slideHorizontal', // Effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
+        }
+    });
+</script>
+<script>
+   $('#viewTrainerModal').on('shown.bs.modal', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: [
+            {
+                title: 'Class 1',
+                start: '2023-09-15',
+                end: '2023-09-16'
+            },
+            {
+                title: 'Class 2',
+                start: '2023-09-18',
+                end: '2023-09-20'
+            }
+        ]
+    });
+    calendar.render();
+});
+
+</script>
     <script>
 
         $(document).ready(function () {

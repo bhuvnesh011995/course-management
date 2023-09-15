@@ -13,7 +13,9 @@
 
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.css" rel="stylesheet">
 
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Bootstrap Css -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
@@ -288,107 +290,107 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li>
-                            <a href="index.html" class="waves-effect">
-                                <i class="bx bx-home-circle"></i><span
-                                    class="badge rounded-pill bg-info float-end">02</span>
-                                <span key="t-dashboards">Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="bx bx-user"></i>
-                                <span key="t-admin">Admin Management</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="user-managment.html">User Management</a></li>
-
-                                <li>
-                                    <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and
-                                        Permission</a>
-                                    <ul class="sub-menu mm-collapse" aria-expanded="true">
-                                        <li><a href="roles.html" key="t-roles">Roles</a></li>
-                                        <li><a href="permission.html" key="t-permission">Permissions</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="customer-maagment.html" class="waves-effect">
+                      <li>
+                          <a href="index.html" class="waves-effect">
+                              <i class="bx bx-home-circle"></i><span
+                                  class="badge rounded-pill bg-info float-end">02</span>
+                              <span key="t-dashboards">Dashboard</span>
+                          </a>
+                      </li>
+  
+                      <li>
+                          <a href="javascript: void(0);" class="has-arrow waves-effect">
+                              <i class="bx bx-user"></i>
+                              <span key="t-admin">Admin</span>
+                          </a>
+                          <ul class="sub-menu" aria-expanded="true">
+                              <li><a href="user-managment.html">User Managment</a></li>
+                                
+                                  <li>
+                                      <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and Permission</a>
+                                      <ul class="sub-menu mm-collapse" aria-expanded="true">
+                                          <li><a href="roles.html" key="t-roles">Roles</a></li>
+                                          <li><a href="permission.html" key="t-permission">Permissions</a></li>
+                                      </ul>
+                                  </li>
+                          </ul>
+                      </li>
+                      <li>
+                        <a href="customer-maagment.html" class="waves-effect">
                                 <i class="bx bxs-graduation"></i>
-                                <span key="t-Customer">Customer Management</span>
+                                <span key="t-Customer">Customer </span>
                             </a>
-
-                        </li>
-                        <li>
-                            <a href="lead.html" class="waves-effect" aria-expanded="false">
-                                <i class="bx bx-task"></i>
-                                <span key="t-lead">Lead Management</span>
-                            </a>
-
-                        </li>
-
-                        <li>
+                        
+                      </li>
+                      <li>
+                          <a href="lead.html" class="waves-effect" aria-expanded="false">
+                              <i class="bx bx-task"></i>
+                              <span key="t-lead">Lead </span>
+                          </a>
+                          
+                      </li>
+  
+                      <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                                 <i class="bx bx-calendar"></i>
-                                <span key="t-scedule">Scedule Management</span>
+                                <span key="t-scedule">Scedule </span>
                             </a>
                             <ul class="sub-menu mm-collapse" aria-expanded="false">
                                 <li><a href="sceduling.html" key="calendar">Calendar</a></li>
                                 <li><a href="trainer.html" key="trainer">Trainers</a></li>
-                                <li><a href="date-range.html" key="date-range">Date Range</a></li>
-                                <li><a href="monitor-venue-availability.html" key="venue">Monitor Venue Availability</a>
-                                </li>
+                                <li><a href="date-range.html" key="date-range">Holidays</a></li>
+                                
 
 
 
                             </ul>
                         </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                                <i class="bx bx-dollar"></i>
-                                <span key="t-finance">Finance Management</span>
-                            </a>
-                            <ul class="sub-menu mm-collapse" aria-expanded="false">
-                                <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
-                                <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
-                                <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
-
-
-
+                      <li>
+                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                              <i class="bx bx-dollar"></i>
+                              <span key="t-finance">Finance </span>
+                          </a>
+                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
+                              <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
+                              <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
+                              <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
+                             
+                            
+                              
+                          </ul>
+                      </li>
+                      <li>
+                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                              <i class="bx bx-food-menu"></i>
+  
+                              <span key="t-course">Course</span>
+                          </a>
+                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
+                              <li><a href="course.html" key="t-course-dashboard">Course</a></li>
+                                <li><a href="categoery.html" key="t-course-categoery">Course categoery</a></li>
+                                <li><a href="sub-categoery.html" key="t-course-subcategoery">Course SubCategoery</a></li>
+                              <li><a href="class.html" key="t-class-managment">Class</a></li>
+                              <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
+                              <li><a href="task.html" key="t-task">Task </a></li>
+                              <li><a href="attendance.html" key="t-client-portal">Attendance</a></li>
+                              <li><a href="feedback.html" key="t-feedback">Feedback</a></li>
                             </ul>
-                        </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                                <i class="bx bx-food-menu"></i>
-
-                                <span key="t-course">Course Management</span>
-                            </a>
-                            <ul class="sub-menu mm-collapse" aria-expanded="false">
-                                <li><a href="course.html" key="t-course-dashboard">Dashboard</a></li>
-                                <li><a href="class.html" key="t-class-managment">Class Managment</a></li>
-                                <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
-                                <li><a href="task.html" key="t-task">Task Management</a></li>
-                                <li><a href="attendance.html" key="t-client-portal">Attendance Management</a></li>
-                                <li><a href="feedback.html" key="t-feedback">Feedback Managment</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                                <i class="bx bx-customize"></i>
-
-                                <span key="t-hrms">HRMS</span>
-                            </a>
-                            <ul class="sub-menu mm-collapse" aria-expanded="false">
-                                <li><a href="employee.html" key="t-employee">Employee Management</a></li>
-                                <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
-                                <li><a href="leave.html" key="t-leave">Leave Management</a></li>
-                                <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
-                            </ul>
-                        </li>
-
-                    </ul>
+                      </li>
+                      <li>
+                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                              <i class="bx bx-customize"></i>
+  
+                              <span key="t-hrms">HRMS</span>
+                          </a>
+                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
+                              <li><a href="employee.html" key="t-employee">Employee Management</a></li>
+                              <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
+                              <li><a href="leave.html" key="t-leave">Leave Management</a></li>
+                              <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
+                          </ul>
+                      </li>
+  
+                  </ul>
                 </div>
                 <!-- Sidebar -->
             </div>
@@ -488,7 +490,9 @@
                                 <div class="col-lg-9">
                                     <div class="card">
                                         <div class="card-body">
+                                            
                                             <div id="calendar"></div>
+                                            
                                         </div>
                                     </div>
                                 </div> <!-- end col -->
@@ -684,125 +688,158 @@
         });
     });
         </script>
-        <script>
-            $(document).ready(function () {
-                $('#classTimePicker').datetimepicker({
-                    format: 'HH:mm',
-                    icons: {
-                        time: 'fa fa-clock',
-                        date: 'fa fa-calendar',
-                        up: 'fa fa-chevron-up',
-                        down: 'fa fa-chevron-down',
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-calendar-check-o',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-times',
-                    },
-                });
-        
-                // Initialize FullCalendar
-                var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    start: 'prev,next today',
-                    center: 'title',
-                    end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+<script>
+    $(document).ready(function () {
+        $('#classTimePicker').datetimepicker({
+            format: 'HH:mm',
+            icons: {
+                time: 'fa fa-clock',
+                date: 'fa fa-calendar',
+                up: 'fa fa-chevron-up',
+                down: 'fa fa-chevron-down',
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-calendar-check-o',
+                clear: 'fa fa-trash',
+                close: 'fa fa-times',
+            },
+        });
+
+        var datepickerAppended = false; // Flag to track if the datepicker has been appended
+
+        // Initialize FullCalendar
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                start: 'prev,next today',
+                center: '',
+                end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+            },
+            selectable: true, // Enable date range selection
+            select: function (info) {
+                // Remove the automatic population of start and end dates
+                // $('#startDate').val(info.startStr);
+                // $('#endDate').val(info.endStr);
+                $('#addCourseModal').modal('show');
+            },
+            views: {
+                dayGridMonth: {
+                    type: 'dayGridMonth',
                 },
-                selectable: true, // Enable date range selection
-                select: function (info) {
-                    // Automatically populate start and end dates in the "Add New" modal
-                    $('#startDate').val(info.startStr);
-                    $('#endDate').val(info.endStr);
-                    $('#addCourseModal').modal('show');
+                timeGridWeek: {
+                    type: 'timeGridWeek',
                 },
-                views: {
-                    dayGridMonth: {
-                        type: 'dayGridMonth',
-                    },
-                    timeGridWeek: {
-                        type: 'timeGridWeek',
-                    },
-                    timeGridDay: {
-                        type: 'timeGridDay',
-                    },
-                    listWeek: {
-                        type: 'listWeek',
-                    },
+                timeGridDay: {
+                    type: 'timeGridDay',
                 },
-                    events: [], // Initial events will be added dynamically
-                    eventClick: function (info) {
-                        $('#viewCourseName').val(info.event.title);
-                        $('#viewTrainer').val(info.event.extendedProps.trainer);
-                        $('#viewClass').val(info.event.extendedProps.class);
-                        $('#viewClassTime').val(info.event.extendedProps.classTime);
-                        $('#viewStartDate').val(info.event.start.toLocaleDateString());
-                        $('#viewEndDate').val(info.event.end.toLocaleDateString());
-                        $('#viewLocation').val(info.event.extendedProps.location);
-                        $('#viewCourseModal').modal('show');
-                    },
-                });
-                calendar.render();
-        
-                // Handle form submission for adding events
-                $('#courseForm').on('submit', function (e) {
-                    e.preventDefault();
-                    var courseName = $('#courseName').val();
-                    var trainer = $('#trainer').val();
-                    var classTime = $('#classTime').val();
-                    var startDate = $('#startDate').val();
-                    var endDate = $('#endDate').val();
-                    var courseDescription = $('#courseDescription').val();
-                    var courseClass = $('#class').val();
-                    var location = $('#location').val();
-        
-                    var newEvent = {
-                        title: courseName,
-                        start: startDate,
-                        end: endDate,
-                        trainer: trainer,
-                        description: courseDescription,
-                        classTime: classTime,
-                        class: courseClass,
-                        location: location,
-                        editable: true,
-                    };
-        
-                    // Add the new event to the calendar
-                    calendar.addEvent(newEvent);
-        
-                    // Close the modal and reset the form
-                    $('#addCourseModal').modal('hide');
-                    $('#courseForm')[0].reset();
-                });
-        
-                // Handle filtering of events
-                $('#courseFilter, #trainerFilter, #classFilter').on('change', function () {
-                    var selectedCourse = $('#courseFilter').val();
-                    var selectedTrainer = $('#trainerFilter').val();
-                    var selectedClass = $('#classFilter').val();
-        
-                    var filteredEvents = calendar.getEvents().filter(function (event) {
-                        return (
-                            (selectedCourse === '' || event.title === selectedCourse) &&
-                            (selectedTrainer === '' || event.extendedProps.trainer === selectedTrainer) &&
-                            (selectedClass === '' || event.extendedProps.class === selectedClass)
-                        );
+                listWeek: {
+                    type: 'listWeek',
+                },
+            },
+            events: [], // Initial events will be added dynamically
+            eventClick: function (info) {
+                $('#viewCourseName').val(info.event.title);
+                $('#viewTrainer').val(info.event.extendedProps.trainer);
+                $('#viewClass').val(info.event.extendedProps.class);
+                $('#viewClassTime').val(info.event.extendedProps.classTime);
+                $('#viewStartDate').val(info.event.start.toLocaleDateString());
+                $('#viewEndDate').val(info.event.end.toLocaleDateString());
+                $('#viewLocation').val(info.event.extendedProps.location);
+                $('#viewCourseModal').modal('show');
+            },
+            // When the calendar has finished rendering
+            viewDidMount: function () {
+                if (!datepickerAppended) {
+                    // Append the datepicker input to the .fc-toolbar-chunk element
+                    var secondToolbarChunk = $(".fc-toolbar-chunk").eq(1);
+                    secondToolbarChunk.append('<div class="input-group" id="datepicker2"><input type="text" class="form-control" placeholder="dd M, yyyy" data-date-format="dd M, yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>');
+                    
+                    // Initialize the datepicker
+                    $(".input-group.date").datepicker({
+                        autoclose: true,
+                        todayHighlight: true,
+                        format: "dd M, yyyy", // Date format
                     });
-        
-                    calendar.removeAllEvents();
-                    calendar.addEventSource(filteredEvents);
-                });
-        
-                // Clear filters
-                $('#clearFilters').click(function () {
-                    $('#courseFilter, #trainerFilter, #classFilter').val('').selectpicker('refresh');
-                    calendar.refetchEvents();
-                });
+                    
+                    datepickerAppended = true; // Set the flag to true to indicate the datepicker has been appended
+                }
+            },
+        });
+
+        // Render the calendar
+        calendar.render();
+
+        // Handle form submission for adding events
+        $('#courseForm').on('submit', function (e) {
+            e.preventDefault();
+            var courseName = $('#courseName').val();
+            var trainer = $('#trainer').val();
+            var classTime = $('#classTime').val();
+            var startDate = $('#startDate').val(); // Use the start date from the modal
+            var endDate = $('#endDate').val(); // Use the end date from the modal
+            var courseDescription = $('#courseDescription').val();
+            var courseClass = $('#class').val();
+            var location = $('#location').val();
+
+            var newEvent = {
+                title: courseName,
+                start: startDate, // Use the start date from the modal
+                end: endDate, // Use the end date from the modal
+                trainer: trainer,
+                description: courseDescription,
+                classTime: classTime,
+                class: courseClass,
+                location: location,
+                editable: true,
+            };
+
+            // Add the new event to the calendar
+            calendar.addEvent(newEvent);
+
+            // Close the modal and reset the form
+            $('#addCourseModal').modal('hide');
+            $('#courseForm')[0].reset();
+        });
+
+        // Handle opening the modal through a button click
+        $('#openAddCourseModalButton').on('click', function () {
+            // Set the initial start and end dates in the modal here
+            var initialStartDate = '2023-09-15T09:00:00'; // Modify this with your desired initial start date
+            var initialEndDate = '2023-09-15T10:00:00'; // Modify this with your desired initial end date
+
+            $('#startDate').val(initialStartDate);
+            $('#endDate').val(initialEndDate);
+
+            $('#addCourseModal').modal('show');
+        });
+
+        // Handle filtering of events
+        $('#courseFilter, #trainerFilter, #classFilter').on('change', function () {
+            var selectedCourse = $('#courseFilter').val();
+            var selectedTrainer = $('#trainerFilter').val();
+            var selectedClass = $('#classFilter').val();
+
+            var filteredEvents = calendar.getEvents().filter(function (event) {
+                return (
+                    (selectedCourse === '' || event.title === selectedCourse) &&
+                    (selectedTrainer === '' || event.extendedProps.trainer === selectedTrainer) &&
+                    (selectedClass === '' || event.extendedProps.class === selectedClass)
+                );
             });
-        </script>
-        
+
+            calendar.removeAllEvents();
+            calendar.addEventSource(filteredEvents);
+        });
+
+        // Clear filters
+        $('#clearFilters').click(function () {
+            $('#courseFilter, #trainerFilter, #classFilter').val('').selectpicker('refresh');
+            calendar.refetchEvents();
+        });
+    });
+</script>
+       
         
 </body>
 

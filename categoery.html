@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Permission Management | Tonga</title>
+    <title>Course Categoery Management | Tonga</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -22,6 +22,10 @@
 
     <!-- Bootstrap Css -->
     <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+
+    <link href="assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css">
+
     <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
@@ -30,11 +34,18 @@
     <!-- Custom Css-->
     <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
 
+
+
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+    </style>
 </head>
 
 <body data-sidebar="dark">
 
-   
+
 
     <!-- Start layout-wrapper -->
     <div id="layout-wrapper">
@@ -289,47 +300,48 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                      <li>
-                          <a href="index.html" class="waves-effect">
-                              <i class="bx bx-home-circle"></i><span
-                                  class="badge rounded-pill bg-info float-end">02</span>
-                              <span key="t-dashboards">Dashboard</span>
-                          </a>
-                      </li>
-  
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect">
-                              <i class="bx bx-user"></i>
-                              <span key="t-admin">Admin</span>
-                          </a>
-                          <ul class="sub-menu" aria-expanded="true">
-                              <li><a href="user-managment.html">User Managment</a></li>
-                                
-                                  <li>
-                                      <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and Permission</a>
-                                      <ul class="sub-menu mm-collapse" aria-expanded="true">
-                                          <li><a href="roles.html" key="t-roles">Roles</a></li>
-                                          <li><a href="permission.html" key="t-permission">Permissions</a></li>
-                                      </ul>
-                                  </li>
-                          </ul>
-                      </li>
-                      <li>
-                        <a href="customer-maagment.html" class="waves-effect">
+                        <li>
+                            <a href="index.html" class="waves-effect">
+                                <i class="bx bx-home-circle"></i><span
+                                    class="badge rounded-pill bg-info float-end">02</span>
+                                <span key="t-dashboards">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="bx bx-user"></i>
+                                <span key="t-admin">Admin</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="user-managment.html">User Managment</a></li>
+
+                                <li>
+                                    <a href="javascript: void(0);" class="has-arrow" key="t-level-1-2">Roles and
+                                        Permission</a>
+                                    <ul class="sub-menu mm-collapse" aria-expanded="true">
+                                        <li><a href="roles.html" key="t-roles">Roles</a></li>
+                                        <li><a href="permission.html" key="t-permission">Permissions</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="customer-maagment.html" class="waves-effect">
                                 <i class="bx bxs-graduation"></i>
                                 <span key="t-Customer">Customer </span>
                             </a>
-                        
-                      </li>
-                      <li>
-                          <a href="lead.html" class="waves-effect" aria-expanded="false">
-                              <i class="bx bx-task"></i>
-                              <span key="t-lead">Lead </span>
-                          </a>
-                          
-                      </li>
-  
-                      <li>
+
+                        </li>
+                        <li>
+                            <a href="lead.html" class="waves-effect" aria-expanded="false">
+                                <i class="bx bx-task"></i>
+                                <span key="t-lead">Lead </span>
+                            </a>
+
+                        </li>
+
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                                 <i class="bx bx-calendar"></i>
                                 <span key="t-scedule">Scedule </span>
@@ -338,58 +350,58 @@
                                 <li><a href="sceduling.html" key="calendar">Calendar</a></li>
                                 <li><a href="trainer.html" key="trainer">Trainers</a></li>
                                 <li><a href="date-range.html" key="date-range">Holidays</a></li>
-                                
+
 
 
 
                             </ul>
                         </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-dollar"></i>
-                              <span key="t-finance">Finance </span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
-                              <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
-                              <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
-                             
-                            
-                              
-                          </ul>
-                      </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-food-menu"></i>
-  
-                              <span key="t-course">Course</span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="course.html" key="t-course-dashboard">Course</a></li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-dollar"></i>
+                                <span key="t-finance">Finance </span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="quotation.html" key="quotation">Quotation Management</a></li>
+                                <li><a href="sales-quotation.html" key="sales">Sales Quotation</a></li>
+                                <li><a href="invoice.html" key="invoice">Invoice Management</a></li>
+
+
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-food-menu"></i>
+
+                                <span key="t-course">Course</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="course.html" key="t-course-dashboard">Course</a></li>
                                 <li><a href="categoery.html" key="t-course-categoery">Course categoery</a></li>
                                 <li><a href="sub-categoery.html" key="t-course-subcategoery">Course SubCategoery</a></li>
-                              <li><a href="class.html" key="t-class-managment">Class</a></li>
-                              <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
-                              <li><a href="task.html" key="t-task">Task </a></li>
-                              <li><a href="attendance.html" key="t-client-portal">Attendance</a></li>
-                              <li><a href="feedback.html" key="t-feedback">Feedback</a></li>
+                                <li><a href="class.html" key="t-class-managment">Class</a></li>
+                                <li><a href="certificate.html" key="t-certificate">Certificate Generation</a></li>
+                                <li><a href="task.html" key="t-task">Task </a></li>
+                                <li><a href="attendance.html" key="t-client-portal">Attendance</a></li>
+                                <li><a href="feedback.html" key="t-feedback">Feedback</a></li>
                             </ul>
-                      </li>
-                      <li>
-                          <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                              <i class="bx bx-customize"></i>
-  
-                              <span key="t-hrms">HRMS</span>
-                          </a>
-                          <ul class="sub-menu mm-collapse" aria-expanded="false" >
-                              <li><a href="employee.html" key="t-employee">Employee Management</a></li>
-                              <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
-                              <li><a href="leave.html" key="t-leave">Leave Management</a></li>
-                              <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
-                          </ul>
-                      </li>
-  
-                  </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                <i class="bx bx-customize"></i>
+
+                                <span key="t-hrms">HRMS</span>
+                            </a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                <li><a href="employee.html" key="t-employee">Employee Management</a></li>
+                                <li><a href="payroll.html" key="t-payroll">Payroll Maagment</a></li>
+                                <li><a href="leave.html" key="t-leave">Leave Management</a></li>
+                                <li><a href="timesheet.html" key="t-timesheet">Timesheet Tracking</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
                 </div>
                 <!-- Sidebar -->
             </div>
@@ -410,12 +422,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">Permission Management</h4>
+                                <h4 class="mb-sm-0 font-size-18">Course categoery Management</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                        <li class="breadcrumb-item active">Permission Management</li>
+                                        <li class="breadcrumb-item active">Course Categoery Management</li>
                                     </ol>
                                 </div>
 
@@ -423,14 +435,43 @@
                         </div>
                     </div>
                     <!-- end page title -->
-
-                    <!-- Role cards -->
                     <div class="row">
-                        <div class="col-md-12 text-end">
-                            <button data-bs-target="#add" data-bs-toggle="modal"
-                                class="btn btn-primary mb-3 text-nowrap add-new-role"><i class="bx bx-plus me-1 fw-semibold align-middle"></i>Add New Permission</button>
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                                        <div class="row w-50">
+                                            <div class="col-xl-5">
+                                                <select class="form-select">
+
+                                                    <option value="CA">Newest</option>
+                                                    <option value="NV">Oldest</option>
+                                                    <option value="OR">Recent</option>
+
+
+                                                </select>
+                                            </div>
+
+                                            <div class="col-xl-7">
+                                                <div class="d-flex" role="search">
+                                                    <input class="form-control me-2" type="search" placeholder="Search"
+                                                        aria-label="Search"> <button class="btn btn-light"
+                                                        type="submit">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-primary me-2" data-bs-toggle="modal"
+                                            data-bs-target="#addCategoryModal"><i
+                                                class="bx bx-plus me-1 fw-semibold align-middle"></i>Add New
+                                            Categoery</button>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="row g-4">
 
 
@@ -438,46 +479,54 @@
                             <!-- Role Table -->
                             <div class="card ">
                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">Permission List </div>
-                                   
+                                    <div class="card-title">Categoery List </div>
+
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                        <table id="datatable-buttons"
+                                            class="table table-bordered dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">S.No</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Assigned To</th>
-                                                    <th scope="col">Created At</th>
-                                                    
-                                                    <th scope="col">Actions</th>
+                                                    <th>Category ID</th>
+                                                    <th>Category Name</th>
+                                                    <th>Course Name</th>
+                                                    <th>Description</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td> 1 </td>
-                                                    <td>
-                                                        Add & Remove Users
-                                                    </td>
-                                                    <td><span class="badge badge-soft-primary font-size-12">Manager</span></td>
-                                                   
-                                                    <td> 29-05-2023 </td>
-                                                   
-                                                    <td>
-                                                         <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-warning rounded-pill" data-bs-target="#view" data-bs-toggle="modal"><i class="mdi mdi-eye"></i></a>
-                                                         <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-primary rounded-pill" data-bs-target="#edit" data-bs-toggle="modal"><i class="mdi mdi-pencil"></i></a>
-                                                         <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger rounded-pill"><i class="mdi mdi-trash-can"></i></a>
+                                                    <td>101</td>
                                                     
-                                                    </td>
-                                                   
-                                                </tr>
+                                                    <td>Construction</td>
+                                                    <td>Aluminium Formwork (Enhanced)</td>
+                                                    
+                                                    <td>Lorem ipsum dolor sit amet.</td>
 
+
+
+                                                    <td>
+                                                        <a aria-label="anchor" href="javascript:void(0);"
+                                                            class="btn btn-icon btn-sm btn-warning rounded-pill"
+                                                            data-bs-toggle="modal" data-bs-target="#viewCourseModal"><i
+                                                                class="mdi mdi-eye"></i></a>
+                                                        <a aria-label="anchor" href="javascript:void(0);"
+                                                            class="btn btn-icon btn-sm btn-primary rounded-pill"
+                                                            data-bs-toggle="modal" data-bs-target="#editCourseModal"><i
+                                                                class="mdi mdi-pencil"></i></a>
+                                                        <a aria-label="anchor" href="javascript:void(0);"
+                                                            class="btn btn-icon btn-sm btn-danger rounded-pill"><i
+                                                                class="mdi mdi-trash-can"></i></a>
+
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
+
                                     </div>
                                 </div>
-                               
+
                             </div>
                             <!--/ Role Table -->
                         </div>
@@ -488,144 +537,138 @@
             </div>
             <!-- End Page-content -->
 
-            <div class="modal fade" id="add" tabindex="-1" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog ">
+
+
+            <!-- Add Course Modal -->
+            <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add New Permission</h5>
-
+                            <h5 class="modal-title" id="addCourseModalLabel">Add New Course</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-
-                            <!-- Add role form -->
-                            <form id="addRoleForm" class="row g-3 "
-                                onsubmit="return false" novalidate="novalidate">
-                                <div class="col-12 fv-plugins-icon-container">
-                                    <label class="form-label" for="modalRoleName">Permission Name</label>
-                                    <input type="text" class="form-control"
-                                        placeholder="Enter a Permission Name" tabindex="-1">
-                                    
+                            <form id="addCategoryForm">
+                                <div class="mb-3">
+                                    <label for="categoryName" class="form-label">Category Name:</label>
+                                    <input type="text" class="form-control" id="categoryName" placeholder="Enter category name" required>
                                 </div>
-                                <div class="col-12">
-                                    <div>
-                                        <label class="form-label">Assign To</label>
-
-                                        <select class="form-select">
-                                        <option value="1">Sub-Admin</option>
-                                        <option value="2">Manager</option>
-                                        <option value="3">User</option>
-                                        </select>
-                                      </div>
+                                <div class="mb-3">
+                                    <label for="courseName" class="form-label">Course Name:</label>
+                                    <select id="courseName" class="form-select" required>
+                                        <option value="" selected>Select a Course</option>
+                                        <option value="Course 1">Course 1</option>
+                                        <option value="Course 2">Course 2</option>
+                                        <!-- Add more course options here -->
+                                    </select>
                                 </div>
-
+                                <div class="mb-3">
+                                    <label for="courseDescription" class="form-label">Description:</label>
+                                    <input type="text" class="form-control" id="courseDescription" placeholder="Enter description" required>
+                                </div>
+                              
+                                
+                               
+                    
+                               
+                                
                             </form>
-                            <!--/ Add role form -->
                         </div>
                         <div class="modal-footer">
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-primary me-sm-3 me-1">Create Permission</button>
-                                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close">Discard</button>
-                                </div>
-                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="view" tabindex="-1" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog ">
+
+
+            <!-- Edit Class Modal -->
+            <div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">View Permission</h5>
-
+                            <h5 class="modal-title" id="editCourseModalLabel">Edit Course Categoery</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-
-                            <!-- Add role form -->
-                            <form id="addRoleForm" class="row g-3 "
-                                onsubmit="return false" novalidate="novalidate">
-                                <div class="col-12 fv-plugins-icon-container">
-                                    <label class="form-label" for="modalRoleName">Permission Name</label>
-                                    <input type="text" class="form-control"
-                                        value="Add & Remove Users" tabindex="-1" disabled>
-                                    
+                            <form id="addCourseForm" class="row">
+                                <div class="mb-3">
+                                    <label for="categoryName" class="form-label">Category Name:</label>
+                                    <input type="text" class="form-control" id="categoryName" value="Construction">
                                 </div>
-                                <div class="col-12">
-                                    <div>
-                                        <label class="form-label">Assign To</label>
-
-                                        <select class="form-select" disabled>
-                                        <option value="1" selected>Sub-Admin</option>
-                                        <option value="2">Manager</option>
-                                        <option value="3">User</option>
-                                        </select>
-                                      </div>
+                                <div class="mb-3">
+                                    <label for="courseName" class="form-label">Course Name:</label>
+                                    <select id="courseName" class="form-select">
+                                        <option value="" >Select a Course</option>
+                                        <option value="Course 1" selected>Course 1</option>
+                                        <option value="Course 2">Course 2</option>
+                                        <!-- Add more course options here -->
+                                    </select>
                                 </div>
-
+                                <div class="mb-3">
+                                    <label for="courseDescription" class="form-label">Description:</label>
+                                    <input type="text" class="form-control" id="courseDescription" value="loremvwbwjrgjrgbg3rwrggqg">
+                                </div>
                             </form>
-                            <!--/ Add role form -->
                         </div>
+
                         <div class="modal-footer">
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                   
-                                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close">Discard</button>
-                                </div>
-                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="editClassSubmit">Save Changes</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="edit" tabindex="-1" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog ">
+
+
+            <!-- View Class Modal -->
+            <div class="modal fade" id="viewCourseModal" tabindex="-1" aria-labelledby="viewCourseModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Edit Permission</h5>
-
+                            <h5 class="modal-title" id="viewCourseModalLabel">View Course Categoery</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-
-                            <!-- Add role form -->
-                            <form id="addRoleForm" class="row g-3 "
-                                onsubmit="return false" novalidate="novalidate">
-                                <div class="col-12 fv-plugins-icon-container">
-                                    <label class="form-label" for="modalRoleName">Permission Name</label>
-                                    <input type="text" class="form-control"
-                                        value="Add & Remove Users" tabindex="-1">
-                                    
+                            <form id="addCourseForm" class="row">
+                                
+                                
+                                <div class="mb-3">
+                                    <label for="categoryName" class="form-label">Category Name:</label>
+                                    <input type="text" class="form-control" id="categoryName" value="Construction" disabled>
                                 </div>
-                                <div class="col-12">
-                                    <div>
-                                        <label class="form-label">Assign To</label>
-
-                                        <select class="form-select" >
-                                        <option value="1" selected>Sub-Admin</option>
-                                        <option value="2">Manager</option>
-                                        <option value="3">User</option>
-                                        </select>
-                                      </div>
+                                <div class="mb-3">
+                                    <label for="courseName" class="form-label">Course Name:</label>
+                                    <select id="courseName" class="form-select" disabled>
+                                        <option value="" >Select a Course</option>
+                                        <option value="Course 1" selected>Course 1</option>
+                                        <option value="Course 2">Course 2</option>
+                                        <!-- Add more course options here -->
+                                    </select>
                                 </div>
-
+                                <div class="mb-3">
+                                    <label for="courseDescription" class="form-label">Description:</label>
+                                    <input type="text" class="form-control" id="courseDescription" value="loremvwbwjrgjrgbg3rwrggqg" disabled>
+                                </div>
                             </form>
-                            <!--/ Add role form -->
                         </div>
+
                         <div class="modal-footer">
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-primary me-sm-3 me-1">Update</button>
-                                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close">Discard</button>
-                                </div>
-                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
 
 
             <footer class="footer">
@@ -636,7 +679,8 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by <a href="https://braincavesoft.com" target="_blank">Braincave Software Pvt.Ltd.</a>
+                                Design & Develop by <a href="https://braincavesoft.com" target="_blank">Braincave
+                                    Software Pvt.Ltd.</a>
                             </div>
                         </div>
                     </div>
@@ -657,6 +701,8 @@
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/select2/js/select2.min.js"></script>
+    <script src="assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
 
     <!-- Required datatable js -->
     <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -670,21 +716,45 @@
     <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
     <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-    
+
     <!-- Responsive examples -->
     <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
     <!-- Datatable init js -->
-    <script src="assets/js/pages/datatables.init.js"></script>  
+    <script src="assets/js/pages/datatables.init.js"></script>
 
 
     <script src="assets/js/app.js"></script>
     <!-- form advanced init -->
     <script src="assets/js/pages/form-advanced.init.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $(".select2").select2({
+
+                dropdownParent: $("#addClassModal")
+
+            });
+
+        });
+
+    </script>
+    <script>
+
+        $(document).ready(function () {
+
+            $(".select2").select2({
+
+                dropdownParent: $("#editUserModal")
+
+            });
+
+        });
+
+    </script>
 
 </body>
 
 </html>
-
-
