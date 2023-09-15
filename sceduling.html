@@ -780,17 +780,24 @@
                 $('#eventDetailsModal').modal('show');
             },
             viewDidMount: function () {
-                if (!datepickerAppended) {
-                    var secondToolbarChunk = $(".fc-toolbar-chunk").eq(1);
-                    secondToolbarChunk.append('<div class="input-group" id="datepicker2"><input type="text" class="form-control" placeholder="dd M, yyyy" data-date-format="dd M, yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>');
-                    $(".input-group.date").datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: "dd M, yyyy", 
-                    });
-                    datepickerAppended = true;
-                }
-            },
+            if (!datepickerAppended) {
+                var secondToolbarChunk = $(".fc-toolbar-chunk").eq(1);
+                secondToolbarChunk.append('<div class="input-group" id="datepicker2"><input type="text" class="form-control" placeholder="dd M, yyyy" data-date-format="dd M, yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true" id="datepicker"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>');
+                $(".input-group.date").datepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    format: "dd M, yyyy",
+                });
+
+                // Add change event listener to the datepicker input
+                $('#datepicker').on('changeDate', function (e) {
+                    var selectedDate = e.date;
+                    calendar.gotoDate(selectedDate);
+                });
+
+                datepickerAppended = true;
+            }
+        },
             editable: true,
             selectable: true,
             select: function (info) {
