@@ -29,6 +29,12 @@
     <!-- Custom Css-->
     <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
     <style>
+        .card-title {
+            font-size: 0.8rem !important;
+        }
+        .btn{
+            font-size: 0.7rem;
+        }
         .card select,
         .card input {
             height: 25px !important;
@@ -84,8 +90,6 @@
             table-layout: fixed;
             font-size: 0.7rem;
         }
-
-
 
         th,
         td {
@@ -282,9 +286,6 @@
             </div>
         </div>
 
-
-
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -358,10 +359,10 @@
                                     </div>
 
                                     <div class="category-container mb-0 " style="display: flex; align-items: center;">
-                                        <div style="position: absolute;left: 0.4rem;top: 7rem;">
+                                        <div style="font-size: 0.6rem; position: absolute;left: 0.4rem;top: 7rem;">
                                             <span class="text-primary" style="display: block; font-weight: 600;">N</span>
-                                            <span class="text-primary" style="display: block; font-weight: 600;">e</span>
-                                            <span class="text-primary" style="display: block; font-weight: 600;">w</span>
+                                            <span class="text-primary" style="display: block; font-weight: 600;">E</span>
+                                            <span class="text-primary" style="display: block; font-weight: 600;">W</span>
                                         </div>
                                         
                                         <table>
@@ -471,7 +472,7 @@
                                                 </tr>
                                                 <tr>
 
-                                                    <td colspan="7" class="border-bottom-0">
+                                                    <td colspan="7" class="border-bottom-0 text-center">
                                                         <a href="javascript:void(0);" class="show-more-less-btn"
                                                             data-category="New">Show More</a>
                                                     </td>
@@ -483,6 +484,15 @@
 
                                     <!-- Category: Payment-Pending -->
                                   <div class="category-container mb-0 ">
+                                    <div style="position: absolute;left: 0.4rem;top: 14rem; font-size: 0.6rem;">
+                                        <span class="text-primary" style="display: block; font-weight: 600;">P</span>
+                                        <span class="text-primary" style="display: block; font-weight: 600;">E</span>
+                                        <span class="text-primary" style="display: block; font-weight: 600;">N</span>
+                                        <span class="text-primary" style="display: block; font-weight: 600;">D</span>
+                                        <span class="text-primary" style="display: block; font-weight: 600;">I</span>
+                                        <span class="text-primary" style="display: block; font-weight: 600;">N</span>
+                                        <span class="text-primary" style="display: block; font-weight: 600;">G</span>
+                                    </div>
                                         <table>
                                                
                                             <!-- Initially display 2 rows -->
@@ -583,9 +593,9 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="7" class="border-bottom-0">
+                                                    <td colspan="7" class="border-bottom-0 text-center" >
                                                         <a href="javascript:void(0);" class="show-more-less-btn"
-                                                            data-category="Payment-pending">Show More</a>
+                                                            data-category="Payment-pending">Show More </a>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -596,6 +606,14 @@
 
                                     <!-- Category: Course-assign -->
                                     <div class="category-container">
+                                        <div style="position: absolute;left: 0.4rem;top: 22rem; font-size: 0.6rem;">
+                                            <span class="text-primary" style="display: block; font-weight: 600;">A</span>
+                                            <span class="text-primary" style="display: block; font-weight: 600;">S</span>
+                                            <span class="text-primary" style="display: block; font-weight: 600;">S</span>
+                                            <span class="text-primary" style="display: block; font-weight: 600;">I</span>
+                                            <span class="text-primary" style="display: block; font-weight: 600;">G</span>
+                                            <span class="text-primary" style="display: block; font-weight: 600;">N</span>
+                                        </div>
                                         <table>
                                            
                                             <!-- Initially display 2 rows -->
@@ -697,7 +715,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="7">
+                                                    <td colspan="7" class="text-center">
                                                         <a href="javascript:void(0);" class="show-more-less-btn"
                                                             data-category="Course-assign">Show More</a>
                                                     </td>
@@ -1303,21 +1321,7 @@
                 <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
-            <!-- <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <script>document.write(new Date().getFullYear())</script> © Tonga.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by <a href="https://braincavesoft.com" target="_blank">Braincave
-                                    Software Pvt.Ltd.</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer> -->
+            
         </div>
         <!-- end main content-->
 
@@ -1422,6 +1426,7 @@
                 });
 
                 btn.textContent = (btn.textContent === 'Show More') ? 'Show Less' : 'Show More';
+                
             });
         });
     </script>
