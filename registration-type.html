@@ -39,7 +39,85 @@
         .select2-container {
             width: 100% !important;
         }
+
+        .dropdown {
+            position: relative;
+            font-size: 14px;
+            color: #182433;
+        }
+
+        .dropdown .dropdown-list {
+            padding: 0;
+            background: #ffffff;
+            position: absolute;
+            top: 30px;
+            left: 2px;
+            right: 2px;
+            z-index: 1000;
+            border: 1px solid rgba(4, 32, 69, 0.14);
+            border-radius: 4px;
+            box-shadow: 0px 16px 24px 2px rgba(0, 0, 0, 0.07), 0px 6px 30px 5px rgba(0, 0, 0, 0.06), 0px 8px 10px -5px rgba(0, 0, 0, 0.1);
+            transform-origin: 50% 0;
+            transform: scale(1, 0);
+            transition: transform 0.15s ease-in-out 0.15s;
+            max-height: 66vh;
+            overflow-y: scroll;
+        }
+
+        .dropdown .dropdown-option {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            opacity: 0;
+            transition: opacity 0.15s ease-in-out;
+        }
+
+        .dropdown .dropdown-label {
+            display: block;
+            background: #fff;
+            font-family: var(--tblr-font-sans-serif);
+            font-size: .875rem;
+            font-weight: 400;
+            line-height: 1.4285714286 !important;
+            padding: 0.4375rem 0.75rem !important;
+
+            cursor: pointer;
+            border: 1px solid #dadfe5;
+            border-radius: 4px;
+        }
+
+        .dropdown .dropdown-label:before {
+            font-family: "Material Design Icons";
+            content: "\f0140";
+            color: #a5a9b1;
+            float: right;
+        }
+
+        .dropdown.on .dropdown-list {
+            transform: scale(1, 1);
+            transition-delay: 0s;
+        }
+
+        .dropdown.on .dropdown-list .dropdown-option {
+            opacity: 1;
+            transition-delay: 0.2s;
+            color: #182433;
+        }
+
+        .dropdown.on .dropdown-label:before {
+            content: "\f0143";
+            font-family: "Material Design Icons";
+            color: #a5a9b1;
+        }
+
+        .dropdown [type="checkbox"] {
+            position: relative;
+            top: -1px;
+            margin-right: 4px;
+        }
     </style>
+
+
 </head>
 
 <body data-sidebar="dark">
@@ -377,7 +455,8 @@
                             </a>
                             <ul class="sub-menu mm-collapse" aria-expanded="false">
                                 <li><a href="registration-type.html" key="t-course-dashboard">Registration Type</a></li>
-                                <li><a href="registration-level.html" key="t-course-categoery">Registration Level</a></li>
+                                <li><a href="trade-level.html" key="t-course-categoery">Trade Level</a>
+                                </li>
                                 <li><a href="trade-type.html" key="t-course-subcategoery">Trade Types</a>
                                 </li>
                                 <li><a href="course.html" key="t-course-subcategoery">Courses</a>
@@ -491,7 +570,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                               
+
                                                 <tr>
                                                     <td><input type="checkbox"></td>
                                                     <td>CoreTrade</td>
@@ -622,19 +701,38 @@
                         </div>
                         <div class="modal-body">
                             <form id="selectRegistrationLevelForm">
+
                                 <div class="mb-3">
-                                    <label for="registrationLevel" class="form-label">Registration Level:</label>
-                                    <select class="form-select" id="registrationLevel">
-                                        <option value="">-- Select --</option>
-                                        <option value="Tradesman (FC+SA)">Tradesman (FC+SA)</option>
-                                        <option value="Tradesman (Re-Test)">Tradesman (Re-Test)</option>
-                                        <option value="Trade Foreman (FC+SA)">Trade Foreman (FC+SA)</option>
-                                        <option value="Trade Foreman (Re-Test)">Trade Foreman (Re-Test)</option>
-                                        <option value="Upgrade From Tradesman To Trade Foreman (FC+SA)">Upgrade From
-                                            Tradesman To Trade Foreman (FC+SA)</option>
-                                        <option value="Upgrade From Tradesman To Trade Foreman (Re-Test)">Upgrade From
-                                            Tradesman To Trade Foreman (Re-Test)</option>
-                                    </select>
+                                    <div class="form-label">Registration Level
+                                        <span class="text-danger">*</span>
+                                    </div>
+                                    <div class="dropdown" data-control="checkbox-dropdown">
+                                        <label class="dropdown-label">Select</label>
+
+                                        <div class="dropdown-list">
+                                            <a href="#" data-toggle="check-all"
+                                                class="dropdown-option border-bottom text-blue">
+                                                Check All
+                                            </a>
+
+                                            <label class="dropdown-option">
+                                                <input type="checkbox" name="dropdown-group" value="Selection 1" />
+                                                Tradesman (FC+SA)
+                                            </label>
+
+                                            <label class="dropdown-option">
+                                                <input type="checkbox" name="dropdown-group" value="Selection 2" />
+                                                Tradesman (Re-Test)
+                                            </label>
+
+                                            <label class="dropdown-option">
+                                                <input type="checkbox" name="dropdown-group" value="Selection 3" />
+                                                Trade Foreman (FC+SA)
+                                            </label>
+
+
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -717,6 +815,7 @@
         });
 
     </script>
+
     <script>
 
         $(document).ready(function () {
@@ -730,7 +829,121 @@
         });
 
     </script>
+    <script>
+        const selectBox = document.querySelector('.select-box');
+        const selectAllCheckbox = document.getElementById('select-all');
 
+        selectAllCheckbox.addEventListener('change', () => {
+            const isChecked = selectAllCheckbox.checked;
+            selectBox.querySelectorAll('option').forEach(option => {
+                option.selected = isChecked;
+            });
+        });
+
+        selectBox.addEventListener('change', () => {
+            const selectedOptions = Array.from(selectBox.selectedOptions).map(option => option.value);
+            if (selectedOptions.length === selectBox.options.length) {
+                selectAllCheckbox.checked = true;
+            } else {
+                selectAllCheckbox.checked = false;
+            }
+            console.log("Selected options:", selectedOptions);
+        });
+    </script>
+    <script>
+        (function ($) {
+            var CheckboxDropdown = function (el) {
+                var _this = this;
+                this.isOpen = false;
+                this.areAllChecked = false;
+                this.$el = $(el);
+                this.$label = this.$el.find('.dropdown-label');
+                this.$checkAll = this.$el.find('[data-toggle="check-all"]').first();
+                this.$inputs = this.$el.find('[type="checkbox"]');
+
+                this.onCheckBox();
+
+                this.$label.on('click', function (e) {
+                    e.preventDefault();
+                    _this.toggleOpen();
+                });
+
+                this.$checkAll.on('click', function (e) {
+                    e.preventDefault();
+                    _this.onCheckAll();
+                });
+
+                this.$inputs.on('change', function (e) {
+                    _this.onCheckBox();
+                });
+            };
+
+            CheckboxDropdown.prototype.onCheckBox = function () {
+                this.updateStatus();
+            };
+
+            CheckboxDropdown.prototype.updateStatus = function () {
+                var checked = this.$el.find(':checked');
+
+                this.areAllChecked = false;
+                this.$checkAll.html('Check All');
+
+                if (checked.length <= 0) {
+                    this.$label.html('Select Options');
+                }
+                else if (checked.length === 1) {
+                    this.$label.html(checked.parent('label').text());
+                }
+                else if (checked.length === this.$inputs.length) {
+                    this.$label.html('All Selected');
+                    this.areAllChecked = true;
+                    this.$checkAll.html('Uncheck All');
+                }
+                else {
+                    this.$label.html(checked.length + ' Selected');
+                }
+            };
+
+            CheckboxDropdown.prototype.onCheckAll = function (checkAll) {
+                if (!this.areAllChecked || checkAll) {
+                    this.areAllChecked = true;
+                    this.$checkAll.html('Uncheck All');
+                    this.$inputs.prop('checked', true);
+                }
+                else {
+                    this.areAllChecked = false;
+                    this.$checkAll.html('Check All');
+                    this.$inputs.prop('checked', false);
+                }
+
+                this.updateStatus();
+            };
+
+            CheckboxDropdown.prototype.toggleOpen = function (forceOpen) {
+                var _this = this;
+
+                if (!this.isOpen || forceOpen) {
+                    this.isOpen = true;
+                    this.$el.addClass('on');
+                    $(document).on('click', function (e) {
+                        if (!$(e.target).closest('[data-control]').length) {
+                            _this.toggleOpen();
+                        }
+                    });
+                }
+                else {
+                    this.isOpen = false;
+                    this.$el.removeClass('on');
+                    $(document).off('click');
+                }
+            };
+
+            var checkboxesDropdowns = document.querySelectorAll('[data-control="checkbox-dropdown"]');
+            for (var i = 0, length = checkboxesDropdowns.length; i < length; i++) {
+                new CheckboxDropdown(checkboxesDropdowns[i]);
+            }
+        })(jQuery);
+    </script>
 </body>
 
 </html>
