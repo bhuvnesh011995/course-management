@@ -122,6 +122,26 @@
         .topnav .navbar-nav .nav-link {
             color: #fff !important;
         }
+        .input-container {
+      position: relative;
+    }
+
+    .input-container input {
+      width: 100%;
+      padding-right: 50px; /* Make space for icons */
+    }
+
+    .input-icons {
+      position: absolute;
+      top: 70%;
+      right: 30px;
+      transform: translateY(-50%);
+    }
+
+    .input-icons i {
+      cursor: pointer;
+      margin-left: 10px;
+    }
     </style>
 
 </head>
@@ -866,7 +886,7 @@
                                                 <td>ABC Corporation</td>
                                                 <td>John Smith</td>
                                                 <td>Alice Johnson</td>
-                                                <td>9876543210</td>
+                                                                            <td>9876543210</td>
                                                 <td>Tiling</td>
                                                 <td>
                                                     <i class="mdi mdi-pencil align-middle me-1 text-primary" data-bs-toggle="modal"
@@ -1219,14 +1239,38 @@
                                             readonly>
                                     </div>
                                     <div class="col-md-4 mb-3">
+                                        <label for="course" class="form-label">Course</label>
+                                        <select class="form-select" id="class-add" required="" disabled>
+                                            <option value="0">Select course</option>
+                                            <option value="class-1" selected>Course-1</option>
+                                            <option value="class-2">Course-2</option>
+                                            <option value="class-3">Course-3</option>
+
+                                        </select>
+                                    </div>
+                                    
+                                    
+                                    <div class="col-md-12 mb-3">
+                                        <hr>
+                                        <h4>Upload Documents <span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
                                         <label for="acknowledgementNotice" class="form-label">Valid BCA Acknowledgement
-                                            Notice</label>
-                                        <input type="file" class="form-control" id="acknowledgementNotice" readonly>
+                                            Notice</label><br>
+                                        <input class="form-control" type="text" value="abc.pdf"  readonly>
+                                        <div class="input-icons">
+                                            <i class="fas fa-eye text-primary" style="cursor: pointer;"></i>
+                                            <i class="fas fa-download text-success" style="cursor: pointer;"></i>
+                                        </div>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="nricWorkDocument" class="form-label">Valid copy of NRIC / Work
                                             document</label>
-                                        <input type="file" class="form-control" id="nricWorkDocument" readonly>
+                                            <input class="form-control" type="text" value="xyz.pdf" readonly>
+                                            <div class="input-icons">
+                                                <i class="fas fa-eye text-primary" style="cursor: pointer;"></i>
+                                                <i class="fas fa-download text-success" style="cursor: pointer;"></i>
+                                            </div>
                                     </div>
                                 </div>
 
@@ -1238,7 +1282,9 @@
                         <div class="modal-footer">
                             <div class="row">
                                 <div class="col-lg-12 text-end">
-                                    <button type="button" class="btn btn-secondary">Discard</button>
+                                    <button type="button" class="btn btn-success">Confirm</button>
+                                    <button type="button" class="btn btn-danger">Reject</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
                                 </div>
                             </div>
                         </div>
@@ -1321,7 +1367,7 @@
                                     <div class="col-md-4 mb-3">
                                         <label for="alternateMobile" class="form-label">Alternate Mobile Number (if
                                             any)</label>
-                                        <input type="tel" class="form-control" id="alternateMobile" value="">
+                                        <input type="tel" class="form-control" id="alternateMobile" value="+91-1234123456">
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="tradeType" class="form-label">Trade Type</label>
@@ -1335,16 +1381,7 @@
                                             R1 Registration No</label>
                                         <input type="text" class="form-control" id="coreTradeRegNo" value="CT1234567">
                                     </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="acknowledgementNotice" class="form-label">Valid BCA Acknowledgement
-                                            Notice</label>
-                                        <input type="file" class="form-control" id="acknowledgementNotice">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="nricWorkDocument" class="form-label">Valid copy of NRIC / Work
-                                            document</label>
-                                        <input type="file" class="form-control" id="nricWorkDocument">
-                                    </div>
+                                   
                                     <div class="col-md-4 mb-3">
                                         <label for="course" class="form-label">Course</label>
                                         <select class="form-select" id="class-add" required="">
@@ -1354,6 +1391,113 @@
                                             <option value="class-3">Course-3</option>
 
                                         </select>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <hr>
+                                        <h4>Upload Documents <span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row myDiv" id="show1" style="display: flex;">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="acknowledgementNotice" class="form-label">Valid BCA
+                                                    Acknowledgement
+                                                    Notice</label>
+                                                <input type="file" class="form-control" id="acknowledgementNotice">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid copy of NRIC /
+                                                    Work
+                                                    document</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid Copy Of
+                                                    Passport</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid Copy Of MOM
+                                                    Employment Details</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                        </div>
+                                        <div class="row myDiv" id="show2" style="display: none;">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="acknowledgementNotice" class="form-label">1st Skill
+                                                    Evaluation Certificate / BCA Skills Qualification Statement</label>
+                                                <input type="file" class="form-control" id="acknowledgementNotice">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid BCA
+                                                    Acknowledgement Notice</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid Copy Of NRIC /
+                                                    Work Pass</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid Copy Of
+                                                    Passport</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid Copy Of MOM
+                                                    Employment Details</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                        </div>
+                                        <div class="row myDiv" id="show3" style="display: none;">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="acknowledgementNotice" class="form-label">Valid Copy Of NRIC
+                                                    / Work Pass</label>
+                                                <input type="file" class="form-control" id="acknowledgementNotice">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid Copy Of
+                                                    Passport</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid Copy Of MOM
+                                                    Employment Details</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+
+                                        </div>
+                                        <div class="row myDiv" id="show4" style="display: none;">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="acknowledgementNotice" class="form-label">Valid BCA
+                                                    Acknowledgement Notice</label>
+                                                <input type="file" class="form-control" id="acknowledgementNotice">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Valid Copy Of NRIC /
+                                                    Work Passt</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row myDiv" id="show5" style="display: none;">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="acknowledgementNotice" class="form-label">Copy Of PA
+                                                    Quota（PA复印件）</label>
+                                                <input type="file" class="form-control" id="acknowledgementNotice">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Copy Of Worker's IC
+                                                    员工的身份证复印件</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="nricWorkDocument" class="form-label">Copy Of Worker's
+                                                    Passport (if available) 员工的护照复印件 - 如有请提供</label>
+                                                <input type="file" class="form-control" id="nricWorkDocument">
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
 
