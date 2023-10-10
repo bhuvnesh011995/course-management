@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const tongaUserSchema = new mongoose.Schema(
   {
     firstName: { type: String },
     lastName: { type: String },
-    course: { type: String },
-    discription: { type: String },
     name: { type: String },
     email: { type: String, unique: true, match: /.+\@.+\..+/ },
     phoneNo: { type: Number },
+    course: { type: String },
+    discription: { type: String },
     userName: { type: String },
     password: { type: String },
     userImagePath: { type: String },
@@ -18,6 +18,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const userModel = mongoose.model("user", userSchema);
+const tongaUserModel = mongoose.model("tongaUsers", tongaUserSchema);
 
-module.exports = userModel;
+module.exports = tongaUserModel;

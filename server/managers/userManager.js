@@ -1,4 +1,6 @@
 const UserModel = require("../models/userModel");
+const TongaUserModel = require("../models/tongaUserModel");
+const bcrypt = require("bcrypt");
 
 const addNewUser = async (data) => {
   try {
@@ -52,9 +54,30 @@ const updateUser = async (data) => {
   }
 };
 
+const registerUser = async ({ file, query }) => {
+  try {
+    const encryptedpass = bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(query.userData.password, salt, (err, hash) => {
+        return hash;
+        // bcrypt.compare("Aa@a2", hash, (err, result) => console.log(result));
+      });
+    });
+    query.userData["password"] = encryptedpass;
+    query.userData["userImagePath"] = `images/${file.filename}`;
+    query.userData["name"] =
+      query.userData.firstName + " " + query.userData.lastName;
+    const user = await TongaUserModel.create(query.userData);
+    const newUser = await user.save();
+    return { message: "User Added Successfully !!" };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   addNewUser,
   getUsers,
   deleteUser,
   updateUser,
+  registerUser,
 };

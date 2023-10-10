@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import { useEffect, useState } from "react";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
@@ -75,6 +76,26 @@ export const UserManagement = () => {
     }
   };
 
+  const changeToDateData = ({ target }) => {
+    switch (target.value) {
+      case "Old":
+        const oldestSorted = users.sort(
+          (a, b) => new Date(a.created_at) - new Date(b.created_at)
+        );
+        setUsers([...oldestSorted]);
+        break;
+      case "New":
+        const newSorted = users.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+        setUsers([...newSorted]);
+        break;
+      case "Rec":
+        console.log("Recent");
+        break;
+    }
+  };
+
   return (
     <div id="layout-wrapper">
       <CommonNavbar />
@@ -106,24 +127,14 @@ export const UserManagement = () => {
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-50">
                         <div className="col-xl-5">
-                          <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
+                          <select
+                            className="form-select"
+                            onChange={changeToDateData}
+                          >
+                            <option value="New">Newest</option>
+                            <option value="Old">Oldest</option>
+                            <option value="Rec">Recent</option>
                           </select>
-                        </div>
-                        <div className="col-xl-7">
-                          <div className="d-flex" role="search">
-                            <input
-                              className="form-control me-2"
-                              type="search"
-                              placeholder="Search"
-                              aria-label="Search"
-                            />{" "}
-                            <button className="btn btn-light" type="submit">
-                              Search
-                            </button>
-                          </div>
                         </div>
                       </div>
                       <button
@@ -269,6 +280,7 @@ export const UserManagement = () => {
         <EmailVerfificationModal
           isOpen={emailModal}
           setIsOpen={setEmailModal}
+          userData={userData}
         />
       )}
     </div>

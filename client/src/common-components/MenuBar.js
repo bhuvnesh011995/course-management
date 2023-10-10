@@ -62,20 +62,21 @@ export const MenuBar = () => {
                   <Link to="/user-management">User Managment</Link>
                 </li>
                 <li>
-                  <a
-                    className="has-arrow"
-                    onClick={() => showMenuList("roles-menu")}
+                  <Link
+                    to="/roles"
+                    className="sub-menu"
+                    // onClick={() => showMenuList("roles-menu")}
                   >
                     Roles and Permission
-                  </a>
-                  <ul className="sub-menu mm-collapse" id="roles-menu">
+                  </Link>
+                  {/* <ul className="sub-menu mm-collapse" id="roles-menu">
                     <li>
                       <Link to="/roles">Roles</Link>
                     </li>
                     <li>
                       <Link to="/permission">Permissions</Link>
                     </li>
-                  </ul>
+                  </ul> */}
                 </li>
               </ul>
             </li>

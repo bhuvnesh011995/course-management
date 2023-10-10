@@ -138,3 +138,22 @@
 .editor-input{
     height: 300px;
 }
+
+.verification-btn{
+    font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif;
+     box-sizing: border-box;
+      font-size: 14px; color: #fff;
+       text-decoration: none;
+        line-height: 2em;
+         font-weight: bold;
+          text-align: center;
+           cursor: pointer;
+            display: inline-block;
+             border-radius: 5px;
+              text-transform: capitalize; 
+              background-color: #34c38f; 
+              margin: 0;
+               border-color: #34c38f;
+                border-style: solid;
+                 border-width: 8px 16px;
+}

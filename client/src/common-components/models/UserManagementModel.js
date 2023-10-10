@@ -20,6 +20,7 @@ export const AddNewUserModal = ({
     register,
     setValue,
     getValues,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -33,16 +34,15 @@ export const AddNewUserModal = ({
   };
 
   const setUserData = () => {
-    setValue("user", userData);
+    reset(userData);
   };
 
   const addNewUser = async (userData) => {
     try {
-      userData.user["name"] =
-        userData.user["firstName"] + " " + userData.user["lastName"];
+      userData["name"] = userData["firstName"] + " " + userData["lastName"];
       const { data } = await axios.post(
         "http://localhost:5000/api/users/addNewUser",
-        userData.user
+        userData
       );
       callback(data);
       handleClose();
@@ -53,13 +53,12 @@ export const AddNewUserModal = ({
 
   const updateUser = async (userData) => {
     try {
-      userData.user["name"] =
-        userData.user["firstName"] + " " + userData.user["lastName"];
+      userData["name"] = userData["firstName"] + " " + userData["lastName"];
       const { data } = await axios.post(
         "http://localhost:5000/api/users/updateUser",
-        userData.user
+        userData
       );
-      callback(userData.user);
+      callback(userData);
       handleClose();
     } catch (err) {
       console.error(err);
@@ -91,14 +90,14 @@ export const AddNewUserModal = ({
                   type="text"
                   className="form-control"
                   placeholder="Enter first name"
-                  {...register("user.firstName", {
+                  {...register("firstName", {
                     required: "First Name is required",
                     pattern: namePattern,
                   })}
                   disabled={viewUser}
                 />
                 <span className="text-danger">
-                  {errors?.user?.firstName && errors?.user?.firstName.message}
+                  {errors?.firstName && errors?.firstName.message}
                 </span>
               </div>
               <div className="col-md-6 mb-3">
@@ -107,14 +106,14 @@ export const AddNewUserModal = ({
                   type="text"
                   className="form-control"
                   placeholder="Enter last name"
-                  {...register("user.lastName", {
+                  {...register("lastName", {
                     required: "Last Name is required",
                     pattern: namePattern,
                   })}
                   disabled={viewUser}
                 />
                 <span className="text-danger">
-                  {errors?.user?.lastName && errors?.user?.lastName.message}
+                  {errors?.lastName && errors?.lastName.message}
                 </span>
               </div>
               <div className="col-md-6 mb-3">
@@ -124,7 +123,7 @@ export const AddNewUserModal = ({
                 <input
                   className="form-control"
                   placeholder="Enter email"
-                  {...register("user.email", {
+                  {...register("email", {
                     required: "Email is Required",
                     pattern: emailPattern,
                     validate: (fieldValue) => {
@@ -137,7 +136,7 @@ export const AddNewUserModal = ({
                   disabled={viewUser}
                 />
                 <span className="text-danger">
-                  {errors?.user?.email && errors?.user?.email?.message}
+                  {errors?.email && errors?.email?.message}
                 </span>
               </div>
               <div className="col-md-6 mb-3">
@@ -148,16 +147,14 @@ export const AddNewUserModal = ({
                   type="number"
                   className="form-control"
                   placeholder="Enter Mobile"
-                  {...register("user.mobile", {
+                  {...register("mobile", {
                     required: true,
                     pattern: phonePattern,
                   })}
                   disabled={viewUser}
                 />
-                {errors?.user?.mobile && (
-                  <span className="text-danger">
-                    {errors?.user?.mobile?.message}
-                  </span>
+                {errors?.mobile && (
+                  <span className="text-danger">{errors?.mobile?.message}</span>
                 )}
               </div>
               <div className="col-md-6 mb-3">
@@ -168,14 +165,14 @@ export const AddNewUserModal = ({
                   type="text"
                   className="form-control"
                   placeholder="Enter username"
-                  {...register("user.userName", {
+                  {...register("userName", {
                     required: "User Name is required",
                     pattern: namePattern,
                   })}
                   disabled={viewUser}
                 />
                 <span className="text-danger">
-                  {errors?.user?.userName && errors?.user?.userName.message}
+                  {errors?.userName && errors?.userName.message}
                 </span>
               </div>
               <div className="col-md-6 mb-3">
@@ -186,7 +183,7 @@ export const AddNewUserModal = ({
                   type="password"
                   className="form-control"
                   placeholder="Enter password"
-                  {...register("user.password", {
+                  {...register("password", {
                     required: "Password is required",
                     pattern: passwordPattern,
                     minLength: {
@@ -197,14 +194,14 @@ export const AddNewUserModal = ({
                   disabled={viewUser}
                 />
                 <span className="text-danger">
-                  {errors?.user?.password && errors?.user?.password.message}
+                  {errors?.password && errors?.password.message}
                 </span>
               </div>
               <div className="col-md-6 mb-3">
                 <label className="form-label">User Roles</label>
                 <select
                   className="form-select"
-                  {...register("user.userRole")}
+                  {...register("userRole")}
                   disabled={viewUser}
                 >
                   <option value={""} selected>
@@ -218,7 +215,7 @@ export const AddNewUserModal = ({
                 <label className="form-label">Status</label>
                 <select
                   className="form-select"
-                  {...register("user.status")}
+                  {...register("status")}
                   disabled={viewUser}
                 >
                   <option value={""} selected>

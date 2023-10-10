@@ -1,11 +1,51 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { CommonQuillTextEditor } from "../commonQuillTextEditor";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { CommonJoditEditor } from "../CommonJoditEditor";
 
-export const EmailVerfificationModal = ({ isOpen, setIsOpen }) => {
+export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
+  const [mailValue, setMailValue] = useState(
+    `
+      <p >Congratulations! Your account has been successfully registered. Please confirm your email address by clicking the link below.</p>\n
+      <p>We may need to send you critical information about our service, and it is important that we have an accurate email address.</p>\n    \n
+      <button class="verification-btn">Confirm email address</button><br>\n
+    <p><strong>Tonga</strong> <br>\n
+    Support Team\n
+    </p>\n\n \n
+    `
+  );
+  const {
+    register,
+    setValue,
+    getValues,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const sendEmail = async (mailData) => {
+    try {
+      mailData["mailValue"] = mailValue;
+      const { data } = await axios.get(
+        "http://localhost:5000/api/mail/sendEmail",
+        { params: mailData }
+      );
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleClose = () => {
+    reset();
+    setIsOpen(false);
+  };
+
   return (
     <div>
-      <Modal show={isOpen} onHide={setIsOpen}>
+      <Modal show={isOpen} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             <h5 className="modal-title" id="viewUserModalLabel">
@@ -16,44 +56,46 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen }) => {
 
         <Modal.Body>
           <div>
-            <div className="mb-3">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="To : jhone@123"
-              />
-            </div>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Subject : Verify Email Address"
-              />
-            </div>
-            {/* <div className="mb-3">
-              <form method="post">
-                <textarea
-                  id="open-source-plugins"
-                  defaultValue={
-                    '                                <p>Congratulations! Your account has been successfully registered. Please confirm your email address by clicking the link below.</p>\n                                <p>We may need to send you critical information about our service, and it is important that we have an accurate email address.</p>\n                               \n                                <a href="#" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #fff; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #34c38f; margin: 0; border-color: #34c38f; border-style: solid; border-width: 8px 16px;">Confirm email address</a>\n                                <p><strong>Tonga</strong> <br>\n                                    Support Team\n                                </p>\n\n                                \n                            '
-                  }
+            <form onSubmit={handleSubmit(sendEmail)}>
+              <div className="mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="To : jhone@123"
+                  {...register("email")}
                 />
-              </form>
-            </div> */}
-            <div className="mb-3">
-              <CommonQuillTextEditor />
-              {/* <CommonFroalaTextEditor /> */}
-            </div>
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Subject : Verify Email Address"
+                  {...register("subject")}
+                />
+              </div>
+              <div className="mb-3">
+                <CommonJoditEditor
+                  editorValue={mailValue}
+                  setEditorValue={setMailValue}
+                />
+              </div>
+              <Modal.Footer>
+                <div style={{ marginTop: "50px" }}>
+                  <button type="submit" className="mx-1 btn btn-success">
+                    Send
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleClose}
+                    className="mx-1 btn btn-secondary"
+                  >
+                    Close
+                  </button>
+                </div>
+              </Modal.Footer>
+            </form>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <button type="button" className="btn btn-success">
-            Send
-          </button>
-          <button type="button" className="btn btn-secondary">
-            Close
-          </button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

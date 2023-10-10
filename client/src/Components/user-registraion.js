@@ -1,28 +1,45 @@
-// <!doctype html>
-// <html lang="en">
-
-//     <head>
-
-//         <meta charset="utf-8" />
-//         <title>Register | Tonga</title>
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <meta content="#" name="description" />
-//         <meta content="Themesbrand" name="author" />
-//         <!-- App favicon -->
-//         <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-//         <!-- Bootstrap Css -->
-//         <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-//         <!-- Icons Css -->
-//         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-//         <!-- App Css-->
-//         <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-
-//     </head>
-
-//     <body >
+import profileImg from "../assets/images/profile-img.png";
+import logoImg from "../assets/images/logo.svg";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import {
+  emailPattern,
+  namePattern,
+  passwordPattern,
+  phonePattern,
+} from "../common-components/validations";
 
 export const UserRegistration = () => {
+  const {
+    handleSubmit,
+    register,
+    setValues,
+    reset,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm();
+
+  const registerUser = async (userData) => {
+    try {
+      const formdata = new FormData();
+      formdata.append("userImage", userData.userImage[0]);
+      const { data } = await axios.post(
+        "http://localhost:5000/api/users/registerUser",
+        formdata,
+        {
+          params: {
+            userData,
+          },
+        }
+      );
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="account-pages my-5 pt-sm-5">
       <div className="container">
@@ -38,100 +55,121 @@ export const UserRegistration = () => {
                     </div>
                   </div>
                   <div className="col-5 align-self-end">
-                    <img
-                      src="assets/images/profile-img.png"
-                      alt=""
-                      className="img-fluid"
-                    />
+                    <img src={profileImg} alt="" className="img-fluid" />
                   </div>
                 </div>
               </div>
               <div className="card-body pt-0">
                 <div>
-                  <a href="index.html">
-                    <div className="avatar-md profile-user-wid mb-4">
+                  <Link to="/">
+                    <div
+                      style={{ height: "70px", width: "70px" }}
+                      className="avatar-md profile-user-wid mb-4"
+                    >
                       <span className="avatar-title rounded-circle bg-light">
                         <img
-                          src="assets/images/logo.svg"
+                          src={logoImg}
                           alt=""
                           className="rounded-circle"
                           height={34}
                         />
                       </span>
                     </div>
-                  </a>
+                  </Link>
                 </div>
                 <div className="p-2">
-                  <form className="needs-validation row" noValidate action="#">
+                  <form
+                    className="needs-validation row"
+                    onSubmit={handleSubmit(registerUser)}
+                  >
                     <div className="col-md-6 col-sm-12 mb-3">
-                      <label htmlFor="firstname" className="form-label">
-                        First Name
-                      </label>
+                      <label className="form-label">First Name</label>
                       <input
                         type="text"
-                        className="form-control"
-                        id="firstname"
+                        className={`form-control ${
+                          errors?.firstName
+                            ? "is-invalid"
+                            : watch("firstName")?.length > 0 && "is-valid"
+                        }`}
+                        id="firstName"
                         placeholder="Enter First Name"
-                        required
+                        {...register("firstName", {
+                          required: "Please Enter Your First Name",
+                          pattern: namePattern,
+                        })}
                       />
                       <div className="invalid-feedback">
-                        Please enter your First Name.
+                        {errors?.firstName && errors?.firstName?.message}
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-12 mb-3">
-                      <label htmlFor="lastname" className="form-label">
-                        Last Name
-                      </label>
+                      <label className="form-label">Last Name</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${
+                          errors?.lastName
+                            ? "is-invalid"
+                            : watch("lastName")?.length > 0 && "is-valid"
+                        }`}
                         id="lastname"
                         placeholder="Enter Last Name"
-                        required
+                        {...register("lastName", {
+                          required: "Please Enter Your Last Name",
+                          pattern: namePattern,
+                        })}
                       />
                       <div className="invalid-feedback">
-                        Please enter your Last Name.
+                        {errors?.lastName && errors?.lastName?.message}
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-12 mb-3">
-                      <label htmlFor="username" className="form-label">
-                        Username
-                      </label>
+                      <label className="form-label">Username</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${
+                          errors?.userName
+                            ? "is-invalid"
+                            : watch("userName")?.length > 0 && "is-valid"
+                        }`}
                         id="username"
                         placeholder="Enter Username"
-                        required
+                        {...register("userName", {
+                          required: "Please Enter User Name",
+                          pattern: namePattern,
+                        })}
                       />
                       <div className="invalid-feedback">
-                        Please enter a Username.
+                        {errors?.userName && errors?.userName?.message}
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-12 mb-3">
-                      <label htmlFor="userpassword" className="form-label">
-                        Password
-                      </label>
+                      <label className="form-label">Password</label>
                       <input
                         type="password"
-                        className="form-control"
-                        id="userpassword"
+                        className={`form-control ${
+                          errors?.password
+                            ? "is-invalid"
+                            : watch("password")?.length > 0 && "is-valid"
+                        }`}
                         placeholder="Enter Password"
-                        required
+                        {...register("password", {
+                          required: "Please Enter password",
+                          pattern: passwordPattern,
+                        })}
                       />
                       <div className="invalid-feedback">
-                        Please enter a Password.
+                        {errors?.password && errors?.password?.message}
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-12 mb-3">
-                      <label htmlFor="userphoto" className="form-label">
-                        Photo
-                      </label>
+                      <label className="form-label">Photo</label>
                       <input
                         type="file"
-                        className="form-control"
+                        className={`form-control`}
                         id="userphoto"
+                        multiple={false}
                         accept="image/*"
+                        {...register("userImage")}
                       />
                     </div>
                     <div className="col-md-6 col-sm-12 mb-3">
@@ -140,36 +178,58 @@ export const UserRegistration = () => {
                       </label>
                       <input
                         type="email"
-                        className="form-control"
+                        className={`form-control ${
+                          errors?.email
+                            ? "is-invalid"
+                            : watch("email")?.length > 0 && "is-valid"
+                        }`}
                         id="useremail"
                         placeholder="Enter Email"
-                        required
+                        {...register("email", {
+                          required: "Please Enter Email",
+                          pattern: emailPattern,
+                        })}
                       />
                       <div className="invalid-feedback">
-                        Please enter a valid Email.
+                        {errors?.email && errors?.email?.message}
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-12 mb-3">
-                      <label htmlFor="phoneno" className="form-label">
-                        Phone No.
-                      </label>
+                      <label className="form-label">Phone No.</label>
                       <input
                         type="tel"
-                        className="form-control"
+                        className={`form-control ${
+                          errors?.phoneNo
+                            ? "is-invalid"
+                            : watch("phoneNo")?.length > 0 && "is-valid"
+                        }`}
                         id="phoneno"
                         placeholder="Enter Phone Number"
-                        required
+                        {...register("phoneNo", {
+                          required: "Please Enter Phone Number",
+                          pattern: phonePattern,
+                        })}
                       />
                       <div className="invalid-feedback">
-                        Please enter a valid Phone Number.
+                        {errors?.phoneNo && errors?.phoneNo?.message}
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-12 mb-3">
-                      <label htmlFor="course" className="form-label">
+                      <label className="form-label">
                         Applied For Which Course
                       </label>
-                      <select className="form-select" id="course" required>
-                        <option value disabled selected>
+                      <select
+                        className={`form-select ${
+                          errors?.course
+                            ? "is-invalid"
+                            : watch("course")?.length > 0 && "is-valid"
+                        }`}
+                        id="course"
+                        {...register("course", {
+                          required: "Please select a course.",
+                        })}
+                      >
+                        <option value="" disabled selected>
                           Select a Course
                         </option>
                         <option value="course1">Course 1</option>
@@ -177,7 +237,7 @@ export const UserRegistration = () => {
                         <option value="course3">Course 3</option>
                       </select>
                       <div className="invalid-feedback">
-                        Please select a course.
+                        {errors?.course && errors?.course?.message}
                       </div>
                     </div>
                     <div className="col-md-12 col-sm-12 mb-3">
@@ -185,15 +245,21 @@ export const UserRegistration = () => {
                         Description
                       </label>
                       <textarea
-                        className="form-control"
+                        className={`form-control ${
+                          errors?.discription
+                            ? "is-invalid"
+                            : watch("discription")?.length > 0 && "is-valid"
+                        }`}
                         id="description"
                         rows={4}
                         placeholder="Enter Description"
-                        required
-                        defaultValue={""}
+                        {...register("discription", {
+                          required: "Please enter a Description.",
+                          pattern: namePattern,
+                        })}
                       />
                       <div className="invalid-feedback">
-                        Please enter a Description.
+                        {errors?.discription && errors?.discription?.message}
                       </div>
                     </div>
                     <div className="mt-4 d-grid">
@@ -212,10 +278,10 @@ export const UserRegistration = () => {
               <div>
                 <p>
                   Already have an account ?{" "}
-                  <a href="auth-login.html" className="fw-medium text-primary">
+                  <Link to="/login" className="fw-medium text-primary">
                     {" "}
                     Login
-                  </a>{" "}
+                  </Link>{" "}
                 </p>
                 <p>© Tonga.</p>
               </div>

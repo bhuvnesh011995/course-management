@@ -26,6 +26,7 @@ export const AddNewRoleModel = ({
     formState: { errors },
     getValues,
     setValue,
+    reset,
   } = useForm();
 
   const setRoleData = async () => {
@@ -38,8 +39,8 @@ export const AddNewRoleModel = ({
           },
         }
       );
-      checkAllSelected({ role: data[0] });
-      setValue("role", data[0]);
+      checkAllSelected(data[0]);
+      reset(data[0]);
     } catch (err) {
       console.error(err);
     }
@@ -51,7 +52,7 @@ export const AddNewRoleModel = ({
         "http://localhost:5000/api/roles/editRole",
         roleData
       );
-      callback(roleData.role);
+      callback(roleData);
       handleCloseRoleModal();
     } catch (err) {
       console.error(err);
@@ -74,25 +75,25 @@ export const AddNewRoleModel = ({
   const handleCloseRoleModal = () => {
     setIsOpen(false);
     selectAll(false);
-    setValue("role", {});
+    reset();
   };
 
   const selectAll = (isChecked) => {
-    setValue("role.contentManagement.read", isChecked);
-    setValue("role.contentManagement.write", isChecked);
-    setValue("role.contentManagement.create", isChecked);
-    setValue("role.finManagement.read", isChecked);
-    setValue("role.finManagement.write", isChecked);
-    setValue("role.finManagement.create", isChecked);
-    setValue("role.payRoll.read", isChecked);
-    setValue("role.payRoll.write", isChecked);
-    setValue("role.payRoll.create", isChecked);
-    setValue("role.reporting.read", isChecked);
-    setValue("role.reporting.write", isChecked);
-    setValue("role.reporting.create", isChecked);
-    setValue("role.userManagement.read", isChecked);
-    setValue("role.userManagement.write", isChecked);
-    setValue("role.userManagement.create", isChecked);
+    setValue("contentManagement.read", isChecked);
+    setValue("contentManagement.write", isChecked);
+    setValue("contentManagement.create", isChecked);
+    setValue("finManagement.read", isChecked);
+    setValue("finManagement.write", isChecked);
+    setValue("finManagement.create", isChecked);
+    setValue("payRoll.read", isChecked);
+    setValue("payRoll.write", isChecked);
+    setValue("payRoll.create", isChecked);
+    setValue("reporting.read", isChecked);
+    setValue("reporting.write", isChecked);
+    setValue("reporting.create", isChecked);
+    setValue("userManagement.read", isChecked);
+    setValue("userManagement.write", isChecked);
+    setValue("userManagement.create", isChecked);
 
     setAllPermissionChecked(isChecked);
   };
@@ -105,20 +106,20 @@ export const AddNewRoleModel = ({
   const checkAllSelected = (data = getValues()) => {
     const isAllChecked = [];
     if (Object.keys(data).length) {
-      for (const checkbox in data.role.contentManagement) {
-        isAllChecked.push(data.role.contentManagement[checkbox]);
+      for (const checkbox in data.contentManagement) {
+        isAllChecked.push(data.contentManagement[checkbox]);
       }
-      for (const checkbox in data.role.finManagement) {
-        isAllChecked.push(data.role.finManagement[checkbox]);
+      for (const checkbox in data.finManagement) {
+        isAllChecked.push(data.finManagement[checkbox]);
       }
-      for (const checkbox in data.role.payRoll) {
-        isAllChecked.push(data.role.payRoll[checkbox]);
+      for (const checkbox in data.payRoll) {
+        isAllChecked.push(data.payRoll[checkbox]);
       }
-      for (const checkbox in data.role.reporting) {
-        isAllChecked.push(data.role.reporting[checkbox]);
+      for (const checkbox in data.reporting) {
+        isAllChecked.push(data.reporting[checkbox]);
       }
-      for (const checkbox in data.role.userManagement) {
-        isAllChecked.push(data.role.userManagement[checkbox]);
+      for (const checkbox in data.userManagement) {
+        isAllChecked.push(data.userManagement[checkbox]);
       }
       if (isAllChecked.includes(false)) {
         setAllPermissionChecked(false);
@@ -151,7 +152,7 @@ export const AddNewRoleModel = ({
               <input
                 type="text"
                 id="modalRoleName"
-                {...register("role.roleName")}
+                {...register("roleName")}
                 className="form-control"
                 placeholder="Enter a role name"
                 tabIndex={-1}
@@ -207,14 +208,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="userManagementRead"
-                              {...register("role.userManagement.read")}
+                              {...register("userManagement.read")}
                               onChange={() =>
-                                onPermissionChange("role.userManagement.read")
+                                onPermissionChange("userManagement.read")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.userManagement.read")
+                                  : watch("userManagement.read")
                               }
                               disabled={viewRole}
                             />
@@ -230,14 +231,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="userManagementWrite"
-                              {...register("role.userManagement.write")}
+                              {...register("userManagement.write")}
                               onChange={() =>
-                                onPermissionChange("role.userManagement.write")
+                                onPermissionChange("userManagement.write")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.userManagement.write")
+                                  : watch("userManagement.write")
                               }
                               disabled={viewRole}
                             />
@@ -253,14 +254,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="userManagementCreate"
-                              {...register("role.userManagement.create")}
+                              {...register("userManagement.create")}
                               onChange={() =>
-                                onPermissionChange("role.userManagement.create")
+                                onPermissionChange("userManagement.create")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.userManagement.create")
+                                  : watch("userManagement.create")
                               }
                               disabled={viewRole}
                             />
@@ -285,16 +286,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="contentManagementRead"
-                              {...register("role.contentManagement.read")}
+                              {...register("contentManagement.read")}
                               onChange={() =>
-                                onPermissionChange(
-                                  "role.contentManagement.read"
-                                )
+                                onPermissionChange("contentManagement.read")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.contentManagement.read")
+                                  : watch("contentManagement.read")
                               }
                               disabled={viewRole}
                             />
@@ -310,16 +309,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="contentManagementWrite"
-                              {...register("role.contentManagement.write")}
+                              {...register("contentManagement.write")}
                               onChange={() =>
-                                onPermissionChange(
-                                  "role.contentManagement.write"
-                                )
+                                onPermissionChange("contentManagement.write")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.contentManagement.write")
+                                  : watch("contentManagement.write")
                               }
                               disabled={viewRole}
                             />
@@ -335,16 +332,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="contentManagementCreate"
-                              {...register("role.contentManagement.create")}
+                              {...register("contentManagement.create")}
                               onChange={() =>
-                                onPermissionChange(
-                                  "role.contentManagement.create"
-                                )
+                                onPermissionChange("contentManagement.create")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.contentManagement.create")
+                                  : watch("contentManagement.create")
                               }
                               disabled={viewRole}
                             />
@@ -369,14 +364,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="finManagementRead"
-                              {...register("role.finManagement.read")}
+                              {...register("finManagement.read")}
                               onChange={() =>
-                                onPermissionChange("role.finManagement.read")
+                                onPermissionChange("finManagement.read")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.finManagement.read")
+                                  : watch("finManagement.read")
                               }
                               disabled={viewRole}
                             />
@@ -392,14 +387,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="finManagementWrite"
-                              {...register("role.finManagement.write")}
+                              {...register("finManagement.write")}
                               onChange={() =>
-                                onPermissionChange("role.finManagement.write")
+                                onPermissionChange("finManagement.write")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.finManagement.write")
+                                  : watch("finManagement.write")
                               }
                               disabled={viewRole}
                             />
@@ -415,14 +410,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="finManagementCreate"
-                              {...register("role.finManagement.create")}
+                              {...register("finManagement.create")}
                               onChange={() =>
-                                onPermissionChange("role.finManagement.create")
+                                onPermissionChange("finManagement.create")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.finManagement.create")
+                                  : watch("finManagement.create")
                               }
                               disabled={viewRole}
                             />
@@ -445,14 +440,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="reportingRead"
-                              {...register("role.reporting.read")}
+                              {...register("reporting.read")}
                               onChange={() =>
-                                onPermissionChange("role.reporting.read")
+                                onPermissionChange("reporting.read")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.reporting.read")
+                                  : watch("reporting.read")
                               }
                               disabled={viewRole}
                             />
@@ -468,14 +463,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="reportingWrite"
-                              {...register("role.reporting.write")}
+                              {...register("reporting.write")}
                               onChange={() =>
-                                onPermissionChange("role.reporting.write")
+                                onPermissionChange("reporting.write")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.reporting.write")
+                                  : watch("reporting.write")
                               }
                               disabled={viewRole}
                             />
@@ -491,14 +486,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="reportingCreate"
-                              {...register("role.reporting.create")}
+                              {...register("reporting.create")}
                               onChange={() =>
-                                onPermissionChange("role.reporting.create")
+                                onPermissionChange("reporting.create")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.reporting.create")
+                                  : watch("reporting.create")
                               }
                               disabled={viewRole}
                             />
@@ -521,14 +516,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="payrollRead"
-                              {...register("role.payRoll.read")}
+                              {...register("payRoll.read")}
                               onChange={() =>
-                                onPermissionChange("role.payRoll.read")
+                                onPermissionChange("payRoll.read")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.payRoll.read")
+                                  : watch("payRoll.read")
                               }
                               disabled={viewRole}
                             />
@@ -544,14 +539,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="payrollWrite"
-                              {...register("role.payRoll.write")}
+                              {...register("payRoll.write")}
                               onChange={() =>
-                                onPermissionChange("role.payRoll.write")
+                                onPermissionChange("payRoll.write")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.payRoll.write")
+                                  : watch("payRoll.write")
                               }
                               disabled={viewRole}
                             />
@@ -567,14 +562,14 @@ export const AddNewRoleModel = ({
                               className="form-check-input"
                               type="checkbox"
                               id="payrollCreate"
-                              {...register("role.payRoll.create")}
+                              {...register("payRoll.create")}
                               onChange={() =>
-                                onPermissionChange("role.payRoll.create")
+                                onPermissionChange("payRoll.create")
                               }
                               checked={
                                 allPermissionChecked
                                   ? allPermissionChecked
-                                  : watch("role.payRoll.create")
+                                  : watch("payRoll.create")
                               }
                               disabled={viewRole}
                             />

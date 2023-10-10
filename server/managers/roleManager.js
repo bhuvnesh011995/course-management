@@ -2,7 +2,7 @@ const RoleModel = require("../models/roleModel");
 
 const addNewRole = async (data) => {
   try {
-    const newRole = await RoleModel.create(data.role);
+    const newRole = await RoleModel.create(data);
     const role = newRole.save();
     return role;
   } catch (err) {
@@ -28,7 +28,7 @@ const selectedRoleData = async (data) => {
   }
 };
 
-const editRole = async ({ role }) => {
+const editRole = async (role) => {
   try {
     const roleData = await RoleModel.updateOne(
       { _id: role._id },
