@@ -8,9 +8,9 @@ routes.delete("/deleteUser", userController.deleteUser);
 routes.post("/updateUser", userController.updateUser);
 
 routes.post(
-  "/registerUser",
+  "/updateUserWithImage",
   upload.single("userImage"),
-  userController.registerUser
+  userController.updateUserWithImage
 );
 
 module.exports = routes;

@@ -26,7 +26,7 @@ export const UserRegistration = () => {
       const formdata = new FormData();
       formdata.append("userImage", userData.userImage[0]);
       const { data } = await axios.post(
-        "http://localhost:5000/api/users/registerUser",
+        "http://localhost:5000/api/users/updateUserWithImage",
         formdata,
         {
           params: {

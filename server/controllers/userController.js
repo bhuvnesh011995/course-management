@@ -28,9 +28,9 @@ const updateUser = (req, res) => {
     .catch((err) => res.status(500).send(err));
 };
 
-const registerUser = (req, res) => {
+const updateUserWithImage = (req, res) => {
   userManager
-    .registerUser(req)
+    .updateUserWithImage(req)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err));
 };
@@ -40,5 +40,5 @@ module.exports = {
   getUsers,
   deleteUser,
   updateUser,
-  registerUser,
+  updateUserWithImage,
 };

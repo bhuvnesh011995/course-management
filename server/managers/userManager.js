@@ -1,9 +1,10 @@
 const UserModel = require("../models/userModel");
-const TongaUserModel = require("../models/tongaUserModel");
 const bcrypt = require("bcrypt");
 
 const addNewUser = async (data) => {
   try {
+    // const encryptedpass = await bcrypt.hash(data.password, 10);
+    // data["password"] = encryptedpass;
     data["name"] = data.firstName + " " + data.lastName;
     data["contactNumber"] = data.mobile;
     const user = await UserModel.create(data);
@@ -34,6 +35,9 @@ const deleteUser = async (data) => {
 
 const updateUser = async (data) => {
   try {
+    // const encryptedpass = await bcrypt.hash(data.password, 10);
+    // data["password"] = encryptedpass;
+
     const updateUser = await UserModel.updateOne(
       { _id: data._id },
       {
@@ -54,20 +58,31 @@ const updateUser = async (data) => {
   }
 };
 
-const registerUser = async ({ file, query }) => {
+const updateUserWithImage = async ({ file, query }) => {
   try {
-    const encryptedpass = bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(query.userData.password, salt, (err, hash) => {
-        return hash;
-        // bcrypt.compare("Aa@a2", hash, (err, result) => console.log(result));
-      });
-    });
-    query.userData["password"] = encryptedpass;
+    // const encryptedpass = await bcrypt.hash(query.userData.password, 10);
+    // query.userData["password"] = encryptedpass;
     query.userData["userImagePath"] = `images/${file.filename}`;
     query.userData["name"] =
       query.userData.firstName + " " + query.userData.lastName;
-    const user = await TongaUserModel.create(query.userData);
-    const newUser = await user.save();
+
+    const user = await UserModel.updateOne(
+      { _id: query.userData._id },
+      {
+        firstName: query.userData.firstName,
+        lastName: query.userData.lastName,
+        course: query.userData.course,
+        discription: query.userData.discription,
+        name: query.userData.name,
+        email: query.userData.email,
+        phoneNo: query.userData.phoneNo,
+        userName: query.userData.userName,
+        password: query.userData.password,
+        userImagePath: query.userData.userImagePath,
+        userRole: query.userData.userRole,
+        status: query.userData.status,
+      }
+    );
     return { message: "User Added Successfully !!" };
   } catch (err) {
     console.error(err);
@@ -79,5 +94,5 @@ module.exports = {
   getUsers,
   deleteUser,
   updateUser,
-  registerUser,
+  updateUserWithImage,
 };

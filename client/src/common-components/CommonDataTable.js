@@ -76,6 +76,16 @@ export const CommonDataTable = ({
         columns={dataColumns}
         data={data}
         enableColumnActions={false}
+        enableFullScreenToggle={false}
+        enableGlobalFilter
+        enableDensityToggle={false}
+        enableColumnFilters={false}
+        enableHiding={false}
+        enableColumnFilterModes={false}
+        initialState={{
+          showGlobalFilter: true,
+        }}
+        enableGlobalFilterModes
         renderTopToolbarCustomActions={({}) => (
           <div>
             {downloadPdf && (

@@ -84,7 +84,7 @@ export const CommonNavbar = () => {
                 className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                 aria-labelledby="page-header-search-dropdown"
               >
-                <form className="p-3">
+                {/* <form className="p-3">
                   <div className="form-group m-0">
                     <div className="input-group">
                       <input
@@ -100,7 +100,7 @@ export const CommonNavbar = () => {
                       </div>
                     </div>
                   </div>
-                </form>
+                </form> */}
               </div>
             </div>
             <div className="dropdown d-inline-block">

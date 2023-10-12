@@ -8,29 +8,35 @@ const roleSchema = new mongoose.Schema(
       create: { type: Boolean, default: false },
       read: { type: Boolean, default: false },
       write: { type: Boolean, default: false },
+      delete: { type: Boolean, default: false },
     },
 
     finManagement: {
       create: { type: Boolean, default: false },
       read: { type: Boolean, default: false },
       write: { type: Boolean, default: false },
+      delete: { type: Boolean, default: false },
     },
 
     payRoll: {
       create: { type: Boolean, default: false },
       read: { type: Boolean, default: false },
       write: { type: Boolean, default: false },
+      delete: { type: Boolean, default: false },
     },
 
     reporting: {
       create: { type: Boolean, default: false },
       read: { type: Boolean, default: false },
       write: { type: Boolean, default: false },
+      delete: { type: Boolean, default: false },
     },
+
     userManagement: {
       create: { type: Boolean, default: false },
       read: { type: Boolean, default: false },
       write: { type: Boolean, default: false },
+      delete: { type: Boolean, default: false },
     },
   },
   {

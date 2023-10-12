@@ -16,6 +16,7 @@ export const AddNewUserModal = ({
   callback,
   viewUser,
 }) => {
+  const [userRoles, setUserRoles] = useState([]);
   const {
     register,
     setValue,
@@ -26,10 +27,12 @@ export const AddNewUserModal = ({
   } = useForm();
 
   useEffect(() => {
+    getUserRoles();
     if (userData) setUserData();
   }, []);
 
   const handleClose = () => {
+    reset({});
     setIsOpen(false);
   };
 
@@ -37,6 +40,16 @@ export const AddNewUserModal = ({
     reset(userData);
   };
 
+  const getUserRoles = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:5000/api/roles/getRoles"
+      );
+      setUserRoles(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const addNewUser = async (userData) => {
     try {
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
@@ -147,14 +160,16 @@ export const AddNewUserModal = ({
                   type="number"
                   className="form-control"
                   placeholder="Enter Mobile"
-                  {...register("mobile", {
+                  {...register("phoneNo", {
                     required: true,
                     pattern: phonePattern,
                   })}
                   disabled={viewUser}
                 />
-                {errors?.mobile && (
-                  <span className="text-danger">{errors?.mobile?.message}</span>
+                {errors?.phoneNo && (
+                  <span className="text-danger">
+                    {errors?.phoneNo?.message}
+                  </span>
                 )}
               </div>
               <div className="col-md-6 mb-3">
@@ -207,8 +222,15 @@ export const AddNewUserModal = ({
                   <option value={""} selected>
                     -- select --
                   </option>
-                  <option value={"Admin"}>Admin</option>
-                  <option value={"Sub-Admin"}>Sub-Admin</option>
+                  {userRoles.map((e) => (
+                    <option
+                      selected={getValues("userRole") == e._id && e._id}
+                      value={e._id}
+                      key={e._id}
+                    >
+                      {e.roleName}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="col-md-6 mb-3">
@@ -226,7 +248,11 @@ export const AddNewUserModal = ({
               </div>
             </div>
             <Modal.Footer>
-              <button type="button" className="btn btn-secondary">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn btn-secondary"
+              >
                 Cancel
               </button>
               {!viewUser && (

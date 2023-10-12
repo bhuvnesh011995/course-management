@@ -8,16 +8,22 @@ import { RoleListContants } from "../../../Constants/table.constants";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { rolesTableHeaders } from "../../../Constants/table.constants";
 import axios from "axios";
+import { UserRoleModel } from "../../../common-components/models/UserRoleModel";
 
 //     <title>Role Management | Tonga</title>
 
 export const Roles = () => {
   const [roleModalOpen, setRoleModalOpen] = useState(false);
   const [roles, setRoles] = useState([]);
+  const [filteredRoles, setFilteredRoles] = useState([]);
   const [roleId, setRoleId] = useState(null);
   const [viewRole, setViewRole] = useState(false);
+  const [userRoles, setUserRoles] = useState([]);
+  const [userRoleModelOpen, setUserRoleModelOpen] = useState(false);
+  const [userRoleData, setUserRoleData] = useState(null);
 
   useEffect(() => {
+    getUserRoleInfo();
     getRoleData();
   }, []);
 
@@ -56,9 +62,34 @@ export const Roles = () => {
         "http://localhost:5000/api/roles/getRoles"
       );
       setRoles(data);
+      setFilteredRoles(data);
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const getUserRoleInfo = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:5000/api/roles/getUserRoleInfo"
+      );
+      setUserRoles(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const showUserRoleModel = (data, type) => {
+    setUserRoleModelOpen(true);
+    setUserRoleData(data);
+  };
+
+  const setSearchRoles = ({ target }) => {
+    const newRoles = roles.filter((e) =>
+      e.roleName.toLowerCase().includes(target.value.toLowerCase())
+    );
+
+    setFilteredRoles(newRoles);
   };
 
   return (
@@ -97,6 +128,7 @@ export const Roles = () => {
                               className="form-control me-2"
                               type="search"
                               placeholder="Search"
+                              onChange={setSearchRoles}
                             />{" "}
                             <button className="btn btn-light" type="submit">
                               Search
@@ -117,16 +149,17 @@ export const Roles = () => {
               </div>
             </div>
             <div className="row g-4">
-              {roles.map((e) => (
-                <div className="col-xl-4 col-lg-6 col-md-6">
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between align-items-center mb-2">
-                        <h6 className="fw-normal">
-                          Total {e.totalUsers} users
-                        </h6>
-                        <div className="avatar-group">
-                          {/* {e.avatarImages.map((e) => (
+              {filteredRoles?.length > 0 ? (
+                filteredRoles.map((e) => (
+                  <div className="col-xl-4 col-lg-6 col-md-6">
+                    <div className="card">
+                      <div className="card-body">
+                        <div className="d-flex justify-content-between align-items-center mb-2">
+                          <h6 className="fw-normal">
+                            Total {e.totalUsers} users
+                          </h6>
+                          <div className="avatar-group">
+                            {/* {e.avatarImages.map((e) => (
                             <div className="avatar-group-item">
                               <a className="d-inline-block" value="member-6">
                                 <img
@@ -136,40 +169,43 @@ export const Roles = () => {
                               </a>
                             </div>
                           ))} */}
-                          <div className="avatar-group-item">
-                            <a className="d-inline-block">
-                              <div className="avatar-xs">
-                                <span className="avatar-title rounded-circle bg-info text-white font-size-16">
-                                  3+
-                                </span>
-                              </div>
-                            </a>
+                            <div className="avatar-group-item">
+                              <a className="d-inline-block">
+                                <div className="avatar-xs">
+                                  <span className="avatar-title rounded-circle bg-info text-white font-size-16">
+                                    3+
+                                  </span>
+                                </div>
+                              </a>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="d-flex justify-content-between align-items-end">
-                        <div className="role-heading">
-                          <h4
-                            onClick={() => showRoleModal(e._id, "viewRole")}
-                            className="mb-2 text-primary fw-bold cursor-pointer"
-                          >
-                            <a>{e.roleName}</a>
-                          </h4>
-                          <button
-                            onClick={() => showRoleModal(e._id)}
-                            className="btn btn-sm btn-primary role-edit-modal"
-                          >
-                            <small>Edit Role</small>
-                          </button>
+                        <div className="d-flex justify-content-between align-items-end">
+                          <div className="role-heading">
+                            <h4
+                              onClick={() => showRoleModal(e._id, "viewRole")}
+                              className="mb-2 text-primary fw-bold cursor-pointer"
+                            >
+                              <a>{e.roleName}</a>
+                            </h4>
+                            <button
+                              onClick={() => showRoleModal(e._id)}
+                              className="btn btn-sm btn-primary role-edit-modal"
+                            >
+                              <small>Edit Role</small>
+                            </button>
+                          </div>
+                          <a className="text-muted cursor-pointer">
+                            <i className="bx bx-copy fs-4" />
+                          </a>
                         </div>
-                        <a className="text-muted cursor-pointer">
-                          <i className="bx bx-copy fs-4" />
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <div className="no-data-found">No Data Found</div>
+              )}
 
               <div className="col-12">
                 <div className="card ">
@@ -179,13 +215,13 @@ export const Roles = () => {
                   <div className="card-body">
                     <div className="table-responsive">
                       <CommonDataTable
-                        data={RoleListContants}
+                        data={userRoles}
                         tableHeaders={rolesTableHeaders}
                         actionButtons
                         viewButton
                         downloadExcel
                         downloadPdf
-                        callback={(e) => console.log(e)}
+                        callback={(e, type) => showUserRoleModel(e, type)}
                       />
                     </div>
                   </div>
@@ -219,6 +255,13 @@ export const Roles = () => {
           roleId={roleId}
           viewRole={viewRole}
           callback={(e) => updateRoleData(e)}
+        />
+      )}
+      {userRoleModelOpen && (
+        <UserRoleModel
+          isOpen={userRoleModelOpen}
+          setIsOpen={setUserRoleModelOpen}
+          userData={userRoleData}
         />
       )}
     </div>

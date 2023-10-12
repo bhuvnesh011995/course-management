@@ -139,6 +139,14 @@
     height: 300px;
 }
 
+.no-data-found{
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
 .verification-btn{
     font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif;
      box-sizing: border-box;

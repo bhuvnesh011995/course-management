@@ -28,9 +28,17 @@ const editRole = (req, res) => {
     .catch((error) => res.status(500).send(error));
 };
 
+const getUserRoleInfo = (req, res) => {
+  roleManager
+    .getUserRoleInfo()
+    .then((result) => res.status(200).send(result))
+    .catch((error) => res.status(500).send(error));
+};
+
 module.exports = {
   addNewRole,
   getRoles,
   selectedRoleData,
   editRole,
+  getUserRoleInfo,
 };

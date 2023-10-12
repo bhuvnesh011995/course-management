@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -11,7 +12,15 @@ export const AddNewRoleModel = ({
   viewRole,
   callback,
 }) => {
-  const [allPermissionChecked, setAllPermissionChecked] = useState(false);
+  const [isAllSelected, setIsAllSelected] = useState(false);
+
+  const [permissionChecked, setPermissionChecked] = useState({
+    userManagement: false,
+    contentManagement: false,
+    finManagement: false,
+    reporting: false,
+    payroll: false,
+  });
 
   useEffect(() => {
     if (roleId) {
@@ -79,54 +88,149 @@ export const AddNewRoleModel = ({
   };
 
   const selectAll = (isChecked) => {
+    selectAllContentManagement(isChecked);
+    selectAllFinManagement(isChecked);
+    selectAllPayRoll(isChecked);
+    selectAllReporting(isChecked);
+    selectAllUserManagement(isChecked);
+    setIsAllSelected(isChecked);
+  };
+
+  const selectAllContentManagement = (isChecked) => {
     setValue("contentManagement.read", isChecked);
     setValue("contentManagement.write", isChecked);
     setValue("contentManagement.create", isChecked);
+    setValue("contentManagement.delete", isChecked);
+    permissionChecked.contentManagement = isChecked;
+    setPermissionChecked(permissionChecked);
+  };
+
+  const selectAllFinManagement = (isChecked) => {
     setValue("finManagement.read", isChecked);
     setValue("finManagement.write", isChecked);
     setValue("finManagement.create", isChecked);
+    setValue("finManagement.delete", isChecked);
+    permissionChecked.finManagement = isChecked;
+    setPermissionChecked(permissionChecked);
+  };
+
+  const selectAllPayRoll = (isChecked) => {
     setValue("payRoll.read", isChecked);
     setValue("payRoll.write", isChecked);
     setValue("payRoll.create", isChecked);
-    setValue("reporting.read", isChecked);
-    setValue("reporting.write", isChecked);
-    setValue("reporting.create", isChecked);
+    setValue("payRoll.delete", isChecked);
+    permissionChecked.payroll = isChecked;
+    setPermissionChecked(permissionChecked);
+  };
+
+  const selectAllUserManagement = (isChecked) => {
     setValue("userManagement.read", isChecked);
     setValue("userManagement.write", isChecked);
     setValue("userManagement.create", isChecked);
+    setValue("userManagement.delete", isChecked);
+    permissionChecked.userManagement = isChecked;
+    setPermissionChecked(permissionChecked);
+  };
 
-    setAllPermissionChecked(isChecked);
+  const selectAllReporting = (isChecked) => {
+    setValue("reporting.read", isChecked);
+    setValue("reporting.write", isChecked);
+    setValue("reporting.create", isChecked);
+    setValue("reporting.delete", isChecked);
+    permissionChecked.reporting = isChecked;
+    setPermissionChecked(permissionChecked);
   };
 
   const onPermissionChange = (permission) => {
     setValue(permission, !getValues(permission));
+    selectPermissionTab(permission);
     checkAllSelected();
   };
 
+  const selectPermissionTab = (permission) => {
+    switch (permission) {
+      case "userManagement.selectAll":
+        selectAllUserManagement(getValues(permission));
+        break;
+      case "contentManagement.selectAll":
+        selectAllContentManagement(getValues(permission));
+        break;
+      case "finManagement.selectAll":
+        selectAllFinManagement(getValues(permission));
+        break;
+      case "reporting.selectAll":
+        selectAllReporting(getValues(permission));
+        break;
+      case "payroll.selectAll":
+        selectAllPayRoll(getValues(permission));
+        break;
+    }
+  };
+
   const checkAllSelected = (data = getValues()) => {
-    const isAllChecked = [];
+    const isAllChecked = {
+      userManagement: [],
+      finManagement: [],
+      payroll: [],
+      reporting: [],
+      contentManagement: [],
+      isAllSelected: [],
+    };
     if (Object.keys(data).length) {
       for (const checkbox in data.contentManagement) {
-        isAllChecked.push(data.contentManagement[checkbox]);
+        isAllChecked.contentManagement.push(data.contentManagement[checkbox]);
+        isAllChecked.isAllSelected.push(data.contentManagement[checkbox]);
       }
       for (const checkbox in data.finManagement) {
-        isAllChecked.push(data.finManagement[checkbox]);
+        isAllChecked.finManagement.push(data.finManagement[checkbox]);
+        isAllChecked.isAllSelected.push(data.finManagement[checkbox]);
       }
       for (const checkbox in data.payRoll) {
-        isAllChecked.push(data.payRoll[checkbox]);
+        isAllChecked.payroll.push(data.payRoll[checkbox]);
+        isAllChecked.isAllSelected.push(data.payRoll[checkbox]);
       }
       for (const checkbox in data.reporting) {
-        isAllChecked.push(data.reporting[checkbox]);
+        isAllChecked.reporting.push(data.reporting[checkbox]);
+        isAllChecked.isAllSelected.push(data.reporting[checkbox]);
       }
       for (const checkbox in data.userManagement) {
-        isAllChecked.push(data.userManagement[checkbox]);
+        isAllChecked.userManagement.push(data.userManagement[checkbox]);
+        isAllChecked.isAllSelected.push(data.userManagement[checkbox]);
       }
-      if (isAllChecked.includes(false)) {
-        setAllPermissionChecked(false);
-      } else {
-        setAllPermissionChecked(true);
-      }
+      if (isAllChecked.isAllSelected.includes(false)) setIsAllSelected(false);
+      else setIsAllSelected(true);
+
+      checkIfAllSelected(isAllChecked);
     }
+  };
+
+  const checkIfAllSelected = (isAllChecked) => {
+    if (isAllChecked.contentManagement.includes(false)) {
+      permissionChecked.contentManagement = false;
+    } else {
+      permissionChecked.contentManagement = true;
+    }
+    if (isAllChecked.userManagement.includes(false)) {
+      permissionChecked.userManagement = false;
+    } else {
+      permissionChecked.userManagement = true;
+    }
+    if (isAllChecked.reporting.includes(false)) {
+      permissionChecked.reporting = false;
+    } else {
+      permissionChecked.reporting = true;
+    }
+    if (isAllChecked.payroll.includes(false)) {
+      permissionChecked.payroll = false;
+    } else {
+      permissionChecked.payroll = true;
+    }
+    if (isAllChecked.finManagement.includes(false)) {
+      permissionChecked.finManagement = false;
+    } else {
+      permissionChecked.finManagement = true;
+    }
+    setPermissionChecked({ ...permissionChecked });
   };
 
   return (
@@ -181,404 +285,477 @@ export const AddNewRoleModel = ({
                         /> */}
                       </td>
                       <td>
-                        <div className="form-check">
+                        <div className="form-check ">
                           <input
                             className="form-check-input"
                             type="checkbox"
-                            id="selectAll"
                             onChange={({ target }) => selectAll(target.checked)}
-                            checked={allPermissionChecked}
+                            checked={isAllSelected}
                             disabled={viewRole}
                           />
-                          <label
-                            className="form-check-label"
-                            htmlFor="selectAll"
-                          >
-                            Select All
-                          </label>
+                          <label className="form-check-label">Select All</label>
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <td className="text-nowrap fw-medium">User Management</td>
+                      <tbody>
+                        <tr>
+                          <th>
+                            <div className="form-check mx-3">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                // onChange={() => onPermissionChange("admin")}
+                                // checked={permissionChecked.userManagement}
+                                disabled={viewRole}
+                              />
+                              <td className="text-nowrap fw-medium">Admin</td>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr>
+                          <div className="form-check mx-3">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={() =>
+                                onPermissionChange("userManagement.selectAll")
+                              }
+                              checked={permissionChecked.userManagement}
+                              disabled={viewRole}
+                            />
+                            <td className="text-nowrap fw-medium">
+                              User Management
+                            </td>
+                          </div>
+                          <td>
+                            <div className="d-flex">
+                              <div className="form-check me-3 me-lg-5">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  {...register("userManagement.read")}
+                                  onChange={() =>
+                                    onPermissionChange("userManagement.read")
+                                  }
+                                  checked={
+                                    permissionChecked.userManagement
+                                      ? permissionChecked.userManagement
+                                      : watch("userManagement.read")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className="form-check-label">Read</label>
+                              </div>
+                              <div className="form-check me-3 me-lg-5">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="userManagementWrite"
+                                  {...register("userManagement.write")}
+                                  onChange={() =>
+                                    onPermissionChange("userManagement.write")
+                                  }
+                                  checked={
+                                    permissionChecked.userManagement
+                                      ? permissionChecked.userManagement
+                                      : watch("userManagement.write")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className="form-check-label">
+                                  Write
+                                </label>
+                              </div>
+                              <div className="form-check  me-3 me-lg-5">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="userManagementCreate"
+                                  {...register("userManagement.create")}
+                                  onChange={() =>
+                                    onPermissionChange("userManagement.create")
+                                  }
+                                  checked={
+                                    permissionChecked.userManagement
+                                      ? permissionChecked.userManagement
+                                      : watch("userManagement.create")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className="form-check-label">
+                                  Create
+                                </label>
+                              </div>
+                              <div className="form-check me-3 me-lg-5">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="userManagementCreate"
+                                  {...register("userManagement.delete")}
+                                  onChange={() =>
+                                    onPermissionChange("userManagement.delete")
+                                  }
+                                  checked={
+                                    permissionChecked.userManagement
+                                      ? permissionChecked.userManagement
+                                      : watch("userManagement.delete")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className="form-check-label">
+                                  Delete
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </tr>
+                    <tr>
+                      <div className="form-check mx-3">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          onChange={() =>
+                            onPermissionChange("contentManagement.selectAll")
+                          }
+                          checked={permissionChecked.contentManagement}
+                          disabled={viewRole}
+                        />
+                        <td className="text-nowrap fw-medium">
+                          Content Management
+                        </td>
+                      </div>
                       <td>
                         <div className="d-flex">
                           <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="userManagementRead"
-                              {...register("userManagement.read")}
-                              onChange={() =>
-                                onPermissionChange("userManagement.read")
-                              }
-                              checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
-                                  : watch("userManagement.read")
-                              }
-                              disabled={viewRole}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="userManagementRead"
-                            >
-                              Read
-                            </label>
-                          </div>
-                          <div className="form-check me-3 me-lg-5">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="userManagementWrite"
-                              {...register("userManagement.write")}
-                              onChange={() =>
-                                onPermissionChange("userManagement.write")
-                              }
-                              checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
-                                  : watch("userManagement.write")
-                              }
-                              disabled={viewRole}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="userManagementWrite"
-                            >
-                              Write
-                            </label>
-                          </div>
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="userManagementCreate"
-                              {...register("userManagement.create")}
-                              onChange={() =>
-                                onPermissionChange("userManagement.create")
-                              }
-                              checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
-                                  : watch("userManagement.create")
-                              }
-                              disabled={viewRole}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="userManagementCreate"
-                            >
-                              Create
-                            </label>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-nowrap fw-medium">
-                        Content Management
-                      </td>
-                      <td>
-                        <div className="d-flex">
-                          <div className="form-check me-3 me-lg-5">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="contentManagementRead"
                               {...register("contentManagement.read")}
                               onChange={() =>
                                 onPermissionChange("contentManagement.read")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.contentManagement
+                                  ? permissionChecked.contentManagement
                                   : watch("contentManagement.read")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="contentManagementRead"
-                            >
-                              Read
-                            </label>
+                            <label className="form-check-label">Read</label>
                           </div>
                           <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="contentManagementWrite"
                               {...register("contentManagement.write")}
                               onChange={() =>
                                 onPermissionChange("contentManagement.write")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.contentManagement
+                                  ? permissionChecked.contentManagement
                                   : watch("contentManagement.write")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="contentManagementWrite"
-                            >
-                              Write
-                            </label>
+                            <label className="form-check-label">Write</label>
                           </div>
-                          <div className="form-check">
+                          <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="contentManagementCreate"
                               {...register("contentManagement.create")}
                               onChange={() =>
                                 onPermissionChange("contentManagement.create")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.contentManagement
+                                  ? permissionChecked.contentManagement
                                   : watch("contentManagement.create")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="contentManagementCreate"
-                            >
-                              Create
-                            </label>
+                            <label className="form-check-label">Create</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("contentManagement.delete")}
+                              onChange={() =>
+                                onPermissionChange("contentManagement.delete")
+                              }
+                              checked={
+                                permissionChecked.contentManagement
+                                  ? permissionChecked.contentManagement
+                                  : watch("contentManagement.delete")
+                              }
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Delete</label>
                           </div>
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <td className="text-nowrap fw-medium">
-                        Financial Management
-                      </td>
+                      <div className="form-check mx-3">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          onChange={() =>
+                            onPermissionChange("finManagement.selectAll")
+                          }
+                          checked={permissionChecked.finManagement}
+                          disabled={viewRole}
+                        />
+                        <td className="text-nowrap fw-medium">
+                          Financial Management
+                        </td>
+                      </div>
                       <td>
                         <div className="d-flex">
                           <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="finManagementRead"
                               {...register("finManagement.read")}
                               onChange={() =>
                                 onPermissionChange("finManagement.read")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.finManagement
+                                  ? permissionChecked.finManagement
                                   : watch("finManagement.read")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="finManagementRead"
-                            >
-                              Read
-                            </label>
+                            <label className="form-check-label">Read</label>
                           </div>
                           <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="finManagementWrite"
                               {...register("finManagement.write")}
                               onChange={() =>
                                 onPermissionChange("finManagement.write")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.finManagement
+                                  ? permissionChecked.finManagement
                                   : watch("finManagement.write")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="finManagementWrite"
-                            >
-                              Write
-                            </label>
+                            <label className="form-check-label">Write</label>
                           </div>
-                          <div className="form-check">
+                          <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="finManagementCreate"
                               {...register("finManagement.create")}
                               onChange={() =>
                                 onPermissionChange("finManagement.create")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.finManagement
+                                  ? permissionChecked.finManagement
                                   : watch("finManagement.create")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="finManagementCreate"
-                            >
-                              Create
-                            </label>
+                            <label className="form-check-label">Create</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("finManagement.delete")}
+                              onChange={() =>
+                                onPermissionChange("finManagement.delete")
+                              }
+                              checked={
+                                permissionChecked.finManagement
+                                  ? permissionChecked.finManagement
+                                  : watch("finManagement.delete")
+                              }
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Delete</label>
                           </div>
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <td className="text-nowrap fw-medium">Reporting</td>
+                      <div className="form-check mx-3">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          onChange={() =>
+                            onPermissionChange("reporting.selectAll")
+                          }
+                          checked={permissionChecked.reporting}
+                          disabled={viewRole}
+                        />
+                        <td className="text-nowrap fw-medium">Reporting</td>
+                      </div>
                       <td>
                         <div className="d-flex">
                           <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="reportingRead"
                               {...register("reporting.read")}
                               onChange={() =>
                                 onPermissionChange("reporting.read")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.reporting
+                                  ? permissionChecked.reporting
                                   : watch("reporting.read")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="reportingRead"
-                            >
-                              Read
-                            </label>
+                            <label className="form-check-label">Read</label>
                           </div>
                           <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="reportingWrite"
                               {...register("reporting.write")}
                               onChange={() =>
                                 onPermissionChange("reporting.write")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.reporting
+                                  ? permissionChecked.reporting
                                   : watch("reporting.write")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="reportingWrite"
-                            >
-                              Write
-                            </label>
+                            <label className="form-check-label">Write</label>
                           </div>
-                          <div className="form-check">
+                          <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="reportingCreate"
                               {...register("reporting.create")}
                               onChange={() =>
                                 onPermissionChange("reporting.create")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.reporting
+                                  ? permissionChecked.reporting
                                   : watch("reporting.create")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="reportingCreate"
-                            >
-                              Create
-                            </label>
+                            <label className="form-check-label">Create</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("reporting.delete")}
+                              onChange={() =>
+                                onPermissionChange("reporting.delete")
+                              }
+                              checked={
+                                permissionChecked.reporting
+                                  ? permissionChecked.reporting
+                                  : watch("reporting.delete")
+                              }
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Delete</label>
                           </div>
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <td className="text-nowrap fw-medium">Payroll</td>
+                      <div className="form-check mx-3">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          onChange={() =>
+                            onPermissionChange("payroll.selectAll")
+                          }
+                          checked={permissionChecked.payroll}
+                          disabled={viewRole}
+                        />
+                        <td className="text-nowrap fw-medium">Payroll</td>
+                      </div>
                       <td>
                         <div className="d-flex">
                           <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="payrollRead"
                               {...register("payRoll.read")}
                               onChange={() =>
                                 onPermissionChange("payRoll.read")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.payroll
+                                  ? permissionChecked.payroll
                                   : watch("payRoll.read")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="payrollRead"
-                            >
-                              Read
-                            </label>
+                            <label className="form-check-label">Read</label>
                           </div>
                           <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="payrollWrite"
                               {...register("payRoll.write")}
                               onChange={() =>
                                 onPermissionChange("payRoll.write")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.payroll
+                                  ? permissionChecked.payroll
                                   : watch("payRoll.write")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="payrollWrite"
-                            >
-                              Write
-                            </label>
+                            <label className="form-check-label">Write</label>
                           </div>
-                          <div className="form-check">
+                          <div className="form-check me-3 me-lg-5">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              id="payrollCreate"
                               {...register("payRoll.create")}
                               onChange={() =>
                                 onPermissionChange("payRoll.create")
                               }
                               checked={
-                                allPermissionChecked
-                                  ? allPermissionChecked
+                                permissionChecked.payroll
+                                  ? permissionChecked.payroll
                                   : watch("payRoll.create")
                               }
                               disabled={viewRole}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="payrollCreate"
-                            >
-                              Create
-                            </label>
+                            <label className="form-check-label">Create</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("payRoll.delete")}
+                              onChange={() =>
+                                onPermissionChange("payRoll.delete")
+                              }
+                              checked={
+                                permissionChecked.payroll
+                                  ? permissionChecked.payroll
+                                  : watch("payRoll.delete")
+                              }
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Delete</label>
                           </div>
                         </div>
                       </td>

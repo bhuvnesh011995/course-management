@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema(
     userName: { type: String },
     password: { type: String },
     userImagePath: { type: String },
+    userRole: { type: String },
+    status: { type: String },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

@@ -50,7 +50,7 @@ export const permissionTableHeaders = {
 };
 export const rolesTableHeaders = {
   userName: "User",
-  Role: "Role",
+  roleName: "Role",
   created_at: "Created At",
   status: "Status",
 };
@@ -58,19 +58,19 @@ export const rolesTableHeaders = {
 export const RoleListContants = [
   {
     userName: "Jhone Doe",
-    Role: "Sub-Admin",
+    userRole: "Sub-Admin",
     created_at: "29-10-2020",
     status: "Active",
   },
   {
     userName: "Ritik Sondhi",
-    Role: "User",
+    userRole: "User",
     created_at: "02-11-2021",
     status: "DeActive",
   },
   {
     userName: "Bhuvanesh",
-    Role: "Manager",
+    userRole: "Manager",
     created_at: "09-11-2023",
     status: "Active",
   },
@@ -80,7 +80,7 @@ export const userTableHeaders = {
   _id: "User Id",
   name: "Name",
   userName: "User Name",
-  mobile: "Mobile",
+  phoneNo: "Mobile",
   email: "Email",
-  contactNumber: "Contact Number",
+  created_at: "Created At",
 };
