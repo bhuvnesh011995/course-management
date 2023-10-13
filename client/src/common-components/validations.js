@@ -19,3 +19,18 @@ export const namePattern = {
     /^(?!\d+$)(?:[a-zA-Z0-9][a-zA-Z0-9 !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]*)?$/gu,
   message: "Invalid name.",
 };
+
+export const mustBe9to10 = {
+  value: /^.{9,10}$/,
+  message: "Must Be Between 9 to 10 characters.",
+};
+
+export const mustBe10 = {
+  value: /^.{10}$/,
+  message: "Must Be 10 characters.",
+};
+
+export const mustBe6to16 = {
+  value: /^.{6,16}$/,
+  message: "Must Be Between 6 to 16 characters.",
+};

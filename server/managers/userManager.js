@@ -1,5 +1,8 @@
 const UserModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const JWTSECRETKEY = process.env.JWTSECRETKEY;
 
 const addNewUser = async (data) => {
   try {
@@ -15,10 +18,16 @@ const addNewUser = async (data) => {
   }
 };
 
-const getUsers = async () => {
+const getUsers = async (userData) => {
   try {
-    const users = await UserModel.find({});
-    return users;
+    const users = await UserModel.aggregate([
+      {
+        $match: {
+          _id: { $ne: userData[0]._id },
+        },
+      },
+    ]);
+    return { users, userData };
   } catch (err) {
     console.error(err);
   }
@@ -89,10 +98,32 @@ const updateUserWithImage = async ({ file, query }) => {
   }
 };
 
+const getUser = async (data) => {
+  try {
+    const user = await UserModel.findOne({ email: data.email });
+    if (user) {
+      if (user.password == data.password) {
+        const token = jwt.sign(
+          { email: user.email, password: user.password },
+          JWTSECRETKEY
+        );
+        return { message: "SignIn Successfully", token: token };
+      } else {
+        return { message: "Wrong email id or password !" };
+      }
+    } else {
+      return { message: "Wrong email id or password !" };
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   addNewUser,
   getUsers,
   deleteUser,
   updateUser,
   updateUserWithImage,
+  getUser,
 };

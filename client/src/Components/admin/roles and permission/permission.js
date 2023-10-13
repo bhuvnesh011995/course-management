@@ -4,8 +4,8 @@ import { CommonNavbar } from "../../../common-components/Navbar";
 import { NewPermissionModal } from "../../../common-components/models/permissionModel";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { permissionTableHeaders } from "../../../Constants/table.constants";
-import axios from "axios";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
 
 export const Permission = () => {
   const [newPermissionModal, setNewPermissionModal] = useState(false);
@@ -21,9 +21,7 @@ export const Permission = () => {
 
   const getPermissions = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/permission/getPermissions"
-      );
+      const { data } = await AxiosInstance.get("/permission/getPermissions");
       setPermissions(data);
     } catch (err) {
       console.error(err);
@@ -61,8 +59,8 @@ export const Permission = () => {
 
   const deletePermission = async (permissionData) => {
     try {
-      const { data } = await axios.delete(
-        "http://localhost:5000/api/permission/deletePermission",
+      const { data } = await AxiosInstance.delete(
+        "/permission/deletePermission",
         { params: permissionData }
       );
       permissions.splice(permissionIndex, 1);

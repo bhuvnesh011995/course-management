@@ -962,7 +962,7 @@ body[data-sidebar=colored].vertical-collpsed .vertical-menu #sidebar-menu ul li 
     -webkit-box-shadow: 0 .75rem 1.5rem rgba(18, 38, 63, .03);
     box-shadow: 0 .75rem 1.5rem rgba(18, 38, 63, .03);
     margin-top: 70px;
-    position: fixed;
+    /* position: fixed; */
     left: 0;
     right: 0;
     z-index: 100

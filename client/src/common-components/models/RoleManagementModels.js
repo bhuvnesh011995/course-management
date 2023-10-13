@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { RolesConstants } from "../../Constants/table.constants";
-import axios from "axios";
+import { AxiosInstance } from "../axiosInstance";
 
 export const AddNewRoleModel = ({
   isOpen,
@@ -20,6 +19,8 @@ export const AddNewRoleModel = ({
     finManagement: false,
     reporting: false,
     payroll: false,
+    role: false,
+    admin: false,
   });
 
   useEffect(() => {
@@ -40,14 +41,11 @@ export const AddNewRoleModel = ({
 
   const setRoleData = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/roles/selectedRoleData",
-        {
-          params: {
-            id: roleId,
-          },
-        }
-      );
+      const { data } = await AxiosInstance.get("/roles/selectedRoleData", {
+        params: {
+          id: roleId,
+        },
+      });
       checkAllSelected(data[0]);
       reset(data[0]);
     } catch (err) {
@@ -57,10 +55,7 @@ export const AddNewRoleModel = ({
 
   const editRoleData = async (roleData) => {
     try {
-      const { data } = axios.post(
-        "http://localhost:5000/api/roles/editRole",
-        roleData
-      );
+      const { data } = AxiosInstance.post("/roles/editRole", roleData);
       callback(roleData);
       handleCloseRoleModal();
     } catch (err) {
@@ -70,10 +65,7 @@ export const AddNewRoleModel = ({
 
   const addNewRole = async (roleData) => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/roles/addNewRole",
-        roleData
-      );
+      const { data } = await AxiosInstance.post("/roles/addNewRole", roleData);
       callback(data);
       handleCloseRoleModal();
     } catch (err) {
@@ -94,6 +86,16 @@ export const AddNewRoleModel = ({
     selectAllReporting(isChecked);
     selectAllUserManagement(isChecked);
     setIsAllSelected(isChecked);
+    selectAllRoles(isChecked);
+    setPermissionChecked({
+      userManagement: isChecked,
+      contentManagement: isChecked,
+      finManagement: isChecked,
+      reporting: isChecked,
+      payroll: isChecked,
+      role: isChecked,
+      admin: isChecked,
+    });
   };
 
   const selectAllContentManagement = (isChecked) => {
@@ -141,6 +143,15 @@ export const AddNewRoleModel = ({
     setPermissionChecked(permissionChecked);
   };
 
+  const selectAllRoles = (isChecked) => {
+    setValue("role.read", isChecked);
+    setValue("role.write", isChecked);
+    setValue("role.create", isChecked);
+    setValue("role.delete", isChecked);
+    permissionChecked.role = isChecked;
+    setPermissionChecked(permissionChecked);
+  };
+
   const onPermissionChange = (permission) => {
     setValue(permission, !getValues(permission));
     selectPermissionTab(permission);
@@ -164,6 +175,9 @@ export const AddNewRoleModel = ({
       case "payroll.selectAll":
         selectAllPayRoll(getValues(permission));
         break;
+      case "role.selectAll":
+        selectAllRoles(getValues(permission));
+        break;
     }
   };
 
@@ -174,6 +188,7 @@ export const AddNewRoleModel = ({
       payroll: [],
       reporting: [],
       contentManagement: [],
+      role: [],
       isAllSelected: [],
     };
     if (Object.keys(data).length) {
@@ -196,6 +211,10 @@ export const AddNewRoleModel = ({
       for (const checkbox in data.userManagement) {
         isAllChecked.userManagement.push(data.userManagement[checkbox]);
         isAllChecked.isAllSelected.push(data.userManagement[checkbox]);
+      }
+      for (const checkbox in data.role) {
+        isAllChecked.role.push(data.role[checkbox]);
+        isAllChecked.isAllSelected.push(data.role[checkbox]);
       }
       if (isAllChecked.isAllSelected.includes(false)) setIsAllSelected(false);
       else setIsAllSelected(true);
@@ -230,12 +249,39 @@ export const AddNewRoleModel = ({
     } else {
       permissionChecked.finManagement = true;
     }
+    if (isAllChecked.role.includes(false)) {
+      permissionChecked.role = false;
+    } else {
+      permissionChecked.role = true;
+    }
+    if (
+      isAllChecked.role.includes(false) ||
+      isAllChecked.userManagement.includes(false)
+    ) {
+      permissionChecked.admin = false;
+    } else {
+      permissionChecked.admin = true;
+    }
     setPermissionChecked({ ...permissionChecked });
+  };
+
+  const selectMainPermissionTab = (tabName) => {
+    setValue(tabName, !getValues(tabName));
+
+    switch (tabName) {
+      case "admin":
+        selectAllRoles(getValues(tabName));
+        selectAllUserManagement(getValues(tabName));
+        setValue("userManagement.selectAll", tabName);
+        setValue("role.selectAll", tabName);
+        break;
+    }
+    checkAllSelected();
   };
 
   return (
     <div>
-      <Modal show={isOpen} onHide={handleCloseRoleModal}>
+      <Modal show={isOpen} onHide={handleCloseRoleModal} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>
             {viewRole ? (
@@ -271,13 +317,7 @@ export const AddNewRoleModel = ({
                     <tr>
                       <td className="text-nowrap fw-medium">
                         Administrator Access{" "}
-                        <i
-                          className="bx bx-info-circle bx-xs"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          aria-label="Allows a full access to the system"
-                          data-bs-original-title="Allows a full access to the system"
-                        />
+                        <i className="bx bx-info-circle bx-xs" />
                         {/* <ToggleButton
                           aria-label="Allows a full access to the system"
                           title="Allows a full access to the system"
@@ -305,8 +345,10 @@ export const AddNewRoleModel = ({
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-                                // onChange={() => onPermissionChange("admin")}
-                                // checked={permissionChecked.userManagement}
+                                onChange={() =>
+                                  selectMainPermissionTab("admin")
+                                }
+                                checked={permissionChecked.admin}
                                 disabled={viewRole}
                               />
                               <td className="text-nowrap fw-medium">Admin</td>
@@ -351,7 +393,6 @@ export const AddNewRoleModel = ({
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  id="userManagementWrite"
                                   {...register("userManagement.write")}
                                   onChange={() =>
                                     onPermissionChange("userManagement.write")
@@ -371,7 +412,6 @@ export const AddNewRoleModel = ({
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  id="userManagementCreate"
                                   {...register("userManagement.create")}
                                   onChange={() =>
                                     onPermissionChange("userManagement.create")
@@ -391,7 +431,6 @@ export const AddNewRoleModel = ({
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  id="userManagementCreate"
                                   {...register("userManagement.delete")}
                                   onChange={() =>
                                     onPermissionChange("userManagement.delete")
@@ -400,6 +439,100 @@ export const AddNewRoleModel = ({
                                     permissionChecked.userManagement
                                       ? permissionChecked.userManagement
                                       : watch("userManagement.delete")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className="form-check-label">
+                                  Delete
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <div className="form-check mx-3">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={() =>
+                                onPermissionChange("role.selectAll")
+                              }
+                              checked={permissionChecked.role}
+                              disabled={viewRole}
+                            />
+                            <td className="text-nowrap fw-medium">
+                              Roles And Permission
+                            </td>
+                          </div>
+                          <td>
+                            <div className="d-flex">
+                              <div className="form-check me-3 me-lg-5">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  {...register("role.read")}
+                                  onChange={() =>
+                                    onPermissionChange("role.read")
+                                  }
+                                  checked={
+                                    permissionChecked.role
+                                      ? permissionChecked.role
+                                      : watch("role.read")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className="form-check-label">Read</label>
+                              </div>
+                              <div className="form-check me-3 me-lg-5">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  {...register("role.write")}
+                                  onChange={() =>
+                                    onPermissionChange("role.write")
+                                  }
+                                  checked={
+                                    permissionChecked.role
+                                      ? permissionChecked.role
+                                      : watch("role.write")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className="form-check-label">
+                                  Write
+                                </label>
+                              </div>
+                              <div className="form-check  me-3 me-lg-5">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  {...register("role.create")}
+                                  onChange={() =>
+                                    onPermissionChange("role.create")
+                                  }
+                                  checked={
+                                    permissionChecked.role
+                                      ? permissionChecked.role
+                                      : watch("role.create")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className="form-check-label">
+                                  Create
+                                </label>
+                              </div>
+                              <div className="form-check me-3 me-lg-5">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  {...register("role.delete")}
+                                  onChange={() =>
+                                    onPermissionChange("role.delete")
+                                  }
+                                  checked={
+                                    permissionChecked.role
+                                      ? permissionChecked.role
+                                      : watch("role.delete")
                                   }
                                   disabled={viewRole}
                                 />

@@ -7,8 +7,6 @@ import "./assets/css/custom.css";
 import "./assets/css/icons.min.css";
 import "./assets/js/pages/app-calendar-events";
 
-import { AccountHistory } from "./Components/account-history";
-import { Course } from "./Components/course";
 import { AllRoutes } from "./routes/AllRoutes";
 
 function App() {

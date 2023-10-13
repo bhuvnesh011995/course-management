@@ -38,6 +38,12 @@ const roleSchema = new mongoose.Schema(
       write: { type: Boolean, default: false },
       delete: { type: Boolean, default: false },
     },
+    role: {
+      create: { type: Boolean, default: false },
+      read: { type: Boolean, default: false },
+      write: { type: Boolean, default: false },
+      delete: { type: Boolean, default: false },
+    },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

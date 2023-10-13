@@ -4,13 +4,10 @@ import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import { AddNewUserModal } from "../../common-components/models/UserManagementModel";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
-import {
-  userContants,
-  userTableHeaders,
-} from "../../Constants/table.constants";
-import axios from "axios";
+import { userTableHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { EmailVerfificationModal } from "../../common-components/models/emailVerificationModal";
+import { AxiosInstance } from "../../common-components/axiosInstance";
 
 export const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -20,6 +17,7 @@ export const UserManagement = () => {
   const [userData, setUserData] = useState(null);
   const [userIndex, setUserIndex] = useState(null);
   const [emailModal, setEmailModal] = useState(false);
+  const [loginUser, setLoginUser] = useState({});
 
   const showNewUserModal = (data, type, index) => {
     setUserIndex(index);
@@ -44,10 +42,11 @@ export const UserManagement = () => {
 
   const getUsersData = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/users/getUsers"
-      );
-      setUsers(data);
+      const { data } = await AxiosInstance.get("/users/getUsers", {
+        params: { token: localStorage.getItem("token") },
+      });
+      setUsers(data.users);
+      setLoginUser(data.userData[0]);
     } catch (err) {
       console.error(err);
     }
@@ -55,10 +54,9 @@ export const UserManagement = () => {
 
   const deleteUser = async () => {
     try {
-      const { data } = await axios.delete(
-        "http://localhost:5000/api/users/deleteUser",
-        { params: userData }
-      );
+      const { data } = await AxiosInstance.delete("/users/deleteUser", {
+        params: userData,
+      });
       users.splice(userIndex, 1);
       setUsers([...users]);
     } catch (err) {
@@ -137,13 +135,15 @@ export const UserManagement = () => {
                           </select>
                         </div>
                       </div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showNewUserModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New User
-                      </button>
+                      {loginUser?.roleData?.userManagement?.write && (
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showNewUserModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New User
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -161,9 +161,11 @@ export const UserManagement = () => {
                         data={users}
                         tableHeaders={userTableHeaders}
                         actionButtons
-                        editButton
-                        viewButton
-                        deleteButton
+                        editButton={loginUser?.roleData?.userManagement?.create}
+                        viewButton={loginUser?.roleData?.userManagement?.read}
+                        deleteButton={
+                          loginUser?.roleData?.userManagement?.delete
+                        }
                         verificationMailButton
                         downloadExcel
                         downloadPdf

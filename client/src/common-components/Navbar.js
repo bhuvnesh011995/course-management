@@ -6,9 +6,10 @@ import germanIcon from "../assets/images/flags/germany.jpg";
 import russiaIcon from "../assets/images/flags/russia.jpg";
 import headerAvatar from "../assets/images/users/avatar-1.jpg";
 import { onMenuClicked } from "./useCommonUsableFunctions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const CommonNavbar = () => {
+  const navigate = useNavigate();
   const [showLanguages, setShowLanguages] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -28,6 +29,11 @@ export const CommonNavbar = () => {
     const languageElement = document.getElementById("header-lang-img");
     languageElement.src = langUrl;
     setShowLanguages(false);
+  };
+
+  const userLogOut = () => {
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   return (
@@ -379,7 +385,7 @@ export const CommonNavbar = () => {
                     <span key="t-lock-screen">Lock screen</span>
                   </a>
                   <div className="dropdown-divider" />
-                  <a className="dropdown-item text-danger" href="#">
+                  <a className="dropdown-item text-danger" onClick={userLogOut}>
                     <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />{" "}
                     <span key="t-logout">Logout</span>
                   </a>

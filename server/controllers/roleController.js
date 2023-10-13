@@ -9,7 +9,7 @@ const addNewRole = (req, res) => {
 
 const getRoles = (req, res) => {
   roleManager
-    .getRoles()
+    .getRoles(req.user)
     .then((result) => res.status(200).send(result))
     .catch((error) => res.status(500).send(error));
 };

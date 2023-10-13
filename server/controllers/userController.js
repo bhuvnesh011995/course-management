@@ -9,7 +9,7 @@ const addNewUser = (req, res) => {
 
 const getUsers = (req, res) => {
   userManager
-    .getUsers()
+    .getUsers(req.user)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err));
 };
@@ -35,10 +35,18 @@ const updateUserWithImage = (req, res) => {
     .catch((err) => res.status(500).send(err));
 };
 
+const getUser = (req, res) => {
+  userManager
+    .getUser(req.query)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err));
+};
+
 module.exports = {
   addNewUser,
   getUsers,
   deleteUser,
   updateUser,
   updateUserWithImage,
+  getUser,
 };

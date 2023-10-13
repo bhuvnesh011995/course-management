@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import {
   emailPattern,
   namePattern,
   passwordPattern,
   phonePattern,
 } from "../validations";
+import { AxiosInstance } from "../axiosInstance";
 
 export const AddNewUserModal = ({
   isOpen,
@@ -42,10 +42,8 @@ export const AddNewUserModal = ({
 
   const getUserRoles = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/roles/getRoles"
-      );
-      setUserRoles(data);
+      const { data } = await AxiosInstance.get("/roles/getRoles");
+      setUserRoles(data.roleData);
     } catch (err) {
       console.error(err);
     }
@@ -53,10 +51,7 @@ export const AddNewUserModal = ({
   const addNewUser = async (userData) => {
     try {
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users/addNewUser",
-        userData
-      );
+      const { data } = await AxiosInstance.post("/users/addNewUser", userData);
       callback(data);
       handleClose();
     } catch (err) {
@@ -67,10 +62,7 @@ export const AddNewUserModal = ({
   const updateUser = async (userData) => {
     try {
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users/updateUser",
-        userData
-      );
+      const { data } = await AxiosInstance.post("/users/updateUser", userData);
       callback(userData);
       handleClose();
     } catch (err) {

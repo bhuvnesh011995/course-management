@@ -7,8 +7,8 @@ import { AddNewRoleModel } from "../../../common-components/models/RoleManagemen
 import { RoleListContants } from "../../../Constants/table.constants";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { rolesTableHeaders } from "../../../Constants/table.constants";
-import axios from "axios";
 import { UserRoleModel } from "../../../common-components/models/UserRoleModel";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
 
 //     <title>Role Management | Tonga</title>
 
@@ -21,6 +21,7 @@ export const Roles = () => {
   const [userRoles, setUserRoles] = useState([]);
   const [userRoleModelOpen, setUserRoleModelOpen] = useState(false);
   const [userRoleData, setUserRoleData] = useState(null);
+  const [loginUser, setLoginUser] = useState({});
 
   useEffect(() => {
     getUserRoleInfo();
@@ -28,7 +29,6 @@ export const Roles = () => {
   }, []);
 
   const showRoleModal = (id, type) => {
-    console.log(id);
     if (id) {
       setRoleId(id);
     } else if (!id) {
@@ -52,17 +52,19 @@ export const Roles = () => {
         }
       });
     } else {
-      setRoles((old) => [...old, newData]);
+      roles.push(newData);
+      setRoles([...roles]);
     }
   };
 
   const getRoleData = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/roles/getRoles"
-      );
-      setRoles(data);
-      setFilteredRoles(data);
+      const { data } = await AxiosInstance.get("/roles/getRoles", {
+        params: { token: localStorage.getItem("token") },
+      });
+      setRoles(data.roleData);
+      setFilteredRoles(data.roleData);
+      setLoginUser(data.user[0]);
     } catch (err) {
       console.error(err);
     }
@@ -70,9 +72,7 @@ export const Roles = () => {
 
   const getUserRoleInfo = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/roles/getUserRoleInfo"
-      );
+      const { data } = await AxiosInstance.get("/roles/getUserRoleInfo");
       setUserRoles(data);
     } catch (err) {
       console.error(err);
@@ -136,13 +136,15 @@ export const Roles = () => {
                           </div>
                         </div>
                       </div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showRoleModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Role
-                      </button>
+                      {loginUser?.roleData?.role?.create && (
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showRoleModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Role
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -188,12 +190,14 @@ export const Roles = () => {
                             >
                               <a>{e.roleName}</a>
                             </h4>
-                            <button
-                              onClick={() => showRoleModal(e._id)}
-                              className="btn btn-sm btn-primary role-edit-modal"
-                            >
-                              <small>Edit Role</small>
-                            </button>
+                            {loginUser?.roleData?.role?.write && (
+                              <button
+                                onClick={() => showRoleModal(e._id)}
+                                className="btn btn-sm btn-primary role-edit-modal"
+                              >
+                                <small>Edit Role</small>
+                              </button>
+                            )}
                           </div>
                           <a className="text-muted cursor-pointer">
                             <i className="bx bx-copy fs-4" />
@@ -218,7 +222,7 @@ export const Roles = () => {
                         data={userRoles}
                         tableHeaders={rolesTableHeaders}
                         actionButtons
-                        viewButton
+                        viewButton={loginUser?.roleData?.role?.read}
                         downloadExcel
                         downloadPdf
                         callback={(e, type) => showUserRoleModel(e, type)}

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { CommonQuillTextEditor } from "../commonQuillTextEditor";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { CommonJoditEditor } from "../CommonJoditEditor";
+import { AxiosInstance } from "../axiosInstance";
 
 export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
   const [mailValue, setMailValue] = useState(
@@ -28,10 +28,9 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
   const sendEmail = async (mailData) => {
     try {
       mailData["mailValue"] = mailValue;
-      const { data } = await axios.get(
-        "http://localhost:5000/api/mail/sendEmail",
-        { params: mailData }
-      );
+      const { data } = await AxiosInstance.get("/mail/sendEmail", {
+        params: mailData,
+      });
       handleClose();
     } catch (err) {
       console.error(err);

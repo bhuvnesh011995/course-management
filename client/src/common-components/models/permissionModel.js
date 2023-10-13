@@ -2,7 +2,7 @@ import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { permissionConstants } from "../../Constants/table.constants";
 import { useEffect } from "react";
-import axios from "axios";
+import { AxiosInstance } from "../axiosInstance";
 
 export const NewPermissionModal = ({
   isShow,
@@ -31,8 +31,8 @@ export const NewPermissionModal = ({
 
   const editPermissionData = async (permissionData) => {
     try {
-      const permission = await axios.post(
-        "http://localhost:5000/api/permission/editPermission",
+      const permission = await AxiosInstance.post(
+        "/permission/editPermission",
         permissionData
       );
       callback(permissionData.permission);
@@ -44,8 +44,8 @@ export const NewPermissionModal = ({
 
   const addNewpermission = async (permissionData) => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/permission/addNewPermission",
+      const { data } = await AxiosInstance.post(
+        "/permission/addNewPermission",
         permissionData
       );
 

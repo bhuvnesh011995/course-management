@@ -11,10 +11,16 @@ const addNewRole = async (data) => {
   }
 };
 
-const getRoles = async () => {
+const getRoles = async (user) => {
   try {
-    const roleData = await RoleModel.find({});
-    return roleData;
+    const roleData = await RoleModel.aggregate([
+      {
+        $match: {
+          _id: { $ne: user[0].roleData._id },
+        },
+      },
+    ]);
+    return { roleData, user };
   } catch (err) {
     console.error(err);
   }
@@ -41,6 +47,7 @@ const editRole = async (role) => {
         payRoll: role.payRoll,
         reporting: role.reporting,
         userManagement: role.userManagement,
+        role: role.role,
       }
     );
     return roleData;
@@ -86,7 +93,6 @@ const getUserRoleInfo = async () => {
         },
       },
     ]);
-    console.log(getUsers);
     return getUsers;
   } catch (err) {
     console.error(err);

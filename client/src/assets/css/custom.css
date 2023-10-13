@@ -165,3 +165,121 @@
                 border-style: solid;
                  border-width: 8px 16px;
 }
+
+.card-title {
+    font-size: 0.8rem !important;
+}
+
+.btn {
+    font-size: 0.7rem;
+}
+
+.card select,
+.card input {
+    height: 25px !important;
+    padding: 0 1.75rem 0 0.75rem !important;
+    font-size: 0.7rem !important;
+}
+
+.btn-light {
+    height: 25px;
+    padding: 0 0.75rem;
+    font-size: 0.7rem !important;
+}
+
+.myDiv {
+    display: flex;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.btn-xs:focus {
+    box-shadow: none !important;
+}
+
+.table-wrapper {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.category-container {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    font-size: 0.7rem;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.btn-sm {
+    font-size: 0.5rem;
+}
+
+.extra-row {
+    display: none;
+}
+
+.topnav {
+    background-color: #111c43 !important;
+    margin: 0 !important;
+}
+
+.topnav .navbar-nav .nav-link {
+    color: #fff !important;
+}
+.input-container {
+position: relative;
+}
+
+.input-container input {
+width: 100%;
+padding-right: 50px; /* Make space for icons */
+}
+
+.input-icons {
+position: absolute;
+top: 70%;
+right: 30px;
+transform: translateY(-50%);
+}
+
+.input-icons i {
+cursor: pointer;
+margin-left: 10px;
+}
+
+.px-11{
+    padding: 0 110px;
+}

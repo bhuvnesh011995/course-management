@@ -1,14 +1,14 @@
-import profileImg from "../assets/images/profile-img.png";
-import logoImg from "../assets/images/logo.svg";
+import profileImg from "../../assets/images/profile-img.png";
+import logoImg from "../../assets/images/logo.svg";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import {
   emailPattern,
   namePattern,
   passwordPattern,
   phonePattern,
-} from "../common-components/validations";
+} from "../../common-components/validations";
+import { AxiosInstance } from "../../common-components/axiosInstance";
 
 export const UserRegistration = () => {
   const {
@@ -24,9 +24,9 @@ export const UserRegistration = () => {
   const registerUser = async (userData) => {
     try {
       const formdata = new FormData();
-      formdata.append("userImage", userData.userImage[0]);
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users/updateUserWithImage",
+      formdata.append("file", userData.userImage[0]);
+      const { data } = await AxiosInstance.post(
+        "/users/updateUserWithImage",
         formdata,
         {
           params: {
@@ -34,7 +34,6 @@ export const UserRegistration = () => {
           },
         }
       );
-      console.log(data);
     } catch (err) {
       console.error(err);
     }
