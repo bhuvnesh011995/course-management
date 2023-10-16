@@ -55,27 +55,6 @@ export const rolesTableHeaders = {
   status: "Status",
 };
 
-export const RoleListContants = [
-  {
-    userName: "Jhone Doe",
-    userRole: "Sub-Admin",
-    created_at: "29-10-2020",
-    status: "Active",
-  },
-  {
-    userName: "Ritik Sondhi",
-    userRole: "User",
-    created_at: "02-11-2021",
-    status: "DeActive",
-  },
-  {
-    userName: "Bhuvanesh",
-    userRole: "Manager",
-    created_at: "09-11-2023",
-    status: "Active",
-  },
-];
-
 export const userTableHeaders = {
   _id: "User Id",
   name: "Name",
@@ -83,4 +62,26 @@ export const userTableHeaders = {
   phoneNo: "Mobile",
   email: "Email",
   created_at: "Created At",
+};
+
+export const leadTableHeaders = {
+  coreTradeRegNo: "CoreTrade Registration No",
+  companyName: "Company Name",
+  contactPerson: "Contact Person",
+  participantName: "Name of Participant",
+  participantMobile: "Participant's Mobile",
+  tradeType: "Trade Type",
+};
+
+export const tradeLevelHeaders = {
+  tradeLevel: "Trade Level",
+};
+
+export const tradeTypeHeaders = {
+  tradeType: "Trade Type Name",
+};
+
+export const registrationTypeHeaders = {
+  registrationName: "Registration Name",
+  tradeLevelIds: "Trade Level",
 };

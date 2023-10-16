@@ -16,20 +16,37 @@ export const CommonDataTable = ({
   callback,
   fileName = "fileName",
   viewButton,
+  tableSearchBar = true,
   downloadExcel,
   downloadPdf,
   verificationMailButton,
+  leadModelButtons,
 }) => {
   const dataKeys = Object.keys(tableHeaders);
-
-  const dataColumns = dataKeys.map((e, index) => {
-    return { accessorKey: e, header: tableHeaders[e] };
+  const tableColumns = [];
+  dataKeys.map((e, index) => {
+    if (e == "coreTradeRegNo") {
+      tableColumns.push({
+        accessorKey: e,
+        Cell: ({ row }) => (
+          <div
+            onClick={() => callback(row.original, "view", row.index)}
+            className="cursor-pointer"
+          >
+            {row.original.coreTradeRegNo}
+          </div>
+        ),
+        header: tableHeaders[e],
+      });
+    } else {
+      tableColumns.push({ accessorKey: e, header: tableHeaders[e] });
+    }
   });
   if (data[0]?.created_at) {
     data.map((e, index) => (e.created_at = convertMongooseDate(e.created_at)));
   }
   if (actionButtons) {
-    dataColumns.push({
+    tableColumns.push({
       header: "Actions",
       Cell: ({ row }) => (
         <div className="hstack gap-2 fs-1">
@@ -73,11 +90,11 @@ export const CommonDataTable = ({
   return (
     <div>
       <MaterialReactTable
-        columns={dataColumns}
+        columns={tableColumns}
         data={data}
         enableColumnActions={false}
         enableFullScreenToggle={false}
-        enableGlobalFilter
+        enableGlobalFilter={tableSearchBar}
         enableDensityToggle={false}
         enableColumnFilters={false}
         enableHiding={false}
@@ -105,6 +122,14 @@ export const CommonDataTable = ({
               >
                 Download Excel
               </button>
+            )}
+            {leadModelButtons && (
+              <div className="column">
+                <button className="mx-1 btn btn-primary">New</button>
+                <button className="mx-1 btn btn-primary">Pending</button>
+                <button className="mx-1 btn btn-primary">Assign</button>
+                <button className="mx-1 btn btn-primary">Completed</button>
+              </div>
             )}
           </div>
         )}

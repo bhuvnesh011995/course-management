@@ -1,8 +1,7 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { permissionConstants } from "../../Constants/table.constants";
 import { useEffect } from "react";
-import { AxiosInstance } from "../axiosInstance";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
 
 export const NewPermissionModal = ({
   isShow,

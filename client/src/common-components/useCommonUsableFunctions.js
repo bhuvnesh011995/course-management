@@ -31,3 +31,7 @@ export const exportToPDFTable = (data, dataKeys, tableHeaders, fileName) => {
 export const convertMongooseDate = (date) => {
   return moment(date).format("YYYY-MM-DD");
 };
+
+export const filePath = (path) => {
+  return `http://localhost:5000/${path}`;
+};

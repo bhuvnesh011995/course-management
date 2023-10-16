@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MenuBar } from "../../../common-components/MenuBar";
 import { CommonNavbar } from "../../../common-components/Navbar";
-import { NewPermissionModal } from "../../../common-components/models/permissionModel";
+import { NewPermissionModal } from "./permissionModel";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { permissionTableHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";

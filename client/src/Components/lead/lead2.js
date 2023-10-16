@@ -1,7 +1,7 @@
 // <!doctype html>
 // <html lang="en">
 
-import { CommonNavbar } from "../common-components/Navbar";
+import { CommonNavbar } from "../../common-components/Navbar";
 
 // <head>
 

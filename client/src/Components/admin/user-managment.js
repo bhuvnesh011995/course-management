@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
-import { AddNewUserModal } from "../../common-components/models/UserManagementModel";
+import { AddNewUserModal } from "./UserManagementModel";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { userTableHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";

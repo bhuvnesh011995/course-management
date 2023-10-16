@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { MenuBar } from "../../../common-components/MenuBar";
 import { CommonNavbar } from "../../../common-components/Navbar";
-import { Modal, ToggleButton } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import { AddNewRoleModel } from "../../../common-components/models/RoleManagementModels";
-import { RoleListContants } from "../../../Constants/table.constants";
+import { AddNewRoleModel } from "./RoleManagementModels";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { rolesTableHeaders } from "../../../Constants/table.constants";
-import { UserRoleModel } from "../../../common-components/models/UserRoleModel";
+import { UserRoleModel } from "./UserRoleModel";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 
 //     <title>Role Management | Tonga</title>

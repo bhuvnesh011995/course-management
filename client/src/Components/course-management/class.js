@@ -1,9 +1,9 @@
 // <!doctype html>
 // <html lang="en">
 
-import { MenuBar } from "../common-components/MenuBar";
-import { CommonNavbar } from "../common-components/Navbar";
-import { onMenuClicked } from "../common-components/useCommonUsableFunctions";
+import { MenuBar } from "../../common-components/MenuBar";
+import { CommonNavbar } from "../../common-components/Navbar";
+import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
 
 // <head>
 

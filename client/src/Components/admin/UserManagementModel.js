@@ -6,8 +6,8 @@ import {
   namePattern,
   passwordPattern,
   phonePattern,
-} from "../validations";
-import { AxiosInstance } from "../axiosInstance";
+} from "../../common-components/validations";
+import { AxiosInstance } from "../../common-components/axiosInstance";
 
 export const AddNewUserModal = ({
   isOpen,
@@ -50,6 +50,7 @@ export const AddNewUserModal = ({
   };
   const addNewUser = async (userData) => {
     try {
+      console.log(userData);
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
       const { data } = await AxiosInstance.post("/users/addNewUser", userData);
       callback(data);

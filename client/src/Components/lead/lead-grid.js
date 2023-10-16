@@ -1,8 +1,8 @@
 // <!doctype html>
 // <html lang="en">
 
-import { MenuBar } from "../common-components/MenuBar";
-import { CommonNavbar } from "../common-components/Navbar";
+import { MenuBar } from "../../common-components/MenuBar";
+import { CommonNavbar } from "../../common-components/Navbar";
 
 // <head>
 //     <meta charset="utf-8" />
