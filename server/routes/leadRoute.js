@@ -9,5 +9,7 @@ routes.post(
   leadController.addNewLead
 );
 routes.get("/getAllLeads", userAuth, leadController.getAllLeads);
+routes.post("/updateLead", leadController.updateLead);
+routes.delete("/deleteLead", leadController.deleteLead);
 
 module.exports = routes;
