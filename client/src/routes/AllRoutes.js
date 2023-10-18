@@ -7,7 +7,7 @@ import { SelectCourse } from "../Components/cccccc";
 import { Certificate } from "../Components/course-management/certificate";
 import { Class } from "../Components/course-management/class";
 import { Course } from "../Components/course-management/course";
-import { CustomerManagement } from "../Components/customer-maagment";
+import { CustomerManagement } from "../Components/customers/customer-maagment";
 import { D } from "../Components/d";
 import { DateRange } from "../Components/date-range";
 import { Employee } from "../Components/employee";

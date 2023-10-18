@@ -8,6 +8,7 @@ import { RegistrationTypeModal } from "./models/registrationTypeModal";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { registrationTypeHeaders } from "../../Constants/table.constants";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { DeleteModel } from "../../common-components/models/DeleteModal";
 //     <style>
 //         .select2-container {
 //             width: 100% !important;
@@ -95,14 +96,27 @@ export const RegistrationType = () => {
   const [registrationModal, setRegistrationModal] = useState(false);
   const [registrationTypes, setRegistrationTypes] = useState([]);
   const [registrationData, setRegistrationData] = useState(null);
+  const [regIndex, setRegIndex] = useState(null);
+  const [deleteRegModal, setDeleteRegModal] = useState(false);
+  const [viewRegModal, setViewRegModal] = useState(false);
 
   useEffect(() => {
     getRegistrationTypes();
   }, []);
 
   const showRegistrationModal = (e, type, index) => {
+    setRegIndex(index);
     setRegistrationData(e);
-    setRegistrationModal(!registrationModal);
+
+    if (type == "delete") {
+      setDeleteRegModal(true);
+    } else if (type == "view") setViewRegModal(true);
+    else {
+      setDeleteRegModal(false);
+      setViewRegModal(false);
+    }
+
+    if (type != "delete") setRegistrationModal(true);
   };
 
   const getRegistrationTypes = async () => {
@@ -117,6 +131,33 @@ export const RegistrationType = () => {
           ))
       );
       setRegistrationTypes(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateRegistration = (registrationData) => {
+    const checkRegType = registrationTypes.filter(
+      (e) => e._id == registrationData._id
+    );
+    if (checkRegType.length) {
+      registrationTypes[regIndex] = registrationData;
+      setRegistrationTypes([...registrationTypes]);
+    } else {
+      setRegistrationTypes((old) => [...old, registrationData]);
+    }
+  };
+
+  const deleteRegistrationType = async (selectedData) => {
+    try {
+      const { data } = await AxiosInstance.delete(
+        "/registrationType/deleteRegistration",
+        { params: selectedData }
+      );
+      const filterRegistrationTypes = registrationTypes.filter(
+        (e) => e._id != selectedData._id
+      );
+      setRegistrationTypes([...filterRegistrationTypes]);
     } catch (err) {
       console.error(err);
     }
@@ -278,6 +319,17 @@ export const RegistrationType = () => {
         isOpen={registrationModal}
         setIsOpen={setRegistrationModal}
         registrationData={registrationData}
+        viewModal={viewRegModal}
+        callback={(e) => updateRegistration(e)}
+      />
+
+      <DeleteModel
+        setIsOpen={setDeleteRegModal}
+        isOpen={deleteRegModal}
+        message={`Do you really want to delete ${registrationData?.registrationName}`}
+        callback={(e) => deleteRegistrationType(e)}
+        deleteHeader={"Registration Type"}
+        data={registrationData}
       />
     </div>
   );

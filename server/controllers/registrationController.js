@@ -21,8 +21,24 @@ const getRegistrationType = (req, res) => {
     .catch((err) => res.status(500).send(err));
 };
 
+const updateRegistration = (req, res) => {
+  registrationManager
+    .updateRegistration(req.body)
+    .then((result) => res.status(200).send(result))
+    .catch((error) => res.status(500).send(error));
+};
+
+const deleteRegistration = (req, res) => {
+  registrationManager
+    .deleteRegistration(req.query)
+    .then((result) => res.status(200).send(result))
+    .catch((error) => res.status(500).send(error));
+};
+
 module.exports = {
   addRegistrationType,
   getRegistrationTypes,
   getRegistrationType,
+  updateRegistration,
+  deleteRegistration,
 };

@@ -85,3 +85,18 @@ export const registrationTypeHeaders = {
   registrationName: "Registration Name",
   tradeLevelIds: "Trade Level",
 };
+
+export const customersHeaders = {
+  participantName: "Name of Participant",
+  companyName: "Company Name",
+  contactPerson: "Contact Person",
+  participantMobile: "Participant's Mobile",
+};
+
+export const courseHeaders = {
+  tradeType: "Trade Type",
+  registrationType: "Registration Type",
+  tradeLevel: "Trade Level",
+  price: "Price",
+  duration: "Duration",
+};

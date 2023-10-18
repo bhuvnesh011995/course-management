@@ -6,10 +6,12 @@ import {
   exportToPDFTable,
 } from "./useCommonUsableFunctions";
 import moment from "moment";
+import { useEffect, useState } from "react";
 
 export const CommonDataTable = ({
   data,
   tableHeaders,
+  updateLeadList,
   actionButtons,
   editButton,
   deleteButton,
@@ -22,6 +24,10 @@ export const CommonDataTable = ({
   verificationMailButton,
   leadModelButtons,
 }) => {
+  useEffect(() => {
+    if (leadModelButtons) updateLeadList("new");
+  }, []);
+  const [leadValue, setLeadValue] = useState("new");
   const dataKeys = Object.keys(tableHeaders);
   const tableColumns = [];
   dataKeys.map((e, index) => {
@@ -82,6 +88,22 @@ export const CommonDataTable = ({
               <i className="mdi mdi-check-circle" />
             </button>
           )}
+          {leadModelButtons && row.original?.getPayment && (
+            <button
+              onClick={() => console.log("get payment")}
+              className="btn btn-icon rounded-pill"
+            >
+              <i className="bx bx-money align-middle me-1 text-info" />
+            </button>
+          )}
+          {leadModelButtons && row.original?.confirmed && (
+            <button
+              onClick={() => console.log("is confirmed")}
+              className="btn btn-icon rounded-pill"
+            >
+              <i className="mdi mdi-check-circle align-middle text-success" />
+            </button>
+          )}
         </div>
       ),
     });
@@ -125,10 +147,48 @@ export const CommonDataTable = ({
             )}
             {leadModelButtons && (
               <div className="column">
-                <button className="mx-1 btn btn-primary">New</button>
-                <button className="mx-1 btn btn-primary">Pending</button>
-                <button className="mx-1 btn btn-primary">Assign</button>
-                <button className="mx-1 btn btn-primary">Completed</button>
+                <button
+                  className={`mx-1 btn ${leadValue == "new" && "btn-primary"}`}
+                  onClick={() => {
+                    setLeadValue("new");
+                    updateLeadList("new");
+                  }}
+                >
+                  New
+                </button>
+                <button
+                  className={`mx-1 btn ${
+                    leadValue == "pending" && "btn-primary"
+                  }`}
+                  onClick={() => {
+                    setLeadValue("pending");
+                    updateLeadList("pending");
+                  }}
+                >
+                  Pending
+                </button>
+                <button
+                  className={`mx-1 btn ${
+                    leadValue == "assign" && "btn-primary"
+                  }`}
+                  onClick={() => {
+                    setLeadValue("assign");
+                    updateLeadList("assign");
+                  }}
+                >
+                  Assign
+                </button>
+                <button
+                  className={`mx-1 btn ${
+                    leadValue == "completed" && "btn-primary"
+                  }`}
+                  onClick={() => {
+                    setLeadValue("completed");
+                    updateLeadList("completed");
+                  }}
+                >
+                  Completed
+                </button>
               </div>
             )}
           </div>

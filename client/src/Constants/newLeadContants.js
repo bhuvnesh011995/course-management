@@ -1,218 +1,241 @@
 export const tradeType = [
   {
-    key: 1,
-    value: "Aluminium Formwork (Enhanced)",
+    value: "AFE",
+    name: "Aluminium Formwork (Enhanced)",
   },
   {
-    key: 2,
-    value: "Electrical Wiring Installation",
+    value: "EWI",
+    name: "Electrical Wiring Installation",
   },
   {
-    key: 3,
-    value: "Plumbing & Pipefitting",
+    value: "PPF",
+    name: "Plumbing & Pipefitting",
   },
   {
-    key: 4,
-    value: "Steel Reinforcement Work",
+    value: "SRW",
+    name: "Steel Reinforcement Work",
   },
   {
-    key: 5,
-    value: "Tiling",
+    value: "TL",
+    name: "Tiling",
   },
   {
-    key: 6,
-    value: "WaterProofing",
+    value: "WP",
+    name: "WaterProofing",
   },
 ];
 
 export const TradeLevel1 = [
   {
-    key: 1,
-    value: "TradesMan (FC+SA)",
+    value: "TFS",
+    name: "TradesMan (FC+SA)",
   },
   {
-    key: 2,
-    value: "TradesMan (Re-Test)",
+    value: "TRT",
+    name: "TradesMan (Re-Test)",
   },
   {
-    key: 3,
-    value: "Trade Foreman (FC+SA)",
+    value: "TFFS",
+    name: "Trade Foreman (FC+SA)",
   },
   {
-    key: 4,
-    value: "Trade Foreman (Re-Test)",
+    value: "TFRT",
+    name: "Trade Foreman (Re-Test)",
   },
   {
-    key: 5,
-    value: "Upgrade From TradesMan To Trade Foreman (FC+SA)",
+    value: "UFS",
+    name: "Upgrade From TradesMan To Trade Foreman (FC+SA)",
   },
   {
-    key: 6,
-    value: "Upgrade From TradesMan To Trade Foreman (Re-Test)",
+    value: "URT",
+    name: "Upgrade From TradesMan To Trade Foreman (Re-Test)",
   },
 ];
 
 export const TradeLevel2 = [
   {
-    key: 1,
-    value: "Multi-Skilling (FC+SE)",
+    value: "MSF",
+    name: "Multi-Skilling (FC+SE)",
   },
 
   {
-    key: 2,
-    value: "Multi-Skilling (Direct-Test / Re-Test",
+    value: "MSRT",
+    name: "Multi-Skilling (Direct-Test / Re-Test",
   },
 ];
 
 export const TradeLevel3 = [
   {
-    key: 1,
-    value: "Training + Test",
+    value: "TT",
+    name: "Training + Test",
   },
 
   {
-    key: 2,
-    value: "Direct Test / Re - Test",
+    value: "DRT",
+    name: "Direct Test / Re - Test",
   },
 ];
 
 export const TradeLevel4 = [
   {
-    key: 1,
-    value: "End-of-course Validation Test - Training + Test",
+    value: "ETT",
+    name: "End-of-course Validation Test - Training + Test",
   },
   {
-    key: 2,
-    value: "End-of-course Validation Test - Re-Test",
+    value: "ERT",
+    name: "End-of-course Validation Test - Re-Test",
   },
   {
-    key: 3,
-    value: "SEC(K) - Training + Test",
+    value: "STT",
+    name: "SEC(K) - Training + Test",
   },
   {
-    key: 4,
-    value: "SEC(K) - Re-Test",
+    value: "SRT",
+    name: "SEC(K) - Re-Test",
   },
 ];
 
 export const nationality = [
   {
-    key: 1,
-    value: "MALAYSIAN",
+    value: "MLS",
+    name: "MALAYSIAN",
   },
   {
-    key: 2,
-    value: "HONG KONG",
+    value: "HK",
+    name: "HONG KONG",
   },
   {
-    key: 3,
-    value: "MACAU",
+    value: "MC",
+    name: "MACAU",
   },
   {
-    key: 4,
-    value: "SOUTH KOREA",
+    value: "SK",
+    name: "SOUTH KOREA",
   },
   {
-    key: 5,
-    value: "TAIWAN",
+    value: "TW",
+    name: "TAIWAN",
   },
 ];
 
 export const educationalConstant = [
   {
-    key: 1,
-    value: "NO FORMAL EDUCATION",
+    value: 1,
+    name: "NO FORMAL EDUCATION",
   },
   {
-    key: 2,
-    value: "PRIMARY 1",
+    value: 2,
+    name: "PRIMARY 1",
   },
   {
-    key: 3,
-    value: "PRIMARY 2",
+    value: 3,
+    name: "PRIMARY 2",
   },
   {
-    key: 4,
-    value: "PRIMARY 3",
+    value: 4,
+    name: "PRIMARY 3",
   },
   {
-    key: 5,
-    value: "PRIMARY 4",
+    value: 5,
+    name: "PRIMARY 4",
   },
   {
-    key: 6,
-    value: "PRIMARY 5",
+    value: 6,
+    name: "PRIMARY 5",
   },
   {
-    key: 7,
-    value: "PRIMARY 6",
+    value: 7,
+    name: "PRIMARY 6",
   },
   {
-    key: 8,
-    value: "SECONDARY 1",
+    value: 8,
+    name: "SECONDARY 1",
   },
   {
-    key: 9,
-    value: "SECONDARY 2",
+    value: 9,
+    name: "SECONDARY 2",
   },
   {
-    key: 10,
-    value: "SECONDARY 3",
+    value: 10,
+    name: "SECONDARY 3",
   },
   {
-    key: 11,
-    value: "SECONDARY 4",
+    value: 11,
+    name: "SECONDARY 4",
   },
   {
-    key: 12,
-    value: "WISE 2/3/4",
+    value: 12,
+    name: "WISE 2/3/4",
   },
   {
-    key: 13,
-    value: "SEC4 1 'O'",
+    value: 13,
+    name: "SEC4 1 'O'",
   },
   {
-    key: 14,
-    value: "SEC4 2 'O'",
+    value: 14,
+    name: "SEC4 2 'O'",
   },
   {
-    key: 15,
-    value: "SEC4 3 'O'",
+    value: 15,
+    name: "SEC4 3 'O'",
   },
   {
-    key: 16,
-    value: "SEC4 4 'O'",
+    value: 16,
+    name: "SEC4 4 'O'",
   },
   {
-    key: 17,
-    value: "SEC4 5 'O' WITHOUT ENGLISH",
+    value: 17,
+    name: "SEC4 5 'O' WITHOUT ENGLISH",
   },
   {
-    key: 18,
-    value: "SEC4 MORE THAN 5 'O'",
+    value: 18,
+    name: "SEC4 MORE THAN 5 'O'",
   },
   {
-    key: 19,
-    value: "SEC4 5 'O' WITH ENGLISH",
+    value: 19,
+    name: "SEC4 5 'O' WITH ENGLISH",
   },
   {
-    key: 20,
-    value: "PRE-UNIVERSITY 1",
+    value: 20,
+    name: "PRE-UNIVERSITY 1",
   },
   {
-    key: 21,
-    value: "PRE-UNIVERSITY 2 / SENIOR HIGH SCHOOL",
+    value: 21,
+    name: "PRE-UNIVERSITY 2 / SENIOR HIGH SCHOOL",
   },
   {
-    key: 22,
-    value: "TECHNICAL HIGH SCHOOL",
+    value: 22,
+    name: "TECHNICAL HIGH SCHOOL",
   },
   {
-    key: 23,
-    value: "DIPLOMA",
+    value: 23,
+    name: "DIPLOMA",
   },
   {
-    key: 24,
-    value: "TERTIARY",
+    value: 24,
+    name: "TERTIARY",
+  },
+];
+
+export const registrationConstants = [
+  {
+    value: "CTD",
+    name: "Core Trade",
+  },
+  {
+    value: "MSG",
+    name: "Multi-skilling",
+  },
+  {
+    value: "SK",
+    name: "SEC(k)",
+  },
+  {
+    value: "CRW",
+    name: "CET(Renewal)",
+  },
+  {
+    value: "AMN",
+    name: "ALP for Malaysian & NAS",
   },
 ];

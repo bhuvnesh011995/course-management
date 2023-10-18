@@ -2,13 +2,16 @@ const mongoose = require("mongoose");
 
 const leadSchema = new mongoose.Schema(
   {
-    fileLocations: [
-      {
-        originalname: { type: String },
-        mimetype: { type: String },
-        path: { type: String },
-      },
-    ],
+    fileLocations: {
+      passportCopy: { type: String },
+      notice: { type: String },
+      nric: { type: String },
+      MOME: { type: String },
+      skill: { type: String },
+      pa: { type: String },
+      ISC: { type: String },
+      workersPassport: { type: String },
+    },
     bcaAcknowledgementNotice: { type: String },
     MOMEploymentDetails: { type: String },
     nricWorkDocument: { type: String },
@@ -32,7 +35,7 @@ const leadSchema = new mongoose.Schema(
     participantMobile: { type: Number },
     participantNRIC: { type: String },
     postalCode: { type: String },
-    registrationType: { type: Number },
+    registrationType: { type: String },
     tradeLevel: { type: String },
     tradeType: { type: String },
     participantName: { type: String },
@@ -40,6 +43,8 @@ const leadSchema = new mongoose.Schema(
     nationality: { type: String },
     educationalLevel: { type: String },
     coreTradeRegNo: { type: String },
+    getPayment: { type: Boolean, default: false },
+    confirmed: { type: Boolean, default: false },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

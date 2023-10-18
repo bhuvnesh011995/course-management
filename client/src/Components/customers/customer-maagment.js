@@ -1,9 +1,14 @@
 // <!doctype html>
 // <html lang="en">
 
-import { MenuBar } from "../common-components/MenuBar";
-import { CommonNavbar } from "../common-components/Navbar";
-import { onMenuClicked } from "../common-components/useCommonUsableFunctions";
+import { useEffect, useState } from "react";
+import { customersHeaders } from "../../Constants/table.constants";
+import { CommonDataTable } from "../../common-components/CommonDataTable";
+import { MenuBar } from "../../common-components/MenuBar";
+import { CommonNavbar } from "../../common-components/Navbar";
+import { AxiosInstance } from "../../common-components/axiosInstance";
+import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
+import { AddNewLeadModel } from "../lead/addNewLeadModel";
 
 // <head>
 
@@ -66,19 +71,45 @@ import { onMenuClicked } from "../common-components/useCommonUsableFunctions";
 
 // <!-- Start layout-wrapper -->
 export const CustomerManagement = () => {
+  const [allCustomers, setAllCustomers] = useState([]);
+  const [customerModal, setCustomerModal] = useState(false);
+  const [customerData, setCustomerData] = useState(null);
+  const [customerIndex, setCustomerIndex] = useState(null);
+
+  const updateCustomer = (e) => {
+    console.log(e);
+  };
+
+  useEffect(() => {
+    getCustomers();
+  }, []);
+
+  const getCustomers = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/leads/getAllLeads");
+      setAllCustomers(data.leads);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const showCustomerModal = (e, type, index) => {
+    try {
+      setCustomerData(e);
+      setCustomerModal(true);
+      setCustomerIndex(index);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div id="layout-wrapper">
       <CommonNavbar />
-      {/* ========== Left Sidebar Start ========== */}
       <MenuBar />
-      {/* Left Sidebar End */}
-      {/* ============================================================== */}
-      {/* Start right Content here */}
-      {/* ============================================================== */}
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
-            {/* start page title */}
             <div className="row">
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -96,7 +127,6 @@ export const CustomerManagement = () => {
                 </div>
               </div>
             </div>
-            {/* end page title */}
             <div className="row">
               <div className="col-xl-12">
                 <div className="card">
@@ -142,77 +172,34 @@ export const CustomerManagement = () => {
                 </div>
               </div>
             </div>
-            {/* Role cards */}
             <div className="row g-4">
               <div className="col-md-12">
-                {/* Role Table */}
                 <div className="card ">
                   <div className="card-header justify-content-between">
                     <div className="card-title">customer List </div>
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">
-                      <table
-                        id="datatable-buttons"
-                        className="table table-bordered dt-responsive nowrap w-100"
-                      >
-                        <thead>
-                          <tr>
-                            <th>Name of Participant</th>
-                            <th>Company Name</th>
-                            <th>Contact Person</th>
-                            <th>Participant's Mobile</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Alice Smith</td>
-                            <td>Company ABC</td>
-                            <td>John Doe</td>
-                            <td>789-123-4567</td>
-                            <td>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-warning rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#view"
-                              >
-                                <i className="mdi mdi-eye" />
-                              </a>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-primary rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#edit"
-                              >
-                                <i className="mdi mdi-pencil" />
-                              </a>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-danger rounded-pill"
-                              >
-                                <i className="mdi mdi-trash-can" />
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <CommonDataTable
+                        tableHeaders={customersHeaders}
+                        data={allCustomers}
+                        actionButtons
+                        viewButton
+                        editButton
+                        deleteButton
+                        downloadExcel
+                        callback={(e, type, index) =>
+                          showCustomerModal(e, type, index)
+                        }
+                        downloadPdf
+                      />
                     </div>
                   </div>
                 </div>
-                {/*/ Role Table */}
               </div>
             </div>
-            {/*/ Role cards */}
           </div>{" "}
-          {/* container-fluid */}
         </div>
-        {/* End Page-content */}
-        {/* /.modal */}
         <div
           id="view"
           className="modal fade bs-example-modal-lg"
@@ -541,7 +528,6 @@ export const CustomerManagement = () => {
           </div>
           {/* /.modal-dialog */}
         </div>
-        {/* /.modal */}
         <div
           id="edit"
           className="modal fade bs-example-modal-lg"
@@ -813,104 +799,14 @@ export const CustomerManagement = () => {
           </div>
         </footer>
       </div>
-      {/* end main content*/}
+      {customerModal && (
+        <AddNewLeadModel
+          setIsOpen={setCustomerModal}
+          isOpen={customerModal}
+          leadData={customerData}
+          callback={(e) => updateCustomer(e)}
+        />
+      )}
     </div>
   );
 };
-{
-  /* <!-- END layout-wrapper --> */
-}
-
-{
-  /* <!-- JAVASCRIPT -->
-    <script src="assets/libs/jquery/jquery.min.js"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/smart-wizaed/smart-wizaed.js"></script>
-    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/node-waves/waves.min.js"></script>
-    <script src="assets/libs/select2/js/select2.min.js"></script>
-
-    <!-- Required datatable js -->
-    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <!-- Buttons examples -->
-    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="assets/libs/jszip/jszip.min.js"></script>
-    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-
-    <!-- Responsive examples -->
-    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-    <!-- Datatable init js -->
-    <script src="assets/js/pages/datatables.init.js"></script>
-
-
-    <script src="assets/js/app.js"></script>
-    <!-- form advanced init -->
-    <script src="assets/js/pages/form-advanced.init.js"></script>
-    <script>
-        $(document).ready(function() {
-  $('table.display').DataTable();
-} );
-    </script>
-    <script>
-
-        $(document).ready(function () {
-
-            $(".select2").select2({
-
-                dropdownParent: $("#addUserModal")
-
-            });
-
-        });
-
-    </script>
-    <script>
-
-        $(document).ready(function () {
-
-            $(".select2").select2({
-
-                dropdownParent: $("#editUserModal")
-
-            });
-
-        });
-
-    </script>
-    <script>
-        $('#smartwizard').smartWizard({
-            transition: {
-                animation: 'slideHorizontal', // Effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
-            }
-        });
-    </script>
-    <script>
-        // Function to open the second modal from the first modal
-        function openSecondModal() {
-            $('#viewQuotationHistoryModal').modal('show');
-        }
-
-        // Function to open the third modal from the first modal
-        function openThirdModal() {
-            $('#viewPastInvoiceModal').modal('show');
-        }
-
-        // Function to open the fourth modal from the first modal
-        function openFourthModal() {
-            $('#viewActivitiesModal').modal('show');
-        }
-
-    </script>
-</body>
-
-</html> */
-}

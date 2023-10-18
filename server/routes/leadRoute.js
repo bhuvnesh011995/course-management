@@ -9,7 +9,17 @@ routes.post(
   leadController.addNewLead
 );
 routes.get("/getAllLeads", userAuth, leadController.getAllLeads);
-routes.post("/updateLead", leadController.updateLead);
+routes.post(
+  "/updateLead",
+  upload.array("files", 10),
+  leadController.updateLead
+);
 routes.delete("/deleteLead", leadController.deleteLead);
+
+routes.get("/getLead", leadController.getLead);
+
+routes.post("/getPayment", leadController.getPayment);
+
+routes.post("/confirmPayment", leadController.confirmPayment);
 
 module.exports = routes;

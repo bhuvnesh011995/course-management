@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const tradeLevelSchema = new mongoose.Schema(
   {
     tradeLevel: { type: String },
+    tradeCode: { type: String },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

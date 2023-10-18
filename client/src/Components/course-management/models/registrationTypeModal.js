@@ -8,6 +8,7 @@ export const RegistrationTypeModal = ({
   setIsOpen,
   callback,
   registrationData,
+  viewModal,
 }) => {
   const [tradeLevels, setTradeLevels] = useState([]);
   const [selectAllTradeLevel, setSelectAllTradeLevel] = useState([]);
@@ -23,10 +24,13 @@ export const RegistrationTypeModal = ({
 
   useEffect(() => {
     getTradeLevels();
+  }, []);
+
+  useEffect(() => {
     if (registrationData) {
       getRegistration();
     }
-  }, []);
+  }, [registrationData]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -38,7 +42,14 @@ export const RegistrationTypeModal = ({
         "/registrationType/addRegistrationType",
         registrationData
       );
-      console.log(data);
+      const selectedTrades = tradeLevels.filter((e) =>
+        data.tradeLevelIds.includes(e._id)
+      );
+      data["tradeLevelIds"] = selectedTrades.map((e) => {
+        return e.tradeLevel + " ,";
+      });
+      callback(data);
+      handleClose();
     } catch (err) {
       console.error(err);
     }
@@ -94,7 +105,26 @@ export const RegistrationTypeModal = ({
         "/registrationType/getRegistrationType",
         { params: { registrationData } }
       );
-      console.log(data);
+      reset(data[0]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const editRegistrationType = async (newData) => {
+    try {
+      const { data } = await AxiosInstance.post(
+        "/registrationType/updateRegistration",
+        newData
+      );
+      const selectedTrades = tradeLevels.filter((e) =>
+        newData.tradeLevelIds.includes(e._id)
+      );
+      newData["tradeLevelIds"] = selectedTrades.map((e) => {
+        return e.tradeLevel + " ,";
+      });
+      callback(newData);
+      handleClose();
     } catch (err) {
       console.error(err);
     }
@@ -106,18 +136,24 @@ export const RegistrationTypeModal = ({
         <Modal.Header closeButton>
           <Modal.Title>
             <h5 className="modal-title" id="addRegistrationTypeModalLabel">
-              Add New Registration Type
+              {viewModal ? "View" : registrationData ? "Update" : "Add New"}{" "}
+              Registration Type
             </h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={handleSubmit(saveRegistrationData)}>
+          <form
+            onSubmit={handleSubmit(
+              registrationData ? editRegistrationType : saveRegistrationData
+            )}
+          >
             <div className="mb-3">
               <label className="form-label">Registration Type:</label>
               <input
                 type="text"
                 className="form-control"
                 placeholder="Enter registration type"
+                disabled={viewModal}
                 {...register("registrationName", { required: "" })}
               />
             </div>
@@ -127,6 +163,7 @@ export const RegistrationTypeModal = ({
                 type="text"
                 className="form-control"
                 placeholder="Enter registration Code"
+                disabled={viewModal}
                 {...register("registrationCode")}
               />
             </div>
@@ -137,16 +174,18 @@ export const RegistrationTypeModal = ({
               </div>
               <div className="dropdown" id="onDropDown">
                 <label onClick={showDropDown} className="dropdown-label">
-                  Select
+                  {viewModal ? "View" : "Select"}
                 </label>
 
                 <div className="dropdown-list">
-                  <a
-                    className="dropdown-option border-bottom text-blue cursor-pointer"
-                    onClick={checkAll}
-                  >
-                    Check All
-                  </a>
+                  {!viewModal && (
+                    <a
+                      className="dropdown-option border-bottom text-blue cursor-pointer"
+                      onClick={checkAll}
+                    >
+                      Check All
+                    </a>
+                  )}
                   {tradeLevels.map((e, index) => (
                     <label className="dropdown-option">
                       <input
@@ -155,6 +194,7 @@ export const RegistrationTypeModal = ({
                         onClick={() => changeSelected(e._id)}
                         checked={selectAllTradeLevel.includes(e._id)}
                         {...register("tradeLevelIds")}
+                        disabled={viewModal}
                       />
                       {e.tradeLevel}
                     </label>
@@ -170,9 +210,11 @@ export const RegistrationTypeModal = ({
               >
                 Cancel
               </button>
-              <button type="submit" className="btn btn-primary">
-                Save
-              </button>
+              {!viewModal && (
+                <button type="submit" className="btn btn-primary">
+                  {registrationData ? "Update" : "Save"}
+                </button>
+              )}
             </Modal.Header>
           </form>
         </Modal.Body>

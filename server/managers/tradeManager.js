@@ -25,6 +25,7 @@ const updateTradeLevel = async (data) => {
       { _id: data._id },
       {
         tradeLevel: data.tradeLevel,
+        tradeCode: data.tradeCode,
       }
     );
     return { message: "Trade Level Updated Successfully !" };

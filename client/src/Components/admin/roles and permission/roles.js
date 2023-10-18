@@ -45,6 +45,7 @@ export const Roles = () => {
       roles.map((e, index) => {
         if (e._id == inRole[0]._id) {
           roles[index] = newData;
+          setRoles([...roles]);
           return;
         }
       });

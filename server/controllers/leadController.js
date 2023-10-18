@@ -16,7 +16,7 @@ const getAllLeads = (req, res) => {
 
 const updateLead = (req, res) => {
   leadManager
-    .updateLead(req.body)
+    .updateLead(req)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err));
 };
@@ -28,9 +28,33 @@ const deleteLead = (req, res) => {
     .catch((err) => res.status(500).send(err));
 };
 
+const getLead = (req, res) => {
+  leadManager
+    .getLead(req.query)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err));
+};
+
+const getPayment = (req, res) => {
+  leadManager
+    .getPayment(req.body)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err));
+};
+
+const confirmPayment = (req, res) => {
+  leadManager
+    .confirmPayment(req.body)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err));
+};
+
 module.exports = {
   addNewLead,
   getAllLeads,
   updateLead,
   deleteLead,
+  getLead,
+  getPayment,
+  confirmPayment,
 };

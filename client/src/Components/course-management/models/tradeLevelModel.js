@@ -85,6 +85,21 @@ export const TradeLevelModal = ({
               {errors?.tradeLevel && errors?.tradeLevel.message}
             </span>
           </div>
+          <div className="mb-3">
+            <label className="form-label">Trade Code :</label>
+            <input
+              type="text"
+              className="form-control"
+              {...register("tradeCode", {
+                required: "This field is required",
+              })}
+              placeholder="Enter Trade Code"
+              disabled={viewTradeLevel}
+            />
+            <span className="text-danger">
+              {errors?.tradeCode && errors?.tradeCode.message}
+            </span>
+          </div>
           <Modal.Footer>
             <div>
               <button

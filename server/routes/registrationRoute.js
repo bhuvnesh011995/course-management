@@ -8,5 +8,7 @@ routes.get(
 );
 
 routes.get("/getRegistrationType", registrationController.getRegistrationType);
+routes.post("/updateRegistration", registrationController.updateRegistration);
+routes.delete("/deleteRegistration", registrationController.deleteRegistration);
 
 module.exports = routes;

@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import { useEffect, useState } from "react";
 import { CommonRowMenubar } from "../../common-components/navbarRow";
 import { AddNewLeadModel } from "./addNewLeadModel";
@@ -10,14 +11,20 @@ import {
 import axios from "axios";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { TradeLevel1, tradeType } from "../../Constants/newLeadContants";
+import { MenuBar } from "../../common-components/MenuBar";
+import { Navbar } from "react-bootstrap";
+import { CommonNavbar } from "../../common-components/Navbar";
 
 export const Lead = () => {
   const [newLeadModal, setNewLeadModal] = useState(false);
   const [leads, setLeads] = useState([]);
+  const [filteredLeads, setFilteredLeads] = useState([]);
   const [leadData, setLeadData] = useState(null);
   const [leadIndex, setLeadIndex] = useState(null);
   const [deleteLeadModal, setDeleteLeadModal] = useState(false);
   const [viewLead, setViewLead] = useState(false);
+  const [leadTab, setLeadTab] = useState("new");
 
   const showLeadModal = (data, type, index) => {
     setLeadIndex(index);
@@ -43,17 +50,31 @@ export const Lead = () => {
   const updateLeads = (leadData) => {
     const checkLeads = leads.filter((e) => e._id == leadData._id);
     if (checkLeads.length) {
-      leads[leadIndex] = leadData;
-      setLeads([...leads]);
+      leads.map((e, index) => {
+        if (e._id == checkLeads[0]._id) {
+          leads[index] = leadData;
+          setLeads([...leads]);
+          return;
+        }
+      });
+      updateLeadList(leadTab, leadData);
     } else {
       setLeads((old) => [...old, leadData]);
+      if (leadTab == "new") updateLeadList("new", leadData);
     }
   };
 
   const getAllLeads = async () => {
     try {
       const { data } = await AxiosInstance.get("/leads/getAllLeads");
+      data.leads.map((lead) => {
+        tradeType.map((e) => {
+          if (e.value == lead.tradeType) lead.tradeType = e.name;
+        });
+      });
       setLeads(data.leads);
+      const newLeads = data.leads.filter((e) => !e.getPayment && !e.confirmed);
+      setFilteredLeads(newLeads);
     } catch (err) {
       console.error(err);
     }
@@ -66,18 +87,85 @@ export const Lead = () => {
       });
       const filterLeads = leads.filter((e) => e._id != leadData._id);
       setLeads([...filterLeads]);
+      updateLeadList("delete", leadData);
     } catch (err) {
       console.error(err);
     }
   };
 
+  const updateLeadList = (type, leadData) => {
+    switch (type) {
+      case "new":
+        if (leadData) {
+          const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
+          if (checkLeads.length) {
+            filteredLeads[leadIndex] = leadData;
+            const newLeads = filteredLeads.filter(
+              (e) => !e.getPayment && !e.confirmed
+            );
+            setFilteredLeads([...newLeads]);
+          } else {
+            setFilteredLeads((old) => [...old, leadData]);
+          }
+        } else {
+          const newLeads = leads.filter((e) => !e.getPayment && !e.confirmed);
+          setFilteredLeads([...newLeads]);
+        }
+        break;
+      case "pending":
+        if (leadData) {
+          const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
+          if (checkLeads.length) {
+            filteredLeads[leadIndex] = leadData;
+            const pendingLeads = filteredLeads.filter(
+              (e) => e.getPayment && !e.confirmed
+            );
+            setFilteredLeads([...pendingLeads]);
+          }
+        } else {
+          const pendingLeads = leads.filter(
+            (e) => e.getPayment && !e.confirmed
+          );
+          setFilteredLeads([...pendingLeads]);
+        }
+        break;
+      case "assign":
+        break;
+      case "completed":
+        if (leadData) {
+          console.log("old");
+          const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
+          if (checkLeads.length) {
+            filteredLeads[leadIndex] = leadData;
+            const completedLeads = filteredLeads.filter(
+              (e) => e.getPayment && e.confirmed
+            );
+            setFilteredLeads([...completedLeads]);
+          }
+        } else {
+          const completedLeads = leads.filter(
+            (e) => e.getPayment && e.confirmed
+          );
+          console.log(leads, completedLeads);
+          setFilteredLeads([...completedLeads]);
+        }
+        break;
+      case "delete":
+        const newLeads = filteredLeads.filter((e) => e._id != leadData._id);
+        setFilteredLeads([...newLeads]);
+        break;
+    }
+    setLeadTab(type);
+  };
+
   return (
     <div id="layout-wrapper">
-      <CommonRowMenubar />
-      <div className=" px-11 py-3  d-flex align-items-center justify-content-center">
-        <div className="page-content p-0">
+      <CommonNavbar />
+      <MenuBar />
+      <div className="main-content">
+        <div className="page-content">
           <div className="container-fluid">
-            <div className="row g-4">
+            <div className="row">
               <div className="col-md-12">
                 <div className="card">
                   <div className="card-header d-flex align-items-center justify-content-between">
@@ -135,20 +223,23 @@ export const Lead = () => {
                       </Link>
                     </div>
                   </div>
-                  <div className="card-body">
-                    <CommonDataTable
-                      data={leads}
-                      tableHeaders={leadTableHeaders}
-                      actionButtons
-                      editButton
-                      tableSearchBar={false}
-                      deleteButton
-                      callback={(e, type, index) =>
-                        showLeadModal(e, type, index)
-                      }
-                      leadModelButtons
-                    />
-                    <div className="category-container mb-0 "></div>
+                  <div>
+                    <div className="card-body">
+                      <CommonDataTable
+                        data={filteredLeads}
+                        tableHeaders={leadTableHeaders}
+                        actionButtons
+                        editButton
+                        tableSearchBar={false}
+                        deleteButton
+                        callback={(e, type, index) =>
+                          showLeadModal(e, type, index)
+                        }
+                        updateLeadList={(e) => updateLeadList(e)}
+                        leadModelButtons
+                      />
+                      <div className="category-container mb-0 "></div>
+                    </div>
                   </div>
                 </div>
                 {/* <div className="card">
@@ -321,6 +412,7 @@ export const Lead = () => {
           leadData={leadData}
           callback={(e) => updateLeads(e)}
           viewLead={viewLead}
+          setLeadData={setLeadData}
         />
       )}
       {deleteLeadModal && (
