@@ -34,6 +34,7 @@ export const RegistrationTypeModal = ({
 
   const handleClose = () => {
     setIsOpen(false);
+    reset({});
   };
 
   const saveRegistrationData = async (registrationData) => {

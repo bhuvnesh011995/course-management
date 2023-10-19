@@ -75,14 +75,17 @@ export const leadTableHeaders = {
 
 export const tradeLevelHeaders = {
   tradeLevel: "Trade Level",
+  tradeCode: "Trade Level Code",
 };
 
 export const tradeTypeHeaders = {
   tradeType: "Trade Type Name",
+  typeCode: "Trade Type Code",
 };
 
 export const registrationTypeHeaders = {
   registrationName: "Registration Name",
+  registrationType: "Registration Type",
   tradeLevelIds: "Trade Level",
 };
 
@@ -94,9 +97,10 @@ export const customersHeaders = {
 };
 
 export const courseHeaders = {
+  courseName: "Course Name",
   tradeType: "Trade Type",
   registrationType: "Registration Type",
   tradeLevel: "Trade Level",
-  price: "Price",
+  price: "Price ($)",
   duration: "Duration",
 };

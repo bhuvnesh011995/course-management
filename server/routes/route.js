@@ -7,5 +7,6 @@ routes.use("/mail", require("./mailRoute"));
 routes.use("/leads", require("./leadRoute"));
 routes.use("/trades", require("./tradeRoute"));
 routes.use("/registrationType", require("./registrationRoute"));
+routes.use("/courses", require("./courseRoute"));
 
 module.exports = routes;

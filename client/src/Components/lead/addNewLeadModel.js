@@ -2,14 +2,8 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import {
-  TradeLevel1,
-  TradeLevel2,
-  TradeLevel3,
-  TradeLevel4,
   educationalConstant,
   nationality,
-  registrationConstants,
-  tradeType,
 } from "../../Constants/newLeadContants";
 import {
   emailPattern,
@@ -21,10 +15,7 @@ import {
 } from "../../common-components/validations";
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../common-components/axiosInstance";
-import {
-  downloadURI,
-  filePath,
-} from "../../common-components/useCommonUsableFunctions";
+import { filePath } from "../../common-components/useCommonUsableFunctions";
 
 export const AddNewLeadModel = ({
   setIsOpen,
@@ -33,6 +24,11 @@ export const AddNewLeadModel = ({
   callback,
   viewLead,
 }) => {
+  const [tradeLevels, setTradeLevels] = useState([]);
+  const [allCourses, setAllCourses] = useState([]);
+  const [tradeTypes, setTradeTypes] = useState([]);
+  const [registrationTypes, setRegistrationTypes] = useState([]);
+
   const {
     register,
     reset,
@@ -43,13 +39,44 @@ export const AddNewLeadModel = ({
     formState: { errors },
   } = useForm();
 
+  const getTradeTypes = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/trades/getTradeTypes");
+      setTradeTypes(data.allTradeTypes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getRegistrationTypes = async () => {
+    try {
+      const { data } = await AxiosInstance.get(
+        "/registrationType/getRegistrationTypes"
+      );
+      setRegistrationTypes(data);
+      if (leadData) {
+        const registrationLevels = data.filter((e) => {
+          if (e._id == leadData.registrationType) return e;
+        });
+        if (registrationLevels)
+          setTradeLevels(registrationLevels[0].tradeLevelIds);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleClose = () => {
     setIsOpen(false);
   };
 
   useEffect(() => {
+    getTradeTypes();
+    getRegistrationTypes();
     if (leadData) {
       getLead();
+      if (leadData.getPayment && leadData.confirmed) {
+        getFilteredCourses();
+      }
     }
   }, []);
 
@@ -63,6 +90,17 @@ export const AddNewLeadModel = ({
       "-" +
       watch("tradeType");
     return CTDnumber;
+  };
+
+  const getFilteredCourses = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/courses/getFilteredCourses", {
+        params: leadData,
+      });
+      setAllCourses(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const addNewLead = async (newLead) => {
@@ -121,12 +159,6 @@ export const AddNewLeadModel = ({
       const { data } = await AxiosInstance.post("/leads/addNewLead", formdata, {
         params: newLead,
       });
-      tradeType.map((e) => {
-        if (e.value == data.newLead.tradeType) {
-          data.newLead.tradeType = e.name;
-          return;
-        }
-      });
       callback(data.newLead);
       handleClose();
     } catch (err) {
@@ -146,6 +178,10 @@ export const AddNewLeadModel = ({
       setValue("participantMobile", "");
       setValue("alternateMobile", "");
     }
+    const registrationLevels = registrationTypes.filter((e) => {
+      if (e._id == value) return e;
+    });
+    setTradeLevels(registrationLevels[0].tradeLevelIds);
     setValue("bcaAcknowledgementNotice", null);
     setValue("nricWorkDocument", null);
     setValue("passportCopy", null);
@@ -254,12 +290,6 @@ export const AddNewLeadModel = ({
       const { data } = await AxiosInstance.post("/leads/updateLead", formdata, {
         params: leadData,
       });
-      tradeType.map((e) => {
-        if (e.value == leadData.tradeType) {
-          leadData.tradeType = e.name;
-          return;
-        }
-      });
       callback(data.updatedLead);
       handleClose();
     } catch (err) {
@@ -328,6 +358,19 @@ export const AddNewLeadModel = ({
     }
   };
 
+  const confirmCourseAssigned = async (updatedLead) => {
+    try {
+      const { data } = await AxiosInstance.post(
+        "/leads/assignCourse",
+        updatedLead
+      );
+      callback(updatedLead);
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
       <Modal show={isOpen} onHide={handleClose} size="xl">
@@ -349,19 +392,19 @@ export const AddNewLeadModel = ({
                   className="form-select"
                   {...register("registrationType", {
                     required: "Please select registration type",
+                    onChange: ({ target }) => changeRegistrationType(target),
                   })}
-                  onChange={({ target }) => changeRegistrationType(target)}
                   disabled={viewLead}
                 >
                   <option value="" selected>
                     Select Registration Type
                   </option>
-                  {registrationConstants.map((e) => (
+                  {registrationTypes.map((e) => (
                     <option
-                      value={e.value}
-                      selected={e.value == watch("registrationType") && e.value}
+                      value={e._id}
+                      selected={e._id == watch("registrationType") && e._id}
                     >
-                      {e.name}
+                      {e.registrationName}
                     </option>
                   ))}
                 </select>
@@ -754,9 +797,9 @@ export const AddNewLeadModel = ({
                   <option value="" disabled>
                     Select Trade Type
                   </option>
-                  {tradeType.map((e) => (
-                    <option value={e.name} selected={e.name}>
-                      {e.name}
+                  {tradeTypes.map((e) => (
+                    <option value={e._id} selected={e._id}>
+                      {e.tradeType}
                     </option>
                   ))}
                 </select>
@@ -796,29 +839,47 @@ export const AddNewLeadModel = ({
                     <option value="" disabled selected>
                       Select Trade Level
                     </option>
-                    {watch("registrationType") == "CTD" &&
-                      TradeLevel1.map((e) => (
-                        <option value={e.value}>{e.name}</option>
-                      ))}
-                    {watch("registrationType") == "MSG" &&
-                      TradeLevel2.map((e) => (
-                        <option value={e.value}>{e.name}</option>
-                      ))}
-                    {watch("registrationType") == "SK" &&
-                      TradeLevel3.map((e) => (
-                        <option value={e.value}>{e.name}</option>
-                      ))}
-                    {watch("registrationType") == "AMN" &&
-                      TradeLevel4.map((e) => (
-                        <option value={e.value}>{e.name}</option>
-                      ))}
+                    {tradeLevels.map((e) => (
+                      <option
+                        value={e._id}
+                        selected={e._id == watch("tradeLevel") && e._id}
+                      >
+                        {e.tradeLevel}
+                      </option>
+                    ))}
                   </select>
                   <span className="text-danger">
                     {errors?.tradeLevel && errors?.tradeLevel.message}
                   </span>
                 </div>
               )}
-
+              {leadData?.getPayment && leadData?.confirmed && (
+                <div className="col-md-4 mb-3">
+                  <label className="form-label">Course</label>
+                  <select
+                    className="form-select"
+                    {...register("course", {
+                      required: "Please Select Course !",
+                    })}
+                    disabled={leadData?.courseAssigned && viewLead}
+                  >
+                    <option value="" disabled selected>
+                      Select Course
+                    </option>
+                    {allCourses.map((e) => (
+                      <option
+                        value={e._id}
+                        selected={e._id == watch("course") && e._id}
+                      >
+                        {e.courseName}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="text-danger">
+                    {errors?.course && errors?.course.message}
+                  </span>
+                </div>
+              )}
               <div className="row">
                 <div className="col-md-12 mb-3">
                   <hr />
@@ -1262,6 +1323,19 @@ export const AddNewLeadModel = ({
                             </button>
                           </div>
                         )}
+                        {leadData.getPayment &&
+                          leadData.confirmed &&
+                          !leadData.courseAssigned && (
+                            <div className="d-flex">
+                              <button
+                                type="submit"
+                                onClick={confirmCourseAssigned}
+                                class="btn mx-1 btn-success"
+                              >
+                                Assign Course
+                              </button>
+                            </div>
+                          )}
                       </div>
                     )}
                     <button

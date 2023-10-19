@@ -12,6 +12,7 @@ export const TradeLevelModal = ({
 }) => {
   const handleClose = () => {
     setIsOpen(false);
+    reset({});
   };
 
   const {
@@ -86,7 +87,7 @@ export const TradeLevelModal = ({
             </span>
           </div>
           <div className="mb-3">
-            <label className="form-label">Trade Code :</label>
+            <label className="form-label">Level Code :</label>
             <input
               type="text"
               className="form-control"

@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const registrationSchema = new mongoose.Schema(
   {
-    registrationName: { type: String },
-    registrationCode: { type: String },
+    registrationName: { type: String, unique: true },
+    registrationCode: { type: String, unique: true },
     tradeLevelIds: [
       { type: mongoose.Schema.Types.ObjectId, ref: "tradeLevel" },
     ],

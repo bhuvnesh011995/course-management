@@ -22,4 +22,6 @@ routes.post("/getPayment", leadController.getPayment);
 
 routes.post("/confirmPayment", leadController.confirmPayment);
 
+routes.post("/assignCourse", leadController.assignCourse);
+
 module.exports = routes;

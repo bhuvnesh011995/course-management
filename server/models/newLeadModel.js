@@ -45,6 +45,8 @@ const leadSchema = new mongoose.Schema(
     coreTradeRegNo: { type: String },
     getPayment: { type: Boolean, default: false },
     confirmed: { type: Boolean, default: false },
+    course: { type: String },
+    courseAssigned: { type: Boolean, default: false },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

@@ -12,8 +12,8 @@ export const TradeTypeModal = ({
 }) => {
   const handleClose = () => {
     setIsOpen(false);
+    reset({});
   };
-  console.log(isOpen);
   const {
     register,
     handleSubmit,
@@ -83,6 +83,21 @@ export const TradeTypeModal = ({
             />
             <span className="text-danger">
               {errors?.tradeType && errors?.tradeType.message}
+            </span>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Type Code :</label>
+            <input
+              type="text"
+              className="form-control"
+              {...register("typeCode", {
+                required: "This field is required",
+              })}
+              placeholder="Enter Type Code"
+              disabled={viewTradeType}
+            />
+            <span className="text-danger">
+              {errors?.typeCode && errors?.typeCode.message}
             </span>
           </div>
           <Modal.Footer>

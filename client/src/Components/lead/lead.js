@@ -24,7 +24,7 @@ export const Lead = () => {
   const [leadIndex, setLeadIndex] = useState(null);
   const [deleteLeadModal, setDeleteLeadModal] = useState(false);
   const [viewLead, setViewLead] = useState(false);
-  const [leadTab, setLeadTab] = useState("new");
+  const [leadTab, setLeadTab] = useState("all");
 
   const showLeadModal = (data, type, index) => {
     setLeadIndex(index);
@@ -60,7 +60,8 @@ export const Lead = () => {
       updateLeadList(leadTab, leadData);
     } else {
       setLeads((old) => [...old, leadData]);
-      if (leadTab == "new") updateLeadList("new", leadData);
+      if (leadTab == "new" || leadTab == "all")
+        updateLeadList(leadTab, leadData);
     }
   };
 
@@ -73,8 +74,7 @@ export const Lead = () => {
         });
       });
       setLeads(data.leads);
-      const newLeads = data.leads.filter((e) => !e.getPayment && !e.confirmed);
-      setFilteredLeads(newLeads);
+      setFilteredLeads(data.leads);
     } catch (err) {
       console.error(err);
     }
@@ -95,6 +95,19 @@ export const Lead = () => {
 
   const updateLeadList = (type, leadData) => {
     switch (type) {
+      case "all":
+        if (leadData) {
+          const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
+          if (checkLeads.length) {
+            filteredLeads[leadIndex] = leadData;
+            setFilteredLeads([...filteredLeads]);
+          } else {
+            setFilteredLeads((old) => [...old, leadData]);
+          }
+        } else {
+          setFilteredLeads([...leads]);
+        }
+        break;
       case "new":
         if (leadData) {
           const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
@@ -130,23 +143,37 @@ export const Lead = () => {
         }
         break;
       case "assign":
-        break;
-      case "completed":
         if (leadData) {
-          console.log("old");
           const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const completedLeads = filteredLeads.filter(
-              (e) => e.getPayment && e.confirmed
+              (e) => e.getPayment && e.confirmed && !e.courseAssigned
             );
             setFilteredLeads([...completedLeads]);
           }
         } else {
           const completedLeads = leads.filter(
-            (e) => e.getPayment && e.confirmed
+            (e) => e.getPayment && e.confirmed && !e.courseAssigned
           );
-          console.log(leads, completedLeads);
+          console.log(completedLeads);
+          setFilteredLeads([...completedLeads]);
+        }
+        break;
+      case "completed":
+        if (leadData) {
+          const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
+          if (checkLeads.length) {
+            filteredLeads[leadIndex] = leadData;
+            const completedLeads = filteredLeads.filter(
+              (e) => e.getPayment && e.confirmed && e.courseAssigned
+            );
+            setFilteredLeads([...completedLeads]);
+          }
+        } else {
+          const completedLeads = leads.filter(
+            (e) => e.getPayment && e.confirmed && e.courseAssigned
+          );
           setFilteredLeads([...completedLeads]);
         }
         break;
@@ -197,7 +224,6 @@ export const Lead = () => {
                             className="form-control me-2"
                             type="search"
                             placeholder="Search"
-                            aria-label="Search"
                           />{" "}
                           <button className="btn btn-light" type="submit">
                             Search
@@ -242,164 +268,6 @@ export const Lead = () => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="card">
-                  <div className="card-header d-flex align-items-center justify-content-between">
-                    <div className="card-title">Completed</div>
-                    <div className="row w-75">
-                      <div className="col-xl-4">
-                        <select className="form-select">
-                          <option value={0} selected>
-                            Select Registration Type
-                          </option>
-                          <option value="CT">CoreTrade</option>
-                        </select>
-                      </div>
-                      <div className="col-xl-4">
-                        <select className="form-select">
-                          <option value={0} selected>
-                            Select Trade Level
-                          </option>
-                          <option value="CAFC">Tradesman(FC+AC)</option>
-                        </select>
-                      </div>
-                      <div className="col-xl-4">
-                        <div className="d-flex" role="search">
-                          <input
-                            className="form-control me-2"
-                            type="search"
-                            placeholder="Search"
-                            aria-label="Search"
-                          />{" "}
-                          <button className="btn btn-light" type="submit">
-                            Search
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    <table
-                      id="datatable-buttons"
-                      className="table table-bordered dt-responsive nowrap w-100"
-                    >
-                      <thead>
-                        <tr>
-                          <th>CoreTrade Registration No</th>
-                          <th>Company Name</th>
-                          <th>Contact Person</th>
-                          <th>Name of Participant</th>
-                          <th>Participant's Mobile</th>
-                          <th>Trade Type</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td
-                            data-bs-toggle="modal"
-                            data-bs-target="#view"
-                            style={{ cursor: "pointer" }}
-                          >
-                            CTF-ELW-524-0817-G
-                          </td>
-                          <td>ABC Corporation</td>
-                          <td>John Smith</td>
-                          <td>Alice Johnson</td>
-                          <td>9876543210</td>
-                          <td>Tiling</td>
-                          <td>
-                            <i
-                              className="mdi mdi-pencil align-middle me-1 text-primary"
-                              data-bs-toggle="modal"
-                              data-bs-target="#edit"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="mdi mdi-trash-can align-middle me-1 text-danger"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="bx bx-money align-middle me-1 text-info"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="mdi mdi-check-circle align-middle text-success"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            data-bs-toggle="modal"
-                            data-bs-target="#view"
-                            style={{ cursor: "pointer" }}
-                          >
-                            CTF-ELW-524-0817-G
-                          </td>
-                          <td>ABC Corporation</td>
-                          <td>John Smith</td>
-                          <td>Alice Johnson</td>
-                          <td>9876543210</td>
-                          <td>Tiling</td>
-                          <td>
-                            <i
-                              className="mdi mdi-pencil align-middle me-1 text-primary"
-                              data-bs-toggle="modal"
-                              data-bs-target="#edit"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="mdi mdi-trash-can align-middle me-1 text-danger"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="bx bx-money align-middle me-1 text-info"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="mdi mdi-check-circle align-middle text-success"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            data-bs-toggle="modal"
-                            data-bs-target="#view"
-                            style={{ cursor: "pointer" }}
-                          >
-                            CTF-ELW-524-0817-G
-                          </td>
-                          <td>ABC Corporation</td>
-                          <td>John Smith</td>
-                          <td>Alice Johnson</td>
-                          <td>9876543210</td>
-                          <td>Tiling</td>
-                          <td>
-                            <i
-                              className="mdi mdi-pencil align-middle me-1 text-primary"
-                              data-bs-toggle="modal"
-                              data-bs-target="#edit"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="mdi mdi-trash-can align-middle me-1 text-danger"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="bx bx-money align-middle me-1 text-info"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                            <i
-                              className="mdi mdi-check-circle align-middle text-success"
-                              style={{ fontSize: "1rem", cursor: "pointer" }}
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>{" "}

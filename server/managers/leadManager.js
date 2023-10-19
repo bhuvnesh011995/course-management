@@ -207,6 +207,18 @@ const confirmPayment = async (data) => {
   }
 };
 
+const assignCourse = async (data) => {
+  try {
+    const updateLeadCourse = await LeadModel.updateOne(
+      { _id: data._id },
+      { course: data.course, courseAssigned: true }
+    );
+    return { message: "course Assigned to user" };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   addNewLead,
   getAllLeads,
@@ -215,4 +227,5 @@ module.exports = {
   getLead,
   getPayment,
   confirmPayment,
+  assignCourse,
 };

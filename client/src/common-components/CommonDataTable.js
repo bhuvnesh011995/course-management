@@ -25,9 +25,9 @@ export const CommonDataTable = ({
   leadModelButtons,
 }) => {
   useEffect(() => {
-    if (leadModelButtons) updateLeadList("new");
+    if (leadModelButtons) updateLeadList("all");
   }, []);
-  const [leadValue, setLeadValue] = useState("new");
+  const [leadValue, setLeadValue] = useState("all");
   const dataKeys = Object.keys(tableHeaders);
   const tableColumns = [];
   dataKeys.map((e, index) => {
@@ -147,6 +147,15 @@ export const CommonDataTable = ({
             )}
             {leadModelButtons && (
               <div className="column">
+                <button
+                  className={`mx-1 btn ${leadValue == "all" && "btn-primary"}`}
+                  onClick={() => {
+                    setLeadValue("all");
+                    updateLeadList("all");
+                  }}
+                >
+                  All
+                </button>
                 <button
                   className={`mx-1 btn ${leadValue == "new" && "btn-primary"}`}
                   onClick={() => {

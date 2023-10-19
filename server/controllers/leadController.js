@@ -49,6 +49,13 @@ const confirmPayment = (req, res) => {
     .catch((err) => res.status(500).send(err));
 };
 
+const assignCourse = (req, res) => {
+  leadManager
+    .assignCourse(req.body)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err));
+};
+
 module.exports = {
   addNewLead,
   getAllLeads,
@@ -57,4 +64,5 @@ module.exports = {
   getLead,
   getPayment,
   confirmPayment,
+  assignCourse,
 };
