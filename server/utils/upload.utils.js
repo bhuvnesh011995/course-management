@@ -5,7 +5,9 @@ const storage = multer.diskStorage({
     cb(null, "uploads/images");
   },
   filename: (req, file, cb) => {
-    const uniqueName = `TongaImage${Date.now() + file.originalname}`;
+    const uniqueName = `TongaImage${
+      Date.now() + Math.round(Math.random() * 1e9) + file.originalname
+    }`;
     cb(null, uniqueName);
   },
 });

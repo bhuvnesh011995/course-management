@@ -32,7 +32,6 @@ export const CourseModal = ({
         "/courses/addNewCourse",
         newCourse
       );
-      console.log(data);
       callback(data);
       handleClose();
     } catch (err) {
@@ -60,7 +59,7 @@ export const CourseModal = ({
   const changeRegistrationData = (value) => {
     const registrationLevels = registrationTypes.filter((e) => e._id == value);
     if (registrationLevels.length)
-      setTradeLevels(registrationLevels[0].tradeLevelIds);
+      setTradeLevels(registrationLevels[0].tradeLevels);
   };
 
   const updateCourse = async (updatedCourse) => {

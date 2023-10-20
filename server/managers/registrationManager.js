@@ -14,10 +14,46 @@ const addRegistrationType = async (data) => {
 const getRegistrationTypes = async (data) => {
   try {
     const registrationData = await registrationModal
-      .find({})
-      .populate({ path: "tradeLevelIds", model: "tradeLevel" })
-      .populate("tradeLevelIds", "tradeLevel");
-
+      // find({})
+      // .populate({ path: "tradeLevelIds", model: "tradeLevel" })
+      // .populate("tradeLevelIds", "tradeLevel");
+      .aggregate([
+        {
+          $lookup: {
+            from: "tradelevels",
+            let: { levelIds: "$tradeLevelIds" },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $in: ["$_id", "$$levelIds"],
+                  },
+                },
+              },
+            ],
+            as: "tradeLevels",
+          },
+        },
+        // {
+        //   $project: {
+        //     _id: 1,
+        //     registrationName: 1,
+        //     registrationCode: 1,
+        //     created_at: 1,
+        //     updated_at: 1,
+        //     tradeLevels: {
+        //       $map: {
+        //         input: "$tradeLevels",
+        //         as: "level",
+        //         in: {
+        //           tradeLevels: "$$level.tradeLevel",
+        //           _id: "$$level._id",
+        //         },
+        //       },
+        //     },
+        //   },
+        // },
+      ]);
     return registrationData;
   } catch (err) {
     console.error(err);
@@ -43,7 +79,6 @@ const updateRegistration = async (data) => {
       },
       {
         registrationName: data.registrationName,
-        registrationCode: data.registrationCode,
         tradeLevelIds: data.tradeLevelIds,
       }
     );

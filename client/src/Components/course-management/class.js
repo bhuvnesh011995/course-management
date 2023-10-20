@@ -1,67 +1,30 @@
 // <!doctype html>
 // <html lang="en">
 
+import { useState } from "react";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
+import { NewClassModal } from "./models/classModal";
 
-// <head>
-
-//     <meta charset="utf-8" />
-//     <title>Class Management | Tonga</title>
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <meta content="#" name="description" />
-//     <meta content="Themesbrand" name="author" />
-//     <!-- App favicon -->
-//     <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-//     <!-- DataTables -->
-//     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-//     <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
-//         type="text/css" />
-
-//     <!-- Responsive datatable examples -->
-//     <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
-//         type="text/css" />
-
-//     <!-- Bootstrap Css -->
-//     <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-//     <link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
-
-//     <link href="assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css">
-
-//     <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-//     <!-- Icons Css -->
-//     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-//     <!-- App Css-->
-//     <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-//     <!-- Custom Css-->
-//     <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
-
-//     <style>
-//         .select2-container {
-//             width: 100% !important;
-//         }
-//     </style>
-// </head>
-
-// <body data-sidebar="dark">
-
-// <!-- Start layout-wrapper -->
 export const Class = () => {
+  const [classModal, setClassModal] = useState(false);
+
+  const showClass = async () => {
+    try {
+      setClassModal(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div id="layout-wrapper">
       <CommonNavbar />
-      {/* ========== Left Sidebar Start ========== */}
       <MenuBar />
-      {/* Left Sidebar End */}
-      {/* ============================================================== */}
-      {/* Start right Content here */}
-      {/* ============================================================== */}
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
-            {/* start page title */}
             <div className="row">
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -79,7 +42,6 @@ export const Class = () => {
                 </div>
               </div>
             </div>
-            {/* end page title */}
             <div className="row">
               <div className="col-xl-12">
                 <div className="card">
@@ -109,8 +71,7 @@ export const Class = () => {
                       </div>
                       <button
                         className="btn btn-primary me-2"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addClassModal"
+                        onClick={() => showClass()}
                       >
                         <i className="bx bx-plus me-1 fw-semibold align-middle" />
                         Add New Class
@@ -120,10 +81,8 @@ export const Class = () => {
                 </div>
               </div>
             </div>
-            {/* Role cards */}
             <div className="row g-4">
               <div className="col-md-12">
-                {/* Role Table */}
                 <div className="card ">
                   <div className="card-header justify-content-between">
                     <div className="card-title">Class List </div>
@@ -186,15 +145,10 @@ export const Class = () => {
                     </div>
                   </div>
                 </div>
-                {/*/ Role Table */}
               </div>
             </div>
-            {/*/ Role cards */}
           </div>{" "}
-          {/* container-fluid */}
         </div>
-        {/* End Page-content */}
-        {/* Add Class Modal */}
         <div
           className="modal fade"
           id="addClassModal"
@@ -368,23 +322,23 @@ export const Class = () => {
                       </div>
                     </div>
                   </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      id="addClassSubmit"
+                    >
+                      Add Class
+                    </button>
+                  </div>
                 </form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  id="addClassSubmit"
-                >
-                  Add Class
-                </button>
               </div>
             </div>
           </div>
@@ -789,136 +743,9 @@ export const Class = () => {
           </div>
         </footer>
       </div>
-      {/* end main content*/}
+      {classModal && (
+        <NewClassModal setIsOpen={setClassModal} isOpen={classModal} />
+      )}
     </div>
   );
 };
-{
-  /* <!-- END layout-wrapper --> */
-}
-
-{
-  /* <!-- JAVASCRIPT -->
-    <script src="assets/libs/jquery/jquery.min.js"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/node-waves/waves.min.js"></script>
-    <script src="assets/js/pages/task-form.init.js"></script>
-    <script src="assets/libs/select2/js/select2.min.js"></script>
-    <script src="assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-
-    <!-- form advanced init -->
-
-    <script src="assets/js/pages/form-advanced.init.js"></script>
-    <!-- Required datatable js -->
-    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <!-- Buttons examples -->
-    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="assets/libs/jszip/jszip.min.js"></script>
-    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-
-    <!-- Responsive examples -->
-    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-    <!-- Datatable init js -->
-    <script src="assets/js/pages/datatables.init.js"></script>
-
-    <script src="assets/js/app.js"></script>
-    <!-- form advanced init -->
-    <script src="assets/js/pages/form-advanced.init.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.custom-select .select-box').click(function (e) {
-                e.stopPropagation();
-                $('.custom-select .options').toggle();
-            });
-
-            $('.custom-select .option input[type="checkbox"]').change(function () {
-                const selectedItems = $('.custom-select .option input:checked')
-                    .map(function () {
-                        return $(this).next('label').text();
-                    })
-                    .get();
-
-                if (selectedItems.length > 0) {
-                    $('.custom-select .placeholder').text(selectedItems.join(', '));
-                } else {
-                    $('.custom-select .placeholder').text('Select Items');
-                }
-            });
-
-            // Close the options when clicking outside
-            $(document).click(function () {
-                $('.custom-select .options').hide();
-            });
-        });
-
-    </script>
-     <script>
-        $(document).ready(function () {
-            $('.custom-select-edit .select-box').click(function (e) {
-                e.stopPropagation();
-                $('.custom-select-edit .options').toggle();
-            });
-
-            $('.custom-select-edit .option input[type="checkbox"]').change(function () {
-                const selectedItems = $('.custom-select-edit .option input:checked')
-                    .map(function () {
-                        return $(this).next('label').text();
-                    })
-                    .get();
-
-                if (selectedItems.length > 0) {
-                    $('.custom-select-edit .placeholder').text(selectedItems.join(', '));
-                } else {
-                    $('.custom-select-edit .placeholder').text('Select Items');
-                }
-            });
-
-            // Close the options when clicking outside
-            $(document).click(function () {
-                $('.custom-select-edit .options').hide();
-            });
-        });
-
-    </script>
-    <script>
-
-        $(document).ready(function () {
-
-            $(".select2").select2({
-
-                dropdownParent: $("#addClassModal")
-
-            });
-
-        });
-
-    </script>
-    <script>
-
-        $(document).ready(function () {
-
-            $(".select2").select2({
-
-                dropdownParent: $("#editUserModal")
-
-            });
-
-        });
-
-    </script>
-
-</body>
-
-</html> */
-}

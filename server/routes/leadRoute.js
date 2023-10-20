@@ -24,4 +24,6 @@ routes.post("/confirmPayment", leadController.confirmPayment);
 
 routes.post("/assignCourse", leadController.assignCourse);
 
+routes.get("/accountHistory", leadController.accountHistory);
+
 module.exports = routes;

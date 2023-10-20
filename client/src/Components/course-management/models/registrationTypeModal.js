@@ -29,6 +29,8 @@ export const RegistrationTypeModal = ({
   useEffect(() => {
     if (registrationData) {
       getRegistration();
+    } else {
+      reset();
     }
   }, [registrationData]);
 
@@ -155,7 +157,7 @@ export const RegistrationTypeModal = ({
                 className="form-control"
                 placeholder="Enter registration type"
                 disabled={viewModal}
-                {...register("registrationName", { required: "" })}
+                {...register("registrationName")}
               />
             </div>
             <div className="mb-3">

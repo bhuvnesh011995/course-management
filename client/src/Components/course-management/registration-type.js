@@ -126,7 +126,7 @@ export const RegistrationType = () => {
       );
       data.map(
         (e) =>
-          (e.tradeLevelIds = e.tradeLevelIds.map(
+          (e.tradeLevels = e.tradeLevels.map(
             (level) => level.tradeLevel + " , "
           ))
       );

@@ -85,8 +85,8 @@ export const tradeTypeHeaders = {
 
 export const registrationTypeHeaders = {
   registrationName: "Registration Name",
-  registrationType: "Registration Type",
-  tradeLevelIds: "Trade Level",
+  registrationCode: "Registration Code",
+  tradeLevels: "Trade Level",
 };
 
 export const customersHeaders = {

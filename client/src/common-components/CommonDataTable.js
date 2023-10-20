@@ -7,6 +7,11 @@ import {
 } from "./useCommonUsableFunctions";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import {
+  TradeLevels,
+  registrationConstants,
+  tradeType,
+} from "../Constants/newLeadContants";
 
 export const CommonDataTable = ({
   data,
@@ -64,22 +69,31 @@ export const CommonDataTable = ({
               <i className="mdi mdi-eye"></i>
             </button>
           )}
-          {editButton && (
-            <button
-              onClick={() => callback(row.original, null, row.index)}
-              className="btn btn-icon btn-sm btn-info rounded-pill"
-            >
-              <i className="bx bxs-edit-alt" />
-            </button>
-          )}
-          {deleteButton && (
-            <button
-              onClick={() => callback(row.original, "delete", row.index)}
-              className="btn btn-icon btn-sm btn-danger rounded-pill"
-            >
-              <i className="bx bxs-trash" />
-            </button>
-          )}
+          {editButton &&
+            !TradeLevels.includes(row.original?.tradeCode) &&
+            !tradeType.includes(row.original?.typeCode) &&
+            !registrationConstants.includes(row.original?.registrationCode) && (
+              <button
+                onClick={() => {
+                  callback(row.original, null, row.index);
+                  console.log(row.original);
+                }}
+                className="btn btn-icon btn-sm btn-info rounded-pill"
+              >
+                <i className="bx bxs-edit-alt" />
+              </button>
+            )}
+          {deleteButton &&
+            !TradeLevels.includes(row.original?.tradeCode) &&
+            !tradeType.includes(row.original?.typeCode) &&
+            !registrationConstants.includes(row.original?.registrationCode) && (
+              <button
+                onClick={() => callback(row.original, "delete", row.index)}
+                className="btn btn-icon btn-sm btn-danger rounded-pill"
+              >
+                <i className="bx bxs-trash" />
+              </button>
+            )}
           {verificationMailButton && (
             <button
               onClick={() => callback(row.original, "verify", row.index)}

@@ -269,7 +269,6 @@ const getFilteredCourses = async (data) => {
       registrationType: data.registrationType,
       tradeLevel: data.tradeLevel,
     });
-    console.log(filteredCourses);
     return filteredCourses;
   } catch (err) {
     console.error(err);

@@ -23,11 +23,12 @@ export const AddNewLeadModel = ({
   leadData,
   callback,
   viewLead,
+  registrationTypes,
+  tradeTypes,
 }) => {
   const [tradeLevels, setTradeLevels] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
-  const [tradeTypes, setTradeTypes] = useState([]);
-  const [registrationTypes, setRegistrationTypes] = useState([]);
+  const [selectedRegistration, setSelectedRegistration] = useState("");
 
   const {
     register,
@@ -39,63 +40,41 @@ export const AddNewLeadModel = ({
     formState: { errors },
   } = useForm();
 
-  const getTradeTypes = async () => {
-    try {
-      const { data } = await AxiosInstance.get("/trades/getTradeTypes");
-      setTradeTypes(data.allTradeTypes);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getRegistrationTypes = async () => {
-    try {
-      const { data } = await AxiosInstance.get(
-        "/registrationType/getRegistrationTypes"
-      );
-      setRegistrationTypes(data);
-      if (leadData) {
-        const registrationLevels = data.filter((e) => {
-          if (e._id == leadData.registrationType) return e;
-        });
-        if (registrationLevels)
-          setTradeLevels(registrationLevels[0].tradeLevelIds);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
   const handleClose = () => {
     setIsOpen(false);
   };
 
   useEffect(() => {
-    getTradeTypes();
-    getRegistrationTypes();
     if (leadData) {
       getLead();
-      if (leadData.getPayment && leadData.confirmed) {
-        getFilteredCourses();
+      if (leadData) {
+        const registrationLevels = registrationTypes.filter((e) => {
+          if (e._id == leadData.registrationType) return e;
+        });
+        if (registrationLevels) {
+          setTradeLevels(registrationLevels[0].tradeLevels);
+          setSelectedRegistration(registrationLevels[0].registrationCode);
+        }
       }
     }
   }, []);
 
   const setCoreTradeRegNo = () => {
     const CTDnumber =
-      watch("registrationType") +
+      selectedRegistration +
       "-" +
-      watch("tradeLevel") +
+      tradeLevels.filter((e) => e._id == watch("tradeLevel"))[0].tradeCode +
       "-" +
-      1234 +
+      Date.now() +
       "-" +
-      watch("tradeType");
+      tradeTypes.filter((e) => e._id == watch("tradeType"))[0].typeCode;
     return CTDnumber;
   };
 
-  const getFilteredCourses = async () => {
+  const getFilteredCourses = async (selectedLead) => {
     try {
       const { data } = await AxiosInstance.get("/courses/getFilteredCourses", {
-        params: leadData,
+        params: selectedLead,
       });
       setAllCourses(data);
     } catch (err) {
@@ -105,7 +84,8 @@ export const AddNewLeadModel = ({
 
   const addNewLead = async (newLead) => {
     try {
-      if (newLead?.registrationType != "CRW")
+      newLead["selectedRegistration"] = selectedRegistration;
+      if (selectedRegistration != "CRW")
         newLead["coreTradeRegNo"] = setCoreTradeRegNo();
       const formdata = new FormData();
       if (newLead.passportCopy)
@@ -167,21 +147,22 @@ export const AddNewLeadModel = ({
   };
 
   const changeRegistrationType = ({ value }) => {
-    setValue("registrationType", value);
-    if (value !== "AMN") {
+    const registrationLevels = registrationTypes.filter((e) => {
+      if (e._id == value) return e;
+    });
+    setSelectedRegistration(registrationLevels[0].registrationCode);
+    // setValue("registrationType", registrationLevels[0].registrationCode);
+    if (registrationLevels[0].registrationCode !== "AMN") {
       setValue("myeNo", "");
       setValue("paReferenceNo", "");
       setValue("nationality", "");
       setValue("participantIcNo", "");
-    } else if (value == "AMN") {
+    } else if (registrationLevels[0].registrationCode == "AMN") {
       setValue("participantNRIC", "");
       setValue("participantMobile", "");
       setValue("alternateMobile", "");
     }
-    const registrationLevels = registrationTypes.filter((e) => {
-      if (e._id == value) return e;
-    });
-    setTradeLevels(registrationLevels[0].tradeLevelIds);
+    setTradeLevels(registrationLevels[0].tradeLevels);
     setValue("bcaAcknowledgementNotice", null);
     setValue("nricWorkDocument", null);
     setValue("passportCopy", null);
@@ -196,99 +177,94 @@ export const AddNewLeadModel = ({
     setValue("workersPassport", null);
   };
 
-  const editLead = async (leadData) => {
+  const editLead = async (newLeadData) => {
     try {
+      newLeadData["selectedRegistration"] = selectedRegistration;
       const deleteFiles = [];
-      const updateFiles = [];
-      if (leadData?.registrationType != "CRW")
-        leadData["coreTradeRegNo"] = setCoreTradeRegNo();
+      if (leadData.registrationType != newLeadData.registrationType) {
+        Object.keys(leadData.fileLocations).map((e) => {
+          if (leadData.fileLocations[e])
+            deleteFiles.push(leadData.fileLocations[e]);
+        });
+      }
+      if (selectedRegistration != "CRW")
+        newLeadData["coreTradeRegNo"] = setCoreTradeRegNo();
       const formdata = new FormData();
-      if (leadData.passportCopy)
-        if (leadData.passportCopy[0]?.name) {
-          deleteFiles.push(leadData.fileLocations["passportCopy"]);
-          leadData.fileLocations["passportCopy"] = "";
-          for (let file of leadData.passportCopy) {
-            leadData["passportCopy"] = file.name;
-            updateFiles.push({ passportCopy: file.name });
+      if (newLeadData.passportCopy)
+        if (newLeadData.passportCopy[0]?.name) {
+          deleteFiles.push(newLeadData.fileLocations["passportCopy"]);
+          newLeadData.fileLocations["passportCopy"] = "";
+          for (let file of newLeadData.passportCopy) {
+            newLeadData["passportCopy"] = file.name;
             formdata.append("files", file);
           }
         }
-      if (leadData.bcaAcknowledgementNotice)
-        if (leadData.bcaAcknowledgementNotice[0].name) {
-          deleteFiles.push({ notice: leadData.fileLocations["notice"] });
-          leadData.fileLocations["notice"] = "";
-          for (let file of leadData.bcaAcknowledgementNotice) {
-            leadData["bcaAcknowledgementNotice"] = file.name;
-            updateFiles.push({ notice: file.name });
+      if (newLeadData.bcaAcknowledgementNotice)
+        if (newLeadData.bcaAcknowledgementNotice[0].name) {
+          deleteFiles.push(newLeadData.fileLocations["notice"]);
+          newLeadData.fileLocations["notice"] = "";
+          for (let file of newLeadData.bcaAcknowledgementNotice) {
+            newLeadData["bcaAcknowledgementNotice"] = file.name;
             formdata.append("files", file);
           }
         }
-      if (leadData.nricWorkDocument)
-        if (leadData.nricWorkDocument[0].name) {
-          deleteFiles.push({ nric: leadData.fileLocations["nric"] });
-          leadData.fileLocations["nric"] = "";
-          for (let file of leadData.nricWorkDocument) {
-            updateFiles.push({ nric: file.name });
-            leadData["nricWorkDocument"] = file.name;
+      if (newLeadData.nricWorkDocument)
+        if (newLeadData.nricWorkDocument[0].name) {
+          deleteFiles.push(newLeadData.fileLocations["nric"]);
+          newLeadData.fileLocations["nric"] = "";
+          for (let file of newLeadData.nricWorkDocument) {
+            newLeadData["nricWorkDocument"] = file.name;
             formdata.append("files", file);
           }
         }
-      if (leadData.MOMEploymentDetails)
-        if (leadData.MOMEploymentDetails[0].name) {
-          deleteFiles.push({ MOME: leadData.fileLocations["MOME"] });
-          leadData.fileLocations["MOME"] = "";
-          for (let file of leadData.MOMEploymentDetails) {
-            updateFiles.push({ MOME: file.name });
-            leadData["MOMEploymentDetails"] = file.name;
+      if (newLeadData.MOMEploymentDetails)
+        if (newLeadData.MOMEploymentDetails[0].name) {
+          deleteFiles.push(newLeadData.fileLocations["MOME"]);
+          newLeadData.fileLocations["MOME"] = "";
+          for (let file of newLeadData.MOMEploymentDetails) {
+            newLeadData["MOMEploymentDetails"] = file.name;
             formdata.append("files", file);
           }
         }
-      if (leadData.skillEvaluationCertificate)
-        if (leadData.skillEvaluationCertificate[0].name) {
-          deleteFiles.push({ skill: leadData.fileLocations["skill"] });
-          leadData.fileLocations["skill"] = "";
-          for (let file of leadData.skillEvaluationCertificate) {
-            updateFiles.push({ skill: file.name });
-            leadData["skillEvaluationCertificate"] = file.name;
+      if (newLeadData.skillEvaluationCertificate)
+        if (newLeadData.skillEvaluationCertificate[0].name) {
+          deleteFiles.push(newLeadData.fileLocations["skill"]);
+          newLeadData.fileLocations["skill"] = "";
+          for (let file of newLeadData.skillEvaluationCertificate) {
+            newLeadData["skillEvaluationCertificate"] = file.name;
             formdata.append("files", file);
           }
         }
-      if (leadData.paQuotaCopy)
-        if (leadData.paQuotaCopy[0].name) {
-          deleteFiles.push({ pa: leadData.fileLocations["pa"] });
-          leadData.fileLocations["pa"] = "";
-          for (let file of leadData.paQuotaCopy) {
-            updateFiles.push({ pa: file.name });
-            leadData["paQuotaCopy"] = file.name;
+      if (newLeadData.paQuotaCopy)
+        if (newLeadData.paQuotaCopy[0].name) {
+          deleteFiles.push(newLeadData.fileLocations["pa"]);
+          newLeadData.fileLocations["pa"] = "";
+          for (let file of newLeadData.paQuotaCopy) {
+            newLeadData["paQuotaCopy"] = file.name;
             formdata.append("files", file);
           }
         }
-      if (leadData.workersIc)
-        if (leadData.workersIc[0].name) {
-          deleteFiles.push({ ISC: leadData.fileLocations["ISC"] });
-          leadData.fileLocations["ISC"] = "";
-          for (let file of leadData.workersIc) {
-            updateFiles.push({ ISC: file.name });
-            leadData["workersIc"] = file.name;
+      if (newLeadData.workersIc)
+        if (newLeadData.workersIc[0].name) {
+          deleteFiles.push(newLeadData.fileLocations["ISC"]);
+          newLeadData.fileLocations["ISC"] = "";
+          for (let file of newLeadData.workersIc) {
+            newLeadData["workersIc"] = file.name;
             formdata.append("files", file);
           }
         }
-      if (leadData.workersPassport)
-        if (leadData.workersPassport[0].name) {
-          deleteFiles.push({
-            workersPassport: leadData.fileLocations["workersPassport"],
-          });
-          leadData.fileLocations["workersPassport"] = "";
-          for (let file of leadData.workersPassport) {
-            updateFiles.push({ workersPassport: file.name });
-            leadData["workersPassport"] = file.name;
+      if (newLeadData.workersPassport)
+        if (newLeadData.workersPassport[0].name) {
+          deleteFiles.push(newLeadData.fileLocations["workersPassport"]);
+          newLeadData.fileLocations["workersPassport"] = "";
+          for (let file of newLeadData.workersPassport) {
+            newLeadData["workersPassport"] = file.name;
             formdata.append("files", file);
           }
         }
-      leadData["updateFiles"] = updateFiles;
-      leadData["deleteFileList"] = deleteFiles;
+      newLeadData["deleteFileList"] = deleteFiles;
       const { data } = await AxiosInstance.post("/leads/updateLead", formdata, {
-        params: leadData,
+        params: newLeadData,
       });
       callback(data.updatedLead);
       handleClose();
@@ -303,6 +279,9 @@ export const AddNewLeadModel = ({
         params: leadData,
       });
       reset(data[0]);
+      if (leadData.getPayment && leadData.confirmed) {
+        getFilteredCourses(data[0]);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -358,13 +337,15 @@ export const AddNewLeadModel = ({
     }
   };
 
-  const confirmCourseAssigned = async (updatedLead) => {
+  const confirmCourseAssigned = async () => {
     try {
+      leadData["course"] = watch("course");
+      leadData["courseAssigned"] = true;
       const { data } = await AxiosInstance.post(
         "/leads/assignCourse",
-        updatedLead
+        leadData
       );
-      callback(updatedLead);
+      callback(leadData);
       handleClose();
     } catch (err) {
       console.error(err);
@@ -566,7 +547,40 @@ export const AddNewLeadModel = ({
                   {errors?.officeFax && errors?.officeFax.message}
                 </span>
               </div>
-              {watch("registrationType") == "AMN" ? (
+              <div className="col-md-4 mb-3">
+                <label className="form-label">Name of Participant</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  {...register("participantName", {
+                    required: "Please Enter Name of Participant",
+                    pattern: namePattern,
+                  })}
+                  disabled={viewLead}
+                  placeholder="Enter Name of Participant"
+                />
+                <span className="text-danger">
+                  {errors?.participantName && errors?.participantName.message}
+                </span>
+              </div>
+              <div className="col-md-4 mb-3">
+                <label className="form-label">Participant's Mobile</label>
+                <input
+                  type="tel"
+                  className="form-control"
+                  {...register("participantMobile", {
+                    required: "Please Enter Participant's Mobile",
+                    pattern: phonePattern,
+                  })}
+                  disabled={viewLead}
+                  placeholder="Enter Participant's Mobile"
+                />
+                <span className="text-danger">
+                  {errors?.participantMobile &&
+                    errors?.participantMobile.message}
+                </span>
+              </div>
+              {selectedRegistration == "AMN" ? (
                 <div className="row">
                   <div className="col-md-4 mb-3">
                     <label className="form-label">MYE No.</label>
@@ -598,23 +612,6 @@ export const AddNewLeadModel = ({
                     />
                     <span className="text-danger">
                       {errors?.paReferenceNo && errors?.paReferenceNo.message}
-                    </span>
-                  </div>
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">Name of Participant</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      {...register("participantName", {
-                        required: "Please Enter Name of Participant",
-                        pattern: namePattern,
-                      })}
-                      disabled={viewLead}
-                      placeholder="Enter Name of Participant"
-                    />
-                    <span className="text-danger">
-                      {errors?.participantName &&
-                        errors?.participantName.message}
                     </span>
                   </div>
                   <div className="col-md-4 mb-3">
@@ -660,13 +657,15 @@ export const AddNewLeadModel = ({
                       })}
                       disabled={viewLead}
                     >
-                      <option value="" disabled selected>
+                      <option value="" selected>
                         Select Nationality
                       </option>
                       {nationality.map((e) => (
                         <option
                           value={e.value}
-                          selected={e.value == watch("nationality") && e.value}
+                          selected={
+                            e.value == watch("nationality") ? e.value : ""
+                          }
                         >
                           {e.name}
                         </option>
@@ -687,14 +686,14 @@ export const AddNewLeadModel = ({
                       })}
                       disabled={viewLead}
                     >
-                      <option value="" disabled selected>
-                        Select Nationality
+                      <option value="" selected>
+                        Select Educational / Vocational Level
                       </option>
                       {educationalConstant.map((e) => (
                         <option
                           value={e.value}
                           selected={
-                            e.value == watch("educationalLevel") && e.value
+                            e.value == watch("educationalLevel") ? e.value : ""
                           }
                         >
                           {e.name}
@@ -709,23 +708,6 @@ export const AddNewLeadModel = ({
                 </div>
               ) : (
                 <div className="row">
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">Name of Participant</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      {...register("participantName", {
-                        required: "Please Enter Name of Participant",
-                        pattern: namePattern,
-                      })}
-                      disabled={viewLead}
-                      placeholder="Enter Name of Participant"
-                    />
-                    <span className="text-danger">
-                      {errors?.participantName &&
-                        errors?.participantName.message}
-                    </span>
-                  </div>
                   <div className="col-md-4 mb-3">
                     <label className="form-label">
                       Participant's NRIC / FIN No.
@@ -748,23 +730,7 @@ export const AddNewLeadModel = ({
                         errors?.participantNRIC.message}
                     </span>
                   </div>
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">Participant's Mobile</label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      {...register("participantMobile", {
-                        required: "Please Enter Participant's Mobile",
-                        pattern: phonePattern,
-                      })}
-                      disabled={viewLead}
-                      placeholder="Enter Participant's Mobile"
-                    />
-                    <span className="text-danger">
-                      {errors?.participantMobile &&
-                        errors?.participantMobile.message}
-                    </span>
-                  </div>
+
                   <div className="col-md-4 mb-3">
                     <label className="form-label">
                       Alternate Mobile Number (if any)
@@ -794,9 +760,7 @@ export const AddNewLeadModel = ({
                   })}
                   disabled={viewLead}
                 >
-                  <option value="" disabled>
-                    Select Trade Type
-                  </option>
+                  <option value="">Select Trade Type</option>
                   {tradeTypes.map((e) => (
                     <option value={e._id} selected={e._id}>
                       {e.tradeType}
@@ -807,7 +771,7 @@ export const AddNewLeadModel = ({
                   {errors?.tradeType && errors?.tradeType.message}
                 </span>
               </div>
-              {watch("registrationType") == "CRW" ? (
+              {selectedRegistration == "CRW" ? (
                 <div className="col-md-4 mb-3">
                   <label className="form-label">
                     CoreTrade / Multi-skilling/Direct R1 Registration No
@@ -836,13 +800,13 @@ export const AddNewLeadModel = ({
                     })}
                     disabled={viewLead}
                   >
-                    <option value="" disabled selected>
+                    <option value="" selected>
                       Select Trade Level
                     </option>
                     {tradeLevels.map((e) => (
                       <option
                         value={e._id}
-                        selected={e._id == watch("tradeLevel") && e._id}
+                        selected={e._id == watch("tradeLevel") ? e._id : ""}
                       >
                         {e.tradeLevel}
                       </option>
@@ -863,13 +827,13 @@ export const AddNewLeadModel = ({
                     })}
                     disabled={leadData?.courseAssigned && viewLead}
                   >
-                    <option value="" disabled selected>
+                    <option value="" selected>
                       Select Course
                     </option>
                     {allCourses.map((e) => (
                       <option
                         value={e._id}
-                        selected={e._id == watch("course") && e._id}
+                        selected={e._id == watch("course") ? e._id : ""}
                       >
                         {e.courseName}
                       </option>
@@ -889,90 +853,36 @@ export const AddNewLeadModel = ({
                   </h4>
                 </div>
                 <div className="col-md-12">
-                  {watch("registrationType") &&
-                    watch("registrationType") != "AMN" && (
-                      <div className="row" id="show1">
-                        {watch("registrationType") != "SK" && (
-                          <div className="col-md-4 mb-3">
-                            <label className="form-label">
-                              Valid BCA Acknowledgement Notice
-                            </label>
-                            <input
-                              type={
-                                watch("bcaAcknowledgementNotice") &&
-                                watch("bcaAcknowledgementNotice")[0]?.name
-                                  ? "file"
-                                  : !watch("bcaAcknowledgementNotice")
-                                  ? "file"
-                                  : "text"
-                              }
-                              className="form-control"
-                              {...register("bcaAcknowledgementNotice", {
-                                required: "This field is required",
-                              })}
-                              disabled={watch("bcaAcknowledgementNotice")}
-                            />
-                            {watch("bcaAcknowledgementNotice") && (
-                              <div>
-                                <div className="input-icons">
-                                  {!viewLead && (
-                                    <i
-                                      className="fas fa-trash text-danger cursor-pointer"
-                                      onClick={() =>
-                                        setValue(
-                                          "bcaAcknowledgementNotice",
-                                          null
-                                        )
-                                      }
-                                    ></i>
-                                  )}
-                                  <i
-                                    className="fas fa-eye text-primary cursor-pointer"
-                                    onClick={() =>
-                                      openFile(
-                                        watch("bcaAcknowledgementNotice")[0]
-                                          ?.name
-                                          ? "bcaAcknowledgementNotice"
-                                          : "notice"
-                                      )
-                                    }
-                                  ></i>
-                                </div>
-                              </div>
-                            )}
-                            <span className="text-danger">
-                              {errors?.bcaAcknowledgementNotice &&
-                                errors?.bcaAcknowledgementNotice.message}
-                            </span>
-                          </div>
-                        )}
+                  {selectedRegistration && selectedRegistration != "AMN" && (
+                    <div className="row" id="show1">
+                      {selectedRegistration != "SK" && (
                         <div className="col-md-4 mb-3">
                           <label className="form-label">
-                            Valid copy of NRIC / Work document
+                            Valid BCA Acknowledgement Notice
                           </label>
                           <input
                             type={
-                              watch("nricWorkDocument") &&
-                              watch("nricWorkDocument")[0]?.name
+                              watch("bcaAcknowledgementNotice") &&
+                              watch("bcaAcknowledgementNotice")[0]?.name
                                 ? "file"
-                                : !watch("nricWorkDocument")
+                                : !watch("bcaAcknowledgementNotice")
                                 ? "file"
                                 : "text"
                             }
                             className="form-control"
-                            {...register("nricWorkDocument", {
+                            {...register("bcaAcknowledgementNotice", {
                               required: "This field is required",
                             })}
-                            disabled={watch("nricWorkDocument")}
+                            disabled={watch("bcaAcknowledgementNotice")}
                           />
-                          {watch("nricWorkDocument") && (
+                          {watch("bcaAcknowledgementNotice") && (
                             <div>
                               <div className="input-icons">
                                 {!viewLead && (
                                   <i
                                     className="fas fa-trash text-danger cursor-pointer"
                                     onClick={() =>
-                                      setValue("nricWorkDocument", null)
+                                      setValue("bcaAcknowledgementNotice", null)
                                     }
                                   ></i>
                                 )}
@@ -980,9 +890,9 @@ export const AddNewLeadModel = ({
                                   className="fas fa-eye text-primary cursor-pointer"
                                   onClick={() =>
                                     openFile(
-                                      watch("nricWorkDocument")[0]?.name
-                                        ? "nricWorkDocument"
-                                        : "nric"
+                                      watch("bcaAcknowledgementNotice")[0]?.name
+                                        ? "bcaAcknowledgementNotice"
+                                        : "notice"
                                     )
                                   }
                                 ></i>
@@ -990,163 +900,209 @@ export const AddNewLeadModel = ({
                             </div>
                           )}
                           <span className="text-danger">
-                            {errors?.nricWorkDocument &&
-                              errors?.nricWorkDocument.message}
+                            {errors?.bcaAcknowledgementNotice &&
+                              errors?.bcaAcknowledgementNotice.message}
                           </span>
                         </div>
-                        {watch("registrationType") != "CRW" && (
-                          <div className="col-md-4 mb-3">
-                            <label className="form-label">
-                              Valid Copy Of Passport
-                            </label>
-                            <input
-                              type={
-                                watch("passportCopy") &&
-                                watch("passportCopy")[0]?.name
-                                  ? "file"
-                                  : !watch("passportCopy")
-                                  ? "file"
-                                  : "text"
-                              }
-                              className="form-control"
-                              {...register("passportCopy", {
-                                required: "This field is required",
-                              })}
-                              disabled={watch("passportCopy")}
-                            />
-                            {watch("passportCopy") && (
-                              <div>
-                                <div className="input-icons">
-                                  {!viewLead && (
-                                    <i
-                                      className="fas fa-trash text-danger cursor-pointer"
-                                      onClick={() =>
-                                        setValue("passportCopy", null)
-                                      }
-                                    ></i>
-                                  )}
-                                  <i
-                                    className="fas fa-eye text-primary cursor-pointer"
-                                    onClick={() => openFile("passportCopy")}
-                                  ></i>
-                                </div>
-                              </div>
-                            )}
-                            <span className="text-danger">
-                              {errors?.passportCopy &&
-                                errors?.passportCopy.message}
-                            </span>
+                      )}
+                      <div className="col-md-4 mb-3">
+                        <label className="form-label">
+                          Valid copy of NRIC / Work document
+                        </label>
+                        <input
+                          type={
+                            watch("nricWorkDocument") &&
+                            watch("nricWorkDocument")[0]?.name
+                              ? "file"
+                              : !watch("nricWorkDocument")
+                              ? "file"
+                              : "text"
+                          }
+                          className="form-control"
+                          {...register("nricWorkDocument", {
+                            required: "This field is required",
+                          })}
+                          disabled={watch("nricWorkDocument")}
+                        />
+                        {watch("nricWorkDocument") && (
+                          <div>
+                            <div className="input-icons">
+                              {!viewLead && (
+                                <i
+                                  className="fas fa-trash text-danger cursor-pointer"
+                                  onClick={() =>
+                                    setValue("nricWorkDocument", null)
+                                  }
+                                ></i>
+                              )}
+                              <i
+                                className="fas fa-eye text-primary cursor-pointer"
+                                onClick={() =>
+                                  openFile(
+                                    watch("nricWorkDocument")[0]?.name
+                                      ? "nricWorkDocument"
+                                      : "nric"
+                                  )
+                                }
+                              ></i>
+                            </div>
                           </div>
                         )}
-                        {watch("registrationType") != "CRW" && (
-                          <div className="col-md-4 mb-3">
-                            <label className="form-label">
-                              Valid Copy Of MOM Employment Details
-                            </label>
-                            <input
-                              type={
-                                watch("MOMEploymentDetails") &&
-                                watch("MOMEploymentDetails")[0]?.name
-                                  ? "file"
-                                  : !watch("MOMEploymentDetails")
-                                  ? "file"
-                                  : "text"
-                              }
-                              className="form-control"
-                              {...register("MOMEploymentDetails", {
-                                required: "This field is required",
-                              })}
-                              disabled={watch("MOMEploymentDetails")}
-                            />
-                            {watch("MOMEploymentDetails") && (
-                              <div>
-                                <div className="input-icons">
-                                  {!viewLead && (
-                                    <i
-                                      className="fas fa-trash text-danger cursor-pointer"
-                                      onClick={() =>
-                                        setValue("MOMEploymentDetails", null)
-                                      }
-                                    ></i>
-                                  )}
-                                  <i
-                                    className="fas fa-eye text-primary cursor-pointer"
-                                    onClick={() =>
-                                      openFile(
-                                        watch("MOMEploymentDetails")[0]?.name
-                                          ? "MOMEploymentDetails"
-                                          : "MOME"
-                                      )
-                                    }
-                                  ></i>
-                                </div>
-                              </div>
-                            )}
-                            <span className="text-danger">
-                              {errors?.MOMEploymentDetails &&
-                                errors?.MOMEploymentDetails.message}
-                            </span>
-                          </div>
-                        )}
-                        {watch("registrationType") == "MSG" && (
-                          <div className="col-md-4 mb-3">
-                            <label className="form-label">
-                              1st Skill Evaluation Certificate / BCA Skills
-                              Qualification Statement
-                            </label>
-                            <input
-                              type={
-                                watch("skillEvaluationCertificate") &&
-                                watch("skillEvaluationCertificate")[0]?.name
-                                  ? "file"
-                                  : !watch("skillEvaluationCertificate")
-                                  ? "file"
-                                  : "text"
-                              }
-                              className="form-control"
-                              {...register("skillEvaluationCertificate", {
-                                required: "This field is required",
-                              })}
-                              disabled={watch("skillEvaluationCertificate")}
-                            />
-                            {watch("skillEvaluationCertificate") && (
-                              <div>
-                                <div className="input-icons">
-                                  {!viewLead && (
-                                    <i
-                                      className="fas fa-trash text-danger cursor-pointer"
-                                      onClick={() =>
-                                        setValue(
-                                          "skillEvaluationCertificate",
-                                          ""
-                                        )
-                                      }
-                                    ></i>
-                                  )}
-                                  <i
-                                    className="fas fa-eye text-primary cursor-pointer"
-                                    onClick={() =>
-                                      openFile(
-                                        watch("skillEvaluationCertificate")[0]
-                                          ?.name
-                                          ? "skillEvaluationCertificate"
-                                          : "skill"
-                                      )
-                                    }
-                                  ></i>
-                                </div>
-                              </div>
-                            )}
-
-                            <span className="text-danger">
-                              {errors?.skillEvaluationCertificate &&
-                                errors?.skillEvaluationCertificate.message}
-                            </span>
-                          </div>
-                        )}
+                        <span className="text-danger">
+                          {errors?.nricWorkDocument &&
+                            errors?.nricWorkDocument.message}
+                        </span>
                       </div>
-                    )}
-                  {watch("registrationType") == "AMN" && (
+                      {selectedRegistration != "CRW" && (
+                        <div className="col-md-4 mb-3">
+                          <label className="form-label">
+                            Valid Copy Of Passport
+                          </label>
+                          <input
+                            type={
+                              watch("passportCopy") &&
+                              watch("passportCopy")[0]?.name
+                                ? "file"
+                                : !watch("passportCopy")
+                                ? "file"
+                                : "text"
+                            }
+                            className="form-control"
+                            {...register("passportCopy", {
+                              required: "This field is required",
+                            })}
+                            disabled={watch("passportCopy")}
+                          />
+                          {watch("passportCopy") && (
+                            <div>
+                              <div className="input-icons">
+                                {!viewLead && (
+                                  <i
+                                    className="fas fa-trash text-danger cursor-pointer"
+                                    onClick={() =>
+                                      setValue("passportCopy", null)
+                                    }
+                                  ></i>
+                                )}
+                                <i
+                                  className="fas fa-eye text-primary cursor-pointer"
+                                  onClick={() => openFile("passportCopy")}
+                                ></i>
+                              </div>
+                            </div>
+                          )}
+                          <span className="text-danger">
+                            {errors?.passportCopy &&
+                              errors?.passportCopy.message}
+                          </span>
+                        </div>
+                      )}
+                      {selectedRegistration != "CRW" && (
+                        <div className="col-md-4 mb-3">
+                          <label className="form-label">
+                            Valid Copy Of MOM Employment Details
+                          </label>
+                          <input
+                            type={
+                              watch("MOMEploymentDetails") &&
+                              watch("MOMEploymentDetails")[0]?.name
+                                ? "file"
+                                : !watch("MOMEploymentDetails")
+                                ? "file"
+                                : "text"
+                            }
+                            className="form-control"
+                            {...register("MOMEploymentDetails", {
+                              required: "This field is required",
+                            })}
+                            disabled={watch("MOMEploymentDetails")}
+                          />
+                          {watch("MOMEploymentDetails") && (
+                            <div>
+                              <div className="input-icons">
+                                {!viewLead && (
+                                  <i
+                                    className="fas fa-trash text-danger cursor-pointer"
+                                    onClick={() =>
+                                      setValue("MOMEploymentDetails", null)
+                                    }
+                                  ></i>
+                                )}
+                                <i
+                                  className="fas fa-eye text-primary cursor-pointer"
+                                  onClick={() =>
+                                    openFile(
+                                      watch("MOMEploymentDetails")[0]?.name
+                                        ? "MOMEploymentDetails"
+                                        : "MOME"
+                                    )
+                                  }
+                                ></i>
+                              </div>
+                            </div>
+                          )}
+                          <span className="text-danger">
+                            {errors?.MOMEploymentDetails &&
+                              errors?.MOMEploymentDetails.message}
+                          </span>
+                        </div>
+                      )}
+                      {selectedRegistration == "MSG" && (
+                        <div className="col-md-4 mb-3">
+                          <label className="form-label">
+                            1st Skill Evaluation Certificate / BCA Skills
+                            Qualification Statement
+                          </label>
+                          <input
+                            type={
+                              watch("skillEvaluationCertificate") &&
+                              watch("skillEvaluationCertificate")[0]?.name
+                                ? "file"
+                                : !watch("skillEvaluationCertificate")
+                                ? "file"
+                                : "text"
+                            }
+                            className="form-control"
+                            {...register("skillEvaluationCertificate", {
+                              required: "This field is required",
+                            })}
+                            disabled={watch("skillEvaluationCertificate")}
+                          />
+                          {watch("skillEvaluationCertificate") && (
+                            <div>
+                              <div className="input-icons">
+                                {!viewLead && (
+                                  <i
+                                    className="fas fa-trash text-danger cursor-pointer"
+                                    onClick={() =>
+                                      setValue("skillEvaluationCertificate", "")
+                                    }
+                                  ></i>
+                                )}
+                                <i
+                                  className="fas fa-eye text-primary cursor-pointer"
+                                  onClick={() =>
+                                    openFile(
+                                      watch("skillEvaluationCertificate")[0]
+                                        ?.name
+                                        ? "skillEvaluationCertificate"
+                                        : "skill"
+                                    )
+                                  }
+                                ></i>
+                              </div>
+                            </div>
+                          )}
+
+                          <span className="text-danger">
+                            {errors?.skillEvaluationCertificate &&
+                              errors?.skillEvaluationCertificate.message}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {selectedRegistration == "AMN" && (
                     <div className="row" id="show5">
                       <div className="col-md-4 mb-3">
                         <label className="form-label">

@@ -9,78 +9,45 @@ import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
 import { AddNewLeadModel } from "../lead/addNewLeadModel";
+import { ViewCustomerModal } from "./customerModal";
 
-// <head>
-
-//     <meta charset="utf-8" />
-//     <title>customer Management | Tonga</title>
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <meta content="#" name="description" />
-//     <meta content="Themesbrand" name="author" />
-//     <!-- App favicon -->
-//     <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-//     <!-- DataTables -->
-//     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-//     <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
-//         type="text/css" />
-
-//     <!-- Responsive datatable examples -->
-//     <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
-//         type="text/css" />
-
-//     <!-- Bootstrap Css -->
-//     <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-//     <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-//     <!-- Icons Css -->
-//     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-//     <!-- App Css-->
-//     <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-//     <!-- Custom Css-->
-//     <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
-//     <link rel="stylesheet" href="assets/libs/smart-wizaed/smart-wizaed.css">
-//     <style>
-//         .select2-container {
-//             width: 100% !important;
-//         }
-
-//         /* Styling for the custom file input container */
-//         .custom-file-input {
-//             position: relative;
-//             display: inline-block;
-//             cursor: pointer;
-//             border: 1px solid #ccc;
-//             padding: 0.47rem 1.75rem 0.47rem 0.75rem;
-//             border-radius: 5px;
-//             width: 90%;
-//         }
-
-//         /* Styling for the actual file input */
-//         .custom-file-input input[type="file"] {
-//             display: none;
-//         }
-
-//         .avatar-md {
-//             height: 2rem;
-//             width: 2rem;
-//         }
-//     </style>
-// </head>
-
-// <body data-sidebar="dark">
-
-// <!-- Start layout-wrapper -->
 export const CustomerManagement = () => {
   const [allCustomers, setAllCustomers] = useState([]);
   const [customerModal, setCustomerModal] = useState(false);
   const [customerData, setCustomerData] = useState(null);
   const [customerIndex, setCustomerIndex] = useState(null);
+  const [tradeTypes, setTradeTypes] = useState([]);
+  const [registrationTypes, setRegistrationTypes] = useState([]);
+  const [viewCustomer, setViewCustomer] = useState(false);
+  const [registrationData, setRegistrationData] = useState([]);
+
+  const getTradeTypes = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/trades/getTradeTypes");
+      setTradeTypes(data.allTradeTypes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getRegistrationTypes = async () => {
+    try {
+      const { data } = await AxiosInstance.get(
+        "/registrationType/getRegistrationTypes"
+      );
+      setRegistrationTypes(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const updateCustomer = (e) => {
     console.log(e);
   };
 
   useEffect(() => {
+    getTradeTypes();
+    getRegistrationTypes();
     getCustomers();
   }, []);
 
@@ -93,11 +60,16 @@ export const CustomerManagement = () => {
     }
   };
 
-  const showCustomerModal = (e, type, index) => {
+  const showCustomerModal = (data, type, index) => {
     try {
-      setCustomerData(e);
-      setCustomerModal(true);
       setCustomerIndex(index);
+      setCustomerData(data);
+      const selectedType = registrationTypes.filter(
+        (e) => data.registrationType == e._id
+      );
+      setRegistrationData(selectedType);
+      if (type == "view") setViewCustomer(true);
+      if (type != "view" && type != "delete") setCustomerModal(true);
     } catch (err) {
       console.error(err);
     }
@@ -805,6 +777,16 @@ export const CustomerManagement = () => {
           isOpen={customerModal}
           leadData={customerData}
           callback={(e) => updateCustomer(e)}
+          registrationTypes={registrationTypes}
+          tradeTypes={tradeTypes}
+        />
+      )}
+      {viewCustomer && (
+        <ViewCustomerModal
+          setIsOpen={setViewCustomer}
+          isOpen={viewCustomer}
+          leadData={customerData}
+          registrationData={registrationData}
         />
       )}
     </div>

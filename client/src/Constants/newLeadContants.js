@@ -1,98 +1,20 @@
-export const tradeType = [
-  {
-    value: "AFE",
-    name: "Aluminium Formwork (Enhanced)",
-  },
-  {
-    value: "EWI",
-    name: "Electrical Wiring Installation",
-  },
-  {
-    value: "PPF",
-    name: "Plumbing & Pipefitting",
-  },
-  {
-    value: "SRW",
-    name: "Steel Reinforcement Work",
-  },
-  {
-    value: "TL",
-    name: "Tiling",
-  },
-  {
-    value: "WP",
-    name: "WaterProofing",
-  },
-];
+export const tradeType = ["AFE", "EWI", "PPF", "SRW", "TL", "WP"];
 
-export const TradeLevel1 = [
-  {
-    value: "TFS",
-    name: "TradesMan (FC+SA)",
-  },
-  {
-    value: "TRT",
-    name: "TradesMan (Re-Test)",
-  },
-  {
-    value: "TFFS",
-    name: "Trade Foreman (FC+SA)",
-  },
-  {
-    value: "TFRT",
-    name: "Trade Foreman (Re-Test)",
-  },
-  {
-    value: "UFS",
-    name: "Upgrade From TradesMan To Trade Foreman (FC+SA)",
-  },
-  {
-    value: "URT",
-    name: "Upgrade From TradesMan To Trade Foreman (Re-Test)",
-  },
-];
-
-export const TradeLevel2 = [
-  {
-    value: "MSF",
-    name: "Multi-Skilling (FC+SE)",
-  },
-
-  {
-    value: "MSRT",
-    name: "Multi-Skilling (Direct-Test / Re-Test",
-  },
-];
-
-export const TradeLevel3 = [
-  {
-    value: "TT",
-    name: "Training + Test",
-  },
-
-  {
-    value: "DRT",
-    name: "Direct Test / Re - Test",
-  },
-];
-
-export const TradeLevel4 = [
-  {
-    value: "ETT",
-    name: "End-of-course Validation Test - Training + Test",
-  },
-  {
-    value: "ERT",
-    name: "End-of-course Validation Test - Re-Test",
-  },
-  {
-    value: "STT",
-    name: "SEC(K) - Training + Test",
-  },
-  {
-    value: "SRT",
-    name: "SEC(K) - Re-Test",
-  },
+export const TradeLevels = [
+  "TFS",
+  "TRT",
+  "TFFS",
+  "TFRT",
+  "UFS",
+  "URT",
+  "MSF",
+  "MSRT",
+  "TT",
+  "DRT",
+  "ETT",
+  "ERT",
+  "STT",
+  "SRT",
 ];
 
 export const nationality = [
@@ -217,25 +139,4 @@ export const educationalConstant = [
   },
 ];
 
-export const registrationConstants = [
-  {
-    value: "CTD",
-    name: "Core Trade",
-  },
-  {
-    value: "MSG",
-    name: "Multi-skilling",
-  },
-  {
-    value: "SK",
-    name: "SEC(k)",
-  },
-  {
-    value: "CRW",
-    name: "CET(Renewal)",
-  },
-  {
-    value: "AMN",
-    name: "ALP for Malaysian & NAS",
-  },
-];
+export const registrationConstants = ["CTD", "MSG", "SK", "CRW", "AMN"];

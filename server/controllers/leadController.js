@@ -56,6 +56,13 @@ const assignCourse = (req, res) => {
     .catch((err) => res.status(500).send(err));
 };
 
+const accountHistory = (req, res) => {
+  leadManager
+    .accountHistory(req.query)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err));
+};
+
 module.exports = {
   addNewLead,
   getAllLeads,
@@ -65,4 +72,5 @@ module.exports = {
   getPayment,
   confirmPayment,
   assignCourse,
+  accountHistory,
 };

@@ -26,6 +26,9 @@ export const Lead = () => {
   const [viewLead, setViewLead] = useState(false);
   const [leadTab, setLeadTab] = useState("all");
 
+  const [tradeTypes, setTradeTypes] = useState([]);
+  const [registrationTypes, setRegistrationTypes] = useState([]);
+
   const showLeadModal = (data, type, index) => {
     setLeadIndex(index);
     if (data) {
@@ -45,7 +48,29 @@ export const Lead = () => {
 
   useEffect(() => {
     getAllLeads();
+    getTradeTypes();
+    getRegistrationTypes();
   }, []);
+
+  const getTradeTypes = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/trades/getTradeTypes");
+      setTradeTypes(data.allTradeTypes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getRegistrationTypes = async () => {
+    try {
+      const { data } = await AxiosInstance.get(
+        "/registrationType/getRegistrationTypes"
+      );
+      setRegistrationTypes(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const updateLeads = (leadData) => {
     const checkLeads = leads.filter((e) => e._id == leadData._id);
@@ -156,7 +181,6 @@ export const Lead = () => {
           const completedLeads = leads.filter(
             (e) => e.getPayment && e.confirmed && !e.courseAssigned
           );
-          console.log(completedLeads);
           setFilteredLeads([...completedLeads]);
         }
         break;
@@ -281,6 +305,8 @@ export const Lead = () => {
           callback={(e) => updateLeads(e)}
           viewLead={viewLead}
           setLeadData={setLeadData}
+          registrationTypes={registrationTypes}
+          tradeTypes={tradeTypes}
         />
       )}
       {deleteLeadModal && (
