@@ -8,5 +8,7 @@ routes.use("/leads", require("./leadRoute"));
 routes.use("/trades", require("./tradeRoute"));
 routes.use("/registrationType", require("./registrationRoute"));
 routes.use("/courses", require("./courseRoute"));
+routes.use("/class", require("./classRoute"));
+routes.use("/trainer", require("./trainerRoute"));
 
 module.exports = routes;

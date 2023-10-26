@@ -1,18 +1,67 @@
-// <!doctype html>
-// <html lang="en">
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
-import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
 import { NewClassModal } from "./models/classModal";
+import { AxiosInstance } from "../../common-components/axiosInstance";
+import { CommonDataTable } from "../../common-components/CommonDataTable";
+import { classHeaders } from "../../Constants/table.constants";
+import { DeleteModel } from "../../common-components/models/DeleteModal";
 
 export const Class = () => {
   const [classModal, setClassModal] = useState(false);
+  const [classes, setClasses] = useState([]);
+  const [classData, setClassData] = useState({});
+  const [classIndex, setClassIndex] = useState(null);
+  const [viewClass, setViewClass] = useState(false);
+  const [deleteClass, setDeleteClass] = useState(false);
 
-  const showClass = async () => {
+  useEffect(() => {
+    getClasses();
+  }, []);
+
+  const showClass = async (data, type, index) => {
+    setClassIndex(index);
+    setClassData(data);
+    if (type == "view") {
+      setViewClass(true);
+      setDeleteClass(false);
+    } else if (type == "delete") {
+      setDeleteClass(true);
+      setViewClass(false);
+    } else {
+      setViewClass(false);
+      setDeleteClass(false);
+    }
+    if (type != "delete") setClassModal(true);
+  };
+
+  const getClasses = async () => {
     try {
-      setClassModal(true);
+      const { data } = await AxiosInstance.get("/class/getClasses");
+      setClasses(data.classes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateClasses = (data) => {
+    const filterClass = classes.filter((e) => e._id == data._id);
+    if (filterClass.length) {
+      classes[classIndex] = data;
+      setClasses([...classes]);
+    } else {
+      setClasses([...classes, data]);
+    }
+  };
+
+  const deleteSelectedClass = async (classData) => {
+    try {
+      const { data } = await AxiosInstance.delete("/class/deleteClass", {
+        params: classData,
+      });
+      const filteredClasses = classes.filter((e) => e._id != classData._id);
+
+      setClasses([...filteredClasses]);
     } catch (err) {
       console.error(err);
     }
@@ -89,7 +138,16 @@ export const Class = () => {
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">
-                      <table
+                      <CommonDataTable
+                        tableHeaders={classHeaders}
+                        data={classes}
+                        actionButtons
+                        editButton
+                        deleteButton
+                        viewButton
+                        callback={(e, type, index) => showClass(e, type, index)}
+                      />
+                      {/* <table
                         id="datatable-buttons"
                         className="table table-bordered dt-responsive nowrap w-100"
                       >
@@ -141,7 +199,7 @@ export const Class = () => {
                             </td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> */}
                     </div>
                   </div>
                 </div>
@@ -744,7 +802,23 @@ export const Class = () => {
         </footer>
       </div>
       {classModal && (
-        <NewClassModal setIsOpen={setClassModal} isOpen={classModal} />
+        <NewClassModal
+          setIsOpen={setClassModal}
+          isOpen={classModal}
+          classData={classData}
+          viewClass={viewClass}
+          callback={(e) => updateClasses(e)}
+        />
+      )}
+      {deleteClass && (
+        <DeleteModel
+          isOpen={deleteClass}
+          setIsOpen={setDeleteClass}
+          message={`Do You Really Want To Delete class ${classData.classCode}`}
+          callback={(e) => deleteSelectedClass(e)}
+          deleteHeader={"Class"}
+          data={classData}
+        />
       )}
     </div>
   );

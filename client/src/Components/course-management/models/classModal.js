@@ -1,37 +1,113 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { useEffect, useState } from "react";
+import moment from "moment";
 
-export const NewClassModal = ({ setIsOpen, isOpen }) => {
+export const NewClassModal = ({
+  setIsOpen,
+  isOpen,
+  classData,
+  viewClass,
+  callback,
+}) => {
+  const [courses, setCourses] = useState([]);
+  const [showLecDays, setShowLecDays] = useState(false);
+
   const {
     handleSubmit,
     register,
     reset,
     setValue,
     getValues,
+    watch,
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    getCourses();
+    if (classData) getClass();
+  }, []);
+
+  useEffect(() => {
+    changeSelectHeader();
+  }, [watch("lectureDay")]);
+
+  const changeSelectHeader = () => {
+    let newHeader = "";
+    const selectElement = document.getElementById("selectedItems");
+    if (watch("lectureDay")) {
+      if (watch("lectureDay").length) {
+        watch("lectureDay").map((e) => {
+          newHeader += e + ",";
+        });
+        selectElement.innerText = newHeader;
+      } else {
+        selectElement.innerText = "Select Items";
+      }
+    }
+  };
+
+  const getClass = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/class/getClass", {
+        params: classData,
+      });
+      data[0].startDate = moment(data[0].startDate).format("YYYY-MM-DD");
+      data[0].endDate = moment(data[0].endDate).format("YYYY-MM-DD");
+      reset(data[0]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleclose = () => {
+    reset({});
     setIsOpen(false);
   };
 
   const addNewClass = async (newClass) => {
     try {
-      console.log(newClass);
+      const { data } = await AxiosInstance.post("/class/addClass", newClass);
+      callback(data);
     } catch (err) {
       console.error(err);
     }
   };
+
+  const getCourses = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/courses/getCourses");
+      setCourses(data.allCourses);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateClass = async (updatedClass) => {
+    try {
+      const { data } = await AxiosInstance.post(
+        "/class/updateClass",
+        updatedClass
+      );
+      callback(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
-      <Modal show={isOpen} onHide={handleclose}>
+      <Modal show={isOpen} onHide={handleclose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="modal-title">Add New Class</h5>
+            <h5 className="modal-title">
+              {viewClass ? "View" : classData ? "Update" : "Add New"} Class
+            </h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={handleSubmit(addNewClass)}>
+          <form onSubmit={handleSubmit(classData ? updateClass : addNewClass)}>
             <div className="row">
               <div className="col-md-6 mb-3">
                 <label className="form-label">Class Code</label>
@@ -42,6 +118,7 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
                   {...register("classCode", {
                     required: "Please Enter Class Code",
                   })}
+                  disabled={viewClass}
                 />
                 {errors?.classCode && (
                   <span className="text-danger">
@@ -56,8 +133,13 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
                   {...register("course", {
                     required: "This Field Is Required",
                   })}
+                  disabled={viewClass}
                 >
+                  {console.log(watch("course"))}
                   <option value="">Select courses</option>
+                  {courses.map((e) => (
+                    <option value={e._id}>{e.courseName}</option>
+                  ))}
                 </select>
                 {errors?.course && (
                   <span className="text-danger">{errors?.course.message}</span>
@@ -75,6 +157,7 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
                     {...register("classStatus", {
                       required: "This Field is Required",
                     })}
+                    disabled={viewClass}
                   >
                     <option value selected>
                       Choose Status..
@@ -97,6 +180,7 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
                   {...register("startTiming", {
                     required: "Please Enter Start Timing",
                   })}
+                  disabled={viewClass}
                 />
                 {errors?.startTiming && (
                   <span className="text-danger">
@@ -112,6 +196,7 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
                   {...register("endTiming", {
                     required: "Please Enter End Timing",
                   })}
+                  disabled={viewClass}
                 />
                 {errors?.endTiming && (
                   <span className="text-danger">
@@ -123,12 +208,13 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
                 <label className="form-label">Start Date</label>
                 <div className="input-group">
                   <input
-                    type="text"
+                    type="date"
                     className="form-control"
                     placeholder="dd M, yyyy"
                     {...register("startDate", {
                       required: "Please Enter Start Date",
                     })}
+                    disabled={viewClass}
                   />
                   <span className="input-group-text">
                     <i className="mdi mdi-calendar" />
@@ -148,12 +234,13 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
                 </label>
                 <div className="input-group" id="datepicker3">
                   <input
-                    type="text"
+                    type="date"
                     className="form-control"
                     placeholder="dd M, yyyy"
                     {...register("endDate", {
                       required: "Please Enter End Date",
                     })}
+                    disabled={viewClass}
                   />
                   <span className="input-group-text">
                     <i className="mdi mdi-calendar" />
@@ -163,75 +250,137 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
                   <span className="text-danger">{errors?.endDate.message}</span>
                 )}
               </div>
-              <style
+              {/* <style
                 dangerouslySetInnerHTML={{
                   __html:
-                    '\n                                        .custom-select {\n                                            position: relative;\n                                            width: 100%;\n                                            cursor: pointer;\n                                        }\n\n                                        .option label {\n                                            margin-bottom: 0;\n                                        }\n\n                                        .select-box {\n                                            display: flex;\n                                            justify-content: space-between;\n                                            align-items: center;\n                                            padding: 10px;\n                                            border: 1px solid #ccc;\n                                            border-radius: 4px;\n                                        }\n\n                                        .custom-select-view .select-box {\n                                            background-color: #eff2f7;\n                                            opacity: 1;\n                                        }\n\n                                        .placeholder {\n                                            background-color: transparent;\n                                            opacity: 1;\n                                            flex-grow: 1;\n                                            margin-right: 10px;\n                                            cursor: pointer;\n                                        }\n\n                                        .options {\n                                            position: absolute;\n                                            top: 100%;\n                                            left: 0;\n                                            width: 100%;\n                                            background-color: #fff;\n                                            border: 1px solid #ccc;\n                                            border-top: none;\n                                            border-radius: 0 0 4px 4px;\n                                            display: none;\n                                        }\n\n                                        .option {\n                                            display: flex;\n                                            align-items: center;\n                                            padding: 5px;\n                                        }\n\n                                        input[type="checkbox"] {\n                                            margin-right: 5px;\n                                        }\n                                    ',
-                }}
-              />
+                    `\n
+.custom-select {\n
+position: relative;\n
+width: 100%;\n                                            
+cursor: pointer;\n                                        
+}\n\n                                        
+.option label {\n                                            
+  margin-bottom: 0;\n                                        
+}\n\n                                        
+.select-box {\n                                            
+  display: flex;\n                                            
+  justify-content: space-between;\n                                            
+  align-items: center;\n                                            
+  padding: 10px;\n                                            
+  border: 1px solid #ccc;\n                                            
+  border-radius: 4px;\n                                        
+}\n\n                                        
+.custom-select-view 
+.select-box {\n                                            
+  background-color: #eff2f7;\n                                            
+  opacity: 1;\n                                        
+}\n\n                                        
+.placeholder {\n                                            
+  background-color: transparent;\n                                            
+  opacity: 1;\n                                            
+  flex-grow: 1;\n                                            
+  margin-right: 10px;\n                                            
+  cursor: pointer;\n                                        
+}\n\n                                        
+.options {\n                                            
+  position: absolute;\n                                            
+  top: 100%;\n                                            
+  left: 0;\n                                            
+  width: 100%;\n                                            
+  background-color: #fff;\n                                            
+  border: 1px solid #ccc;\n                                            
+  border-top: none;\n                                            
+  border-radius: 0 0 4px 4px;\n                                            
+  display: none;\n                                        
+}\n\n                                        
+.option {\n                                            
+  display: flex;\n                                            
+  align-items: center;\n                                            
+  padding: 5px;\n                                        
+}\n\n                                        
+input[type="checkbox"] {\n                                            
+  margin-right: 5px;\n                                        
+}\n                                    
+`,            
+}}
+/> */}
+
               <div className="col-md-6 mb-3">
                 <div className="custom-select">
                   <label>Lec In Week</label>
-                  <div className="select-box">
-                    <span className="placeholder">Select Items</span>
+                  <div
+                    className="select-box"
+                    onClick={() => !viewClass && setShowLecDays(!showLecDays)}
+                  >
+                    <span className="placeholder" id="selectedItems">
+                      Select Items
+                    </span>
                     <i className="fas fa-chevron-down" />
                   </div>
-                  <div className="options">
-                    <div className="option">
-                      <input
-                        type="checkbox"
-                        {...register("lectureDay", {
-                          required: "Please Lecture Days",
-                        })}
-                      />
-                      <label>Monday</label>
+                  {showLecDays && (
+                    <div className="options" style={{ display: "block" }}>
+                      <div className="option">
+                        <input
+                          type="checkbox"
+                          value="Monday"
+                          {...register("lectureDay", {
+                            required: "Please Lecture Days",
+                          })}
+                        />
+                        <label>Monday</label>
+                      </div>
+                      <div className="option">
+                        <input
+                          type="checkbox"
+                          value="Tuesday"
+                          {...register("lectureDay", {
+                            required: "Please Lecture Days",
+                          })}
+                        />
+                        <label>Tuesday</label>
+                      </div>
+                      <div className="option">
+                        <input
+                          type="checkbox"
+                          value="Wednesday"
+                          {...register("lectureDay", {
+                            required: "Please Lecture Days",
+                          })}
+                        />
+                        <label>Wednesday</label>
+                      </div>
+                      <div className="option">
+                        <input
+                          type="checkbox"
+                          value="Thursday"
+                          {...register("lectureDay", {
+                            required: "Please Lecture Days",
+                          })}
+                        />
+                        <label>Thursday</label>
+                      </div>
+                      <div className="option">
+                        <input
+                          type="checkbox"
+                          value="Friday"
+                          {...register("lectureDay", {
+                            required: "Please Lecture Days",
+                          })}
+                        />
+                        <label>Friday</label>
+                      </div>
+                      <div className="option">
+                        <input
+                          type="checkbox"
+                          value="Saturday"
+                          {...register("lectureDay", {
+                            required: "Please Lecture Days",
+                          })}
+                        />
+                        <label>Saturday</label>
+                      </div>
                     </div>
-                    <div className="option">
-                      <input
-                        type="checkbox"
-                        {...register("lectureDay", {
-                          required: "Please Lecture Days",
-                        })}
-                      />
-                      <label>Tuesday</label>
-                    </div>
-                    <div className="option">
-                      <input
-                        type="checkbox"
-                        {...register("lectureDay", {
-                          required: "Please Lecture Days",
-                        })}
-                      />
-                      <label>Wednesday</label>
-                    </div>
-                    <div className="option">
-                      <input
-                        type="checkbox"
-                        {...register("lectureDay", {
-                          required: "Please Lecture Days",
-                        })}
-                      />
-                      <label>Thursday</label>
-                    </div>
-                    <div className="option">
-                      <input
-                        type="checkbox"
-                        {...register("lectureDay", {
-                          required: "Please Lecture Days",
-                        })}
-                      />
-                      <label>Friday</label>
-                    </div>
-                    <div className="option">
-                      <input
-                        type="checkbox"
-                        {...register("lectureDay", {
-                          required: "Please Lecture Days",
-                        })}
-                      />
-                      <label>Saturday</label>
-                    </div>
-                  </div>
+                  )}
                   {errors?.lectureDay && (
                     <span className="text-danger">
                       {errors?.lectureDay.message}
@@ -241,12 +390,18 @@ export const NewClassModal = ({ setIsOpen, isOpen }) => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary">
+              <button
+                type="button"
+                onClick={handleclose}
+                className="btn btn-secondary"
+              >
                 Cancel
               </button>
-              <button type="submit" className="btn btn-primary">
-                Add Class
-              </button>
+              {!viewClass && (
+                <button type="submit" className="btn btn-primary">
+                  {classData ? "Update" : "Add"} Class
+                </button>
+              )}
             </div>
           </form>
         </Modal.Body>

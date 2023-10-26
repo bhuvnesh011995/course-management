@@ -34,7 +34,7 @@ import { Task } from "../Components/course-management/task";
 import { TimeSheet } from "../Components/timesheet";
 import { TradeLevel } from "../Components/course-management/trade-level";
 import { TradeType } from "../Components/course-management/trade-type";
-import { Trainer } from "../Components/trainer";
+import { Trainer } from "../Components/schedule/trainer";
 import { AdminRoutes } from "./adminRoutes";
 import { useEffect } from "react";
 import { Roles } from "../Components/admin/roles and permission/roles";

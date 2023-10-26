@@ -63,6 +63,13 @@ const accountHistory = (req, res) => {
     .catch((err) => res.status(500).send(err));
 };
 
+const getSelectedLead = (req, res) => {
+  leadManager
+    .getSelectedLead(req)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err));
+};
+
 module.exports = {
   addNewLead,
   getAllLeads,
@@ -73,4 +80,5 @@ module.exports = {
   confirmPayment,
   assignCourse,
   accountHistory,
+  getSelectedLead,
 };

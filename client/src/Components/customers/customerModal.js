@@ -2,6 +2,8 @@ import { Modal } from "react-bootstrap";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import { useState } from "react";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { CommonDataTable } from "../../common-components/CommonDataTable";
+import { accountHistoryHeaders } from "../../Constants/table.constants";
 
 export const ViewCustomerModal = ({
   setIsOpen,
@@ -10,6 +12,7 @@ export const ViewCustomerModal = ({
   registrationData,
 }) => {
   const [detailTab, setDetailTab] = useState("customer");
+  const [accountHistory, setAccountHistory] = useState([]);
   const handleclose = () => {
     setIsOpen(false);
   };
@@ -26,7 +29,7 @@ export const ViewCustomerModal = ({
       const { data } = await AxiosInstance.get("/leads/accountHistory", {
         params: leadData,
       });
-      console.log(data);
+      setAccountHistory(data);
     } catch (err) {
       console.error(err);
     }
@@ -421,7 +424,11 @@ export const ViewCustomerModal = ({
                         </div>
                         <div className="card-body">
                           <div className="table-responsive">
-                            <table
+                            <CommonDataTable
+                              tableHeaders={accountHistoryHeaders}
+                              data={accountHistory}
+                            />
+                            {/* <table
                               id="datatable-buttons"
                               className="table display table-bordered dt-responsive nowrap w-100"
                             >
@@ -474,7 +481,7 @@ export const ViewCustomerModal = ({
                                   </td>
                                 </tr>
                               </tbody>
-                            </table>
+                            </table> */}
                           </div>
                         </div>
                       </div>
@@ -484,9 +491,12 @@ export const ViewCustomerModal = ({
               )}
               <div className="progress">
                 <div
-                  className="progress-bar"
+                  className={`progress-bar ${
+                    detailTab == "customer"
+                      ? "w-50"
+                      : detailTab == "account" && "w-100"
+                  } `}
                   role="progressbar"
-                  style={{ width: "0%" }}
                   aria-valuenow={0}
                   aria-valuemin={0}
                   aria-valuemax={100}

@@ -2,10 +2,10 @@ import { MaterialReactTable } from "material-react-table";
 
 import {
   convertMongooseDate,
+  convertToMongooseStartEndTiming,
   exportToExcel,
   exportToPDFTable,
 } from "./useCommonUsableFunctions";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import {
   TradeLevels,
@@ -56,6 +56,21 @@ export const CommonDataTable = ({
   if (data[0]?.created_at) {
     data.map((e, index) => (e.created_at = convertMongooseDate(e.created_at)));
   }
+  if (data[0]?.startDate) {
+    data.map((e, index) => (e.startDate = convertMongooseDate(e.startDate)));
+  }
+  if (data[0]?.endDate) {
+    data.map((e, index) => (e.endDate = convertMongooseDate(e.endDate)));
+  }
+  if (data[0]?.startTiming && data[0]?.endTiming) {
+    data.map((e, index) => {
+      e.classTiming = convertToMongooseStartEndTiming(
+        e.startTiming,
+        e.endTiming
+      );
+    });
+  }
+
   if (actionButtons) {
     tableColumns.push({
       header: "Actions",
@@ -76,7 +91,6 @@ export const CommonDataTable = ({
               <button
                 onClick={() => {
                   callback(row.original, null, row.index);
-                  console.log(row.original);
                 }}
                 className="btn btn-icon btn-sm btn-info rounded-pill"
               >

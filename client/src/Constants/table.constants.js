@@ -104,3 +104,29 @@ export const courseHeaders = {
   price: "Price ($)",
   duration: "Duration",
 };
+
+export const classHeaders = {
+  classCode: "Class Code",
+  trainer: "Trainer",
+  course: "Course",
+  startDate: "Start Date",
+  endDate: "End Date",
+  classTiming: "Class Timing",
+};
+
+export const accountHistoryHeaders = {
+  course: "Course",
+  class: "Class",
+  price: "Amount",
+  created_at: "Purchase Date",
+  // paymentStatus: "Payment Status",
+};
+
+export const trainerHeaders = {
+  _id: "Trainer ID",
+  trainerName: "Name",
+  trainerEmail: "Email ID",
+  trainerMobile: "Mobile No.",
+  trainerDOB: "DOB",
+  trainerDesignation: "Designation",
+};

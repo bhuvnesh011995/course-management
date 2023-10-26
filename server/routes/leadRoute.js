@@ -26,4 +26,6 @@ routes.post("/assignCourse", leadController.assignCourse);
 
 routes.get("/accountHistory", leadController.accountHistory);
 
+routes.get("/getSelectedLead", userAuth, leadController.getSelectedLead);
+
 module.exports = routes;

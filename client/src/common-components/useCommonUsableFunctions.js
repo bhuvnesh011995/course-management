@@ -32,6 +32,12 @@ export const convertMongooseDate = (date) => {
   return moment(date).format("YYYY-MM-DD");
 };
 
+export const convertToMongooseStartEndTiming = (startTime, endTime) => {
+  const start = moment(startTime, "HH:mm").format("hh:mm A");
+  const end = moment(endTime, "HH:mm").format("hh:mm A");
+  return `${start} - ${end}`;
+};
+
 export const filePath = (path) => {
   return `http://localhost:5000/${path}`;
 };

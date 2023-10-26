@@ -138,15 +138,14 @@ export const Lead = () => {
           const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
-            const newLeads = filteredLeads.filter(
-              (e) => !e.getPayment && !e.confirmed
-            );
+            console.log(filteredLeads);
+            const newLeads = filteredLeads.filter((e) => !e.courseAssigned);
             setFilteredLeads([...newLeads]);
           } else {
             setFilteredLeads((old) => [...old, leadData]);
           }
         } else {
-          const newLeads = leads.filter((e) => !e.getPayment && !e.confirmed);
+          const newLeads = leads.filter((e) => !e.courseAssigned);
           setFilteredLeads([...newLeads]);
         }
         break;
@@ -156,13 +155,13 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const pendingLeads = filteredLeads.filter(
-              (e) => e.getPayment && !e.confirmed
+              (e) => e.courseAssigned && !e.getPayment && !e.confirmed
             );
             setFilteredLeads([...pendingLeads]);
           }
         } else {
           const pendingLeads = leads.filter(
-            (e) => e.getPayment && !e.confirmed
+            (e) => e.courseAssigned && !e.getPayment && !e.confirmed
           );
           setFilteredLeads([...pendingLeads]);
         }
@@ -173,13 +172,13 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const completedLeads = filteredLeads.filter(
-              (e) => e.getPayment && e.confirmed && !e.courseAssigned
+              (e) => e.getPayment && !e.confirmed && e.courseAssigned
             );
             setFilteredLeads([...completedLeads]);
           }
         } else {
           const completedLeads = leads.filter(
-            (e) => e.getPayment && e.confirmed && !e.courseAssigned
+            (e) => e.getPayment && !e.confirmed && e.courseAssigned
           );
           setFilteredLeads([...completedLeads]);
         }

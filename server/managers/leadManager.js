@@ -1,7 +1,6 @@
 const LeadModel = require("../models/newLeadModel");
 const { sendMail } = require("../managers/mailManager");
 const fs = require("fs");
-const courseModel = require("../models/courseModel");
 
 const addNewLead = async ({ query, files, user }) => {
   try {
@@ -185,7 +184,6 @@ const getAllLeads = async (user) => {
 
 const updateLead = async ({ query, files }) => {
   try {
-    console.log(files);
     if (query?.deleteFileList?.length > 0) {
       for (let path of query.deleteFileList) {
         fs.unlink(
@@ -363,6 +361,20 @@ const updateLead = async ({ query, files }) => {
 
 const deleteLead = async (data) => {
   try {
+    const selectedLead = await LeadModel.findOne({ _id: data._id });
+    Object.keys(selectedLead.fileLocations).map((e) =>
+      fs.unlink(
+        `uploads\\images\\${
+          selectedLead.fileLocations[e].split("/")[
+            selectedLead.fileLocations[e].split("/").length - 1
+          ]
+        }`,
+        (err) => {
+          if (err) console.log(err);
+          else console.log("file is deleted");
+        }
+      )
+    );
     const deleteLead = await LeadModel.deleteOne({ _id: data._id });
     return { message: "Lead Deleted Successfully !" };
   } catch (err) {
@@ -381,11 +393,37 @@ const getLead = async (data) => {
 
 const getPayment = async (data) => {
   try {
+    const paymentPdfBuffer = Buffer.from(data.paymentPdfBase64, "base64");
+    const bankPdfBuffer = Buffer.from(data.bankDetailsPdfBase64, "base64");
+    const filePath = `uploads/images/doc${
+      Date.now() + Math.round(Math.random() * 1e9)
+    }.pdf`;
+    const bankFilePath = `uploads/images/bankDetails${
+      Date.now() + Math.round(Math.random() * 1e9)
+    }.pdf`;
+
+    fs.writeFileSync(bankFilePath, bankPdfBuffer, "binary", (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log("pdf file generated");
+      }
+    });
+
+    fs.writeFileSync(filePath, paymentPdfBuffer, "binary", (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log("pdf file generated");
+      }
+    });
     const sendMailObj = {
+      _id: data._id,
       email: data.contactPersonEmail,
       subject: "Confirm Course Details and Confirm Payment !",
-      mailValue: `<button>get Payment Status</button><br>\n
+      mailValue: `<h2>SANTARLI CONSTRUCTION PTE LTD - BANK DETAIL</h2>\n
       <p><strong>Tonga</strong> <br>\n`,
+      path: [filePath, bankFilePath],
     };
     await sendMail(sendMailObj);
     const getLeadPayment = await LeadModel.updateOne(
@@ -441,6 +479,23 @@ const accountHistory = async (data) => {
       },
       {
         $lookup: {
+          from: "classes",
+          let: { courseId: "$course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$course" }, "$$courseId"],
+                },
+              },
+            },
+          ],
+          as: "classDetails",
+        },
+      },
+      { $unwind: "$classDetails" },
+      {
+        $lookup: {
           from: "courses",
           let: { courseId: "$course" },
           pipeline: [
@@ -455,16 +510,80 @@ const accountHistory = async (data) => {
           as: "courseDetails",
         },
       },
-      // {
-      //   $lookup: {},
-      // },
       {
         $project: {
           _id: 1,
           course: "$courseDetails.courseName",
+          price: "$courseDetails.price",
+          class: "$classDetails.classCode",
+          created_at: 1,
+          paymentStatus: "paid",
         },
       },
     ]);
+    return allAccountCourses;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const getSelectedLead = async ({ query, user }) => {
+  try {
+    const leadData = await LeadModel.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$_id" }, query._id],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "courses",
+          let: { courseId: "$course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$courseId"],
+                },
+              },
+            },
+          ],
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      {
+        $lookup: {
+          from: "tradelevels",
+          let: { levelId: "$tradeLevel" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$levelId"],
+                },
+              },
+            },
+          ],
+          as: "tradeLevelDetails",
+        },
+      },
+      { $unwind: "$tradeLevelDetails" },
+      {
+        $project: {
+          _id: 1,
+          participantName: 1,
+          contactPersonEmail: 1,
+          tradeLevel: "$tradeLevelDetails.tradeLevel",
+          courseName: "$courseDetails.courseName",
+          price: "$courseDetails.price",
+          participantNRIC: 1,
+        },
+      },
+    ]);
+    return { lead: leadData[0], user: user[0] };
   } catch (err) {
     console.error(err);
   }
@@ -480,4 +599,5 @@ module.exports = {
   confirmPayment,
   assignCourse,
   accountHistory,
+  getSelectedLead,
 };

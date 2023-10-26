@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
+import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
 
 export const AddNewLeadModel = ({
   setIsOpen,
@@ -29,6 +30,7 @@ export const AddNewLeadModel = ({
   const [tradeLevels, setTradeLevels] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState("");
+  const [pdf, setPdf] = useState(null);
 
   const {
     register,
@@ -278,9 +280,11 @@ export const AddNewLeadModel = ({
       const { data } = await AxiosInstance.get("/leads/getLead", {
         params: leadData,
       });
-      reset(data[0]);
-      if (leadData.getPayment && leadData.confirmed) {
-        getFilteredCourses(data[0]);
+      if (data[0]) {
+        reset(data[0]);
+        if (leadData) {
+          getFilteredCourses(data[0]);
+        }
       }
     } catch (err) {
       console.error(err);
@@ -303,12 +307,25 @@ export const AddNewLeadModel = ({
 
   const getPaymentRegistration = async () => {
     try {
+      const { data } = await AxiosInstance.get("/leads/getSelectedLead", {
+        params: leadData,
+      });
+      const Subject = `APPROVAL OF ONLINE REGISTRATION ${leadData.tradeType} ${data.lead.tradeLevel}`;
+      leadData["paymentPdfBase64"] = CreatePaymentPdfBase64(
+        data.lead,
+        Subject,
+        data.user
+      );
+      leadData["bankDetailsPdfBase64"] = CreateBankPdf();
+      leadData.getPayment = true;
       const getPaymentData = await AxiosInstance.post(
         "/leads/getPayment",
         leadData
       );
-      leadData.getPayment = true;
+      delete leadData.paymentPdfBase64;
+      delete leadData.bankDetailsPdfBase64;
       callback(leadData);
+
       handleClose();
     } catch (err) {
       console.error(err);
@@ -329,13 +346,13 @@ export const AddNewLeadModel = ({
     }
   };
 
-  const rejectRegistration = async () => {
-    try {
-      console.log("reject registration");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const rejectRegistration = async () => {
+  //   try {
+  //     console.log("reject registration");
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   const confirmCourseAssigned = async () => {
     try {
@@ -760,11 +777,13 @@ export const AddNewLeadModel = ({
                   })}
                   disabled={viewLead}
                 >
-                  <option value="">Select Trade Type</option>
+                  {console.log(watch("tradeType"))}
+                  <option value="" selected>
+                    {" "}
+                    Select Trade Type
+                  </option>
                   {tradeTypes.map((e) => (
-                    <option value={e._id} selected={e._id}>
-                      {e.tradeType}
-                    </option>
+                    <option value={e._id}>{e.tradeType}</option>
                   ))}
                 </select>
                 <span className="text-danger">
@@ -817,7 +836,7 @@ export const AddNewLeadModel = ({
                   </span>
                 </div>
               )}
-              {leadData?.getPayment && leadData?.confirmed && (
+              {leadData && (
                 <div className="col-md-4 mb-3">
                   <label className="form-label">Course</label>
                   <select
@@ -1252,7 +1271,7 @@ export const AddNewLeadModel = ({
                     )}
                     {viewLead && (
                       <div className="d-flex">
-                        {!leadData.getPayment && (
+                        {leadData.courseAssigned && !leadData.getPayment && (
                           <button
                             type="button"
                             onClick={getPaymentRegistration}
@@ -1272,15 +1291,15 @@ export const AddNewLeadModel = ({
                             </button>
                             <button
                               type="button"
-                              onClick={rejectRegistration}
+                              // onClick={rejectRegistration}
                               class="btn mx-1 btn-danger"
                             >
                               Reject
                             </button>
                           </div>
                         )}
-                        {leadData.getPayment &&
-                          leadData.confirmed &&
+                        {!leadData.getPayment &&
+                          !leadData.confirmed &&
                           !leadData.courseAssigned && (
                             <div className="d-flex">
                               <button
