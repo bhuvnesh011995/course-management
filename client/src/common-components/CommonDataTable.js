@@ -12,6 +12,7 @@ import {
   registrationConstants,
   tradeType,
 } from "../Constants/newLeadContants";
+import { dayColors } from "../Constants/table.constants";
 
 export const CommonDataTable = ({
   data,
@@ -49,6 +50,28 @@ export const CommonDataTable = ({
         ),
         header: tableHeaders[e],
       });
+    } else if (e == "lectureDay") {
+      tableColumns.push({
+        accessorKey: e,
+        Cell: ({ row }) => (
+          <div className="row ">
+            <div className="d-flex flex-wrap">
+              {row.original.lectureDay.map((e, index) => (
+                <p
+                  className={dayColors[index]}
+                  style={{
+                    fontSize: "10px",
+                    margin: "5px",
+                  }}
+                >
+                  {e}
+                </p>
+              ))}
+            </div>
+          </div>
+        ),
+        header: tableHeaders[e],
+      });
     } else {
       tableColumns.push({ accessorKey: e, header: tableHeaders[e] });
     }
@@ -61,6 +84,9 @@ export const CommonDataTable = ({
   }
   if (data[0]?.endDate) {
     data.map((e, index) => (e.endDate = convertMongooseDate(e.endDate)));
+  }
+  if (data[0]?.trainerDOB) {
+    data.map((e, index) => (e.trainerDOB = convertMongooseDate(e.trainerDOB)));
   }
   if (data[0]?.startTiming && data[0]?.endTiming) {
     data.map((e, index) => {

@@ -130,3 +130,21 @@ export const trainerHeaders = {
   trainerDOB: "DOB",
   trainerDesignation: "Designation",
 };
+
+export const viewTrainerHeaders = {
+  course: "Course",
+  classCode: "Class",
+  created_at: "Date",
+  classTiming: "Time",
+  lectureDay: "Lec In Week",
+};
+
+export const dayColors = [
+  "badge badge-soft-primary",
+  "badge badge-soft-secondary",
+  "badge badge-soft-success",
+  "badge badge-soft-danger",
+  "badge badge-soft-warning",
+  "badge badge-soft-info",
+  "badge badge-soft-dark",
+];

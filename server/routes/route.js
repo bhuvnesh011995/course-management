@@ -10,5 +10,6 @@ routes.use("/registrationType", require("./registrationRoute"));
 routes.use("/courses", require("./courseRoute"));
 routes.use("/class", require("./classRoute"));
 routes.use("/trainer", require("./trainerRoute"));
+routes.use("/events", require("./eventRoute"));
 
 module.exports = routes;

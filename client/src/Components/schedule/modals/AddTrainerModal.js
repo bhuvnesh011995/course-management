@@ -7,14 +7,20 @@ import {
   phonePattern,
 } from "../../../common-components/validations";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { useEffect, useState } from "react";
+import {
+  convertMongooseDate,
+  filePath,
+} from "../../../common-components/useCommonUsableFunctions";
 
 export const NewTrainerModal = ({
   isOpen,
   setIsOpen,
   trainerData,
-  viewTrainer,
   callback,
 }) => {
+  const [imageUrl, setImageUrl] = useState("");
+
   const {
     register,
     getValues,
@@ -25,8 +31,15 @@ export const NewTrainerModal = ({
     watch,
   } = useForm();
 
+  useEffect(() => {
+    if (trainerData) {
+      getTrainer();
+    }
+  }, []);
+
   const handleClose = () => {
     setIsOpen(false);
+    reset();
   };
 
   const addNewTrainer = async (trainerData) => {
@@ -39,8 +52,8 @@ export const NewTrainerModal = ({
         formData,
         { params: trainerData }
       );
-
-      console.log(data);
+      callback(data);
+      handleClose();
     } catch (err) {
       console.error(err);
     }
@@ -48,19 +61,47 @@ export const NewTrainerModal = ({
 
   const updateTrainer = async (trainerData) => {
     try {
-      console.log(trainerData);
+      const formData = new FormData();
+      if (trainerData?.trainerImage.length) {
+        formData.append("file", trainerData.trainerImage[0]);
+        trainerData["deleteImagePath"] = trainerData.trainerImagePath;
+      }
+      const { data } = await AxiosInstance.post(
+        "/trainer/updateTrainer",
+        formData,
+        { params: trainerData }
+      );
+      callback(trainerData);
+      handleClose();
     } catch (err) {
       console.error(err);
     }
   };
 
+  const getTrainer = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/trainer/getTrainer", {
+        params: trainerData,
+      });
+      data.trainerDOB = convertMongooseDate(data.trainerDOB);
+      console.log(data, imageUrl);
+      reset(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const changeImageUrl = ({ target }) => {
+    setImageUrl(URL.createObjectURL(target.files[0]));
+  };
+
   return (
     <div>
       <Modal show={isOpen} onHide={handleClose}>
-        <Modal.Header>
+        <Modal.Header closeButton>
           <Modal.Title>
             <h5 className="modal-title" id="addTrainerModalLabel">
-              {viewTrainer ? "View" : trainerData ? "Update" : "Add"} Trainer
+              {trainerData ? "Update" : "Add"} Trainer
             </h5>
           </Modal.Title>
         </Modal.Header>
@@ -82,7 +123,6 @@ export const NewTrainerModal = ({
                     required: "Please Enter Trainer Name",
                     pattern: namePattern,
                   })}
-                  disabled={viewTrainer}
                 />
                 {errors?.trainerName && (
                   <span className="text-danger">
@@ -101,7 +141,6 @@ export const NewTrainerModal = ({
                     required: "Please Enter Trainer Email Id",
                     pattern: emailPattern,
                   })}
-                  disabled={viewTrainer}
                 />
                 {errors?.trainerEmail && (
                   <span className="text-danger">
@@ -121,7 +160,6 @@ export const NewTrainerModal = ({
                     required: "Please Enter Mobile No.",
                     pattern: phonePattern,
                   })}
-                  disabled={viewTrainer}
                 />
                 {errors?.trainerMobile && (
                   <span className="text-danger">
@@ -140,7 +178,6 @@ export const NewTrainerModal = ({
                   {...register("trainerDOB", {
                     required: "Please Enter Date Of Birth",
                   })}
-                  disabled={viewTrainer}
                 />
                 {errors?.trainerDOB && (
                   <span className="text-danger">
@@ -155,7 +192,6 @@ export const NewTrainerModal = ({
                   {...register("trainerDesignation", {
                     required: "Please Select Designation",
                   })}
-                  disabled={viewTrainer}
                 >
                   <option value="" disabled selected>
                     Select Designation
@@ -172,21 +208,31 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label htmlFor>Upload Photo</label> <br />
+                <label>Upload Photo</label> <br />
                 <div className="d-flex gap-2">
                   <label className="custom-file-input form-control">
                     <span id="trainerFileName">Upload Photo</span>
                     <input
                       type="file"
-                      {...register("trainerImage")}
-                      disabled={viewTrainer}
+                      {...register("trainerImage", {
+                        onChange: (e) => changeImageUrl(e),
+                      })}
                       accept="image/*"
                     />
                   </label>
-                  <span className="avatar avatar-rounded avatar-md">
-                    {" "}
-                    <img src={face4} alt="" />{" "}
-                  </span>
+                  {trainerData?.trainerImagePath && (
+                    <span className="avatar avatar-rounded avatar-md">
+                      {" "}
+                      <img
+                        src={
+                          imageUrl.length
+                            ? imageUrl
+                            : filePath(watch("trainerImagePath"))
+                        }
+                        alt=""
+                      />{" "}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="col-md-12 mb-3">
@@ -198,7 +244,6 @@ export const NewTrainerModal = ({
                   {...register("trainerAddress", {
                     required: "Please Enter Trainer Address",
                   })}
-                  disabled={viewTrainer}
                 />
                 {errors?.trainerAddress && (
                   <span className="text-danger">
@@ -216,11 +261,9 @@ export const NewTrainerModal = ({
                 >
                   Cancel
                 </button>
-                {!viewTrainer && (
-                  <button type="submit" className="btn btn-primary">
-                    {trainerData ? "Update" : "Add"} Trainer
-                  </button>
-                )}
+                <button type="submit" className="btn btn-primary">
+                  {trainerData ? "Update" : "Add"} Trainer
+                </button>
               </div>
             </Modal.Footer>
           </form>

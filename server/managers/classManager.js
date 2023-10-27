@@ -20,6 +20,15 @@ const addClass = async (data) => {
       },
       { $unwind: "$courseData" },
       {
+        $lookup: {
+          from: "trainers",
+          localField: "trainer",
+          foreignField: "_id",
+          as: "trainerDetails",
+        },
+      },
+      { $unwind: "$trainerDetails" },
+      {
         $project: {
           _id: 1,
           classCode: 1,
@@ -29,6 +38,7 @@ const addClass = async (data) => {
           endTiming: 1,
           startDate: 1,
           endDate: 1,
+          trainer: "$trainerDetails.trainerName",
           lectureDay: 1,
           created_at: 1,
           updated_at: 1,
@@ -54,12 +64,22 @@ const getClasses = async (user) => {
       },
       { $unwind: "$courseData" },
       {
+        $lookup: {
+          from: "trainers",
+          localField: "trainer",
+          foreignField: "_id",
+          as: "trainerDetails",
+        },
+      },
+      { $unwind: "$trainerDetails" },
+      {
         $project: {
           _id: 1,
           classCode: 1,
           course: "$courseData.courseName",
           endDate: 1,
           startDate: 1,
+          trainer: "$trainerDetails.trainerName",
           startTiming: 1,
           endTiming: 1,
         },
@@ -93,6 +113,7 @@ const updateClass = async (data) => {
         startDate: data.startDate,
         endDate: data.endDate,
         lectureDay: data.lectureDay,
+        trainer: data.trainer,
       }
     );
     const updatedClass = await classModel.aggregate([
@@ -111,6 +132,23 @@ const updateClass = async (data) => {
       },
       { $unwind: "$courseData" },
       {
+        $lookup: {
+          from: "trainers",
+          let: { trainerId: "$trainer" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$trainerId"],
+                },
+              },
+            },
+          ],
+          as: "trainerDetails",
+        },
+      },
+      { $unwind: "$trainerDetails" },
+      {
         $project: {
           _id: 1,
           classCode: 1,
@@ -121,6 +159,7 @@ const updateClass = async (data) => {
           startDate: 1,
           endDate: 1,
           lectureDay: 1,
+          trainer: "$trainerDetails.trainerName",
           created_at: 1,
           updated_at: 1,
         },

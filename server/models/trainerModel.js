@@ -9,6 +9,7 @@ const TrainerSchema = new mongoose.Schema(
     trainerDesignation: { type: String },
     trainerImagePath: { type: String },
     trainerAddress: { type: String },
+    trainerImageName: { type: String },
   },
   {
     timestamps: {

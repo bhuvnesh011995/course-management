@@ -27,7 +27,7 @@ import { ReadEmail } from "../Components/read-email";
 import { RegistrationType } from "../Components/course-management/registration-type";
 import { S } from "../Components/s";
 import { SalesQuotation } from "../Components/sales-quotation";
-import { Scheduling } from "../Components/sceduling";
+import { Scheduling } from "../Components/schedule/sceduling";
 import { SubCategory } from "../Components/sub-categoery";
 import { Table } from "../Components/table";
 import { Task } from "../Components/course-management/task";

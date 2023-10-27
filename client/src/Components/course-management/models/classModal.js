@@ -13,6 +13,7 @@ export const NewClassModal = ({
 }) => {
   const [courses, setCourses] = useState([]);
   const [showLecDays, setShowLecDays] = useState(false);
+  const [trainers, setTrainers] = useState([]);
 
   const {
     handleSubmit,
@@ -26,12 +27,22 @@ export const NewClassModal = ({
 
   useEffect(() => {
     getCourses();
+    getTrainers();
     if (classData) getClass();
   }, []);
 
   useEffect(() => {
     changeSelectHeader();
   }, [watch("lectureDay")]);
+
+  const getTrainers = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/trainer/getTrainers");
+      setTrainers(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const changeSelectHeader = () => {
     let newHeader = "";
@@ -70,6 +81,7 @@ export const NewClassModal = ({
     try {
       const { data } = await AxiosInstance.post("/class/addClass", newClass);
       callback(data);
+      handleclose();
     } catch (err) {
       console.error(err);
     }
@@ -91,6 +103,7 @@ export const NewClassModal = ({
         updatedClass
       );
       callback(data);
+      handleclose();
     } catch (err) {
       console.error(err);
     }
@@ -135,7 +148,6 @@ export const NewClassModal = ({
                   })}
                   disabled={viewClass}
                 >
-                  {console.log(watch("course"))}
                   <option value="">Select courses</option>
                   {courses.map((e) => (
                     <option value={e._id}>{e.courseName}</option>
@@ -312,7 +324,10 @@ input[type="checkbox"] {\n
                     className="select-box"
                     onClick={() => !viewClass && setShowLecDays(!showLecDays)}
                   >
-                    <span className="placeholder" id="selectedItems">
+                    <span
+                      className="placeholder d-flex flex-wrap"
+                      id="selectedItems"
+                    >
                       Select Items
                     </span>
                     <i className="fas fa-chevron-down" />
@@ -387,6 +402,26 @@ input[type="checkbox"] {\n
                     </span>
                   )}
                 </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Trainer</label>
+                <select
+                  className="form-select"
+                  {...register("trainer", {
+                    required: "Please Select Trainer",
+                  })}
+                  disabled={viewClass}
+                >
+                  <option value="">Select Trainer</option>
+                  {trainers.map((e) => (
+                    <option value={e._id}>{e.trainerName}</option>
+                  ))}
+                </select>
+                {errors?.trainer && (
+                  <span className="text-danger">{errors?.trainer.message}</span>
+                )}
               </div>
             </div>
             <div className="modal-footer">

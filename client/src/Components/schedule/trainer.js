@@ -8,6 +8,9 @@ import { NewTrainerModal } from "./modals/AddTrainerModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { trainerHeaders } from "../../Constants/table.constants";
+import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { TogelErrorMessage } from "../../common-components/togelMessage";
+import { ViewTrainer } from "./modals/ViewTrainerModal";
 
 // <head>
 
@@ -90,7 +93,13 @@ export const Trainer = () => {
   }, []);
 
   const updateTrainers = (data) => {
-    console.log(data);
+    const filterTrainer = trainers.filter((e) => e._id == data._id);
+    if (filterTrainer.length) {
+      trainers[trainerIndex] = data;
+      setTrainers([...trainers]);
+    } else {
+      setTrainers([...trainers, data]);
+    }
   };
 
   const showTrainerModal = (e, type, index) => {
@@ -99,22 +108,35 @@ export const Trainer = () => {
 
     if (type == "view") {
       setViewTrainer(true);
-      setDeleteTrainer(false);
     } else if (type == "delete") {
-      setViewTrainer(false);
       setDeleteTrainer(true);
-    } else {
-      setViewTrainer(false);
-      setDeleteTrainer(false);
     }
 
-    if (type != "delete") setTrainerModal(true);
+    if (type != "delete" && type != "view") setTrainerModal(true);
   };
 
   const getAllTrainers = async () => {
     try {
       const { data } = await AxiosInstance.get("/trainer/getTrainers");
       setTrainers(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const deleteSelectedTrainer = async (trainerData) => {
+    try {
+      const { data } = await AxiosInstance.delete("/trainer/deleteTrainer", {
+        params: trainerData,
+      });
+      if (data.completed == 1) {
+        const filteredTrainers = trainers.filter(
+          (e) => e._id != trainerData._id
+        );
+        setTrainers([...filteredTrainers]);
+      } else if (data.completed == 0) {
+        console.log(data.message);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -232,6 +254,23 @@ export const Trainer = () => {
           callback={(e) => updateTrainers(e)}
           viewTrainer={viewTrainer}
           trainerData={trainerData}
+        />
+      )}
+      {deleteTrainer && (
+        <DeleteModel
+          setIsOpen={setDeleteTrainer}
+          isOpen={deleteTrainer}
+          message={`do you really want to delete trainer ${trainerData.trainerName}`}
+          callback={(e) => deleteSelectedTrainer(e)}
+          deleteHeader={"Trainer"}
+          data={trainerData}
+        />
+      )}
+      {viewTrainer && (
+        <ViewTrainer
+          trainerData={trainerData}
+          setIsOpen={setViewTrainer}
+          isOpen={viewTrainer}
         />
       )}
     </div>

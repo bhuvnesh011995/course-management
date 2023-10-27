@@ -430,3 +430,57 @@ margin-left: 10px;
 .task-list .task-box:last-child {
     margin: 0 !important;
 }
+/* 
+.rbc-row{
+    display: flex;
+    margin:1px;
+    border: 1px solid rgb(73, 73, 73);
+}
+
+.rbc-date-cell {
+    padding: 2px;
+    border: 1px solid;
+}
+
+.rbc-button-link {
+    width: 103px;
+    height: 50px;
+}
+
+.rbc-header {
+
+} */
+
+.rbc-month-row{
+    padding: 40px 0;
+    display: flex;
+}
+
+.prev-calendar-btn{
+    padding: 5px 10px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.next-calendar-btn{
+    padding: 5px 10px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.today-calendar-btn{
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.view-calendar-btn{}
+
+.calendar-btn-font{
+    font-size: 15px;
+    /* font-weight: bolder; */
+}
+
+.rbc-header{
+    color: rgb(69, 69, 246);
+    font-weight: bolder;
+}

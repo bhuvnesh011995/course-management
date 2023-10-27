@@ -8,5 +8,16 @@ routes.post(
   trainerController.addNewTrainer
 );
 routes.get("/getTrainers", trainerController.getTrainers);
+routes.post(
+  "/updateTrainer",
+  upload.single("file"),
+  trainerController.updateTrainer
+);
+
+routes.get("/getTrainer", trainerController.getTrainer);
+
+routes.delete("/deleteTrainer", trainerController.deleteTrainer);
+
+routes.get("/trainerClassDetails", trainerController.trainerClassDetails);
 
 module.exports = routes;

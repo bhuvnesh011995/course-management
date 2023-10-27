@@ -3,10 +3,10 @@ const userModel = require("../models/userModel");
 
 const userAuth = async (req, res, next) => {
   try {
-    console.log("ininin");
-    const { query } = req;
-    if (query.token) {
-      const decode = jwt.decode(query.token);
+    const token = req.headers["token-header"];
+    const { headers } = req;
+    if (token) {
+      const decode = jwt.decode(token);
       const getUserData = await userModel.aggregate([
         { $match: { email: decode.email } },
         {
