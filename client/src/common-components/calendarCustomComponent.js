@@ -28,7 +28,7 @@ export const CustomToolbar = ({ label, onNavigate, views, view, onView }) => {
           <span className="calendar-btn-font">{"today"}</span>
         </p>
       </span>
-      <span>{label} 'make date picker'</span>
+      <span>{label} </span>
       <span className="d-flex">
         <div className="d-flex">
           {views.map((name) => (

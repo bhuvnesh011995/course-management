@@ -41,3 +41,12 @@ export const convertToMongooseStartEndTiming = (startTime, endTime) => {
 export const filePath = (path) => {
   return `http://localhost:5000/${path}`;
 };
+
+export const convertUtcDateAndTime = (date, time) => {
+  return new Date(
+    moment(
+      `${moment(date).format("YYYY-MM-DD")} ${time}`,
+      "YYYY-MM-DD HH:mm"
+    ).format("ddd MMM D YYYY HH:mm:ss [GMT]ZZ (z)")
+  );
+};

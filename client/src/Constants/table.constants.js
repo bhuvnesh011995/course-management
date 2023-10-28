@@ -106,7 +106,7 @@ export const courseHeaders = {
 };
 
 export const classHeaders = {
-  classCode: "Class Code",
+  classCode: "Class Name",
   trainer: "Trainer",
   course: "Course",
   startDate: "Start Date",

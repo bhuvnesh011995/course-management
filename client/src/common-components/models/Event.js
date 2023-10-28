@@ -1,14 +1,17 @@
+/* eslint-disable default-case */
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { AxiosInstance } from "../axiosInstance";
 import { useForm } from "react-hook-form";
+import moment from "moment";
 
-export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
+export const AddEvent = ({ isOpen, setIsOpen, eventData, callback }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setError,
     setValue,
     getValues,
     reset,
@@ -19,8 +22,10 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
 
   useEffect(() => {
     getCourses();
-    getClasses();
-    if (eventData) {
+    if (eventData?._id) {
+      getCourseClasses(eventData.course);
+      getEvent();
+    } else {
       reset(eventData);
     }
   }, []);
@@ -34,10 +39,12 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
     }
   };
 
-  const getClasses = async () => {
+  const getCourseClasses = async (courseId) => {
     try {
-      const { data } = await AxiosInstance.get("/class/getClasses");
-      setClasses(data.classes);
+      const { data } = await AxiosInstance.get("/class/getCourseClasses", {
+        params: { id: courseId },
+      });
+      setClasses(data);
     } catch (err) {
       console.error(err);
     }
@@ -50,9 +57,102 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
   const addNewEvent = async (EventData) => {
     try {
       const { data } = await AxiosInstance.post("/events/AddEvent", EventData);
-      console.log(data);
+      callback(data);
+      handleClose();
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const getEvent = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/events/getEvent", {
+        params: eventData,
+      });
+      data.startDate = moment(data.startDate).format("YYYY-MM-DD");
+      data.endDate = moment(data.endDate).format("YYYY-MM-DD");
+      data.startTime = moment(data.startTime, "hh:mm A").format("HH:mm");
+      data.endTime = moment(data.endTime, "hh:mm A").format("HH:mm");
+      reset(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateEvent = async (eventData) => {
+    try {
+      const { data } = await AxiosInstance.post(
+        "/events/updateEvent",
+        eventData
+      );
+      callback(data[0]);
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const deleteEvent = async () => {
+    try {
+      const { data } = await AxiosInstance.delete("/events/deleteEvent", {
+        params: eventData,
+      });
+      callback(eventData, "delete");
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const checkDate = () => {
+    if (new Date(watch("endDate")) < new Date(watch("startDate"))) {
+      setError("endDate", {
+        type: "manual",
+        message: "Please Enter Date Greater Than Start Date",
+      });
+    } else {
+      setError("endDate", undefined);
+    }
+
+    if (new Date(watch("startDate")) > new Date(watch("endDate"))) {
+      setError("startDate", {
+        type: "manual",
+        message: "Please Enter Date Less Than End Date",
+      });
+    } else {
+      setError("startDate", undefined);
+    }
+    checkTime();
+  };
+
+  const checkTime = () => {
+    if (
+      moment(watch("startDate")).format("YYYY-MM-DD") ===
+      moment(watch("endDate")).format("YYYY-MM-DD")
+    ) {
+      if (
+        moment(watch("startTime"), "HH:mm") >= moment(watch("endTime"), "HH:mm")
+      ) {
+        setError("startTime", {
+          type: "manual",
+          message: "Please Enter Time Less Than Start Time",
+        });
+      } else {
+        setError("startTime", undefined);
+      }
+      if (
+        moment(watch("endTime"), "HH:mm") <= moment(watch("startTime"), "HH:mm")
+      ) {
+        setError("endTime", {
+          type: "manual",
+          message: "Please Enter Time greater Than Start Time",
+        });
+      } else {
+        setError("endTime", undefined);
+      }
+    } else {
+      setError("startTime", undefined);
+      setError("endTime", undefined);
     }
   };
 
@@ -62,20 +162,23 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
         <Modal.Header closeButton>
           <Modal.Title>
             <h5 className="modal-title" id="addEventModalLabel">
-              {eventData ? "Update" : "Add"} Course
+              {eventData?._id ? "Update" : "Add"} Class
             </h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form className="row" onSubmit={handleSubmit(addNewEvent)}>
+          <form
+            className="row"
+            onSubmit={handleSubmit(eventData?._id ? updateEvent : addNewEvent)}
+          >
             <div className="col-md-6 form-group mb-3">
               <label>Course Name:</label>
               <select
                 {...register("course", {
                   required: "Please Select Course",
+                  onChange: ({ target }) => getCourseClasses(target.value),
                 })}
                 className="form-select"
-                disabled={eventData}
               >
                 <option value="" selected>
                   --select--
@@ -94,12 +197,11 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
                 className="form-select"
                 id="className"
                 {...register("class", { required: "please select this field" })}
-                disabled={eventData}
               >
                 <option value="" selected>
                   --select--
                 </option>
-                {classes.map((e) => (
+                {classes?.map((e) => (
                   <option value={e._id}>{e.classCode}</option>
                 ))}
               </select>
@@ -114,8 +216,8 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
                 className="form-control"
                 {...register("startTime", {
                   required: "Please Enter Start Time",
+                  onChange: (e) => checkTime(),
                 })}
-                disabled={eventData}
               />
               {errors?.startTime && (
                 <span className="text-danger">{errors?.startTime.message}</span>
@@ -126,8 +228,10 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
               <input
                 type="time"
                 className="form-control"
-                {...register("endTime", { required: "Please Enter End Time" })}
-                disabled={eventData}
+                {...register("endTime", {
+                  required: "Please Enter End Time",
+                  onChange: (e) => checkTime(),
+                })}
               />
               {errors?.endTime && (
                 <span className="text-danger">{errors?.endTime.message}</span>
@@ -140,8 +244,8 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
                 className="form-control"
                 {...register("startDate", {
                   required: "please select Start Date",
+                  onChange: (e) => checkDate(e.target.value, "startDate"),
                 })}
-                disabled={eventData}
               />
               {errors?.startDate && (
                 <span className="text-danger">{errors?.startDate.message}</span>
@@ -152,44 +256,35 @@ export const AddEvent = ({ isOpen, setIsOpen, eventData }) => {
               <input
                 type="date"
                 className="form-control"
-                {...register("endDate", { required: "please select End Date" })}
-                disabled={eventData}
+                {...register("endDate", {
+                  required: "please select End Date",
+                  onChange: (e) => checkDate(e.target.value, "endDate"),
+                })}
               />
               {errors?.endDate && (
                 <span className="text-danger">{errors?.endDate.message}</span>
               )}
             </div>
-            <div className="col-md-12 form-group mb-3">
-              <label>Location:</label>
-              <select
-                className="form-select"
-                {...register("location", {
-                  required: "Please Select Location",
-                })}
-                disabled={eventData}
-              >
-                <option value="">--select--</option>
-                <option value="location1">Location 1</option>
-                <option value="location2">Location 2</option>
-                <option value="location3">Location 3</option>
-              </select>
-              {errors?.location && (
-                <span className="text-danger">{errors?.location.message}</span>
-              )}
-            </div>
             <Modal.Footer>
-              <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => handleClose()}
+              >
+                Close
+              </button>
+              <button type="submit" className="btn btn-primary">
+                {eventData?._id ? "Update" : "Add"} Class
+              </button>
+              {eventData?._id && (
                 <button
                   type="button"
-                  className="btn btn-secondary"
-                  onclick={handleClose}
+                  className="btn btn-danger"
+                  onClick={deleteEvent}
                 >
-                  Close
+                  Delete Class
                 </button>
-                <button type="submit" className="btn btn-primary">
-                  Add Course
-                </button>
-              </div>
+              )}
             </Modal.Footer>
           </form>
         </Modal.Body>

@@ -1,4 +1,6 @@
+const mongoose = require("mongoose");
 const classModel = require("../models/classModel");
+const EventModel = require("../models/eventModal");
 
 const addClass = async (data) => {
   try {
@@ -34,8 +36,8 @@ const addClass = async (data) => {
           classCode: 1,
           course: "$courseData.courseName",
           classStatus: 1,
-          startTiming: 1,
-          endTiming: 1,
+          startTime: 1,
+          endTime: 1,
           startDate: 1,
           endDate: 1,
           trainer: "$trainerDetails.trainerName",
@@ -45,15 +47,69 @@ const addClass = async (data) => {
         },
       },
     ]);
+    // newClass["class"] = newClass._id;
+    // await EventModel.create(newClass);
     return classDetails[0];
   } catch (err) {
     console.error(err);
   }
 };
 
-const getClasses = async (user) => {
+const getClasses = async (data, user) => {
   try {
-    const allClasses = await classModel.aggregate([
+    const aggregateQuery = [];
+
+    if (data?.course?.length) {
+      aggregateQuery.push({
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$course" }, data.course],
+          },
+        },
+      });
+    }
+
+    if (data?.trainer?.length) {
+      aggregateQuery.push({
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$trainer" }, data.trainer],
+          },
+        },
+      });
+    }
+
+    if (data?.class?.length) {
+      aggregateQuery.push({
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$_id" }, data.class],
+          },
+        },
+      });
+    }
+
+    if (data?.startDate?.length) {
+      aggregateQuery.push({
+        $match: {
+          startDate: {
+            $gte: new Date(data.startDate),
+          },
+        },
+      });
+    }
+
+    if (data?.endDate?.length) {
+      aggregateQuery.push({
+        $match: {
+          endDate: {
+            $lte: new Date(data.endDate),
+          },
+        },
+      });
+    }
+
+    aggregateQuery.push(
       {
         $lookup: {
           from: "courses",
@@ -76,15 +132,18 @@ const getClasses = async (user) => {
         $project: {
           _id: 1,
           classCode: 1,
+          title: "$classCode",
           course: "$courseData.courseName",
           endDate: 1,
           startDate: 1,
           trainer: "$trainerDetails.trainerName",
-          startTiming: 1,
-          endTiming: 1,
+          startTime: 1,
+          endTime: 1,
         },
-      },
-    ]);
+      }
+    );
+
+    const allClasses = await classModel.aggregate(aggregateQuery);
     return { classes: allClasses, user: user };
   } catch (err) {
     console.error(err);
@@ -108,8 +167,8 @@ const updateClass = async (data) => {
         classCode: data.classCode,
         course: data.course,
         classStatus: data.classStatus,
-        startTiming: data.startTiming,
-        endTiming: data.endTiming,
+        startTime: data.startTime,
+        endTime: data.endTime,
         startDate: data.startDate,
         endDate: data.endDate,
         lectureDay: data.lectureDay,
@@ -152,10 +211,11 @@ const updateClass = async (data) => {
         $project: {
           _id: 1,
           classCode: 1,
+          title: "$classCode",
           course: "$courseData.courseName",
           classStatus: 1,
-          startTiming: 1,
-          endTiming: 1,
+          startTime: 1,
+          endTime: 1,
           startDate: 1,
           endDate: 1,
           lectureDay: 1,
@@ -180,10 +240,28 @@ const deleteClass = async (data) => {
   }
 };
 
+const getCourseClasses = async (courseId) => {
+  try {
+    const getClasses = await classModel.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$course" }, courseId],
+          },
+        },
+      },
+    ]);
+    return getClasses;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   getClasses,
   addClass,
   getClass,
   updateClass,
   deleteClass,
+  getCourseClasses,
 };

@@ -10,6 +10,7 @@ export const NewClassModal = ({
   classData,
   viewClass,
   callback,
+  isCalendar = false,
 }) => {
   const [courses, setCourses] = useState([]);
   const [showLecDays, setShowLecDays] = useState(false);
@@ -20,6 +21,7 @@ export const NewClassModal = ({
     register,
     reset,
     setValue,
+    setError,
     getValues,
     watch,
     formState: { errors },
@@ -47,16 +49,17 @@ export const NewClassModal = ({
   const changeSelectHeader = () => {
     let newHeader = "";
     const selectElement = document.getElementById("selectedItems");
-    if (watch("lectureDay")) {
-      if (watch("lectureDay").length) {
-        watch("lectureDay").map((e) => {
-          newHeader += e + ",";
-        });
-        selectElement.innerText = newHeader;
-      } else {
-        selectElement.innerText = "Select Items";
+    if (selectElement)
+      if (watch("lectureDay")) {
+        if (watch("lectureDay").length) {
+          watch("lectureDay").map((e) => {
+            newHeader += e + ",";
+          });
+          selectElement.innerText = newHeader;
+        } else {
+          selectElement.innerText = "Select Items";
+        }
       }
-    }
   };
 
   const getClass = async () => {
@@ -109,6 +112,58 @@ export const NewClassModal = ({
     }
   };
 
+  const checkDate = () => {
+    if (new Date(watch("endDate")) < new Date(watch("startDate"))) {
+      setError("endDate", {
+        type: "manual",
+        message: "Please Enter Date Greater Than Start Date",
+      });
+    } else {
+      setError("endDate", undefined);
+    }
+
+    if (new Date(watch("startDate")) > new Date(watch("endDate"))) {
+      setError("startDate", {
+        type: "manual",
+        message: "Please Enter Date Less Than End Date",
+      });
+    } else {
+      setError("startDate", undefined);
+    }
+    checkTime();
+  };
+
+  const checkTime = () => {
+    if (
+      moment(watch("startDate")).format("YYYY-MM-DD") ===
+      moment(watch("endDate")).format("YYYY-MM-DD")
+    ) {
+      if (
+        moment(watch("startTime"), "HH:mm") >= moment(watch("endTime"), "HH:mm")
+      ) {
+        setError("startTime", {
+          type: "manual",
+          message: "Please Enter Time Less Than Start Time",
+        });
+      } else {
+        setError("startTime", undefined);
+      }
+      if (
+        moment(watch("endTime"), "HH:mm") <= moment(watch("startTime"), "HH:mm")
+      ) {
+        setError("endTime", {
+          type: "manual",
+          message: "Please Enter Time greater Than Start Time",
+        });
+      } else {
+        setError("endTime", undefined);
+      }
+    } else {
+      setError("startTime", undefined);
+      setError("endTime", undefined);
+    }
+  };
+
   return (
     <div>
       <Modal show={isOpen} onHide={handleclose} size="lg">
@@ -123,7 +178,7 @@ export const NewClassModal = ({
           <form onSubmit={handleSubmit(classData ? updateClass : addNewClass)}>
             <div className="row">
               <div className="col-md-6 mb-3">
-                <label className="form-label">Class Code</label>
+                <label className="form-label">Class Name</label>
                 <input
                   type="text"
                   className="form-control"
@@ -131,7 +186,7 @@ export const NewClassModal = ({
                   {...register("classCode", {
                     required: "Please Enter Class Code",
                   })}
-                  disabled={viewClass}
+                  disabled={viewClass ? viewClass : isCalendar}
                 />
                 {errors?.classCode && (
                   <span className="text-danger">
@@ -146,7 +201,7 @@ export const NewClassModal = ({
                   {...register("course", {
                     required: "This Field Is Required",
                   })}
-                  disabled={viewClass}
+                  disabled={viewClass ? viewClass : isCalendar}
                 >
                   <option value="">Select courses</option>
                   {courses.map((e) => (
@@ -159,6 +214,24 @@ export const NewClassModal = ({
               </div>
             </div>
             <div className="row">
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Trainer</label>
+                <select
+                  className="form-select"
+                  {...register("trainer", {
+                    required: "Please Select Trainer",
+                  })}
+                  disabled={viewClass ? viewClass : isCalendar}
+                >
+                  <option value="">Select Trainer</option>
+                  {trainers.map((e) => (
+                    <option value={e._id}>{e.trainerName}</option>
+                  ))}
+                </select>
+                {errors?.trainer && (
+                  <span className="text-danger">{errors?.trainer.message}</span>
+                )}
+              </div>
               <div className="col-md-6 mb-3">
                 <label className="col-form-label">
                   Status<span className="text-danger">*</span>
@@ -189,14 +262,15 @@ export const NewClassModal = ({
                 <input
                   type="time"
                   className="form-control"
-                  {...register("startTiming", {
+                  {...register("startTime", {
                     required: "Please Enter Start Timing",
+                    onChange: (e) => checkTime(),
                   })}
                   disabled={viewClass}
                 />
-                {errors?.startTiming && (
+                {errors?.startTime && (
                   <span className="text-danger">
-                    {errors?.startTiming.message}
+                    {errors?.startTime.message}
                   </span>
                 )}
               </div>
@@ -205,15 +279,14 @@ export const NewClassModal = ({
                 <input
                   type="time"
                   className="form-control"
-                  {...register("endTiming", {
+                  {...register("endTime", {
                     required: "Please Enter End Timing",
+                    onChange: (e) => checkTime(),
                   })}
                   disabled={viewClass}
                 />
-                {errors?.endTiming && (
-                  <span className="text-danger">
-                    {errors?.endTiming.message}
-                  </span>
+                {errors?.endTime && (
+                  <span className="text-danger">{errors?.endTime.message}</span>
                 )}
               </div>
               <div className="col-md-6 mb-3">
@@ -225,6 +298,7 @@ export const NewClassModal = ({
                     placeholder="dd M, yyyy"
                     {...register("startDate", {
                       required: "Please Enter Start Date",
+                      onChange: (e) => checkDate(),
                     })}
                     disabled={viewClass}
                   />
@@ -238,12 +312,8 @@ export const NewClassModal = ({
                   </span>
                 )}
               </div>
-            </div>
-            <div className="row">
               <div className="col-md-6 mb-3">
-                <label htmlFor="endDate" className="form-label">
-                  End Date
-                </label>
+                <label className="form-label">End Date</label>
                 <div className="input-group" id="datepicker3">
                   <input
                     type="date"
@@ -251,6 +321,7 @@ export const NewClassModal = ({
                     placeholder="dd M, yyyy"
                     {...register("endDate", {
                       required: "Please Enter End Date",
+                      onChange: (e) => checkDate(),
                     })}
                     disabled={viewClass}
                   />
@@ -262,7 +333,8 @@ export const NewClassModal = ({
                   <span className="text-danger">{errors?.endDate.message}</span>
                 )}
               </div>
-              {/* <style
+            </div>
+            {/* <style
                 dangerouslySetInnerHTML={{
                   __html:
                     `\n
@@ -316,114 +388,97 @@ input[type="checkbox"] {\n
 `,            
 }}
 /> */}
-
-              <div className="col-md-6 mb-3">
-                <div className="custom-select">
-                  <label>Lec In Week</label>
-                  <div
-                    className="select-box"
-                    onClick={() => !viewClass && setShowLecDays(!showLecDays)}
-                  >
-                    <span
-                      className="placeholder d-flex flex-wrap"
-                      id="selectedItems"
+            {!isCalendar && (
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <div className="custom-select">
+                    <label>Lec In Week</label>
+                    <div
+                      className="select-box"
+                      onClick={() => !viewClass && setShowLecDays(!showLecDays)}
                     >
-                      Select Items
-                    </span>
-                    <i className="fas fa-chevron-down" />
-                  </div>
-                  {showLecDays && (
-                    <div className="options" style={{ display: "block" }}>
-                      <div className="option">
-                        <input
-                          type="checkbox"
-                          value="Monday"
-                          {...register("lectureDay", {
-                            required: "Please Lecture Days",
-                          })}
-                        />
-                        <label>Monday</label>
-                      </div>
-                      <div className="option">
-                        <input
-                          type="checkbox"
-                          value="Tuesday"
-                          {...register("lectureDay", {
-                            required: "Please Lecture Days",
-                          })}
-                        />
-                        <label>Tuesday</label>
-                      </div>
-                      <div className="option">
-                        <input
-                          type="checkbox"
-                          value="Wednesday"
-                          {...register("lectureDay", {
-                            required: "Please Lecture Days",
-                          })}
-                        />
-                        <label>Wednesday</label>
-                      </div>
-                      <div className="option">
-                        <input
-                          type="checkbox"
-                          value="Thursday"
-                          {...register("lectureDay", {
-                            required: "Please Lecture Days",
-                          })}
-                        />
-                        <label>Thursday</label>
-                      </div>
-                      <div className="option">
-                        <input
-                          type="checkbox"
-                          value="Friday"
-                          {...register("lectureDay", {
-                            required: "Please Lecture Days",
-                          })}
-                        />
-                        <label>Friday</label>
-                      </div>
-                      <div className="option">
-                        <input
-                          type="checkbox"
-                          value="Saturday"
-                          {...register("lectureDay", {
-                            required: "Please Lecture Days",
-                          })}
-                        />
-                        <label>Saturday</label>
-                      </div>
+                      <span
+                        className="placeholder d-flex flex-wrap"
+                        id="selectedItems"
+                      >
+                        Select Items
+                      </span>
+                      <i className="fas fa-chevron-down" />
                     </div>
-                  )}
-                  {errors?.lectureDay && (
-                    <span className="text-danger">
-                      {errors?.lectureDay.message}
-                    </span>
-                  )}
+                    {showLecDays && (
+                      <div className="options" style={{ display: "block" }}>
+                        <div className="option">
+                          <input
+                            type="checkbox"
+                            value="Monday"
+                            {...register("lectureDay", {
+                              required: "Please Lecture Days",
+                            })}
+                          />
+                          <label>Monday</label>
+                        </div>
+                        <div className="option">
+                          <input
+                            type="checkbox"
+                            value="Tuesday"
+                            {...register("lectureDay", {
+                              required: "Please Lecture Days",
+                            })}
+                          />
+                          <label>Tuesday</label>
+                        </div>
+                        <div className="option">
+                          <input
+                            type="checkbox"
+                            value="Wednesday"
+                            {...register("lectureDay", {
+                              required: "Please Lecture Days",
+                            })}
+                          />
+                          <label>Wednesday</label>
+                        </div>
+                        <div className="option">
+                          <input
+                            type="checkbox"
+                            value="Thursday"
+                            {...register("lectureDay", {
+                              required: "Please Lecture Days",
+                            })}
+                          />
+                          <label>Thursday</label>
+                        </div>
+                        <div className="option">
+                          <input
+                            type="checkbox"
+                            value="Friday"
+                            {...register("lectureDay", {
+                              required: "Please Lecture Days",
+                            })}
+                          />
+                          <label>Friday</label>
+                        </div>
+                        <div className="option">
+                          <input
+                            type="checkbox"
+                            value="Saturday"
+                            {...register("lectureDay", {
+                              required: "Please Lecture Days",
+                            })}
+                          />
+                          <label>Saturday</label>
+                        </div>
+                      </div>
+                    )}
+                    {errors?.lectureDay && (
+                      <span className="text-danger">
+                        {errors?.lectureDay.message}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Trainer</label>
-                <select
-                  className="form-select"
-                  {...register("trainer", {
-                    required: "Please Select Trainer",
-                  })}
-                  disabled={viewClass}
-                >
-                  <option value="">Select Trainer</option>
-                  {trainers.map((e) => (
-                    <option value={e._id}>{e.trainerName}</option>
-                  ))}
-                </select>
-                {errors?.trainer && (
-                  <span className="text-danger">{errors?.trainer.message}</span>
-                )}
-              </div>
-            </div>
+            )}
+
             <div className="modal-footer">
               <button
                 type="button"

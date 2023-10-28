@@ -437,10 +437,6 @@ margin-left: 10px;
     border: 1px solid rgb(73, 73, 73);
 }
 
-.rbc-date-cell {
-    padding: 2px;
-    border: 1px solid;
-}
 
 .rbc-button-link {
     width: 103px;
@@ -451,8 +447,10 @@ margin-left: 10px;
 
 } */
 
+
+
 .rbc-month-row{
-    padding: 40px 0;
+    height: 10px 0;
     display: flex;
 }
 

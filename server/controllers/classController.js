@@ -9,7 +9,7 @@ const addClass = (req, res) => {
 
 const getClasses = (req, res) => {
   classManager
-    .getClasses(req.user)
+    .getClasses(req.query, req.user)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err));
 };
@@ -35,10 +35,18 @@ const deleteClass = (req, res) => {
     .catch((err) => response.status(500).send(err));
 };
 
+const getCourseClasses = (req, res) => {
+  classManager
+    .getCourseClasses(req.query.id)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err));
+};
+
 module.exports = {
   addClass,
   getClasses,
   getClass,
   updateClass,
   deleteClass,
+  getCourseClasses,
 };

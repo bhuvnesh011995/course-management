@@ -1,9 +1,11 @@
 // <!doctype html>
 // <html lang="en">
 
-import { CommonCalendar } from "../../common-components/Calendar";
+import { useEffect, useState } from "react";
+import { AllCalendar } from "../../common-components/Calendar";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
+import { AxiosInstance } from "../../common-components/axiosInstance";
 
 //     <style>
 //         .event-holiday {
@@ -69,6 +71,61 @@ import { CommonNavbar } from "../../common-components/Navbar";
 // </head>
 
 export const Scheduling = () => {
+  const filterObject = {
+    course: "",
+    trainer: "",
+    class: "",
+    startDate: "",
+    endDate: "",
+  };
+
+  const [courses, setCourses] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [trainers, setTrainers] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(filterObject);
+
+  useEffect(() => {
+    getCourses();
+    getClasses();
+    getTrainers();
+  }, []);
+
+  const getCourses = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/courses/getCourses");
+      setCourses(data.allCourses);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getClasses = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/class/getClasses");
+      setClasses(data.classes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getTrainers = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/trainer/getTrainers");
+      setTrainers(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const addFilter = (value, type) => {
+    selectedFilter[type] = value;
+    setSelectedFilter({ ...selectedFilter });
+  };
+
+  const clearFilters = () => {
+    setSelectedFilter(filterObject);
+  };
+
   return (
     <div id="layout-wrapper">
       <CommonNavbar />
@@ -95,7 +152,7 @@ export const Scheduling = () => {
               <div className="col-lg-3">
                 <div className="card">
                   <div className="card-body">
-                    <div className="d-grid">
+                    {/* <div className="d-grid">
                       <button
                         className="btn font-16 btn-primary"
                         data-bs-toggle="modal"
@@ -104,7 +161,7 @@ export const Scheduling = () => {
                         <i className="mdi mdi-plus-circle-outline" /> Add New
                       </button>
                     </div>
-                    <hr />
+                    <hr /> */}
                     <div className="mb-3">
                       <label htmlFor="startDate" className="form-label">
                         Start Date
@@ -112,8 +169,10 @@ export const Scheduling = () => {
                       <input
                         type="date"
                         className="form-control"
-                        id="startDate"
-                        name="startDate"
+                        onChange={({ target }) =>
+                          addFilter(target.value, "startDate")
+                        }
+                        value={selectedFilter.startDate}
                       />
                     </div>
                     <div className="mb-3">
@@ -123,23 +182,25 @@ export const Scheduling = () => {
                       <input
                         type="date"
                         className="form-control"
-                        id="endDate"
-                        name="endDate"
+                        onChange={({ target }) =>
+                          addFilter(target.value, "endDate")
+                        }
+                        value={selectedFilter.endDate}
                       />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="courseFilter" className="form-label">
-                        Course Filter
-                      </label>
+                      <label className="form-label">Course Filter</label>
                       <select
                         className="selectpicker form-select"
-                        id="courseFilter"
-                        name="courseFilter"
+                        onChange={({ target }) =>
+                          addFilter(target.value, "course")
+                        }
+                        value={selectedFilter.course}
                       >
-                        <option value>All Courses</option>
-                        <option value="Course 1">Course 1</option>
-                        <option value="Course 2">Course 2</option>
-                        <option value="Course 3">Course 3</option>
+                        <option value="">All Courses</option>
+                        {courses.map((e) => (
+                          <option value={e._id}>{e.courseName}</option>
+                        ))}
                       </select>
                     </div>
                     <div className="mb-3">
@@ -148,13 +209,15 @@ export const Scheduling = () => {
                       </label>
                       <select
                         className="selectpicker form-select"
-                        id="trainerFilter"
-                        name="trainerFilter"
+                        onChange={({ target }) =>
+                          addFilter(target.value, "trainer")
+                        }
+                        value={selectedFilter.trainer}
                       >
-                        <option value>All Trainers</option>
-                        <option value="Trainer 1">Trainer 1</option>
-                        <option value="Trainer 2">Trainer 2</option>
-                        <option value="Trainer 3">Trainer 3</option>
+                        <option value="">All Trainers</option>
+                        {trainers.map((e) => (
+                          <option value={e._id}>{e.trainerName}</option>
+                        ))}
                       </select>
                     </div>
                     <div className="mb-3">
@@ -163,14 +226,25 @@ export const Scheduling = () => {
                       </label>
                       <select
                         className="selectpicker form-select"
-                        id="classFilter"
-                        name="classFilter"
+                        onChange={({ target }) =>
+                          addFilter(target.value, "class")
+                        }
+                        value={selectedFilter.class}
                       >
-                        <option value>All Classes</option>
-                        <option value="Class A">Class A</option>
-                        <option value="Class B">Class B</option>
-                        <option value="Class C">Class C</option>
+                        <option value="">All Classes</option>
+                        {classes.map((e) => (
+                          <option value={e._id}>{e.classCode}</option>
+                        ))}
                       </select>
+                    </div>
+                    <div className="d-grid">
+                      <button
+                        className="btn font-16 btn-primary"
+                        onClick={clearFilters}
+                      >
+                        {" "}
+                        Clear Filter
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -178,263 +252,10 @@ export const Scheduling = () => {
               <div className="col-lg-9">
                 <div className="card">
                   <div className="card-body">
-                    <CommonCalendar />
-
-                    <div
-                      className="modal fade"
-                      id="addEventModal"
-                      tabIndex={-1}
-                      role="dialog"
-                      aria-labelledby="addEventModalLabel"
-                      aria-hidden="true"
-                    >
-                      <div className="modal-dialog modal-lg" role="document">
-                        <div className="modal-content">
-                          <div className="modal-header">
-                            <h5 className="modal-title" id="addEventModalLabel">
-                              Add Course
-                            </h5>
-                            <button
-                              type="button"
-                              className="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-hidden="true"
-                            />
-                          </div>
-                          <div className="modal-body">
-                            <form id="eventForm" className="row">
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="courseName">Course Name:</label>
-                                <select
-                                  className="form-select"
-                                  id="courseName"
-                                  required
-                                >
-                                  <option value="select">--select--</option>
-                                  <option value="course1">Course 1</option>
-                                  <option value="course2">Course 2</option>
-                                  <option value="course3">Course 3</option>
-                                </select>
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="className">Class Name:</label>
-                                <select
-                                  className="form-select"
-                                  id="className"
-                                  required
-                                >
-                                  <option value="select">--select--</option>
-                                  <option value="class1">Class 1</option>
-                                  <option value="class2">Class 2</option>
-                                  <option value="class3">Class 3</option>
-                                </select>
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="startTime">Start Time:</label>
-                                <input
-                                  type="time"
-                                  className="form-control"
-                                  id="startTime"
-                                  required
-                                />
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="endTime">End Time:</label>
-                                <input
-                                  type="time"
-                                  className="form-control"
-                                  id="endTime"
-                                  required
-                                />
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventStartDate">
-                                  Start Date:
-                                </label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  id="eventStartDate"
-                                  required
-                                />
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventEndDate">End Date:</label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  id="eventEndDate"
-                                  required
-                                />
-                              </div>
-                              <div className="col-md-12 form-group mb-3">
-                                <label htmlFor="location">Location:</label>
-                                <select
-                                  className="form-select"
-                                  id="location"
-                                  required
-                                >
-                                  <option value="select">--select--</option>
-                                  <option value="location1">Location 1</option>
-                                  <option value="location2">Location 2</option>
-                                  <option value="location3">Location 3</option>
-                                </select>
-                              </div>
-                            </form>
-                          </div>
-                          <div className="modal-footer">
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
-                              data-bs-dismiss="modal"
-                            >
-                              Close
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-primary"
-                              onclick="addEvent()"
-                            >
-                              Add Course
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Event Details Modal */}
-                    <div
-                      className="modal fade"
-                      id="eventDetailsModal"
-                      tabIndex={-1}
-                      role="dialog"
-                      aria-labelledby="eventDetailsModalLabel"
-                      aria-hidden="true"
-                    >
-                      <div className="modal-dialog modal-lg" role="document">
-                        <div className="modal-content">
-                          <div className="modal-header">
-                            <h5
-                              className="modal-title"
-                              id="eventDetailsModalLabel"
-                            >
-                              Course Details
-                            </h5>
-                            <button
-                              type="button"
-                              className="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-hidden="true"
-                            />
-                          </div>
-                          <div className="modal-body">
-                            <form id="eventDetailsForm" className="row">
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsTitle">
-                                  Course Name:
-                                </label>
-                                <select
-                                  className="form-select"
-                                  id="eventDetailsTitle"
-                                  disabled
-                                >
-                                  <option value="select">--select--</option>
-                                  <option value="course1">Course 1</option>
-                                  <option value="course2">Course 2</option>
-                                  <option value="course3">Course 3</option>
-                                </select>
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsType">
-                                  Class Name:
-                                </label>
-                                <select
-                                  className="form-select"
-                                  id="eventDetailsType"
-                                  disabled
-                                >
-                                  <option value="select">--select--</option>
-                                  <option value="class1">Class 1</option>
-                                  <option value="class2">Class 2</option>
-                                  <option value="class3">Class 3</option>
-                                </select>
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsStartTime">
-                                  Start Time:
-                                </label>
-                                <input
-                                  type="time"
-                                  className="form-control"
-                                  id="eventDetailsStartTime"
-                                  disabled
-                                />
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsEndTime">
-                                  End Time:
-                                </label>
-                                <input
-                                  type="time"
-                                  className="form-control"
-                                  id="eventDetailsEndTime"
-                                  disabled
-                                />
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsStartDate">
-                                  Start Date:
-                                </label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  id="eventDetailsStartDate"
-                                  disabled
-                                />
-                              </div>
-                              <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsEndDate">
-                                  End Date:
-                                </label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  id="eventDetailsEndDate"
-                                  disabled
-                                />
-                              </div>
-                              <div className="col-md-12 form-group mb-3">
-                                <label htmlFor="eventDetailsLocation">
-                                  Location:
-                                </label>
-                                <select
-                                  className="form-select"
-                                  id="eventDetailsLocation"
-                                  disabled
-                                >
-                                  <option value="select">--select--</option>
-                                  <option value="location1">Location 1</option>
-                                  <option value="location2">Location 2</option>
-                                  <option value="location3">Location 3</option>
-                                </select>
-                              </div>
-                            </form>
-                          </div>
-                          <div className="modal-footer">
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
-                              data-bs-dismiss="modal"
-                            >
-                              Close
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <AllCalendar filters={selectedFilter} />
                   </div>
                 </div>
               </div>
-              <div style={{ clear: "both" }} />
             </div>
           </div>
         </div>{" "}

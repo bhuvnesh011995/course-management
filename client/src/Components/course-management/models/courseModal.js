@@ -78,7 +78,7 @@ export const CourseModal = ({
   return (
     <div>
       <Modal show={isOpen} onHide={handleClose}>
-        <Modal.Header>
+        <Modal.Header closeButton>
           <Modal.Title>
             <h5 className="modal-title" id="addCourseModalLabel">
               {viewCourse ? "View" : courseData ? "Update" : "Add New"} Course

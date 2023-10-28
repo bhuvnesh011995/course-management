@@ -88,12 +88,9 @@ export const CommonDataTable = ({
   if (data[0]?.trainerDOB) {
     data.map((e, index) => (e.trainerDOB = convertMongooseDate(e.trainerDOB)));
   }
-  if (data[0]?.startTiming && data[0]?.endTiming) {
+  if (data[0]?.startTime && data[0]?.endTime) {
     data.map((e, index) => {
-      e.classTiming = convertToMongooseStartEndTiming(
-        e.startTiming,
-        e.endTiming
-      );
+      e.classTiming = convertToMongooseStartEndTiming(e.startTime, e.endTime);
     });
   }
 

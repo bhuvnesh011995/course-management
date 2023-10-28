@@ -9,4 +9,6 @@ routes.post("/updateClass", classController.updateClass);
 
 routes.delete("/deleteClass", classController.deleteClass);
 
+routes.get("/getCourseClasses", classController.getCourseClasses);
+
 module.exports = routes;
