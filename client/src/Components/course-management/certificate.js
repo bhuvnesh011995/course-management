@@ -5,59 +5,11 @@ import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
 
-// <head>
-
-//     <meta charset="utf-8" />
-//     <title>Certificate Management | Tonga</title>
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <meta content="#" name="description" />
-//     <meta content="Themesbrand" name="author" />
-//     <!-- App favicon -->
-//     <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-//     <!-- DataTables -->
-//     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-//     <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
-//         type="text/css" />
-
-//     <!-- Responsive datatable examples -->
-//     <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
-//         type="text/css" />
-
-//     <!-- Bootstrap Css -->
-//     <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-//     <link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
-
-//     <link href="assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css">
-
-//     <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-//     <!-- Icons Css -->
-//     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-//     <!-- App Css-->
-//     <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-//     <!-- Custom Css-->
-//     <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
-
-//     <style>
-//         .select2-container {
-//             width: 100% !important;
-//         }
-//     </style>
-// </head>
-
-// <body data-sidebar="dark">
-
-// <!-- Start layout-wrapper -->
 export const Certificate = () => {
   return (
     <div id="layout-wrapper">
       <CommonNavbar />
-      {/* ========== Left Sidebar Start ========== */}
       <MenuBar />
-      {/* Left Sidebar End */}
-      {/* ============================================================== */}
-      {/* Start right Content here */}
-      {/* ============================================================== */}
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">

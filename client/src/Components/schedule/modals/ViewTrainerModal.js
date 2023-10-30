@@ -3,19 +3,25 @@ import { Modal } from "react-bootstrap";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { viewTrainerHeaders } from "../../../Constants/table.constants";
-import { CommonCalendar } from "../../../common-components/Calendar";
+import {
+  AllCalendar,
+  CommonCalendar,
+} from "../../../common-components/Calendar";
+import { NewClassModal } from "../../course-management/models/classModal";
 
 export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
   const [viewTab, setViewTab] = useState("trainerDetails");
   const [courses, setCourses] = useState([]);
+  const [eventModal, setEventModal] = useState(false);
+  const [eventData, setEventData] = useState(null);
 
   const handleClose = () => {
     setIsOpen(false);
   };
 
-  const getCourseDetails = async () => {
+  const getCourseDetails = async (type) => {
     try {
-      setViewTab("courseDetails");
+      setViewTab(type);
       const { data } = await AxiosInstance.get("/trainer/trainerClassDetails", {
         params: trainerData,
       });
@@ -23,6 +29,21 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const updateClass = (data) => {
+    const filteredCourse = courses.filter((e) => e._id == data._id);
+    if (filteredCourse.length) {
+      courses.map((e, index) => {
+        if (e._id == data._id) courses[index] = data;
+      });
+      setCourses([...courses]);
+    }
+  };
+
+  const showSelectedClass = (data) => {
+    setEventData(data);
+    setEventModal(true);
   };
 
   return (
@@ -42,13 +63,16 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
                   Trainer's Details
                 </a>
               </li>
-              <li class="nav-item" onClick={() => getCourseDetails()}>
+              <li
+                class="nav-item"
+                onClick={() => getCourseDetails("courseDetails")}
+              >
                 <a class="nav-link" href="#step-22">
                   <span class="num">2</span>
                   Course Details
                 </a>
               </li>
-              <li class="nav-item" onClick={() => setViewTab("schedule")}>
+              <li class="nav-item" onClick={() => getCourseDetails("schedule")}>
                 <a class="nav-link" href="#step-33">
                   <span class="num">3</span>
                   Scedule
@@ -192,7 +216,14 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
                   </div>
                 </div>
               )}
-              {viewTab == "schedule" && <div></div>}
+              {viewTab == "schedule" && (
+                <div>
+                  <AllCalendar
+                    events={courses}
+                    callback={(e) => showSelectedClass(e)}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div class="progress">
@@ -211,6 +242,21 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
           </div>
         </Modal.Body>
       </Modal>
+      {eventModal && (
+        // <AddEvent
+        //   isOpen={eventModal}
+        //   setIsOpen={setEventModal}
+        //   eventData={eventData}
+        //   callback={(e, type) => updateEvent(e, type)}
+        // />
+        <NewClassModal
+          setIsOpen={setEventModal}
+          isOpen={eventModal}
+          classData={eventData}
+          isCalendar
+          callback={(e) => updateClass(e)}
+        />
+      )}
     </div>
   );
 };

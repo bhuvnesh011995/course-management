@@ -6,6 +6,8 @@ import { AllCalendar } from "../../common-components/Calendar";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { NewClassModal } from "../course-management/models/classModal";
+import { AddNewHoliday } from "./modals/HolidayModal";
 
 //     <style>
 //         .event-holiday {
@@ -83,6 +85,14 @@ export const Scheduling = () => {
   const [classes, setClasses] = useState([]);
   const [trainers, setTrainers] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(filterObject);
+  const [classEventModal, setClassEventModal] = useState(false);
+  const [eventData, setEventData] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [holidayEventModal, setHolidayEventModal] = useState(false);
+
+  useEffect(() => {
+    getEvents();
+  }, [selectedFilter]);
 
   useEffect(() => {
     getCourses();
@@ -124,6 +134,37 @@ export const Scheduling = () => {
 
   const clearFilters = () => {
     setSelectedFilter(filterObject);
+  };
+
+  const getEvents = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/class/getClasses", {
+        params: selectedFilter,
+      });
+      setEvents(data.classes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const showSelectedEvent = (data, type) => {
+    if (type == "holiday") {
+      setHolidayEventModal(true);
+    } else {
+      setClassEventModal(true);
+    }
+    setEventData(data);
+  };
+  const updateEvent = async (data, type) => {
+    const filterEvents = events.filter((e) => e._id == data._id);
+    if (filterEvents?.length) {
+      events.map((e, index) => {
+        if (e._id == data._id) events[index] = data;
+      });
+      setEvents([...events]);
+    } else {
+      setEvents([...events, data]);
+    }
   };
 
   return (
@@ -252,7 +293,10 @@ export const Scheduling = () => {
               <div className="col-lg-9">
                 <div className="card">
                   <div className="card-body">
-                    <AllCalendar filters={selectedFilter} />
+                    <AllCalendar
+                      events={events}
+                      callback={(e, type) => showSelectedEvent(e, type)}
+                    />
                   </div>
                 </div>
               </div>
@@ -272,6 +316,28 @@ export const Scheduling = () => {
           </div>
         </div>
       </footer>
+      {classEventModal && (
+        // <AddEvent
+        //   isOpen={classEventModal}
+        //   setIsOpen={setClassEventModal}
+        //   eventData={eventData}
+        //   callback={(e, type) => updateEvent(e, type)}
+        // />
+        <NewClassModal
+          setIsOpen={setClassEventModal}
+          isOpen={classEventModal}
+          classData={eventData}
+          isCalendar
+          callback={(e) => updateEvent(e)}
+        />
+      )}
+      {holidayEventModal && (
+        <AddNewHoliday
+          isOpen={holidayEventModal}
+          setIsOpen={setHolidayEventModal}
+          eventData={eventData}
+        />
+      )}
     </div>
   );
 };

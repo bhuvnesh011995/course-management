@@ -134,7 +134,7 @@ export const trainerHeaders = {
 export const viewTrainerHeaders = {
   course: "Course",
   classCode: "Class",
-  created_at: "Date",
+  startDate: "Date",
   classTiming: "Time",
   lectureDay: "Lec In Week",
 };

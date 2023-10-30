@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { CommonQuillTextEditor } from "../commonQuillTextEditor";
 import { useForm } from "react-hook-form";
 import { CommonJoditEditor } from "../CommonJoditEditor";
 import { AxiosInstance } from "../axiosInstance";
@@ -10,20 +9,24 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
     `
       <p >Congratulations! Your account has been successfully registered. Please confirm your email address by clicking the link below.</p>\n
       <p>We may need to send you critical information about our service, and it is important that we have an accurate email address.</p>\n    \n
-      <button class="verification-btn">Confirm email address</button><br>\n
-    <p><strong>Tonga</strong> <br>\n
-    Support Team\n
-    </p>\n\n \n
+      <a href="http://localhost:3000/" class="verification-btn">Confirm email address</a><br>\n
+      <span>login with your email and password given below.</span>
+      <span> : ${userData.password}</span>
+      <p><strong>Tonga</strong> <br>\n
+      Support Team\n
+      </p>\n\n \n
     `
   );
   const {
     register,
-    setValue,
-    getValues,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    reset(userData);
+  }, []);
 
   const sendEmail = async (mailData) => {
     try {
@@ -69,6 +72,7 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
                   type="text"
                   className="form-control"
                   placeholder="Subject : Verify Email Address"
+                  value={"Verify Your Account"}
                   {...register("subject")}
                 />
               </div>

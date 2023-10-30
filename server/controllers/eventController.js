@@ -9,7 +9,7 @@ const AddEvent = (req, res) => {
 
 const getEvents = (req, res) => {
   eventManager
-    .getEvents(req.user)
+    .getEvents(req.query, req.user)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err));
 };

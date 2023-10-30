@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const EventSchema = new mongoose.Schema(
+const CertificateSchema = new mongoose.Schema(
   {
     title: { type: String },
     type: { type: String },
@@ -10,6 +10,6 @@ const EventSchema = new mongoose.Schema(
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-const EventModel = mongoose.model("events", EventSchema);
+const CertificateModel = mongoose.model("certificates", CertificateSchema);
 
-module.exports = EventModel;
+module.exports = CertificateModel;

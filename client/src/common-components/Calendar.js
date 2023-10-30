@@ -1,70 +1,61 @@
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CustomToolbar } from "./calendarCustomComponent";
-import { AddEvent } from "./models/Event";
-import { AxiosInstance } from "./axiosInstance";
 import { convertUtcDateAndTime } from "./useCommonUsableFunctions";
 import { NewClassModal } from "../Components/course-management/models/classModal";
 
-export const AllCalendar = ({ filters }) => {
+export const AllCalendar = ({ events, callback, type }) => {
   const localizer = useMemo(() => momentLocalizer(moment), []);
-  const [eventModal, setEventModal] = useState(false);
-  const [eventData, setEventData] = useState(null);
-  const [events, setEvents] = useState([]);
-  useEffect(() => {
-    getEvents();
-  }, [filters]);
 
   const viewSelectedEvent = (event) => {
     event["startDate"] = moment(event.startDate).format("YYYY-MM-DD");
     event["endDate"] = moment(event.endDate).format("YYYY-MM-DD");
     event["startTime"] = moment(event.startTime, "hh:mm A").format("HH:mm");
     event["endTime"] = moment(event.endTime, "hh:mm A").format("HH:mm");
-    setEventData(event);
-    setEventModal(true);
-  };
-
-  // const handleCreateSlot = ({ start, end }) => {
-  //   const data = {
-  //     startDate: moment(start).format("YYYY-MM-DD"),
-  //     endDate: moment(end).format("YYYY-MM-DD"),
-  //     startTime: moment(start).startOf().format("HH:mm"),
-  //     endTime: moment(end).endOf().format("HH:mm"),
-  //   };
-  //   setEventData(data);
-  //   setEventModal(true);
-  // };
-
-  const getEvents = async () => {
-    try {
-      const { data } = await AxiosInstance.get("/class/getClasses", {
-        params: filters,
-      });
-      setEvents(data.classes);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const updateEvent = async (data, type) => {
-    // if (type == "delete") {
-    //   const filteredEvents = events.filter((e) => e._id != data._id);
-    //   setEvents([...filteredEvents]);
-    //   return;
-    // }
-    const filterEvents = events.filter((e) => e._id == data._id);
-    if (filterEvents?.length) {
-      events.map((e, index) => {
-        if (e._id == data._id) events[index] = data;
-      });
-      setEvents([...events]);
+    if (event?.type) {
+      callback(event, "holiday");
     } else {
-      setEvents([...events, data]);
+      callback(event);
     }
   };
 
+  const handleCreateSlot = ({ start, end }) => {
+    const data = {
+      startDate: moment(start).format("YYYY-MM-DD"),
+      endDate: moment(end).format("YYYY-MM-DD"),
+    };
+    if (type != "holiday") {
+      data["startTime"] = moment(start).startOf().format("HH:mm");
+      data["endTime"] = moment(end).endOf().format("HH:mm");
+    }
+    if (type == "holiday") {
+      callback(data);
+    }
+  };
+
+  const eventStyleGetter = (event, start, end, isSelected) => {
+    const style = {
+      backgroundColor: "#32de84",
+      color: "white",
+      fontSize: "15px",
+      fontWeight: "bolder",
+      border: "none",
+    };
+    if (event.type == "leave") {
+      style.backgroundColor = "red";
+    } else if (event.type == "holiday") {
+      style.backgroundColor = "green";
+    } else if (event.type == "weekend") {
+      style.backgroundColor = "blue";
+    }
+
+    return {
+      className: "",
+      style,
+    };
+  };
   return (
     <div style={{ overflow: "auto", overflowY: "hidden", height: "500px" }}>
       <Calendar
@@ -73,32 +64,26 @@ export const AllCalendar = ({ filters }) => {
         events={events}
         style={{ overflow: "hidden" }}
         startAccessor={(val) =>
-          convertUtcDateAndTime(val.startDate, val.startTime)
+          convertUtcDateAndTime(
+            val.startDate,
+            val?.startTime ? val.startTime : "00:00"
+          )
         }
-        endAccessor={(val) => convertUtcDateAndTime(val.endDate, val.endTime)}
+        endAccessor={(val) =>
+          convertUtcDateAndTime(
+            val.endDate,
+            val?.endTime ? val.endTime : "00:00"
+          )
+        }
         views={["month", "week", "day"]}
         components={{
           toolbar: CustomToolbar,
         }}
         timeslots={2}
         onSelectEvent={viewSelectedEvent}
-        // onSelectSlot={handleCreateSlot}
+        eventPropGetter={eventStyleGetter}
+        onSelectSlot={handleCreateSlot}
       />
-      {eventModal && (
-        // <AddEvent
-        //   isOpen={eventModal}
-        //   setIsOpen={setEventModal}
-        //   eventData={eventData}
-        //   callback={(e, type) => updateEvent(e, type)}
-        // />
-        <NewClassModal
-          setIsOpen={setEventModal}
-          isOpen={eventModal}
-          classData={eventData}
-          isCalendar
-          callback={(e) => updateEvent(e)}
-        />
-      )}
     </div>
   );
 };

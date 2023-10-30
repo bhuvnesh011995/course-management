@@ -1,71 +1,39 @@
-const classModel = require("../models/classModel");
 const EventModel = require("../models/eventModal");
 
 const AddEvent = async (data) => {
   try {
     const newEvent = await EventModel.create(data);
     const addedEvent = await newEvent.save();
-    const newAddedEvent = await EventModel.aggregate([
-      {
-        $match: {
-          $expr: {
-            $eq: ["$_id", addedEvent._id],
-          },
-        },
-      },
-      {
-        $lookup: {
-          from: "classes",
-          localField: "class",
-          foreignField: "_id",
-          as: "classDetails",
-        },
-      },
-      { $unwind: "$classDetails" },
-      {
-        $project: {
-          course: 1,
-          class: 1,
-          title: "$classDetails.classCode",
-          startTime: 1,
-          endTime: 1,
-          startDate: 1,
-          endDate: 1,
-        },
-      },
-    ]);
 
-    return newAddedEvent[0];
+    return addedEvent;
   } catch (err) {
     console.error(err);
   }
 };
 
-const getEvents = async () => {
+const getEvents = async (data) => {
   try {
-    const events = await EventModel.aggregate([
-      {
-        $lookup: {
-          from: "classes",
-          localField: "class",
-          foreignField: "_id",
-          as: "classDetails",
+    const query = [];
+    if (data.sortBy == "all" || data.sortBy == "" || !data.sortBy) {
+      query.push({
+        $match: {},
+      });
+    } else if (
+      data.sortBy == "holiday" ||
+      data.sortBy == "leave" ||
+      data.sortBy == "weekend"
+    ) {
+      query.push({
+        $match: {
+          $expr: {
+            $eq: [data.sortBy, "$type"],
+          },
         },
-      },
-      { $unwind: "$classDetails" },
-      {
-        $project: {
-          course: 1,
-          class: 1,
-          title: "$classDetails.classCode",
-          startTime: 1,
-          endTime: 1,
-          startDate: 1,
-          endDate: 1,
-        },
-      },
-    ]);
-
+      });
+    }
+    console.log(query);
+    const events = await EventModel.aggregate(query);
+    console.log(events);
     return events;
   } catch (err) {
     console.error(err);
@@ -95,44 +63,13 @@ const updateEvent = async (data) => {
     const updateEvent = await EventModel.updateOne(
       { _id: data._id },
       {
-        course: data.course,
-        class: data.class,
-        startTime: data.startTime,
-        endTime: data.endTime,
+        holidayTitle: data.class,
+        type: data?.holidayType,
         startDate: data.startDate,
         endDate: data.endDate,
       }
     );
-    const updatedEvent = await EventModel.aggregate([
-      {
-        $match: {
-          $expr: {
-            $eq: [{ $toString: "$_id" }, data._id],
-          },
-        },
-      },
-      {
-        $lookup: {
-          from: "classes",
-          localField: "class",
-          foreignField: "_id",
-          as: "classDetails",
-        },
-      },
-      { $unwind: "$classDetails" },
-      {
-        $project: {
-          course: 1,
-          class: 1,
-          title: "$classDetails.classCode",
-          startTime: 1,
-          endTime: 1,
-          startDate: 1,
-          endDate: 1,
-        },
-      },
-    ]);
-    return updatedEvent;
+    return { message: "event updated successfully !" };
   } catch (err) {
     console.error(err);
   }

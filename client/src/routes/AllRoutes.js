@@ -9,7 +9,7 @@ import { Class } from "../Components/course-management/class";
 import { Course } from "../Components/course-management/course";
 import { CustomerManagement } from "../Components/customers/customer-maagment";
 import { D } from "../Components/d";
-import { DateRange } from "../Components/date-range";
+import { DateRange } from "../Components/schedule/date-range";
 import { Employee } from "../Components/employee";
 import { F } from "../Components/f";
 import { FeedBack } from "../Components/course-management/feedback";
@@ -48,7 +48,7 @@ export const AllRoutes = () => {
 
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/");
-  });
+  }, []);
   return (
     <div>
       <Routes>

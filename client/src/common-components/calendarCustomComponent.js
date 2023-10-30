@@ -1,4 +1,14 @@
-export const CustomToolbar = ({ label, onNavigate, views, view, onView }) => {
+import moment from "moment";
+import { DatePicker } from "react-date-picker";
+
+export const CustomToolbar = ({
+  label,
+  onNavigate,
+  views,
+  view,
+  onView,
+  callback,
+}) => {
   return (
     <div className="d-flex justify-content-sm-between">
       <span className="d-flex">
