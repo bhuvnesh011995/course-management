@@ -90,7 +90,7 @@ export const Lead = () => {
     }
   };
 
-  const getAllLeads = async () => {
+  const getAllLeads = async (filterLead) => {
     try {
       const { data } = await AxiosInstance.get("/leads/getAllLeads");
       data.leads.map((lead) => {
@@ -118,6 +118,15 @@ export const Lead = () => {
     }
   };
 
+  const filterLeads = (leadId) => {
+    if (leadId.length) {
+      const filterLeads = leads.filter((e) => e._id == leadId);
+      setFilteredLeads([...filterLeads]);
+    } else {
+      setFilteredLeads([...leads]);
+    }
+  };
+
   const updateLeadList = (type, leadData) => {
     switch (type) {
       case "all":
@@ -138,7 +147,6 @@ export const Lead = () => {
           const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
-            console.log(filteredLeads);
             const newLeads = filteredLeads.filter((e) => !e.courseAssigned);
             setFilteredLeads([...newLeads]);
           } else {
@@ -222,23 +230,18 @@ export const Lead = () => {
                     <div className="card-title">Lead List </div>
                     <div className="row w-75">
                       <div className="col-xl-4">
-                        <select className="form-select">
-                          <option value={0} selected>
-                            Sort By
-                          </option>
-                          <option value={1}>New Lead</option>
-                          <option value={2}>Payment-Pending</option>
-                          <option value={3}>Course-Assign</option>
-                        </select>
-                      </div>
-                      <div className="col-xl-4">
-                        <select className="form-select">
-                          <option value={0} selected>
+                        <select
+                          className="form-select"
+                          onChange={({ target }) => filterLeads(target.value)}
+                        >
+                          <option value="" selected>
                             Select Company
                           </option>
-                          <option value="CA">Company-1</option>
-                          <option value="NV">Company-2</option>
-                          <option value="OR">Company-3</option>
+                          {leads.map((lead) => (
+                            <option value={lead._id}>
+                              {lead?.companyName}
+                            </option>
+                          ))}
                         </select>
                       </div>
                       <div className="col-xl-4">

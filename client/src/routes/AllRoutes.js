@@ -10,7 +10,7 @@ import { Course } from "../Components/course-management/course";
 import { CustomerManagement } from "../Components/customers/customer-maagment";
 import { D } from "../Components/d";
 import { DateRange } from "../Components/schedule/date-range";
-import { Employee } from "../Components/employee";
+import { Employee } from "../Components/hrms/employee";
 import { F } from "../Components/f";
 import { FeedBack } from "../Components/course-management/feedback";
 import { Invoice } from "../Components/invoice";

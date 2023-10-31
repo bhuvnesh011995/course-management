@@ -163,9 +163,9 @@ export const MenuBar = () => {
                 <li>
                   <Link to="/certificate">Certificate Generation</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/task">Task </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to="/attendance">Attendance</Link>
                 </li>

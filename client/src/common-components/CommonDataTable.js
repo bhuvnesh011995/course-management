@@ -37,6 +37,31 @@ export const CommonDataTable = ({
   const dataKeys = Object.keys(tableHeaders);
   const tableColumns = [];
   dataKeys.map((e, index) => {
+    if (e == "status") {
+      tableColumns.push({
+        accessorKey: e,
+        Cell: ({ row }) => (
+          <div className="row ">
+            <div className="d-flex flex-wrap">
+              <p
+                className={`badge badge-soft-${
+                  row.original?.status == "Active" ? "success" : "danger"
+                }`}
+                style={{
+                  fontSize: "10px",
+                  margin: "5px",
+                }}
+              >
+                {row.original?.status}
+              </p>
+            </div>
+          </div>
+        ),
+        header: tableHeaders[e],
+      });
+      return;
+    }
+
     if (e == "coreTradeRegNo") {
       tableColumns.push({
         accessorKey: e,
@@ -87,6 +112,12 @@ export const CommonDataTable = ({
   }
   if (data[0]?.trainerDOB) {
     data.map((e, index) => (e.trainerDOB = convertMongooseDate(e.trainerDOB)));
+  }
+  if (data[0]?.employeeJoinDate) {
+    data.map(
+      (e, index) =>
+        (e.employeeJoinDate = convertMongooseDate(e.employeeJoinDate))
+    );
   }
   if (data[0]?.startTime && data[0]?.endTime) {
     data.map((e, index) => {

@@ -2,10 +2,15 @@ const mongoose = require("mongoose");
 
 const CertificateSchema = new mongoose.Schema(
   {
-    title: { type: String },
-    type: { type: String },
-    startDate: { type: Date },
-    endDate: { type: Date },
+    certificateFilePath: { type: String },
+    certificateNo: { type: String },
+    completionDate: { type: String },
+    courseDuration: { type: String },
+    courseId: { type: String },
+    grade: { type: String },
+    participantName: { type: String },
+    certificateAttchment: { type: String },
+    remarks: { type: String },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

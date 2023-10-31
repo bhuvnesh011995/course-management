@@ -114,68 +114,71 @@ const addNewLead = async ({ query, files, user }) => {
 
 const getAllLeads = async (user) => {
   try {
-    const allLeads = await LeadModel
-      // .find({});
-      .aggregate([
-        {
-          $lookup: {
-            from: "tradetypes",
-            let: { typeId: "$tradeType" },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $eq: ["$$typeId", { $toString: "$_id" }],
-                  },
+    const leadQuery = [];
+
+    leadQuery.push(
+      {
+        $lookup: {
+          from: "tradetypes",
+          let: { typeId: "$tradeType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$typeId", { $toString: "$_id" }],
                 },
               },
-            ],
-            as: "tradeType",
-          },
+            },
+          ],
+          as: "tradeType",
         },
-        { $unwind: "$tradeType" },
-        {
-          $project: {
-            _id: 1,
-            fileLocations: 1,
-            bcaAcknowledgementNotice: 1,
-            MOMEploymentDetails: 1,
-            nricWorkDocument: 1,
-            paQuotaCopy: 1,
-            passportCopy: 1,
-            workersIc: 1,
-            workersPassport: 1,
-            skillEvaluationCertificate: 1,
-            companyAddress: 1,
-            alternateMobile: 1,
-            companyName: 1,
-            companyUEN: 1,
-            contactPerson: 1,
-            contactPersonEmail: 1,
-            contactPersonMobile: 1,
-            myeNo: 1,
-            officeFax: 1,
-            officeTelephone: 1,
-            paReferenceNo: 1,
-            participantIcNo: 1,
-            participantMobile: 1,
-            participantNRIC: 1,
-            postalCode: 1,
-            registrationType: 1,
-            tradeLevel: 1,
-            tradeType: "$tradeType.tradeType",
-            participantName: 1,
-            DOB: 1,
-            nationality: 1,
-            educationalLevel: 1,
-            coreTradeRegNo: 1,
-            getPayment: 1,
-            confirmed: 1,
-            course: 1,
-            courseAssigned: 1,
-          },
+      },
+      { $unwind: "$tradeType" },
+      {
+        $project: {
+          _id: 1,
+          fileLocations: 1,
+          bcaAcknowledgementNotice: 1,
+          MOMEploymentDetails: 1,
+          nricWorkDocument: 1,
+          paQuotaCopy: 1,
+          passportCopy: 1,
+          workersIc: 1,
+          workersPassport: 1,
+          skillEvaluationCertificate: 1,
+          companyAddress: 1,
+          alternateMobile: 1,
+          companyName: 1,
+          companyUEN: 1,
+          contactPerson: 1,
+          contactPersonEmail: 1,
+          contactPersonMobile: 1,
+          myeNo: 1,
+          officeFax: 1,
+          officeTelephone: 1,
+          paReferenceNo: 1,
+          participantIcNo: 1,
+          participantMobile: 1,
+          participantNRIC: 1,
+          postalCode: 1,
+          registrationType: 1,
+          tradeLevel: 1,
+          tradeType: "$tradeType.tradeType",
+          participantName: 1,
+          DOB: 1,
+          nationality: 1,
+          educationalLevel: 1,
+          coreTradeRegNo: 1,
+          getPayment: 1,
+          confirmed: 1,
+          course: 1,
+          courseAssigned: 1,
         },
-      ]);
+      }
+    );
+    const allLeads = await LeadModel
+      // .find({});
+      .aggregate(leadQuery);
     return { leads: allLeads, user };
   } catch (err) {
     console.error(err);

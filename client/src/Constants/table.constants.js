@@ -148,3 +148,25 @@ export const dayColors = [
   "badge badge-soft-info",
   "badge badge-soft-dark",
 ];
+
+export const certificateHeaders = {
+  certificateNo: "Certificate Number",
+  participantName: "Participant's Name",
+  courseName: "Course Name",
+  courseDuration: "Duration",
+  grade: "Grade",
+  completionDate: "Date Of Completion",
+  certificateAttchment: "Attachment",
+  remarks: "Remarks",
+};
+
+export const employeeHeaders = {
+  _id: "Employee ID",
+  employeeName: "Name",
+  employeePosition: "Position",
+  employeeEmail: "Email",
+  employeePhone: "Phone",
+  employeeDepartment: "Department",
+  employeeJoinDate: "Join Date",
+  status: "Status",
+};

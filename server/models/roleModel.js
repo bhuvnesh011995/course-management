@@ -1,49 +1,30 @@
 const mongoose = require("mongoose");
+const roleCommon = require("./common/roleCommon");
 
 const roleSchema = new mongoose.Schema(
   {
     roleName: { type: String },
     totalUsers: { type: Number },
-    contentManagement: {
-      create: { type: Boolean, default: false },
-      read: { type: Boolean, default: false },
-      write: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
-    },
+    contentManagement: roleCommon,
 
-    finManagement: {
-      create: { type: Boolean, default: false },
-      read: { type: Boolean, default: false },
-      write: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
-    },
+    finManagement: roleCommon,
 
-    payRoll: {
-      create: { type: Boolean, default: false },
-      read: { type: Boolean, default: false },
-      write: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
-    },
+    payRoll: roleCommon,
 
-    reporting: {
-      create: { type: Boolean, default: false },
-      read: { type: Boolean, default: false },
-      write: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
-    },
+    reporting: roleCommon,
 
-    userManagement: {
-      create: { type: Boolean, default: false },
-      read: { type: Boolean, default: false },
-      write: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
-    },
-    role: {
-      create: { type: Boolean, default: false },
-      read: { type: Boolean, default: false },
-      write: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
-    },
+    userManagement: roleCommon,
+    role: roleCommon,
+    customer: roleCommon,
+    lead: roleCommon,
+    trainer: roleCommon,
+    holiday: roleCommon,
+    registrationType: roleCommon,
+    tradeLevel: roleCommon,
+    tradeType: roleCommon,
+    courses: roleCommon,
+    class: roleCommon,
+    certificateGeneration: roleCommon,
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

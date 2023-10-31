@@ -1,64 +1,70 @@
 import { useEffect, useState } from "react";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
-import { AddNewTask } from "./models/taskModal";
+import { NewEmployeeManagementModal } from "./modals/newEmployeeManagementModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { CommonDataTable } from "../../common-components/CommonDataTable";
+import { employeeHeaders } from "../../Constants/table.constants";
+import { DeleteModel } from "../../common-components/models/DeleteModal";
 
-export const Task = () => {
-  const [taskModel, setTaskModel] = useState(false);
-  const [taskData, setTaskData] = useState({});
-  const [tasks, setTasks] = useState([]);
-  const [deleteTask, setDeleteTask] = useState(false);
-  const [viewTask, setViewTask] = useState(false);
-  const [taskIndex, setTaskIndex] = useState(null);
+export const Employee = () => {
+  const [employeeModal, setEmployeeModal] = useState(false);
+  const [viewEmployee, setViewEmployee] = useState(false);
+  const [deleteEmployee, setDeleteEmployee] = useState(false);
+
+  const [employeeData, setEmployeeData] = useState({});
+  const [employeeIndex, setEmployeeIndex] = useState(null);
+
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    getTasks();
+    getEmployees();
   }, []);
 
-  const showTaskModal = (e, type, index) => {
-    setTaskData(e);
-    setTaskIndex(index);
+  const showEmployee = (e, type, index) => {
+    setEmployeeData(e);
+    setEmployeeIndex(index);
+
     if (type == "view") {
-      setViewTask(true);
-      setDeleteTask(false);
+      setViewEmployee(true);
+      setDeleteEmployee(false);
     } else if (type == "delete") {
-      setViewTask(false);
-      setDeleteTask(true);
+      setDeleteEmployee(true);
+      setViewEmployee(false);
     } else {
-      setViewTask(false);
-      setDeleteTask(false);
+      setViewEmployee(false);
+      setDeleteEmployee(false);
     }
-    if (type != "delete") setTaskModel(true);
+    if (type != "delete") setEmployeeModal(true);
   };
 
-  const getTasks = async () => {
+  const updateEmployee = (employee) => {
+    const filteredEmployee = employees.filter((e) => e._id == employee._id);
+
+    if (filteredEmployee?.length) {
+      employees[employeeIndex] = employee;
+      setEmployees([...employees]);
+    } else {
+      setEmployees([...employees, employee]);
+    }
+  };
+
+  const getEmployees = async () => {
     try {
-      const { data } = await AxiosInstance.get("/task/getTasks");
-      setTasks(data);
+      const { data } = await AxiosInstance.get("/employee/getEmployees");
+      setEmployees(data);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const updateTasks = (task) => {
-    const filteredTasks = tasks.filter((e) => e._id == task._id);
-    if (filteredTasks.length) {
-      tasks[taskIndex] = task;
-      setTasks([...tasks]);
-    } else {
-      setTasks([...tasks, task]);
-    }
-  };
-
-  const deleteSelectedTask = async (task) => {
+  const deleteSelectedEmployee = async (employee) => {
     try {
-      const { data } = await AxiosInstance.delete(
-        "/certificates/deleteCertificate",
-        { params: task }
-      );
-      const filteredTasks = tasks.filter((e) => e._id != task._id);
-      setTasks([...filteredTasks]);
+      const { data } = await AxiosInstance.delete("/employee/deleteEmployee", {
+        params: employee,
+      });
+      const filteredEmployees = employees.filter((e) => e._id != employee._id);
+      setEmployees([...filteredEmployees]);
     } catch (err) {
       console.error(err);
     }
@@ -74,14 +80,14 @@ export const Task = () => {
             <div className="row">
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Task Management</h4>
+                  <h4 className="mb-sm-0 font-size-18">Employee Management</h4>
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
                         <a href="index.html">Dashboard</a>
                       </li>
                       <li className="breadcrumb-item active">
-                        Task Management
+                        Employee Management
                       </li>
                     </ol>
                   </div>
@@ -117,10 +123,10 @@ export const Task = () => {
                       </div>
                       <button
                         className="btn btn-primary me-2"
-                        onClick={() => showTaskModal()}
+                        onClick={(e) => showEmployee()}
                       >
                         <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Task
+                        Add New Employee
                       </button>
                     </div>
                   </div>
@@ -131,56 +137,62 @@ export const Task = () => {
               <div className="col-md-12">
                 <div className="card ">
                   <div className="card-header justify-content-between">
-                    <div className="card-title">Task List </div>
+                    <div className="card-title">Employee List </div>
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">
-                      <table
+                      <CommonDataTable
+                        tableHeaders={employeeHeaders}
+                        data={employees}
+                        actionButtons
+                        editButton
+                        deleteButton
+                        viewButton
+                        callback={(e, type, index) =>
+                          showEmployee(e, type, index)
+                        }
+                      />
+                      {/* <table
                         id="datatable-buttons"
                         className="table table-bordered dt-responsive nowrap w-100"
                       >
                         <thead>
                           <tr>
-                            <th>ID</th>
-                            <th>Task Name</th>
-                            <th>Assigned To</th>
-                            <th>Assigned By</th>
-                            <th>Course</th>
-                            <th>Class</th>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Department</th>
+                            <th>Course Assigned</th>
+                            <th>Join Date</th>
                             <th>Status</th>
-                            <th>Priority</th>
-                            <th>Created At</th>
-                            <th>Due Date</th>
-                            <th>Action</th>
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <td>1</td>
-                            <td>Task 1</td>
-                            <td>Customer A</td>
-                            <td>Trainer X</td>
-                            <td>Course X</td>
-                            <td>Class 101</td>
+                            <td>Jane Smith</td>
+                            <td>Instructor</td>
+                            <td>jsmith@example.com</td>
+                            <td>(555) 123-4567</td>
+                            <td>Computer Science</td>
+                            <td>Introduction to Programming</td>
+                            <td>2023-01-15</td>
                             <td>
-                              <span className="badge badge-soft-danger">
-                                Pending
+                              {" "}
+                              <span className="badge badge-soft-success">
+                                Active
                               </span>
                             </td>
-                            <td>
-                              <span className="badge badge-soft-danger">
-                                High
-                              </span>
-                            </td>
-                            <td>2023-09-5</td>
-                            <td>2023-09-10</td>
                             <td>
                               <a
                                 aria-label="anchor"
                                 href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-warning rounded-pill"
                                 data-bs-toggle="modal"
-                                data-bs-target="#viewTaskModal"
+                                data-bs-target="#viewEmployeeModal"
                               >
                                 <i className="mdi mdi-eye" />
                               </a>
@@ -189,7 +201,7 @@ export const Task = () => {
                                 href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-primary rounded-pill"
                                 data-bs-toggle="modal"
-                                data-bs-target="#editTaskModal"
+                                data-bs-target="#editEmployeeModal"
                               >
                                 <i className="mdi mdi-pencil" />
                               </a>
@@ -203,7 +215,7 @@ export const Task = () => {
                             </td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> */}
                     </div>
                   </div>
                 </div>
@@ -211,6 +223,7 @@ export const Task = () => {
             </div>
           </div>{" "}
         </div>
+
         <footer className="footer">
           <div className="container-fluid">
             <div className="row">
@@ -227,13 +240,23 @@ export const Task = () => {
           </div>
         </footer>
       </div>
-      {taskModel && (
-        <AddNewTask
-          isOpen={taskModel}
-          setIsOpen={setTaskModel}
-          taskData={taskData}
-          viewTask={viewTask}
-          callback={(e) => updateTasks(e)}
+      {employeeModal && (
+        <NewEmployeeManagementModal
+          isOpen={employeeModal}
+          setIsOpen={setEmployeeModal}
+          employeeData={employeeData}
+          viewEmployee={viewEmployee}
+          callback={(e) => updateEmployee(e)}
+        />
+      )}
+      {deleteEmployee && (
+        <DeleteModel
+          setIsOpen={setDeleteEmployee}
+          isOpen={deleteEmployee}
+          message={`Do you really want to delete ${employeeData.employeeName}.`}
+          callback={(e) => deleteSelectedEmployee(e)}
+          deleteHeader={"Employee"}
+          data={employeeData}
         />
       )}
     </div>

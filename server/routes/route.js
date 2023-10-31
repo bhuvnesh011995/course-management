@@ -11,5 +11,7 @@ routes.use("/courses", require("./courseRoute"));
 routes.use("/class", require("./classRoute"));
 routes.use("/trainer", require("./trainerRoute"));
 routes.use("/events", require("./eventRoute"));
+routes.use("/certificates", require("./certificateRoute"));
+routes.use("/employee", require("./employeeRoute"));
 
 module.exports = routes;

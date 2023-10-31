@@ -334,60 +334,6 @@ export const NewClassModal = ({
                 )}
               </div>
             </div>
-            {/* <style
-                dangerouslySetInnerHTML={{
-                  __html:
-                    `\n
-.custom-select {\n
-position: relative;\n
-width: 100%;\n                                            
-cursor: pointer;\n                                        
-}\n\n                                        
-.option label {\n                                            
-  margin-bottom: 0;\n                                        
-}\n\n                                        
-.select-box {\n                                            
-  display: flex;\n                                            
-  justify-content: space-between;\n                                            
-  align-items: center;\n                                            
-  padding: 10px;\n                                            
-  border: 1px solid #ccc;\n                                            
-  border-radius: 4px;\n                                        
-}\n\n                                        
-.custom-select-view 
-.select-box {\n                                            
-  background-color: #eff2f7;\n                                            
-  opacity: 1;\n                                        
-}\n\n                                        
-.placeholder {\n                                            
-  background-color: transparent;\n                                            
-  opacity: 1;\n                                            
-  flex-grow: 1;\n                                            
-  margin-right: 10px;\n                                            
-  cursor: pointer;\n                                        
-}\n\n                                        
-.options {\n                                            
-  position: absolute;\n                                            
-  top: 100%;\n                                            
-  left: 0;\n                                            
-  width: 100%;\n                                            
-  background-color: #fff;\n                                            
-  border: 1px solid #ccc;\n                                            
-  border-top: none;\n                                            
-  border-radius: 0 0 4px 4px;\n                                            
-  display: none;\n                                        
-}\n\n                                        
-.option {\n                                            
-  display: flex;\n                                            
-  align-items: center;\n                                            
-  padding: 5px;\n                                        
-}\n\n                                        
-input[type="checkbox"] {\n                                            
-  margin-right: 5px;\n                                        
-}\n                                    
-`,            
-}}
-/> */}
             {!isCalendar && (
               <div className="row">
                 <div className="col-md-6 mb-3">

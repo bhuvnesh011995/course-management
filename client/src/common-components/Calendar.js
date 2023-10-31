@@ -15,9 +15,9 @@ export const AllCalendar = ({ events, callback, type }) => {
     event["startTime"] = moment(event.startTime, "hh:mm A").format("HH:mm");
     event["endTime"] = moment(event.endTime, "hh:mm A").format("HH:mm");
     if (event?.type) {
-      callback(event, "holiday");
+      if (callback) callback(event, "holiday");
     } else {
-      callback(event);
+      if (callback) callback(event);
     }
   };
 
@@ -31,7 +31,7 @@ export const AllCalendar = ({ events, callback, type }) => {
       data["endTime"] = moment(end).endOf().format("HH:mm");
     }
     if (type == "holiday") {
-      callback(data);
+      if (callback) callback(data);
     }
   };
 

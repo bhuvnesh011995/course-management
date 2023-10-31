@@ -12,8 +12,6 @@ import { NewClassModal } from "../../course-management/models/classModal";
 export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
   const [viewTab, setViewTab] = useState("trainerDetails");
   const [courses, setCourses] = useState([]);
-  const [eventModal, setEventModal] = useState(false);
-  const [eventData, setEventData] = useState(null);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -29,21 +27,6 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const updateClass = (data) => {
-    const filteredCourse = courses.filter((e) => e._id == data._id);
-    if (filteredCourse.length) {
-      courses.map((e, index) => {
-        if (e._id == data._id) courses[index] = data;
-      });
-      setCourses([...courses]);
-    }
-  };
-
-  const showSelectedClass = (data) => {
-    setEventData(data);
-    setEventModal(true);
   };
 
   return (
@@ -218,10 +201,7 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
               )}
               {viewTab == "schedule" && (
                 <div>
-                  <AllCalendar
-                    events={courses}
-                    callback={(e) => showSelectedClass(e)}
-                  />
+                  <AllCalendar events={courses} />
                 </div>
               )}
             </div>
@@ -242,21 +222,6 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
           </div>
         </Modal.Body>
       </Modal>
-      {eventModal && (
-        // <AddEvent
-        //   isOpen={eventModal}
-        //   setIsOpen={setEventModal}
-        //   eventData={eventData}
-        //   callback={(e, type) => updateEvent(e, type)}
-        // />
-        <NewClassModal
-          setIsOpen={setEventModal}
-          isOpen={eventModal}
-          classData={eventData}
-          isCalendar
-          callback={(e) => updateClass(e)}
-        />
-      )}
     </div>
   );
 };
