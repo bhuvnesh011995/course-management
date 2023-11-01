@@ -13,6 +13,7 @@ export const CourseModal = ({
   callback,
 }) => {
   const [tradeLevels, setTradeLevels] = useState([]);
+  const [registrationCode, setRegistrationCode] = useState("");
   const {
     handleSubmit,
     register,
@@ -60,6 +61,7 @@ export const CourseModal = ({
     const registrationLevels = registrationTypes.filter((e) => e._id == value);
     if (registrationLevels.length)
       setTradeLevels(registrationLevels[0].tradeLevels);
+    setRegistrationCode(registrationLevels[0].registrationCode);
   };
 
   const updateCourse = async (updatedCourse) => {
@@ -147,7 +149,7 @@ export const CourseModal = ({
                 {errors?.registrationType && errors?.registrationType.message}
               </span>
             </div>
-            {watch("registrationType") != "CRW" && (
+            {registrationCode != "CRW" && (
               <div className="col-md-6 mb-3">
                 <label className="form-label">Trade Level:</label>
                 <select

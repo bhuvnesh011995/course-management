@@ -206,6 +206,7 @@ export const CommonDataTable = ({
         initialState={{
           showGlobalFilter: true,
         }}
+        enableRowNumbers
         enableGlobalFilterModes
         renderTopToolbarCustomActions={({}) => (
           <div>

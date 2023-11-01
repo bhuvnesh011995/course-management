@@ -170,3 +170,18 @@ export const employeeHeaders = {
   employeeJoinDate: "Join Date",
   status: "Status",
 };
+
+export const attendanceHeaders = {
+  coreTradeRegNo: "CoreTrade Registration No",
+  participantName: "Name of Participant",
+  course: "Course",
+  classCode: "Class",
+  startDate: "Date",
+};
+
+export const generateAttendanceHeaders = {
+  participantName: "Name Of Trainee",
+  participantNric: "NRIC/ FIN No.",
+  coreTradeRegNo:
+    "Registration No. / Submission No. (CoreTrade / Multi-Skilling / Direct R1)",
+};

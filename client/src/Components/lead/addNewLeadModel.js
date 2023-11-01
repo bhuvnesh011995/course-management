@@ -38,6 +38,7 @@ export const AddNewLeadModel = ({
     getValues,
     setValue,
     watch,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -310,7 +311,9 @@ export const AddNewLeadModel = ({
       const { data } = await AxiosInstance.get("/leads/getSelectedLead", {
         params: leadData,
       });
-      const Subject = `APPROVAL OF ONLINE REGISTRATION ${leadData.tradeType} ${data.lead.tradeLevel}`;
+      const Subject = `APPROVAL OF ONLINE REGISTRATION ${leadData.tradeType} ${
+        data?.lead?.tradeLevel && data?.lead?.tradeLevel
+      }`;
       leadData["paymentPdfBase64"] = CreatePaymentPdfBase64(
         data.lead,
         Subject,
@@ -356,8 +359,13 @@ export const AddNewLeadModel = ({
 
   const confirmCourseAssigned = async () => {
     try {
-      leadData["course"] = watch("course");
-      leadData["courseAssigned"] = true;
+      if (watch("course")?.length) {
+        leadData["course"] = watch("course");
+        leadData["courseAssigned"] = true;
+      } else {
+        setError("course", { message: "Please Select Course" });
+        return;
+      }
       const { data } = await AxiosInstance.post(
         "/leads/assignCourse",
         leadData
@@ -849,14 +857,15 @@ export const AddNewLeadModel = ({
                     <option value="" selected>
                       Select Course
                     </option>
-                    {allCourses.map((e) => (
-                      <option
-                        value={e._id}
-                        selected={e._id == watch("course") ? e._id : ""}
-                      >
-                        {e.courseName}
-                      </option>
-                    ))}
+                    {allCourses?.length &&
+                      allCourses.map((e) => (
+                        <option
+                          value={e._id}
+                          selected={e._id == watch("course") ? e._id : ""}
+                        >
+                          {e.courseName}
+                        </option>
+                      ))}
                   </select>
                   <span className="text-danger">
                     {errors?.course && errors?.course.message}

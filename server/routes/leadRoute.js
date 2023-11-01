@@ -28,4 +28,6 @@ routes.get("/accountHistory", leadController.accountHistory);
 
 routes.get("/getSelectedLead", userAuth, leadController.getSelectedLead);
 
+routes.get("/getFilteredLeads", leadController.getFilteredLeads);
+
 module.exports = routes;

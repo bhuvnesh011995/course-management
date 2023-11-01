@@ -4,26 +4,8 @@ const addNewCourse = async (data) => {
   try {
     const newCourse = await courseModel.create(data);
     const course = await newCourse.save();
-
     const getNewCourse = await courseModel.aggregate([
       { $match: { _id: course._id } },
-      {
-        $lookup: {
-          from: "tradelevels",
-          let: { levelId: "$tradeLevel" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$$levelId", "$_id"],
-                },
-              },
-            },
-          ],
-          as: "tradeLevelDetails",
-        },
-      },
-      { $unwind: "$tradeLevelDetails" },
       {
         $lookup: {
           from: "tradetypes",
@@ -58,16 +40,71 @@ const addNewCourse = async (data) => {
         },
       },
       { $unwind: "$registrationTypeDetails" },
+
+      {
+        $addFields: {
+          shouldLookup: {
+            $gt: [{ $size: "$registrationTypeDetails.tradeLevelIds" }, 0],
+          },
+        },
+      },
+
+      {
+        $facet: {
+          hasTradeLevels: [
+            {
+              $match: {
+                $expr: { $eq: ["$shouldLookup", true] },
+              },
+            },
+            {
+              $lookup: {
+                from: "tradelevels",
+                let: { levelId: "$tradeLevel" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ["$$levelId", { $toString: "$_id" }],
+                      },
+                    },
+                  },
+                ],
+                as: "tradeLevelDetails",
+              },
+            },
+            { $unwind: "$tradeLevelDetails" },
+          ],
+          noTradeLevels: [
+            {
+              $match: {
+                $expr: { $eq: ["$shouldLookup", false] },
+              },
+            },
+          ],
+        },
+      },
+
+      {
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasTradeLevels", "$noTradeLevels"],
+          },
+        },
+      },
+      { $unwind: "$bothCombined" },
+
       {
         $project: {
-          _id: 1,
-          courseName: 1,
-          price: 1,
-          duration: 1,
-          tradeLevel: "$tradeLevelDetails.tradeLevel",
-          tradeType: "$tradeTypeDetails.tradeType",
-          registrationType: "$registrationTypeDetails.registrationName",
-          created_at: 1,
+          _id: "$bothCombined._id",
+          courseName: "$bothCombined.courseName",
+          price: "$bothCombined.price",
+          duration: "$bothCombined.duration",
+          tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
+          tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          registrationType:
+            "$bothCombined.registrationTypeDetails.registrationName",
+          created_at: "$bothCombined.created_at",
         },
       },
     ]);
@@ -82,23 +119,6 @@ const getCourses = async () => {
     const getAllCourses = await courseModel.aggregate([
       {
         $lookup: {
-          from: "tradelevels",
-          let: { levelId: "$tradeLevel" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$$levelId", "$_id"],
-                },
-              },
-            },
-          ],
-          as: "tradeLevelDetails",
-        },
-      },
-      { $unwind: "$tradeLevelDetails" },
-      {
-        $lookup: {
           from: "tradetypes",
           let: { typeId: "$tradeType" },
           pipeline: [
@@ -131,16 +151,72 @@ const getCourses = async () => {
         },
       },
       { $unwind: "$registrationTypeDetails" },
+
+      {
+        $addFields: {
+          shouldLookup: {
+            $gt: [{ $size: "$registrationTypeDetails.tradeLevelIds" }, 0],
+          },
+        },
+      },
+
+      {
+        $facet: {
+          hasTradeLevels: [
+            {
+              $match: {
+                $expr: { $eq: ["$shouldLookup", true] },
+              },
+            },
+            {
+              $lookup: {
+                from: "tradelevels",
+                let: { levelId: "$tradeLevel" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ["$$levelId", { $toString: "$_id" }],
+                      },
+                    },
+                  },
+                ],
+                as: "tradeLevelDetails",
+              },
+            },
+            { $unwind: "$tradeLevelDetails" },
+          ],
+          noTradeLevels: [
+            {
+              $match: {
+                $expr: { $eq: ["$shouldLookup", false] },
+              },
+            },
+          ],
+        },
+      },
+
+      {
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasTradeLevels", "$noTradeLevels"],
+          },
+        },
+      },
+
+      { $unwind: "$bothCombined" },
+
       {
         $project: {
-          _id: 1,
-          courseName: 1,
-          price: 1,
-          duration: 1,
-          tradeLevel: "$tradeLevelDetails.tradeLevel",
-          tradeType: "$tradeTypeDetails.tradeType",
-          registrationType: "$registrationTypeDetails.registrationName",
-          created_at: 1,
+          _id: "$bothCombined._id",
+          courseName: "$bothCombined.courseName",
+          price: "$bothCombined.price",
+          duration: "$bothCombined.duration",
+          tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
+          tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          registrationType:
+            "$bothCombined.registrationTypeDetails.registrationName",
+          created_at: "$bothCombined.created_at",
         },
       },
     ]);
@@ -182,23 +258,6 @@ const updateCourse = async (data) => {
       },
       {
         $lookup: {
-          from: "tradelevels",
-          let: { levelId: "$tradeLevel" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$$levelId", "$_id"],
-                },
-              },
-            },
-          ],
-          as: "tradeLevelDetails",
-        },
-      },
-      { $unwind: "$tradeLevelDetails" },
-      {
-        $lookup: {
           from: "tradetypes",
           let: { typeId: "$tradeType" },
           pipeline: [
@@ -231,16 +290,73 @@ const updateCourse = async (data) => {
         },
       },
       { $unwind: "$registrationTypeDetails" },
+
+      {
+        $addFields: {
+          shouldLookup: {
+            $gt: [{ $size: "$registrationTypeDetails.tradeLevelIds" }, 0],
+          },
+        },
+      },
+
+      {
+        $facet: {
+          hasTradeLevels: [
+            {
+              $match: {
+                $expr: { $eq: ["$shouldLookup", true] },
+              },
+            },
+            {
+              $lookup: {
+                from: "tradelevels",
+                let: { levelId: "$tradeLevel" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ["$$levelId", { $toString: "$_id" }],
+                      },
+                    },
+                  },
+                ],
+                as: "tradeLevelDetails",
+              },
+            },
+          ],
+          noTradeLevels: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$shouldLookup", false],
+                },
+              },
+            },
+          ],
+        },
+      },
+
+      {
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasTradeLevels", "$noTradeLevels"],
+          },
+        },
+      },
+
+      { $unwind: "$bothCombined" },
+
       {
         $project: {
-          _id: 1,
-          courseName: 1,
-          price: 1,
-          duration: 1,
-          tradeLevel: "$tradeLevelDetails.tradeLevel",
-          tradeType: "$tradeTypeDetails.tradeType",
-          registrationType: "$registrationTypeDetails.registrationName",
-          created_at: 1,
+          _id: "$bothCombined._id",
+          courseName: "$bothCombined.courseName",
+          price: "$bothCombined.price",
+          duration: "$bothCombined.duration",
+          tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
+          tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          registrationType:
+            "$bothCombined.registrationTypeDetails.registrationName",
+          created_at: "$bothCombined.created_at",
         },
       },
     ]);

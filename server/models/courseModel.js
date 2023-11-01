@@ -8,7 +8,7 @@ const courseSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "registrationType",
     },
-    tradeLevel: { type: mongoose.Schema.Types.ObjectId, ref: "tradeLevel" },
+    tradeLevel: { type: String },
     price: { type: Number },
     duration: { type: String },
   },

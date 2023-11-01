@@ -1,6 +1,7 @@
 const LeadModel = require("../models/newLeadModel");
 const { sendMail } = require("../managers/mailManager");
 const fs = require("fs");
+const classModel = require("../models/classModel");
 
 const addNewLead = async ({ query, files, user }) => {
   try {
@@ -286,6 +287,7 @@ const updateLead = async ({ query, files }) => {
         participantName: query.participantName,
         nationality: query.nationality,
         coreTradeRegNo: query.coreTradeRegNo,
+        course: query.course,
       }
     );
     const updatedLead = await LeadModel.aggregate([
@@ -557,36 +559,142 @@ const getSelectedLead = async ({ query, user }) => {
         },
       },
       { $unwind: "$courseDetails" },
+
       {
-        $lookup: {
-          from: "tradelevels",
-          let: { levelId: "$tradeLevel" },
-          pipeline: [
+        $addFields: {
+          showLookup: {
+            $gt: [{ $strLenCP: "$tradeLevel" }, 0],
+          },
+        },
+      },
+
+      {
+        $facet: {
+          hasTradeLevel: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$levelId"],
+                  $eq: ["$showLookup", true],
                 },
               },
             },
+            {
+              $lookup: {
+                from: "tradelevels",
+                let: { levelId: "$tradeLevel" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: "$_id" }, "$$levelId"],
+                      },
+                    },
+                  },
+                ],
+                as: "tradeLevelDetails",
+              },
+            },
+            { $unwind: "$tradeLevelDetails" },
           ],
-          as: "tradeLevelDetails",
+          noTradeLevel: [
+            {
+              $match: {
+                $expr: { $eq: ["$showLookup", false] },
+              },
+            },
+          ],
         },
       },
-      { $unwind: "$tradeLevelDetails" },
+      {
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasTradeLevel", "$noTradeLevel"],
+          },
+        },
+      },
+      {
+        $unwind: "$bothCombined",
+      },
       {
         $project: {
-          _id: 1,
-          participantName: 1,
-          contactPersonEmail: 1,
-          tradeLevel: "$tradeLevelDetails.tradeLevel",
-          courseName: "$courseDetails.courseName",
-          price: "$courseDetails.price",
-          participantNRIC: 1,
+          _id: "$bothCombined._id",
+          participantName: "$bothCombined.participantName",
+          contactPersonEmail: "$bothCombined.contactPersonEmail",
+          tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
+          courseName: "$bothCombined.courseDetails.courseName",
+          price: "$bothCombined.courseDetails.price",
+          participantNRIC: "$bothCombined.participantNRIC",
         },
       },
     ]);
     return { lead: leadData[0], user: user[0] };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const getFilteredLeads = async (data) => {
+  try {
+    const leadQuery = [];
+
+    if (data.class.length) {
+      leadQuery.push({
+        $match: {
+          $expr: { $eq: [data.class, { $toString: "$_id" }] },
+        },
+      });
+    }
+
+    leadQuery.push(
+      {
+        $lookup: {
+          from: "leads",
+          let: { courseId: "$course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$course", { $toString: "$$courseId" }],
+                },
+              },
+            },
+          ],
+          as: "leadDetails",
+        },
+      },
+      { $unwind: "$leadDetails" },
+
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "courseData",
+        },
+      },
+      { $unwind: "$courseData" }
+    );
+
+    if (data.participantName.length) {
+      leadQuery.push({
+        $match: {
+          "leadDetails.participantName": { $regex: data.participantName },
+        },
+      });
+    }
+    leadQuery.push({
+      $project: {
+        _id: 1,
+        classCode: 1,
+        course: "$courseData.courseName",
+        startDate: 1,
+        participantName: "$leadDetails.participantName",
+        participantNric: "$leadDetails.participantNRIC",
+        coreTradeRegNo: "$leadDetails.coreTradeRegNo",
+      },
+    });
+    const getClassParticipants = await classModel.aggregate(leadQuery);
+    return getClassParticipants;
   } catch (err) {
     console.error(err);
   }
@@ -603,4 +711,5 @@ module.exports = {
   assignCourse,
   accountHistory,
   getSelectedLead,
+  getFilteredLeads,
 };

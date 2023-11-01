@@ -237,14 +237,14 @@ export const ViewCustomerModal = ({
                             </label>
                             <p className="m-0">{leadData?.tradeType}</p>
                           </div>
-                          {registrationData[0].registrationCode == "CRW" && (
+                          {registrationData[0].registrationCode != "CRW" && (
                             <div className="col-md-3">
                               <label className="mb-0">
                                 <b>Trade Level</b>
                               </label>
                               <p className="m-0">
                                 {
-                                  registrationData[0].tradeLevels.filter(
+                                  registrationData[0]?.tradeLevels.filter(
                                     (e) => e._id == leadData?.tradeLevel
                                   )[0].tradeLevel
                                 }
@@ -428,60 +428,6 @@ export const ViewCustomerModal = ({
                               tableHeaders={accountHistoryHeaders}
                               data={accountHistory}
                             />
-                            {/* <table
-                              id="datatable-buttons"
-                              className="table display table-bordered dt-responsive nowrap w-100"
-                            >
-                              <thead>
-                                <tr>
-                                  <th>Course</th>
-                                  <th>class</th>
-                                  <th>Amount</th>
-                                  <th>Purchase Date</th>
-                                  <th>Payment Status</th>
-                                  <th>Invoices</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>Course 1</td>
-                                  <td>Class A</td>
-                                  <td>$ 99</td>
-                                  <td>22 may 2022</td>
-                                  <td>
-                                    <span className="badge badge-soft-danger">
-                                      Unpaid
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <a
-                                      aria-label="anchor"
-                                      href="javascript:void(0);"
-                                      className="btn btn-icon btn-sm btn-warning rounded-pill"
-                                    >
-                                      <i className="mdi mdi-eye" />
-                                    </a>
-                                    <a
-                                      aria-label="anchor"
-                                      href="javascript:void(0);"
-                                      className="btn btn-icon btn-sm btn-success rounded-pill"
-                                    >
-                                      <i className="mdi mdi-download" />
-                                    </a>
-                                  </td>
-                                  <td>
-                                    <a
-                                      aria-label="anchor"
-                                      href="javascript:void(0);"
-                                      className="btn btn-icon btn-sm btn-danger rounded-pill"
-                                    >
-                                      <i className="mdi mdi-trash-can" />
-                                    </a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table> */}
                           </div>
                         </div>
                       </div>
