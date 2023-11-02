@@ -105,7 +105,7 @@ export const CustomerManagement = () => {
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-100">
-                        <div className="col-xl-4">
+                        {/* <div className="col-xl-4">
                           <select className="form-select">
                             <option value={0} selected>
                               Sort By
@@ -114,18 +114,20 @@ export const CustomerManagement = () => {
                             <option value="NV">Oldest</option>
                             <option value="OR">Recent</option>
                           </select>
-                        </div>
+                        </div> */}
                         <div className="col-xl-4">
                           <select className="form-select">
-                            <option value={0} selected>
+                            <option value="" selected>
                               Select Company
                             </option>
-                            <option value="CA">Company-1</option>
-                            <option value="NV">Company-2</option>
-                            <option value="OR">Company-3</option>
+                            {allCustomers.map((company) => (
+                              <option value={company._id}>
+                                {company?.companyName}
+                              </option>
+                            ))}
                           </select>
                         </div>
-                        <div className="col-xl-4">
+                        {/* <div className="col-xl-4">
                           <div className="d-flex" role="search">
                             <input
                               className="form-control me-2"
@@ -137,7 +139,7 @@ export const CustomerManagement = () => {
                               Search
                             </button>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

@@ -9,8 +9,20 @@ export const onMenuClicked = () => {
   else x.className = "sidebar-enable vertical-collpsed";
 };
 
-export const exportToExcel = (data, fileName) => {
-  const dataToJson = XLSX.utils.json_to_sheet(data);
+export const exportToExcel = (data, fileName, tableHeaders) => {
+  const keys = Object.keys(tableHeaders);
+  const dataObj = tableHeaders;
+
+  const dataObjArray = data.map((e, index) => {
+    const newObj = {};
+    keys.forEach((key) => {
+      newObj[dataObj[key]] = e[key];
+      return;
+    });
+    return newObj;
+  });
+
+  const dataToJson = XLSX.utils.json_to_sheet(dataObjArray);
   const dataToBook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(dataToBook, dataToJson, fileName);
   XLSX.writeFile(dataToBook, fileName + ".xlsx");

@@ -172,14 +172,14 @@ export const Trainer = () => {
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-50">
-                        <div className="col-xl-5">
+                        {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option value="CA">Newest</option>
                             <option value="NV">Oldest</option>
                             <option value="OR">Recent</option>
                           </select>
-                        </div>
-                        <div className="col-xl-7">
+                        </div> */}
+                        {/* <div className="col-xl-7">
                           <div className="d-flex" role="search">
                             <input
                               className="form-control me-2"
@@ -191,7 +191,7 @@ export const Trainer = () => {
                               Search
                             </button>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                       <button
                         className="btn btn-primary me-2"

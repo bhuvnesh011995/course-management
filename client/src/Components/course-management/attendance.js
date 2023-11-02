@@ -7,7 +7,11 @@ import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { attendanceHeaders } from "../../Constants/table.constants";
-import { AttendanceGenerateModal } from "./models/generateLeads";
+import {
+  AttendanceGenerateExcelModal,
+  AttendanceGenerateModal,
+} from "./models/generateLeads";
+import { convertToMongooseStartEndTiming } from "../../common-components/useCommonUsableFunctions";
 
 export const Attendance = () => {
   const filterObject = {
@@ -23,13 +27,16 @@ export const Attendance = () => {
 
   useEffect(() => {
     if (!filters.participantName.length && !filters.class.length) getClasses();
-    getFilteredLeads();
+    if (filters.participantName.length || filters.class.length)
+      getFilteredLeads();
   }, [filters]);
 
   const getClasses = async () => {
     try {
       const { data } = await AxiosInstance.get("/class/getClasses");
       setClasses(data.classes);
+      filters.class = data.classes[0]._id;
+      setFilters({ ...filters });
     } catch (err) {
       console.error(err);
     }
@@ -92,7 +99,6 @@ export const Attendance = () => {
                               className="form-select"
                               value={filters.class}
                             >
-                              <option value="">select Class</option>
                               {classes.map((e) => (
                                 <option value={e._id}>{e.classCode}</option>
                               ))}
@@ -114,19 +120,6 @@ export const Attendance = () => {
                                 value={filters.participantName}
                               />{" "}
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-xl-4">
-                        <div className="className-select">
-                          <div className="d-flex" role="search">
-                            <button
-                              className="btn btn-primary"
-                              onClick={(e) => setFilters(filterObject)}
-                              type="submit"
-                            >
-                              Clear Filters
-                            </button>
                           </div>
                         </div>
                       </div>
@@ -202,7 +195,7 @@ export const Attendance = () => {
       </div>
       {generatePdfModal && (
         <AttendanceGenerateModal
-          data={filteredLeads}
+          tableData={filteredLeads}
           isOpen={generatePdfModal}
           setIsOpen={setGeneratePdfModal}
         />

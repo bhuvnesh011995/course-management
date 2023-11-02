@@ -223,7 +223,7 @@ export const CommonDataTable = ({
             {downloadExcel && (
               <button
                 className="btn btn-primary me-2"
-                onClick={() => exportToExcel(data, fileName)}
+                onClick={() => exportToExcel(data, fileName, tableHeaders)}
               >
                 Download Excel
               </button>

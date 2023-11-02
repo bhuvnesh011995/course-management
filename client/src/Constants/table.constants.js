@@ -185,3 +185,12 @@ export const generateAttendanceHeaders = {
   coreTradeRegNo:
     "Registration No. / Submission No. (CoreTrade / Multi-Skilling / Direct R1)",
 };
+
+export const excelAttendanceHeaders = {
+  participantName: "Name Of Trainee",
+  participantNric: "NRIC/ FIN No.",
+  coreTradeRegNo:
+    "Registration No. / Submission No. (CoreTrade / Multi-Skilling / Direct R1)",
+  traineeAttendance: "Trainee's Attendance (Signature)",
+  traineeResults: "Results (P/f) *",
+};

@@ -672,7 +672,16 @@ const getFilteredLeads = async (data) => {
           as: "courseData",
         },
       },
-      { $unwind: "$courseData" }
+      { $unwind: "$courseData" },
+      {
+        $lookup: {
+          from: "trainers",
+          localField: "trainer",
+          foreignField: "_id",
+          as: "trainerData",
+        },
+      },
+      { $unwind: "$trainerData" }
     );
 
     if (data.participantName.length) {
@@ -688,9 +697,13 @@ const getFilteredLeads = async (data) => {
         classCode: 1,
         course: "$courseData.courseName",
         startDate: 1,
+        endDate: 1,
+        startTime: 1,
+        endTime: 1,
         participantName: "$leadDetails.participantName",
         participantNric: "$leadDetails.participantNRIC",
         coreTradeRegNo: "$leadDetails.coreTradeRegNo",
+        trainerName: "$trainerData.trainerName",
       },
     });
     const getClassParticipants = await classModel.aggregate(leadQuery);
