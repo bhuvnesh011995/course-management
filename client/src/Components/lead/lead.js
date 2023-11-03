@@ -93,6 +93,7 @@ export const Lead = () => {
   const getAllLeads = async (filterLead) => {
     try {
       const { data } = await AxiosInstance.get("/leads/getAllLeads");
+      console.log(data);
       data.leads.map((lead) => {
         tradeType.map((e) => {
           if (e.value == lead.tradeType) lead.tradeType = e.name;

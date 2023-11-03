@@ -7,14 +7,15 @@ import {
 } from "../../../Constants/table.constants";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import tongaHeader from "../../../assets/images/tongaG.png";
-import tongaBoxDesign from "../../../assets/images/tongaBoxDesign.png";
+// import tongaHeader from "../../../assets/images/tongaG.png";
+// import tongaBoxDesign from "../../../assets/images/tongaBoxDesign.png";
 import {
   convertMongooseDate,
   convertToMongooseStartEndTiming,
 } from "../../../common-components/useCommonUsableFunctions";
 import React from "react";
 import * as XLSX from "xlsx";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
 
 export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
   const {
@@ -166,18 +167,44 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
     const dataObj = excelAttendanceHeaders;
 
     const dataObjArray = tableData.map((e, index) => {
-      const newObj = {};
+      const newObj = { "S/N": index + 1 };
       keys.forEach((key) => {
-        newObj[dataObj[key]] = e[key];
+        if (e[key]) newObj[dataObj[key]] = e[key];
+        else newObj[dataObj[key]] = "";
         return;
       });
       return newObj;
     });
+    console.log(tableData);
+    generatedData["dataObj"] = dataObjArray;
+    generatedData["tableData"] = tableData;
+    const createExcelFile = await AxiosInstance.post(
+      "/generateFile/excel",
+      generatedData
+    );
 
-    const dataToJson = XLSX.utils.json_to_sheet(dataObjArray);
-    const dataToBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(dataToBook, dataToJson, "fileName");
-    XLSX.writeFile(dataToBook, "fileName" + ".xlsx");
+    // {
+    //     // const worksheet = XLSX.utils.json_to_sheet(dataObjArray);
+
+    //     // Object.keys(dataObjArray[0]).forEach((key, index) => {
+    //     //   const headerCell = XLSX.utils.encode_cell({ r: 0, c: index });
+
+    //     //   const headerCellStyle = {
+    //     //     font: { bold: true, sz: 19 },
+    //     //     fill: { bgColor: { indexed: 4 } },
+    //     //   };
+    //     //   XLSX.utils.format_cell(worksheet[headerCell], headerCellStyle);
+    //     //   worksheet[headerCell].v = key;
+
+    //     //   worksheet["!cols"] = worksheet["!cols"] || [];
+    //     //   worksheet["!cols"][index] = { wch: key.length + 5 };
+    //     // });
+
+    //     // const workbook = XLSX.utils.book_new();
+    //     // XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    //     // XLSX.writeFile(workbook, "excel_with_dynamic_widths.xlsx");
+    //     }
   };
 
   return (

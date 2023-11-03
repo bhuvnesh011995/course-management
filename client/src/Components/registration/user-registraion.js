@@ -25,14 +25,10 @@ export const UserRegistration = () => {
     try {
       const formdata = new FormData();
       formdata.append("file", userData.userImage[0]);
+      formdata.append("userData", JSON.stringify(userData));
       const { data } = await AxiosInstance.post(
         "/users/updateUserWithImage",
-        formdata,
-        {
-          params: {
-            userData,
-          },
-        }
+        formdata
       );
     } catch (err) {
       console.error(err);

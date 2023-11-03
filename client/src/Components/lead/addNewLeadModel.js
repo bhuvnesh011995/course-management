@@ -139,9 +139,8 @@ export const AddNewLeadModel = ({
             newLead["workersPassport"] = file.name;
             formdata.append("files", file);
           }
-      const { data } = await AxiosInstance.post("/leads/addNewLead", formdata, {
-        params: newLead,
-      });
+      formdata.append("leadData", JSON.stringify(newLead));
+      const { data } = await AxiosInstance.post("/leads/addNewLead", formdata);
       callback(data.newLead);
       handleClose();
     } catch (err) {
@@ -266,9 +265,8 @@ export const AddNewLeadModel = ({
           }
         }
       newLeadData["deleteFileList"] = deleteFiles;
-      const { data } = await AxiosInstance.post("/leads/updateLead", formdata, {
-        params: newLeadData,
-      });
+      formdata.append("leadData", JSON.stringify(newLeadData));
+      const { data } = await AxiosInstance.post("/leads/updateLead", formdata);
       callback(data.updatedLead);
       handleClose();
     } catch (err) {

@@ -22,7 +22,7 @@ export const CommonDataTable = ({
   editButton,
   deleteButton,
   callback,
-  fileName = "fileName",
+  fileName = "newFile",
   viewButton,
   tableSearchBar = true,
   downloadExcel,

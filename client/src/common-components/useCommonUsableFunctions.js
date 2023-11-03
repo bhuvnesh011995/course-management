@@ -22,10 +22,27 @@ export const exportToExcel = (data, fileName, tableHeaders) => {
     return newObj;
   });
 
-  const dataToJson = XLSX.utils.json_to_sheet(dataObjArray);
-  const dataToBook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(dataToBook, dataToJson, fileName);
-  XLSX.writeFile(dataToBook, fileName + ".xlsx");
+  const worksheet = XLSX.utils.json_to_sheet(dataObjArray);
+
+  Object.keys(dataObjArray[0]).forEach((key, index) => {
+    const headerCell = XLSX.utils.encode_cell({ r: 0, c: index });
+
+    const headerCellStyle = {
+      font: { bold: true, sz: 14 },
+      fill: { bgColor: { indexed: 1 } },
+    };
+
+    XLSX.utils.format_cell(worksheet[headerCell], headerCellStyle);
+    worksheet[headerCell].v = key;
+
+    worksheet["!cols"] = worksheet["!cols"] || [];
+    worksheet["!cols"][index] = { wch: key.length + 5 };
+  });
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+  XLSX.writeFile(workbook, `${fileName}.xlsx`);
 };
 
 export const exportToPDFTable = (data, dataKeys, tableHeaders, fileName) => {

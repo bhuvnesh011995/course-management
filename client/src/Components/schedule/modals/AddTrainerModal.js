@@ -47,10 +47,10 @@ export const NewTrainerModal = ({
       const formData = new FormData();
       if (trainerData?.trainerImage.length)
         formData.append("file", trainerData.trainerImage[0]);
+      formData.append("trainerData", JSON.stringify(trainerData));
       const { data } = await AxiosInstance.post(
         "/trainer/addNewTrainer",
-        formData,
-        { params: trainerData }
+        formData
       );
       callback(data);
       handleClose();
@@ -66,10 +66,10 @@ export const NewTrainerModal = ({
         formData.append("file", trainerData.trainerImage[0]);
         trainerData["deleteImagePath"] = trainerData.trainerImagePath;
       }
+      formData.append("trainerData", JSON.stringify(trainerData));
       const { data } = await AxiosInstance.post(
         "/trainer/updateTrainer",
-        formData,
-        { params: trainerData }
+        formData
       );
       callback(trainerData);
       handleClose();

@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
+import {
+  AxiosInstance,
+  formAxiosInstance,
+} from "../../../common-components/axiosInstance";
 import { filePath } from "../../../common-components/useCommonUsableFunctions";
+import jsPDF from "jspdf";
 
 const AddNewCertificate = ({
   isOpen,
@@ -43,13 +47,13 @@ const AddNewCertificate = ({
   const addCertificate = async (newCertificate) => {
     try {
       const formData = new FormData();
-      Object.keys(newCertificate.certificateAttchment).map((e) =>
-        formData.append("file", newCertificate.certificateAttchment[e])
-      );
-      const { data } = await AxiosInstance.post(
+      for (let file of newCertificate.certificateAttchment)
+        formData.append("file", file);
+
+      formData.append("certificateData", JSON.stringify(newCertificate));
+      const { data } = await formAxiosInstance.post(
         "/certificates/addCertificate",
-        formData,
-        { params: newCertificate }
+        formData
       );
       callback(data);
       handleClose();
@@ -72,10 +76,11 @@ const AddNewCertificate = ({
           updatedCertificate?.certificateFilePath.split("/")[
             updatedCertificate?.certificateFilePath.split("/").length - 1
           ];
+
+      formData.append("certificateData", JSON.stringify(updatedCertificate));
       const { data } = await AxiosInstance.post(
         "/certificates/updateCertificate",
-        formData,
-        { params: updatedCertificate }
+        formData
       );
       callback(data.updatedCertificate);
       handleClose();

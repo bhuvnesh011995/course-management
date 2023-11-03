@@ -3,7 +3,7 @@ const userModel = require("../models/userModel");
 
 const userAuth = async (req, res, next) => {
   try {
-    const token = req.headers["token-header"];
+    const token = req.headers["x-token-header"];
     const { headers } = req;
     if (token) {
       const decode = jwt.decode(token);

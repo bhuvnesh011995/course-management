@@ -3,8 +3,9 @@ const { sendMail } = require("../managers/mailManager");
 const fs = require("fs");
 const classModel = require("../models/classModel");
 
-const addNewLead = async ({ query, files, user }) => {
+const addNewLead = async ({ body, files, user }) => {
   try {
+    const query = JSON.parse(body.leadData);
     const fileLocations = {
       passportCopy: "",
       notice: "",
@@ -116,7 +117,7 @@ const addNewLead = async ({ query, files, user }) => {
 const getAllLeads = async (user) => {
   try {
     const leadQuery = [];
-
+    console.log("hihihi");
     leadQuery.push(
       {
         $lookup: {
@@ -186,8 +187,10 @@ const getAllLeads = async (user) => {
   }
 };
 
-const updateLead = async ({ query, files }) => {
+const updateLead = async ({ body, files }) => {
   try {
+    const query = JSON.parse(body.leadData);
+
     if (query?.deleteFileList?.length > 0) {
       for (let path of query.deleteFileList) {
         fs.unlink(
@@ -681,7 +684,24 @@ const getFilteredLeads = async (data) => {
           as: "trainerData",
         },
       },
-      { $unwind: "$trainerData" }
+      { $unwind: "$trainerData" },
+      {
+        $lookup: {
+          from: "tradetypes",
+          let: { tradeTypeId: "$leadDetails.tradeType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$tradeTypeId"],
+                },
+              },
+            },
+          ],
+          as: "tradeTypeData",
+        },
+      },
+      { $unwind: "$tradeTypeData" }
     );
 
     if (data.participantName.length) {
@@ -704,9 +724,11 @@ const getFilteredLeads = async (data) => {
         participantNric: "$leadDetails.participantNRIC",
         coreTradeRegNo: "$leadDetails.coreTradeRegNo",
         trainerName: "$trainerData.trainerName",
+        tradeType: "$tradeTypeData.tradeType",
       },
     });
     const getClassParticipants = await classModel.aggregate(leadQuery);
+    console.log(getClassParticipants);
     return getClassParticipants;
   } catch (err) {
     console.error(err);

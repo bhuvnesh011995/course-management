@@ -1,8 +1,9 @@
 const CertificateModel = require("../models/certificateModel");
 const fs = require("fs");
 
-const addCertificate = async ({ query, file }) => {
+const addCertificate = async ({ body, file }) => {
   try {
+    const query = JSON.parse(body.certificateData);
     if (file) {
       query["certificateAttchment"] = file?.originalname;
       query["certificateFilePath"] = `/images/${file?.filename}`;
@@ -109,8 +110,10 @@ const getCertificates = async (data) => {
   }
 };
 
-const updateCertificate = async ({ query, file }) => {
+const updateCertificate = async ({ body, file }) => {
   try {
+    const query = JSON.parse(body.updatedCertificate);
+
     if (file) {
       query["certificateAttchment"] = file?.originalname;
       query["certificateFilePath"] = `/images/${file?.filename}`;

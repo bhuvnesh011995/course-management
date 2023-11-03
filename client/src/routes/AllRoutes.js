@@ -30,7 +30,6 @@ import { SalesQuotation } from "../Components/sales-quotation";
 import { Scheduling } from "../Components/schedule/sceduling";
 import { SubCategory } from "../Components/sub-categoery";
 import { Table } from "../Components/table";
-import { Task } from "../Components/course-management/task";
 import { TimeSheet } from "../Components/timesheet";
 import { TradeLevel } from "../Components/course-management/trade-level";
 import { TradeType } from "../Components/course-management/trade-type";
@@ -94,7 +93,6 @@ export const AllRoutes = () => {
         <Route path="/scheduling" Component={Scheduling}></Route>
         <Route path="/sub-category" Component={SubCategory}></Route>
         <Route path="/table" Component={Table}></Route>
-        <Route path="/task" Component={Task}></Route>
         <Route path="/timesheet" Component={TimeSheet}></Route>
         <Route path="/trade-level" Component={TradeLevel}></Route>
         <Route path="/trade-type" Component={TradeType}></Route>
