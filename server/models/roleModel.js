@@ -4,7 +4,7 @@ const roleCommon = require("./common/roleCommon");
 const roleSchema = new mongoose.Schema(
   {
     roleName: { type: String },
-    totalUsers: { type: Number },
+  
     contentManagement: roleCommon,
 
     finManagement: roleCommon,

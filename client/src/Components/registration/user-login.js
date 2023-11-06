@@ -89,14 +89,14 @@ export const LoginUser = () => {
                   >
                     <div className="mb-3">
                       <label for="username" className="form-label">
-                        Username
+                        Email
                       </label>
                       <input
                         type="text"
                         className="form-control"
                         id="username"
-                        placeholder="Enter username"
-                        {...register("email")}
+                        placeholder="Enter email"
+                        {...register("email",{required:"this is required field"})}
                       />
                     </div>
 
@@ -108,7 +108,7 @@ export const LoginUser = () => {
                           id="password"
                           className="form-control"
                           placeholder="Enter password"
-                          {...register("password")}
+                          {...register("password",{required:"this is required field"})}
                         />
                         <button
                           className="btn btn-light "
