@@ -1,9 +1,10 @@
 const RoleModel = require("../models/roleModel");
 const userModel = require("../models/userModel");
 
+const db = require('../models')
 const addNewRole = async (data) => {
   try {
-    const newRole = await RoleModel.create(data);
+    const newRole = await db.roles.create(data);
     const role = newRole.save();
     return role;
   } catch (err) {
@@ -13,7 +14,7 @@ const addNewRole = async (data) => {
 
 const getRoles = async (user) => {
   try {
-    const roleData = await RoleModel.aggregate([
+    const roleData = await db.roles.aggregate([
       {
         $match: {
           _id: { $ne: user[0].roleData._id },
@@ -28,7 +29,7 @@ const getRoles = async (user) => {
 
 const selectedRoleData = async (data) => {
   try {
-    const roleData = await RoleModel.find({ _id: data.id });
+    const roleData = await db.roles.find({ _id: data.id });
     return roleData;
   } catch (err) {
     console.error(err);
@@ -37,7 +38,7 @@ const selectedRoleData = async (data) => {
 
 const editRole = async (role) => {
   try {
-    const roleData = await RoleModel.updateOne(
+    const roleData = await db.roles.updateOne(
       { _id: role._id },
       {
         roleName: role.roleName,
@@ -58,7 +59,7 @@ const editRole = async (role) => {
 
 const getUserRoleInfo = async () => {
   try {
-    const getUsers = await userModel.aggregate([
+    const getUsers = await db.user.aggregate([
       {
         $lookup: {
           from: "roles",
@@ -81,6 +82,14 @@ const getUserRoleInfo = async () => {
           as: "roleDetails",
         },
       },
+
+      /* 
+      roleDetails = [{},{}]
+      roleDetails = {
+      
+      }
+      
+      */
       { $unwind: "$roleDetails" },
       {
         $project: {

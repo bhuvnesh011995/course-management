@@ -2,7 +2,7 @@ const TrainerModel = require("../models/trainerModel");
 const ClassModel = require("../models/classModel");
 const fs = require("fs");
 const classModel = require("../models/classModel");
-
+const db = require("../models")
 const addNewTrainer = async ({ query, file }) => {
   try {
     const query = JSON.parse(body.trainerData);
@@ -10,7 +10,7 @@ const addNewTrainer = async ({ query, file }) => {
       query["trainerImagePath"] = `images/${file.filename}`;
       query["trainerImageName"] = `images/${file.originalName}`;
     }
-    const newTrainer = await TrainerModel.create(query);
+    const newTrainer = await db.trainers.create(query);
     const saveTrainer = await newTrainer.save();
     return saveTrainer;
   } catch (err) {
@@ -20,7 +20,7 @@ const addNewTrainer = async ({ query, file }) => {
 
 const getTrainers = async (data) => {
   try {
-    const trainers = await TrainerModel.find({});
+    const trainers = await db.trainers.find({});
     return trainers;
   } catch (err) {
     console.error(err);
@@ -33,7 +33,7 @@ const updateTrainer = async ({ body, file }) => {
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
     }
-    const updatedTrainer = await TrainerModel.updateOne(
+    const updatedTrainer = await db.trainers.updateOne(
       { _id: query._id },
       {
         trainerName: query.trainerName,
@@ -69,7 +69,7 @@ const updateTrainer = async ({ body, file }) => {
 
 const deleteTrainer = async (data) => {
   try {
-    const isExistedTrainer = await ClassModel.aggregate([
+    const isExistedTrainer = await db.classes.aggregate([
       {
         $match: {
           $expr: {
@@ -83,7 +83,7 @@ const deleteTrainer = async (data) => {
       return { message: "This Trainer is existed in class", completed: 0 };
     }
 
-    const deleteTrainer = await TrainerModel.deleteOne({ _id: data._id });
+    const deleteTrainer = await db.trainers.deleteOne({ _id: data._id });
     return { message: "Trainer deleted successfully !", completed: 1 };
   } catch (err) {
     console.error(err);
@@ -92,7 +92,7 @@ const deleteTrainer = async (data) => {
 
 const getTrainer = async (data) => {
   try {
-    const trainerData = await TrainerModel.findOne({ _id: data._id });
+    const trainerData = await db.trainers.findOne({ _id: data._id });
     return trainerData;
   } catch (err) {
     console.error(err);
@@ -101,7 +101,7 @@ const getTrainer = async (data) => {
 
 const trainerClassDetails = async (data) => {
   try {
-    const trainerCourses = await classModel.aggregate([
+    const trainerCourses = await db.classes.aggregate([
       {
         $match: {
           $expr: {

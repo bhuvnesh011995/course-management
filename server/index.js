@@ -22,6 +22,18 @@ app.use(function (req, res, next) {
 
 app.listen(process.env.PORT, () => {
   console.log(`on port ${process.env.PORT}`);
+  
 });
 
 app.use("/api", require("./routes/route"));
+
+
+
+
+async function init(){
+  try {
+    
+  } catch (error) {
+    
+  }
+}

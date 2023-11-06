@@ -1,9 +1,9 @@
-const { default: mongoose } = require("mongoose");
-const registrationModal = require("../models/registrationModel");
 
+const registrationModal = require("../models/registrationModel");
+const db = require("../models")
 const addRegistrationType = async (data) => {
   try {
-    const newRegistrationType = await registrationModal.create(data);
+    const newRegistrationType = await db.registrationType.create(data);
     const registrationType = newRegistrationType.save();
     return registrationType;
   } catch (err) {
@@ -13,7 +13,7 @@ const addRegistrationType = async (data) => {
 
 const getRegistrationTypes = async (data) => {
   try {
-    const registrationData = await registrationModal
+    const registrationData = await db.registrationType
       // find({})
       // .populate({ path: "tradeLevelIds", model: "tradeLevel" })
       // .populate("tradeLevelIds", "tradeLevel");
@@ -62,7 +62,7 @@ const getRegistrationTypes = async (data) => {
 
 const getRegistrationType = async (data) => {
   try {
-    const registrationData = await registrationModal.find({
+    const registrationData = await db.registrationType.find({
       _id: data.registrationData._id,
     });
     return registrationData;
@@ -73,7 +73,7 @@ const getRegistrationType = async (data) => {
 
 const updateRegistration = async (data) => {
   try {
-    const registrationData = await registrationModal.updateOne(
+    const registrationData = await db.registrationType.updateOne(
       {
         _id: data._id,
       },
@@ -90,7 +90,7 @@ const updateRegistration = async (data) => {
 
 const deleteRegistration = async (data) => {
   try {
-    const deleteReg = await registrationModal.deleteOne({ _id: data._id });
+    const deleteReg = await db.registrationType.deleteOne({ _id: data._id });
     return { message: "RegistrationType Deleted Successfully !" };
   } catch (err) {
     console.error(err);
