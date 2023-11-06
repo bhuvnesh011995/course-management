@@ -35,9 +35,9 @@ const updateUserWithImage = (req, res) => {
     .catch((err) => res.status(500).send(err));
 };
 
-const getUser = (req, res) => {
+const signIn = (req, res) => {
   userManager
-    .getUser(req.query)
+    .signIn(req.body)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err));
 };
@@ -48,5 +48,5 @@ module.exports = {
   deleteUser,
   updateUser,
   updateUserWithImage,
-  getUser,
+  signIn,
 };

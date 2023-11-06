@@ -20,10 +20,8 @@ export const LoginUser = () => {
 
   const signIn = async (userData) => {
     try {
-      const { data } = await AxiosInstance.get("/users/getUser", {
-        params: userData,
-      });
-
+      const { data } = await AxiosInstance.post("/users/signIn", userData);
+      console.log(data);
       if (data.token) {
         navigate("/dashboard");
         localStorage.setItem("token", data.token);
@@ -35,7 +33,6 @@ export const LoginUser = () => {
 
   const changePasswordType = () => {
     const passwordElement = document.getElementById("password");
-    console.log(passwordElement.type);
     if (passwordElement.type == "text") passwordElement.type = "password";
     else passwordElement.type = "input";
   };
