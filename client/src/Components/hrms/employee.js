@@ -6,6 +6,7 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { employeeHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { toast } from "react-toastify";
 
 export const Employee = () => {
   const [employeeModal, setEmployeeModal] = useState(false);
@@ -63,9 +64,11 @@ export const Employee = () => {
       const { data } = await AxiosInstance.delete("/employee/deleteEmployee", {
         params: employee,
       });
+      toast.success('employee deleted')
       const filteredEmployees = employees.filter((e) => e._id != employee._id);
       setEmployees([...filteredEmployees]);
     } catch (err) {
+      toast.error('error occured')
       console.error(err);
     }
   };

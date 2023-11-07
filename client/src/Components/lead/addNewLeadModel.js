@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
+import { toast } from "react-toastify";
 
 export const AddNewLeadModel = ({
   setIsOpen,
@@ -141,9 +142,11 @@ export const AddNewLeadModel = ({
           }
       formdata.append("leadData", JSON.stringify(newLead));
       const { data } = await AxiosInstance.post("/leads/addNewLead", formdata);
+      toast.success("New Lead Added Successfully")
       callback(data.newLead);
       handleClose();
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };
@@ -267,9 +270,11 @@ export const AddNewLeadModel = ({
       newLeadData["deleteFileList"] = deleteFiles;
       formdata.append("leadData", JSON.stringify(newLeadData));
       const { data } = await AxiosInstance.post("/leads/updateLead", formdata);
+      toast.success("Lead Updated Successfully")
       callback(data.updatedLead);
       handleClose();
     } catch (err) {
+      toast.error("Error Occured")
       console.error(err);
     }
   };

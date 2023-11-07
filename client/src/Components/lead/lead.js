@@ -15,6 +15,7 @@ import { TradeLevel1, tradeType } from "../../Constants/newLeadContants";
 import { MenuBar } from "../../common-components/MenuBar";
 import { Navbar } from "react-bootstrap";
 import { CommonNavbar } from "../../common-components/Navbar";
+import { toast } from "react-toastify";
 
 export const Lead = () => {
   const [newLeadModal, setNewLeadModal] = useState(false);
@@ -111,10 +112,12 @@ export const Lead = () => {
       const { data } = await AxiosInstance.delete("/leads/deleteLead", {
         params: leadData,
       });
+      toast.success("lead deleted")
       const filterLeads = leads.filter((e) => e._id != leadData._id);
       setLeads([...filterLeads]);
       updateLeadList("delete", leadData);
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };

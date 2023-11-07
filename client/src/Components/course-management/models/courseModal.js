@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 export const CourseModal = ({
   isOpen,
@@ -33,9 +34,11 @@ export const CourseModal = ({
         "/courses/addNewCourse",
         newCourse
       );
+      toast.success("Course Added")
       callback(data);
       handleClose();
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };

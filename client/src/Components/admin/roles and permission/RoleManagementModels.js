@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 export const AddNewRoleModel = ({
   isOpen,
@@ -56,6 +57,7 @@ export const AddNewRoleModel = ({
   const editRoleData = async (roleData) => {
     try {
       const { data } = AxiosInstance.post("/roles/editRole", roleData);
+      toast.success("Role Updated")
       callback(roleData);
       handleCloseRoleModal();
     } catch (err) {
@@ -66,6 +68,7 @@ export const AddNewRoleModel = ({
   const addNewRole = async (roleData) => {
     try {
       const { data } = await AxiosInstance.post("/roles/addNewRole", roleData);
+      toast.success("Role Added Successfully")
       callback(data);
       handleCloseRoleModal();
     } catch (err) {

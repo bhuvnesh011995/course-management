@@ -38,8 +38,11 @@ const updateUserWithImage = (req, res) => {
 const signIn = (req, res) => {
   userManager
     .signIn(req.body)
-    .then((result) => res.status(200).send(result))
-    .catch((err) => res.status(500).send(err));
+    .then((data) => res.status(data.statusCode).send(data.data))
+    .catch((err) => {
+      res.status(500).json({success:false,message:"internal error occured"})
+      console.log(err)
+    });
 };
 
 module.exports = {

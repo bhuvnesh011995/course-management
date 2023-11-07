@@ -108,15 +108,15 @@ const signIn = async (data) => {
           { email: user.email, password: user.password },
           JWTSECRETKEY
         );
-        return { message: "SignIn Successfully", token: token };
+        return { statusCode:200,data:{ token: token }};
       } else {
-        return { message: "Wrong email id or password !" };
+        return { statusCode:401,data:{ message:"Wrong email id or password !"}};
       }
     } else {
-      return { message: "Wrong email id or password !" };
+      return { statusCode:401,data:{ message:"Wrong email id or password !"} };
     }
   } catch (err) {
-    console.error(err);
+    return err
   }
 };
 
