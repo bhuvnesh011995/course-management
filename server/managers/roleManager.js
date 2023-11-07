@@ -13,13 +13,7 @@ const addNewRole = async (data) => {
 
 const getRoles = async (user) => {
   try {
-    const roleData = await RoleModel.aggregate([
-      {
-        $match: {
-          _id: { $ne: user[0].roleData._id },
-        },
-      },
-    ]);
+    const roleData = await RoleModel.find({});
     return { roleData, user };
   } catch (err) {
     console.error(err);
