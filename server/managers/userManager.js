@@ -1,7 +1,7 @@
 const UserModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const db = require("../models");
 const JWTSECRETKEY = process.env.JWTSECRETKEY;
 
 const addNewUser = async (data) => {
@@ -10,7 +10,7 @@ const addNewUser = async (data) => {
     // data["password"] = encryptedpass;
     data["name"] = data.firstName + " " + data.lastName;
     data["contactNumber"] = data.mobile;
-    const user = await UserModel.create(data);
+    const user = await db.user.create(data);
     const newUser = user.save();
     return newUser;
   } catch (err) {
@@ -20,7 +20,7 @@ const addNewUser = async (data) => {
 
 const getUsers = async (userData) => {
   try {
-    const users = await UserModel.aggregate([
+    const users = await db.user.aggregate([
       {
         $match: {
           _id: { $ne: userData[0]._id },
@@ -35,7 +35,7 @@ const getUsers = async (userData) => {
 
 const deleteUser = async (data) => {
   try {
-    await UserModel.deleteOne({ _id: data._id });
+    await db.user.deleteOne({ _id: data._id });
     return { message: "User Deleted Successfully" };
   } catch (err) {
     console.error(err);
@@ -47,7 +47,7 @@ const updateUser = async (data) => {
     // const encryptedpass = await bcrypt.hash(data.password, 10);
     // data["password"] = encryptedpass;
 
-    const updateUser = await UserModel.updateOne(
+    const updateUser = await db.user.updateOne(
       { _id: data._id },
       {
         firstName: data.firstName,
@@ -76,7 +76,7 @@ const updateUserWithImage = async ({ file, body }) => {
     query.userData["name"] =
       query.userData.firstName + " " + query.userData.lastName;
 
-    const user = await UserModel.updateOne(
+    const user = await db.user.updateOne(
       { _id: query.userData._id },
       {
         firstName: query.userData.firstName,
@@ -101,8 +101,7 @@ const updateUserWithImage = async ({ file, body }) => {
 
 const signIn = async (data) => {
   try {
-    console.log(data);
-    const user = await UserModel.findOne({ email: data.email });
+    const user = await db.user.findOne({ email: data.email });
     if (user) {
       if (user.password == data.password) {
         const token = jwt.sign(

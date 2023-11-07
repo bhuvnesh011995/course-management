@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const init = require("./init")
 
 const app = express();
 
@@ -22,6 +23,9 @@ app.use(function (req, res, next) {
 
 app.listen(process.env.PORT, () => {
   console.log(`on port ${process.env.PORT}`);
+  init();
 });
 
 app.use("/api", require("./routes/route"));
+
+

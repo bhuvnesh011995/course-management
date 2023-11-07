@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const classModel = require("../models/classModel");
 const EventModel = require("../models/eventModal");
-
+const db = require("../models")
 const addClass = async (data) => {
   try {
-    const CreateClass = await classModel.create(data);
+    const CreateClass = await db.classes.create(data);
     const newClass = await CreateClass.save();
-    const classDetails = await classModel.aggregate([
+    const classDetails = await db.classes.aggregate([
       {
         $match: {
           $expr: { $eq: [newClass._id, "$_id"] },
@@ -48,7 +48,7 @@ const addClass = async (data) => {
       },
     ]);
     // newClass["class"] = newClass._id;
-    // await EventModel.create(newClass);
+    // await db.events.create(newClass);
     return classDetails[0];
   } catch (err) {
     console.error(err);
@@ -143,7 +143,7 @@ const getClasses = async (data, user) => {
       }
     );
 
-    const allClasses = await classModel.aggregate(aggregateQuery);
+    const allClasses = await db.classes.aggregate(aggregateQuery);
     return { classes: allClasses, user: user };
   } catch (err) {
     console.error(err);
@@ -152,7 +152,7 @@ const getClasses = async (data, user) => {
 
 const getClass = async (data) => {
   try {
-    const selectedClass = await classModel.find({ _id: data._id });
+    const selectedClass = await db.classes.find({ _id: data._id });
     return selectedClass;
   } catch (err) {
     console.error(err);
@@ -161,7 +161,7 @@ const getClass = async (data) => {
 
 const updateClass = async (data) => {
   try {
-    const updateClass = await classModel.updateOne(
+    const updateClass = await db.classes.updateOne(
       { _id: data._id },
       {
         classCode: data.classCode,
@@ -175,7 +175,7 @@ const updateClass = async (data) => {
         trainer: data.trainer,
       }
     );
-    const updatedClass = await classModel.aggregate([
+    const updatedClass = await db.classes.aggregate([
       {
         $match: {
           $expr: { $eq: [data._id, { $toString: "$_id" }] },
@@ -233,7 +233,7 @@ const updateClass = async (data) => {
 
 const deleteClass = async (data) => {
   try {
-    const deleteClass = await classModel.deleteOne({ _id: data._id });
+    const deleteClass = await db.classes.deleteOne({ _id: data._id });
     return { message: "class deleted successfully !!" };
   } catch (err) {
     console.error(err);
@@ -242,7 +242,7 @@ const deleteClass = async (data) => {
 
 const getCourseClasses = async (courseId) => {
   try {
-    const getClasses = await classModel.aggregate([
+    const getClasses = await db.classes.aggregate([
       {
         $match: {
           $expr: {

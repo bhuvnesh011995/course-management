@@ -1,8 +1,9 @@
-const { tradeLevelModel, tradeTypeModel } = require("../models/tradeModel");
+
+const db = require("../models")
 
 const saveTradeLevel = async (data) => {
   try {
-    const newTrade = await tradeLevelModel.create(data);
+    const newTrade = await db.tradeLevel.create(data);
     const tradeLevel = await newTrade.save();
     return tradeLevel;
   } catch (err) {
@@ -12,7 +13,7 @@ const saveTradeLevel = async (data) => {
 
 const getTradeLevels = async (user) => {
   try {
-    const allTradeLevels = await tradeLevelModel.find({});
+    const allTradeLevels = await db.tradeLevel.find({});
     return { user, allTradeLevels };
   } catch (err) {
     console.error(err);
@@ -21,7 +22,7 @@ const getTradeLevels = async (user) => {
 
 const updateTradeLevel = async (data) => {
   try {
-    const updateTrade = await tradeLevelModel.updateOne(
+    const updateTrade = await db.tradeLevel.updateOne(
       { _id: data._id },
       {
         tradeLevel: data.tradeLevel,
@@ -36,7 +37,7 @@ const updateTradeLevel = async (data) => {
 
 const deleteTradeLevel = async (data) => {
   try {
-    await tradeLevelModel.deleteOne({ _id: data._id });
+    await db.tradeLevel.deleteOne({ _id: data._id });
     return { message: "Trade Level Deleted Successfully" };
   } catch (err) {
     console.error(err);
@@ -45,7 +46,7 @@ const deleteTradeLevel = async (data) => {
 
 const saveTradeType = async (data) => {
   try {
-    const newTradeType = await tradeTypeModel.create(data);
+    const newTradeType = await db.tradeTypeModel.create(data);
     const tradeType = await newTradeType.save();
     return tradeType;
   } catch (err) {
@@ -55,7 +56,7 @@ const saveTradeType = async (data) => {
 
 const getTradeTypes = async (user) => {
   try {
-    const allTradeTypes = await tradeTypeModel.find({});
+    const allTradeTypes = await db.tradeTypeModel.find({});
     return { user, allTradeTypes };
   } catch (err) {
     console.error(err);
@@ -64,7 +65,7 @@ const getTradeTypes = async (user) => {
 
 const updateTradeType = async (data) => {
   try {
-    const updateTrade = await tradeTypeModel.updateOne(
+    const updateTrade = await db.tradeTypeModel.updateOne(
       { _id: data._id },
       {
         tradeType: data.tradeType,
@@ -78,7 +79,7 @@ const updateTradeType = async (data) => {
 
 const deleteTradeType = async (data) => {
   try {
-    await tradeTypeModel.deleteOne({ _id: data._id });
+    await db.tradeTypeModel.deleteOne({ _id: data._id });
     return { message: "Trade Type Deleted Successfully" };
   } catch (err) {
     console.error(err);

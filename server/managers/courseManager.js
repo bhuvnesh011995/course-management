@@ -1,10 +1,11 @@
 const courseModel = require("../models/courseModel");
+const db = require("../models")
 
 const addNewCourse = async (data) => {
   try {
-    const newCourse = await courseModel.create(data);
+    const newCourse = await db.course.create(data);
     const course = await newCourse.save();
-    const getNewCourse = await courseModel.aggregate([
+    const getNewCourse = await db.course.aggregate([
       { $match: { _id: course._id } },
       {
         $lookup: {
@@ -116,7 +117,7 @@ const addNewCourse = async (data) => {
 
 const getCourses = async () => {
   try {
-    const getAllCourses = await courseModel.aggregate([
+    const getAllCourses = await db.course.aggregate([
       {
         $lookup: {
           from: "tradetypes",
@@ -228,7 +229,7 @@ const getCourses = async () => {
 
 const getCourse = async (data) => {
   try {
-    const getSelectedCourse = await courseModel.find({ _id: data._id });
+    const getSelectedCourse = await db.course.find({ _id: data._id });
     return getSelectedCourse;
   } catch (err) {
     console.error(err);
@@ -237,7 +238,7 @@ const getCourse = async (data) => {
 
 const updateCourse = async (data) => {
   try {
-    const getSelectedCourse = await courseModel.updateOne(
+    const getSelectedCourse = await db.course.updateOne(
       { _id: data._id },
       {
         courseName: data.courseName,
@@ -248,7 +249,7 @@ const updateCourse = async (data) => {
         duration: data.duration,
       }
     );
-    const getUpdatedCourse = await courseModel.aggregate([
+    const getUpdatedCourse = await db.course.aggregate([
       {
         $match: {
           $expr: {
@@ -371,7 +372,7 @@ const updateCourse = async (data) => {
 
 const deleteCourse = async (data) => {
   try {
-    const deleteCourse = await courseModel.deleteOne({ _id: data._id });
+    const deleteCourse = await db.course.deleteOne({ _id: data._id });
     return { message: "course deleted successfully !" };
   } catch (err) {
     console.error(err);
@@ -380,7 +381,7 @@ const deleteCourse = async (data) => {
 
 const getFilteredCourses = async (data) => {
   try {
-    const filteredCourses = await courseModel.find({
+    const filteredCourses = await db.course.find({
       tradeType: data.tradeType,
       registrationType: data.registrationType,
       tradeLevel: data.tradeLevel,

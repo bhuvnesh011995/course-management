@@ -1,8 +1,9 @@
 const EventModel = require("../models/eventModal");
+const db = require("../models")
 
 const AddEvent = async (data) => {
   try {
-    const newEvent = await EventModel.create(data);
+    const newEvent = await db.events.create(data);
     const addedEvent = await newEvent.save();
 
     return addedEvent;
@@ -32,7 +33,7 @@ const getEvents = async (data) => {
       });
     }
     console.log(query);
-    const events = await EventModel.aggregate(query);
+    const events = await db.events.aggregate(query);
     console.log(events);
     return events;
   } catch (err) {
@@ -42,7 +43,7 @@ const getEvents = async (data) => {
 
 const getEvent = async (data) => {
   try {
-    const selectedEvent = await EventModel.findOne({ _id: data._id });
+    const selectedEvent = await db.events.findOne({ _id: data._id });
     return selectedEvent;
   } catch (err) {
     console.error(err);
@@ -51,7 +52,7 @@ const getEvent = async (data) => {
 
 const deleteEvent = async (data) => {
   try {
-    const deleteEvent = await EventModel.deleteOne({ _id: data._id });
+    const deleteEvent = await db.events.deleteOne({ _id: data._id });
     return { message: "Event Deleted Successfully !" };
   } catch (err) {
     console.error(err);
@@ -60,7 +61,7 @@ const deleteEvent = async (data) => {
 
 const updateEvent = async (data) => {
   try {
-    const updateEvent = await EventModel.updateOne(
+    const updateEvent = await db.events.updateOne(
       { _id: data._id },
       {
         holidayTitle: data.class,

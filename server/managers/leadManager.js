@@ -1,5 +1,6 @@
 const LeadModel = require("../models/newLeadModel");
 const { sendMail } = require("../managers/mailManager");
+const db = require("../models")
 const fs = require("fs");
 const classModel = require("../models/classModel");
 
@@ -40,9 +41,9 @@ const addNewLead = async ({ body, files, user }) => {
       fileLocations.workersPassport = `images/${files[2].filename}`;
     }
     query["fileLocations"] = fileLocations;
-    const newLead = await LeadModel.create(query);
+    const newLead = await db.lead.create(query);
     const lead = await newLead.save();
-    const newLeadData = await LeadModel.aggregate([
+    const newLeadData = await db.lead.aggregate([
       {
         $match: {
           $expr: { $eq: [lead._id, "$_id"] },
@@ -178,7 +179,7 @@ const getAllLeads = async (user) => {
         },
       }
     );
-    const allLeads = await LeadModel
+    const allLeads = await db.lead
       // .find({});
       .aggregate(leadQuery);
     return { leads: allLeads, user };
@@ -257,7 +258,7 @@ const updateLead = async ({ body, files }) => {
         }
       }
     }
-    const updateLead = await LeadModel.updateOne(
+    const updateLead = await db.lead.updateOne(
       { _id: query._id },
       {
         bcaAcknowledgementNotice: query.bcaAcknowledgementNotice,
@@ -293,7 +294,7 @@ const updateLead = async ({ body, files }) => {
         course: query.course,
       }
     );
-    const updatedLead = await LeadModel.aggregate([
+    const updatedLead = await db.lead.aggregate([
       {
         $match: {
           $expr: { $eq: [query._id, { $toString: "$_id" }] },
@@ -369,7 +370,7 @@ const updateLead = async ({ body, files }) => {
 
 const deleteLead = async (data) => {
   try {
-    const selectedLead = await LeadModel.findOne({ _id: data._id });
+    const selectedLead = await db.lead.findOne({ _id: data._id });
     Object.keys(selectedLead.fileLocations).map((e) =>
       fs.unlink(
         `uploads\\images\\${
@@ -383,7 +384,7 @@ const deleteLead = async (data) => {
         }
       )
     );
-    const deleteLead = await LeadModel.deleteOne({ _id: data._id });
+    const deleteLead = await db.lead.deleteOne({ _id: data._id });
     return { message: "Lead Deleted Successfully !" };
   } catch (err) {
     console.error(err);
@@ -392,7 +393,7 @@ const deleteLead = async (data) => {
 
 const getLead = async (data) => {
   try {
-    const getLead = await LeadModel.find({ _id: data._id });
+    const getLead = await db.lead.find({ _id: data._id });
     return getLead;
   } catch (err) {
     console.error(err);
@@ -434,7 +435,7 @@ const getPayment = async (data) => {
       path: [filePath, bankFilePath],
     };
     await sendMail(sendMailObj);
-    const getLeadPayment = await LeadModel.updateOne(
+    const getLeadPayment = await db.lead.updateOne(
       { _id: data._id },
       { getPayment: true }
     );
@@ -453,7 +454,7 @@ const confirmPayment = async (data) => {
       <p><strong>Tonga</strong> <br>\n`,
     };
     await sendMail(sendMailObj);
-    const getLeadPayment = await LeadModel.updateOne(
+    const getLeadPayment = await db.lead.updateOne(
       { _id: data._id },
       { confirmed: true }
     );
@@ -465,7 +466,7 @@ const confirmPayment = async (data) => {
 
 const assignCourse = async (data) => {
   try {
-    const updateLeadCourse = await LeadModel.updateOne(
+    const updateLeadCourse = await db.lead.updateOne(
       { _id: data._id },
       { course: data.course, courseAssigned: data.courseAssigned }
     );
@@ -477,7 +478,7 @@ const assignCourse = async (data) => {
 
 const accountHistory = async (data) => {
   try {
-    const allAccountCourses = await LeadModel.aggregate([
+    const allAccountCourses = await db.lead.aggregate([
       {
         $match: {
           $expr: {
@@ -537,7 +538,7 @@ const accountHistory = async (data) => {
 
 const getSelectedLead = async ({ query, user }) => {
   try {
-    const leadData = await LeadModel.aggregate([
+    const leadData = await db.lead.aggregate([
       {
         $match: {
           $expr: {
@@ -727,7 +728,7 @@ const getFilteredLeads = async (data) => {
         tradeType: "$tradeTypeData.tradeType",
       },
     });
-    const getClassParticipants = await classModel.aggregate(leadQuery);
+    const getClassParticipants = await db.classes.aggregate(leadQuery);
     console.log(getClassParticipants);
     return getClassParticipants;
   } catch (err) {

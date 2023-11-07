@@ -1,11 +1,11 @@
 const employeeModel = require("../models/employeeModel");
 const EmployeeModel = require("../models/employeeModel");
-
+const db = require("../models")
 const addEmployee = async (data) => {
   try {
     data["employeeName"] =
       data["employeeFirstName"] + " " + data["employeeLastName"];
-    const createEmployee = await EmployeeModel.create(data);
+    const createEmployee = await db.employees.create(data);
     const saveEmployee = await createEmployee.save();
 
     return saveEmployee;
@@ -16,7 +16,7 @@ const addEmployee = async (data) => {
 
 const getEmployee = async (data) => {
   try {
-    const selectedEmployee = await EmployeeModel.findOne({ _id: data._id });
+    const selectedEmployee = await db.employees.findOne({ _id: data._id });
     return selectedEmployee;
   } catch (err) {
     console.error(err);
@@ -25,7 +25,7 @@ const getEmployee = async (data) => {
 
 const getEmployees = async (data) => {
   try {
-    const allEmployees = await EmployeeModel.find({});
+    const allEmployees = await db.employees.find({});
     // aggregate([
     //   {
     //     $lookup: {
@@ -73,7 +73,7 @@ const updateEmployee = async (data) => {
   try {
     data["employeeName"] =
       data["employeeFirstName"] + " " + data["employeeLastName"];
-    const updateEmployee = await employeeModel.updateOne(
+    const updateEmployee = await db.employees.updateOne(
       { _id: data._id },
       {
         employeeFirstName: data?.employeeFirstName,
@@ -99,7 +99,7 @@ const updateEmployee = async (data) => {
 
 const deleteEmployee = async (data) => {
   try {
-    const deleteEmployee = await employeeModel.deleteOne({ _id: data._id });
+    const deleteEmployee = await db.employees.deleteOne({ _id: data._id });
     return { message: "Employee Deleted Successfully !" };
   } catch (err) {
     console.error(err);

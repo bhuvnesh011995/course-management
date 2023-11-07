@@ -1,4 +1,5 @@
 const CertificateModel = require("../models/certificateModel");
+const db = require("../models")
 const fs = require("fs");
 
 const addCertificate = async ({ body, file }) => {
@@ -8,9 +9,9 @@ const addCertificate = async ({ body, file }) => {
       query["certificateAttchment"] = file?.originalname;
       query["certificateFilePath"] = `/images/${file?.filename}`;
     }
-    const newCertificate = await CertificateModel.create(query);
+    const newCertificate = await db.certificates.create(query);
     const certificate = await newCertificate.save();
-    const addedCertificate = await CertificateModel.aggregate([
+    const addedCertificate = await db.certificates.aggregate([
       {
         $match: {
           $expr: {
@@ -60,7 +61,7 @@ const addCertificate = async ({ body, file }) => {
 
 const getCertificate = async (data) => {
   try {
-    const selectedCertificate = await CertificateModel.find({ _id: data._id });
+    const selectedCertificate = await db.certificates.find({ _id: data._id });
     return selectedCertificate[0];
   } catch (err) {
     console.error(err);
@@ -69,7 +70,7 @@ const getCertificate = async (data) => {
 
 const getCertificates = async (data) => {
   try {
-    const allCertificates = await CertificateModel.aggregate([
+    const allCertificates = await db.certificates.aggregate([
       {
         $lookup: {
           from: "courses",
@@ -127,7 +128,7 @@ const updateCertificate = async ({ body, file }) => {
         });
       }
     }
-    const updateCertificate = await CertificateModel.updateOne(
+    const updateCertificate = await db.certificates.updateOne(
       { _id: query._id },
       {
         certificateFilePath: query?.certificateFilePath,
@@ -141,7 +142,7 @@ const updateCertificate = async ({ body, file }) => {
         certificateAttchment: query?.certificateAttchment,
       }
     );
-    const updatedCertificate = await CertificateModel.aggregate([
+    const updatedCertificate = await db.certificates.aggregate([
       {
         $match: {
           $expr: {
@@ -210,7 +211,7 @@ const deleteCertificate = async (data) => {
         }
       );
 
-    const deleteSelectedCert = await CertificateModel.deleteOne({
+    const deleteSelectedCert = await db.certificates.deleteOne({
       _id: data._id,
     });
     return { message: "Certificate Deleted Successfully !" };
