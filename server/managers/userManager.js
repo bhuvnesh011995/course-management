@@ -99,9 +99,14 @@ const updateUserWithImage = async ({ file, body }) => {
   }
 };
 
-const getUser = async (data) => {
+const signIn = async (data) => {
   try {
+<<<<<<< HEAD
     const user = await db.user.findOne({ email: data.email });
+=======
+    console.log(data);
+    const user = await UserModel.findOne({ email: data.email });
+>>>>>>> 39a7c9a6040605fc80c53b20ee73966c9069dbd2
     if (user) {
       if (user.password == data.password) {
         const token = jwt.sign(
@@ -126,5 +131,5 @@ module.exports = {
   deleteUser,
   updateUser,
   updateUserWithImage,
-  getUser,
+  signIn,
 };

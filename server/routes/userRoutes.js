@@ -14,6 +14,6 @@ routes.post(
   userController.updateUserWithImage
 );
 
-routes.get("/getUser", userController.getUser);
+routes.post("/signIn", userController.signIn);
 
 module.exports = routes;

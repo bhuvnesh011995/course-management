@@ -12,6 +12,7 @@ import "jspdf-autotable";
 import {
   convertMongooseDate,
   convertToMongooseStartEndTiming,
+  filePath,
 } from "../../../common-components/useCommonUsableFunctions";
 import React from "react";
 import * as XLSX from "xlsx";
@@ -175,14 +176,18 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       });
       return newObj;
     });
-    console.log(tableData);
     generatedData["dataObj"] = dataObjArray;
     generatedData["tableData"] = tableData;
-    const createExcelFile = await AxiosInstance.post(
+    const { data } = await AxiosInstance.post(
       "/generateFile/excel",
       generatedData
     );
+    console.log(data);
+    // const aElement = document.createElement("a");
+    // aElement.href = filePath(data);
+    // aElement.setAttribute("download", `${data.split("uploads/images/")[1]}`);
 
+    // aElement.click();
     // {
     //     // const worksheet = XLSX.utils.json_to_sheet(dataObjArray);
 
