@@ -1,6 +1,6 @@
 const LeadModel = require("../models/newLeadModel");
 const { sendMail } = require("../managers/mailManager");
-const db = require("../models")
+const db = require("../models");
 const fs = require("fs");
 const classModel = require("../models/classModel");
 
@@ -182,6 +182,7 @@ const getAllLeads = async (user) => {
     const allLeads = await db.lead
       // .find({});
       .aggregate(leadQuery);
+    console.log(allLeads);
     return { leads: allLeads, user };
   } catch (err) {
     console.error(err);

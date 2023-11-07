@@ -70,8 +70,6 @@ const updateUser = async (data) => {
 const updateUserWithImage = async ({ file, body }) => {
   try {
     const query = JSON.parse(body.userData);
-    // const encryptedpass = await bcrypt.hash(query.userData.password, 10);
-    // query.userData["password"] = encryptedpass;
     query.userData["userImagePath"] = `images/${file.filename}`;
     query.userData["name"] =
       query.userData.firstName + " " + query.userData.lastName;
