@@ -11,6 +11,7 @@ import { CourseModal } from "./models/courseModal";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { courseHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { toast } from "react-toastify";
 
 export const Course = () => {
   const [tradeTypes, setTradeTypes] = useState([]);
@@ -89,9 +90,11 @@ export const Course = () => {
         params: course,
       });
 
+      toast.success("course deleted")
       const filteredCourses = allCourses.filter((e) => e._id != course._id);
       setAllCourses([...filteredCourses]);
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };

@@ -6,6 +6,7 @@ const classModel = require("../models/classModel");
 
 const addNewLead = async ({ body, files, user }) => {
   try {
+    console.log(body)
     const query = JSON.parse(body.leadData);
     const fileLocations = {
       passportCopy: "",

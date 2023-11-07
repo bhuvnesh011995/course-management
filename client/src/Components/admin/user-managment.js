@@ -8,6 +8,7 @@ import { userTableHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { EmailVerfificationModal } from "../../common-components/models/emailVerificationModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 export const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -57,9 +58,11 @@ export const UserManagement = () => {
       const { data } = await AxiosInstance.delete("/users/deleteUser", {
         params: userData,
       });
+      toast.success("User Deleted")
       users.splice(userIndex, 1);
       setUsers([...users]);
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };

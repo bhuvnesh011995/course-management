@@ -12,6 +12,7 @@ import {
   convertMongooseDate,
   filePath,
 } from "../../../common-components/useCommonUsableFunctions";
+import { toast } from "react-toastify";
 
 export const NewTrainerModal = ({
   isOpen,
@@ -52,9 +53,11 @@ export const NewTrainerModal = ({
         "/trainer/addNewTrainer",
         formData
       );
+      toast.success("New Trainer Added")
       callback(data);
       handleClose();
     } catch (err) {
+      toast.error("Error occured")
       console.error(err);
     }
   };
@@ -71,9 +74,11 @@ export const NewTrainerModal = ({
         "/trainer/updateTrainer",
         formData
       );
+      toast.success("Trainer Updated")
       callback(trainerData);
       handleClose();
     } catch (err) {
+      toast.error("Error occured")
       console.error(err);
     }
   };

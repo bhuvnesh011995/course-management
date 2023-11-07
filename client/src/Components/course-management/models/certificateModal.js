@@ -7,6 +7,7 @@ import {
 } from "../../../common-components/axiosInstance";
 import { filePath } from "../../../common-components/useCommonUsableFunctions";
 import jsPDF from "jspdf";
+import { toast } from "react-toastify";
 
 const AddNewCertificate = ({
   isOpen,
@@ -55,9 +56,11 @@ const AddNewCertificate = ({
         "/certificates/addCertificate",
         formData
       );
+      toast.success("certificate Added")
       callback(data);
       handleClose();
     } catch (err) {
+      toast.error('error occured')
       console.error(err);
     }
   };
@@ -82,9 +85,11 @@ const AddNewCertificate = ({
         "/certificates/updateCertificate",
         formData
       );
+      toast.success('certificate updated')
       callback(data.updatedCertificate);
       handleClose();
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };

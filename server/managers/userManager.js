@@ -100,22 +100,24 @@ const updateUserWithImage = async ({ file, body }) => {
 
 const signIn = async (data) => {
   try {
+
     const user = await db.user.findOne({ email: data.email });
+
     if (user) {
       if (user.password == data.password) {
         const token = jwt.sign(
           { email: user.email, password: user.password },
           JWTSECRETKEY
         );
-        return { message: "SignIn Successfully", token: token };
+        return { statusCode:200,data:{ token: token }};
       } else {
-        return { message: "Wrong email id or password !" };
+        return { statusCode:401,data:{ message:"Wrong email id or password !"}};
       }
     } else {
-      return { message: "Wrong email id or password !" };
+      return { statusCode:401,data:{ message:"Wrong email id or password !"} };
     }
   } catch (err) {
-    console.error(err);
+    return err
   }
 };
 

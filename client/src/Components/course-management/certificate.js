@@ -9,6 +9,7 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { certificateHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { toast } from "react-toastify";
 
 export const Certificate = () => {
   const [certificateModal, setCertificateModal] = useState(false);
@@ -65,6 +66,7 @@ export const Certificate = () => {
         "/certificates/deleteCertificate",
         { params: certificate }
       );
+      toast.success("certificate deleted")
       const filteredCertificates = certificates.filter(
         (e) => e._id != certificate._id
       );

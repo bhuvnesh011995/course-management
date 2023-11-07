@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
   const {
@@ -23,13 +24,12 @@ export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
 
   const addNewEvent = async (newEventData) => {
     try {
-      const { data } = await AxiosInstance.post(
-        "/events/AddEvent",
-        newEventData
-      );
+      const { data } = await AxiosInstance.post("/events/AddEvent",newEventData);
+      toast.success("Event Added")
       callback(data);
       handleClose();
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };

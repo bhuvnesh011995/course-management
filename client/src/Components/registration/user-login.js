@@ -5,11 +5,15 @@ import logoLight from "../../assets/images/logo-light.svg";
 import profileImg from "../../assets/images/profile-img.png";
 import logo from "../../assets/images/logo.svg";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
 
 export const LoginUser = () => {
   const navigate = useNavigate();
+  const {setUser,user,initialUser} = useAuth()
+
   useEffect(() => {
-    if (localStorage.getItem("token")) navigate("/dashboard");
+    if (user.token) navigate("/dashboard");
   }, []);
 
   const {
@@ -20,14 +24,25 @@ export const LoginUser = () => {
 
   const signIn = async (userData) => {
     try {
-      const { data } = await AxiosInstance.post("/users/signIn", userData);
-      console.log(data);
-      if (data.token) {
+      const response = await AxiosInstance.post("/users/signIn", userData);
+      console.log(response);
+      if(response.status===200){
+        if (response.data.token) {
+          toast.success("Login Successfull")
+          setUser({
+            token:response.data.token
+          })
         navigate("/dashboard");
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", response.data.token);
       }
+      }else{
+        console.log(response)
+      }
+      
     } catch (err) {
-      console.error(err);
+      if(err.response.status===401){
+        toast.error(err.response?.data?.message)
+      }
     }
   };
 

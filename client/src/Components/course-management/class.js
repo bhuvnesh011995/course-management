@@ -6,6 +6,7 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { classHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { toast } from "react-toastify";
 
 export const Class = () => {
   const [classModal, setClassModal] = useState(false);
@@ -59,10 +60,12 @@ export const Class = () => {
       const { data } = await AxiosInstance.delete("/class/deleteClass", {
         params: classData,
       });
+      toast.success("class deleted")
       const filteredClasses = classes.filter((e) => e._id != classData._id);
 
       setClasses([...filteredClasses]);
     } catch (err) {
+      toast.error('error occured')
       console.error(err);
     }
   };

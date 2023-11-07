@@ -9,6 +9,7 @@ import {
   phonePattern,
 } from "../../common-components/validations";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 export const UserRegistration = () => {
   const {
@@ -30,7 +31,9 @@ export const UserRegistration = () => {
         "/users/updateUserWithImage",
         formdata
       );
+      toast.success("User Register Successfully")
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };

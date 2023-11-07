@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 export const NewClassModal = ({
   setIsOpen,
@@ -83,9 +84,11 @@ export const NewClassModal = ({
   const addNewClass = async (newClass) => {
     try {
       const { data } = await AxiosInstance.post("/class/addClass", newClass);
+      toast.success("New Class Added")
       callback(data);
       handleclose();
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };
@@ -105,9 +108,11 @@ export const NewClassModal = ({
         "/class/updateClass",
         updatedClass
       );
+      toast.success("Class Updated")
       callback(data);
       handleclose();
     } catch (err) {
+      toast.error("error occured")
       console.error(err);
     }
   };

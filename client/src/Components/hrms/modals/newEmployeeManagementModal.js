@@ -8,6 +8,7 @@ import {
   phonePattern,
 } from "../../../common-components/validations";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 export const NewEmployeeManagementModal = ({
   isOpen,
@@ -43,9 +44,11 @@ export const NewEmployeeManagementModal = ({
         "/employee/addEmployee",
         newEmployee
       );
+      toast.success("New Employee Added")
       callback(data);
       handleClose();
     } catch (err) {
+      toast.error('error occured')
       console.error(err);
     }
   };
@@ -56,6 +59,7 @@ export const NewEmployeeManagementModal = ({
         "/employee/updateEmployee",
         updatedEmployee
       );
+      toast.success("employee updated")
       updatedEmployee["employeeName"] =
         updatedEmployee["employeeFirstName"] +
         " " +
@@ -63,6 +67,7 @@ export const NewEmployeeManagementModal = ({
       callback(updatedEmployee);
       handleClose();
     } catch (err) {
+      toast.error('error occured')
       console.error(err);
     }
   };
@@ -338,7 +343,7 @@ export const NewEmployeeManagementModal = ({
               </button>
               {!viewEmployee && (
                 <button type="submit" className="btn btn-primary">
-                  {employeeData ? "Update" : "Add"} Certificate
+                  {employeeData ? "Update" : "Add"} Employee
                 </button>
               )}
             </Modal.Footer>

@@ -6,15 +6,17 @@ module.exports = async () => {
         let adminrole = await db.roles.findOne({roleName:"Admin"})
 
         if(!adminrole){
-            adminrole = await db.roles.create(adminRole)
+            adminrole = await db.roles.create({adminRole})
         }
+        
         let admin = await db.user.findOne({userRole:adminrole._id})
-    
+    console.log("hiii",admin)
         if(!admin){
             await db.user.create({
                 name:"admin",
                 email:"admin@tonga.com",
-                password:"admin@123"
+                password:"admin@123",
+                userRole:adminrole._id
             })
         }
 
