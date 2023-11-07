@@ -637,7 +637,8 @@ routes.post("/excel", upload.single("file"), async (req, res) => {
     // const sendFilePath = {
     //   root: path.join(directoryPath, filePath.split("uploads/images/")[1]),
     // };
-    // return res.status(200).sendFile(sendFilePath);
+    // return
+    res.status(200).sendFile(filePath);
   } catch (err) {
     console.error(err);
   }

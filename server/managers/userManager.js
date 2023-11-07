@@ -1,7 +1,7 @@
 const UserModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const db = require("../models")
+const db = require("../models");
 const JWTSECRETKEY = process.env.JWTSECRETKEY;
 
 const addNewUser = async (data) => {
@@ -70,8 +70,6 @@ const updateUser = async (data) => {
 const updateUserWithImage = async ({ file, body }) => {
   try {
     const query = JSON.parse(body.userData);
-    // const encryptedpass = await bcrypt.hash(query.userData.password, 10);
-    // query.userData["password"] = encryptedpass;
     query.userData["userImagePath"] = `images/${file.filename}`;
     query.userData["name"] =
       query.userData.firstName + " " + query.userData.lastName;
@@ -101,12 +99,9 @@ const updateUserWithImage = async ({ file, body }) => {
 
 const signIn = async (data) => {
   try {
-<<<<<<< HEAD
+
     const user = await db.user.findOne({ email: data.email });
-=======
-    console.log(data);
-    const user = await UserModel.findOne({ email: data.email });
->>>>>>> 39a7c9a6040605fc80c53b20ee73966c9069dbd2
+
     if (user) {
       if (user.password == data.password) {
         const token = jwt.sign(

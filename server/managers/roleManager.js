@@ -1,7 +1,7 @@
 const RoleModel = require("../models/roleModel");
 const userModel = require("../models/userModel");
 
-const db = require('../models')
+const db = require("../models");
 const addNewRole = async (data) => {
   try {
     const newRole = await db.roles.create(data);
@@ -14,13 +14,7 @@ const addNewRole = async (data) => {
 
 const getRoles = async (user) => {
   try {
-    const roleData = await db.roles.aggregate([
-      {
-        $match: {
-          _id: { $ne: user[0].roleData._id },
-        },
-      },
-    ]);
+    const roleData = await RoleModel.find({});
     return { roleData, user };
   } catch (err) {
     console.error(err);
