@@ -24,7 +24,7 @@ const deleteUser = (req, res) => {
 const updateUser = (req, res) => {
   userManager
     .updateUser(req.body)
-    .then((result) => res.status(200).send(result))
+    .then((result) => res.status(result.status).send(result.data))
     .catch((err) => res.status(500).send(err));
 };
 

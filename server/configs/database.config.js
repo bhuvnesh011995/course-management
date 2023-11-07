@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://127.0.0.1:27017/tongadb1", {
+mongoose.connect(process.env.MONGOOSE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

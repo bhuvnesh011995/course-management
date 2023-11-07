@@ -103,6 +103,10 @@ export const DateRange = () => {
     setFilteredQueries({ ...filteredQueries });
   };
 
+  const updateHolidays = (data) => {
+    setEvents([...events, data]);
+  };
+
   return (
     <div id="layout-wrapper">
       <CommonNavbar />
@@ -231,6 +235,7 @@ export const DateRange = () => {
           isOpen={showEvent}
           setIsOpen={setShowEvent}
           eventData={eventData}
+          callback={(e) => updateHolidays(e)}
         />
       )}
     </div>

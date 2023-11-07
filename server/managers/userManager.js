@@ -23,7 +23,7 @@ const getUsers = async (userData) => {
     const users = await db.user.aggregate([
       {
         $match: {
-          _id: { $ne: userData[0]._id },
+          email: { $ne: "admin@tonga.com" },
         },
       },
     ]);
@@ -61,9 +61,10 @@ const updateUser = async (data) => {
         status: data.status,
       }
     );
-    return { updateUser };
+    return { status: 200, data: { message: "user Updated Successfully !" } };
   } catch (err) {
     console.error(err);
+    return err;
   }
 };
 

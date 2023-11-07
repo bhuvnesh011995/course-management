@@ -2,9 +2,10 @@ const TrainerModel = require("../models/trainerModel");
 const ClassModel = require("../models/classModel");
 const fs = require("fs");
 const classModel = require("../models/classModel");
-const db = require("../models")
-const addNewTrainer = async ({ query, file }) => {
+const db = require("../models");
+const addNewTrainer = async ({ body, file }) => {
   try {
+    console.log(body);
     const query = JSON.parse(body.trainerData);
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
@@ -29,7 +30,7 @@ const getTrainers = async (data) => {
 
 const updateTrainer = async ({ body, file }) => {
   try {
-    const query = JSON.parse(body.trainerData);
+    const query = JSON.parse(body?.trainerData);
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
     }

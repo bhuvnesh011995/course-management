@@ -51,10 +51,12 @@ export const AddNewLeadModel = ({
     if (leadData) {
       getLead();
       if (leadData) {
+        console.log(registrationTypes);
         const registrationLevels = registrationTypes.filter((e) => {
           if (e._id == leadData.registrationType) return e;
         });
         if (registrationLevels) {
+          console.log(registrationLevels);
           setTradeLevels(registrationLevels[0].tradeLevels);
           setSelectedRegistration(registrationLevels[0].registrationCode);
         }
@@ -325,7 +327,7 @@ export const AddNewLeadModel = ({
       );
       delete leadData.paymentPdfBase64;
       delete leadData.bankDetailsPdfBase64;
-      callback(leadData);
+      callback(leadData, "getPayment");
 
       handleClose();
     } catch (err) {
@@ -340,7 +342,7 @@ export const AddNewLeadModel = ({
         leadData
       );
       leadData.confirmed = true;
-      callback(leadData);
+      callback(leadData, "confirm");
       handleClose();
     } catch (err) {
       console.error(err);
@@ -368,7 +370,7 @@ export const AddNewLeadModel = ({
         "/leads/assignCourse",
         leadData
       );
-      callback(leadData);
+      callback(leadData, "courseAssign");
       handleClose();
     } catch (err) {
       console.error(err);
@@ -842,7 +844,7 @@ export const AddNewLeadModel = ({
                   </span>
                 </div>
               )}
-              {leadData && (
+              {viewLead && leadData && (
                 <div className="col-md-4 mb-3">
                   <label className="form-label">Course</label>
                   <select

@@ -6,6 +6,8 @@ const { upload } = require("../utils/upload.utils");
 const ExcelJs = require("exceljs");
 const path = require("path");
 
+const { Blob } = require("buffer");
+
 routes.post("/excel", upload.single("file"), async (req, res) => {
   try {
     const { body, file } = req;
@@ -628,17 +630,26 @@ routes.post("/excel", upload.single("file"), async (req, res) => {
           size: 13,
         };
 
-        updatedFile = await workbook.xlsx
-          .writeFile(filePath)
-          .then(() => console.log("file updated"))
-          .catch((err) => console.error(err));
+        updatedFile = await workbook.xlsx.writeFile(filePath);
       });
     // const directoryPath = path.join(__dirname, "uploads", "images");
     // const sendFilePath = {
     //   root: path.join(directoryPath, filePath.split("uploads/images/")[1]),
     // };
-    // return
-    res.status(200).sendFile(filePath);
+    // console.log(
+    //   fs.readFile(filePath, (err) => {
+    //     if (err) console.error(err);
+    //     else console.log("file readed");
+    //   })
+    // );
+    // console.log(filePath);
+
+    const bufferedFile = fs.readFileSync(filePath);
+    console.log(bufferedFile);
+    const blob = new Blob(bufferedFile);
+    console.log(blob);
+    res.status(200).send({ filePath: filePath, blob: blob, bufferedFile });
+    // res.redirect(`/${filePath.split("uploads/images/")[1]}`);
   } catch (err) {
     console.error(err);
   }

@@ -93,7 +93,9 @@ export const LoginUser = () => {
                         className="form-control"
                         id="username"
                         placeholder="Enter email"
-                        {...register("email",{required:"this is required field"})}
+                        {...register("email", {
+                          required: "this is required field",
+                        })}
                       />
                     </div>
 
@@ -105,7 +107,9 @@ export const LoginUser = () => {
                           id="password"
                           className="form-control"
                           placeholder="Enter password"
-                          {...register("password",{required:"this is required field"})}
+                          {...register("password", {
+                            required: "this is required field",
+                          })}
                         />
                         <button
                           className="btn btn-light "
@@ -144,26 +148,17 @@ export const LoginUser = () => {
 
                       <ul className="list-inline">
                         <li className="list-inline-item">
-                          <a
-                            href="javascript::void()"
-                            className="social-list-item bg-primary text-white border-primary"
-                          >
+                          <a className="social-list-item bg-primary text-white border-primary">
                             <i className="mdi mdi-facebook"></i>
                           </a>
                         </li>
                         <li className="list-inline-item">
-                          <a
-                            href="javascript::void()"
-                            className="social-list-item bg-info text-white border-info"
-                          >
+                          <a className="social-list-item bg-info text-white border-info">
                             <i className="mdi mdi-twitter"></i>
                           </a>
                         </li>
                         <li className="list-inline-item">
-                          <a
-                            href="javascript::void()"
-                            className="social-list-item bg-danger text-white border-danger"
-                          >
+                          <a className="social-list-item bg-danger text-white border-danger">
                             <i className="mdi mdi-google"></i>
                           </a>
                         </li>

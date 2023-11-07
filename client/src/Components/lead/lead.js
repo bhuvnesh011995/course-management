@@ -180,16 +180,16 @@ export const Lead = () => {
           const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
-            const completedLeads = filteredLeads.filter(
+            const assignedLeads = filteredLeads.filter(
               (e) => e.getPayment && !e.confirmed && e.courseAssigned
             );
-            setFilteredLeads([...completedLeads]);
+            setFilteredLeads([...assignedLeads]);
           }
         } else {
-          const completedLeads = leads.filter(
+          const assignedLeads = leads.filter(
             (e) => e.getPayment && !e.confirmed && e.courseAssigned
           );
-          setFilteredLeads([...completedLeads]);
+          setFilteredLeads([...assignedLeads]);
         }
         break;
       case "completed":

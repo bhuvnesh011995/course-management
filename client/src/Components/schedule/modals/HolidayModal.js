@@ -28,6 +28,7 @@ export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
         newEventData
       );
       callback(data);
+      handleClose();
     } catch (err) {
       console.error(err);
     }

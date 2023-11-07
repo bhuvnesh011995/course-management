@@ -183,33 +183,19 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       generatedData
     );
     console.log(data);
-    // const aElement = document.createElement("a");
-    // aElement.href = filePath(data);
-    // aElement.setAttribute("download", `${data.split("uploads/images/")[1]}`);
+    const UintData = Uint8Array.from(data.bufferedFile.data);
+    const content = new Blob([UintData.buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
 
+    const encodedUri = window.URL.createObjectURL(content);
+    const link = document.createElement("a");
+
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", data.filePath.split("uploads/images/")[1]);
+
+    link.click();
     // aElement.click();
-    // {
-    //     // const worksheet = XLSX.utils.json_to_sheet(dataObjArray);
-
-    //     // Object.keys(dataObjArray[0]).forEach((key, index) => {
-    //     //   const headerCell = XLSX.utils.encode_cell({ r: 0, c: index });
-
-    //     //   const headerCellStyle = {
-    //     //     font: { bold: true, sz: 19 },
-    //     //     fill: { bgColor: { indexed: 4 } },
-    //     //   };
-    //     //   XLSX.utils.format_cell(worksheet[headerCell], headerCellStyle);
-    //     //   worksheet[headerCell].v = key;
-
-    //     //   worksheet["!cols"] = worksheet["!cols"] || [];
-    //     //   worksheet["!cols"][index] = { wch: key.length + 5 };
-    //     // });
-
-    //     // const workbook = XLSX.utils.book_new();
-    //     // XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-    //     // XLSX.writeFile(workbook, "excel_with_dynamic_widths.xlsx");
-    //     }
   };
 
   return (

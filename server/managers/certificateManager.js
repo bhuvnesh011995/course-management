@@ -1,5 +1,5 @@
 const CertificateModel = require("../models/certificateModel");
-const db = require("../models")
+const db = require("../models");
 const fs = require("fs");
 
 const addCertificate = async ({ body, file }) => {
@@ -113,7 +113,7 @@ const getCertificates = async (data) => {
 
 const updateCertificate = async ({ body, file }) => {
   try {
-    const query = JSON.parse(body.updatedCertificate);
+    const query = JSON.parse(body.certificateData);
 
     if (file) {
       query["certificateAttchment"] = file?.originalname;
