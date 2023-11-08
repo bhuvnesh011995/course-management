@@ -8,9 +8,9 @@ module.exports = async () => {
         if(!adminrole){
             adminrole = await db.roles.create({adminRole})
         }
-        
+
         let admin = await db.user.findOne({userRole:adminrole._id})
-    console.log("hiii",admin)
+    
         if(!admin){
             await db.user.create({
                 name:"admin",

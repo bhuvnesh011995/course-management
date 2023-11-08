@@ -1,8 +1,10 @@
 // <!doctype html>
 // <html lang="en">
 
-import { MenuBar } from "../common-components/MenuBar";
-import { CommonNavbar } from "../common-components/Navbar";
+import { useState } from "react";
+import { MenuBar } from "../../common-components/MenuBar";
+import { CommonNavbar } from "../../common-components/Navbar";
+import AddPayrollModal from "./AddPayrollModal";
 
 // <head>
 
@@ -44,6 +46,8 @@ import { CommonNavbar } from "../common-components/Navbar";
 
 //     <!-- Start layout-wrapper -->
 export const PayRoll = () => {
+  let [isAddPayrollModalOpen,setAddPayrollModal] = useState(false)
+  let [isViewPayrollModalOpen,setViewPayrollModal] = useState(false)
   return (
     <div id="layout-wrapper">
       <CommonNavbar />
@@ -104,8 +108,7 @@ export const PayRoll = () => {
                       </div>
                       <button
                         className="btn btn-primary me-2"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addPayrollModal"
+                        onClick={()=>setAddPayrollModal(true)}
                       >
                         <i className="bx bx-plus me-1 fw-semibold align-middle" />
                         Add New Payroll
@@ -151,20 +154,14 @@ export const PayRoll = () => {
                             <td>$5,500</td>
                             <td>
                               <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
+                              onClick={()=>setViewPayrollModal(true)}
                                 className="btn btn-icon btn-sm btn-warning rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#viewPayrollModal"
                               >
                                 <i className="mdi mdi-eye" />
                               </a>
                               <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-primary rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editPayrollModal"
+                                onClick={()=>setAddPayrollModal(true)}
                               >
                                 <i className="mdi mdi-pencil" />
                               </a>
@@ -190,6 +187,7 @@ export const PayRoll = () => {
           {/* container-fluid */}
         </div>
         {/* End Page-content */}
+        <AddPayrollModal show={isAddPayrollModalOpen} setShow={setAddPayrollModal} />
         <div
           className="modal fade"
           id="addPayrollModal"

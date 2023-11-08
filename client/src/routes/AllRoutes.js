@@ -20,9 +20,9 @@ import { Lead2 } from "../Components/lead/lead2";
 import { Leave } from "../Components/leave";
 import { Mail } from "../Components/mail";
 import { MonitorVenueAvailability } from "../Components/monitor-venue-availability";
-import { PayRoll } from "../Components/payroll";
+import { PayRoll } from "../Components/Payroll/payroll";
 import { Profile } from "../Components/profile";
-import { Quotation } from "../Components/quotation";
+
 import { ReadEmail } from "../Components/read-email";
 import { RegistrationType } from "../Components/course-management/registration-type";
 import { S } from "../Components/s";
@@ -41,6 +41,7 @@ import { Permission } from "../Components/admin/roles and permission/permission"
 import { UserManagement } from "../Components/admin/user-managment";
 import { LoginUser } from "../Components/registration/user-login";
 import { UserRegistration } from "../Components/registration/user-registraion";
+import { Quotation } from "../Components/Quotation/quotation";
 
 export const AllRoutes = () => {
   const navigate = useNavigate();
@@ -79,10 +80,7 @@ export const AllRoutes = () => {
         <Route path="/lead2" Component={Lead2}></Route>
         <Route path="/leave" Component={Leave}></Route>
         <Route path="/mail" Component={Mail}></Route>
-        <Route
-          path="/monitor-venue-availability"
-          Component={MonitorVenueAvailability}
-        ></Route>
+        <Route path="/monitor-venue-availability"Component={MonitorVenueAvailability}></Route>
         <Route path="/payroll" Component={PayRoll}></Route>
         <Route path="/profile" Component={Profile}></Route>
         <Route path="/quotation" Component={Quotation}></Route>
