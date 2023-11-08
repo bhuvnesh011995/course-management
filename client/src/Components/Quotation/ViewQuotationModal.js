@@ -135,7 +135,7 @@ export default function ViewQuotationModal({show , setShow}) {
                 </form>
 </Modal.Body>
         <Modal.Footer>
-        <button type="button" className="btn btn-primary">
+        <button onClick={()=>setShow(false)} type="button" className="btn btn-primary">
                   Discard
                 </button>
         </Modal.Footer>

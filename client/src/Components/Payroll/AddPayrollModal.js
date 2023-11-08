@@ -119,6 +119,7 @@ export default function AddPayrollModal({show,setShow}) {
         <Modal.Footer>
         <button
                   type="button"
+                  className="btn btn-secondary"
                   onClick={()=>setShow(false)}
                 >
                   Cancel

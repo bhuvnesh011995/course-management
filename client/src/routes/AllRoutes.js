@@ -30,7 +30,6 @@ import { SalesQuotation } from "../Components/sales-quotation";
 import { Scheduling } from "../Components/schedule/sceduling";
 import { SubCategory } from "../Components/sub-categoery";
 import { Table } from "../Components/table";
-import { TimeSheet } from "../Components/timesheet";
 import { TradeLevel } from "../Components/course-management/trade-level";
 import { TradeType } from "../Components/course-management/trade-type";
 import { Trainer } from "../Components/schedule/trainer";
@@ -42,6 +41,7 @@ import { UserManagement } from "../Components/admin/user-managment";
 import { LoginUser } from "../Components/registration/user-login";
 import { UserRegistration } from "../Components/registration/user-registraion";
 import { Quotation } from "../Components/Quotation/quotation";
+import { TimeSheet } from "../Components/Timesheet/timesheet";
 
 export const AllRoutes = () => {
   const navigate = useNavigate();

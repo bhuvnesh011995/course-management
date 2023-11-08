@@ -5,6 +5,7 @@ import { useState } from "react";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import AddPayrollModal from "./AddPayrollModal";
+import ViewPayrollModal from "./ViewPayrollModal";
 
 // <head>
 
@@ -188,6 +189,7 @@ export const PayRoll = () => {
         </div>
         {/* End Page-content */}
         <AddPayrollModal show={isAddPayrollModalOpen} setShow={setAddPayrollModal} />
+        <ViewPayrollModal show={isViewPayrollModalOpen} setShow={setViewPayrollModal}/>
         <div
           className="modal fade"
           id="addPayrollModal"
