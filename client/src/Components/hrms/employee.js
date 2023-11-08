@@ -64,19 +64,17 @@ export const Employee = () => {
       const { data } = await AxiosInstance.delete("/employee/deleteEmployee", {
         params: employee,
       });
-      toast.success('employee deleted')
+      toast.success("employee deleted");
       const filteredEmployees = employees.filter((e) => e._id != employee._id);
       setEmployees([...filteredEmployees]);
     } catch (err) {
-      toast.error('error occured')
+      toast.error("error occured");
       console.error(err);
     }
   };
 
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-      <MenuBar />
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">

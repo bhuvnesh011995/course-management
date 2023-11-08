@@ -104,7 +104,6 @@ export const Lead2 = () => {
   return (
     <div>
       <div id="layout-wrapper">
-        <CommonNavbar />
         <div className="topnav">
           <div className="container-fluid">
             <nav className="navbar navbar-light navbar-expand-lg topnav-menu">

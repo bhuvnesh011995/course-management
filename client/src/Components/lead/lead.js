@@ -30,6 +30,13 @@ export const Lead = () => {
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
 
+  const filterTypes = {
+    sortBy: "",
+    company: "",
+    textSearch: "",
+  };
+  const [selectedFilter, setSelectedFilter] = useState(filterTypes);
+
   const showLeadModal = (data, type, index) => {
     setLeadIndex(index);
     if (data) {
@@ -49,9 +56,15 @@ export const Lead = () => {
 
   useEffect(() => {
     getAllLeads();
-    getTradeTypes();
-    getRegistrationTypes();
-  }, []);
+    if (
+      !selectedFilter.company.length &&
+      !selectedFilter.sortBy.length &&
+      !selectedFilter.textSearch.length
+    ) {
+      getRegistrationTypes();
+      getTradeTypes();
+    }
+  }, [selectedFilter]);
 
   const getTradeTypes = async () => {
     try {
@@ -93,7 +106,9 @@ export const Lead = () => {
 
   const getAllLeads = async (filterLead) => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getAllLeads");
+      const { data } = await AxiosInstance.get("/leads/getAllLeads", {
+        params: selectedFilter,
+      });
       console.log(data);
       data.leads.map((lead) => {
         tradeType.map((e) => {
@@ -112,23 +127,31 @@ export const Lead = () => {
       const { data } = await AxiosInstance.delete("/leads/deleteLead", {
         params: leadData,
       });
-      toast.success("lead deleted")
+      toast.success("lead deleted");
       const filterLeads = leads.filter((e) => e._id != leadData._id);
       setLeads([...filterLeads]);
       updateLeadList("delete", leadData);
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
 
-  const filterLeads = (leadId) => {
-    if (leadId.length) {
-      const filterLeads = leads.filter((e) => e._id == leadId);
-      setFilteredLeads([...filterLeads]);
-    } else {
-      setFilteredLeads([...leads]);
-    }
+  const filterLeads = (leadId, type) => {
+    if (type == "select")
+      if (leadId.length) {
+        const filterLeads = leads.filter((e) => e._id == leadId);
+        setFilteredLeads([...filterLeads]);
+      } else {
+        setFilteredLeads([...leads]);
+      }
+    else if (type == "textSearch")
+      if (leadId.length) {
+        const filterLeads = leads.filter((e) => e.companyName == leadId);
+        setFilteredLeads([...filterLeads]);
+      } else {
+        setFilteredLeads([...leads]);
+      }
   };
 
   const updateLeadList = (type, leadData) => {
@@ -220,10 +243,12 @@ export const Lead = () => {
     setLeadTab(type);
   };
 
+  const clearFilters = () => {
+    setSelectedFilter((old) => ({ ...filterTypes }));
+  };
+
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-      <MenuBar />
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
@@ -236,7 +261,13 @@ export const Lead = () => {
                       <div className="col-xl-4">
                         <select
                           className="form-select"
-                          onChange={({ target }) => filterLeads(target.value)}
+                          onChange={({ target }) => {
+                            setSelectedFilter((old) => ({
+                              ...old,
+                              company: target.value,
+                            }));
+                          }}
+                          value={selectedFilter.company}
                         >
                           <option value="" selected>
                             Select Company
@@ -254,9 +285,20 @@ export const Lead = () => {
                             className="form-control me-2"
                             type="search"
                             placeholder="Search"
+                            onChange={({ target }) => {
+                              setSelectedFilter((old) => ({
+                                ...old,
+                                textSearch: target.value,
+                              }));
+                            }}
+                            value={selectedFilter.textSearch}
                           />{" "}
-                          <button className="btn btn-light" type="submit">
-                            Search
+                          <button
+                            onClick={clearFilters}
+                            className=" btn btn-light"
+                            type="submit"
+                          >
+                            Clear Filters
                           </button>
                         </div>
                       </div>

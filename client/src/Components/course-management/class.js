@@ -60,20 +60,18 @@ export const Class = () => {
       const { data } = await AxiosInstance.delete("/class/deleteClass", {
         params: classData,
       });
-      toast.success("class deleted")
+      toast.success("class deleted");
       const filteredClasses = classes.filter((e) => e._id != classData._id);
 
       setClasses([...filteredClasses]);
     } catch (err) {
-      toast.error('error occured')
+      toast.error("error occured");
       console.error(err);
     }
   };
 
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-      <MenuBar />
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">

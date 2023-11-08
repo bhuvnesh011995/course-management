@@ -34,6 +34,7 @@
     padding: 0 1.5rem;
     text-align: center;
     width: 250px;
+    height: 73px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -89,7 +90,7 @@
     }
 
     .logo span.logo-lg {
-        display: none
+        display: inline-block
     }
 
     .logo span.logo-sm {
@@ -567,7 +568,7 @@ body[data-layout=horizontal] .footer {
 }
 
 .vertical-collpsed .logo span.logo-lg {
-    display: none
+    display: block
 }
 
 .vertical-collpsed .logo span.logo-sm {

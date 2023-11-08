@@ -4,17 +4,27 @@ import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { AddNewLeadModel } from "./addNewLeadModel";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { Link } from "react-router-dom";
+import { Dropdown } from "../../common-components/common-dropDown";
+import { toast } from "react-toastify";
 
 export const LeadGrid = () => {
+  const filterTypes = {
+    sortBy: "",
+    company: "",
+    textSearch: "",
+  };
+  const [selectedFilter, setSelectedFilter] = useState(filterTypes);
+
   const [newLeadModal, setNewLeadModal] = useState(false);
   const [leadData, setLeadData] = useState(null);
   const [deleteLeadModal, setDeleteLeadModal] = useState(false);
   const [viewLead, setViewLead] = useState(false);
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
-  const [previousMenu, setPreviousMenu] = useState("");
 
   const [leads, setLeads] = useState({
+    allLeads: [],
     newLeads: [],
     pendingLeads: [],
     assignCourseLeads: [],
@@ -23,12 +33,17 @@ export const LeadGrid = () => {
 
   useEffect(() => {
     getAllLeads();
-    getRegistrationTypes();
-    getTradeTypes();
-  }, []);
+    if (
+      !selectedFilter.company.length &&
+      !selectedFilter.sortBy.length &&
+      !selectedFilter.textSearch.length
+    ) {
+      getRegistrationTypes();
+      getTradeTypes();
+    }
+  }, [selectedFilter]);
 
-  const showLeadModal = (data, type, index) => {
-    console.log(data);
+  const showLeadModal = (data, type) => {
     if (data) {
       setLeadData(data);
     } else if (!data) {
@@ -46,13 +61,17 @@ export const LeadGrid = () => {
 
   const getAllLeads = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getAllLeads");
+      const { data } = await AxiosInstance.get("/leads/getAllLeads", {
+        params: selectedFilter,
+      });
       const leadData = {
+        allLeads: [],
         newLeads: [],
         pendingLeads: [],
         assignCourseLeads: [],
         completedLeads: [],
       };
+      leadData.allLeads = data.leads;
       data.leads.filter((e) => {
         if (!e.courseAssigned) {
           leadData.newLeads.push(e);
@@ -69,30 +88,6 @@ export const LeadGrid = () => {
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const filterLeadByOption = async (filterRole) => {
-    try {
-      console.log(filterRole);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const showLeadMenu = (data) => {
-    if (previousMenu.length > 0 && previousMenu != data) {
-      const previousMenuElement = document.getElementById(previousMenu);
-      if (previousMenuElement)
-        if (previousMenuElement.style.visibility == "visible")
-          previousMenuElement.style.visibility = "hidden";
-    }
-    setPreviousMenu(data);
-    const menuElement = document.getElementById(data);
-    if (menuElement)
-      if (menuElement.style.visibility == "hidden")
-        menuElement.style.visibility = "visible";
-      else if (menuElement.style.visibility == "visible")
-        menuElement.style.visibility = "hidden";
   };
 
   const getTradeTypes = async () => {
@@ -126,7 +121,7 @@ export const LeadGrid = () => {
             if (type == "courseAssign") {
               setLeads((old) => ({
                 ...old,
-                assignCourseLeads: [...leads.assignCourseLeads, data],
+                pendingLeads: [...leads.pendingLeads, data],
               }));
             } else if (type == "confirm") {
               setLeads((old) => ({
@@ -136,9 +131,12 @@ export const LeadGrid = () => {
             } else if (type == "getPayment") {
               setLeads((old) => ({
                 ...old,
-                pendingLeads: [...leads.pendingLeads, data],
+                assignCourseLeads: [...leads.assignCourseLeads, data],
               }));
             }
+          } else {
+            leads[key][index] = data;
+            setLeads((old) => ({ ...leads }));
           }
           return;
         }
@@ -149,11 +147,33 @@ export const LeadGrid = () => {
     }
   };
 
+  const deleteLead = async (leadData) => {
+    try {
+      const { data } = await AxiosInstance.delete("/leads/deleteLead", {
+        params: leadData,
+      });
+      toast.success("lead deleted");
+      Object.keys(leads).map((key) => {
+        leads[key].filter((lead, index) => {
+          if (lead._id === leadData._id) {
+            leads[key].splice(index, 1);
+            return;
+          }
+        });
+      });
+      setLeads((old) => ({ ...leads }));
+    } catch (err) {
+      toast.error("error occured");
+      console.error(err);
+    }
+  };
+
+  const clearFilters = () => {
+    setSelectedFilter((old) => ({ ...filterTypes }));
+  };
+
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-      <MenuBar />
-
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
@@ -167,9 +187,13 @@ export const LeadGrid = () => {
                         <div className="col-xl-4">
                           <select
                             className="form-select"
-                            onChange={({ target }) =>
-                              filterLeadByOption(target.value)
-                            }
+                            onChange={({ target }) => {
+                              setSelectedFilter((old) => ({
+                                ...old,
+                                sortBy: target.value,
+                              }));
+                            }}
+                            value={selectedFilter.sortBy}
                           >
                             <option value={""} selected>
                               Sort By
@@ -181,13 +205,28 @@ export const LeadGrid = () => {
                             <option value={"assignCourse"}>
                               Course-Assign
                             </option>
+                            <option value={"completed"}>completed</option>
                           </select>
                         </div>
                         <div className="col-xl-4">
-                          <select className="form-select">
+                          <select
+                            className="form-select"
+                            onChange={({ target }) => {
+                              setSelectedFilter((old) => ({
+                                ...old,
+                                company: target.value,
+                              }));
+                            }}
+                            value={selectedFilter.company}
+                          >
                             <option value={""} selected>
                               Select Company
                             </option>
+                            {leads.allLeads.map((lead) => (
+                              <option value={lead._id}>
+                                {lead.companyName}
+                              </option>
+                            ))}
                           </select>
                         </div>
                         <div className="col-xl-4">
@@ -196,9 +235,20 @@ export const LeadGrid = () => {
                               className="form-control me-2"
                               type="search"
                               placeholder="Search"
+                              onChange={({ target }) => {
+                                setSelectedFilter((old) => ({
+                                  ...old,
+                                  textSearch: target.value,
+                                }));
+                              }}
+                              value={selectedFilter.textSearch}
                             />{" "}
-                            <button className="btn btn-light" type="submit">
-                              Search
+                            <button
+                              onClick={clearFilters}
+                              className=" btn btn-light"
+                              type="submit"
+                            >
+                              Clear Filters
                             </button>
                           </div>
                         </div>
@@ -216,7 +266,8 @@ export const LeadGrid = () => {
                           <i className="bx bx-plus fw-semibold align-middle" />{" "}
                           Add New
                         </button>
-                        <a
+                        <Link
+                          to={"/lead"}
                           className="btn btn-primary me-2"
                           style={{
                             height: "20px",
@@ -225,7 +276,7 @@ export const LeadGrid = () => {
                           }}
                         >
                           <i className="mdi mdi-view-list fw-semibold align-middle" />
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -233,7 +284,7 @@ export const LeadGrid = () => {
               </div>
             </div>
             <div className="kanban-board p-3">
-              {leads.newLeads.length && (
+              {leads.newLeads.length ? (
                 <div className="kanban-tasks-type new-lead">
                   <div className="card bg-soft bg-success m-0">
                     <div className="card-header bg-success text-white d-flex justify-content-between align-items-center">
@@ -251,61 +302,57 @@ export const LeadGrid = () => {
                                       <i className="mdi mdi-star me-2 text-primary" />
                                       {lead.coreTradeRegNo}
                                     </div>
-                                    <div className="dropdown">
-                                      <a
-                                        className="fs-15 cursor-pointer"
-                                        onClick={() =>
-                                          showLeadMenu(`newLead${index}`)
-                                        }
+                                    <Dropdown.Container
+                                      className="bg-transparent "
+                                      closeOnClick
+                                      toggle={
+                                        <>
+                                          <span className="  mdi mdi-dots-vertical"></span>
+                                        </>
+                                      }
+                                      menuClassName="dropdown-menu "
+                                    >
+                                      <Dropdown.Item
+                                        onClick={() => {
+                                          showLeadModal(lead, "view");
+                                        }}
                                       >
-                                        {" "}
-                                        <i className="mdi mdi-dots-vertical" />{" "}
-                                      </a>
-                                      <ul
-                                        id={`newLead${index}`}
-                                        style={{ visibility: "hidden" }}
-                                        className="dropdown-menu dropdown-menu-end"
+                                        <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
+                                        View
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        onClick={() => showLeadModal(lead)}
                                       >
-                                        <li>
-                                          <a
-                                            className="dropdown-item"
-                                            onClick={() =>
-                                              showLeadModal(lead, "view")
-                                            }
-                                          >
-                                            <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
-                                            View
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a
-                                            className="dropdown-item"
-                                            onClick={() => showLeadModal(lead)}
-                                          >
-                                            <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
-                                            Edit
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
+                                        <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
+                                        Edit
+                                      </Dropdown.Item>
+                                      {lead?.getPayment && (
+                                        <Dropdown.Item>
+                                          <span className="">
                                             <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                             Payment
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
+                                      {lead?.confirmed && (
+                                        <Dropdown.Item>
+                                          <span className="">
                                             <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                             Confirm
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
-                                            <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
-                                            Delete
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
+                                      <Dropdown.Item
+                                        onClick={() => {
+                                          showLeadModal(lead, "delete");
+                                        }}
+                                      >
+                                        <span className="">
+                                          <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
+                                          Delete
+                                        </span>
+                                      </Dropdown.Item>
+                                    </Dropdown.Container>
                                   </div>
                                   <div className="kanban-content">
                                     <h6 className="mb-2 fs-12">
@@ -331,24 +378,24 @@ export const LeadGrid = () => {
                                 <div className="p-2 border-top border-block-start-dashed">
                                   <div className="d-flex justify-content-between align-items-center">
                                     <div>
-                                      <a className="me-2 text-primary">
+                                      <span className="me-2 text-primary">
                                         <span className="me-1">
                                           <i className="mdi mdi-briefcase align-middle fw-normal" />
                                         </span>
                                         <span className="fw-semibold fs-12">
                                           {lead.tradeType}
                                         </span>{" "}
-                                      </a>
+                                      </span>
                                     </div>
                                     <div>
-                                      <a className="me-2 text-primary">
+                                      <span className="me-2 text-primary">
                                         <span className="me-1">
                                           <i className="bx bx-phone align-middle fw-normal" />
                                         </span>
                                         <span className="fw-semibold fs-12">
                                           {lead.contactPersonMobile}
                                         </span>
-                                      </a>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -360,8 +407,10 @@ export const LeadGrid = () => {
                     </div>
                   </div>
                 </div>
+              ) : (
+                <div></div>
               )}
-              {leads.pendingLeads.length && (
+              {leads.pendingLeads.length ? (
                 <div className="kanban-tasks-type course-1">
                   <div className="card bg-primary bg-soft m-0">
                     <div className="card-header bg-primary text-white">
@@ -379,61 +428,57 @@ export const LeadGrid = () => {
                                       <i className="mdi mdi-star me-2 text-primary" />
                                       {lead.coreTradeRegNo}
                                     </div>
-                                    <div className="dropdown">
-                                      <a
-                                        className="fs-15 cursor-pointer"
-                                        onClick={() =>
-                                          showLeadMenu(`pendingLead${index}`)
-                                        }
+                                    <Dropdown.Container
+                                      className="bg-transparent"
+                                      closeOnClick
+                                      toggle={
+                                        <>
+                                          <span className="  mdi mdi-dots-vertical"></span>
+                                        </>
+                                      }
+                                      menuClassName="dropdown-menu dropdown-menu-end"
+                                    >
+                                      <Dropdown.Item
+                                        onClick={() => {
+                                          showLeadModal(lead, "view");
+                                        }}
                                       >
-                                        {" "}
-                                        <i className="mdi mdi-dots-vertical" />{" "}
-                                      </a>
-                                      <ul
-                                        style={{ visibility: "hidden" }}
-                                        id={`pendingLead${index}`}
-                                        className="dropdown-menu dropdown-menu-end"
+                                        <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
+                                        View
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        onClick={() => showLeadModal(lead)}
                                       >
-                                        <li>
-                                          <a
-                                            className="dropdown-item"
-                                            onClick={() =>
-                                              showLeadModal(lead, "view")
-                                            }
-                                          >
-                                            <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
-                                            View
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a
-                                            className="dropdown-item"
-                                            onClick={() => showLeadModal(lead)}
-                                          >
-                                            <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
-                                            Edit
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
+                                        <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
+                                        Edit
+                                      </Dropdown.Item>
+                                      {lead?.getPayment && (
+                                        <Dropdown.Item>
+                                          <span className="">
                                             <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                             Payment
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
+                                      {lead?.confirmed && (
+                                        <Dropdown.Item>
+                                          <span className="">
                                             <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                             Confirm
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
-                                            <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
-                                            Delete
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
+                                      <Dropdown.Item
+                                        onClick={() => {
+                                          showLeadModal(lead, "delete");
+                                        }}
+                                      >
+                                        <span className="">
+                                          <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
+                                          Delete
+                                        </span>
+                                      </Dropdown.Item>
+                                    </Dropdown.Container>
                                   </div>
                                   <div className="kanban-content">
                                     <h6 className="mb-2 fs-12">
@@ -459,24 +504,24 @@ export const LeadGrid = () => {
                                 <div className="p-2 border-top border-block-start-dashed">
                                   <div className="d-flex justify-content-between align-items-center">
                                     <div>
-                                      <a className="me-2 text-primary">
+                                      <span className="me-2 text-primary">
                                         <span className="me-1">
                                           <i className="mdi mdi-briefcase align-middle fw-normal" />
                                         </span>
                                         <span className="fw-semibold fs-12">
                                           {lead.tradeType}
                                         </span>{" "}
-                                      </a>
+                                      </span>
                                     </div>
                                     <div>
-                                      <a className="me-2 text-primary">
+                                      <span className="me-2 text-primary">
                                         <span className="me-1">
                                           <i className="bx bx-phone align-middle fw-normal" />
                                         </span>
                                         <span className="fw-semibold fs-12">
                                           {lead.contactPersonMobile}
                                         </span>
-                                      </a>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -488,8 +533,10 @@ export const LeadGrid = () => {
                     </div>
                   </div>
                 </div>
+              ) : (
+                <div></div>
               )}
-              {leads.assignCourseLeads.length && (
+              {leads.assignCourseLeads.length ? (
                 <div className="kanban-tasks-type course-2">
                   <div className="card bg-warning bg-soft m-0 text-white">
                     <div className="card-header bg-warning">
@@ -507,61 +554,58 @@ export const LeadGrid = () => {
                                       <i className="mdi mdi-star me-2 text-primary" />
                                       {lead.coreTradeRegNo}
                                     </div>
-                                    <div
-                                      className="dropdown"
-                                      onClick={() =>
-                                        showLeadMenu(`assignCourseLead${index}`)
+                                    <Dropdown.Container
+                                      className="bg-transparent"
+                                      closeOnClick
+                                      toggle={
+                                        <>
+                                          <span className="  mdi mdi-dots-vertical"></span>
+                                        </>
                                       }
+                                      menuClassName="dropdown-menu dropdown-menu-end"
                                     >
-                                      <a className="fs-15 cursor-pointer">
-                                        {" "}
-                                        <i className="mdi mdi-dots-vertical" />{" "}
-                                      </a>
-                                      <ul
-                                        style={{ visibility: "hidden" }}
-                                        className="dropdown-menu dropdown-menu-end"
-                                        id={`assignCourseLead${index}`}
+                                      <Dropdown.Item
+                                        onClick={() => {
+                                          showLeadModal(lead, "view");
+                                        }}
                                       >
-                                        <li>
-                                          <a
-                                            className="dropdown-item"
-                                            onClick={() =>
-                                              showLeadModal(lead, "view")
-                                            }
-                                          >
-                                            <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
-                                            View
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a
-                                            className="dropdown-item"
-                                            onClick={() => showLeadModal(lead)}
-                                          >
-                                            <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
-                                            Edit
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
+                                        <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
+                                        View
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        onClick={() => showLeadModal(lead)}
+                                      >
+                                        <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
+                                        Edit
+                                      </Dropdown.Item>
+                                      {lead?.getPayment && (
+                                        <Dropdown.Item>
+                                          <span className="">
                                             <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                             Payment
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
+
+                                      {lead?.confirmed && (
+                                        <Dropdown.Item>
+                                          <span className="">
                                             <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                             Confirm
-                                          </a>
-                                        </li>
-                                        <li>
-                                          <a className="dropdown-item">
-                                            <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
-                                            Delete
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
+                                      <Dropdown.Item
+                                        onClick={() => {
+                                          showLeadModal(lead, "delete");
+                                        }}
+                                      >
+                                        <span className="">
+                                          <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
+                                          Delete
+                                        </span>
+                                      </Dropdown.Item>
+                                    </Dropdown.Container>
                                   </div>
                                   <div className="kanban-content">
                                     <h6 className="mb-2 fs-12">
@@ -587,24 +631,24 @@ export const LeadGrid = () => {
                                 <div className="p-2 border-top border-block-start-dashed">
                                   <div className="d-flex justify-content-between align-items-center">
                                     <div>
-                                      <a className="me-2 text-primary">
+                                      <span className="me-2 text-primary">
                                         <span className="me-1">
                                           <i className="mdi mdi-briefcase align-middle fw-normal" />
                                         </span>
                                         <span className="fw-semibold fs-12">
                                           {lead.tradeType}
                                         </span>{" "}
-                                      </a>
+                                      </span>
                                     </div>
                                     <div>
-                                      <a className="me-2 text-primary">
+                                      <span className="me-2 text-primary">
                                         <span className="me-1">
                                           <i className="bx bx-phone align-middle fw-normal" />
                                         </span>
                                         <span className="fw-semibold fs-12">
                                           {lead.contactPersonMobile}
                                         </span>
-                                      </a>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -616,6 +660,129 @@ export const LeadGrid = () => {
                     </div>
                   </div>
                 </div>
+              ) : (
+                <div></div>
+              )}
+              {leads.completedLeads.length ? (
+                <div className="kanban-tasks-type course-2">
+                  <div className="card bg-info bg-soft m-0 text-white">
+                    <div className="card-header bg-info">
+                      <div className="card-title">Completed</div>
+                    </div>
+                    <div className="card-body h-800 p-3">
+                      <div id="course-2">
+                        <div id="lead-column-3" className="task-list">
+                          {leads.completedLeads.map((lead, index) => (
+                            <div className="card task-box">
+                              <div className="card-body p-0">
+                                <div className="p-2 kanban-board-head">
+                                  <div className="d-flex text-primary justify-content-between mb-2 fs-12 fw-semibold">
+                                    <div>
+                                      <i className="mdi mdi-star me-2 text-primary" />
+                                      {lead.coreTradeRegNo}
+                                    </div>
+
+                                    <Dropdown.Container
+                                      className="bg-transparent"
+                                      closeOnClick
+                                      toggle={
+                                        <>
+                                          <span className="  mdi mdi-dots-vertical"></span>
+                                        </>
+                                      }
+                                      menuClassName="dropdown-menu dropdown-menu-end"
+                                    >
+                                      <Dropdown.Item
+                                        onClick={() => {
+                                          showLeadModal(lead, "view");
+                                        }}
+                                      >
+                                        <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
+                                        View
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        onClick={() => showLeadModal(lead)}
+                                      >
+                                        <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
+                                        Edit
+                                      </Dropdown.Item>
+                                      {lead?.getPayment && (
+                                        <Dropdown.Item>
+                                          <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
+                                          Payment
+                                        </Dropdown.Item>
+                                      )}
+                                      {lead?.confirmed && (
+                                        <Dropdown.Item>
+                                          <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
+                                          Confirm
+                                        </Dropdown.Item>
+                                      )}
+                                      <Dropdown.Item
+                                        onClick={() => {
+                                          showLeadModal(lead, "delete");
+                                        }}
+                                      >
+                                        <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
+                                        Delete
+                                      </Dropdown.Item>
+                                    </Dropdown.Container>
+                                  </div>
+                                  <div className="kanban-content">
+                                    <h6 className="mb-2 fs-12">
+                                      <span className="fw-bold">
+                                        Company Name
+                                      </span>{" "}
+                                      : {lead.companyName}
+                                    </h6>
+                                    <h6 className="mb-2 fs-12">
+                                      <span className="fw-bold">
+                                        Contact Person
+                                      </span>{" "}
+                                      : {lead.contactPerson}
+                                    </h6>
+                                    <h6 className="mb-0 fs-12">
+                                      <span className="fw-bold">
+                                        Participant Name
+                                      </span>{" "}
+                                      : {lead.participantName}
+                                    </h6>
+                                  </div>
+                                </div>
+                                <div className="p-2 border-top border-block-start-dashed">
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <div>
+                                      <span className="me-2 text-primary">
+                                        <span className="me-1">
+                                          <i className="mdi mdi-briefcase align-middle fw-normal" />
+                                        </span>
+                                        <span className="fw-semibold fs-12">
+                                          {lead.tradeType}
+                                        </span>{" "}
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <span className="me-2 text-primary">
+                                        <span className="me-1">
+                                          <i className="bx bx-phone align-middle fw-normal" />
+                                        </span>
+                                        <span className="fw-semibold fs-12">
+                                          {lead.contactPersonMobile}
+                                        </span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div></div>
               )}
             </div>
           </div>
@@ -645,7 +812,7 @@ export const LeadGrid = () => {
           setIsOpen={setDeleteLeadModal}
           isOpen={deleteLeadModal}
           message={`do you really want to delete this Lead`}
-          // callback={(e) => deleteLead(e)}
+          callback={(e) => deleteLead(e)}
           deleteHeader={"Lead"}
           data={leadData}
         />

@@ -482,3 +482,24 @@ margin-left: 10px;
     color: rgb(69, 69, 246);
     font-weight: bolder;
 }
+
+.dropdown-button {
+    background-color: #f0f0f0; 
+    border: 1px solid #ccc; 
+    color: #333; 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+  }
+  .dropdown-button::after {
+    content: '\2026'; 
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }

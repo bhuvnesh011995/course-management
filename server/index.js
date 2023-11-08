@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const init = require("./init")
+const init = require("./init");
 
 const app = express();
 
@@ -27,5 +27,3 @@ app.listen(process.env.PORT, () => {
 });
 
 app.use("/api", require("./routes/route"));
-
-

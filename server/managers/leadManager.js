@@ -6,7 +6,6 @@ const classModel = require("../models/classModel");
 
 const addNewLead = async ({ body, files, user }) => {
   try {
-    console.log(body)
     const query = JSON.parse(body.leadData);
     const fileLocations = {
       passportCopy: "",
@@ -116,10 +115,91 @@ const addNewLead = async ({ body, files, user }) => {
   }
 };
 
-const getAllLeads = async (user) => {
+const getAllLeads = async (user, filters) => {
   try {
     const leadQuery = [];
-    console.log("hihihi");
+
+    if (filters?.sortBy?.length) {
+      if (filters.sortBy == "newLead")
+        leadQuery.push({
+          $match: {
+            $expr: { $eq: [false, "$courseAssigned"] },
+          },
+        });
+      else if (filters.sortBy == "paymentPending")
+        leadQuery.push(
+          {
+            $match: {
+              $expr: { $eq: [true, "$courseAssigned"] },
+            },
+          },
+          {
+            $match: {
+              $expr: { $eq: [false, "$getPayment"] },
+            },
+          },
+          {
+            $match: {
+              $expr: { $eq: [false, "$confirmed"] },
+            },
+          }
+        );
+      else if (filters.sortBy == "assignCourse")
+        leadQuery.push(
+          {
+            $match: {
+              $expr: { $eq: [true, "$getPayment"] },
+            },
+          },
+          {
+            $match: {
+              $expr: { $eq: [false, "$confirmed"] },
+            },
+          },
+          {
+            $match: {
+              $expr: { $eq: [true, "$courseAssigned"] },
+            },
+          }
+        );
+      else if (filters.sortBy == "completed")
+        leadQuery.push(
+          {
+            $match: {
+              $expr: { $eq: [true, "$getPayment"] },
+            },
+          },
+          {
+            $match: {
+              $expr: { $eq: [true, "$confirmed"] },
+            },
+          },
+          {
+            $match: {
+              $expr: { $eq: [true, "$courseAssigned"] },
+            },
+          }
+        );
+    }
+    console.log(filters.company);
+    if (filters?.company?.length) {
+      leadQuery.push({
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$_id" }, filters.company],
+          },
+        },
+      });
+    }
+
+    if (filters?.textSearch?.length) {
+      leadQuery.push({
+        $match: {
+          companyName: { $regex: filters.textSearch },
+        },
+      });
+    }
+
     leadQuery.push(
       {
         $lookup: {
@@ -180,10 +260,7 @@ const getAllLeads = async (user) => {
         },
       }
     );
-    const allLeads = await db.lead
-      // .find({});
-      .aggregate(leadQuery);
-    console.log(allLeads);
+    const allLeads = await db.lead.aggregate(leadQuery);
     return { leads: allLeads, user };
   } catch (err) {
     console.error(err);
@@ -731,7 +808,6 @@ const getFilteredLeads = async (data) => {
       },
     });
     const getClassParticipants = await db.classes.aggregate(leadQuery);
-    console.log(getClassParticipants);
     return getClassParticipants;
   } catch (err) {
     console.error(err);

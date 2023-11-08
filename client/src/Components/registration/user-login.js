@@ -10,10 +10,10 @@ import { useAuth } from "../../context/authContext";
 
 export const LoginUser = () => {
   const navigate = useNavigate();
-  const {setUser,user,initialUser} = useAuth()
+  const { setUser, user, initialUser } = useAuth();
 
   useEffect(() => {
-    if (user.token) navigate("/dashboard");
+    if (user.token || localStorage.getItem("token")) navigate("/dashboard");
   }, []);
 
   const {
@@ -25,23 +25,22 @@ export const LoginUser = () => {
   const signIn = async (userData) => {
     try {
       const response = await AxiosInstance.post("/users/signIn", userData);
-      console.log(response);
-      if(response.status===200){
+
+      if (response.status === 200) {
         if (response.data.token) {
-          toast.success("Login Successfull")
+          toast.success("Login Successfull");
           setUser({
-            token:response.data.token
-          })
-        navigate("/dashboard");
-        localStorage.setItem("token", response.data.token);
+            token: response.data.token,
+          });
+          navigate("/dashboard");
+          localStorage.setItem("token", response.data.token);
+        }
+      } else {
+        console.log(response);
       }
-      }else{
-        console.log(response)
-      }
-      
     } catch (err) {
-      if(err.response.status===401){
-        toast.error(err.response?.data?.message)
+      if (err.response.status === 401) {
+        toast.error(err.response?.data?.message);
       }
     }
   };
