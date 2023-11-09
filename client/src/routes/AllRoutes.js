@@ -20,9 +20,9 @@ import { Lead2 } from "../Components/lead/lead2";
 import { Leave } from "../Components/leave";
 import { Mail } from "../Components/mail";
 import { MonitorVenueAvailability } from "../Components/monitor-venue-availability";
-import { PayRoll } from "../Components/payroll";
+import { PayRoll } from "../Components/Payroll/payroll";
 import { Profile } from "../Components/profile";
-import { Quotation } from "../Components/quotation";
+
 import { ReadEmail } from "../Components/read-email";
 import { RegistrationType } from "../Components/course-management/registration-type";
 import { S } from "../Components/s";
@@ -30,7 +30,6 @@ import { SalesQuotation } from "../Components/sales-quotation";
 import { Scheduling } from "../Components/schedule/sceduling";
 import { SubCategory } from "../Components/sub-categoery";
 import { Table } from "../Components/table";
-import { TimeSheet } from "../Components/timesheet";
 import { TradeLevel } from "../Components/course-management/trade-level";
 import { TradeType } from "../Components/course-management/trade-type";
 import { Trainer } from "../Components/schedule/trainer";
@@ -43,6 +42,8 @@ import { LoginUser } from "../Components/registration/user-login";
 import { UserRegistration } from "../Components/registration/user-registraion";
 import { CommonNavbar } from "../common-components/Navbar";
 import { MenuBar } from "../common-components/MenuBar";
+import { Quotation } from "../Components/Quotation/quotation";
+import { TimeSheet } from "../Components/Timesheet/timesheet";
 
 export const AllRoutes = () => {
   const navigate = useNavigate();

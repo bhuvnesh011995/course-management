@@ -138,7 +138,7 @@ const AddNewCertificate = ({
                 ? "View"
                 : certificateData?._id
                 ? "Update"
-                : "Add"}{" "}
+                : "Add"}
               Certificate
             </h5>
           </Modal.Title>
