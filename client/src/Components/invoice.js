@@ -59,13 +59,6 @@ import { CommonNavbar } from "../common-components/Navbar";
 export const Invoice = () => {
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-      {/* ========== Left Sidebar Start ========== */}
-      <MenuBar />
-      {/* Left Sidebar End */}
-      {/* ============================================================== */}
-      {/* Start right Content here */}
-      {/* ============================================================== */}
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">

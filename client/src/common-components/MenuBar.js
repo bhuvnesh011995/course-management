@@ -1,8 +1,21 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const MenuBar = () => {
+  const { pathname, hash } = useLocation();
   const [previousMenu, setPreviousMenu] = useState("");
+
+  useEffect(() => {
+    if (
+      pathname.split("/")[1] == "admin" ||
+      pathname.split("/")[1] == "schedule" ||
+      pathname.split("/")[1] == "course-management" ||
+      pathname.split("/")[1] == "finance" ||
+      pathname.split("/")[1] == "hrms"
+    ) {
+      showMenuList(`${pathname.split("/")[1]}-menu`);
+    }
+  }, []);
 
   const showMenuList = (menuName) => {
     const element = document.getElementById(menuName);
@@ -19,15 +32,6 @@ export const MenuBar = () => {
 
   const closePreviousMenu = (nextMenu) => {
     if (previousMenu != nextMenu) {
-      if (previousMenu == "menu-admin" && nextMenu == "roles-menu") return;
-      if (previousMenu == "roles-menu" && nextMenu != "roles-menu") {
-        const element = document.getElementById("menu-admin");
-        if (element)
-          if (element.classList.contains("mm-show")) {
-            element.classList.remove("mm-show");
-            element.parentElement.classList.remove("mm-active");
-          }
-      }
       const element = document.getElementById(previousMenu);
       if (element)
         if (element.classList.contains("mm-show")) {
@@ -42,59 +46,32 @@ export const MenuBar = () => {
       <div data-simplebar className="h-100">
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled mm-show" id="side-menu">
-            <li className="mm-active">
-              <Link to="/" className="waves-effect active">
+            <li className={`${pathname == "/" && "mm-active"}`}>
+              <Link
+                to="/"
+                className={`waves-effect ${pathname.split("/")[1] == ""}`}
+              >
                 <i className="bx bx-home-circle" />
                 <span className="badge rounded-pill bg-info float-end">02</span>
                 <span key="t-dashboards">Dashboard</span>
               </Link>
             </li>
             <li>
-              <a
-                onClick={() => showMenuList("menu-admin")}
-                className="has-arrow waves-effect"
+              <Link
+                to="/lead"
+                className={`waves-effect ${
+                  pathname.split("/")[1] == "lead" && "mm-active"
+                }`}
               >
-                <i className="bx bx-user" />
-                <span>Admin</span>
-              </a>
-              <ul className="sub-menu mm-collapse " id="menu-admin">
-                <li>
-                  <Link to="/user-management">User Managment</Link>
-                </li>
-                <li>
-                  <Link
-                    to="/roles"
-                    className="sub-menu"
-                    // onClick={() => showMenuList("roles-menu")}
-                  >
-                    Roles and Permission
-                  </Link>
-                  {/* <ul className="sub-menu mm-collapse" id="roles-menu">
-                    <li>
-                      <Link to="/roles">Roles</Link>
-                    </li>
-                    <li>
-                      <Link to="/permission">Permissions</Link>
-                    </li>
-                  </ul> */}
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link to="/customer-management" className="waves-effect">
-                <i className="bx bxs-graduation" />
-                <span key="t-Customer">Customer </span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/lead" className="waves-effect">
                 <i className="bx bx-task" />
                 <span key="t-lead">Lead </span>
               </Link>
             </li>
             <li>
               <a
-                className="has-arrow waves-effect"
+                className={`has-arrow waves-effect ${
+                  pathname.split("/")[1] == "schedule" && "mm-active"
+                }`}
                 onClick={() => showMenuList("schedule-menu")}
               >
                 <i className="bx bx-calendar" />
@@ -105,95 +82,215 @@ export const MenuBar = () => {
                 id="schedule-menu"
                 aria-expanded="false"
               >
-                <li>
-                  <Link to="/scheduling">Calendar</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "scheduling" && "mm-active"
+                  }`}
+                >
+                  <Link to="/schedule/scheduling">Calendar</Link>
                 </li>
-                <li>
-                  <Link to="/trainer">Trainers</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "trainer" && "mm-active"
+                  }`}
+                >
+                  <Link to="/schedule/trainer">Trainers</Link>
                 </li>
-                <li>
-                  <Link to="/date-range">Holidays</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a
-                onClick={() => showMenuList("finance-menu")}
-                className="has-arrow waves-effect"
-              >
-                <i className="bx bx-dollar" />
-                <span key="t-finance">Finance </span>
-              </a>
-              <ul className="sub-menu mm-collapse" id="finance-menu">
-                <li>
-                  <Link to="/quotation">Quotation Management</Link>
-                </li>
-                <li>
-                  <Link to="/sales-quotation">Sales Quotation</Link>
-                </li>
-                <li>
-                  <Link to="/invoice">Invoice Management</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "date-range" && "mm-active"
+                  }`}
+                >
+                  <Link to="/schedule/date-range">Holidays</Link>
                 </li>
               </ul>
             </li>
             <li>
               <a
                 onClick={() => showMenuList("course-management-menu")}
-                className="has-arrow waves-effect"
+                className={`has-arrow waves-effect ${
+                  pathname.split("/")[1] == "course-management" && "mm-active"
+                }`}
               >
                 <i className="bx bx-food-menu" />
                 <span key="t-course">Course Managment</span>
               </a>
               <ul className="sub-menu mm-collapse" id="course-management-menu">
-                <li>
-                  <Link to="/registration-type">Registration Type</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "registration-type" && "mm-active"
+                  }`}
+                >
+                  <Link to="/course-management/registration-type">
+                    Registration Type
+                  </Link>
                 </li>
-                <li>
-                  <Link to="/trade-level">Trade Level</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "trade-level" && "mm-active"
+                  }`}
+                >
+                  <Link to="/course-management/trade-level">Trade Level</Link>
                 </li>
-                <li>
-                  <Link to="/trade-type">Trade Types</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "trade-type" && "mm-active"
+                  }`}
+                >
+                  <Link to="/course-management/trade-type">Trade Types</Link>
                 </li>
-                <li>
-                  <Link to="/course">Courses</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "course" && "mm-active"
+                  }`}
+                >
+                  <Link to="/course-management/course">Courses</Link>
                 </li>
-                <li>
-                  <Link to="/class">Class</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "class" && "mm-active"
+                  }`}
+                >
+                  <Link to="/course-management/class">Class</Link>
                 </li>
-                <li>
-                  <Link to="/certificate">Certificate Generation</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "certificate" && "mm-active"
+                  }`}
+                >
+                  <Link to="/course-management/certificate">
+                    Certificate Generation
+                  </Link>
                 </li>
-                {/* <li>
-                  <Link to="/task">Task </Link>
-                </li> */}
-                <li>
-                  <Link to="/attendance">Attendance</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "attendance" && "mm-active"
+                  }`}
+                >
+                  <Link to="/course-management/attendance">Attendance</Link>
                 </li>
-                <li>
-                  <Link to="/feedback">Feedback</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "feedback" && "mm-active"
+                  }`}
+                >
+                  <Link to="/course-management/feedback">Feedback</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <Link
+                to="/customer-management"
+                className={`waves-effect ${
+                  pathname.split("/")[1] == "customer-management" && "mm-active"
+                }`}
+              >
+                <i className="bx bxs-graduation" />
+                <span key="t-Customer">Customer </span>
+              </Link>
+            </li>
+
+            <li>
+              <a
+                onClick={() => showMenuList("finance-menu")}
+                className={`has-arrow waves-effect ${
+                  pathname.split("/")[1] == "finance" && "mm-active"
+                }`}
+              >
+                <i className="bx bx-dollar" />
+                <span key="t-finance">Finance </span>
+              </a>
+              <ul className="sub-menu mm-collapse" id="finance-menu">
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "quotation" && "mm-active"
+                  }`}
+                >
+                  <Link to="/finance/quotation">Quotation Management</Link>
+                </li>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "sales-quotation" && "mm-active"
+                  }`}
+                >
+                  <Link to="/finance/sales-quotation">Sales Quotation</Link>
+                </li>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "invoice" && "mm-active"
+                  }`}
+                >
+                  <Link to="/finance/invoice">Invoice Management</Link>
                 </li>
               </ul>
             </li>
             <li>
               <a
-                className="has-arrow waves-effect"
+                onClick={() => showMenuList("admin-menu")}
+                className={`has-arrow waves-effect ${
+                  pathname.split("/")[1] == "admin" && "mm-active"
+                }`}
+              >
+                <i className="bx bx-user" />
+                <span>Admin</span>
+              </a>
+              <ul className="sub-menu mm-collapse " id="admin-menu">
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "user-management" && "mm-active"
+                  }`}
+                >
+                  <Link to="/admin/user-management">User Managment</Link>
+                </li>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "roles" && "mm-active"
+                  }`}
+                >
+                  <Link to="/admin/roles" className="sub-menu">
+                    Roles and Permission
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a
+                className={`has-arrow waves-effect ${
+                  pathname.split("/")[1] == "hrms" && "mm-active"
+                }`}
                 onClick={() => showMenuList("hrms-menu")}
               >
                 <i className="bx bx-customize" />
                 <span key="t-hrms">HRMS</span>
               </a>
               <ul className="sub-menu mm-collapse" id="hrms-menu">
-                <li>
-                  <Link to="/employee">Employee Management</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "employee" && "mm-active"
+                  }`}
+                >
+                  <Link to="/hrms/employee">Employee Management</Link>
                 </li>
-                <li>
-                  <Link to="/payroll">Payroll Maagment</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "payroll" && "mm-active"
+                  }`}
+                >
+                  <Link to="/hrms/payroll">Payroll Maagment</Link>
                 </li>
-                <li>
-                  <Link to="/leave">Leave Management</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "leave" && "mm-active"
+                  }`}
+                >
+                  <Link to="/hrms/leave">Leave Management</Link>
                 </li>
-                <li>
-                  <Link to="/timesheet">Timesheet Tracking</Link>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "timesheet" && "mm-active"
+                  }`}
+                >
+                  <Link to="/hrms/timesheet">Timesheet Tracking</Link>
                 </li>
               </ul>
             </li>

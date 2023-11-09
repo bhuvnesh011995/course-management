@@ -45,11 +45,9 @@ export const CommonNavbar = () => {
             <div className="navbar-brand-box d-flex justify-content-center align-items-center">
               <Link to="/" className="logo logo-light">
                 <span className="logo-sm">
-                  <img src="assets/images/logo-light.svg" alt="" height="22" />
                   <h1 className="text-black">Tonga</h1>
                 </span>
                 <span className="logo-lg">
-                  <img src="assets/images/logo-light.png" alt="" height="19" />
                   <h1 className="text-white">Tonga</h1>
                 </span>
               </Link>

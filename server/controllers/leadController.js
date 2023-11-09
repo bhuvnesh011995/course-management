@@ -9,7 +9,7 @@ const addNewLead = (req, res) => {
 
 const getAllLeads = (req, res) => {
   leadManager
-    .getAllLeads(req.user)
+    .getAllLeads(req.user, req.query)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err));
 };

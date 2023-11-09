@@ -52,12 +52,10 @@ export const AddNewLeadModel = ({
     if (leadData) {
       getLead();
       if (leadData) {
-        console.log(registrationTypes);
         const registrationLevels = registrationTypes.filter((e) => {
           if (e._id == leadData.registrationType) return e;
         });
         if (registrationLevels) {
-          console.log(registrationLevels);
           setTradeLevels(registrationLevels[0].tradeLevels);
           setSelectedRegistration(registrationLevels[0].registrationCode);
         }
@@ -144,11 +142,11 @@ export const AddNewLeadModel = ({
           }
       formdata.append("leadData", JSON.stringify(newLead));
       const { data } = await AxiosInstance.post("/leads/addNewLead", formdata);
-      toast.success("New Lead Added Successfully")
+      toast.success("New Lead Added Successfully");
       callback(data.newLead);
       handleClose();
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -272,11 +270,11 @@ export const AddNewLeadModel = ({
       newLeadData["deleteFileList"] = deleteFiles;
       formdata.append("leadData", JSON.stringify(newLeadData));
       const { data } = await AxiosInstance.post("/leads/updateLead", formdata);
-      toast.success("Lead Updated Successfully")
+      toast.success("Lead Updated Successfully");
       callback(data.updatedLead);
       handleClose();
     } catch (err) {
-      toast.error("Error Occured")
+      toast.error("Error Occured");
       console.error(err);
     }
   };
@@ -353,14 +351,6 @@ export const AddNewLeadModel = ({
       console.error(err);
     }
   };
-
-  // const rejectRegistration = async () => {
-  //   try {
-  //     console.log("reject registration");
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   const confirmCourseAssigned = async () => {
     try {
@@ -790,7 +780,6 @@ export const AddNewLeadModel = ({
                   })}
                   disabled={viewLead}
                 >
-                  {console.log(watch("tradeType"))}
                   <option value="" selected>
                     {" "}
                     Select Trade Type

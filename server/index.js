@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const init = require("./init")
+const init = require("./init");
 
 const app = express();
 
@@ -27,6 +27,9 @@ app.listen(process.env.PORT, () => {
 });
 
 app.use("/api", require("./routes/route"));
+<<<<<<< HEAD
 
 
 app.use(require("./middlewares/errorHandler"))
+=======
+>>>>>>> b2f7f70a0057e3f9715fd12b7bdebfecb85102ad

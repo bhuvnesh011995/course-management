@@ -58,11 +58,11 @@ export const UserManagement = () => {
       const { data } = await AxiosInstance.delete("/users/deleteUser", {
         params: userData,
       });
-      toast.success("User Deleted")
+      toast.success("User Deleted");
       users.splice(userIndex, 1);
       setUsers([...users]);
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -99,8 +99,6 @@ export const UserManagement = () => {
 
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-      <MenuBar />
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">

@@ -51,13 +51,6 @@ export const TimeSheet = () => {
   const [isViewModalOpen,setViewModal] = useState(false)
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-      {/* ========== Left Sidebar Start ========== */}
-      <MenuBar />
-      {/* Left Sidebar End */}
-      {/* ============================================================== */}
-      {/* Start right Content here */}
-      {/* ============================================================== */}
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">

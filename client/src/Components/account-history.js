@@ -409,7 +409,6 @@ export const AccountHistory = () => {
           </div>
         </div>
       </header> */}
-      <CommonNavbar />
       <div ClassName="main-content">
         <div ClassName="page-content">
           <div ClassName="container-fluid">

@@ -16,10 +16,6 @@ export const Index = () => {
 
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-
-      <MenuBar />
-
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">

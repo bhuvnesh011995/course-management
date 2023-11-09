@@ -90,11 +90,11 @@ export const Course = () => {
         params: course,
       });
 
-      toast.success("course deleted")
+      toast.success("course deleted");
       const filteredCourses = allCourses.filter((e) => e._id != course._id);
       setAllCourses([...filteredCourses]);
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -102,8 +102,6 @@ export const Course = () => {
   return (
     <div>
       <div id="layout-wrapper">
-        <CommonNavbar />
-        <MenuBar />
         <div className="main-content">
           <div className="page-content">
             <div className="container-fluid">

@@ -66,7 +66,7 @@ export const Certificate = () => {
         "/certificates/deleteCertificate",
         { params: certificate }
       );
-      toast.success("certificate deleted")
+      toast.success("certificate deleted");
       const filteredCertificates = certificates.filter(
         (e) => e._id != certificate._id
       );
@@ -78,8 +78,6 @@ export const Certificate = () => {
 
   return (
     <div id="layout-wrapper">
-      <CommonNavbar />
-      <MenuBar />
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
