@@ -1,14 +1,14 @@
 const routes = require("express").Router();
-const registrationController = require("../controllers/registrationController");
+const registrationManager = require("../managers/registrationManager");
 
-routes.post("/addRegistrationType", registrationController.addRegistrationType);
+routes.post("/addRegistrationType", registrationManager.addRegistrationType);
 routes.get(
   "/getRegistrationTypes",
-  registrationController.getRegistrationTypes
+  registrationManager.getRegistrationTypes
 );
 
-routes.get("/getRegistrationType", registrationController.getRegistrationType);
-routes.post("/updateRegistration", registrationController.updateRegistration);
-routes.delete("/deleteRegistration", registrationController.deleteRegistration);
+routes.get("/getRegistrationType", registrationManager.getRegistrationType);
+routes.post("/updateRegistration", registrationManager.updateRegistration);
+routes.delete("/deleteRegistration", registrationManager.deleteRegistration);
 
 module.exports = routes;

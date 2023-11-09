@@ -1,23 +1,23 @@
 const routes = require("express").Router();
-const trainerController = require("../controllers/trainerController");
+const trainerManager = require("../managers/trainerManager");
 const { upload } = require("../utils/upload.utils");
 
 routes.post(
   "/addNewTrainer",
   upload.single("file"),
-  trainerController.addNewTrainer
+  trainerManager.addNewTrainer
 );
-routes.get("/getTrainers", trainerController.getTrainers);
+routes.get("/getTrainers", trainerManager.getTrainers);
 routes.post(
   "/updateTrainer",
   upload.single("file"),
-  trainerController.updateTrainer
+  trainerManager.updateTrainer
 );
 
-routes.get("/getTrainer", trainerController.getTrainer);
+routes.get("/getTrainer", trainerManager.getTrainer);
 
-routes.delete("/deleteTrainer", trainerController.deleteTrainer);
+routes.delete("/deleteTrainer", trainerManager.deleteTrainer);
 
-routes.get("/trainerClassDetails", trainerController.trainerClassDetails);
+routes.get("/trainerClassDetails", trainerManager.trainerClassDetails);
 
 module.exports = routes;

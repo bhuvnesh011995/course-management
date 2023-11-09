@@ -1,17 +1,17 @@
 const routes = require("express").Router();
-const tradeController = require("../controllers/tradeController");
+const tradeManager = require("../managers/tradeManager");
 
 // trade level routes
-routes.post("/saveTradeLevel", tradeController.saveTradeLevel);
-routes.get("/getTradeLevels", tradeController.getTradeLevels);
-routes.post("/updateTradeLevel", tradeController.updateTradeLevel);
-routes.delete("/deleteTradeLevel", tradeController.deleteTradeLevel);
+routes.post("/saveTradeLevel", tradeManager.saveTradeLevel);
+routes.get("/getTradeLevels", tradeManager.getTradeLevels);
+routes.post("/updateTradeLevel", tradeManager.updateTradeLevel);
+routes.delete("/deleteTradeLevel", tradeManager.deleteTradeLevel);
 
 // trade type routes
 
-routes.post("/saveTradeType", tradeController.saveTradeType);
-routes.get("/getTradeTypes", tradeController.getTradeTypes);
-routes.post("/updateTradeType", tradeController.updateTradeType);
-routes.delete("/deleteTradeType", tradeController.deleteTradeType);
+routes.post("/saveTradeType", tradeManager.saveTradeType);
+routes.get("/getTradeTypes", tradeManager.getTradeTypes);
+routes.post("/updateTradeType", tradeManager.updateTradeType);
+routes.delete("/deleteTradeType", tradeManager.deleteTradeType);
 
 module.exports = routes;

@@ -1,11 +1,11 @@
 const routes = require("express").Router();
-const roleController = require("../controllers/roleController");
+const roleManager = require("../managers/roleManager");
 const { userAuth } = require("../middlewares/auth.middleware");
 
-routes.post("/addNewRole", roleController.addNewRole);
-routes.get("/getRoles", userAuth, roleController.getRoles);
-routes.get("/selectedRoleData", roleController.selectedRoleData);
-routes.post("/editRole", roleController.editRole);
-routes.get("/getUserRoleInfo", roleController.getUserRoleInfo);
+routes.post("/addNewRole", roleManager.addNewRole);
+routes.get("/getRoles", userAuth, roleManager.getRoles);
+routes.get("/selectedRoleData", roleManager.selectedRoleData);
+routes.post("/editRole", roleManager.editRole);
+routes.get("/getUserRoleInfo", roleManager.getUserRoleInfo);
 
 module.exports = routes;

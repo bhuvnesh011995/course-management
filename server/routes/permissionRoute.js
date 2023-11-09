@@ -1,5 +1,5 @@
 const routes = require("express").Router();
-const permissionController = require("../controllers/permissionController");
+const permissionController = require("../managers/permissionManager");
 
 routes.post("/addNewPermission", permissionController.addNewPermission);
 routes.get("/getPermissions", permissionController.getPermissions);
