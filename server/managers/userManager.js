@@ -4,17 +4,19 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const JWTSECRETKEY = process.env.JWTSECRETKEY;
 
-const addNewUser = async (data) => {
+const addNewUser = async (req,res,next) => {
   try {
-    // const encryptedpass = await bcrypt.hash(data.password, 10);
-    // data["password"] = encryptedpass;
-    data["name"] = data.firstName + " " + data.lastName;
-    data["contactNumber"] = data.mobile;
-    const user = await db.user.create(data);
+   
+    // const encryptedpass = await bcrypt.hash(req.body.password, 10);
+    // req.body["password"] = encryptedpass;
+    req.body["name"] = req.body.firstName + " " + req.body.lastName;
+    req.body["contactNumber"] = req.body.mobile;
+    const user = await db.user.create(req.body);
     const newUser = user.save();
-    return newUser;
+    return res.status(200).send(newUser);
   } catch (err) {
-    console.error(err);
+    
+    next(err)
   }
 };
 
@@ -111,13 +113,15 @@ const signIn = async (data) => {
         );
         return { statusCode:200,data:{ token: token }};
       } else {
-        return { statusCode:401,data:{ message:"Wrong email id or password !"}};
+        let err = new Error("Wrong email id or password !")
+        err.statusCode = 401
+        throw err
       }
     } else {
       return { statusCode:401,data:{ message:"Wrong email id or password !"} };
     }
   } catch (err) {
-    return err
+    next(err)
   }
 };
 

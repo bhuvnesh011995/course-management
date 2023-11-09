@@ -29,3 +29,4 @@ app.listen(process.env.PORT, () => {
 app.use("/api", require("./routes/route"));
 
 
+app.use(require("./middlewares/errorHandler"))

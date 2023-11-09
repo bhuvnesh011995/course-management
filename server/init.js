@@ -1,16 +1,16 @@
 const db = require("./models");
 const adminRole = require("./utils/adminPermission")
-
+console.log(adminRole)
 module.exports = async () => {
     try {
         let adminrole = await db.roles.findOne({roleName:"Admin"})
 
         if(!adminrole){
-            adminrole = await db.roles.create({adminRole})
+            adminrole = await db.roles.create(adminRole)
         }
 
         let admin = await db.user.findOne({userRole:adminrole._id})
-    
+
         if(!admin){
             await db.user.create({
                 name:"admin",
