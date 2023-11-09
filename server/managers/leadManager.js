@@ -592,6 +592,28 @@ const accountHistory = async (req, res, next) => {
       },
       { $unwind: "$classDetails" },
       {
+        $addFields: {
+          trainerId: "$classDetails.trainer",
+        },
+      },
+      {
+        $lookup: {
+          from: "trainers",
+          let: { trainer: "$trainerId" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$trainer"],
+                },
+              },
+            },
+          ],
+          as: "trainerDetails",
+        },
+      },
+      { $unwind: "$trainerDetails" },
+      {
         $lookup: {
           from: "courses",
           let: { courseId: "$course" },
@@ -608,13 +630,31 @@ const accountHistory = async (req, res, next) => {
         },
       },
       {
+        $addFields: {
+          isPaid: {
+            $cond: {
+              if: {
+                $and: [
+                  { $eq: ["$confirmed", true] },
+                  { $eq: ["$courseAssigned", true] },
+                  { $eq: ["$getPayment", true] },
+                ],
+              },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      },
+      {
         $project: {
           _id: 1,
           course: "$courseDetails.courseName",
           price: "$courseDetails.price",
           class: "$classDetails.classCode",
+          trainer: "$trainerDetails.trainerName",
           created_at: 1,
-          paymentStatus: "paid",
+          paymentStatus: "$isPaid",
         },
       },
     ]);
@@ -825,6 +865,179 @@ const getFilteredLeads = async (req, res, next) => {
   }
 };
 
+const getAllCompanies = async (req, res, next) => {
+  try {
+    const { user, query } = req;
+
+    const getAllCompanies = await db.lead.aggregate([
+      {
+        $match: {
+          companyName: { $regex: query.textSearch },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          companyName: 1,
+          contactPersonMobile: 1,
+        },
+      },
+    ]);
+    if (getAllCompanies.length) return res.status(200).send(getAllCompanies);
+    else return res.status(204).send({ message: "No Companies Found !" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getCompany = async (req, res, next) => {
+  try {
+    const { query } = req;
+    console.log(query);
+    const company = await db.lead.aggregate([
+      {
+        $match: {
+          $expr: { $eq: [query._id, { $toString: "$_id" }] },
+        },
+      },
+      {
+        $lookup: {
+          from: "tradetypes",
+          let: { typeId: "$tradeType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$typeId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "tradeType",
+        },
+      },
+      { $unwind: "$tradeType" },
+      {
+        $lookup: {
+          from: "registrationtypes",
+          let: { registrationId: "$registrationType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$registrationId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "registrationType",
+        },
+      },
+      { $unwind: "$registrationType" },
+      {
+        $addFields: {
+          showLookup: {
+            $gt: [{ $strLenCP: "$tradeLevel" }, 0],
+          },
+        },
+      },
+
+      {
+        $facet: {
+          hasTradeLevel: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$showLookup", true],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: "tradelevels",
+                let: { levelId: "$tradeLevel" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: "$_id" }, "$$levelId"],
+                      },
+                    },
+                  },
+                ],
+                as: "tradeLevelDetails",
+              },
+            },
+            { $unwind: "$tradeLevelDetails" },
+          ],
+          noTradeLevel: [
+            {
+              $match: {
+                $expr: { $eq: ["$showLookup", false] },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasTradeLevel", "$noTradeLevel"],
+          },
+        },
+      },
+      {
+        $unwind: "$bothCombined",
+      },
+      {
+        $project: {
+          _id: "$bothCombined._id",
+          fileLocations: "$bothCombined.fileLocations",
+          bcaAcknowledgementNotice: "$bothCombined.bcaAcknowledgementNotice",
+          MOMEploymentDetails: "$bothCombined.MOMEploymentDetails",
+          nricWorkDocument: "$bothCombined.nricWorkDocument",
+          paQuotaCopy: "$bothCombined.paQuotaCopy",
+          passportCopy: "$bothCombined.passportCopy",
+          workersIc: "$bothCombined.workersIc",
+          workersPassport: "$bothCombined.workersPassport",
+          skillEvaluationCertificate:
+            "$bothCombined.skillEvaluationCertificate",
+          companyAddress: "$bothCombined.companyAddress",
+          alternateMobile: "$bothCombined.alternateMobile",
+          companyName: "$bothCombined.companyName",
+          companyUEN: "$bothCombined.companyUEN",
+          contactPerson: "$bothCombined.contactPerson",
+          contactPersonEmail: "$bothCombined.contactPersonEmail",
+          contactPersonMobile: "$bothCombined.contactPersonMobile",
+          myeNo: "$bothCombined.myeNo",
+          officeFax: "$bothCombined.officeFax",
+          officeTelephone: "$bothCombined.officeTelephone",
+          paReferenceNo: "$bothCombined.paReferenceNo",
+          participantIcNo: "$bothCombined.participantIcNo",
+          participantMobile: "$bothCombined.participantMobile",
+          participantNRIC: "$bothCombined.participantNRIC",
+          postalCode: "$bothCombined.postalCode",
+          registrationType: "$bothCombined.registrationType.registrationCode",
+          tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
+          tradeType: "$bothCombined.tradeType.tradeType",
+          participantName: "$bothCombined.participantName",
+          DOB: "$bothCombined.DOB",
+          nationality: "$bothCombined.nationality",
+          educationalLevel: "$bothCombined.educationalLevel",
+          coreTradeRegNo: "$bothCombined.coreTradeRegNo",
+          getPayment: "$bothCombined.getPayment",
+          confirmed: "$bothCombined.confirmed",
+          course: "$bothCombined.course",
+          courseAssigned: "$bothCombined.courseAssigned",
+        },
+      },
+    ]);
+    return res.status(200).send(company[0]);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   addNewLead,
   getAllLeads,
@@ -837,4 +1050,6 @@ module.exports = {
   accountHistory,
   getSelectedLead,
   getFilteredLeads,
+  getAllCompanies,
+  getCompany,
 };

@@ -22,4 +22,8 @@ routes.get("/getSelectedLead", userAuth, leadManager.getSelectedLead);
 
 routes.get("/getFilteredLeads", leadManager.getFilteredLeads);
 
+routes.get("/getAllCompanies", leadManager.getAllCompanies);
+
+routes.get("/getCompany", leadManager.getCompany);
+
 module.exports = routes;

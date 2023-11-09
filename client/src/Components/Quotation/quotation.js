@@ -1,176 +1,19 @@
-// <!doctype html>
-// <html lang="en">
-
 import { useState } from "react";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import AddQuotationModal from "./AddQuotationModal";
 import ViewQuotationModal from "./ViewQuotationModal";
+import { AxiosInstance } from "../../common-components/axiosInstance";
 
-// <head>
-
-//   <meta charset="utf-8" />
-//   <title>Quotation Management | Tonga</title>
-//   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//   <meta content="#" name="description" />
-//   <meta content="Themesbrand" name="author" />
-//   <!-- App favicon -->
-//   <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-//   <!-- DataTables -->
-//   <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-//   <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
-//   <!-- Responsive datatable examples -->
-//   <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
-//     type="text/css" />
-
-//   <!-- Bootstrap Css -->
-//   <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-//   <link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
-
-//   <link href="assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css">
-
-//   <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-//   <!-- Icons Css -->
-//   <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-//   <!-- App Css-->
-//   <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-//   <!-- Custom Css-->
-//   <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
-
-//   <link rel="stylesheet" href="assets/libs/smart-wizaed/smart-wizaed.css">
-
-//   <style>
-//     .select2-container {
-//       width: 100% !important;
-//     }
-
-//     .input-icon {
-//       position: relative;
-//     }
-
-//     .input-icon input {
-//       padding-right: 2.5rem;
-//     }
-
-//     .input-icon-addon {
-//       position: absolute;
-//       top: 0;
-//       bottom: 0;
-//       right: 0;
-//       left: auto;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       min-width: 2.5rem;
-//       color: #6c7a91;
-//       pointer-events: none;
-//       font-size: 1.2em;
-//     }
-
-//     label .radio-card {
-//       cursor: pointer;
-//     }
-
-//     label.radio-card .card-content-wrapper {
-//       background: #fff;
-//       border-radius: 5px;
-//       max-width: 280px;
-//       padding: 15px;
-//       display: grid;
-//       box-shadow: 0 2px 4px 0 rgba(219, 215, 215, 0.04);
-//       transition: 200ms linear;
-//     }
-
-//     .card-content {
-//       margin-top: 1rem;
-//     }
-
-//     .card-content .form-check {
-//       margin-top: 1rem;
-//     }
-
-//     label.radio-card .check-icon {
-//       width: 20px;
-//       height: 20px;
-//       display: inline-block;
-//       border: solid 2px #e3e3e3;
-//       border-radius: 50%;
-//       transition: 200ms linear;
-//       position: relative;
-//     }
-
-//     label.radio-card .check-icon:before {
-//       content: '';
-//       position: absolute;
-//       inset: 0;
-//       background-image: url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.93552 4.58423C0.890286 4.53718 0.854262 4.48209 0.829309 4.42179C0.779553 4.28741 0.779553 4.13965 0.829309 4.00527C0.853759 3.94471 0.889842 3.88952 0.93552 3.84283L1.68941 3.12018C1.73378 3.06821 1.7893 3.02692 1.85185 2.99939C1.91206 2.97215 1.97736 2.95796 2.04345 2.95774C2.11507 2.95635 2.18613 2.97056 2.2517 2.99939C2.31652 3.02822 2.3752 3.06922 2.42456 3.12018L4.69872 5.39851L9.58026 0.516971C9.62828 0.466328 9.68554 0.42533 9.74895 0.396182C9.81468 0.367844 9.88563 0.353653 9.95721 0.354531C10.0244 0.354903 10.0907 0.369582 10.1517 0.397592C10.2128 0.425602 10.2672 0.466298 10.3112 0.516971L11.0651 1.25003C11.1108 1.29672 11.1469 1.35191 11.1713 1.41247C11.2211 1.54686 11.2211 1.69461 11.1713 1.82899C11.1464 1.88929 11.1104 1.94439 11.0651 1.99143L5.06525 7.96007C5.02054 8.0122 4.96514 8.0541 4.90281 8.08294C4.76944 8.13802 4.61967 8.13802 4.4863 8.08294C4.42397 8.0541 4.36857 8.0122 4.32386 7.96007L0.93552 4.58423Z' fill='white'/%3E%3C/svg%3E%0A");
-//       background-repeat: no-repeat;
-//       background-size: 12px;
-//       background-position: center center;
-//       transform: scale(1.6);
-//       transition: 200ms linear;
-//       opacity: 0;
-//     }
-
-//     label.radio-card input[name='radio-card'] {
-//       appearance: none;
-//       -webkit-appearance: none;
-//       -moz-appearance: none;
-//     }
-
-//     label.radio-card input[type='radio']:checked+.card-content-wrapper {
-//       box-shadow: 0 2px 4px 0 rgba(219, 215, 215, 0.5), 0 0 0 2px #3057d5;
-//     }
-
-//     label.radio-card input[type='radio']:checked+.card-content-wrapper .check-icon {
-//       background: #3057d5;
-//       border-color: #3057d5;
-//       transform: scale(1.2);
-//     }
-
-//     label.radio-card input[type='radio']:checked+.card-content-wrapper .check-icon:before {
-//       transform: scale(1);
-//       opacity: 1;
-//     }
-
-//     label.radio-card input[type='radio']:focus+.card-content-wrapper .check-icon {
-//       box-shadow: 0 0 0 4px rgba(48, 86, 213, 0.2);
-//       border-color: #3056d5;
-//     }
-
-//     label.radio-card .card-content img {
-//       margin-bottom: 10px;
-//     }
-
-//     label.radio-card .card-content h4 {
-//       font-size: 16px;
-//       letter-spacing: -0.24px;
-//       color: #1f2949;
-//       margin-bottom: 10px;
-//     }
-
-//     label.radio-card .card-content h5 {
-//       font-size: 14px;
-//       line-height: 1.4;
-//       color: #686d73;
-//     }
-//   </style>
-// </head>
-
-// <body data-sidebar="dark">
-
-//   <!-- Start layout-wrapper -->
 export const Quotation = () => {
-  let [isAddModelOpen,setAddModal] = useState(false)
-  let [isViewModalOpen,setViewModal] = useState(false)
+  const [isAddModelOpen, setAddModal] = useState(false);
+  const [isViewModalOpen, setViewModal] = useState(false);
+
   return (
     <div id="layout-wrapper">
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
-            {/* start page title */}
             <div className="row">
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -188,7 +31,6 @@ export const Quotation = () => {
                 </div>
               </div>
             </div>
-            {/* end page title */}
             <div className="row">
               <div className="col-xl-12">
                 <div className="card">
@@ -218,7 +60,7 @@ export const Quotation = () => {
                       </div>
                       <button
                         className="btn btn-primary me-2"
-                        onClick={()=>setAddModal(true)}
+                        onClick={() => setAddModal(true)}
                       >
                         <i className="bx bx-plus me-1 fw-semibold align-middle" />
                         Add New Quotation
@@ -228,10 +70,8 @@ export const Quotation = () => {
                 </div>
               </div>
             </div>
-            {/* Role cards */}
             <div className="row g-4">
               <div className="col-md-12">
-                {/* Role Table */}
                 <div className="card ">
                   <div className="card-header justify-content-between">
                     <div className="card-title">Quotation List </div>
@@ -270,44 +110,32 @@ export const Quotation = () => {
                               <span className="badge bg-danger">Pending</span>
                             </td>
                             <td>
-                              <a
-                                
-                                className="btn btn-icon btn-sm btn-warning rounded-pill"
-                                
-                              >
-                                <i onClick={()=>setViewModal(true)} className="mdi mdi-eye" />
+                              <a className="btn btn-icon btn-sm btn-warning rounded-pill">
+                                <i
+                                  onClick={() => setViewModal(true)}
+                                  className="mdi mdi-eye"
+                                />
                               </a>
-                              <a
-                                
-                                className="btn btn-icon btn-sm btn-primary rounded-pill"
-                                
-                              >
-                                <i onClick={()=>setAddModal(true)} className="mdi mdi-pencil" />
+                              <a className="btn btn-icon btn-sm btn-primary rounded-pill">
+                                <i
+                                  onClick={() => setAddModal(true)}
+                                  className="mdi mdi-pencil"
+                                />
                               </a>
-                              <a
-                                
-                                className="btn btn-icon btn-sm btn-danger rounded-pill"
-                              >
+                              <a className="btn btn-icon btn-sm btn-danger rounded-pill">
                                 <i className="mdi mdi-trash-can" />
                               </a>
                             </td>
                           </tr>
-                          {/* Add more rows as needed */}
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
-                {/*/ Role Table */}
               </div>
             </div>
-            {/*/ Role cards */}
           </div>{" "}
-          {/* container-fluid */}
         </div>
-        {/* End Page-content */}
-       { <AddQuotationModal show={isAddModelOpen} setShow={setAddModal} />}
-        {<ViewQuotationModal show={isViewModalOpen} setShow={setViewModal} />}
         <div
           className="modal fade"
           id="edit-quotation"
@@ -1166,7 +994,6 @@ export const Quotation = () => {
                         </div>
                       </div>
                     </div>
-                    {/* Include optional progressbar HTML */}
                     <div className="progress">
                       <div
                         className="progress-bar"
@@ -1180,10 +1007,6 @@ export const Quotation = () => {
                   </div>
                 </form>
               </div>
-              {/* <div class="modal-footer">
-                                        <button type="button" class="btn me-auto sw-btn-prev sw-btn">Previous</button>
-                                        <button type="button" class="btn btn-primary next-btn" >Next</button>
-                                    </div> */}
             </div>
           </div>
         </div>
@@ -1355,90 +1178,13 @@ export const Quotation = () => {
           </div>
         </footer>
       </div>
-      {/* end main content*/}
+
+      {isAddModelOpen && (
+        <AddQuotationModal show={isAddModelOpen} setShow={setAddModal} />
+      )}
+      {isViewModalOpen && (
+        <ViewQuotationModal show={isViewModalOpen} setShow={setViewModal} />
+      )}
     </div>
   );
 };
-{
-  /* <!-- END layout-wrapper -->
-
-
-
-  <!-- JAVASCRIPT -->
-  <script src="assets/libs/jquery/jquery.min.js"></script>
-  <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/libs/smart-wizaed/smart-wizaed.js"></script>
-  <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-  <script src="assets/libs/simplebar/simplebar.min.js"></script>
-  <script src="assets/libs/node-waves/waves.min.js"></script>
-  <script src="assets/libs/select2/js/select2.min.js"></script>
-  <script src="assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-  <script src="assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-
-  <!-- Required datatable js -->
-  <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-  <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-  <!-- Buttons examples -->
-  <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-  <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-  <script src="assets/libs/jszip/jszip.min.js"></script>
-  <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-  <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-  <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-  <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-  <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-
-  <!-- Responsive examples -->
-  <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-  <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-  <!-- Datatable init js -->
-  <script src="assets/js/pages/datatables.init.js"></script>
-
-
-  <script src="assets/js/app.js"></script>
-  <!-- form advanced init -->
-  <script src="assets/js/pages/form-advanced.init.js"></script>
-  <script>
-    $('#smartwizard').smartWizard({
-      transition: {
-        animation: 'slideHorizontal', // Effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
-      }
-    });
-    $('#smartwizard-edit').smartWizard({
-      transition: {
-        animation: 'slideHorizontal', // Effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
-      }
-    });
-  </script>
-  <script>
-
-    $(document).ready(function () {
-
-      $(".select2").select2({
-
-        dropdownParent: $("#addClassModal")
-
-      });
-
-    });
-
-  </script>
-  <script>
-
-    $(document).ready(function () {
-
-      $(".select2").select2({
-
-        dropdownParent: $("#editUserModal")
-
-      });
-
-    });
-
-  </script>
-
-</body>
-
-</html> */
-}

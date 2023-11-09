@@ -34,11 +34,11 @@ export const CourseModal = ({
         "/courses/addNewCourse",
         newCourse
       );
-      toast.success("Course Added")
+      toast.success("Course Added");
       callback(data);
       handleClose();
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -61,10 +61,15 @@ export const CourseModal = ({
   };
 
   const changeRegistrationData = (value) => {
+    if (!value.length) {
+      setTradeLevels([]);
+      setRegistrationCode("");
+    }
+
     const registrationLevels = registrationTypes.filter((e) => e._id == value);
-    if (registrationLevels.length)
+    if (registrationLevels.length && registrationLevels[0]?.tradeLevels?.length)
       setTradeLevels(registrationLevels[0].tradeLevels);
-    setRegistrationCode(registrationLevels[0].registrationCode);
+    setRegistrationCode(registrationLevels[0]?.registrationCode);
   };
 
   const updateCourse = async (updatedCourse) => {
@@ -121,9 +126,7 @@ export const CourseModal = ({
               >
                 <option value="">-- Select Trade Type --</option>
                 {tradeTypes.map((e) => (
-                  <option value={e._id} selected={e._id}>
-                    {e.tradeType}
-                  </option>
+                  <option value={e._id}>{e.tradeType}</option>
                 ))}
               </select>
               <span className="text-danger">
@@ -143,9 +146,7 @@ export const CourseModal = ({
               >
                 <option value="">-- Select Registration Type --</option>
                 {registrationTypes.map((e) => (
-                  <option value={e._id} selected={e._id}>
-                    {e.registrationName}
-                  </option>
+                  <option value={e._id}>{e.registrationName}</option>
                 ))}
               </select>
               <span className="text-danger">
@@ -164,9 +165,7 @@ export const CourseModal = ({
                 >
                   <option value="">-- Select Registration Level --</option>
                   {tradeLevels.map((e) => (
-                    <option value={e._id} selected={e._id}>
-                      {e.tradeLevel}
-                    </option>
+                    <option value={e._id}>{e.tradeLevel}</option>
                   ))}
                 </select>
                 <span className="text-danger">

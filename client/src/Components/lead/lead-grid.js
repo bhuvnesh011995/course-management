@@ -11,9 +11,17 @@ import { toast } from "react-toastify";
 export const LeadGrid = () => {
   const filterTypes = {
     sortBy: "",
-    company: "",
     textSearch: "",
   };
+
+  const leadKeys = {
+    allLeads: [],
+    newLeads: [],
+    pendingLeads: [],
+    assignCourseLeads: [],
+    completedLeads: [],
+  };
+
   const [selectedFilter, setSelectedFilter] = useState(filterTypes);
 
   const [newLeadModal, setNewLeadModal] = useState(false);
@@ -23,21 +31,11 @@ export const LeadGrid = () => {
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
 
-  const [leads, setLeads] = useState({
-    allLeads: [],
-    newLeads: [],
-    pendingLeads: [],
-    assignCourseLeads: [],
-    completedLeads: [],
-  });
+  const [leads, setLeads] = useState(leadKeys);
 
   useEffect(() => {
     getAllLeads();
-    if (
-      !selectedFilter.company.length &&
-      !selectedFilter.sortBy.length &&
-      !selectedFilter.textSearch.length
-    ) {
+    if (!selectedFilter.sortBy.length && !selectedFilter.textSearch.length) {
       getRegistrationTypes();
       getTradeTypes();
     }
@@ -147,6 +145,36 @@ export const LeadGrid = () => {
     }
   };
 
+  // const filterLeads = (leadId, type) => {
+  //   if (leadId.length) {
+  //     leads.allLeads.map((lead) => {
+  //       if (lead._id === leadId) {
+  //         const leadData = leadKeys;
+  //         leadData.allLeads = leads.allLeads;
+  //         if (!lead.courseAssigned) {
+  //           leadData.newLeads.push(lead);
+  //         } else if (
+  //           lead.courseAssigned &&
+  //           !lead.getPayment &&
+  //           !lead.confirmed
+  //         ) {
+  //           leadData.pendingLeads.push(lead);
+  //         } else if (
+  //           lead.getPayment &&
+  //           !lead.confirmed &&
+  //           lead.courseAssigned
+  //         ) {
+  //           leadData.assignCourseLeads.push(lead);
+  //         } else if (lead.getPayment && lead.confirmed && lead.courseAssigned) {
+  //           leadData.completedLeads.push(lead);
+  //         }
+  //         setLeads((old) => ({ ...leadData }));
+  //         return;
+  //       }
+  //     });
+  //   }
+  // };
+
   const deleteLead = async (leadData) => {
     try {
       const { data } = await AxiosInstance.delete("/leads/deleteLead", {
@@ -208,14 +236,11 @@ export const LeadGrid = () => {
                             <option value={"completed"}>completed</option>
                           </select>
                         </div>
-                        <div className="col-xl-4">
+                        {/* <div className="col-xl-4">
                           <select
                             className="form-select"
                             onChange={({ target }) => {
-                              setSelectedFilter((old) => ({
-                                ...old,
-                                company: target.value,
-                              }));
+                              filterLeads(target.value);
                             }}
                             value={selectedFilter.company}
                           >
@@ -228,7 +253,7 @@ export const LeadGrid = () => {
                               </option>
                             ))}
                           </select>
-                        </div>
+                        </div> */}
                         <div className="col-xl-4">
                           <div className="d-flex" role="search">
                             <input
@@ -247,6 +272,7 @@ export const LeadGrid = () => {
                               onClick={clearFilters}
                               className=" btn btn-light"
                               type="submit"
+                              style={{ width: "200px" }}
                             >
                               Clear Filters
                             </button>

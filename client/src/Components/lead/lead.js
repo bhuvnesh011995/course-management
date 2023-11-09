@@ -23,7 +23,6 @@ export const Lead = () => {
   const [registrationTypes, setRegistrationTypes] = useState([]);
 
   const filterTypes = {
-    sortBy: "",
     company: "",
     textSearch: "",
   };
@@ -48,11 +47,7 @@ export const Lead = () => {
 
   useEffect(() => {
     getAllLeads();
-    if (
-      !selectedFilter.company.length &&
-      !selectedFilter.sortBy.length &&
-      !selectedFilter.textSearch.length
-    ) {
+    if (!selectedFilter.company.length && !selectedFilter.textSearch.length) {
       getRegistrationTypes();
       getTradeTypes();
     }
@@ -126,23 +121,6 @@ export const Lead = () => {
       toast.error("error occured");
       console.error(err);
     }
-  };
-
-  const filterLeads = (leadId, type) => {
-    if (type == "select")
-      if (leadId.length) {
-        const filterLeads = leads.filter((e) => e._id == leadId);
-        setFilteredLeads([...filterLeads]);
-      } else {
-        setFilteredLeads([...leads]);
-      }
-    else if (type == "textSearch")
-      if (leadId.length) {
-        const filterLeads = leads.filter((e) => e.companyName == leadId);
-        setFilteredLeads([...filterLeads]);
-      } else {
-        setFilteredLeads([...leads]);
-      }
   };
 
   const updateLeadList = (type, leadData) => {
@@ -288,6 +266,7 @@ export const Lead = () => {
                             onClick={clearFilters}
                             className=" btn btn-light"
                             type="submit"
+                            style={{ width: "200px" }}
                           >
                             Clear Filters
                           </button>
