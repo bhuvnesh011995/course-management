@@ -1,20 +1,12 @@
 /* eslint-disable default-case */
 import { useEffect, useState } from "react";
-import { CommonRowMenubar } from "../../common-components/navbarRow";
 import { AddNewLeadModel } from "./addNewLeadModel";
 import { Link } from "react-router-dom";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
-import {
-  leadContants,
-  leadTableHeaders,
-} from "../../Constants/table.constants";
-import axios from "axios";
+import { leadTableHeaders } from "../../Constants/table.constants";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
-import { TradeLevel1, tradeType } from "../../Constants/newLeadContants";
-import { MenuBar } from "../../common-components/MenuBar";
-import { Navbar } from "react-bootstrap";
-import { CommonNavbar } from "../../common-components/Navbar";
+import { tradeType } from "../../Constants/newLeadContants";
 import { toast } from "react-toastify";
 
 export const Lead = () => {
@@ -109,7 +101,6 @@ export const Lead = () => {
       const { data } = await AxiosInstance.get("/leads/getAllLeads", {
         params: selectedFilter,
       });
-      console.log(data);
       data.leads.map((lead) => {
         tradeType.map((e) => {
           if (e.value == lead.tradeType) lead.tradeType = e.name;

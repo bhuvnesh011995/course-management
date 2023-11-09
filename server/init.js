@@ -5,7 +5,7 @@ module.exports = async () => {
   try {
     let adminrole = await db.roles.findOne({ roleName: "Admin" });
     if (!adminrole) {
-      adminrole = await db.roles.create({ adminRole });
+      adminrole = await db.roles.create(adminRole);
     }
 
     let admin = await db.user.findOne({ userRole: adminrole._id });
@@ -327,6 +327,6 @@ module.exports = async () => {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

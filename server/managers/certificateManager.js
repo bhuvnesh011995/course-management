@@ -2,8 +2,9 @@ const CertificateModel = require("../models/certificateModel");
 const db = require("../models");
 const fs = require("fs");
 
-const addCertificate = async ({ body, file }) => {
+const addCertificate = async (req, res, next) => {
   try {
+    const { body, file } = req;
     const query = JSON.parse(body.certificateData);
     if (file) {
       query["certificateAttchment"] = file?.originalname;
@@ -53,23 +54,25 @@ const addCertificate = async ({ body, file }) => {
         },
       },
     ]);
-    return addedCertificate[0];
+    return res.status(200).send(addedCertificate[0]);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getCertificate = async (data) => {
+const getCertificate = async (req, res, next) => {
   try {
-    const selectedCertificate = await db.certificates.find({ _id: data._id });
-    return selectedCertificate[0];
+    const { query } = req;
+    const selectedCertificate = await db.certificates.find({ _id: query._id });
+    return res.status(200).send(selectedCertificate[0]);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getCertificates = async (data) => {
+const getCertificates = async (req, res, next) => {
   try {
+    const { query, user } = req;
     const allCertificates = await db.certificates.aggregate([
       {
         $lookup: {
@@ -105,14 +108,15 @@ const getCertificates = async (data) => {
         },
       },
     ]);
-    return allCertificates;
+    return res.status(200).send(allCertificates);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const updateCertificate = async ({ body, file }) => {
+const updateCertificate = async (req, res, next) => {
   try {
+    const { body, file } = req;
     const query = JSON.parse(body.certificateData);
 
     if (file) {
@@ -184,22 +188,24 @@ const updateCertificate = async ({ body, file }) => {
         },
       },
     ]);
-    return {
+    return res.status(200).send({
       updatedCertificate: updatedCertificate[0],
       message: "Certificate Updated SuccessFully !",
-    };
+    });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const deleteCertificate = async (data) => {
+const deleteCertificate = async (req, res, next) => {
   try {
-    if (data?.certificateFilePath?.length > 0)
+    const { query } = req;
+
+    if (query?.certificateFilePath?.length > 0)
       fs.unlink(
         `uploads\\images\\${
-          data.certificateFilePath.split("/")[
-            data.certificateFilePath.split("/").length - 1
+          query.certificateFilePath.split("/")[
+            query.certificateFilePath.split("/").length - 1
           ]
         }`,
         (err) => {
@@ -212,11 +218,13 @@ const deleteCertificate = async (data) => {
       );
 
     const deleteSelectedCert = await db.certificates.deleteOne({
-      _id: data._id,
+      _id: query._id,
     });
-    return { message: "Certificate Deleted Successfully !" };
+    return res
+      .status(200)
+      .send({ message: "Certificate Deleted Successfully !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 

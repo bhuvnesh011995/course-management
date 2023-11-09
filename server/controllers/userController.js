@@ -40,8 +40,10 @@ const signIn = (req, res) => {
     .signIn(req.body)
     .then((data) => res.status(data.statusCode).send(data.data))
     .catch((err) => {
-      res.status(500).json({success:false,message:"internal error occured"})
-      console.log(err)
+      res
+        .status(500)
+        .json({ success: false, message: "internal error occured" });
+      console.log(err);
     });
 };
 

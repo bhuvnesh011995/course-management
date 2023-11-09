@@ -53,11 +53,11 @@ export const NewTrainerModal = ({
         "/trainer/addNewTrainer",
         formData
       );
-      toast.success("New Trainer Added")
+      toast.success("New Trainer Added");
       callback(data);
       handleClose();
     } catch (err) {
-      toast.error("Error occured")
+      toast.error("Error occured");
       console.error(err);
     }
   };
@@ -74,11 +74,11 @@ export const NewTrainerModal = ({
         "/trainer/updateTrainer",
         formData
       );
-      toast.success("Trainer Updated")
+      toast.success("Trainer Updated");
       callback(trainerData);
       handleClose();
     } catch (err) {
-      toast.error("Error occured")
+      toast.error("Error occured");
       console.error(err);
     }
   };
@@ -89,7 +89,6 @@ export const NewTrainerModal = ({
         params: trainerData,
       });
       data.trainerDOB = convertMongooseDate(data.trainerDOB);
-      console.log(data, imageUrl);
       reset(data);
     } catch (err) {
       console.error(err);

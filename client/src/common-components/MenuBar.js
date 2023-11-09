@@ -19,15 +19,16 @@ export const MenuBar = () => {
 
   const showMenuList = (menuName) => {
     const element = document.getElementById(menuName);
-    if (element.classList.contains("mm-show")) {
-      element.classList.remove("mm-show");
-      element.parentElement.classList.remove("mm-active");
-    } else {
-      element.parentElement.classList.add("mm-active");
-      element.classList.add("mm-show");
-    }
+    if (element)
+      if (element.classList.contains("mm-show")) {
+        element.classList.remove("mm-show");
+        element.parentElement.classList.remove("mm-active");
+      } else {
+        element.parentElement.classList.add("mm-active");
+        element.classList.add("mm-show");
+      }
     setPreviousMenu(menuName);
-    closePreviousMenu(menuName);
+    closePreviousMenu(menuName ? menuName : `${pathname.split("/")[1]}`);
   };
 
   const closePreviousMenu = (nextMenu) => {
@@ -50,6 +51,7 @@ export const MenuBar = () => {
               <Link
                 to="/"
                 className={`waves-effect ${pathname.split("/")[1] == ""}`}
+                onClick={() => showMenuList()}
               >
                 <i className="bx bx-home-circle" />
                 <span className="badge rounded-pill bg-info float-end">02</span>
@@ -62,6 +64,7 @@ export const MenuBar = () => {
                 className={`waves-effect ${
                   pathname.split("/")[1] == "lead" && "mm-active"
                 }`}
+                onClick={() => showMenuList()}
               >
                 <i className="bx bx-task" />
                 <span key="t-lead">Lead </span>
@@ -184,6 +187,7 @@ export const MenuBar = () => {
                 className={`waves-effect ${
                   pathname.split("/")[1] == "customer-management" && "mm-active"
                 }`}
+                onClick={() => showMenuList()}
               >
                 <i className="bx bxs-graduation" />
                 <span key="t-Customer">Customer </span>

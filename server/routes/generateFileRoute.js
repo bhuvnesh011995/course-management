@@ -4,7 +4,6 @@ const fs = require("fs");
 const moment = require("moment");
 const { upload } = require("../utils/upload.utils");
 const ExcelJs = require("exceljs");
-const path = require("path");
 
 const { Blob } = require("buffer");
 
@@ -632,26 +631,13 @@ routes.post("/excel", upload.single("file"), async (req, res) => {
 
         updatedFile = await workbook.xlsx.writeFile(filePath);
       });
-    // const directoryPath = path.join(__dirname, "uploads", "images");
-    // const sendFilePath = {
-    //   root: path.join(directoryPath, filePath.split("uploads/images/")[1]),
-    // };
-    // console.log(
-    //   fs.readFile(filePath, (err) => {
-    //     if (err) console.error(err);
-    //     else console.log("file readed");
-    //   })
-    // );
-    // console.log(filePath);
 
     const bufferedFile = fs.readFileSync(filePath);
-    console.log(bufferedFile);
     const blob = new Blob(bufferedFile);
-    console.log(blob);
     res.status(200).send({ filePath: filePath, blob: blob, bufferedFile });
-    // res.redirect(`/${filePath.split("uploads/images/")[1]}`);
   } catch (err) {
     console.error(err);
+    return res.status(500).send({ message: "Server Error !" });
   }
 });
 

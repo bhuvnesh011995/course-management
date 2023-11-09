@@ -41,8 +41,14 @@ export const CustomerManagement = () => {
     }
   };
 
-  const updateCustomer = (e) => {
-    console.log(e);
+  const updateCustomer = (customer) => {
+    const checkLeads = allCustomers.filter((e) => e._id == customer._id);
+    if (checkLeads.length) {
+      allCustomers[customerIndex] = customer;
+      setAllCustomers([...allCustomers]);
+    } else {
+      setAllCustomers((old) => [...old, customer]);
+    }
   };
 
   useEffect(() => {

@@ -1,30 +1,33 @@
 const employeeModel = require("../models/employeeModel");
 const EmployeeModel = require("../models/employeeModel");
-const db = require("../models")
-const addEmployee = async (data) => {
+const db = require("../models");
+const addEmployee = async (req, res, next) => {
   try {
-    data["employeeName"] =
-      data["employeeFirstName"] + " " + data["employeeLastName"];
-    const createEmployee = await db.employees.create(data);
+    const { body } = req;
+    body["employeeName"] =
+      body["employeeFirstName"] + " " + body["employeeLastName"];
+    const createEmployee = await db.employees.create(body);
     const saveEmployee = await createEmployee.save();
 
-    return saveEmployee;
+    return res.status(200).send(saveEmployee);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getEmployee = async (data) => {
+const getEmployee = async (req, res, next) => {
   try {
-    const selectedEmployee = await db.employees.findOne({ _id: data._id });
-    return selectedEmployee;
+    const { query } = req;
+    const selectedEmployee = await db.employees.findOne({ _id: query._id });
+    return res.status(200).send(selectedEmployee);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getEmployees = async (data) => {
+const getEmployees = async (req, res, next) => {
   try {
+    const { query, user } = req;
     const allEmployees = await db.employees.find({});
     // aggregate([
     //   {
@@ -63,46 +66,50 @@ const getEmployees = async (data) => {
     //     },
     //   },
     // ]);
-    return allEmployees;
+    return res.status(200).send(allEmployees);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const updateEmployee = async (data) => {
+const updateEmployee = async (req, res, next) => {
   try {
-    data["employeeName"] =
-      data["employeeFirstName"] + " " + data["employeeLastName"];
+    const { body } = req;
+    body["employeeName"] =
+      body["employeeFirstName"] + " " + body["employeeLastName"];
     const updateEmployee = await db.employees.updateOne(
-      { _id: data._id },
+      { _id: body._id },
       {
-        employeeFirstName: data?.employeeFirstName,
-        employeeLastName: data?.employeeLastName,
-        employeeName: data?.employeeName,
-        employeeEmail: data?.employeeEmail,
-        employeePhone: data?.employeePhone,
-        employeePosition: data?.employeePosition,
-        employeeDepartment: data?.employeeDepartment,
-        employeeJoinDate: data?.employeeJoinDate,
-        employeeSalary: data?.employeeSalary,
-        employeeGender: data?.employeeGender,
-        employeeRole: data?.employeeRole,
-        status: data?.status,
-        employeeAddress: data?.employeeAddress,
+        employeeFirstName: body?.employeeFirstName,
+        employeeLastName: body?.employeeLastName,
+        employeeName: body?.employeeName,
+        employeeEmail: body?.employeeEmail,
+        employeePhone: body?.employeePhone,
+        employeePosition: body?.employeePosition,
+        employeeDepartment: body?.employeeDepartment,
+        employeeJoinDate: body?.employeeJoinDate,
+        employeeSalary: body?.employeeSalary,
+        employeeGender: body?.employeeGender,
+        employeeRole: body?.employeeRole,
+        status: body?.status,
+        employeeAddress: body?.employeeAddress,
       }
     );
-    return { message: "employee details updated successfully !" };
+    return res
+      .status(200)
+      .send({ message: "employee details updated successfully !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const deleteEmployee = async (data) => {
+const deleteEmployee = async (req, res, next) => {
   try {
-    const deleteEmployee = await db.employees.deleteOne({ _id: data._id });
-    return { message: "Employee Deleted Successfully !" };
+    const { query } = req;
+    const deleteEmployee = await db.employees.deleteOne({ _id: query._id });
+    return res.status(200).send({ message: "Employee Deleted Successfully !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 

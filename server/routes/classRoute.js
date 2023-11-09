@@ -1,14 +1,14 @@
 const routes = require("express").Router();
-const classController = require("../controllers/classController");
+const classManager = require("../managers/classManager");
 const { userAuth } = require("../middlewares/auth.middleware");
 
-routes.post("/addClass", classController.addClass);
-routes.get("/getClasses", userAuth, classController.getClasses);
-routes.get("/getClass", classController.getClass);
-routes.post("/updateClass", classController.updateClass);
+routes.post("/addClass", classManager.addClass);
+routes.get("/getClasses", userAuth, classManager.getClasses);
+routes.get("/getClass", classManager.getClass);
+routes.post("/updateClass", classManager.updateClass);
 
-routes.delete("/deleteClass", classController.deleteClass);
+routes.delete("/deleteClass", classManager.deleteClass);
 
-routes.get("/getCourseClasses", classController.getCourseClasses);
+routes.get("/getCourseClasses", classManager.getCourseClasses);
 
 module.exports = routes;

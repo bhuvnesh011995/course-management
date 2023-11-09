@@ -1,33 +1,25 @@
 const routes = require("express").Router();
-const leadController = require("../controllers/leadController");
+const leadManager = require("../managers/leadManager");
 const { userAuth } = require("../middlewares/auth.middleware");
 const { upload } = require("../utils/upload.utils");
 
-routes.post(
-  "/addNewLead",
-  upload.array("files", 10),
-  leadController.addNewLead
-);
-routes.get("/getAllLeads", userAuth, leadController.getAllLeads);
-routes.post(
-  "/updateLead",
-  upload.array("files", 10),
-  leadController.updateLead
-);
-routes.delete("/deleteLead", leadController.deleteLead);
+routes.post("/addNewLead", upload.array("files", 10), leadManager.addNewLead);
+routes.get("/getAllLeads", userAuth, leadManager.getAllLeads);
+routes.post("/updateLead", upload.array("files", 10), leadManager.updateLead);
+routes.delete("/deleteLead", leadManager.deleteLead);
 
-routes.get("/getLead", leadController.getLead);
+routes.get("/getLead", leadManager.getLead);
 
-routes.post("/getPayment", leadController.getPayment);
+routes.post("/getPayment", leadManager.getPayment);
 
-routes.post("/confirmPayment", leadController.confirmPayment);
+routes.post("/confirmPayment", leadManager.confirmPayment);
 
-routes.post("/assignCourse", leadController.assignCourse);
+routes.post("/assignCourse", leadManager.assignCourse);
 
-routes.get("/accountHistory", leadController.accountHistory);
+routes.get("/accountHistory", leadManager.accountHistory);
 
-routes.get("/getSelectedLead", userAuth, leadController.getSelectedLead);
+routes.get("/getSelectedLead", userAuth, leadManager.getSelectedLead);
 
-routes.get("/getFilteredLeads", leadController.getFilteredLeads);
+routes.get("/getFilteredLeads", leadManager.getFilteredLeads);
 
 module.exports = routes;

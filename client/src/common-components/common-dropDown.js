@@ -59,7 +59,6 @@ const DropdownContainer = forwardRef(
     ref
   ) => {
     const [isShow, setIsShow] = useState(false);
-    const dropdownRef = useRef(null);
     useImperativeHandle(ref, () => ({
       handleDropDown(value) {
         setIsShow(value);
@@ -77,7 +76,6 @@ const DropdownContainer = forwardRef(
             <div
               className={`cursor-pointer ${className}`}
               onClick={() => handleDropDownPosition()}
-              ref={dropdownRef}
             >
               {toggle}
             </div>

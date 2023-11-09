@@ -182,7 +182,6 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       "/generateFile/excel",
       generatedData
     );
-    console.log(data);
     const UintData = Uint8Array.from(data.bufferedFile.data);
     const content = new Blob([UintData.buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

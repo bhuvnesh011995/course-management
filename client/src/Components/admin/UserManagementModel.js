@@ -51,14 +51,13 @@ export const AddNewUserModal = ({
   };
   const addNewUser = async (userData) => {
     try {
-      console.log(userData);
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
       const { data } = await AxiosInstance.post("/users/addNewUser", userData);
-      toast.success("New User Added")
+      toast.success("New User Added");
       callback(data);
       handleClose();
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -67,11 +66,11 @@ export const AddNewUserModal = ({
     try {
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
       const { data } = await AxiosInstance.post("/users/updateUser", userData);
-      toast.success("User Updated")
+      toast.success("User Updated");
       callback(userData);
       handleClose();
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };

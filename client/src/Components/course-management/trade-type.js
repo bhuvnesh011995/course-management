@@ -16,7 +16,6 @@ export const TradeType = () => {
   const [deleteTradeModal, setDeleteTradeModal] = useState(false);
 
   const showTradeTypeModal = (data, type, index) => {
-    console.log("inini");
     setTradeIndex(index);
     if (data) setTradeData(data);
     else setTradeData(null);

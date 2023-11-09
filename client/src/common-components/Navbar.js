@@ -33,7 +33,7 @@ export const CommonNavbar = () => {
 
   const userLogOut = () => {
     localStorage.removeItem("token");
-    navigate("/");
+    navigate("/login");
   };
 
   return (

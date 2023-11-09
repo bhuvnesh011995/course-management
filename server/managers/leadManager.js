@@ -4,8 +4,9 @@ const db = require("../models");
 const fs = require("fs");
 const classModel = require("../models/classModel");
 
-const addNewLead = async ({ body, files, user }) => {
+const addNewLead = async (req, res, next) => {
   try {
+    const { body, files, user } = req;
     const query = JSON.parse(body.leadData);
     const fileLocations = {
       passportCopy: "",
@@ -109,24 +110,26 @@ const addNewLead = async ({ body, files, user }) => {
       },
     ]);
 
-    return { message: "lead saved successfully !", newLead: newLeadData[0] };
+    return res
+      .status(200)
+      .send({ message: "lead saved successfully !", newLead: newLeadData[0] });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getAllLeads = async (user, filters) => {
+const getAllLeads = async (req, res, next) => {
   try {
     const leadQuery = [];
-
-    if (filters?.sortBy?.length) {
-      if (filters.sortBy == "newLead")
+    const { user, query } = req;
+    if (query?.sortBy?.length) {
+      if (query.sortBy == "newLead")
         leadQuery.push({
           $match: {
             $expr: { $eq: [false, "$courseAssigned"] },
           },
         });
-      else if (filters.sortBy == "paymentPending")
+      else if (query.sortBy == "paymentPending")
         leadQuery.push(
           {
             $match: {
@@ -144,7 +147,7 @@ const getAllLeads = async (user, filters) => {
             },
           }
         );
-      else if (filters.sortBy == "assignCourse")
+      else if (query.sortBy == "assignCourse")
         leadQuery.push(
           {
             $match: {
@@ -162,7 +165,7 @@ const getAllLeads = async (user, filters) => {
             },
           }
         );
-      else if (filters.sortBy == "completed")
+      else if (query.sortBy == "completed")
         leadQuery.push(
           {
             $match: {
@@ -181,21 +184,20 @@ const getAllLeads = async (user, filters) => {
           }
         );
     }
-    console.log(filters.company);
-    if (filters?.company?.length) {
+    if (query?.company?.length) {
       leadQuery.push({
         $match: {
           $expr: {
-            $eq: [{ $toString: "$_id" }, filters.company],
+            $eq: [{ $toString: "$_id" }, query.company],
           },
         },
       });
     }
 
-    if (filters?.textSearch?.length) {
+    if (query?.textSearch?.length) {
       leadQuery.push({
         $match: {
-          companyName: { $regex: filters.textSearch },
+          companyName: { $regex: query.textSearch },
         },
       });
     }
@@ -261,14 +263,15 @@ const getAllLeads = async (user, filters) => {
       }
     );
     const allLeads = await db.lead.aggregate(leadQuery);
-    return { leads: allLeads, user };
+    return res.status(200).send({ leads: allLeads, user });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const updateLead = async ({ body, files }) => {
+const updateLead = async (req, res, next) => {
   try {
+    const { body, files } = req;
     const query = JSON.parse(body.leadData);
 
     if (query?.deleteFileList?.length > 0) {
@@ -438,18 +441,19 @@ const updateLead = async ({ body, files }) => {
         },
       },
     ]);
-    return {
+    return res.status(200).send({
       updatedLead: updatedLead[0],
       message: "Lead Updated Successfully",
-    };
+    });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const deleteLead = async (data) => {
+const deleteLead = async (req, res, next) => {
   try {
-    const selectedLead = await db.lead.findOne({ _id: data._id });
+    const { query } = req;
+    const selectedLead = await db.lead.findOne({ _id: query._id });
     Object.keys(selectedLead.fileLocations).map((e) =>
       fs.unlink(
         `uploads\\images\\${
@@ -463,26 +467,28 @@ const deleteLead = async (data) => {
         }
       )
     );
-    const deleteLead = await db.lead.deleteOne({ _id: data._id });
-    return { message: "Lead Deleted Successfully !" };
+    const deleteLead = await db.lead.deleteOne({ _id: query._id });
+    return res.status(200).send({ message: "Lead Deleted Successfully !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getLead = async (data) => {
+const getLead = async (req, res, next) => {
   try {
-    const getLead = await db.lead.find({ _id: data._id });
-    return getLead;
+    const { query } = req;
+    const getLead = await db.lead.find({ _id: query._id });
+    return res.status(200).send(getLead);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getPayment = async (data) => {
+const getPayment = async (req, res, next) => {
   try {
-    const paymentPdfBuffer = Buffer.from(data.paymentPdfBase64, "base64");
-    const bankPdfBuffer = Buffer.from(data.bankDetailsPdfBase64, "base64");
+    const { body } = req;
+    const paymentPdfBuffer = Buffer.from(body.paymentPdfBase64, "base64");
+    const bankPdfBuffer = Buffer.from(body.bankDetailsPdfBase64, "base64");
     const filePath = `uploads/images/doc${
       Date.now() + Math.round(Math.random() * 1e9)
     }.pdf`;
@@ -506,62 +512,65 @@ const getPayment = async (data) => {
       }
     });
     const sendMailObj = {
-      _id: data._id,
-      email: data.contactPersonEmail,
+      _id: body._id,
+      email: body.contactPersonEmail,
       subject: "Confirm Course Details and Confirm Payment !",
-      mailValue: `<h2>SANTARLI CONSTRUCTION PTE LTD - BANK DETAIL</h2>\n
+      mailValue: `<h2></h2>\n
       <p><strong>Tonga</strong> <br>\n`,
       path: [filePath, bankFilePath],
     };
     await sendMail(sendMailObj);
     const getLeadPayment = await db.lead.updateOne(
-      { _id: data._id },
+      { _id: body._id },
       { getPayment: true }
     );
-    return { message: "Mail Sent !" };
+    return res.status(200).send({ message: "Mail Sent !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const confirmPayment = async (data) => {
+const confirmPayment = async (req, res, next) => {
   try {
+    const { body } = req;
     const sendMailObj = {
-      email: data.contactPersonEmail,
+      email: body.contactPersonEmail,
       subject: "Payment Confirmed !",
       mailValue: `<p>your payment is confirmed now , you have access of the course</p><br>\n
       <p><strong>Tonga</strong> <br>\n`,
     };
     await sendMail(sendMailObj);
     const getLeadPayment = await db.lead.updateOne(
-      { _id: data._id },
+      { _id: body._id },
       { confirmed: true }
     );
-    return { message: "confirmation mail sent !" };
+    return res.status(200).send({ message: "confirmation mail sent !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const assignCourse = async (data) => {
+const assignCourse = async (req, res, next) => {
   try {
+    const { body } = req;
     const updateLeadCourse = await db.lead.updateOne(
-      { _id: data._id },
-      { course: data.course, courseAssigned: data.courseAssigned }
+      { _id: body._id },
+      { course: body.course, courseAssigned: body.courseAssigned }
     );
-    return { message: "course Assigned to user" };
+    return res.status(200).send({ message: "course Assigned to user" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const accountHistory = async (data) => {
+const accountHistory = async (req, res, next) => {
   try {
+    const { query } = req;
     const allAccountCourses = await db.lead.aggregate([
       {
         $match: {
           $expr: {
-            $eq: [data.contactPersonEmail, "$contactPersonEmail"],
+            $eq: [query.contactPersonEmail, "$contactPersonEmail"],
           },
         },
       },
@@ -609,14 +618,15 @@ const accountHistory = async (data) => {
         },
       },
     ]);
-    return allAccountCourses;
+    return res.status(200).send(allAccountCourses);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getSelectedLead = async ({ query, user }) => {
+const getSelectedLead = async (req, res, next) => {
   try {
+    const { query, user } = req;
     const leadData = await db.lead.aggregate([
       {
         $match: {
@@ -710,20 +720,21 @@ const getSelectedLead = async ({ query, user }) => {
         },
       },
     ]);
-    return { lead: leadData[0], user: user[0] };
+    return res.status(200).send({ lead: leadData[0], user: user[0] });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getFilteredLeads = async (data) => {
+const getFilteredLeads = async (req, res, next) => {
   try {
+    const { query } = req;
     const leadQuery = [];
 
-    if (data.class.length) {
+    if (query.class.length) {
       leadQuery.push({
         $match: {
-          $expr: { $eq: [data.class, { $toString: "$_id" }] },
+          $expr: { $eq: [query.class, { $toString: "$_id" }] },
         },
       });
     }
@@ -784,10 +795,10 @@ const getFilteredLeads = async (data) => {
       { $unwind: "$tradeTypeData" }
     );
 
-    if (data.participantName.length) {
+    if (query.participantName.length) {
       leadQuery.push({
         $match: {
-          "leadDetails.participantName": { $regex: data.participantName },
+          "leadDetails.participantName": { $regex: query.participantName },
         },
       });
     }
@@ -808,9 +819,9 @@ const getFilteredLeads = async (data) => {
       },
     });
     const getClassParticipants = await db.classes.aggregate(leadQuery);
-    return getClassParticipants;
+    return res.status(200).send(getClassParticipants);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 

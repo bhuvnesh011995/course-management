@@ -1,21 +1,21 @@
 const routes = require("express").Router();
-const certificateController = require("../controllers/certificateController");
+const certificateManager = require("../managers/certificateManager");
 const { userAuth } = require("../middlewares/auth.middleware");
 const { upload } = require("../utils/upload.utils");
 
 routes.post(
   "/addCertificate",
   upload.single("file"),
-  certificateController.addCertificate
+  certificateManager.addCertificate
 );
-routes.get("/getCertificates", userAuth, certificateController.getCertificates);
-routes.get("/getCertificate", certificateController.getCertificate);
+routes.get("/getCertificates", userAuth, certificateManager.getCertificates);
+routes.get("/getCertificate", certificateManager.getCertificate);
 routes.post(
   "/updateCertificate",
   upload.single("file"),
-  certificateController.updateCertificate
+  certificateManager.updateCertificate
 );
 
-routes.delete("/deleteCertificate", certificateController.deleteCertificate);
+routes.delete("/deleteCertificate", certificateManager.deleteCertificate);
 
 module.exports = routes;

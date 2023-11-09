@@ -1,78 +1,81 @@
 const EventModel = require("../models/eventModal");
-const db = require("../models")
+const db = require("../models");
 
-const AddEvent = async (data) => {
+const AddEvent = async (req, res, next) => {
   try {
-    const newEvent = await db.events.create(data);
+    const { body } = req;
+    const newEvent = await db.events.create(body);
     const addedEvent = await newEvent.save();
 
-    return addedEvent;
+    return res.status(200).send(addedEvent);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getEvents = async (data) => {
+const getEvents = async (req, res, next) => {
   try {
-    const query = [];
-    if (data.sortBy == "all" || data.sortBy == "" || !data.sortBy) {
-      query.push({
+    const { query, user } = req;
+    const matchQuery = [];
+    if (query.sortBy == "all" || query.sortBy == "" || !query.sortBy) {
+      matchQuery.push({
         $match: {},
       });
     } else if (
-      data.sortBy == "holiday" ||
-      data.sortBy == "leave" ||
-      data.sortBy == "weekend"
+      query.sortBy == "holiday" ||
+      query.sortBy == "leave" ||
+      query.sortBy == "weekend"
     ) {
-      query.push({
+      matchQuery.push({
         $match: {
           $expr: {
-            $eq: [data.sortBy, "$type"],
+            $eq: [query.sortBy, "$type"],
           },
         },
       });
     }
-    console.log(query);
-    const events = await db.events.aggregate(query);
-    console.log(events);
-    return events;
+    const events = await db.events.aggregate(matchQuery);
+    return res.status(200).send(events);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getEvent = async (data) => {
+const getEvent = async (req, res, next) => {
   try {
-    const selectedEvent = await db.events.findOne({ _id: data._id });
-    return selectedEvent;
+    const { query } = req;
+    const selectedEvent = await db.events.findOne({ _id: query._id });
+    return res.status(200).send(selectedEvent);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const deleteEvent = async (data) => {
+const deleteEvent = async (req, res, next) => {
   try {
-    const deleteEvent = await db.events.deleteOne({ _id: data._id });
-    return { message: "Event Deleted Successfully !" };
+    const { query } = req;
+    const deleteEvent = await db.events.deleteOne({ _id: query._id });
+    return res.status(200).send({ message: "Event Deleted Successfully !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const updateEvent = async (data) => {
+const updateEvent = async (req, res, next) => {
   try {
+    const { body } = req;
     const updateEvent = await db.events.updateOne(
-      { _id: data._id },
+      { _id: body._id },
       {
-        holidayTitle: data.class,
-        type: data?.holidayType,
-        startDate: data.startDate,
-        endDate: data.endDate,
+        holidayTitle: body.class,
+        type: body?.holidayType,
+        startDate: body.startDate,
+        endDate: body.endDate,
       }
     );
-    return { message: "event updated successfully !" };
+    return res.status(200).send({ message: "event updated successfully !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 

@@ -1,15 +1,15 @@
 const routes = require("express").Router();
-const courseController = require("../controllers/courseController");
+const courseManager = require("../managers/courseManager");
 
-routes.post("/addNewCourse", courseController.addNewCourse);
+routes.post("/addNewCourse", courseManager.addNewCourse);
 
-routes.get("/getCourses", courseController.getCourses);
+routes.get("/getCourses", courseManager.getCourses);
 
-routes.get("/getCourse", courseController.getCourse);
+routes.get("/getCourse", courseManager.getCourse);
 
-routes.post("/updateCourse", courseController.updateCourse);
-routes.delete("/deleteCourse", courseController.deleteCourse);
+routes.post("/updateCourse", courseManager.updateCourse);
+routes.delete("/deleteCourse", courseManager.deleteCourse);
 
-routes.get("/getFilteredCourses", courseController.getFilteredCourses);
+routes.get("/getFilteredCourses", courseManager.getFilteredCourses);
 
 module.exports = routes;

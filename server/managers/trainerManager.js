@@ -5,7 +5,6 @@ const classModel = require("../models/classModel");
 const db = require("../models");
 const addNewTrainer = async ({ body, file }) => {
   try {
-    console.log(body);
     const query = JSON.parse(body.trainerData);
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
