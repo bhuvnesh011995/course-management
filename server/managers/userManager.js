@@ -18,7 +18,7 @@ const addNewUser = async (req, res, next) => {
   }
 };
 
-const getUsers = async (userData) => {
+const getUsers = async (req,res,next) => {
   try {
     const users = await db.user.aggregate([
       {
@@ -27,23 +27,25 @@ const getUsers = async (userData) => {
         },
       },
     ]);
-    return { users, userData };
+    return res.status(200).send({ users, userData :req.user});
   } catch (err) {
-    console.error(err);
+    next(err)
   }
 };
 
-const deleteUser = async (data) => {
+const deleteUser = async (req,res,next) => {
   try {
+    let data = req.query
     await db.user.deleteOne({ _id: data._id });
-    return { message: "User Deleted Successfully" };
+    return res.status(200).send({ message: "User Deleted Successfully" });
   } catch (err) {
-    console.error(err);
+    next(err)
   }
 };
 
-const updateUser = async (data) => {
+const updateUser = async (req,res,next) => {
   try {
+    let data = req.body
     // const encryptedpass = await bcrypt.hash(data.password, 10);
     // data["password"] = encryptedpass;
 
@@ -61,15 +63,16 @@ const updateUser = async (data) => {
         status: data.status,
       }
     );
-    return { status: 200, data: { message: "user Updated Successfully !" } };
+    return res.status(200).send({ message: "user Updated Successfully !" })
   } catch (err) {
-    console.error(err);
-    return err;
+  
+    next(err)
   }
 };
 
-const updateUserWithImage = async ({ file, body }) => {
+const updateUserWithImage = async (req,res,next) => {
   try {
+    let { file, body } = req
     const query = JSON.parse(body.userData);
     query.userData["userImagePath"] = `images/${file.filename}`;
     query.userData["name"] =
@@ -92,14 +95,15 @@ const updateUserWithImage = async ({ file, body }) => {
         status: query.userData.status,
       }
     );
-    return { message: "User Added Successfully !!" };
+    return res.status(200).send({ message: "User Added Successfully !!" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const signIn = async (data) => {
+const signIn = async (req,res,next) => {
   try {
+    let data = req.body
     const user = await db.user.findOne({ email: data.email });
 
     if (user) {
@@ -108,17 +112,16 @@ const signIn = async (data) => {
           { email: user.email, password: user.password },
           JWTSECRETKEY
         );
-        return { statusCode: 200, data: { token: token } };
+        return res.status(200).send({ token: token })
       } else {
         let err = new Error("Wrong email id or password !");
         err.statusCode = 401;
         throw err;
       }
     } else {
-      return {
-        statusCode: 401,
-        data: { message: "Wrong email id or password !" },
-      };
+        let err = new Error("Wrong email id or password !");
+        err.statusCode = 401;
+        throw err;
     }
   } catch (err) {
     next(err);

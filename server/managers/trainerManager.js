@@ -3,32 +3,34 @@ const ClassModel = require("../models/classModel");
 const fs = require("fs");
 const classModel = require("../models/classModel");
 const db = require("../models");
-const addNewTrainer = async ({ body, file }) => {
+const addNewTrainer = async (req,res,next) => {
   try {
-    const query = JSON.parse(body.trainerData);
+    let { body, file } = req
+     const query = JSON.parse(body.trainerData);
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
       query["trainerImageName"] = `images/${file.originalName}`;
     }
     const newTrainer = await db.trainers.create(query);
     const saveTrainer = await newTrainer.save();
-    return saveTrainer;
+    return res.status(200).send(saveTrainer);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getTrainers = async (data) => {
+const getTrainers = async (req,res,next) => {
   try {
     const trainers = await db.trainers.find({});
-    return trainers;
+    return res.status(200).send(trainers);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const updateTrainer = async ({ body, file }) => {
+const updateTrainer = async (req,res,next) => {
   try {
+    let { body, file } = req
     const query = JSON.parse(body?.trainerData);
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
@@ -61,14 +63,15 @@ const updateTrainer = async ({ body, file }) => {
         }
       );
     }
-    return { message: "Trainer updated Successfully !" };
+    return res.status(200).send({ message: "Trainer updated Successfully !" });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const deleteTrainer = async (data) => {
+const deleteTrainer = async (req,res,next) => {
   try {
+    let data = req.query
     const isExistedTrainer = await db.classes.aggregate([
       {
         $match: {
@@ -80,27 +83,29 @@ const deleteTrainer = async (data) => {
     ]);
 
     if (isExistedTrainer.length) {
-      return { message: "This Trainer is existed in class", completed: 0 };
+      return res.status(200).send({ message: "This Trainer is existed in class", completed: 0 });
     }
 
     const deleteTrainer = await db.trainers.deleteOne({ _id: data._id });
-    return { message: "Trainer deleted successfully !", completed: 1 };
+    return res.status(200).send({ message: "Trainer deleted successfully !", completed: 1 });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getTrainer = async (data) => {
+const getTrainer = async (req,res,next) => {
   try {
+    let data = req.query
     const trainerData = await db.trainers.findOne({ _id: data._id });
-    return trainerData;
+    return res.status(200).send(trainerData);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const trainerClassDetails = async (data) => {
+const trainerClassDetails = async (req,res,next) => {
   try {
+    let data = req.query
     const trainerCourses = await db.classes.aggregate([
       {
         $match: {
@@ -133,9 +138,9 @@ const trainerClassDetails = async (data) => {
         },
       },
     ]);
-    return trainerCourses;
+    return res.status(200).send(trainerCourses);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 

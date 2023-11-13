@@ -1,20 +1,19 @@
 const routes = require("express").Router();
-const userController = require("../controllers/userController");
-const { addNewUser } = require("../managers/userManager");
+const userManager = require("../managers/userManager");
 const { userAuth } = require("../middlewares/auth.middleware");
 const { upload } = require("../utils/upload.utils");
 
-routes.post("/addNewUser", addNewUser);
-routes.get("/getUsers", userAuth, userController.getUsers);
-routes.delete("/deleteUser", userController.deleteUser);
-routes.post("/updateUser", userController.updateUser);
+routes.post("/addNewUser", userManager.addNewUser);
+routes.get("/getUsers", userAuth, userManager.getUsers);
+routes.delete("/deleteUser", userManager.deleteUser);
+routes.post("/updateUser", userManager.updateUser);
 
 routes.post(
   "/updateUserWithImage",
   upload.single("file"),
-  userController.updateUserWithImage
+  userManager.updateUserWithImage
 );
 
-routes.post("/signIn", userController.signIn);
+routes.post("/signIn", userManager.signIn);
 
 module.exports = routes;

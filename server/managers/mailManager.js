@@ -2,8 +2,9 @@ const nodemailer = require("nodemailer");
 const cheerio = require("cheerio");
 const fs = require("fs");
 
-const sendMail = async (data) => {
+const sendMail = async (req,res,next) => {
   try {
+    let data = req.query
     const myEmail = process.env.MYEMAIL;
     const myPass = process.env.MYPASS;
     const transporter = nodemailer.createTransport({

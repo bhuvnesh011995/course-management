@@ -2,36 +2,40 @@ const RoleModel = require("../models/roleModel");
 const userModel = require("../models/userModel");
 
 const db = require("../models");
-const addNewRole = async (data) => {
+const addNewRole = async (req,res,next) => {
   try {
+    let data = req.body
     const newRole = await db.roles.create(data);
     const role = newRole.save();
-    return role;
+    return res.status(200).send(role);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getRoles = async (user) => {
+const getRoles = async (req,res,next) => {
   try {
+    let user = req.user
     const roleData = await RoleModel.find({});
-    return { roleData, user };
+    return res.status(200).send({ roleData, user });
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const selectedRoleData = async (data) => {
+const selectedRoleData = async (req,res,next) => {
   try {
+    let data = req.query
     const roleData = await db.roles.find({ _id: data.id });
-    return roleData;
+    return res.status(200).send(roleData);
   } catch (err) {
     console.error(err);
   }
 };
 
-const editRole = async (role) => {
+const editRole = async (req,res,next) => {
   try {
+    let role = req.body
     const roleData = await db.roles.updateOne(
       { _id: role._id },
       {
@@ -45,13 +49,13 @@ const editRole = async (role) => {
         role: role.role,
       }
     );
-    return roleData;
+    return res.status(200).send(roleData);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
-const getUserRoleInfo = async () => {
+const getUserRoleInfo = async (req,res,next) => {
   try {
     const getUsers = await db.user.aggregate([
       {
@@ -96,9 +100,9 @@ const getUserRoleInfo = async () => {
         },
       },
     ]);
-    return getUsers;
+    return res.status(200).send(getUsers);
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
 
