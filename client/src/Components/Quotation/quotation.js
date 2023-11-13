@@ -1,13 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import AddQuotationModal from "./AddQuotationModal";
 import ViewQuotationModal from "./ViewQuotationModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { CommonDataTable } from "../../common-components/CommonDataTable";
+import { quoatationListHeaders } from "../../Constants/table.constants";
 
 export const Quotation = () => {
   const [isAddModelOpen, setAddModal] = useState(false);
   const [isViewModalOpen, setViewModal] = useState(false);
+  const [allQuoatations, setAllQuotations] = useState([]);
+  const [quoatationData, setQuotationData] = useState(null);
+  const [deleteQuotation, setDeleteQuotation] = useState(false);
+
+  useEffect(() => {
+    getAllQuotations();
+  }, []);
+
+  const getAllQuotations = async () => {
+    try {
+      const { data } = await AxiosInstance.get("/quotations/getQuotations");
+      setAllQuotations(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const showQuotationModal = (data, type, index) => {
+    setQuotationData(data);
+    if (type == "view") {
+      setViewModal(true);
+      setDeleteQuotation(false);
+    } else if (type == "delete") {
+      setViewModal(false);
+      setDeleteQuotation(true);
+    }
+    if (type !== "delete") setAddModal(true);
+  };
 
   return (
     <div id="layout-wrapper">
@@ -60,7 +90,7 @@ export const Quotation = () => {
                       </div>
                       <button
                         className="btn btn-primary me-2"
-                        onClick={() => setAddModal(true)}
+                        onClick={() => showQuotationModal()}
                       >
                         <i className="bx bx-plus me-1 fw-semibold align-middle" />
                         Add New Quotation
@@ -78,57 +108,17 @@ export const Quotation = () => {
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">
-                      <table
-                        id="datatable-buttons"
-                        className="table table-bordered dt-responsive nowrap w-100"
-                      >
-                        <thead>
-                          <tr>
-                            <th>Quotation No.</th>
-                            <th>Customer Name</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
-                            <th>Created on</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>001401</td>
-                            <td
-                              data-bs-toggle="modal"
-                              data-bs-target="#viewTrainerModal"
-                              style={{ cursor: "pointer" }}
-                            >
-                              John Doe
-                            </td>
-                            <td>john@example.com</td>
-                            <td>123-456-7890</td>
-                            <td>1 Jan, 1990</td>
-                            <td>
-                              <span className="badge bg-danger">Pending</span>
-                            </td>
-                            <td>
-                              <a className="btn btn-icon btn-sm btn-warning rounded-pill">
-                                <i
-                                  onClick={() => setViewModal(true)}
-                                  className="mdi mdi-eye"
-                                />
-                              </a>
-                              <a className="btn btn-icon btn-sm btn-primary rounded-pill">
-                                <i
-                                  onClick={() => setAddModal(true)}
-                                  className="mdi mdi-pencil"
-                                />
-                              </a>
-                              <a className="btn btn-icon btn-sm btn-danger rounded-pill">
-                                <i className="mdi mdi-trash-can" />
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <CommonDataTable
+                        data={allQuoatations}
+                        tableHeaders={quoatationListHeaders}
+                        actionButtons
+                        editButton
+                        deleteButton
+                        viewButton
+                        callback={(data, type, index) =>
+                          showQuotationModal(data, type, index)
+                        }
+                      />
                     </div>
                   </div>
                 </div>
@@ -1180,11 +1170,16 @@ export const Quotation = () => {
       </div>
 
       {isAddModelOpen && (
-        <AddQuotationModal show={isAddModelOpen} setShow={setAddModal} />
+        <AddQuotationModal
+          show={isAddModelOpen}
+          setShow={setAddModal}
+          viewModal={isViewModalOpen}
+          quotationData={quoatationData}
+        />
       )}
-      {isViewModalOpen && (
+      {/* {isViewModalOpen && (
         <ViewQuotationModal show={isViewModalOpen} setShow={setViewModal} />
-      )}
+      )} */}
     </div>
   );
 };

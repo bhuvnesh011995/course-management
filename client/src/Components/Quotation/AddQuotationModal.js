@@ -1,50 +1,104 @@
 import { useEffect, useState } from "react";
 import { Modal, Tab, TabContainer, Tabs } from "react-bootstrap";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { useForm } from "react-hook-form";
+import { filePath } from "../../common-components/useCommonUsableFunctions";
+import moment from "moment";
+import { CommonDataTable } from "../../common-components/CommonDataTable";
+import { quotationPreviewHeaders } from "../../Constants/table.constants";
+import { toast } from "react-toastify";
 
-export default function AddQuotationModal({ show, setShow }) {
+export default function AddQuotationModal({
+  show,
+  setShow,
+  viewModal,
+  quotationData,
+}) {
   const filterTypes = {
     textSearch: "",
     company: "",
   };
+
+  console.log(viewModal, quotationData);
+
   const [event, setEvent] = useState("customer");
   const [selectedFilter, setSelectedFilter] = useState(filterTypes);
   const [selectedLead, setSelectedLead] = useState(null);
   const [allCompanies, setAllCompanies] = useState([]);
-  const [registrationData, setRegistrationData] = useState(null);
+  const [customerCourses, setCustomerCourses] = useState([]);
+
+  const addCourses = {
+    courseName: "",
+    unitPrice: "",
+    discount: "",
+    grossAmt: "",
+    tax: "",
+    unit: "",
+  };
+
+  const courseErrors = {
+    courseName: "",
+    unitPrice: "",
+    discount: "",
+    grossAmt: "",
+    tax: "",
+    unit: "",
+  };
+
+  const [coursePrices, setCoursePrices] = useState({
+    totalDiscount: "",
+    totalTax: "",
+    grandTotal: "",
+    totalGrossAmt: "",
+  });
+
+  const [newCourses, setNewCourses] = useState([addCourses]);
+  const [newCourseErrors, setNewCourseErrors] = useState([courseErrors]);
+
+  const {
+    register,
+    reset,
+    getValues,
+    setValue,
+    watch,
+    setError,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     if (event == "customer") {
       getAllCompanies();
     } else if (event == "course") {
-      getCustomerCourses();
+      accountHistory();
     }
   }, [selectedFilter, event]);
 
   function handleNext() {
-    if (event === "customer") {
+    toast.dismiss();
+    if (event === "customer" && selectedLead) {
       setEvent("course");
     } else if (event === "course") {
-      setEvent("address");
-    } else if (event === "address") setEvent("preview");
+      setEvent("preview");
+    }
+
+    if (!selectedLead) toast("Please Select Customer !");
   }
 
   function handlePrevious() {
     if (event === "preview") {
-      setEvent("address");
-    } else if (event === "address") {
       setEvent("course");
     } else if (event === "course") {
       setEvent("customer");
     }
   }
 
-  const getCustomerCourses = async () => {
+  const accountHistory = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getCustomerCourses", {
-        params: { id: selectedLead._id },
+      const { data } = await AxiosInstance.get("/leads/accountHistory", {
+        params: { contactPersonEmail: selectedLead?.contactPersonEmail },
       });
-      console.log(data);
+      setCustomerCourses(data);
     } catch (err) {
       console.error(err);
     }
@@ -77,8 +131,81 @@ export default function AddQuotationModal({ show, setShow }) {
   const openFile = (fileName) => {
     const selectedFilePath = selectedLead.fileLocations[fileName];
 
-    const leadUrl = selectedLead(selectedFilePath);
+    const leadUrl = filePath(selectedFilePath);
     window.open(leadUrl);
+  };
+
+  const saveQuotationData = async () => {
+    try {
+      newCourses.map((course) => (course.leadId = selectedLead._id));
+      const { data } = await AxiosInstance.post(
+        "/quotations/addNewQuotation",
+        newCourses
+      );
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const calculateCoursePrices = () => {
+    const priceTypes = {
+      totalDiscount: 0,
+      totalTax: 0,
+      totalGrossAmt: 0,
+      grandTotal: 0,
+    };
+    newCourses.map((course) => {
+      priceTypes.totalDiscount =
+        priceTypes.totalDiscount + Number(course.discount);
+      priceTypes.totalTax = priceTypes.totalTax + Number(course.tax);
+      if (course.unitPrice)
+        priceTypes.totalGrossAmt =
+          priceTypes.totalGrossAmt +
+          Number(course.unitPrice) * Number(course.unit);
+      else
+        priceTypes.totalGrossAmt =
+          priceTypes.totalGrossAmt + Number(course.grossAmt);
+    });
+
+    const calculateCourseTotal =
+      priceTypes.totalGrossAmt * (priceTypes.totalTax / 100) +
+      priceTypes.totalGrossAmt -
+      priceTypes.totalGrossAmt * (priceTypes.totalDiscount / 100);
+
+    priceTypes.grandTotal = Math.round(calculateCourseTotal).toFixed(2);
+    setCoursePrices(priceTypes);
+  };
+
+  const changePriceType = (value, type, index) => {
+    if (!/^\d*$/.test(value)) {
+      newCourseErrors[index][type] = "Please enter a valid number.";
+      setNewCourseErrors([...newCourseErrors]);
+    } else {
+      newCourseErrors[index][type] = "";
+      setNewCourseErrors([...newCourseErrors]);
+      if (newCourses[index].unitPrice > 0)
+        newCourses[index].grossAmt =
+          newCourses[index].unitPrice * newCourses[index].unit;
+      newCourses[index][type] = value;
+      setNewCourses([...newCourses]);
+    }
+    calculateCoursePrices();
+  };
+
+  const handleTabSelect = (tabKey) => {
+    toast.dismiss();
+    if (!selectedLead) {
+      toast("Please Select Customer !");
+      return;
+    }
+    if (tabKey == "preview") {
+      if (!coursePrices.grandTotal || !coursePrices.totalGrossAmt) {
+        toast("Please Enter Course Details !");
+        return;
+      }
+    }
+    setEvent(tabKey);
   };
 
   return (
@@ -97,7 +224,7 @@ export default function AddQuotationModal({ show, setShow }) {
         <form className="row text-left">
           <div style={{ border: "none", height: "auto" }}>
             <Tabs
-              onSelect={(eventKey) => setEvent(eventKey)}
+              onSelect={(eventKey) => handleTabSelect(eventKey)}
               activeKey={event}
               id="justify-tab-example"
               className="mb-3"
@@ -147,11 +274,18 @@ export default function AddQuotationModal({ show, setShow }) {
                         </span>
                       </div>
                     </div>
-                    <div className="mb-3">
+                    <div
+                      className="mb-3"
+                      style={{
+                        height: "350px",
+                        overflow: "hidden",
+                        overflowY: true,
+                      }}
+                    >
                       {allCompanies?.length ? (
                         allCompanies.map((company) => (
                           <div
-                            className="card border border-primary"
+                            className="card border border-primary cursor-pointer"
                             style={{ cursor: "pointer" }}
                             onClick={() => getSelectedLead(company._id)}
                           >
@@ -551,105 +685,49 @@ export default function AddQuotationModal({ show, setShow }) {
                       <div className="card-body">
                         <div className="row">
                           <div className="col-md-12">
-                            <div className="mb-3">
-                              <label className="form-label">
-                                Select Course
-                                <span className="text-danger">*</span>
-                              </label>
-                              <select type="text" className="form-select" value>
-                                <option value="a">Course-1</option>
-                                <option value="b">Course-2</option>
-                                <option value="c">Course-3</option>
-                                <option value="d">Course-4</option>
-                                <option value="e">Course-5</option>
-                                <option value="f">Course-6</option>
-                              </select>
-                            </div>
-                            <div className>
-                              <label className="form-label">Search By</label>
-                              <div className="input-icon mb-3">
-                                <input
-                                  type="text"
-                                  defaultValue
-                                  className="form-control"
-                                  placeholder="Search…"
-                                />
-                                <span className="input-icon-addon">
-                                  {/* Download SVG icon from http://tabler-icons.io/i/search */}
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="icon"
-                                    width={20}
-                                    height={20}
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2}
-                                    stroke="currentColor"
-                                    fill="none"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
+                            <div
+                              className="table-responsive"
+                              style={{
+                                height: "350px",
+                                overflow: "hidden",
+                                overflowY: true,
+                              }}
+                            >
+                              {customerCourses?.length ? (
+                                customerCourses.map((course) => (
+                                  <div
+                                    className="card border border-primary"
+                                    style={{ cursor: "pointer" }}
+                                    // onClick={() => getSelectedLead(company._id)}
                                   >
-                                    <path
-                                      stroke="none"
-                                      d="M0 0h24v24H0z"
-                                      fill="none"
-                                    />
-                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                                    <path d="M21 21l-6 -6" />
-                                  </svg>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="table-responsive">
-                              <table className="table text-center text-nowrap table-bordered border-primary">
-                                <thead>
-                                  <tr>
-                                    <th>Course Code</th>
-                                    <th>Course Name</th>
-                                    <th>Course Duration</th>
-                                    <th>Trainer</th>
-                                    <th>Unit Price</th>
-                                    <th>Action</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>CS101</td>
-                                    <td>Computer Science</td>
-                                    <td>12 weeks</td>
-                                    <td>John Doe</td>
-                                    <td>$308.00</td>
-                                    <td>
-                                      <button
-                                        className="btn btn-primary"
-                                        type="button"
-                                      >
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          className="icon m-0"
-                                          width={20}
-                                          height={20}
-                                          viewBox="0 0 24 24"
-                                          strokeWidth={2}
-                                          stroke="currentColor"
-                                          fill="none"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
+                                    <div className="card-body">
+                                      <div className="my-auto">
+                                        <label
+                                          className="mb-0 text-Primary fw-bold d-flex align-items-center "
+                                          style={{ fontSize: "14px" }}
                                         >
-                                          <path
-                                            stroke="none"
-                                            d="M0 0h24v24H0z"
-                                            fill="none"
-                                          />
-                                          <path d="M12 5l0 14" />
-                                          <path d="M5 12l14 0" />
-                                        </svg>
-                                      </button>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                                          <i className="bx bxs-graduation me-2 fs-4 text-primary" />
+                                          Course - {course.course[0]}
+                                        </label>
+                                        <p className="m-0 ps-4">
+                                          Class Code - {course.class}
+                                        </p>
+                                        <p className="m-0 ps-4">
+                                          Price - {course.price[0]}
+                                        </p>
+                                        <p className="m-0 ps-4">
+                                          Trainer - {course.trainer}
+                                        </p>
+                                        <p className="m-0 ps-4">
+                                          Duration - {course.duration[0]}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div>No Data Found</div>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -670,6 +748,7 @@ export default function AddQuotationModal({ show, setShow }) {
                                 <tr>
                                   <th>SL NO</th>
                                   <th>Course Name</th>
+                                  <th>Units</th>
                                   <th>Unit Price</th>
                                   <th>Discount (%)</th>
                                   <th>Gross Amt ($)</th>
@@ -678,66 +757,222 @@ export default function AddQuotationModal({ show, setShow }) {
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td>1</td>
-                                  <td>HTML</td>
-                                  <td>
-                                    <input
-                                      type="number"
-                                      className="form-control"
-                                    />
-                                  </td>
-                                  <td>5%</td>
-                                  <td>$543</td>
-                                  <td>18%</td>
-                                  <td>
-                                    <button
-                                      className="btn btn-danger ripple"
-                                      type="button"
-                                    >
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="icon icon-tabler icon-tabler-playstation-x m-0"
-                                        width={20}
-                                        height={20}
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={2}
-                                        stroke="currentColor"
-                                        fill="none"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
+                                {newCourses.map((course, index) => (
+                                  <tr>
+                                    <td>{index + 1}</td>
+                                    <td>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        required="this field is required !"
+                                        onChange={({ target }) => {
+                                          newCourses[index].courseName =
+                                            target.value;
+                                          setNewCourses([...newCourses]);
+                                        }}
+                                        value={newCourses[index].courseName}
+                                      />
+                                      {newCourseErrors[index].courseName
+                                        ?.length ? (
+                                        <span className="text-danger">
+                                          {newCourseErrors[index].courseName}
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={({ target }) =>
+                                          changePriceType(
+                                            target.value,
+                                            "unit",
+                                            index
+                                          )
+                                        }
+                                        value={newCourses[index].unit}
+                                      />
+                                      {newCourseErrors[index].unit?.length ? (
+                                        <span className="text-danger">
+                                          {newCourseErrors[index].unit}
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={({ target }) =>
+                                          changePriceType(
+                                            target.value,
+                                            "unitPrice",
+                                            index
+                                          )
+                                        }
+                                        value={newCourses[index].unitPrice}
+                                      />
+                                      {newCourseErrors[index].unitPrice
+                                        ?.length ? (
+                                        <span className="text-danger">
+                                          {newCourseErrors[index].unitPrice}
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={({ target }) =>
+                                          changePriceType(
+                                            target.value,
+                                            "discount",
+                                            index
+                                          )
+                                        }
+                                        value={newCourses[index].discount}
+                                      />
+                                      {newCourseErrors[index].discount
+                                        ?.length ? (
+                                        <span className="text-danger">
+                                          {newCourseErrors[index].discount}
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={({ target }) =>
+                                          changePriceType(
+                                            target.value,
+                                            "grossAmt",
+                                            index
+                                          )
+                                        }
+                                        value={
+                                          newCourses[index].unitPrice.length
+                                            ? Number(
+                                                newCourses[index].unitPrice
+                                              ) * Number(newCourses[index].unit)
+                                            : newCourses[index].grossAmt
+                                        }
+                                      />
+                                      {newCourseErrors[index].grossAmt
+                                        ?.length ? (
+                                        <span className="text-danger">
+                                          {newCourseErrors[index].grossAmt}
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={({ target }) =>
+                                          changePriceType(
+                                            target.value,
+                                            "tax",
+                                            index
+                                          )
+                                        }
+                                        value={newCourses[index].tax}
+                                      />
+                                      {newCourseErrors[index].tax?.length ? (
+                                        <span className="text-danger">
+                                          {newCourseErrors[index].tax}
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </td>
+                                    <td className="d-flex">
+                                      <button
+                                        className="d-flex align-items-center justify-content-center btn btn-danger ripple mx-1"
+                                        type="button"
+                                        style={{
+                                          width: "30px",
+                                          height: "30px",
+                                          fontSize: "15px",
+                                        }}
+                                        onClick={() => {
+                                          if (newCourses.length > 1) {
+                                            newCourses.splice(index, 1);
+                                            setNewCourses([...newCourses]);
+                                          } else if (newCourses.length == 1) {
+                                            newCourses[index] = addCourses;
+                                            setNewCourses([...newCourses]);
+                                          }
+                                          calculateCoursePrices();
+                                        }}
                                       >
-                                        <path
-                                          stroke="none"
-                                          d="M0 0h24v24H0z"
-                                          fill="none"
-                                        />
-                                        <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z"></path>
-                                        <path d="M8.5 8.5l7 7" />
-                                        <path d="M8.5 15.5l7 -7" />
-                                      </svg>
-                                    </button>
-                                  </td>
-                                </tr>
+                                        X
+                                      </button>
+                                      {index == newCourses.length - 1 && (
+                                        <button
+                                          className="d-flex align-items-center justify-content-center btn btn-success"
+                                          type="button"
+                                          style={{
+                                            width: "30px",
+                                            height: "30px",
+                                            fontSize: "15px",
+                                          }}
+                                          onClick={() => {
+                                            setNewCourses([
+                                              ...newCourses,
+                                              addCourses,
+                                            ]);
+
+                                            setNewCourseErrors([
+                                              ...newCourseErrors,
+                                              courseErrors,
+                                            ]);
+                                          }}
+                                        >
+                                          +
+                                        </button>
+                                      )}
+                                    </td>
+                                  </tr>
+                                ))}
                               </tbody>
                               <thead>
                                 <tr>
                                   <th colSpan={5} style={{ textAlign: "end" }}>
                                     Total discount{" "}
                                   </th>
-                                  <th colSpan={2}>5%</th>
+                                  <th colSpan={2}>
+                                    {coursePrices.totalDiscount &&
+                                      `${coursePrices.totalDiscount}%`}
+                                  </th>
                                 </tr>
                                 <tr>
                                   <th colSpan={5} style={{ textAlign: "end" }}>
                                     Total tax{" "}
                                   </th>
-                                  <th colSpan={2}>18%</th>
+                                  <th colSpan={2}>
+                                    {coursePrices.totalTax &&
+                                      `${coursePrices.totalTax}%`}
+                                  </th>
                                 </tr>
                                 <tr>
                                   <th colSpan={5} style={{ textAlign: "end" }}>
                                     Grand total
                                   </th>
-                                  <th colSpan={2}>$ 616.00</th>
+                                  <th colSpan={2}>
+                                    {" "}
+                                    {coursePrices.grandTotal &&
+                                      `$  ${coursePrices.grandTotal}`}
+                                  </th>
                                 </tr>
                               </thead>
                               <thead
@@ -764,190 +999,7 @@ export default function AddQuotationModal({ show, setShow }) {
                   </div>
                 </div>
               </Tab>
-              <Tab eventKey="address" title="3 Address">
-                <div className="row">
-                  <div className="col-md-3">
-                    <div className="card border border-primary">
-                      <div className="card-body">
-                        <h3
-                          className="card-title mb-2"
-                          style={{ color: "#1F3BB3" }}
-                        >
-                          <b className="me-2">Jhone Doe</b>
-                        </h3>
-                        <p className="card-p d-flex align-items-center mb-2 ">
-                          <i
-                            className="bx bx-phone me-2"
-                            style={{ fontSize: "14px" }}
-                          />
-                          +91 9758697820
-                        </p>
-                        <p className="card-p  d-flex align-items-center mb-2">
-                          <i
-                            className="bx bx-envelope me-2"
-                            style={{ fontSize: "14px" }}
-                          />
-                          abc@pvtltd.com
-                        </p>
-                        <hr className="my-3" />
-                        <h3
-                          className="card-title mb-1"
-                          style={{ color: "#1F3BB3" }}
-                        >
-                          <b>Course Details</b>
-                        </h3>
-                        <div className="amount">
-                          <p className="m-0 card-p">Cyber Security</p>
-                          <p className="m-0">Duration : 12 Weeks</p>
-                          <p className="m-0">Starting Date: 25/04/2023</p>
-                          <p className="m-0">Starting Time: 05:47 PM</p>
-                        </div>
-                        <hr className="my-3" />
-                        <div className="driver mt-2">
-                          <h3
-                            className="card-title mb-1"
-                            style={{ color: "#1F3BB3" }}
-                          >
-                            <b>Amount Details</b>
-                          </h3>
-                          <div className="row">
-                            <div className="col-md-7">
-                              <p className="m-0"> Total:</p>
-                            </div>
-                            <div className="col-md-5">
-                              <p className="m-0">$200.00</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-9">
-                    <div className="card">
-                      <div className="card-body">
-                        <ul
-                          className="nav nav-pills nav-pills-primary"
-                          data-bs-toggle="tabs"
-                          role="tablist"
-                        >
-                          <li className="nav-item me-2" role="presentation">
-                            <a
-                              href="#tab-one"
-                              className="nav-link active"
-                              data-bs-toggle="tab"
-                              aria-selected="true"
-                              role="tab"
-                            >
-                              Address
-                            </a>
-                          </li>
-                          <li className="nav-item me-2" role="presentation">
-                            <a
-                              href="#tab-three"
-                              className="nav-link"
-                              data-bs-toggle="tab"
-                              aria-selected="false"
-                              role="tab"
-                              tabIndex={-1}
-                            >
-                              Additional Info
-                            </a>
-                          </li>
-                        </ul>
-                        <div className="tab-content">
-                          <div
-                            className="tab-pane active show"
-                            id="tab-one"
-                            role="tabpanel"
-                          >
-                            <div className="row my-3">
-                              <div className="col-lg-4 col-md-4 col-sm-12">
-                                <label
-                                  htmlFor="radio-card-1"
-                                  className="radio-card"
-                                >
-                                  <input
-                                    type="radio"
-                                    name="radio-card"
-                                    id="radio-card-1"
-                                    defaultChecked
-                                  />
-                                  <div className="card-content-wrapper">
-                                    <span className="check-icon" />
-                                    <div className="card-content">
-                                      <h4>Sky Enterprice</h4>
-                                      <p className="mb-1">
-                                        {" "}
-                                        <strong>Contact No:</strong>
-                                        1234567890
-                                      </p>
-                                      <p className="mb-1">
-                                        {" "}
-                                        <strong>Email ID:</strong>
-                                        ABC@gmail.com
-                                      </p>
-                                      <p className="mb-1">
-                                        <strong>Address:</strong>8 Shopping
-                                        Centre, 9 Bishan Place, Singapore 579837
-                                      </p>
-                                      <div className="form-check">
-                                        <input
-                                          className="form-check-input"
-                                          type="radio"
-                                          name="flexRadioDefault"
-                                          id="flexRadioDefault2"
-                                          defaultChecked
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor="flexRadioDefault2"
-                                        >
-                                          Default Address
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="tab-pane"
-                            id="tab-three"
-                            role="tabpanel"
-                          >
-                            <div className="row mt-3">
-                              <div className="form-group col-lg-6 col-md-6 col-sm-12 text-start">
-                                <label
-                                  htmlFor="message-text"
-                                  className="col-form-label"
-                                >
-                                  Date
-                                </label>
-                                <input type="date" className="form-control" />
-                              </div>
-                              <div className="form-group col-lg-6 col-md-6 col-sm-12 text-start">
-                                <label
-                                  htmlFor="message-text"
-                                  className="col-form-label"
-                                >
-                                  Time
-                                </label>
-                                <input
-                                  type="time"
-                                  className="form-control"
-                                  placeholder="Time of Cleaning"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Tab>
-              <Tab eventKey="preview" title="4 Preview">
+              <Tab eventKey="preview" title="3 Preview">
                 <div className="row">
                   <div className="col-md-3">
                     <div className="card border border-primary">
@@ -959,8 +1011,7 @@ export default function AddQuotationModal({ show, setShow }) {
                           <b>Address</b>
                         </h3>
                         <p className="m-0">
-                          BLK 3017 BEDOK NORTH STREET 5 #01-22 GOURMET EAST
-                          KITCHEN SINGAPORE 486121
+                          {`${selectedLead?.companyAddress} Postal Code : ${selectedLead?.postalCode} `}
                         </p>
                         <hr className="my-3" />
                         <h3
@@ -969,10 +1020,31 @@ export default function AddQuotationModal({ show, setShow }) {
                         >
                           <b>Course Details</b>
                         </h3>
-                        <p className="m-0 card-p">Cyber Security</p>
-                        <p className="m-0">Duration : 12 Weeks</p>
-                        <p className="m-0">Starting Date: 25/04/2023</p>
-                        <p className="m-0">Starting Time: 05:47 PM</p>
+                        {customerCourses?.length
+                          ? customerCourses.map((course) => (
+                              <div>
+                                <p
+                                  className="m-0 card-p"
+                                  style={{ fontWeight: "bold" }}
+                                >
+                                  {course.course[0]}
+                                </p>
+                                <p className="m-0">
+                                  Duration : {course.duration[0]}
+                                </p>
+                                <p className="m-0">
+                                  Starting Date:{" "}
+                                  {moment(course.startDate).format(
+                                    "DD/MM/YYYY"
+                                  )}
+                                </p>
+                                <p className="m-0">
+                                  Starting Time:{" "}
+                                  {moment(course.startTime).format("HH:mm")}
+                                </p>
+                              </div>
+                            ))
+                          : ""}
                       </div>
                     </div>
                   </div>
@@ -982,28 +1054,10 @@ export default function AddQuotationModal({ show, setShow }) {
                         <div className="card">
                           <div className="card-body p-0">
                             <div className="table-responsive">
-                              <table className="table card-table table-vcenter text-center text-nowrap datatable">
-                                <thead>
-                                  <tr>
-                                    <th>SL NO</th>
-                                    <th>Course Name</th>
-                                    <th>Unit Price</th>
-                                    <th>Quantity</th>
-                                    <th>Gross Amount ($)</th>
-                                    <th>Discount (%)</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>1</td>
-                                    <td>Html</td>
-                                    <td>$308.00</td>
-                                    <td>2</td>
-                                    <td>$308.00</td>
-                                    <td>8%</td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                              <CommonDataTable
+                                data={newCourses}
+                                tableHeaders={quotationPreviewHeaders}
+                              />
                             </div>
                           </div>
                         </div>
@@ -1022,14 +1076,14 @@ export default function AddQuotationModal({ show, setShow }) {
                                 className="bx bx-user me-2 pt-1"
                                 style={{ fontSize: "14px" }}
                               />
-                              Jhone Doe
+                              {selectedLead?.contactPerson}{" "}
                             </p>
                             <p className="m-0">
                               <i
                                 className="bx bx-phone me-2 pt-1"
                                 style={{ fontSize: "14px" }}
                               />
-                              +91-9737155901
+                              {selectedLead?.contactPersonMobile}
                             </p>
                             <hr className="my-3" />
                             <h3
@@ -1048,16 +1102,28 @@ export default function AddQuotationModal({ show, setShow }) {
                                 <h6>Grand Total:</h6>
                               </div>
                               <div className="col-md-5">
-                                <p className="m-0">$200.00</p>
-                                <p className="m-0">$0.00</p>
-                                <p className="m-0">$0.00</p>
-                                <h6>$200.00</h6>
+                                <p className="m-0">
+                                  {coursePrices.totalGrossAmt &&
+                                    `$${coursePrices.totalGrossAmt}`}
+                                </p>
+                                <p className="m-0">
+                                  {coursePrices.totalTax &&
+                                    `${coursePrices.totalTax}%`}
+                                </p>
+                                <p className="m-0">
+                                  {coursePrices.totalDiscount &&
+                                    `${coursePrices.totalDiscount}%`}
+                                </p>
+                                <h6>
+                                  {coursePrices.grandTotal &&
+                                    `$${coursePrices.grandTotal}`}
+                                </h6>
                               </div>
                             </div>
                             <button
                               type="button"
                               className="btn btn-info w-100 mt-3"
-                              data-dismiss="modal"
+                              onClick={saveQuotationData}
                             >
                               Confirm
                             </button>

@@ -2,10 +2,6 @@
 // <html lang="en">
 
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
-import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
-import { Link } from "react-router-dom";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CourseModal } from "./models/courseModal";
 import { CommonDataTable } from "../../common-components/CommonDataTable";

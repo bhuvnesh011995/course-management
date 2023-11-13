@@ -194,3 +194,19 @@ export const excelAttendanceHeaders = {
   traineeAttendance: "Trainee's Attendance (Signature)",
   traineeResults: "Results (P/f) *",
 };
+
+export const quotationPreviewHeaders = {
+  courseName: "Course Name",
+  unitPrice: " Unit Price",
+  unit: "Quantity",
+  grossAmt: "Gross Amount($)",
+  discount: "Discount(%)",
+};
+
+export const quoatationListHeaders = {
+  _id: "Quotation No.",
+  contactPerson: "Customer Name",
+  contactPersonEmail: "Email",
+  contactPersonMobile: "Mobile",
+  created_at: "Created on",
+};
