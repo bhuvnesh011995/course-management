@@ -155,6 +155,23 @@ const getCourses = async (req, res, next) => {
       { $unwind: "$registrationTypeDetails" },
 
       {
+        $lookup: {
+          from: "leads",
+          let: { courseId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$$courseId" }, "$course"],
+                },
+              },
+            },
+          ],
+          as: "leadCourses",
+        },
+      },
+
+      {
         $addFields: {
           shouldLookup: {
             $gt: [{ $size: "$registrationTypeDetails.tradeLevelIds" }, 0],
@@ -218,10 +235,12 @@ const getCourses = async (req, res, next) => {
           tradeType: "$bothCombined.tradeTypeDetails.tradeType",
           registrationType:
             "$bothCombined.registrationTypeDetails.registrationName",
+          ActiveCourses: "$bothCombined.leadCourses",
           created_at: "$bothCombined.created_at",
         },
       },
     ]);
+    console.log(getAllCourses);
     return res.status(200).send({ allCourses: getAllCourses });
   } catch (err) {
     next(err);

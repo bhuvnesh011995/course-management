@@ -10,6 +10,11 @@ import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 
 export const Course = () => {
+  const courseActiveObj = {
+    active: 0,
+    inActive: 0,
+  };
+
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
   const [courseModal, setCourseModal] = useState(false);
@@ -17,6 +22,7 @@ export const Course = () => {
   const [viewCourse, setViewCourse] = useState(false);
   const [deleteCourse, setDeleteCourse] = useState(false);
   const [allCourses, setAllCourses] = useState([]);
+  const [onOffCourses, setOnOffCourses] = useState(courseActiveObj);
   const [courseData, setCourseData] = useState(null);
 
   useEffect(() => {
@@ -64,6 +70,17 @@ export const Course = () => {
   const getAllCourses = async () => {
     try {
       const { data } = await AxiosInstance.get("/courses/getCourses");
+      onOffCourses.active = courseActiveObj.active;
+      onOffCourses.inActive = courseActiveObj.inActive;
+      data.allCourses.map((course) => {
+        if (course.ActiveCourses.length > 0) {
+          onOffCourses.active += 1;
+        } else {
+          onOffCourses.inActive += 1;
+        }
+        setOnOffCourses({ ...onOffCourses });
+      });
+
       setAllCourses(data.allCourses);
     } catch (err) {
       console.error(err);
@@ -164,7 +181,7 @@ export const Course = () => {
                       <div className="d-flex flex-wrap">
                         <div className="me-3">
                           <p className="text-muted mb-2">Active Course</p>
-                          <h5 className="mb-0">12</h5>
+                          <h5 className="mb-0">{onOffCourses.active}</h5>
                         </div>
                         <div className="avatar-sm ms-auto">
                           <div className="avatar-title bg-light rounded-circle text-primary font-size-20">
@@ -181,7 +198,7 @@ export const Course = () => {
                       <div className="d-flex flex-wrap">
                         <div className="me-3">
                           <p className="text-muted mb-2">Pending Course</p>
-                          <h5 className="mb-0">6</h5>
+                          <h5 className="mb-0">{onOffCourses.inActive}</h5>
                         </div>
                         <div className="avatar-sm ms-auto">
                           <div className="avatar-title bg-danger bg-soft rounded-circle text-primary font-size-20">
@@ -198,7 +215,12 @@ export const Course = () => {
                       <div className="d-flex flex-wrap">
                         <div className="me-3">
                           <p className="text-muted mb-2">Free Courses</p>
-                          <h5 className="mb-0">35</h5>
+                          <h5 className="mb-0">
+                            {
+                              allCourses.filter((course) => course.price == 0)
+                                .length
+                            }
+                          </h5>
                         </div>
                         <div className="avatar-sm ms-auto">
                           <div className="avatar-title bg-success bg-soft rounded-circle text-success font-size-20">
@@ -215,7 +237,12 @@ export const Course = () => {
                       <div className="d-flex flex-wrap">
                         <div className="me-3">
                           <p className="text-muted mb-2">Paid Courses</p>
-                          <h5 className="mb-0">15</h5>
+                          <h5 className="mb-0">
+                            {
+                              allCourses.filter((course) => course.price > 0)
+                                .length
+                            }
+                          </h5>
                         </div>
                         <div className="avatar-sm ms-auto">
                           <div className="avatar-title bg-warning bg-soft rounded-circle text-warning font-size-20">

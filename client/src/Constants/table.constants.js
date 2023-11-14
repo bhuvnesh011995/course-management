@@ -204,9 +204,43 @@ export const quotationPreviewHeaders = {
 };
 
 export const quoatationListHeaders = {
-  _id: "Quotation No.",
+  quotationNo: "Quotation No.",
   contactPerson: "Customer Name",
   contactPersonEmail: "Email",
   contactPersonMobile: "Mobile",
   created_at: "Created on",
+};
+
+export const salesQuoatationListHeaders = {
+  salesQuotationNo: "Sales Quotation No.",
+  contactPerson: "Customer Name",
+  contactPersonEmail: "Email",
+  contactPersonMobile: "Mobile",
+  created_at: "Created on",
+};
+
+export const invoiceQuoatationListHeaders = {
+  invoiceQuotationNo: "Invoice Quotation No.",
+  contactPerson: "Customer Name",
+  contactPersonEmail: "Email",
+  contactPersonMobile: "Mobile",
+  created_at: "Created on",
+};
+
+export const payrollHeaders = {
+  employeeName: "Employee Name",
+  employeeDepartment: "Department",
+  employeePosition: "Position",
+  salary: "Basic Salary",
+  allowances: "Allowances",
+  deductions: "Deductions",
+  netSalary: "Net Salary",
+};
+
+export const timesheetHeaders = {
+  date: "Date",
+  employeeName: "Employee Name",
+  hoursWorked: "Hours Worked",
+  overtimeHours: "Overtime Hours",
+  shift: "Shift",
 };

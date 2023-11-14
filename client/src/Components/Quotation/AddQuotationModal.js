@@ -8,18 +8,11 @@ import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { quotationPreviewHeaders } from "../../Constants/table.constants";
 import { toast } from "react-toastify";
 
-export default function AddQuotationModal({
-  show,
-  setShow,
-  viewModal,
-  quotationData,
-}) {
+export default function AddQuotationModal({ show, setShow, callback }) {
   const filterTypes = {
     textSearch: "",
     company: "",
   };
-
-  console.log(viewModal, quotationData);
 
   const [event, setEvent] = useState("customer");
   const [selectedFilter, setSelectedFilter] = useState(filterTypes);
@@ -137,12 +130,15 @@ export default function AddQuotationModal({
 
   const saveQuotationData = async () => {
     try {
-      newCourses.map((course) => (course.leadId = selectedLead._id));
+      const Obj = {};
+      Obj["quotationCourses"] = newCourses;
+      Obj["leadId"] = selectedLead._id;
       const { data } = await AxiosInstance.post(
         "/quotations/addNewQuotation",
-        newCourses
+        Obj
       );
-      console.log(data);
+      callback(data);
+      handleClose();
     } catch (err) {
       console.error(err);
     }
@@ -173,7 +169,7 @@ export default function AddQuotationModal({
       priceTypes.totalGrossAmt -
       priceTypes.totalGrossAmt * (priceTypes.totalDiscount / 100);
 
-    priceTypes.grandTotal = Math.round(calculateCourseTotal).toFixed(2);
+    priceTypes.grandTotal = calculateCourseTotal.toFixed(2);
     setCoursePrices(priceTypes);
   };
 
@@ -205,13 +201,21 @@ export default function AddQuotationModal({
         return;
       }
     }
+    if (!selectedLead.courseAssigned) {
+      toast("Course is not assigned for this customer");
+      return;
+    }
     setEvent(tabKey);
+  };
+
+  const handleClose = () => {
+    setShow(false);
   };
 
   return (
     <Modal
       show={show}
-      onHide={() => setShow(false)}
+      onHide={() => handleClose()}
       className="modal-dialog-scrollable"
       size="xl"
     >

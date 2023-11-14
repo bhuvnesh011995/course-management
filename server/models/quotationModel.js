@@ -2,12 +2,18 @@ const mongoose = require("mongoose");
 
 const quoatationSchema = new mongoose.Schema(
   {
-    courseName: { type: String },
-    discount: { type: Number },
-    grossAmt: { type: Number },
-    tax: { type: Number },
-    unit: { type: Number },
-    unitPrice: { type: Number },
+    quotationCourses: [
+      {
+        courseName: { type: String },
+        discount: { type: Number },
+        grossAmt: { type: Number },
+        tax: { type: Number },
+        unit: { type: Number },
+        unitPrice: { type: Number },
+      },
+    ],
+
+    isInvoice: { type: Boolean, default: false },
     leadId: { type: mongoose.Schema.Types.ObjectId },
   },
   {

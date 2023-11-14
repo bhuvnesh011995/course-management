@@ -13,20 +13,20 @@ import { DateRange } from "../Components/schedule/date-range";
 import { Employee } from "../Components/hrms/employee";
 import { F } from "../Components/f";
 import { FeedBack } from "../Components/course-management/feedback";
-import { Invoice } from "../Components/invoice";
+import { Invoice } from "../Components/Quotation/invoice";
 import { LeadGrid } from "../Components/lead/lead-grid";
 import { Lead } from "../Components/lead/lead";
 import { Lead2 } from "../Components/lead/lead2";
 import { Leave } from "../Components/leave";
 import { Mail } from "../Components/mail";
 import { MonitorVenueAvailability } from "../Components/monitor-venue-availability";
-import { PayRoll } from "../Components/Payroll/payroll";
+import { PayRoll } from "../Components/hrms/Payroll/payroll";
 import { Profile } from "../Components/profile";
 
 import { ReadEmail } from "../Components/read-email";
 import { RegistrationType } from "../Components/course-management/registration-type";
 import { S } from "../Components/s";
-import { SalesQuotation } from "../Components/sales-quotation";
+import { SalesQuotation } from "../Components/Quotation/sales-quotation";
 import { Scheduling } from "../Components/schedule/sceduling";
 import { SubCategory } from "../Components/sub-categoery";
 import { Table } from "../Components/table";
@@ -43,7 +43,7 @@ import { UserRegistration } from "../Components/registration/user-registraion";
 import { CommonNavbar } from "../common-components/Navbar";
 import { MenuBar } from "../common-components/MenuBar";
 import { Quotation } from "../Components/Quotation/quotation";
-import { TimeSheet } from "../Components/Timesheet/timesheet";
+import { TimeSheet } from "../Components/hrms/Timesheet/timesheet";
 
 export const AllRoutes = () => {
   const navigate = useNavigate();

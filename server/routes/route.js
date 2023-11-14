@@ -15,5 +15,7 @@ routes.use("/certificates", require("./certificateRoute"));
 routes.use("/employee", require("./employeeRoute"));
 routes.use("/generateFile", require("./generateFileRoute"));
 routes.use("/quotations", require("./quotationRoute"));
+routes.use("/payrolls", require("./payrollRoute"));
+routes.use("/timesheets", require("./timesheetRoute"));
 
 module.exports = routes;

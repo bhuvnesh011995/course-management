@@ -519,7 +519,7 @@ const getPayment = async (req, res, next) => {
       <p><strong>Tonga</strong> <br>\n`,
       path: [filePath, bankFilePath],
     };
-    await sendMail({query:sendMailObj});
+    await sendMail({ query: sendMailObj });
     const getLeadPayment = await db.lead.updateOne(
       { _id: body._id },
       { getPayment: true }
@@ -539,7 +539,7 @@ const confirmPayment = async (req, res, next) => {
       mailValue: `<p>your payment is confirmed now , you have access of the course</p><br>\n
       <p><strong>Tonga</strong> <br>\n`,
     };
-    await sendMail({query:sendMailObj});
+    await sendMail({ query: sendMailObj });
     const getLeadPayment = await db.lead.updateOne(
       { _id: body._id },
       { confirmed: true }

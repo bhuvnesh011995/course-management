@@ -3,7 +3,8 @@ const quotationManager = require("../managers/quotationManager");
 
 routes.post("/addNewQuotation", quotationManager.addNewQuotation);
 routes.get("/getQuotations", quotationManager.getQuotations);
-// routes.post("/editQuotation", quotationManager.editQuotation);
-// routes.delete("/deleteQuotation", quotationManager.deleteQuotation);
+routes.get("/getQuotation", quotationManager.getQuotation);
+routes.delete("/deleteQuotation", quotationManager.deleteQuotation);
+routes.post("/updateQuotation", quotationManager.updateQuotation);
 
 module.exports = routes;

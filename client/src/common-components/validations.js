@@ -34,3 +34,8 @@ export const mustBe6to16 = {
   value: /^.{6,16}$/,
   message: "Must Be Between 6 to 16 characters.",
 };
+
+export const mustBeNumbers = {
+  value: /^[0-9]+$/,
+  message: "Must Be Numbers.",
+};

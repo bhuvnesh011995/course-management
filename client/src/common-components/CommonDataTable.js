@@ -29,6 +29,7 @@ export const CommonDataTable = ({
   downloadPdf,
   verificationMailButton,
   leadModelButtons,
+  enableRowNumbers = true,
 }) => {
   useEffect(() => {
     if (leadModelButtons) updateLeadList("all");
@@ -206,7 +207,7 @@ export const CommonDataTable = ({
         initialState={{
           showGlobalFilter: true,
         }}
-        enableRowNumbers
+        enableRowNumbers={enableRowNumbers}
         enableGlobalFilterModes
         renderTopToolbarCustomActions={({}) => (
           <div>

@@ -6,12 +6,14 @@ import ViewQuotationModal from "./ViewQuotationModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { quoatationListHeaders } from "../../Constants/table.constants";
+import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { toast } from "react-toastify";
 
 export const Quotation = () => {
   const [isAddModelOpen, setAddModal] = useState(false);
   const [isViewModalOpen, setViewModal] = useState(false);
   const [allQuoatations, setAllQuotations] = useState([]);
-  const [quoatationData, setQuotationData] = useState(null);
+  const [quotationData, setQuotationData] = useState(null);
   const [deleteQuotation, setDeleteQuotation] = useState(false);
 
   useEffect(() => {
@@ -21,6 +23,7 @@ export const Quotation = () => {
   const getAllQuotations = async () => {
     try {
       const { data } = await AxiosInstance.get("/quotations/getQuotations");
+      data.map((quotation, index) => (quotation.quotationNo = index + 1));
       setAllQuotations(data);
     } catch (err) {
       console.error(err);
@@ -36,7 +39,30 @@ export const Quotation = () => {
       setViewModal(false);
       setDeleteQuotation(true);
     }
-    if (type !== "delete") setAddModal(true);
+    if (type !== "delete" && type !== "view") setAddModal(true);
+  };
+
+  const deleteSelectedQuotation = async (quotation) => {
+    try {
+      toast.dismiss();
+      const deletedQuote = await AxiosInstance.delete(
+        "/quotations/deleteQuotation",
+        { params: quotation }
+      );
+      if (deletedQuote.status == 200) {
+        const filterQuotations = allQuoatations.filter(
+          (quote) => quote._id != quotation._id
+        );
+        setAllQuotations([...filterQuotations]);
+        toast.success(deletedQuote.data);
+      } else toast.error("Something Went Wrong");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateQuotations = (newQuotation) => {
+    setAllQuotations([...allQuoatations, newQuotation]);
   };
 
   return (
@@ -67,7 +93,7 @@ export const Quotation = () => {
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-50">
-                        <div className="col-xl-5">
+                        {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option value="CA">Newest</option>
                             <option value="NV">Oldest</option>
@@ -86,7 +112,7 @@ export const Quotation = () => {
                               Search
                             </button>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                       <button
                         className="btn btn-primary me-2"
@@ -112,8 +138,8 @@ export const Quotation = () => {
                         data={allQuoatations}
                         tableHeaders={quoatationListHeaders}
                         actionButtons
-                        editButton
                         deleteButton
+                        enableRowNumbers={false}
                         viewButton
                         callback={(data, type, index) =>
                           showQuotationModal(data, type, index)
@@ -1173,13 +1199,26 @@ export const Quotation = () => {
         <AddQuotationModal
           show={isAddModelOpen}
           setShow={setAddModal}
-          viewModal={isViewModalOpen}
-          quotationData={quoatationData}
+          callback={(e) => updateQuotations(e)}
         />
       )}
-      {/* {isViewModalOpen && (
-        <ViewQuotationModal show={isViewModalOpen} setShow={setViewModal} />
-      )} */}
+      {isViewModalOpen && (
+        <ViewQuotationModal
+          show={isViewModalOpen}
+          setShow={setViewModal}
+          quotationData={quotationData}
+        />
+      )}
+      {deleteQuotation && (
+        <DeleteModel
+          setIsOpen={setDeleteQuotation}
+          isOpen={deleteQuotation}
+          message={`Do yo really want to delete customer ${quotationData?.contactPerson} quotation`}
+          callback={(data) => deleteSelectedQuotation(data)}
+          deleteHeader="Quotation"
+          data={quotationData}
+        />
+      )}
     </div>
   );
 };

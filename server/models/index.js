@@ -14,4 +14,5 @@ module.exports = {
   trainers: require("./trainerModel"),
   user: require("./userModel"),
   quotations: require("./quotationModel"),
+  payRolls: require("./PayrollModel"),
 };
