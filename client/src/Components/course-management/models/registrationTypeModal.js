@@ -194,6 +194,7 @@ export const RegistrationTypeModal = ({
                       <input
                         type="checkbox"
                         value={e._id}
+                        key={index}
                         onClick={() => changeSelected(e._id)}
                         checked={selectAllTradeLevel.includes(e._id)}
                         {...register("tradeLevelIds")}

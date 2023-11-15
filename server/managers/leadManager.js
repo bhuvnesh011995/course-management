@@ -343,37 +343,7 @@ const updateLead = async (req, res, next) => {
     const updateLead = await db.lead.updateOne(
       { _id: query._id },
       {
-        bcaAcknowledgementNotice: query.bcaAcknowledgementNotice,
-        MOMEploymentDetails: query.MOMEploymentDetails,
-        nricWorkDocument: query.nricWorkDocument,
-        paQuotaCopy: query.paQuotaCopy,
-        passportCopy: query.passportCopy,
-        workersIc: query.workersIc,
-        workersPassport: query.workersPassport,
-        skillEvaluationCertificate: query.skillEvaluationCertificate,
-        fileLocations: query.fileLocations,
-        companyAddress: query.companyAddress,
-        alternateMobile: query.alternateMobile,
-        companyName: query.companyName,
-        companyUEN: query.companyUEN,
-        contactPerson: query.contactPerson,
-        contactPersonEmail: query.contactPersonEmail,
-        contactPersonMobile: query.contactPersonMobile,
-        myeNo: query.myeNo,
-        officeFax: query.officeFax,
-        officeTelephone: query.officeTelephone,
-        paReferenceNo: query.paReferenceNo,
-        participantIcNo: query.participantIcNo,
-        participantMobile: query.participantMobile,
-        participantNRIC: query.participantNRIC,
-        postalCode: query.postalCode,
-        registrationType: query.registrationType,
-        tradeLevel: query.tradeLevel,
-        tradeType: query.tradeType,
-        participantName: query.participantName,
-        nationality: query.nationality,
-        coreTradeRegNo: query.coreTradeRegNo,
-        course: query.course,
+        $set: query,
       }
     );
     const updatedLead = await db.lead.aggregate([
@@ -555,7 +525,7 @@ const assignCourse = async (req, res, next) => {
     const { body } = req;
     const updateLeadCourse = await db.lead.updateOne(
       { _id: body._id },
-      { course: body.course, courseAssigned: body.courseAssigned }
+      { $set: body }
     );
     return res.status(200).send({ message: "course Assigned to user" });
   } catch (err) {
@@ -896,7 +866,6 @@ const getAllCompanies = async (req, res, next) => {
 const getCompany = async (req, res, next) => {
   try {
     const { query } = req;
-    console.log(query);
     const company = await db.lead.aggregate([
       {
         $match: {

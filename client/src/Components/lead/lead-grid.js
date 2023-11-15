@@ -177,6 +177,7 @@ export const LeadGrid = () => {
 
   const deleteLead = async (leadData) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.delete("/leads/deleteLead", {
         params: leadData,
       });
@@ -223,11 +224,16 @@ export const LeadGrid = () => {
                             }}
                             value={selectedFilter.sortBy}
                           >
-                            <option value={""} selected>
+                            <option key={""} value={""}>
                               Sort By
                             </option>
-                            <option value={"newLead"}>New Lead</option>
-                            <option value={"paymentPending"}>
+                            <option key={"newLead"} value={"newLead"}>
+                              New Lead
+                            </option>
+                            <option
+                              key={"paymentPending"}
+                              value={"paymentPending"}
+                            >
                               Payment-Pending
                             </option>
                             <option value={"assignCourse"}>
@@ -236,24 +242,7 @@ export const LeadGrid = () => {
                             <option value={"completed"}>completed</option>
                           </select>
                         </div>
-                        {/* <div className="col-xl-4">
-                          <select
-                            className="form-select"
-                            onChange={({ target }) => {
-                              filterLeads(target.value);
-                            }}
-                            value={selectedFilter.company}
-                          >
-                            <option value={""} selected>
-                              Select Company
-                            </option>
-                            {leads.allLeads.map((lead) => (
-                              <option value={lead._id}>
-                                {lead.companyName}
-                              </option>
-                            ))}
-                          </select>
-                        </div> */}
+
                         <div className="col-xl-4">
                           <div className="d-flex" role="search">
                             <input

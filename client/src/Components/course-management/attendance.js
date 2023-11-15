@@ -12,6 +12,7 @@ import {
   AttendanceGenerateModal,
 } from "./models/generateLeads";
 import { convertToMongooseStartEndTiming } from "../../common-components/useCommonUsableFunctions";
+import { toast } from "react-toastify";
 
 export const Attendance = () => {
   const filterObject = {
@@ -38,6 +39,7 @@ export const Attendance = () => {
       filters.class = data.classes[0]._id;
       setFilters({ ...filters });
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -49,6 +51,7 @@ export const Attendance = () => {
       });
       setFilteredLeads(data);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -96,7 +99,9 @@ export const Attendance = () => {
                               value={filters.class}
                             >
                               {classes.map((e) => (
-                                <option value={e._id}>{e.classCode}</option>
+                                <option key={e._id} value={e._id}>
+                                  {e.classCode}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -130,9 +135,9 @@ export const Attendance = () => {
                 <div className="card ">
                   <div className="card-header justify-content-between">
                     <div className="card-title">Attendance List </div>
-                    <div class=" d-flex flex-end justify-content-end">
+                    <div className=" d-flex flex-end justify-content-end">
                       <button
-                        class="btn btn-primary mx-1"
+                        className="btn btn-primary mx-1"
                         style={{
                           height: "20px",
                           padding: "0 0.5rem",
@@ -140,10 +145,10 @@ export const Attendance = () => {
                         }}
                       >
                         {" "}
-                        <i class="mdi mdi-import me-1"></i>Import
+                        <i className="mdi mdi-import me-1"></i>Import
                       </button>
                       <button
-                        class="btn btn-primary"
+                        className="btn btn-primary"
                         style={{
                           height: "20px",
                           padding: "0 0.5rem",

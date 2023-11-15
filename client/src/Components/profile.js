@@ -153,7 +153,6 @@ export const Profile = () => {
                             <td>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-primary rounded-pill"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editTrainerModal"
@@ -162,7 +161,6 @@ export const Profile = () => {
                               </a>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-danger rounded-pill"
                               >
                                 <i className="mdi mdi-trash-can" />
@@ -205,9 +203,7 @@ export const Profile = () => {
               <div className="modal-body">
                 <form className="row">
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="trainerPhoto" className="form-label">
-                      Photo
-                    </label>
+                    <label className="form-label">Photo</label>
                     <input
                       type="file"
                       className="form-control"
@@ -215,9 +211,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="trainerFirstName" className="form-label">
-                      First Name
-                    </label>
+                    <label className="form-label">First Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -227,9 +221,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="trainerLastName" className="form-label">
-                      Last Name
-                    </label>
+                    <label className="form-label">Last Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -239,9 +231,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="trainerEmail" className="form-label">
-                      Email
-                    </label>
+                    <label className="form-label">Email</label>
                     <input
                       type="email"
                       className="form-control"
@@ -251,9 +241,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="trainerPhone" className="form-label">
-                      Contact Number
-                    </label>
+                    <label className="form-label">Contact Number</label>
                     <input
                       type="tel"
                       className="form-control"
@@ -263,9 +251,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="trainerGender" className="form-label">
-                      Gender
-                    </label>
+                    <label className="form-label">Gender</label>
                     <select className="form-select" id="trainerGender">
                       <option value={0}>Male</option>
                       <option value={1}>Female</option>
@@ -273,9 +259,7 @@ export const Profile = () => {
                     </select>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="trainerDOB" className="form-label">
-                      Date of Birth
-                    </label>
+                    <label className="form-label">Date of Birth</label>
                     <input
                       type="date"
                       className="form-control"
@@ -284,12 +268,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label
-                      htmlFor="trainerSpecialization"
-                      className="form-label"
-                    >
-                      Specialization
-                    </label>
+                    <label className="form-label">Specialization</label>
                     <select
                       className="form-control select2"
                       id="trainerSpecialization"
@@ -302,9 +281,7 @@ export const Profile = () => {
                     </select>
                   </div>
                   <div className="col-md-12 mb-3">
-                    <label htmlFor="trainerDescription" className="form-label">
-                      Description
-                    </label>
+                    <label className="form-label">Description</label>
                     <textarea
                       className="form-control"
                       id="trainerDescription"
@@ -355,9 +332,7 @@ export const Profile = () => {
               <div className="modal-body">
                 <form className="row">
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="viewTrainerPhoto" className="form-label">
-                      Photo
-                    </label>
+                    <label className="form-label">Photo</label>
                     <input
                       type="file"
                       className="form-control"
@@ -366,12 +341,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label
-                      htmlFor="viewTrainerFirstName"
-                      className="form-label"
-                    >
-                      First Name
-                    </label>
+                    <label className="form-label">First Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -381,9 +351,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="viewTrainerLastName" className="form-label">
-                      Last Name
-                    </label>
+                    <label className="form-label">Last Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -393,9 +361,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="viewTrainerDOB" className="form-label">
-                      Date of Birth
-                    </label>
+                    <label className="form-label">Date of Birth</label>
                     <input
                       type="date"
                       className="form-control"
@@ -405,9 +371,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="viewTrainerEmail" className="form-label">
-                      Email
-                    </label>
+                    <label className="form-label">Email</label>
                     <input
                       type="email"
                       className="form-control"
@@ -417,9 +381,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="viewTrainerPhone" className="form-label">
-                      Contact Number
-                    </label>
+                    <label className="form-label">Contact Number</label>
                     <input
                       type="tel"
                       className="form-control"
@@ -429,9 +391,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="viewTrainerGender" className="form-label">
-                      Gender
-                    </label>
+                    <label className="form-label">Gender</label>
                     <select
                       className="form-select"
                       id="viewTrainerGender"
@@ -443,12 +403,7 @@ export const Profile = () => {
                     </select>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label
-                      htmlFor="viewTrainerSpecialization"
-                      className="form-label"
-                    >
-                      Specialization
-                    </label>
+                    <label className="form-label">Specialization</label>
                     <input
                       type="text"
                       className="form-control"
@@ -458,12 +413,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-12 mb-3">
-                    <label
-                      htmlFor="viewTrainerDescription"
-                      className="form-label"
-                    >
-                      Description
-                    </label>
+                    <label className="form-label">Description</label>
                     <textarea
                       className="form-control"
                       id="viewTrainerDescription"
@@ -512,9 +462,7 @@ export const Profile = () => {
               <div className="modal-body">
                 <form className="row">
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="editTrainerPhoto" className="form-label">
-                      Photo
-                    </label>
+                    <label className="form-label">Photo</label>
                     <input
                       type="file"
                       className="form-control"
@@ -522,12 +470,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label
-                      htmlFor="editTrainerFirstName"
-                      className="form-label"
-                    >
-                      First Name
-                    </label>
+                    <label className="form-label">First Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -537,9 +480,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="editTrainerLastName" className="form-label">
-                      Last Name
-                    </label>
+                    <label className="form-label">Last Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -549,9 +490,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="editTrainerDOB" className="form-label">
-                      Date of Birth
-                    </label>
+                    <label className="form-label">Date of Birth</label>
                     <input
                       type="date"
                       className="form-control"
@@ -561,9 +500,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="editTrainerEmail" className="form-label">
-                      Email
-                    </label>
+                    <label className="form-label">Email</label>
                     <input
                       type="email"
                       className="form-control"
@@ -573,9 +510,7 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="editTrainerPhone" className="form-label">
-                      Contact Number
-                    </label>
+                    <label className="form-label">Contact Number</label>
                     <input
                       type="tel"
                       className="form-control"
@@ -585,48 +520,32 @@ export const Profile = () => {
                     />
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="editTrainerGender" className="form-label">
-                      Gender
-                    </label>
+                    <label className="form-label">Gender</label>
                     <select
                       className="form-select"
                       id="editTrainerGender"
                       required
                     >
-                      <option value={0} selected>
-                        Male
-                      </option>
+                      <option value={0}>Male</option>
                       <option value={1}>Female</option>
                       <option value={2}>Other</option>
                     </select>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label
-                      htmlFor="editTrainerSpecialization"
-                      className="form-label"
-                    >
-                      Specialization
-                    </label>
+                    <label className="form-label">Specialization</label>
                     <select
                       className="form-control select2"
                       id="editTrainerSpecialization"
                       required
                     >
-                      <option value="Web Development" selected>
-                        Web Development
-                      </option>
+                      <option value="Web Development">Web Development</option>
                       <option value="Data Science">Data Science</option>
                       <option value="UI/UX Design">UI/UX Design</option>
                       {/* Add more specialization options here */}
                     </select>
                   </div>
                   <div className="col-md-12 mb-3">
-                    <label
-                      htmlFor="editTrainerDescription"
-                      className="form-label"
-                    >
-                      Description
-                    </label>
+                    <label className="form-label">Description</label>
                     <textarea
                       className="form-control"
                       id="editTrainerDescription"

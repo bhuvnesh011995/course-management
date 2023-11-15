@@ -1,32 +1,3 @@
-// <!doctype html>
-// <html lang="en">
-
-import { MenuBar } from "../common-components/MenuBar";
-import { CommonNavbar } from "../common-components/Navbar";
-
-//     <head>
-
-//         <meta charset="utf-8" />
-//         <title>Inbox | Tonga</title>
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-//         <meta content="Themesbrand" name="author" />
-//         <!-- App favicon -->
-//         <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-//         <!-- Bootstrap Css -->
-//         <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-//         <!-- Icons Css -->
-//         <link rel="stylesheet" href="assets/css/app-email.css" class="css">
-//         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-//         <!-- App Css-->
-//         <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-
-//     </head>
-
-//     <body data-sidebar="dark" data-layout-mode="light">
-
-//         <!-- Start layout-wrapper -->
 export const Mail = () => {
   return (
     <div id="layout-wrapper">
@@ -41,7 +12,7 @@ export const Mail = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="javascript: void(0);">Email</a>
+                        <a>Email</a>
                       </li>
                       <li className="breadcrumb-item active">Inbox</li>
                     </ol>
@@ -63,50 +34,50 @@ export const Mail = () => {
                     Compose
                   </button>
                   <div className="mail-list mt-4">
-                    <a href="javascript: void(0);" className="active">
+                    <a className="active">
                       <i className="mdi mdi-email-outline me-2" /> Inbox{" "}
                       <span className="ms-1 float-end">(18)</span>
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-star-outline me-2" />
                       Starred
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-diamond-stone me-2" />
                       Important
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-file-outline me-2" />
                       Draft
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-email-check-outline me-2" />
                       Sent Mail
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-trash-can-outline me-2" />
                       Trash
                     </a>
                   </div>
                   <h6 className="mt-4">Labels</h6>
                   <div className="mail-list mt-1">
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-info float-end" />
                       Support
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-warning float-end" />
                       users
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-primary float-end" />
                       Social
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-danger float-end" />
                       Complaint
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-success float-end" />
                       Enrollment
                     </a>
@@ -215,7 +186,7 @@ export const Mail = () => {
                           <div className="col-mail col-mail-1">
                             <div className="checkbox-wrapper-mail">
                               <input type="checkbox" id="chk19" />
-                              <label htmlFor="chk19" className="toggle" />
+                              <label className="toggle" />
                             </div>
                             <span className="title">Peter, me (3)</span>
                             <span className="star-toggle far fa-star" />

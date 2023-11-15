@@ -1,82 +1,78 @@
 import { useEffect, useState } from "react";
-import AddPayrollModal from "./AddPayrollModal";
+import AddLeaveModal from "./addLeaveModal";
+import { toast } from "react-toastify";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
-import { payrollHeaders } from "../../../Constants/table.constants";
-import { toast } from "react-toastify";
+import { leaveHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 
-export const PayRoll = () => {
-  const [isAddPayrollModalOpen, setAddPayrollModal] = useState(false);
-  const [allPayrolls, setAllPayrolls] = useState([]);
-  const [deletePayroll, setDeletePayroll] = useState(false);
-  const [payrollData, setPayrollData] = useState(null);
-  const [payrollIndex, setPayrollIndex] = useState(null);
-  const [viewPayroll, setViewPayroll] = useState(false);
+export const Leave = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [allLeaves, setAllLeaves] = useState([]);
+  const [deleteLeave, setDeleteLeave] = useState(false);
+  const [leaveData, setLeaveData] = useState(null);
+  const [leaveIndex, setLeaveIndex] = useState(null);
+  const [viewLeave, setViewLeave] = useState(false);
 
   useEffect(() => {
-    getAllPayrolls();
+    getAllLeaves();
   }, []);
 
-  const showPayroll = (e, type, index) => {
-    setPayrollData(e);
-    setPayrollIndex(index);
+  const showLeaveModal = (e, type, index) => {
+    setLeaveData(e);
+    setLeaveIndex(index);
 
     if (type == "view") {
-      setViewPayroll(true);
-      setDeletePayroll(false);
+      setViewLeave(true);
+      setDeleteLeave(false);
     } else if (type == "delete") {
-      setDeletePayroll(true);
-      setViewPayroll(false);
+      setDeleteLeave(true);
+      setViewLeave(false);
     } else {
-      setViewPayroll(false);
-      setDeletePayroll(false);
+      setViewLeave(false);
+      setDeleteLeave(false);
     }
-    if (type != "delete") setAddPayrollModal(true);
+    if (type != "delete") setShowModal(true);
   };
 
-  const getAllPayrolls = async () => {
+  const getAllLeaves = async () => {
     try {
-      const payrolls = await AxiosInstance.get("/payrolls/getPayrolls");
-      if (payrolls.status == 200) setAllPayrolls(payrolls.data);
+      const leaves = await AxiosInstance.get("/leaves/getLeaves");
+      if (leaves.status == 200) setAllLeaves(leaves.data);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const updatePayrolls = (data) => {
-    const filteredPayrolls = allPayrolls.filter(
-      (payroll) => payroll._id == data._id
-    );
-    if (filteredPayrolls.length) {
-      allPayrolls[payrollIndex] = data;
-      setAllPayrolls([...allPayrolls]);
+  const updateLeaves = (data) => {
+    const filteredLeaves = allLeaves.filter((leave) => leave._id == data._id);
+    if (filteredLeaves.length) {
+      allLeaves[leaveIndex] = data;
+      setAllLeaves([...allLeaves]);
     } else {
-      setAllPayrolls([...allPayrolls, data]);
+      setAllLeaves([...allLeaves, data]);
     }
   };
 
-  const deleteSelectedPayroll = async (data) => {
+  const deleteSelectedLeave = async (data) => {
     try {
       toast.dismiss();
-      const deletedPayroll = await AxiosInstance.delete(
-        "/payrolls/deletePayroll",
-        { params: data }
-      );
+      const deleteLeave = await AxiosInstance.delete("/leaves/deleteLeave", {
+        params: data,
+      });
 
-      if (deletedPayroll.status == 200) {
-        const filteredPayrolls = allPayrolls.filter(
-          (payroll) => payroll._id != data._id
+      if (deleteLeave.status == 200) {
+        const filteredLeaves = allLeaves.filter(
+          (leave) => leave._id != data._id
         );
-        setAllPayrolls(filteredPayrolls);
+        setAllLeaves(filteredLeaves);
 
-        toast.success(deletedPayroll.data);
+        toast.success(deleteLeave.data);
       }
     } catch (err) {
       console.error(err);
     }
   };
-
   return (
     <div id="layout-wrapper">
       <div className="main-content">
@@ -85,14 +81,14 @@ export const PayRoll = () => {
             <div className="row">
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Payroll Management</h4>
+                  <h4 className="mb-sm-0 font-size-18">Leave Management</h4>
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
                         <a href="index.html">Dashboard</a>
                       </li>
                       <li className="breadcrumb-item active">
-                        Payroll Management
+                        Leave Management
                       </li>
                     </ol>
                   </div>
@@ -107,7 +103,7 @@ export const PayRoll = () => {
                       <div className="row w-50"></div>
                       <button
                         className="btn btn-primary me-2"
-                        onClick={() => showPayroll()}
+                        onClick={() => showLeaveModal()}
                       >
                         <i className="bx bx-plus me-1 fw-semibold align-middle" />
                         Add New Payroll
@@ -119,21 +115,21 @@ export const PayRoll = () => {
             </div>
             <div className="row g-4">
               <div className="col-md-12">
+                {/* Role Table */}
                 <div className="card ">
                   <div className="card-header justify-content-between">
-                    <div className="card-title">Payroll List </div>
+                    <div className="card-title">Leave List </div>
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">
                       <CommonDataTable
-                        data={allPayrolls}
-                        tableHeaders={payrollHeaders}
+                        data={allLeaves}
+                        tableHeaders={leaveHeaders}
                         actionButtons
-                        editButton
-                        deleteButton
                         viewButton
+                        deleteButton
                         callback={(data, type, index) =>
-                          showPayroll(data, type, index)
+                          showLeaveModal(data, type, index)
                         }
                       />
                     </div>
@@ -160,23 +156,23 @@ export const PayRoll = () => {
           </div>
         </footer>
       </div>
-      {isAddPayrollModalOpen && (
-        <AddPayrollModal
-          show={isAddPayrollModalOpen}
-          setShow={setAddPayrollModal}
-          callback={(data) => updatePayrolls(data)}
-          viewPayroll={viewPayroll}
-          payrollData={payrollData}
+      {deleteLeave && (
+        <DeleteModel
+          setIsOpen={setDeleteLeave}
+          isOpen={deleteLeave}
+          message={`do you really want to delete ${leaveData.employeeName} leave .`}
+          callback={(data) => deleteSelectedLeave(data)}
+          deleteHeader={"Leave"}
+          data={leaveData}
         />
       )}
-      {deletePayroll && (
-        <DeleteModel
-          setIsOpen={setDeletePayroll}
-          isOpen={deletePayroll}
-          message={`Do you really want to delete employee ${payrollData?.employeeName} payroll.`}
-          callback={(data) => deleteSelectedPayroll(data)}
-          deleteHeader={"Payroll"}
-          data={payrollData}
+      {showModal && (
+        <AddLeaveModal
+          show={showModal}
+          setShow={setShowModal}
+          callback={(data) => updateLeaves(data)}
+          viewLeave={viewLeave}
+          leaveData={leaveData}
         />
       )}
     </div>

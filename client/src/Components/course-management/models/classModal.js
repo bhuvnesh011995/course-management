@@ -83,12 +83,13 @@ export const NewClassModal = ({
 
   const addNewClass = async (newClass) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.post("/class/addClass", newClass);
-      toast.success("New Class Added")
+      toast.success("New Class Added");
       callback(data);
       handleclose();
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -104,15 +105,16 @@ export const NewClassModal = ({
 
   const updateClass = async (updatedClass) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.post(
         "/class/updateClass",
         updatedClass
       );
-      toast.success("Class Updated")
+      toast.success("Class Updated");
       callback(data);
       handleclose();
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -209,8 +211,10 @@ export const NewClassModal = ({
                   disabled={viewClass ? viewClass : isCalendar}
                 >
                   <option value="">Select courses</option>
-                  {courses.map((e) => (
-                    <option value={e._id}>{e.courseName}</option>
+                  {courses.map((e, index) => (
+                    <option key={index} value={e._id}>
+                      {e.courseName}
+                    </option>
                   ))}
                 </select>
                 {errors?.course && (
@@ -229,8 +233,10 @@ export const NewClassModal = ({
                   disabled={viewClass ? viewClass : isCalendar}
                 >
                   <option value="">Select Trainer</option>
-                  {trainers.map((e) => (
-                    <option value={e._id}>{e.trainerName}</option>
+                  {trainers.map((e, index) => (
+                    <option key={index} value={e._id}>
+                      {e.trainerName}
+                    </option>
                   ))}
                 </select>
                 {errors?.trainer && (
@@ -249,11 +255,15 @@ export const NewClassModal = ({
                     })}
                     disabled={viewClass}
                   >
-                    <option value selected>
+                    <option key={""} value="">
                       Choose Status..
                     </option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
+                    <option key={"Active"} value="Active">
+                      Active
+                    </option>
+                    <option key={"Inactive"} value="Inactive">
+                      Inactive
+                    </option>
                   </select>
                   {errors?.classStatus && (
                     <span className="text-danger">

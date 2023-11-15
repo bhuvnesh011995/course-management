@@ -77,9 +77,15 @@ export const FeedBack = () => {
                       <div className="row w-100">
                         <div className="col-xl-5">
                           <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
+                            <option key={"CA"} value="CA">
+                              Newest
+                            </option>
+                            <option key={"NV"} value="NV">
+                              Oldest
+                            </option>
+                            <option key={"OR"} value="OR">
+                              Recent
+                            </option>
                           </select>
                         </div>
                         <div className="col-xl-7">
@@ -134,7 +140,6 @@ export const FeedBack = () => {
                           <td>
                             <a
                               aria-label="anchor"
-                              href="javascript:void(0);"
                               className="btn btn-icon btn-sm btn-warning rounded-pill"
                               data-bs-toggle="modal"
                               data-bs-target="#viewFeedbackModal"
@@ -143,7 +148,6 @@ export const FeedBack = () => {
                             </a>
                             <a
                               aria-label="anchor"
-                              href="javascript:void(0);"
                               className="btn btn-icon btn-sm btn-danger rounded-pill"
                             >
                               <i className="mdi mdi-trash-can" />
@@ -186,9 +190,7 @@ export const FeedBack = () => {
                 <form>
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="viewCustomerName" className="form-label">
-                        Participant's Name
-                      </label>
+                      <label className="form-label">Participant's Name</label>
                       <input
                         type="text"
                         className="form-control"
@@ -198,9 +200,7 @@ export const FeedBack = () => {
                       />
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="viewCourseName" className="form-label">
-                        Course Name
-                      </label>
+                      <label className="form-label">Course Name</label>
                       <input
                         type="text"
                         className="form-control"
@@ -210,9 +210,7 @@ export const FeedBack = () => {
                       />
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="viewRating" className="form-label">
-                        Rating
-                      </label>
+                      <label className="form-label">Rating</label>
                       <input
                         type="text"
                         className="form-control"
@@ -222,9 +220,7 @@ export const FeedBack = () => {
                       />
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="viewDate" className="form-label">
-                        Date
-                      </label>
+                      <label className="form-label">Date</label>
                       <input
                         type="text"
                         className="form-control"
@@ -234,9 +230,7 @@ export const FeedBack = () => {
                       />
                     </div>
                     <div className="col-md-12 mb-3">
-                      <label htmlFor="viewFeedbackText" className="form-label">
-                        Feedback Text
-                      </label>
+                      <label className="form-label">Feedback Text</label>
                       <textarea
                         className="form-control"
                         id="viewFeedbackText"

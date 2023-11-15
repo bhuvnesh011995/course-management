@@ -88,6 +88,7 @@ export const AddNewLeadModel = ({
 
   const addNewLead = async (newLead) => {
     try {
+      toast.dismiss();
       newLead["selectedRegistration"] = selectedRegistration;
       if (selectedRegistration != "CRW")
         newLead["coreTradeRegNo"] = setCoreTradeRegNo();
@@ -184,6 +185,7 @@ export const AddNewLeadModel = ({
 
   const editLead = async (newLeadData) => {
     try {
+      toast.dismiss();
       newLeadData["selectedRegistration"] = selectedRegistration;
       const deleteFiles = [];
       if (leadData.registrationType != newLeadData.registrationType) {
@@ -397,14 +399,9 @@ export const AddNewLeadModel = ({
                   })}
                   disabled={viewLead}
                 >
-                  <option value="" selected>
-                    Select Registration Type
-                  </option>
+                  <option value="">Select Registration Type</option>
                   {registrationTypes.map((e) => (
-                    <option
-                      value={e._id}
-                      selected={e._id == watch("registrationType") && e._id}
-                    >
+                    <option key={e._id} value={e._id}>
                       {e.registrationName}
                     </option>
                   ))}
@@ -677,16 +674,9 @@ export const AddNewLeadModel = ({
                       })}
                       disabled={viewLead}
                     >
-                      <option value="" selected>
-                        Select Nationality
-                      </option>
+                      <option value="">Select Nationality</option>
                       {nationality.map((e) => (
-                        <option
-                          value={e.value}
-                          selected={
-                            e.value == watch("nationality") ? e.value : ""
-                          }
-                        >
+                        <option key={e.value} value={e.value}>
                           {e.name}
                         </option>
                       ))}
@@ -706,16 +696,11 @@ export const AddNewLeadModel = ({
                       })}
                       disabled={viewLead}
                     >
-                      <option value="" selected>
+                      <option value="">
                         Select Educational / Vocational Level
                       </option>
                       {educationalConstant.map((e) => (
-                        <option
-                          value={e.value}
-                          selected={
-                            e.value == watch("educationalLevel") ? e.value : ""
-                          }
-                        >
+                        <option key={e.value} value={e.value}>
                           {e.name}
                         </option>
                       ))}
@@ -780,12 +765,11 @@ export const AddNewLeadModel = ({
                   })}
                   disabled={viewLead}
                 >
-                  <option value="" selected>
-                    {" "}
-                    Select Trade Type
-                  </option>
+                  <option value=""> Select Trade Type</option>
                   {tradeTypes.map((e) => (
-                    <option value={e._id}>{e.tradeType}</option>
+                    <option key={e._id} value={e._id}>
+                      {e.tradeType}
+                    </option>
                   ))}
                 </select>
                 <span className="text-danger">
@@ -821,14 +805,9 @@ export const AddNewLeadModel = ({
                     })}
                     disabled={viewLead}
                   >
-                    <option value="" selected>
-                      Select Trade Level
-                    </option>
+                    <option value="">Select Trade Level</option>
                     {tradeLevels.map((e) => (
-                      <option
-                        value={e._id}
-                        selected={e._id == watch("tradeLevel") ? e._id : ""}
-                      >
+                      <option key={e._id} value={e._id}>
                         {e.tradeLevel}
                       </option>
                     ))}
@@ -848,15 +827,10 @@ export const AddNewLeadModel = ({
                     })}
                     disabled={leadData?.courseAssigned && viewLead}
                   >
-                    <option value="" selected>
-                      Select Course
-                    </option>
+                    <option value="">Select Course</option>
                     {allCourses?.length &&
                       allCourses.map((e) => (
-                        <option
-                          value={e._id}
-                          selected={e._id == watch("course") ? e._id : ""}
-                        >
+                        <option key={e._id} value={e._id}>
                           {e.courseName}
                         </option>
                       ))}
@@ -1278,7 +1252,7 @@ export const AddNewLeadModel = ({
                           <button
                             type="button"
                             onClick={getPaymentRegistration}
-                            class="btn mx-1 btn-primary"
+                            className="btn mx-1 btn-primary"
                           >
                             Get Payment
                           </button>
@@ -1288,14 +1262,14 @@ export const AddNewLeadModel = ({
                             <button
                               type="button"
                               onClick={confirmRegistration}
-                              class="btn mx-1 btn-success"
+                              className="btn mx-1 btn-success"
                             >
                               Confirm
                             </button>
                             <button
                               type="button"
                               // onClick={rejectRegistration}
-                              class="btn mx-1 btn-danger"
+                              className="btn mx-1 btn-danger"
                             >
                               Reject
                             </button>
@@ -1308,7 +1282,7 @@ export const AddNewLeadModel = ({
                               <button
                                 type="submit"
                                 onClick={confirmCourseAssigned}
-                                class="btn mx-1 btn-success"
+                                className="btn mx-1 btn-success"
                               >
                                 Assign Course
                               </button>

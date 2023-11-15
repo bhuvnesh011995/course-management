@@ -240,7 +240,6 @@ const getCourses = async (req, res, next) => {
         },
       },
     ]);
-    console.log(getAllCourses);
     return res.status(200).send({ allCourses: getAllCourses });
   } catch (err) {
     next(err);
@@ -263,12 +262,7 @@ const updateCourse = async (req, res, next) => {
     const getSelectedCourse = await db.course.updateOne(
       { _id: body._id },
       {
-        courseName: body.courseName,
-        tradeType: body.tradeType,
-        registrationType: body.registrationType,
-        tradeLevel: body.tradeLevel,
-        price: body.price,
-        duration: body.duration,
+        $set: body,
       }
     );
     const getUpdatedCourse = await db.course.aggregate([

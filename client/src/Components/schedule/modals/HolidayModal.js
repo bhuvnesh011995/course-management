@@ -24,12 +24,16 @@ export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
 
   const addNewEvent = async (newEventData) => {
     try {
-      const { data } = await AxiosInstance.post("/events/AddEvent",newEventData);
-      toast.success("Event Added")
+      toast.dismiss();
+      const { data } = await AxiosInstance.post(
+        "/events/AddEvent",
+        newEventData
+      );
+      toast.success("Event Added");
       callback(data);
       handleClose();
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -86,8 +90,12 @@ export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
                 {...register("type", { required: "Please Enter Event Type" })}
                 disabled={eventData?.title}
               >
-                <option value="holiday">Holiday</option>
-                <option value="weekend">Weekend</option>
+                <option key={"holiday"} value="holiday">
+                  Holiday
+                </option>
+                <option key={"weekend"} value="weekend">
+                  Weekend
+                </option>
                 {/* <option value="leave">Leave</option> */}
               </select>
               {errors?.type && (

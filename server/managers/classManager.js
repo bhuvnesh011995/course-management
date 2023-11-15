@@ -166,15 +166,7 @@ const updateClass = async (req, res, next) => {
     const updateClass = await db.classes.updateOne(
       { _id: body._id },
       {
-        classCode: body.classCode,
-        course: body.course,
-        classStatus: body.classStatus,
-        startTime: body.startTime,
-        endTime: body.endTime,
-        startDate: body.startDate,
-        endDate: body.endDate,
-        lectureDay: body.lectureDay,
-        trainer: body.trainer,
+        $set: body,
       }
     );
     const updatedClass = await db.classes.aggregate([

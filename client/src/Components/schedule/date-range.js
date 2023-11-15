@@ -119,7 +119,7 @@ export const DateRange = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="javascript: void(0);">Dashboard</a>
+                        <a>Dashboard</a>
                       </li>
                       <li className="breadcrumb-item active">Date Range</li>
                     </ol>
@@ -144,10 +144,18 @@ export const DateRange = () => {
                         className="form-select"
                         onChange={({ target }) => filteredType(target.value)}
                       >
-                        <option value={""}>Sort By :</option>
-                        <option value="all">All</option>
-                        <option value="holiday">Holiday</option>
-                        <option value="weekend">Weekend</option>
+                        <option key={""} value={""}>
+                          Sort By :
+                        </option>
+                        <option key={"all"} value="all">
+                          All
+                        </option>
+                        <option key={"holiday"} value="holiday">
+                          Holiday
+                        </option>
+                        <option key={"weekend"} value="weekend">
+                          Weekend
+                        </option>
                         {/* <option value="leave">Leave</option> */}
                       </select>
                     </div>

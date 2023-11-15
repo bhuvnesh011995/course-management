@@ -34,93 +34,101 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
       <Modal show={isOpen} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 class="modal-title">View Trainer</h5>
+            <h5 className="modal-title">View Trainer</h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div style={{ border: "none", height: "auto" }}>
-            <ul class="nav">
-              <li class="nav-item" onClick={() => setViewTab("trainerDetails")}>
-                <a class="nav-link" href="#step-11">
-                  <div class="num">1</div>
+            <ul className="nav">
+              <li
+                className="nav-item"
+                onClick={() => setViewTab("trainerDetails")}
+              >
+                <a className="nav-link" href="#step-11">
+                  <div className="num">1</div>
                   Trainer's Details
                 </a>
               </li>
               <li
-                class="nav-item"
+                className="nav-item"
                 onClick={() => getCourseDetails("courseDetails")}
               >
-                <a class="nav-link" href="#step-22">
-                  <span class="num">2</span>
+                <a className="nav-link" href="#step-22">
+                  <span className="num">2</span>
                   Course Details
                 </a>
               </li>
-              <li class="nav-item" onClick={() => getCourseDetails("schedule")}>
-                <a class="nav-link" href="#step-33">
-                  <span class="num">3</span>
+              <li
+                className="nav-item"
+                onClick={() => getCourseDetails("schedule")}
+              >
+                <a className="nav-link" href="#step-33">
+                  <span className="num">3</span>
                   Scedule
                 </a>
               </li>
             </ul>
 
-            <div class="tab-content mt-3">
+            <div className="tab-content mt-3">
               {viewTab == "trainerDetails" && (
-                <div class="row">
-                  <div class="col-md-12">
+                <div className="row">
+                  <div className="col-md-12">
                     <div
-                      class="d-flex"
+                      className="d-flex"
                       style={{
                         justifyContent: "space-between",
                         alignItems: "center",
                       }}
                     >
-                      <h5 class="modal-title">Trainer's Details</h5>
+                      <h5 className="modal-title">Trainer's Details</h5>
                     </div>
-                    <div class="card border border-primary mt-3">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-md-3">
-                            <label class="mb-0" for="">
+                    <div className="card border border-primary mt-3">
+                      <div className="card-body">
+                        <div className="row">
+                          <div className="col-md-3">
+                            <label className="mb-0" for="">
                               {" "}
                               <b>Name</b>
                             </label>
-                            <p class="m-0">{trainerData.trainerName}</p>
+                            <p className="m-0">{trainerData.trainerName}</p>
                           </div>
-                          <div class="col-md-3">
-                            <label class="mb-0" for="">
+                          <div className="col-md-3">
+                            <label className="mb-0" for="">
                               {" "}
                               <b>Email ID</b>
                             </label>
-                            <p class="m-0">{trainerData.trainerEmail}</p>
+                            <p className="m-0">{trainerData.trainerEmail}</p>
                           </div>
-                          <div class="col-md-3">
-                            <label class="mb-0" for="">
+                          <div className="col-md-3">
+                            <label className="mb-0" for="">
                               <b>Mobile No.</b>
                             </label>
-                            <p class="m-0">{trainerData.trainerMobile}</p>
+                            <p className="m-0">{trainerData.trainerMobile}</p>
                           </div>
-                          <div class="col-md-3">
-                            <label class="mb-0" for="">
+                          <div className="col-md-3">
+                            <label className="mb-0" for="">
                               {" "}
                               <b>DOB (Date of Birth)</b>
                             </label>
-                            <p class="m-0">{trainerData.trainerDOB}</p>
+                            <p className="m-0">{trainerData.trainerDOB}</p>
                           </div>
                         </div>
-                        <div class="row mt-3">
-                          <div class="col-md-3">
-                            <label class="mb-0" for="">
+                        <div className="row mt-3">
+                          <div className="col-md-3">
+                            <label className="mb-0" for="">
                               {" "}
                               <b>Designation</b>
                             </label>
-                            <p class="m-0">{trainerData.trainerDesignation}</p>
+                            <p className="m-0">
+                              {trainerData.trainerDesignation}
+                            </p>
                           </div>
-                          <div class="col-md-6">
-                            <label class="mb-0" for="">
+                          <div className="col-md-6">
+                            <label className="mb-0" for="">
                               {" "}
                               <b>Address</b>
                             </label>
-                            <p class="m-0">{trainerData.trainerAddress}</p>
+                            <p className="m-0">{trainerData.trainerAddress}</p>
                           </div>
                         </div>
                       </div>
@@ -129,69 +137,8 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
                 </div>
               )}
               {viewTab == "courseDetails" && (
-                <div class="row">
-                  <div class="col-md-12">
-                    {/* <div class="card">
-                      <div class="card-header justify-content-between">
-                        <div class="card-title">Course</div>
-                      </div>
-                      <div class="card-body">
-                        <div class="table-responsive">
-                          <table
-                            id="datatable-buttons"
-                            class="table display table-bordered dt-responsive nowrap w-100"
-                          >
-                            <thead>
-                              <tr>
-                                <th>Course</th>
-                                <th>class</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Lec In Week</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Course 1</td>
-                                <td>Class A</td>
-
-                                <td>22 may 2022</td>
-                                <td>4:00pm To 6:pm</td>
-                                <td>
-                                  <span class="badge badge-soft-primary">
-                                    Monday
-                                  </span>
-                                  <span class="badge badge-soft-success">
-                                    wednasday
-                                  </span>
-                                  <span class="badge badge-soft-warning">
-                                    saturday
-                                  </span>
-                                </td>
-                                <td>
-                                  <a
-                                    aria-label="anchor"
-                                    href="javascript:void(0);"
-                                    class="btn btn-icon btn-sm btn-primary rounded-pill"
-                                  >
-                                    <i class="mdi mdi-pencil"></i>
-                                  </a>
-
-                                  <a
-                                    aria-label="anchor"
-                                    href="javascript:void(0);"
-                                    class="btn btn-icon btn-sm btn-danger rounded-pill"
-                                  >
-                                    <i class="mdi mdi-trash-can"></i>
-                                  </a>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div> */}
+                <div className="row">
+                  <div className="col-md-12">
                     <CommonDataTable
                       tableHeaders={viewTrainerHeaders}
                       data={courses}
@@ -206,9 +153,9 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
               )}
             </div>
           </div>
-          <div class="progress">
+          <div className="progress">
             <div
-              class="progress-bar"
+              className="progress-bar"
               role="progressbar"
               style={{
                 width:

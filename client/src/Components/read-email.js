@@ -41,7 +41,7 @@ export const ReadEmail = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="javascript: void(0);">Email</a>
+                        <a>Email</a>
                       </li>
                       <li className="breadcrumb-item active">Read Email</li>
                     </ol>
@@ -67,53 +67,53 @@ export const ReadEmail = () => {
                       <i className="mdi mdi-email-outline me-2" /> Inbox{" "}
                       <span className="ms-1 float-end">(18)</span>
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-star-outline me-2" />
                       Starred
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-diamond-stone me-2" />
                       Important
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-file-outline me-2" />
                       Draft
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-email-check-outline me-2" />
                       Sent Mail
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <i className="mdi mdi-trash-can-outline me-2" />
                       Trash
                     </a>
                   </div>
                   <h6 className="mt-4">Labels</h6>
                   <div className="mail-list mt-1">
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-info float-end" />
                       Theme Support
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-warning float-end" />
                       Freelance
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-primary float-end" />
                       Social
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-danger float-end" />
                       Friends
                     </a>
-                    <a href="javascript: void(0);">
+                    <a>
                       <span className="mdi mdi-arrow-right-drop-circle text-success float-end" />
                       Family
                     </a>
                   </div>
                   <h6 className="mt-4">Chat</h6>
                   <div className="mt-2">
-                    <a href="javascript: void(0);" className="d-flex">
+                    <a className="d-flex">
                       <div className="flex-shrink-0 me-3">
                         <img
                           className="rounded-circle"
@@ -127,7 +127,7 @@ export const ReadEmail = () => {
                         <p className="text-muted">Hello</p>
                       </div>
                     </a>
-                    <a href="javascript: void(0);" className="d-flex">
+                    <a className="d-flex">
                       <div className="flex-shrink-0 me-3">
                         <img
                           className="rounded-circle"
@@ -141,7 +141,7 @@ export const ReadEmail = () => {
                         <p className="text-muted">What about our next..</p>
                       </div>
                     </a>
-                    <a href="javascript: void(0);" className="d-flex">
+                    <a className="d-flex">
                       <div className="flex-shrink-0 me-3">
                         <img
                           className="rounded-circle"
@@ -155,7 +155,7 @@ export const ReadEmail = () => {
                         <p className="text-muted">Yeah everything is fine</p>
                       </div>
                     </a>
-                    <a href="javascript: void(0);" className="d-flex">
+                    <a className="d-flex">
                       <div className="flex-shrink-0 me-3">
                         <img
                           className="rounded-circle"
@@ -315,12 +315,7 @@ export const ReadEmail = () => {
                               alt="Card image cap"
                             />
                             <div className="py-2 text-center">
-                              <a
-                                href="javascript: void(0);"
-                                className="fw-medium"
-                              >
-                                Download
-                              </a>
+                              <a className="fw-medium">Download</a>
                             </div>
                           </div>
                         </div>
@@ -332,20 +327,12 @@ export const ReadEmail = () => {
                               alt="Card image cap"
                             />
                             <div className="py-2 text-center">
-                              <a
-                                href="javascript: void(0);"
-                                className="fw-medium"
-                              >
-                                Download
-                              </a>
+                              <a className="fw-medium">Download</a>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <a
-                        href="javascript: void(0);"
-                        className="btn btn-secondary waves-effect mt-4"
-                      >
+                      <a className="btn btn-secondary waves-effect mt-4">
                         <i className="mdi mdi-reply" /> Reply
                       </a>
                     </div>

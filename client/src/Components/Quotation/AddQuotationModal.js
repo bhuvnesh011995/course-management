@@ -1163,7 +1163,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
           type="button"
           onClick={handlePrevious}
           disabled={event === "customer"}
-          class="btn me-auto sw-btn-prev sw-btn"
+          className="btn me-auto sw-btn-prev sw-btn"
         >
           Previous
         </button>
@@ -1171,7 +1171,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
           type="button"
           onClick={handleNext}
           disabled={event === "preview"}
-          class="btn btn-primary next-btn"
+          className="btn btn-primary next-btn"
         >
           Next
         </button>

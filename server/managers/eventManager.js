@@ -67,10 +67,7 @@ const updateEvent = async (req, res, next) => {
     const updateEvent = await db.events.updateOne(
       { _id: body._id },
       {
-        holidayTitle: body.class,
-        type: body?.holidayType,
-        startDate: body.startDate,
-        endDate: body.endDate,
+        $set: body,
       }
     );
     return res.status(200).send({ message: "event updated successfully !" });

@@ -49,12 +49,14 @@ export const UserManagement = () => {
       setUsers(data.users);
       setLoginUser(data.userData[0]);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
 
   const deleteUser = async () => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.delete("/users/deleteUser", {
         params: userData,
       });
@@ -130,9 +132,15 @@ export const UserManagement = () => {
                             className="form-select"
                             onChange={changeToDateData}
                           >
-                            <option value="New">Newest</option>
-                            <option value="Old">Oldest</option>
-                            <option value="Rec">Recent</option>
+                            <option key={"new"} value="New">
+                              Newest
+                            </option>
+                            <option key={"old"} value="Old">
+                              Oldest
+                            </option>
+                            <option key={"rec"} value="Rec">
+                              Recent
+                            </option>
                           </select>
                         </div>
                       </div>

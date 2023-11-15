@@ -50,28 +50,33 @@ export const AddNewRoleModel = ({
       checkAllSelected(data[0]);
       reset(data[0]);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
 
   const editRoleData = async (roleData) => {
     try {
+      toast.dismiss();
       const { data } = AxiosInstance.post("/roles/editRole", roleData);
-      toast.success("Role Updated")
+      toast.success("Role Updated");
       callback(roleData);
       handleCloseRoleModal();
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
 
   const addNewRole = async (roleData) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.post("/roles/addNewRole", roleData);
-      toast.success("Role Added Successfully")
+      toast.success("Role Added Successfully");
       callback(data);
       handleCloseRoleModal();
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -299,9 +304,7 @@ export const AddNewRoleModel = ({
         <Modal.Body>
           <form onSubmit={handleSubmit(roleId ? editRoleData : addNewRole)}>
             <div className="col-12 mb-4 fv-plugins-icon-container">
-              <label className="form-label" htmlFor="modalRoleName">
-                Role Name
-              </label>
+              <label className="form-label">Role Name</label>
               <input
                 type="text"
                 id="modalRoleName"

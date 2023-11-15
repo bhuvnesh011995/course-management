@@ -2,6 +2,7 @@ import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 export const UserRoleModel = ({
   isOpen,
@@ -37,6 +38,7 @@ export const UserRoleModel = ({
       checkAllSelected(data[0]);
       reset(data[0]);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };

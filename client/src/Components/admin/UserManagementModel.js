@@ -46,31 +46,34 @@ export const AddNewUserModal = ({
       const { data } = await AxiosInstance.get("/roles/getRoles");
       setUserRoles(data.roleData);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
   const addNewUser = async (userData) => {
     try {
+      toast.dismiss();
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
       const { data } = await AxiosInstance.post("/users/addNewUser", userData);
       toast.success("New User Added");
       callback(data);
       handleClose();
     } catch (err) {
-      toast.error("error occured");
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
 
   const updateUser = async (userData) => {
     try {
+      toast.dismiss();
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
       const { data } = await AxiosInstance.post("/users/updateUser", userData);
       toast.success("User Updated");
       callback(userData);
       handleClose();
     } catch (err) {
-      toast.error("error occured");
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -127,9 +130,7 @@ export const AddNewUserModal = ({
                 </span>
               </div>
               <div className="col-md-6 mb-3">
-                <label htmlFor="userEmail" className="form-label">
-                  Email
-                </label>
+                <label className="form-label">Email</label>
                 <input
                   className="form-control"
                   placeholder="Enter email"
@@ -150,9 +151,7 @@ export const AddNewUserModal = ({
                 </span>
               </div>
               <div className="col-md-6 mb-3">
-                <label htmlFor="userContact" className="form-label">
-                  Mobile
-                </label>
+                <label className="form-label">Mobile</label>
                 <input
                   type="number"
                   className="form-control"
@@ -170,9 +169,7 @@ export const AddNewUserModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label htmlFor="userUsername" className="form-label">
-                  User Name
-                </label>
+                <label className="form-label">User Name</label>
                 <input
                   type="text"
                   className="form-control"
@@ -188,9 +185,7 @@ export const AddNewUserModal = ({
                 </span>
               </div>
               <div className="col-md-6 mb-3">
-                <label htmlFor="userPassword" className="form-label">
-                  Password
-                </label>
+                <label className="form-label">Password</label>
                 <input
                   type="password"
                   className="form-control"
@@ -216,15 +211,9 @@ export const AddNewUserModal = ({
                   {...register("userRole")}
                   disabled={viewUser}
                 >
-                  <option value={""} selected>
-                    -- select --
-                  </option>
+                  <option value={""}>-- select --</option>
                   {userRoles.map((e) => (
-                    <option
-                      selected={getValues("userRole") == e._id && e._id}
-                      value={e._id}
-                      key={e._id}
-                    >
+                    <option value={e._id} key={e._id}>
                       {e.roleName}
                     </option>
                   ))}
@@ -237,11 +226,15 @@ export const AddNewUserModal = ({
                   {...register("status")}
                   disabled={viewUser}
                 >
-                  <option value={""} selected>
+                  <option key="" value={""}>
                     -- select --
                   </option>
-                  <option value={"Active"}>Active</option>
-                  <option value={"Inactive"}>Inactive</option>
+                  <option key="active" value={"Active"}>
+                    Active
+                  </option>
+                  <option key="Inactive" value={"Inactive"}>
+                    Inactive
+                  </option>
                 </select>
               </div>
             </div>

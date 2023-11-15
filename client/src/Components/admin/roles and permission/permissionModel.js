@@ -78,9 +78,7 @@ export const NewPermissionModal = ({
             className="row g-3 "
           >
             <div className="col-12 fv-plugins-icon-container">
-              <label className="form-label" htmlFor="modalRoleName">
-                Permission Name
-              </label>
+              <label className="form-label">Permission Name</label>
               <input
                 type="text"
                 className="form-control"
@@ -98,9 +96,15 @@ export const NewPermissionModal = ({
                   {...register("permission.assignTo")}
                   disabled={viewPermission}
                 >
-                  <option value={"Sub-Admin"}>Sub-Admin</option>
-                  <option value={"Manager"}>Manager</option>
-                  <option value={"User"}>User</option>
+                  <option key={"Sub-Admin"} value={"Sub-Admin"}>
+                    Sub-Admin
+                  </option>
+                  <option key={"Manager"} value={"Manager"}>
+                    Manager
+                  </option>
+                  <option key={"User"} value={"User"}>
+                    User
+                  </option>
                 </select>
               </div>
             </div>

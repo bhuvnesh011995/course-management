@@ -80,19 +80,7 @@ const updateEmployee = async (req, res, next) => {
     const updateEmployee = await db.employees.updateOne(
       { _id: body._id },
       {
-        employeeFirstName: body?.employeeFirstName,
-        employeeLastName: body?.employeeLastName,
-        employeeName: body?.employeeName,
-        employeeEmail: body?.employeeEmail,
-        employeePhone: body?.employeePhone,
-        employeePosition: body?.employeePosition,
-        employeeDepartment: body?.employeeDepartment,
-        employeeJoinDate: body?.employeeJoinDate,
-        employeeSalary: body?.employeeSalary,
-        employeeGender: body?.employeeGender,
-        employeeRole: body?.employeeRole,
-        status: body?.status,
-        employeeAddress: body?.employeeAddress,
+        $set: body,
       }
     );
     return res

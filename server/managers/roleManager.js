@@ -2,9 +2,9 @@ const RoleModel = require("../models/roleModel");
 const userModel = require("../models/userModel");
 
 const db = require("../models");
-const addNewRole = async (req,res,next) => {
+const addNewRole = async (req, res, next) => {
   try {
-    let data = req.body
+    let data = req.body;
     const newRole = await db.roles.create(data);
     const role = newRole.save();
     return res.status(200).send(role);
@@ -13,9 +13,9 @@ const addNewRole = async (req,res,next) => {
   }
 };
 
-const getRoles = async (req,res,next) => {
+const getRoles = async (req, res, next) => {
   try {
-    let user = req.user
+    let user = req.user;
     const roleData = await RoleModel.find({});
     return res.status(200).send({ roleData, user });
   } catch (err) {
@@ -23,9 +23,9 @@ const getRoles = async (req,res,next) => {
   }
 };
 
-const selectedRoleData = async (req,res,next) => {
+const selectedRoleData = async (req, res, next) => {
   try {
-    let data = req.query
+    let data = req.query;
     const roleData = await db.roles.find({ _id: data.id });
     return res.status(200).send(roleData);
   } catch (err) {
@@ -33,20 +33,13 @@ const selectedRoleData = async (req,res,next) => {
   }
 };
 
-const editRole = async (req,res,next) => {
+const editRole = async (req, res, next) => {
   try {
-    let role = req.body
+    let role = req.body;
     const roleData = await db.roles.updateOne(
       { _id: role._id },
       {
-        roleName: role.roleName,
-        totalUsers: role.totalUsers,
-        contentManagement: role.contentManagement,
-        finManagement: role.finManagement,
-        payRoll: role.payRoll,
-        reporting: role.reporting,
-        userManagement: role.userManagement,
-        role: role.role,
+        $set: role,
       }
     );
     return res.status(200).send(roleData);
@@ -55,7 +48,7 @@ const editRole = async (req,res,next) => {
   }
 };
 
-const getUserRoleInfo = async (req,res,next) => {
+const getUserRoleInfo = async (req, res, next) => {
   try {
     const getUsers = await db.user.aggregate([
       {

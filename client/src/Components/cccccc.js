@@ -61,9 +61,7 @@ export const SelectCourse = () => {
               {/* Add course form elements here */}
               <form id="courseForm">
                 <div className="mb-3">
-                  <label htmlFor="courseName" className="form-label">
-                    Course Name
-                  </label>
+                  <label className="form-label">Course Name</label>
                   <select
                     className="selectpicker form-control"
                     id="courseName"
@@ -77,9 +75,7 @@ export const SelectCourse = () => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="trainer" className="form-label">
-                    Trainer
-                  </label>
+                  <label className="form-label">Trainer</label>
                   <select
                     className="selectpicker form-control"
                     id="trainer"
@@ -93,9 +89,7 @@ export const SelectCourse = () => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="class" className="form-label">
-                    Class
-                  </label>
+                  <label className="form-label">Class</label>
                   <select
                     className="selectpicker form-control"
                     id="class"
@@ -108,9 +102,7 @@ export const SelectCourse = () => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="classTime" className="form-label">
-                    Class Time
-                  </label>
+                  <label className="form-label">Class Time</label>
                   <div
                     className="input-group date"
                     id="classTimePicker"
@@ -136,9 +128,7 @@ export const SelectCourse = () => {
                   </div>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="startDate" className="form-label">
-                    Start Date
-                  </label>
+                  <label className="form-label">Start Date</label>
                   <input
                     type="date"
                     className="form-control"
@@ -148,9 +138,7 @@ export const SelectCourse = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="endDate" className="form-label">
-                    End Date
-                  </label>
+                  <label className="form-label">End Date</label>
                   <input
                     type="date"
                     className="form-control"

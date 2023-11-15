@@ -2,18 +2,20 @@ import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import moment from "moment";
 
 export default function AddTimesheetModal({
   show,
   setShow,
   viewModal,
   timesheetData,
+  callback,
 }) {
   const {
     handleSubmit,
     register,
     reset,
-    getValues,
     watch,
     formState: { errors },
   } = useForm();
@@ -21,6 +23,7 @@ export default function AddTimesheetModal({
 
   useEffect(() => {
     getEmployees();
+    if (timesheetData) getTimesheet();
   }, []);
 
   const getEmployees = async () => {
@@ -28,31 +31,67 @@ export default function AddTimesheetModal({
       const { data } = await AxiosInstance.get("/employee/getEmployees");
       setEmployees(data);
     } catch (err) {
+      toast.error("something went wrong");
+      console.error(err);
+    }
+  };
+
+  const getTimesheet = async () => {
+    try {
+      const selectedTimesheet = await AxiosInstance.get(
+        "/timesheets/getTimesheet",
+        { params: timesheetData }
+      );
+      if (selectedTimesheet.status == 200) {
+        selectedTimesheet.data[0].date = moment(
+          selectedTimesheet.data[0].date
+        ).format("YYYY-MM-DD");
+        reset(selectedTimesheet.data[0]);
+      } else {
+        toast.error("something went wrong ");
+      }
+    } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };
 
   const addNewTimesheet = async (data) => {
     try {
-      console.log(data);
+      toast.dismiss();
       const addTimesheet = await AxiosInstance.post(
         "/timesheets/addTimeSheet",
         data
       );
-      console.log(addTimesheet);
+      if (addTimesheet.status == 200) {
+        callback(addTimesheet.data.data[0]);
+        toast.success(addTimesheet.data.message);
+        setShow(false);
+      } else {
+        toast.error("something went wrong");
+      }
     } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };
 
   const updateTimeSheet = async (data) => {
     try {
+      toast.dismiss();
       const updatedTimesheet = await AxiosInstance.post(
         "/timesheets/updateTimeSheet",
         data
       );
-      console.log(updatedTimesheet);
+      if (updatedTimesheet.status == 200) {
+        callback(updatedTimesheet.data.data[0]);
+        toast.success(updatedTimesheet.data.message);
+        setShow(false);
+      } else {
+        toast.error("something went wrong ");
+      }
     } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };
@@ -82,33 +121,31 @@ export default function AddTimesheetModal({
             <input
               type="date"
               className="form-control"
-              {...register("addDate", { required: "Please Enter Date" })}
+              {...register("date", { required: "Please Enter Date" })}
+              disabled={viewModal}
             />
-            {errors?.addDate && (
-              <span className="text-danger">{errors?.addDate.message}</span>
+            {errors?.date && (
+              <span className="text-danger">{errors?.date.message}</span>
             )}
           </div>
           <div className="mb-3">
             <label className="form-label">Employee Name</label>
             <select
               className="form-select"
-              {...register("addEmployee", {
+              {...register("employee", {
                 required: "Please Select Employee",
               })}
               disabled={viewModal}
             >
               <option value="">Select Employee</option>
-              {employees.map((employee) => (
-                <option
-                  value={employee._id}
-                  selected={watch("employee") == employee._id && employee._id}
-                >
+              {employees.map((employee, index) => (
+                <option value={employee._id} key={index}>
                   {employee.employeeName}
                 </option>
               ))}
             </select>
-            {errors?.addEmployee && (
-              <span className="text-danger">{errors?.addEmployee.message}</span>
+            {errors?.employee && (
+              <span className="text-danger">{errors?.employee.message}</span>
             )}
           </div>
           <div className="mb-3">
@@ -152,9 +189,15 @@ export default function AddTimesheetModal({
               })}
               disabled={viewModal}
             >
-              <option value="">Select Shift</option>
-              <option value="Day Shift">Day Shift</option>
-              <option value="Night Shift">Night Shift</option>
+              <option key={""} value="">
+                Select Shift
+              </option>
+              <option key={"Day Shift"} value="Day Shift">
+                Day Shift
+              </option>
+              <option key={"Night Shift"} value="Night Shift">
+                Night Shift
+              </option>
             </select>
             {errors?.shiftTiming && (
               <span className="text-danger">{errors?.shiftTiming.message}</span>

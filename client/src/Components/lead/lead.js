@@ -110,6 +110,7 @@ export const Lead = () => {
 
   const deleteLead = async (leadData) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.delete("/leads/deleteLead", {
         params: leadData,
       });
@@ -238,11 +239,9 @@ export const Lead = () => {
                           }}
                           value={selectedFilter.company}
                         >
-                          <option value="" selected>
-                            Select Company
-                          </option>
+                          <option value="">Select Company</option>
                           {leads.map((lead) => (
-                            <option value={lead._id}>
+                            <option key={lead._id} value={lead._id}>
                               {lead?.companyName}
                             </option>
                           ))}
@@ -273,7 +272,7 @@ export const Lead = () => {
                         </div>
                       </div>
                     </div>
-                    <div class="btns">
+                    <div className="btns">
                       <button
                         className="mx-1 btn btn-primary"
                         onClick={() => showLeadModal()}

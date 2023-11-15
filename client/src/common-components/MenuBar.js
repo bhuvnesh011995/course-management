@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export const MenuBar = () => {
-  const { pathname, hash } = useLocation();
+  const { pathname } = useLocation();
   const [previousMenu, setPreviousMenu] = useState("");
 
   useEffect(() => {
@@ -14,6 +14,13 @@ export const MenuBar = () => {
       pathname.split("/")[1] == "hrms"
     ) {
       showMenuList(`${pathname.split("/")[1]}-menu`);
+      const element = document.getElementById(`${pathname.split("/")[1]}-menu`);
+
+      if (element)
+        if (!element.classList.contains("mm-show")) {
+          element.classList.add("mm-show");
+          element.parentElement.classList.add("mm-active");
+        }
     }
   }, []);
 

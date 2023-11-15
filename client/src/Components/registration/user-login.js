@@ -24,6 +24,7 @@ export const LoginUser = () => {
 
   const signIn = async (userData) => {
     try {
+      toast.dismiss();
       const response = await AxiosInstance.post("/users/signIn", userData);
 
       if (response.status === 200) {

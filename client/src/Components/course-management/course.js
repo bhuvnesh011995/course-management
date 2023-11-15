@@ -10,11 +10,6 @@ import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 
 export const Course = () => {
-  const courseActiveObj = {
-    active: 0,
-    inActive: 0,
-  };
-
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
   const [courseModal, setCourseModal] = useState(false);
@@ -22,7 +17,10 @@ export const Course = () => {
   const [viewCourse, setViewCourse] = useState(false);
   const [deleteCourse, setDeleteCourse] = useState(false);
   const [allCourses, setAllCourses] = useState([]);
-  const [onOffCourses, setOnOffCourses] = useState(courseActiveObj);
+  const [onOffCourses, setOnOffCourses] = useState({
+    active: 0,
+    inActive: 0,
+  });
   const [courseData, setCourseData] = useState(null);
 
   useEffect(() => {
@@ -70,16 +68,18 @@ export const Course = () => {
   const getAllCourses = async () => {
     try {
       const { data } = await AxiosInstance.get("/courses/getCourses");
-      onOffCourses.active = courseActiveObj.active;
-      onOffCourses.inActive = courseActiveObj.inActive;
+      const onOffCourses = {
+        active: 0,
+        inActive: 0,
+      };
       data.allCourses.map((course) => {
         if (course.ActiveCourses.length > 0) {
           onOffCourses.active += 1;
         } else {
           onOffCourses.inActive += 1;
         }
-        setOnOffCourses({ ...onOffCourses });
       });
+      setOnOffCourses({ ...onOffCourses });
 
       setAllCourses(data.allCourses);
     } catch (err) {
@@ -94,11 +94,14 @@ export const Course = () => {
       setAllCourses([...allCourses]);
     } else {
       setAllCourses((old) => [...old, course]);
+      onOffCourses.inActive += 1;
+      setOnOffCourses({ ...onOffCourses });
     }
   };
 
   const deleteSelectedCourse = async (course) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.delete("/courses/deleteCourse", {
         params: course,
       });
@@ -143,9 +146,15 @@ export const Course = () => {
                         <div className="row w-50">
                           <div className="col-xl-5">
                             <select className="form-select">
-                              <option value="CA">Newest</option>
-                              <option value="NV">Oldest</option>
-                              <option value="OR">Recent</option>
+                              <option key={"CA"} value="CA">
+                                Newest
+                              </option>
+                              <option key={"NV"} value="NV">
+                                Oldest
+                              </option>
+                              <option key={"OR"} value="OR">
+                                Recent
+                              </option>
                             </select>
                           </div>
                           <div className="col-xl-7">

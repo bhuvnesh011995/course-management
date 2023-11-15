@@ -231,10 +231,7 @@ export const CommonNavbar = () => {
                     </div>
                   </div>
                   <div data-simplebar style={{ maxHeight: "230px" }}>
-                    <a
-                      href="javascript: void(0);"
-                      className="text-reset notification-item"
-                    >
+                    <a className="text-reset notification-item">
                       <div className="d-flex">
                         <div className="avatar-xs me-3">
                           <span className="avatar-title bg-primary rounded-circle font-size-16">
@@ -257,10 +254,7 @@ export const CommonNavbar = () => {
                         </div>
                       </div>
                     </a>
-                    <a
-                      href="javascript: void(0);"
-                      className="text-reset notification-item"
-                    >
+                    <a className="text-reset notification-item">
                       <div className="d-flex">
                         <img
                           src="assets/images/users/avatar-3.jpg"
@@ -281,10 +275,7 @@ export const CommonNavbar = () => {
                         </div>
                       </div>
                     </a>
-                    <a
-                      href="javascript: void(0);"
-                      className="text-reset notification-item"
-                    >
+                    <a className="text-reset notification-item">
                       <div className="d-flex">
                         <div className="avatar-xs me-3">
                           <span className="avatar-title bg-success rounded-circle font-size-16">
@@ -307,10 +298,7 @@ export const CommonNavbar = () => {
                         </div>
                       </div>
                     </a>
-                    <a
-                      href="javascript: void(0);"
-                      className="text-reset notification-item"
-                    >
+                    <a className="text-reset notification-item">
                       <div className="d-flex">
                         <img
                           src="assets/images/users/avatar-4.jpg"
@@ -334,10 +322,7 @@ export const CommonNavbar = () => {
                     </a>
                   </div>
                   <div className="p-2 border-top d-grid">
-                    <a
-                      className="btn btn-sm btn-link font-size-14 text-center"
-                      href="javascript:void(0)"
-                    >
+                    <a className="btn btn-sm btn-link font-size-14 text-center">
                       <i className="mdi mdi-arrow-right-circle me-1" />{" "}
                       <span key="t-view-more">View More..</span>
                     </a>

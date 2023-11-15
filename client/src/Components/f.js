@@ -64,7 +64,7 @@ export const F = () => {
               <form id="edit-event-form">
                 <input type="hidden" id="event-id" />
                 <div className="form-group">
-                  <label htmlFor="course-name">
+                  <label>
                     <i className="fa fa-book" /> Course Name:
                   </label>
                   <select id="course-name" className="form-control" required>
@@ -74,7 +74,7 @@ export const F = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="class-name">
+                  <label>
                     <i className="fa fa-graduation-cap" /> Class Name:
                   </label>
                   <select id="class-name" className="form-control" required>
@@ -84,7 +84,7 @@ export const F = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="start-date">
+                  <label>
                     <i className="fa fa-calendar" /> Start Date:
                   </label>
                   <input
@@ -95,7 +95,7 @@ export const F = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="end-date">
+                  <label>
                     <i className="fa fa-calendar" /> End Date:
                   </label>
                   <input
@@ -106,7 +106,7 @@ export const F = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="start-time">
+                  <label>
                     <i className="fa fa-clock" /> Start Time:
                   </label>
                   <input
@@ -117,7 +117,7 @@ export const F = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="end-time">
+                  <label>
                     <i className="fa fa-clock" /> End Time:
                   </label>
                   <input
@@ -128,7 +128,7 @@ export const F = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="trainer">
+                  <label>
                     <i className="fa fa-user" /> Trainer:
                   </label>
                   <select id="trainer" className="form-control" required>
@@ -138,7 +138,7 @@ export const F = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="location">
+                  <label>
                     <i className="fa fa-map-marker" /> Location:
                   </label>
                   <select id="location" className="form-control" required>
@@ -148,7 +148,7 @@ export const F = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="description">
+                  <label>
                     <i className="fa fa-info-circle" /> Description:
                   </label>
                   <textarea

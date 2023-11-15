@@ -89,43 +89,9 @@ export const SalesQuotation = () => {
                 </div>
               </div>
             </div>
-            {/* end page title */}
-            {/* <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-100">
-                        <div className="col-xl-5">
-                          <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
-                          </select>
-                        </div>
-                        <div className="col-xl-7">
-                          <div className="d-flex" role="search">
-                            <input
-                              className="form-control me-2"
-                              type="search"
-                              placeholder="Search"
-                              aria-label="Search"
-                            />{" "}
-                            <button className="btn btn-light" type="submit">
-                              Search
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-            {/* Role cards */}
+
             <div className="row g-4">
               <div className="col-md-12">
-                {/* Role Table */}
                 <div className="card ">
                   <div className="card-header justify-content-between">
                     <div className="card-title">Sales Quotation List </div>

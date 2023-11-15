@@ -193,9 +193,15 @@ export const RegistrationType = () => {
                       <div className="row w-50">
                         <div className="col-xl-5">
                           <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
+                            <option key={"CA"} value="CA">
+                              Newest
+                            </option>
+                            <option key={"NV"} value="NV">
+                              Oldest
+                            </option>
+                            <option key={"OR"} value="OR">
+                              Recent
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -230,66 +236,6 @@ export const RegistrationType = () => {
                           showRegistrationModal(e, type, index)
                         }
                       />
-                      {/* <table
-                        id="registration-type-table"
-                        className="table table-bordered dt-responsive nowrap w-100"
-                      >
-                        <thead>
-                          <tr>
-                            <th>
-                              <input type="checkbox" />
-                            </th>
-                            <th>Registration Type</th>
-                            <th>Trade Level</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <input type="checkbox" />
-                            </td>
-                            <td>CoreTrade</td>
-                            <td>Tradesman (FC+SA)</td>
-                            <td>
-                              <a
-                                aria-label="View"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-info rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#selectRegistrationLevelModal"
-                              >
-                                <i className="mdi mdi-plus" />
-                              </a>
-                              <a
-                                aria-label="View"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-warning rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#viewRegistrationTypeModal"
-                              >
-                                <i className="mdi mdi-eye" />
-                              </a>
-                              <a
-                                aria-label="Edit"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-primary rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editRegistrationTypeModal"
-                              >
-                                <i className="mdi mdi-pencil" />
-                              </a>
-                              <a
-                                aria-label="Delete"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-danger rounded-pill"
-                              >
-                                <i className="mdi mdi-trash-can" />
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table> */}
                     </div>
                   </div>
                 </div>
@@ -313,22 +259,26 @@ export const RegistrationType = () => {
           </div>
         </footer>
       </div>
-      <RegistrationTypeModal
-        isOpen={registrationModal}
-        setIsOpen={setRegistrationModal}
-        registrationData={registrationData}
-        viewModal={viewRegModal}
-        callback={(e) => updateRegistration(e)}
-      />
+      {registrationModal && (
+        <RegistrationTypeModal
+          isOpen={registrationModal}
+          setIsOpen={setRegistrationModal}
+          registrationData={registrationData}
+          viewModal={viewRegModal}
+          callback={(e) => updateRegistration(e)}
+        />
+      )}
 
-      <DeleteModel
-        setIsOpen={setDeleteRegModal}
-        isOpen={deleteRegModal}
-        message={`Do you really want to delete ${registrationData?.registrationName}`}
-        callback={(e) => deleteRegistrationType(e)}
-        deleteHeader={"Registration Type"}
-        data={registrationData}
-      />
+      {deleteRegModal && (
+        <DeleteModel
+          setIsOpen={setDeleteRegModal}
+          isOpen={deleteRegModal}
+          message={`Do you really want to delete ${registrationData?.registrationName}`}
+          callback={(e) => deleteRegistrationType(e)}
+          deleteHeader={"Registration Type"}
+          data={registrationData}
+        />
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { rolesTableHeaders } from "../../../Constants/table.constants";
 import { UserRoleModel } from "./UserRoleModel";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 //     <title>Role Management | Tonga</title>
 
@@ -64,6 +65,7 @@ export const Roles = () => {
       setFilteredRoles(data.roleData);
       setLoginUser(data.user[0]);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -73,6 +75,7 @@ export const Roles = () => {
       const { data } = await AxiosInstance.get("/roles/getUserRoleInfo");
       setUserRoles(data);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };

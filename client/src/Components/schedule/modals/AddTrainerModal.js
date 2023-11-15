@@ -45,6 +45,7 @@ export const NewTrainerModal = ({
 
   const addNewTrainer = async (trainerData) => {
     try {
+      toast.dismiss();
       const formData = new FormData();
       if (trainerData?.trainerImage.length)
         formData.append("file", trainerData.trainerImage[0]);
@@ -64,6 +65,7 @@ export const NewTrainerModal = ({
 
   const updateTrainer = async (trainerData) => {
     try {
+      toast.dismiss();
       const formData = new FormData();
       if (trainerData?.trainerImage.length) {
         formData.append("file", trainerData.trainerImage[0]);
@@ -115,9 +117,7 @@ export const NewTrainerModal = ({
           >
             <div className="row">
               <div className="col-md-6 mb-3">
-                <label htmlFor="trainerName" className="form-label">
-                  Name
-                </label>
+                <label className="form-label">Name</label>
                 <input
                   type="text"
                   className="form-control"
@@ -153,9 +153,7 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label htmlFor="trainerMobile" className="form-label">
-                  Mobile No.
-                </label>
+                <label className="form-label">Mobile No.</label>
                 <input
                   type="tel"
                   className="form-control"
@@ -172,9 +170,7 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label htmlFor="trainerDOB" className="form-label">
-                  DOB (Date of Birth)
-                </label>
+                <label className="form-label">DOB (Date of Birth)</label>
                 <input
                   type="date"
                   className="form-control"
@@ -197,12 +193,18 @@ export const NewTrainerModal = ({
                     required: "Please Select Designation",
                   })}
                 >
-                  <option value="" disabled selected>
+                  <option key={""} value="" disabled>
                     Select Designation
                   </option>
-                  <option value="Trainer">Trainer</option>
-                  <option value="Instructor">Instructor</option>
-                  <option value="Coach">Coach</option>
+                  <option key={"Trainer"} value="Trainer">
+                    Trainer
+                  </option>
+                  <option key={"Instructor"} value="Instructor">
+                    Instructor
+                  </option>
+                  <option key={"Coach"} value="Coach">
+                    Coach
+                  </option>
                   {/* Add more options as needed */}
                 </select>
                 {errors?.trainerDesignation && (

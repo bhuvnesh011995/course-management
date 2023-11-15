@@ -24,6 +24,7 @@ export const UserRegistration = () => {
 
   const registerUser = async (userData) => {
     try {
+      toast.dismiss();
       const formdata = new FormData();
       formdata.append("file", userData.userImage[0]);
       formdata.append("userData", JSON.stringify(userData));
@@ -31,9 +32,9 @@ export const UserRegistration = () => {
         "/users/updateUserWithImage",
         formdata
       );
-      toast.success("User Register Successfully")
+      toast.success("User Register Successfully");
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -171,9 +172,7 @@ export const UserRegistration = () => {
                       />
                     </div>
                     <div className="col-md-6 col-sm-12 mb-3">
-                      <label htmlFor="useremail" className="form-label">
-                        Email
-                      </label>
+                      <label className="form-label">Email</label>
                       <input
                         type="email"
                         className={`form-control ${
@@ -227,7 +226,7 @@ export const UserRegistration = () => {
                           required: "Please select a course.",
                         })}
                       >
-                        <option value="" disabled selected>
+                        <option value="" disabled>
                           Select a Course
                         </option>
                         <option value="course1">Course 1</option>
@@ -239,9 +238,7 @@ export const UserRegistration = () => {
                       </div>
                     </div>
                     <div className="col-md-12 col-sm-12 mb-3">
-                      <label htmlFor="description" className="form-label">
-                        Description
-                      </label>
+                      <label className="form-label">Description</label>
                       <textarea
                         className={`form-control ${
                           errors?.discription

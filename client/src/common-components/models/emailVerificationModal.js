@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { CommonJoditEditor } from "../CommonJoditEditor";
 import { AxiosInstance } from "../axiosInstance";
+import { toast } from "react-toastify";
 
 export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
   const [mailValue, setMailValue] = useState(
@@ -30,12 +31,16 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
 
   const sendEmail = async (mailData) => {
     try {
+      toast.dismiss();
       mailData["mailValue"] = mailValue;
-      const { data } = await AxiosInstance.get("/mail/sendEmail", {
+      const sendedMail = await AxiosInstance.get("/mail/sendEmail", {
         params: mailData,
       });
+      if (sendedMail.status == 200) toast.success(sendedMail.data.message);
+      else toast.error("something went wrong !");
       handleClose();
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };

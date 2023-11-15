@@ -50,10 +50,7 @@ export const Index = () => {
                           <div className="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div>
                               {" "}
-                              <a
-                                href="javascript:void(0);"
-                                className="category-link primary text-center"
-                              >
+                              <a className="category-link primary text-center">
                                 {" "}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -79,10 +76,7 @@ export const Index = () => {
                           <div className="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div>
                               {" "}
-                              <a
-                                href="javascript:void(0);"
-                                className="category-link secondary text-center"
-                              >
+                              <a className="category-link secondary text-center">
                                 {" "}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -114,10 +108,7 @@ export const Index = () => {
                           <div className="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div>
                               {" "}
-                              <a
-                                href="javascript:void(0);"
-                                className="category-link warning text-center"
-                              >
+                              <a className="category-link warning text-center">
                                 {" "}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -152,10 +143,7 @@ export const Index = () => {
                           <div className="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div>
                               {" "}
-                              <a
-                                href="javascript:void(0);"
-                                className="category-link success"
-                              >
+                              <a className="category-link success">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   className="category-svg"
@@ -245,10 +233,7 @@ export const Index = () => {
                                 +2.02%
                               </div>
                             </div>{" "}
-                            <a
-                              href="javascript:void(0);"
-                              className="text-primary fs-12"
-                            >
+                            <a className="text-primary fs-12">
                               View All
                               <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
                             </a>
@@ -279,10 +264,7 @@ export const Index = () => {
                                 -0.24%
                               </div>
                             </div>{" "}
-                            <a
-                              href="javascript:void(0);"
-                              className="text-secondary fs-12"
-                            >
+                            <a className="text-secondary fs-12">
                               View All
                               <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
                             </a>
@@ -313,10 +295,7 @@ export const Index = () => {
                                 -1.32%
                               </div>
                             </div>{" "}
-                            <a
-                              href="javascript:void(0);"
-                              className="text-warning fs-12"
-                            >
+                            <a className="text-warning fs-12">
                               View All
                               <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
                             </a>
@@ -347,10 +326,7 @@ export const Index = () => {
                                 +0.89%
                               </div>
                             </div>{" "}
-                            <a
-                              href="javascript:void(0);"
-                              className="text-danger fs-12"
-                            >
+                            <a className="text-danger fs-12">
                               View All
                               <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
                             </a>
@@ -917,14 +893,12 @@ export const Index = () => {
                                 {" "}
                                 <a
                                   aria-label="anchor"
-                                  href="javascript:void(0);"
                                   className="btn btn-icon btn-sm btn-info rounded-pill"
                                 >
                                   <i className="bx bxs-edit-alt" />
                                 </a>{" "}
                                 <a
                                   aria-label="anchor"
-                                  href="javascript:void(0);"
                                   className="btn btn-icon btn-sm btn-danger rounded-pill"
                                 >
                                   <i className="bx bxs-trash" />
@@ -963,14 +937,12 @@ export const Index = () => {
                                 {" "}
                                 <a
                                   aria-label="anchor"
-                                  href="javascript:void(0);"
                                   className="btn btn-icon btn-sm btn-info rounded-pill"
                                 >
                                   <i className="bx bxs-edit-alt" />
                                 </a>{" "}
                                 <a
                                   aria-label="anchor"
-                                  href="javascript:void(0);"
                                   className="btn btn-icon btn-sm btn-danger rounded-pill"
                                 >
                                   <i className="bx bxs-trash" />
@@ -1009,14 +981,12 @@ export const Index = () => {
                                 {" "}
                                 <a
                                   aria-label="anchor"
-                                  href="javascript:void(0);"
                                   className="btn btn-icon btn-sm btn-info rounded-pill"
                                 >
                                   <i className="bx bxs-edit-alt" />
                                 </a>{" "}
                                 <a
                                   aria-label="anchor"
-                                  href="javascript:void(0);"
                                   className="btn btn-icon btn-sm btn-danger rounded-pill"
                                 >
                                   <i className="bx bxs-trash" />
@@ -1055,14 +1025,12 @@ export const Index = () => {
                                 {" "}
                                 <a
                                   aria-label="anchor"
-                                  href="javascript:void(0);"
                                   className="btn btn-icon btn-sm btn-info rounded-pill"
                                 >
                                   <i className="bx bxs-edit-alt" />
                                 </a>{" "}
                                 <a
                                   aria-label="anchor"
-                                  href="javascript:void(0);"
                                   className="btn btn-icon btn-sm btn-danger rounded-pill"
                                 >
                                   <i className="bx bxs-trash" />

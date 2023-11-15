@@ -109,41 +109,16 @@ export const CustomerManagement = () => {
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-100">
-                        {/* <div className="col-xl-4">
-                          <select className="form-select">
-                            <option value={0} selected>
-                              Sort By
-                            </option>
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
-                          </select>
-                        </div> */}
                         <div className="col-xl-4">
                           <select className="form-select">
-                            <option value="" selected>
-                              Select Company
-                            </option>
-                            {allCustomers.map((company) => (
-                              <option value={company._id}>
+                            <option value="">Select Company</option>
+                            {allCustomers.map((company, index) => (
+                              <option key={index} value={company._id}>
                                 {company?.companyName}
                               </option>
                             ))}
                           </select>
                         </div>
-                        {/* <div className="col-xl-4">
-                          <div className="d-flex" role="search">
-                            <input
-                              className="form-control me-2"
-                              type="search"
-                              placeholder="Search"
-                              aria-label="Search"
-                            />{" "}
-                            <button className="btn btn-light" type="submit">
-                              Search
-                            </button>
-                          </div>
-                        </div> */}
                       </div>
                     </div>
                   </div>

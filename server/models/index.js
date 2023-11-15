@@ -15,4 +15,6 @@ module.exports = {
   user: require("./userModel"),
   quotations: require("./quotationModel"),
   payRolls: require("./PayrollModel"),
+  timesheets: require("./timeSheetModel"),
+  leaves: require("./leaveModel"),
 };

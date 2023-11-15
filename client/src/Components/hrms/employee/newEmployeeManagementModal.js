@@ -40,26 +40,28 @@ export const NewEmployeeManagementModal = ({
 
   const addEmployee = async (newEmployee) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.post(
         "/employee/addEmployee",
         newEmployee
       );
-      toast.success("New Employee Added")
+      toast.success("New Employee Added");
       callback(data);
       handleClose();
     } catch (err) {
-      toast.error('error occured')
+      toast.error("error occured");
       console.error(err);
     }
   };
 
   const updateEmployee = async (updatedEmployee) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.post(
         "/employee/updateEmployee",
         updatedEmployee
       );
-      toast.success("employee updated")
+      toast.success("employee updated");
       updatedEmployee["employeeName"] =
         updatedEmployee["employeeFirstName"] +
         " " +
@@ -67,7 +69,7 @@ export const NewEmployeeManagementModal = ({
       callback(updatedEmployee);
       handleClose();
     } catch (err) {
-      toast.error('error occured')
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -194,10 +196,18 @@ export const NewEmployeeManagementModal = ({
                 })}
                 disabled={viewEmployee}
               >
-                <option value="">Select position</option>
-                <option value="Manager">Manager</option>
-                <option value="Supervisor">Supervisor</option>
-                <option value="Associate">Associate</option>
+                <option key={""} value="">
+                  Select position
+                </option>
+                <option key={"Manager"} value="Manager">
+                  Manager
+                </option>
+                <option key={"Supervisor"} value="Supervisor">
+                  Supervisor
+                </option>
+                <option key={"Associate"} value="Associate">
+                  Associate
+                </option>
               </select>
               {errors?.employeePosition && (
                 <span className="text-danger">
@@ -214,10 +224,18 @@ export const NewEmployeeManagementModal = ({
                 })}
                 disabled={viewEmployee}
               >
-                <option value="">Select department</option>
-                <option value="HR">HR</option>
-                <option value="Finance">Finance</option>
-                <option value="IT">IT</option>
+                <option key={""} value="">
+                  Select department
+                </option>
+                <option key={"HR"} value="HR">
+                  HR
+                </option>
+                <option key={"Finance"} value="Finance">
+                  Finance
+                </option>
+                <option key={"IT"} value="IT">
+                  IT
+                </option>
               </select>
               {errors?.employeeDepartment && (
                 <span className="text-danger">
@@ -267,10 +285,18 @@ export const NewEmployeeManagementModal = ({
                 })}
                 disabled={viewEmployee}
               >
-                <option value="">Select gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option key={""} value="">
+                  Select gender
+                </option>
+                <option key={"Male"} value="Male">
+                  Male
+                </option>
+                <option key={"Female"} value="Female">
+                  Female
+                </option>
+                <option key={"Other"} value="Other">
+                  Other
+                </option>
               </select>
               {errors?.employeeGender && (
                 <span className="text-danger">
@@ -288,8 +314,10 @@ export const NewEmployeeManagementModal = ({
                 disabled={viewEmployee}
               >
                 <option value="">Select role</option>
-                {roles.map((e) => (
-                  <option value={e?._id}>{e?.roleName}</option>
+                {roles.map((e, index) => (
+                  <option key={index} value={e?._id}>
+                    {e?.roleName}
+                  </option>
                 ))}
               </select>
               {errors?.employeeRole && (
@@ -307,9 +335,15 @@ export const NewEmployeeManagementModal = ({
                 })}
                 disabled={viewEmployee}
               >
-                <option value="">Select status</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
+                <option key={""} value="">
+                  Select status
+                </option>
+                <option key={"Active"} value="Active">
+                  Active
+                </option>
+                <option key={"Inactive"} value="Inactive">
+                  Inactive
+                </option>
               </select>
               {errors?.status && (
                 <span className="text-danger">{errors?.status.message}</span>

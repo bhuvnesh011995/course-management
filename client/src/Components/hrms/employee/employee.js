@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
-import { NewEmployeeManagementModal } from "./modals/newEmployeeManagementModal";
-import { AxiosInstance } from "../../common-components/axiosInstance";
-import { CommonDataTable } from "../../common-components/CommonDataTable";
-import { employeeHeaders } from "../../Constants/table.constants";
-import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { NewEmployeeManagementModal } from "./newEmployeeManagementModal";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { CommonDataTable } from "../../../common-components/CommonDataTable";
+import { employeeHeaders } from "../../../Constants/table.constants";
+import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 
 export const Employee = () => {
@@ -61,6 +59,7 @@ export const Employee = () => {
 
   const deleteSelectedEmployee = async (employee) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.delete("/employee/deleteEmployee", {
         params: employee,
       });
@@ -100,28 +99,7 @@ export const Employee = () => {
                 <div className="card">
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50">
-                        <div className="col-xl-5">
-                          <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
-                          </select>
-                        </div>
-                        <div className="col-xl-7">
-                          <div className="d-flex" role="search">
-                            <input
-                              className="form-control me-2"
-                              type="search"
-                              placeholder="Search"
-                              aria-label="Search"
-                            />{" "}
-                            <button className="btn btn-light" type="submit">
-                              Search
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                      <div className="row w-50"></div>
                       <button
                         className="btn btn-primary me-2"
                         onClick={(e) => showEmployee()}
@@ -153,70 +131,6 @@ export const Employee = () => {
                           showEmployee(e, type, index)
                         }
                       />
-                      {/* <table
-                        id="datatable-buttons"
-                        className="table table-bordered dt-responsive nowrap w-100"
-                      >
-                        <thead>
-                          <tr>
-                            <th>Employee ID</th>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Department</th>
-                            <th>Course Assigned</th>
-                            <th>Join Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>Jane Smith</td>
-                            <td>Instructor</td>
-                            <td>jsmith@example.com</td>
-                            <td>(555) 123-4567</td>
-                            <td>Computer Science</td>
-                            <td>Introduction to Programming</td>
-                            <td>2023-01-15</td>
-                            <td>
-                              {" "}
-                              <span className="badge badge-soft-success">
-                                Active
-                              </span>
-                            </td>
-                            <td>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-warning rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#viewEmployeeModal"
-                              >
-                                <i className="mdi mdi-eye" />
-                              </a>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-primary rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editEmployeeModal"
-                              >
-                                <i className="mdi mdi-pencil" />
-                              </a>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-danger rounded-pill"
-                              >
-                                <i className="mdi mdi-trash-can" />
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table> */}
                     </div>
                   </div>
                 </div>

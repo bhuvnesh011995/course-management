@@ -1,9 +1,8 @@
-
 const registrationModal = require("../models/registrationModel");
-const db = require("../models")
-const addRegistrationType = async (req,res,next) => {
+const db = require("../models");
+const addRegistrationType = async (req, res, next) => {
   try {
-    let data = req.body
+    let data = req.body;
     const newRegistrationType = await db.registrationType.create(data);
     const registrationType = newRegistrationType.save();
     return res.status(200).send(registrationType);
@@ -12,9 +11,9 @@ const addRegistrationType = async (req,res,next) => {
   }
 };
 
-const getRegistrationTypes = async (req,res,next) => {
+const getRegistrationTypes = async (req, res, next) => {
   try {
-    let data = req.user
+    let data = req.user;
     const registrationData = await db.registrationType
       // find({})
       // .populate({ path: "tradeLevelIds", model: "tradeLevel" })
@@ -62,9 +61,9 @@ const getRegistrationTypes = async (req,res,next) => {
   }
 };
 
-const getRegistrationType = async (req,res,next) => {
+const getRegistrationType = async (req, res, next) => {
   try {
-    let data = req.query
+    let data = req.query;
     const registrationData = await db.registrationType.find({
       _id: data.registrationData._id,
     });
@@ -74,19 +73,20 @@ const getRegistrationType = async (req,res,next) => {
   }
 };
 
-const updateRegistration = async (req,res,next) => {
+const updateRegistration = async (req, res, next) => {
   try {
-    let data = req.body
+    let data = req.body;
     const registrationData = await db.registrationType.updateOne(
       {
         _id: data._id,
       },
       {
-        registrationName: data.registrationName,
-        tradeLevelIds: data.tradeLevelIds,
+        $set: data,
       }
     );
-    return res.status(200).send({ message: "Registration Type Updated Successfully" });
+    return res
+      .status(200)
+      .send({ message: "Registration Type Updated Successfully" });
   } catch (err) {
     next(err);
   }
@@ -94,9 +94,11 @@ const updateRegistration = async (req,res,next) => {
 
 const deleteRegistration = async () => {
   try {
-    let data = req.query
+    let data = req.query;
     const deleteReg = await db.registrationType.deleteOne({ _id: data._id });
-    return res.status(200).send({ message: "RegistrationType Deleted Successfully !" });
+    return res
+      .status(200)
+      .send({ message: "RegistrationType Deleted Successfully !" });
   } catch (err) {
     next(err);
   }

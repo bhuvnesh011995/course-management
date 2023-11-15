@@ -179,7 +179,7 @@ export const Scheduling = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="javascript: void(0);">Dashboard</a>
+                        <a>Dashboard</a>
                       </li>
                       <li className="breadcrumb-item active">Scedule</li>
                     </ol>
@@ -202,9 +202,7 @@ export const Scheduling = () => {
                     </div>
                     <hr /> */}
                     <div className="mb-3">
-                      <label htmlFor="startDate" className="form-label">
-                        Start Date
-                      </label>
+                      <label className="form-label">Start Date</label>
                       <input
                         type="date"
                         className="form-control"
@@ -215,9 +213,7 @@ export const Scheduling = () => {
                       />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="endDate" className="form-label">
-                        End Date
-                      </label>
+                      <label className="form-label">End Date</label>
                       <input
                         type="date"
                         className="form-control"
@@ -238,14 +234,14 @@ export const Scheduling = () => {
                       >
                         <option value="">All Courses</option>
                         {courses.map((e) => (
-                          <option value={e._id}>{e.courseName}</option>
+                          <option key={e._id} value={e._id}>
+                            {e.courseName}
+                          </option>
                         ))}
                       </select>
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="trainerFilter" className="form-label">
-                        Trainer Filter
-                      </label>
+                      <label className="form-label">Trainer Filter</label>
                       <select
                         className="selectpicker form-select"
                         onChange={({ target }) =>
@@ -255,14 +251,14 @@ export const Scheduling = () => {
                       >
                         <option value="">All Trainers</option>
                         {trainers.map((e) => (
-                          <option value={e._id}>{e.trainerName}</option>
+                          <option key={e._id} value={e._id}>
+                            {e.trainerName}
+                          </option>
                         ))}
                       </select>
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="classFilter" className="form-label">
-                        Class Filter
-                      </label>
+                      <label className="form-label">Class Filter</label>
                       <select
                         className="selectpicker form-select"
                         onChange={({ target }) =>
@@ -272,7 +268,9 @@ export const Scheduling = () => {
                       >
                         <option value="">All Classes</option>
                         {classes.map((e) => (
-                          <option value={e._id}>{e.classCode}</option>
+                          <option key={e._id} value={e._id}>
+                            {e.classCode}
+                          </option>
                         ))}
                       </select>
                     </div>

@@ -11,6 +11,7 @@ import { trainerHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { TogelErrorMessage } from "../../common-components/togelMessage";
 import { ViewTrainer } from "./modals/ViewTrainerModal";
+import { toast } from "react-toastify";
 
 // <head>
 
@@ -126,16 +127,22 @@ export const Trainer = () => {
 
   const deleteSelectedTrainer = async (trainerData) => {
     try {
-      const { data } = await AxiosInstance.delete("/trainer/deleteTrainer", {
-        params: trainerData,
-      });
-      if (data.completed == 1) {
+      toast.dismiss();
+      const deletedTrainer = await AxiosInstance.delete(
+        "/trainer/deleteTrainer",
+        {
+          params: trainerData,
+        }
+      );
+      console.log(deletedTrainer);
+      if (deletedTrainer.status == 200) {
         const filteredTrainers = trainers.filter(
           (e) => e._id != trainerData._id
         );
         setTrainers([...filteredTrainers]);
-      } else if (data.completed == 0) {
-        console.log(data.message);
+        toast.success(deletedTrainer.data.message);
+      } else {
+        toast.error(deletedTrainer.data.message);
       }
     } catch (err) {
       console.error(err);
@@ -169,28 +176,7 @@ export const Trainer = () => {
                 <div className="card">
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50">
-                        {/* <div className="col-xl-5">
-                          <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
-                          </select>
-                        </div> */}
-                        {/* <div className="col-xl-7">
-                          <div className="d-flex" role="search">
-                            <input
-                              className="form-control me-2"
-                              type="search"
-                              placeholder="Search"
-                              aria-label="Search"
-                            />{" "}
-                            <button className="btn btn-light" type="submit">
-                              Search
-                            </button>
-                          </div>
-                        </div> */}
-                      </div>
+                      <div className="row w-50"></div>
                       <button
                         className="btn btn-primary me-2"
                         onClick={() => showTrainerModal()}

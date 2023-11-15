@@ -57,6 +57,7 @@ export const Class = () => {
 
   const deleteSelectedClass = async (classData) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.delete("/class/deleteClass", {
         params: classData,
       });
@@ -100,9 +101,15 @@ export const Class = () => {
                       <div className="row w-50">
                         <div className="col-xl-5">
                           <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
+                            <option key={"CA"} value="CA">
+                              Newest
+                            </option>
+                            <option key={"NV"} value="NV">
+                              Oldest
+                            </option>
+                            <option key={"OR"} value="OR">
+                              Recent
+                            </option>
                           </select>
                         </div>
                         <div className="col-xl-7">
@@ -148,59 +155,6 @@ export const Class = () => {
                         viewButton
                         callback={(e, type, index) => showClass(e, type, index)}
                       />
-                      {/* <table
-                        id="datatable-buttons"
-                        className="table table-bordered dt-responsive nowrap w-100"
-                      >
-                        <thead>
-                          <tr>
-                            <th scope="col">Class Code</th>
-                            <th>Trainer</th>
-                            <th>Course</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Class Timing</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>CS101</td>
-                            <td>John Doe</td>
-                            <td>Computer Science</td>
-                            <td>01 Jan,2023</td>
-                            <td>01 June, 2023</td>
-                            <td>10:00 AM - 12:00 PM</td>
-                            <td>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-warning rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#viewClassModal"
-                              >
-                                <i className="mdi mdi-eye" />
-                              </a>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-primary rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editClassModal"
-                              >
-                                <i className="mdi mdi-pencil" />
-                              </a>
-                              <a
-                                aria-label="anchor"
-                                href="javascript:void(0);"
-                                className="btn btn-icon btn-sm btn-danger rounded-pill"
-                              >
-                                <i className="mdi mdi-trash-can" />
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table> */}
                     </div>
                   </div>
                 </div>

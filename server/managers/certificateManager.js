@@ -135,15 +135,7 @@ const updateCertificate = async (req, res, next) => {
     const updateCertificate = await db.certificates.updateOne(
       { _id: query._id },
       {
-        certificateFilePath: query?.certificateFilePath,
-        certificateNo: query?.certificateNo,
-        completionDate: query?.completionDate,
-        courseDuration: query?.courseDuration,
-        courseId: query?.courseId,
-        grade: query?.grade,
-        participantName: query?.participantName,
-        remarks: query?.remarks,
-        certificateAttchment: query?.certificateAttchment,
+        $set: query,
       }
     );
     const updatedCertificate = await db.certificates.aggregate([

@@ -6,6 +6,7 @@ import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { permissionTableHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 export const Permission = () => {
   const [newPermissionModal, setNewPermissionModal] = useState(false);
@@ -24,6 +25,7 @@ export const Permission = () => {
       const { data } = await AxiosInstance.get("/permission/getPermissions");
       setPermissions(data);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -45,13 +47,6 @@ export const Permission = () => {
   const updatePermission = (permission) => {
     const inPermission = permissions.filter((e) => e._id == permission._id);
     if (inPermission.length) {
-      // permissions.map((e, index) => {
-      //   if (e._id == inPermission[0]._id) {
-      //     permissions[index] = permission;
-      //     setPermissions((old) => [...permissions]);
-      //     return;
-      //   }
-      // })
       permissions[permissionIndex] = permission;
       setPermissions((old) => [...permissions]);
     } else setPermissions((old) => [...old, permission]);
@@ -59,13 +54,14 @@ export const Permission = () => {
 
   const deletePermission = async (permissionData) => {
     try {
-      const { data } = await AxiosInstance.delete(
+      const deletedPermission = await AxiosInstance.delete(
         "/permission/deletePermission",
         { params: permissionData }
       );
       permissions.splice(permissionIndex, 1);
       setPermissions((old) => [...permissions]);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };

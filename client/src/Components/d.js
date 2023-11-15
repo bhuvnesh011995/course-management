@@ -107,7 +107,7 @@ export const D = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="javascript: void(0);">Dashboard</a>
+                        <a>Dashboard</a>
                       </li>
                       <li className="breadcrumb-item active">Scedule</li>
                     </ol>
@@ -131,9 +131,7 @@ export const D = () => {
                     </div>
                     <h5 className="text-primary my-3">Sort By :</h5>
                     <div className="mb-3">
-                      <label htmlFor="startDate" className="form-label">
-                        Start Date
-                      </label>
+                      <label className="form-label">Start Date</label>
                       <input
                         type="text"
                         className="form-control"
@@ -142,9 +140,7 @@ export const D = () => {
                       />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="endDate" className="form-label">
-                        End Date
-                      </label>
+                      <label className="form-label">End Date</label>
                       <input
                         type="text"
                         className="form-control"
@@ -153,9 +149,7 @@ export const D = () => {
                       />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="courseFilter" className="form-label">
-                        Course Filter
-                      </label>
+                      <label className="form-label">Course Filter</label>
                       <select
                         className="selectpicker form-select"
                         id="courseFilter"
@@ -168,9 +162,7 @@ export const D = () => {
                       </select>
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="trainerFilter" className="form-label">
-                        Trainer Filter
-                      </label>
+                      <label className="form-label">Trainer Filter</label>
                       <select
                         className="selectpicker form-select"
                         id="trainerFilter"
@@ -183,9 +175,7 @@ export const D = () => {
                       </select>
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="classFilter" className="form-label">
-                        Class Filter
-                      </label>
+                      <label className="form-label">Class Filter</label>
                       <select
                         className="selectpicker form-select"
                         id="classFilter"
@@ -230,7 +220,7 @@ export const D = () => {
                           <div className="modal-body">
                             <form id="eventForm" className="row">
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="courseName">Course Name:</label>
+                                <label>Course Name:</label>
                                 <select
                                   className="form-select"
                                   id="courseName"
@@ -243,7 +233,7 @@ export const D = () => {
                                 </select>
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="className">Class Name:</label>
+                                <label>Class Name:</label>
                                 <select
                                   className="form-select"
                                   id="className"
@@ -256,7 +246,7 @@ export const D = () => {
                                 </select>
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="startTime">Start Time:</label>
+                                <label>Start Time:</label>
                                 <input
                                   type="time"
                                   className="form-control"
@@ -265,7 +255,7 @@ export const D = () => {
                                 />
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="endTime">End Time:</label>
+                                <label>End Time:</label>
                                 <input
                                   type="time"
                                   className="form-control"
@@ -274,9 +264,7 @@ export const D = () => {
                                 />
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventStartDate">
-                                  Start Date:
-                                </label>
+                                <label>Start Date:</label>
                                 <input
                                   type="date"
                                   className="form-control"
@@ -285,7 +273,7 @@ export const D = () => {
                                 />
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventEndDate">End Date:</label>
+                                <label>End Date:</label>
                                 <input
                                   type="date"
                                   className="form-control"
@@ -294,7 +282,7 @@ export const D = () => {
                                 />
                               </div>
                               <div className="col-md-12 form-group mb-3">
-                                <label htmlFor="location">Location:</label>
+                                <label>Location:</label>
                                 <select
                                   className="form-select"
                                   id="location"
@@ -355,9 +343,7 @@ export const D = () => {
                           <div className="modal-body">
                             <form id="eventDetailsForm" className="row">
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsTitle">
-                                  Course Name:
-                                </label>
+                                <label>Course Name:</label>
                                 <select
                                   className="form-select"
                                   id="eventDetailsTitle"
@@ -370,9 +356,7 @@ export const D = () => {
                                 </select>
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsType">
-                                  Class Name:
-                                </label>
+                                <label>Class Name:</label>
                                 <select
                                   className="form-select"
                                   id="eventDetailsType"
@@ -385,9 +369,7 @@ export const D = () => {
                                 </select>
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsStartTime">
-                                  Start Time:
-                                </label>
+                                <label>Start Time:</label>
                                 <input
                                   type="time"
                                   className="form-control"
@@ -396,9 +378,7 @@ export const D = () => {
                                 />
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsEndTime">
-                                  End Time:
-                                </label>
+                                <label>End Time:</label>
                                 <input
                                   type="time"
                                   className="form-control"
@@ -407,9 +387,7 @@ export const D = () => {
                                 />
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsStartDate">
-                                  Start Date:
-                                </label>
+                                <label>Start Date:</label>
                                 <input
                                   type="date"
                                   className="form-control"
@@ -418,9 +396,7 @@ export const D = () => {
                                 />
                               </div>
                               <div className="col-md-6 form-group mb-3">
-                                <label htmlFor="eventDetailsEndDate">
-                                  End Date:
-                                </label>
+                                <label>End Date:</label>
                                 <input
                                   type="date"
                                   className="form-control"
@@ -429,9 +405,7 @@ export const D = () => {
                                 />
                               </div>
                               <div className="col-md-12 form-group mb-3">
-                                <label htmlFor="eventDetailsLocation">
-                                  Location:
-                                </label>
+                                <label>Location:</label>
                                 <select
                                   className="form-select"
                                   id="eventDetailsLocation"
@@ -482,138 +456,3 @@ export const D = () => {
     </div>
   );
 };
-{
-  /* <!-- end main content--> */
-}
-
-{
-  /* <!-- END layout-wrapper --> */
-}
-
-{
-  /* <script src="assets/libs/jquery/jquery.min.js"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/node-waves/waves.min.js"></script>
-    <script src="assets/libs/select2/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/interaction/main.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0/dist/js/bootstrap-select.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0/dist/js/i18n/defaults-en_US.js"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/build/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <script src="assets/js/app.js"></script>
-    <script>
-            var datepickerAppended = false;
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: '',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-            },
-            events: [
-                
-            ],
-            eventClick: function (info) {
-                // Show event details in the "Event Details" modal
-                $('#eventDetailsTitle').val(info.event.title);
-                $('#eventDetailsType').val(info.event.extendedProps.className);
-                $('#eventDetailsStartTime').val(info.event.extendedProps.startTime);
-                $('#eventDetailsEndTime').val(info.event.extendedProps.endTime);
-                $('#eventDetailsStartDate').val(info.event.startStr);
-                $('#eventDetailsEndDate').val(info.event.endStr);
-                $('#eventDetailsLocation').val(info.event.extendedProps.location);
-                $('#eventDetailsModal').modal('show');
-            },
-            viewDidMount: function () {
-            if (!datepickerAppended) {
-                var secondToolbarChunk = $(".fc-toolbar-chunk").eq(1);
-                secondToolbarChunk.append('<div class="input-group" id="datepicker2"><input type="text" class="form-control" placeholder="dd M, yyyy" data-date-format="dd M, yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true" id="datepicker"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>');
-                $(".input-group.date").datepicker({
-                    autoclose: true,
-                    todayHighlight: true,
-                    format: "dd M, yyyy",
-                });
-
-                // Add change event listener to the datepicker input
-                $('#datepicker').on('changeDate', function (e) {
-                    var selectedDate = e.date;
-                    calendar.gotoDate(selectedDate);
-                });
-
-                datepickerAppended = true;
-            }
-        },
-            editable: true,
-            selectable: true,
-            select: function (info) {
-                // Add event when a date range is selected
-                $('#courseName').val('select'); // Clear previous value
-                $('#className').val('select'); // Set default class
-                $('#startTime').val('');
-                $('#endTime').val('');
-                $('#eventStartDate').val(info.startStr);
-                $('#eventEndDate').val(info.endStr);
-                $('#location').val('select'); // Clear previous value
-                $('#addEventModal').modal('show');
-            },
-        });
-
-        calendar.render();
-
-        function addEvent() {
-            var courseName = document.getElementById('courseName').value;
-            var className = document.getElementById('className').value;
-            var startTime = document.getElementById('startTime').value;
-            var endTime = document.getElementById('endTime').value;
-            var eventStartDate = document.getElementById('eventStartDate').value;
-            var eventEndDate = document.getElementById('eventEndDate').value;
-            var location = document.getElementById('location').value;
-
-            if (courseName.trim() === '' || startTime.trim() === '' || endTime.trim() === '' || eventStartDate.trim() === '' || eventEndDate.trim() === '' || location.trim() === '') {
-                alert('Please fill in all event details.');
-                return;
-            }
-
-            var eventData = {
-                title: courseName,
-                start: eventStartDate,
-                end: eventEndDate,
-                extendedProps: {
-                    className: className,
-                    startTime: startTime,
-                    endTime: endTime,
-                    location: location
-                },
-                backgroundColor: '#28a745', // Success color
-                borderColor: '#28a745', // Success color
-                textColor: '#fff' // White text color
-            };
-
-            calendar.addEvent(eventData);
-
-            document.getElementById('courseName').value = '';
-            document.getElementById('startTime').value = '';
-            document.getElementById('endTime').value = '';
-            document.getElementById('eventStartDate').value = '';
-            document.getElementById('eventEndDate').value = '';
-            document.getElementById('location').value = '';
-            $('#addEventModal').modal('hide');
-        }
-    </script>
-
-
-
-</body>
-
-</html> */
-}

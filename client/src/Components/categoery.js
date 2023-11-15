@@ -52,23 +52,23 @@ import { onMenuClicked } from "../common-components/useCommonUsableFunctions";
 export const Category = () => {
   return (
     <div id="layout-wrapper">
-      <div class="main-content">
-        <div class="page-content">
-          <div class="container-fluid">
+      <div className="main-content">
+        <div className="page-content">
+          <div className="container-fluid">
             {/* <!-- start page title --> */}
-            <div class="row">
-              <div class="col-12">
-                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 class="mb-sm-0 font-size-18">
+            <div className="row">
+              <div className="col-12">
+                <div className="page-title-box d-sm-flex align-items-center justify-content-between">
+                  <h4 className="mb-sm-0 font-size-18">
                     Course categoery Management
                   </h4>
 
-                  <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                      <li class="breadcrumb-item">
+                  <div className="page-title-right">
+                    <ol className="breadcrumb m-0">
+                      <li className="breadcrumb-item">
                         <a href="index.html">Dashboard</a>
                       </li>
-                      <li class="breadcrumb-item active">
+                      <li className="breadcrumb-item active">
                         Course Categoery Management
                       </li>
                     </ol>
@@ -77,29 +77,29 @@ export const Category = () => {
               </div>
             </div>
             {/* <!-- end page title --> */}
-            <div class="row">
-              <div class="col-xl-12">
-                <div class="card">
-                  <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div class="row w-50">
-                        <div class="col-xl-5">
-                          <select class="form-select">
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card">
+                  <div className="card-body p-3">
+                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                      <div className="row w-50">
+                        <div className="col-xl-5">
+                          <select className="form-select">
                             <option value="CA">Newest</option>
                             <option value="NV">Oldest</option>
                             <option value="OR">Recent</option>
                           </select>
                         </div>
 
-                        <div class="col-xl-7">
-                          <div class="d-flex" role="search">
+                        <div className="col-xl-7">
+                          <div className="d-flex" role="search">
                             <input
-                              class="form-control me-2"
+                              className="form-control me-2"
                               type="search"
                               placeholder="Search"
                               aria-label="Search"
                             />{" "}
-                            <button class="btn btn-light" type="submit">
+                            <button className="btn btn-light" type="submit">
                               Search
                             </button>
                           </div>
@@ -107,11 +107,11 @@ export const Category = () => {
                       </div>
 
                       <button
-                        class="btn btn-primary me-2"
+                        className="btn btn-primary me-2"
                         data-bs-toggle="modal"
                         data-bs-target="#addCategoryModal"
                       >
-                        <i class="bx bx-plus me-1 fw-semibold align-middle"></i>
+                        <i className="bx bx-plus me-1 fw-semibold align-middle"></i>
                         Add New Categoery
                       </button>
                     </div>
@@ -120,18 +120,18 @@ export const Category = () => {
               </div>
             </div>
 
-            <div class="row g-4">
-              <div class="col-md-12">
+            <div className="row g-4">
+              <div className="col-md-12">
                 {/* <!-- Role Table --> */}
-                <div class="card ">
-                  <div class="card-header justify-content-between">
-                    <div class="card-title">Categoery List </div>
+                <div className="card ">
+                  <div className="card-header justify-content-between">
+                    <div className="card-title">Categoery List </div>
                   </div>
-                  <div class="card-body">
-                    <div class="table-responsive">
+                  <div className="card-body">
+                    <div className="table-responsive">
                       <table
                         id="datatable-buttons"
-                        class="table table-bordered dt-responsive nowrap w-100"
+                        className="table table-bordered dt-responsive nowrap w-100"
                       >
                         <thead>
                           <tr>
@@ -154,28 +154,25 @@ export const Category = () => {
                             <td>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
-                                class="btn btn-icon btn-sm btn-warning rounded-pill"
+                                className="btn btn-icon btn-sm btn-warning rounded-pill"
                                 data-bs-toggle="modal"
                                 data-bs-target="#viewCourseModal"
                               >
-                                <i class="mdi mdi-eye"></i>
+                                <i className="mdi mdi-eye"></i>
                               </a>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
-                                class="btn btn-icon btn-sm btn-primary rounded-pill"
+                                className="btn btn-icon btn-sm btn-primary rounded-pill"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editCourseModal"
                               >
-                                <i class="mdi mdi-pencil"></i>
+                                <i className="mdi mdi-pencil"></i>
                               </a>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
-                                class="btn btn-icon btn-sm btn-danger rounded-pill"
+                                className="btn btn-icon btn-sm btn-danger rounded-pill"
                               >
-                                <i class="mdi mdi-trash-can"></i>
+                                <i className="mdi mdi-trash-can"></i>
                               </a>
                             </td>
                           </tr>
@@ -195,59 +192,57 @@ export const Category = () => {
 
         {/* <!-- Add Course Modal --> */}
         <div
-          class="modal fade"
+          className="modal fade"
           id="addCategoryModal"
           tabindex="-1"
           aria-labelledby="addCategoryModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="addCourseModalLabel">
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="addCourseModalLabel">
                   Add New Course
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <form id="addCategoryForm">
-                  <div class="mb-3">
-                    <label for="categoryName" class="form-label">
+                  <div className="mb-3">
+                    <label for="categoryName" className="form-label">
                       Category Name:
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="categoryName"
                       placeholder="Enter category name"
                       required
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="courseName" class="form-label">
+                  <div className="mb-3">
+                    <label for="courseName" className="form-label">
                       Course Name:
                     </label>
-                    <select id="courseName" class="form-select" required>
-                      <option value="" selected>
-                        Select a Course
-                      </option>
+                    <select id="courseName" className="form-select" required>
+                      <option value="">Select a Course</option>
                       <option value="Course 1">Course 1</option>
                       <option value="Course 2">Course 2</option>
                       {/* <!-- Add more course options here --> */}
                     </select>
                   </div>
-                  <div class="mb-3">
-                    <label for="courseDescription" class="form-label">
+                  <div className="mb-3">
+                    <label for="courseDescription" className="form-label">
                       Description:
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="courseDescription"
                       placeholder="Enter description"
                       required
@@ -255,15 +250,15 @@ export const Category = () => {
                   </div>
                 </form>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-secondary"
+                  className="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
                   Cancel
                 </button>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Save
                 </button>
               </div>
@@ -273,58 +268,56 @@ export const Category = () => {
 
         {/* <!-- Edit Class Modal --> */}
         <div
-          class="modal fade"
+          className="modal fade"
           id="editCourseModal"
           tabindex="-1"
           aria-labelledby="editCourseModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="editCourseModalLabel">
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="editCourseModalLabel">
                   Edit Course Categoery
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <form id="addCourseForm" class="row">
-                  <div class="mb-3">
-                    <label for="categoryName" class="form-label">
+              <div className="modal-body">
+                <form id="addCourseForm" className="row">
+                  <div className="mb-3">
+                    <label for="categoryName" className="form-label">
                       Category Name:
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="categoryName"
                       value="Construction"
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="courseName" class="form-label">
+                  <div className="mb-3">
+                    <label for="courseName" className="form-label">
                       Course Name:
                     </label>
-                    <select id="courseName" class="form-select">
+                    <select id="courseName" className="form-select">
                       <option value="">Select a Course</option>
-                      <option value="Course 1" selected>
-                        Course 1
-                      </option>
+                      <option value="Course 1">Course 1</option>
                       <option value="Course 2">Course 2</option>
                       {/* <!-- Add more course options here --> */}
                     </select>
                   </div>
-                  <div class="mb-3">
-                    <label for="courseDescription" class="form-label">
+                  <div className="mb-3">
+                    <label for="courseDescription" className="form-label">
                       Description:
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="courseDescription"
                       value="loremvwbwjrgjrgbg3rwrggqg"
                     />
@@ -332,17 +325,17 @@ export const Category = () => {
                 </form>
               </div>
 
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-secondary"
+                  className="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   id="editClassSubmit"
                 >
                   Save Changes
@@ -354,59 +347,57 @@ export const Category = () => {
 
         {/* <!-- View Class Modal --> */}
         <div
-          class="modal fade"
+          className="modal fade"
           id="viewCourseModal"
           tabindex="-1"
           aria-labelledby="viewCourseModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="viewCourseModalLabel">
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="viewCourseModalLabel">
                   View Course Categoery
                 </h5>
                 <button
                   type="button"
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <form id="addCourseForm" class="row">
-                  <div class="mb-3">
-                    <label for="categoryName" class="form-label">
+              <div className="modal-body">
+                <form id="addCourseForm" className="row">
+                  <div className="mb-3">
+                    <label for="categoryName" className="form-label">
                       Category Name:
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="categoryName"
                       value="Construction"
                       disabled
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="courseName" class="form-label">
+                  <div className="mb-3">
+                    <label for="courseName" className="form-label">
                       Course Name:
                     </label>
-                    <select id="courseName" class="form-select" disabled>
+                    <select id="courseName" className="form-select" disabled>
                       <option value="">Select a Course</option>
-                      <option value="Course 1" selected>
-                        Course 1
-                      </option>
+                      <option value="Course 1">Course 1</option>
                       <option value="Course 2">Course 2</option>
                       {/* <!-- Add more course options here --> */}
                     </select>
                   </div>
-                  <div class="mb-3">
-                    <label for="courseDescription" class="form-label">
+                  <div className="mb-3">
+                    <label for="courseDescription" className="form-label">
                       Description:
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="courseDescription"
                       value="loremvwbwjrgjrgbg3rwrggqg"
                       disabled
@@ -415,10 +406,10 @@ export const Category = () => {
                 </form>
               </div>
 
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-secondary"
+                  className="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
                   Close
@@ -428,15 +419,15 @@ export const Category = () => {
           </div>
         </div>
 
-        <footer class="footer">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6">
+        <footer className="footer">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-6">
                 <script>document.write(new Date().getFullYear())</script> ©
                 Tonga.
               </div>
-              <div class="col-sm-6">
-                <div class="text-sm-end d-none d-sm-block">
+              <div className="col-sm-6">
+                <div className="text-sm-end d-none d-sm-block">
                   Design & Develop by{" "}
                   <a href="https://braincavesoft.com" target="_blank">
                     Braincave Software Pvt.Ltd.

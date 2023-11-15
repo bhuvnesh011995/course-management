@@ -159,7 +159,6 @@ export const MonitorVenueAvailability = () => {
                             <td>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-warning rounded-pill"
                                 data-bs-toggle="modal"
                                 data-bs-target="#viewVenueModal"
@@ -168,7 +167,6 @@ export const MonitorVenueAvailability = () => {
                               </a>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-primary rounded-pill"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editVenueModal"
@@ -177,7 +175,6 @@ export const MonitorVenueAvailability = () => {
                               </a>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-danger rounded-pill"
                               >
                                 <i className="mdi mdi-trash-can" />
@@ -221,9 +218,7 @@ export const MonitorVenueAvailability = () => {
               <div className="modal-body">
                 <form>
                   <div className="mb-3">
-                    <label htmlFor="venueName" className="form-label">
-                      Venue Name
-                    </label>
+                    <label className="form-label">Venue Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -233,9 +228,7 @@ export const MonitorVenueAvailability = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="venueArea" className="form-label">
-                      Area
-                    </label>
+                    <label className="form-label">Area</label>
                     <input
                       type="text"
                       className="form-control"
@@ -245,9 +238,7 @@ export const MonitorVenueAvailability = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="venueCapacity" className="form-label">
-                      Capacity
-                    </label>
+                    <label className="form-label">Capacity</label>
                     <input
                       type="number"
                       className="form-control"
@@ -257,11 +248,9 @@ export const MonitorVenueAvailability = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="venueStatus" className="form-label">
-                      Status
-                    </label>
+                    <label className="form-label">Status</label>
                     <select className="form-select" id="venueStatus" required>
-                      <option value disabled selected>
+                      <option value disabled>
                         Select status
                       </option>
                       <option value="Available">Available</option>
@@ -309,9 +298,7 @@ export const MonitorVenueAvailability = () => {
               <div className="modal-body">
                 <form>
                   <div className="mb-3">
-                    <label htmlFor="editVenueName" className="form-label">
-                      Venue Name
-                    </label>
+                    <label className="form-label">Venue Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -322,9 +309,7 @@ export const MonitorVenueAvailability = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="editVenueArea" className="form-label">
-                      Area
-                    </label>
+                    <label className="form-label">Area</label>
                     <input
                       type="text"
                       className="form-control"
@@ -335,9 +320,7 @@ export const MonitorVenueAvailability = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="editVenueCapacity" className="form-label">
-                      Capacity
-                    </label>
+                    <label className="form-label">Capacity</label>
                     <input
                       type="number"
                       className="form-control"
@@ -348,17 +331,13 @@ export const MonitorVenueAvailability = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="editVenueStatus" className="form-label">
-                      Status
-                    </label>
+                    <label className="form-label">Status</label>
                     <select
                       className="form-select"
                       id="editVenueStatus"
                       required
                     >
-                      <option value="Available" selected>
-                        Available
-                      </option>
+                      <option value="Available">Available</option>
                       <option value="Unavailable">Unavailable</option>
                     </select>
                   </div>
@@ -402,9 +381,7 @@ export const MonitorVenueAvailability = () => {
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                  <label htmlFor="viewVenueName" className="form-label">
-                    Venue Name
-                  </label>
+                  <label className="form-label">Venue Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -414,9 +391,7 @@ export const MonitorVenueAvailability = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="viewVenueArea" className="form-label">
-                    Area
-                  </label>
+                  <label className="form-label">Area</label>
                   <input
                     type="text"
                     className="form-control"
@@ -426,9 +401,7 @@ export const MonitorVenueAvailability = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="viewVenueCapacity" className="form-label">
-                    Capacity
-                  </label>
+                  <label className="form-label">Capacity</label>
                   <input
                     type="text"
                     className="form-control"
@@ -438,9 +411,7 @@ export const MonitorVenueAvailability = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="viewVenueStatus" className="form-label">
-                    Status
-                  </label>
+                  <label className="form-label">Status</label>
                   <input
                     type="text"
                     className="form-control"

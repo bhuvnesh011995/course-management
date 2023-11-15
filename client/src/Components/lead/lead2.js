@@ -441,9 +441,7 @@ export const Lead2 = () => {
                         </div>
                         <div className="col-xl-4">
                           <select className="form-select">
-                            <option value={0} selected>
-                              Select Company
-                            </option>
+                            <option value={0}>Select Company</option>
                             <option value="CA">Company-1</option>
                             <option value="NV">Company-2</option>
                             <option value="OR">Company-3</option>
@@ -533,7 +531,6 @@ export const Lead2 = () => {
                                         <div className="dropdown">
                                           <a
                                             aria-label="anchor"
-                                            href="javascript:void(0);"
                                             className="btn btn-icon btn-sm btn-light"
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
@@ -548,7 +545,6 @@ export const Lead2 = () => {
                                             <li>
                                               <a
                                                 className="dropdown-item"
-                                                href="javascript:void(0);"
                                                 data-bs-target="#view"
                                                 data-bs-toggle="modal"
                                               >
@@ -559,7 +555,6 @@ export const Lead2 = () => {
                                             <li>
                                               <a
                                                 className="dropdown-item"
-                                                href="javascript:void(0);"
                                                 data-bs-target="#edit"
                                                 data-bs-toggle="modal"
                                               >
@@ -568,28 +563,19 @@ export const Lead2 = () => {
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                 Payment
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                 Confirm
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                 Delete
                                               </a>
@@ -618,10 +604,7 @@ export const Lead2 = () => {
                                     <div className="p-3 border-top border-block-start-dashed">
                                       <div className="d-flex justify-content-between align-items-center">
                                         <div>
-                                          <a
-                                            href="javascript:void(0);"
-                                            className="me-2 text-primary"
-                                          >
+                                          <a className="me-2 text-primary">
                                             <span className="me-1">
                                               <i className="bx bx-paperclip align-middle fw-normal" />
                                             </span>
@@ -631,10 +614,7 @@ export const Lead2 = () => {
                                           </a>
                                         </div>
                                         <div>
-                                          <a
-                                            href="javascript:void(0);"
-                                            className="me-2 text-primary"
-                                          >
+                                          <a className="me-2 text-primary">
                                             <span className="me-1">
                                               <i className="bx bx-phone align-middle fw-normal" />
                                             </span>
@@ -670,7 +650,6 @@ export const Lead2 = () => {
                                         <div className="dropdown">
                                           <a
                                             aria-label="anchor"
-                                            href="javascript:void(0);"
                                             className="btn btn-icon btn-sm btn-light"
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
@@ -684,7 +663,6 @@ export const Lead2 = () => {
                                             <li>
                                               <a
                                                 className="dropdown-item"
-                                                href="javascript:void(0);"
                                                 data-bs-target="#view"
                                                 data-bs-toggle="modal"
                                               >
@@ -695,7 +673,6 @@ export const Lead2 = () => {
                                             <li>
                                               <a
                                                 className="dropdown-item"
-                                                href="javascript:void(0);"
                                                 data-bs-target="#edit"
                                                 data-bs-toggle="modal"
                                               >
@@ -704,28 +681,19 @@ export const Lead2 = () => {
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                 Payment
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                 Confirm
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                 Delete
                                               </a>
@@ -754,10 +722,7 @@ export const Lead2 = () => {
                                     <div className="p-3 border-top border-block-start-dashed">
                                       <div className="d-flex justify-content-between align-items-center">
                                         <div>
-                                          <a
-                                            href="javascript:void(0);"
-                                            className="me-2 text-primary"
-                                          >
+                                          <a className="me-2 text-primary">
                                             <span className="me-1">
                                               <i className="bx bx-paperclip align-middle fw-normal" />
                                             </span>
@@ -767,10 +732,7 @@ export const Lead2 = () => {
                                           </a>
                                         </div>
                                         <div>
-                                          <a
-                                            href="javascript:void(0);"
-                                            className="me-2 text-primary"
-                                          >
+                                          <a className="me-2 text-primary">
                                             <span className="me-1">
                                               <i className="bx bx-phone align-middle fw-normal" />
                                             </span>
@@ -806,7 +768,6 @@ export const Lead2 = () => {
                                         <div className="dropdown">
                                           <a
                                             aria-label="anchor"
-                                            href="javascript:void(0);"
                                             className="btn btn-icon btn-sm btn-light"
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
@@ -820,7 +781,6 @@ export const Lead2 = () => {
                                             <li>
                                               <a
                                                 className="dropdown-item"
-                                                href="javascript:void(0);"
                                                 data-bs-target="#view"
                                                 data-bs-toggle="modal"
                                               >
@@ -831,7 +791,6 @@ export const Lead2 = () => {
                                             <li>
                                               <a
                                                 className="dropdown-item"
-                                                href="javascript:void(0);"
                                                 data-bs-target="#edit"
                                                 data-bs-toggle="modal"
                                               >
@@ -840,28 +799,19 @@ export const Lead2 = () => {
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                 Payment
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                 Confirm
                                               </a>
                                             </li>
                                             <li>
-                                              <a
-                                                className="dropdown-item"
-                                                href="javascript:void(0);"
-                                              >
+                                              <a className="dropdown-item">
                                                 <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                 Delete
                                               </a>
@@ -891,10 +841,7 @@ export const Lead2 = () => {
                                     <div className="p-3 border-top border-block-start-dashed">
                                       <div className="d-flex justify-content-between align-items-center">
                                         <div>
-                                          <a
-                                            href="javascript:void(0);"
-                                            className="me-2 text-primary"
-                                          >
+                                          <a className="me-2 text-primary">
                                             <span className="me-1">
                                               <i className="bx bx-paperclip align-middle fw-normal" />
                                             </span>
@@ -904,10 +851,7 @@ export const Lead2 = () => {
                                           </a>
                                         </div>
                                         <div>
-                                          <a
-                                            href="javascript:void(0);"
-                                            className="me-2 text-primary"
-                                          >
+                                          <a className="me-2 text-primary">
                                             <span className="me-1">
                                               <i className="bx bx-phone align-middle fw-normal" />
                                             </span>
@@ -939,7 +883,6 @@ export const Lead2 = () => {
                               data-bs-toggle="tab"
                               href="#home1"
                               role="tab"
-                              aria-selected="false"
                               tabIndex={-1}
                             >
                               <span className="d-block d-sm-none">
@@ -954,7 +897,6 @@ export const Lead2 = () => {
                               data-bs-toggle="tab"
                               href="#profile1"
                               role="tab"
-                              aria-selected="true"
                             >
                               <span className="d-block d-sm-none">
                                 <i className="far fa-user" />
@@ -1036,7 +978,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -1050,7 +991,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1061,7 +1001,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1070,28 +1009,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -1121,10 +1051,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -1134,10 +1061,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -1173,7 +1097,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -1187,7 +1110,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1198,7 +1120,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1207,28 +1128,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -1257,10 +1169,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -1270,10 +1179,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -1309,7 +1215,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -1323,7 +1228,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1334,7 +1238,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1343,28 +1246,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -1394,10 +1288,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -1407,10 +1298,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -1495,7 +1383,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -1509,7 +1396,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1520,7 +1406,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1529,28 +1414,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -1580,10 +1456,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -1593,10 +1466,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -1632,7 +1502,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -1646,7 +1515,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1657,7 +1525,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1666,28 +1533,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -1716,10 +1574,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -1729,10 +1584,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -1768,7 +1620,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -1782,7 +1633,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1793,7 +1643,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1802,28 +1651,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -1852,10 +1692,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -1865,10 +1702,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -1953,7 +1787,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -1967,7 +1800,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1978,7 +1810,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -1987,28 +1818,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -2037,10 +1859,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -2050,10 +1869,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -2089,7 +1905,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -2103,7 +1918,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2114,7 +1928,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2123,28 +1936,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -2174,10 +1978,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -2187,10 +1988,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -2226,7 +2024,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -2240,7 +2037,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2251,7 +2047,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2260,28 +2055,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -2310,10 +2096,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -2323,10 +2106,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -2417,7 +2197,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -2431,7 +2210,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2442,7 +2220,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2451,28 +2228,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -2501,10 +2269,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -2514,10 +2279,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -2553,7 +2315,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -2567,7 +2328,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2578,7 +2338,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2587,28 +2346,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -2638,10 +2388,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -2651,10 +2398,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -2690,7 +2434,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -2704,7 +2447,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2715,7 +2457,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2724,28 +2465,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -2774,10 +2506,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -2787,10 +2516,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -2873,7 +2599,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -2887,7 +2612,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2898,7 +2622,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -2907,28 +2630,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -2957,10 +2671,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -2970,10 +2681,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -3009,7 +2717,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -3023,7 +2730,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3034,7 +2740,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3043,28 +2748,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -3094,10 +2790,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -3107,10 +2800,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -3146,7 +2836,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -3160,7 +2849,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3171,7 +2859,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3180,28 +2867,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -3230,10 +2908,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -3243,10 +2918,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -3331,7 +3003,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -3345,7 +3016,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3356,7 +3026,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3365,28 +3034,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -3415,10 +3075,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -3428,10 +3085,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -3467,7 +3121,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -3481,7 +3134,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3492,7 +3144,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3501,28 +3152,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -3552,10 +3194,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -3565,10 +3204,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -3604,7 +3240,6 @@ export const Lead2 = () => {
                                               <div className="dropdown">
                                                 <a
                                                   aria-label="anchor"
-                                                  href="javascript:void(0);"
                                                   className="btn btn-icon btn-sm btn-light"
                                                   data-bs-toggle="dropdown"
                                                   aria-expanded="false"
@@ -3618,7 +3253,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#view"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3629,7 +3263,6 @@ export const Lead2 = () => {
                                                   <li>
                                                     <a
                                                       className="dropdown-item"
-                                                      href="javascript:void(0);"
                                                       data-bs-target="#edit"
                                                       data-bs-toggle="modal"
                                                     >
@@ -3638,28 +3271,19 @@ export const Lead2 = () => {
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
                                                       Payment
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-check-circle me-1 align-middle d-inline-block text-success" />
                                                       Confirm
                                                     </a>
                                                   </li>
                                                   <li>
-                                                    <a
-                                                      className="dropdown-item"
-                                                      href="javascript:void(0);"
-                                                    >
+                                                    <a className="dropdown-item">
                                                       <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
                                                       Delete
                                                     </a>
@@ -3688,10 +3312,7 @@ export const Lead2 = () => {
                                           <div className="p-3 border-top border-block-start-dashed">
                                             <div className="d-flex justify-content-between align-items-center">
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-paperclip align-middle fw-normal" />
                                                   </span>
@@ -3701,10 +3322,7 @@ export const Lead2 = () => {
                                                 </a>
                                               </div>
                                               <div>
-                                                <a
-                                                  href="javascript:void(0);"
-                                                  className="me-2 text-primary"
-                                                >
+                                                <a className="me-2 text-primary">
                                                   <span className="me-1">
                                                     <i className="bx bx-phone align-middle fw-normal" />
                                                   </span>
@@ -3755,7 +3373,7 @@ export const Lead2 = () => {
         <div data-simplebar className="h-100">
           <div className="rightbar-title d-flex align-items-center px-3 py-4">
             <h5 className="m-0 me-2">Settings</h5>
-            <a href="javascript:void(0);" className="right-bar-toggle ms-auto">
+            <a className="right-bar-toggle ms-auto">
               <i className="mdi mdi-close noti-icon" />
             </a>
           </div>
@@ -3777,9 +3395,7 @@ export const Lead2 = () => {
                 id="light-mode-switch"
                 defaultChecked
               />
-              <label className="form-check-label" htmlFor="light-mode-switch">
-                Light Mode
-              </label>
+              <label className="form-check-label">Light Mode</label>
             </div>
             <div className="mb-2">
               <img
@@ -3794,9 +3410,7 @@ export const Lead2 = () => {
                 type="checkbox"
                 id="dark-mode-switch"
               />
-              <label className="form-check-label" htmlFor="dark-mode-switch">
-                Dark Mode
-              </label>
+              <label className="form-check-label">Dark Mode</label>
             </div>
             <div className="mb-2">
               <img
@@ -3811,9 +3425,7 @@ export const Lead2 = () => {
                 type="checkbox"
                 id="rtl-mode-switch"
               />
-              <label className="form-check-label" htmlFor="rtl-mode-switch">
-                RTL Mode
-              </label>
+              <label className="form-check-label">RTL Mode</label>
             </div>
             <div className="mb-2">
               <img
@@ -3828,12 +3440,7 @@ export const Lead2 = () => {
                 type="checkbox"
                 id="dark-rtl-mode-switch"
               />
-              <label
-                className="form-check-label"
-                htmlFor="dark-rtl-mode-switch"
-              >
-                Dark RTL Mode
-              </label>
+              <label className="form-check-label">Dark RTL Mode</label>
             </div>
           </div>
         </div>{" "}
@@ -3843,22 +3450,3 @@ export const Lead2 = () => {
     </div>
   );
 };
-{
-  /* 
-    <!-- JAVASCRIPT -->
-    <script src="assets/libs/jquery/jquery.min.js"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/node-waves/waves.min.js"></script>
-
-    <!-- apexcharts -->
-    <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
-
-    <script src="assets/js/pages/dashboard.init.js"></script>
-
-    <script src="assets/js/app.js"></script>
-</body>
-
-</html> */
-}

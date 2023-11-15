@@ -95,9 +95,15 @@ export const TradeType = () => {
                       <div className="row w-50">
                         <div className="col-xl-5">
                           <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
+                            <option key={"CA"} value="CA">
+                              Newest
+                            </option>
+                            <option key={"NV"} value="NV">
+                              Oldest
+                            </option>
+                            <option key={"OR"} value="OR">
+                              Recent
+                            </option>
                           </select>
                         </div>
                         <div className="col-xl-7">

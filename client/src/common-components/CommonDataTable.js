@@ -105,6 +105,9 @@ export const CommonDataTable = ({
   if (data[0]?.created_at) {
     data.map((e, index) => (e.created_at = convertMongooseDate(e.created_at)));
   }
+  if (data[0]?.date) {
+    data.map((e, index) => (e.date = convertMongooseDate(e.date)));
+  }
   if (data[0]?.startDate) {
     data.map((e, index) => (e.startDate = convertMongooseDate(e.startDate)));
   }

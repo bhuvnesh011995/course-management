@@ -147,7 +147,6 @@ export const SubCategory = () => {
                             <td>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-warning rounded-pill"
                                 data-bs-toggle="modal"
                                 data-bs-target="#viewCourseModal"
@@ -156,7 +155,6 @@ export const SubCategory = () => {
                               </a>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-primary rounded-pill"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editCourseModal"
@@ -165,7 +163,6 @@ export const SubCategory = () => {
                               </a>
                               <a
                                 aria-label="anchor"
-                                href="javascript:void(0);"
                                 className="btn btn-icon btn-sm btn-danger rounded-pill"
                               >
                                 <i className="mdi mdi-trash-can" />
@@ -209,9 +206,7 @@ export const SubCategory = () => {
               <div className="modal-body">
                 <form id="addCategoryForm">
                   <div className="mb-3">
-                    <label htmlFor="categoryName" className="form-label">
-                      Subcategory Name:
-                    </label>
+                    <label className="form-label">Subcategory Name:</label>
                     <input
                       type="text"
                       className="form-control"
@@ -221,33 +216,23 @@ export const SubCategory = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="categoryName" className="form-label">
-                      Category Name:
-                    </label>
+                    <label className="form-label">Category Name:</label>
                     <select id="courseName" className="form-select" required>
-                      <option value selected>
-                        Select a Course
-                      </option>
+                      <option value>Select a Course</option>
                       <option value="Course 1">Categoery 1</option>
                       <option value="Course 2">Categoery 2</option>
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="courseName" className="form-label">
-                      Course Name:
-                    </label>
+                    <label className="form-label">Course Name:</label>
                     <select id="courseName" className="form-select" required>
-                      <option value selected>
-                        Select a Course
-                      </option>
+                      <option value>Select a Course</option>
                       <option value="Course 1">Course 1</option>
                       <option value="Course 2">Course 2</option>
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="courseDescription" className="form-label">
-                      Description:
-                    </label>
+                    <label className="form-label">Description:</label>
                     <input
                       type="text"
                       className="form-control"
@@ -267,7 +252,7 @@ export const SubCategory = () => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  type="submit" class="btn btn-primary"
+                  type="submit" className="btn btn-primary"
                 </button>
               </div>
             </div>
@@ -297,9 +282,7 @@ export const SubCategory = () => {
               <div className="modal-body">
                 <form id="addCourseForm" className="row">
                   <div className="mb-3">
-                    <label htmlFor="categoryName" className="form-label">
-                      Subcategory Name:
-                    </label>
+                    <label className="form-label">Subcategory Name:</label>
                     <input
                       type="text"
                       className="form-control"
@@ -309,34 +292,24 @@ export const SubCategory = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="categoryName" className="form-label">
-                      Category Name:
-                    </label>
+                    <label className="form-label">Category Name:</label>
                     <select id="courseName" className="form-select" required>
                       <option value>Select a Course</option>
-                      <option value="Course 1" selected>
-                        Categoery 1
-                      </option>
+                      <option value="Course 1">Categoery 1</option>
                       <option value="Course 2">Categoery 2</option>
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="courseName" className="form-label">
-                      Course Name:
-                    </label>
+                    <label className="form-label">Course Name:</label>
                     <select id="courseName" className="form-select">
                       <option value>Select a Course</option>
-                      <option value="Course 1" selected>
-                        Course 1
-                      </option>
+                      <option value="Course 1">Course 1</option>
                       <option value="Course 2">Course 2</option>
                       {/* Add more course options here */}
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="courseDescription" className="form-label">
-                      Description:
-                    </label>
+                    <label className="form-label">Description:</label>
                     <input
                       type="text"
                       className="form-control"
@@ -389,9 +362,7 @@ export const SubCategory = () => {
               <div className="modal-body">
                 <form id="addCourseForm" className="row">
                   <div className="mb-3">
-                    <label htmlFor="categoryName" className="form-label">
-                      Subcategory Name:
-                    </label>
+                    <label className="form-label">Subcategory Name:</label>
                     <input
                       type="text"
                       className="form-control"
@@ -401,34 +372,24 @@ export const SubCategory = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="categoryName" className="form-label">
-                      Category Name:
-                    </label>
+                    <label className="form-label">Category Name:</label>
                     <select id="courseName" className="form-select" disabled>
-                      <option value selected>
-                        Select a Course
-                      </option>
+                      <option value>Select a Course</option>
                       <option value="Course 1">Categoery 1</option>
                       <option value="Course 2">Categoery 2</option>
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="courseName" className="form-label">
-                      Course Name:
-                    </label>
+                    <label className="form-label">Course Name:</label>
                     <select id="courseName" className="form-select" disabled>
                       <option value>Select a Course</option>
-                      <option value="Course 1" selected>
-                        Course 1
-                      </option>
+                      <option value="Course 1">Course 1</option>
                       <option value="Course 2">Course 2</option>
                       {/* Add more course options here */}
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="courseDescription" className="form-label">
-                      Description:
-                    </label>
+                    <label className="form-label">Description:</label>
                     <input
                       type="text"
                       className="form-control"

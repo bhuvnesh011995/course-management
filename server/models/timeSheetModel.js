@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const TimeSheetSchema = new mongoose.Schema(
   {
-    addDate: { type: Date },
-    addEmployee: { type: mongoose.Schema.Types.ObjectId },
+    date: { type: Date },
+    employee: { type: mongoose.Schema.Types.ObjectId },
     addHoursWorked: { type: Number },
     addOvertimeHours: { type: Number },
     shiftTiming: { type: String },

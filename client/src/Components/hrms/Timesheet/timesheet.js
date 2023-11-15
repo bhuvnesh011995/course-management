@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTimesheetModal from "./AddTimesheetModal";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { CommonDataTable } from "../../../common-components/CommonDataTable";
+import { timesheetHeaders } from "../../../Constants/table.constants";
 
 export const TimeSheet = () => {
   const [isAddModalOpen, setAddModal] = useState(false);
@@ -11,6 +13,10 @@ export const TimeSheet = () => {
   const [timesheetIndex, setTimesheetIndex] = useState(null);
   const [deleteTimesheet, setDeleteTimesheet] = useState(false);
   const [allTimesheets, setAllTimesheets] = useState([]);
+
+  useEffect(() => {
+    getAllTimesheets();
+  }, []);
 
   const showTimesheet = (e, type, index) => {
     setTimesheetData(e);
@@ -31,19 +37,41 @@ export const TimeSheet = () => {
 
   const deleteSelectedTimeSheet = async (selectedTimeSheet) => {
     try {
+      toast.dismiss();
       const deletedTimesheet = await AxiosInstance.delete(
         "/timesheets/deleteTimesheet",
         { params: selectedTimeSheet }
       );
       if (deletedTimesheet.status == 200) {
         const filteredTimesheets = allTimesheets.filter(
-          (timesheet) => timesheet._id == selectedTimeSheet._id
+          (timesheet) => timesheet._id != selectedTimeSheet._id
         );
         setAllTimesheets([...filteredTimesheets]);
         toast.success(deletedTimesheet.data);
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const getAllTimesheets = async () => {
+    try {
+      const timesheets = await AxiosInstance.get("/timesheets/getTimesheets");
+      setAllTimesheets(timesheets.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateTimesheets = (data) => {
+    const filteredTimesheet = allTimesheets.filter(
+      (timesheet) => timesheet._id == data._id
+    );
+    if (filteredTimesheet.length) {
+      allTimesheets[timesheetIndex] = data;
+      setAllTimesheets([...allTimesheets]);
+    } else {
+      setAllTimesheets([...allTimesheets, data]);
     }
   };
 
@@ -74,28 +102,7 @@ export const TimeSheet = () => {
                 <div className="card">
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50">
-                        <div className="col-xl-5">
-                          <select className="form-select">
-                            <option value="CA">Newest</option>
-                            <option value="NV">Oldest</option>
-                            <option value="OR">Recent</option>
-                          </select>
-                        </div>
-                        <div className="col-xl-7">
-                          <div className="d-flex" role="search">
-                            <input
-                              className="form-control me-2"
-                              type="search"
-                              placeholder="Search"
-                              aria-label="Search"
-                            />{" "}
-                            <button className="btn btn-light" type="submit">
-                              Search
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                      <div className="row w-50"></div>
                       <button
                         className="btn btn-primary me-2"
                         onClick={() => showTimesheet()}
@@ -115,7 +122,19 @@ export const TimeSheet = () => {
                     <div className="card-title">Tracking List </div>
                   </div>
                   <div className="card-body">
-                    <div className="table-responsive"></div>
+                    <div className="table-responsive">
+                      <CommonDataTable
+                        data={allTimesheets}
+                        tableHeaders={timesheetHeaders}
+                        actionButtons
+                        editButton
+                        deleteButton
+                        viewButton
+                        callback={(data, type, index) =>
+                          showTimesheet(data, type, index)
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -144,6 +163,7 @@ export const TimeSheet = () => {
           setShow={setAddModal}
           viewModal={viewModal}
           timesheetData={timesheetData}
+          callback={(data) => updateTimesheets(data)}
         />
       )}
       {deleteTimesheet && (

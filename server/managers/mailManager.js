@@ -2,9 +2,9 @@ const nodemailer = require("nodemailer");
 const cheerio = require("cheerio");
 const fs = require("fs");
 
-const sendMail = async (req,res,next) => {
+const sendMail = async (req, res, next) => {
   try {
-    let data = req.query
+    let data = req.query;
     const myEmail = process.env.MYEMAIL;
     const myPass = process.env.MYPASS;
     const transporter = nodemailer.createTransport({
@@ -37,7 +37,7 @@ const sendMail = async (req,res,next) => {
       if (error) {
         console.error(error);
 
-        return Error({ message: "An error has occured" });
+        return res.status(204).send({ message: "An error has occured" });
       }
       if (data?.path) {
         data?.path.map((e) => {
@@ -50,7 +50,7 @@ const sendMail = async (req,res,next) => {
           );
         });
       }
-      return { message: "Email sent successfully" };
+      return res.status(200).send({ message: "Email sent successfully" });
     });
   } catch (err) {
     console.error(err);

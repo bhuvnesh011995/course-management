@@ -3,10 +3,10 @@ const ClassModel = require("../models/classModel");
 const fs = require("fs");
 const classModel = require("../models/classModel");
 const db = require("../models");
-const addNewTrainer = async (req,res,next) => {
+const addNewTrainer = async (req, res, next) => {
   try {
-    let { body, file } = req
-     const query = JSON.parse(body.trainerData);
+    let { body, file } = req;
+    const query = JSON.parse(body.trainerData);
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
       query["trainerImageName"] = `images/${file.originalName}`;
@@ -19,7 +19,7 @@ const addNewTrainer = async (req,res,next) => {
   }
 };
 
-const getTrainers = async (req,res,next) => {
+const getTrainers = async (req, res, next) => {
   try {
     const trainers = await db.trainers.find({});
     return res.status(200).send(trainers);
@@ -28,9 +28,9 @@ const getTrainers = async (req,res,next) => {
   }
 };
 
-const updateTrainer = async (req,res,next) => {
+const updateTrainer = async (req, res, next) => {
   try {
-    let { body, file } = req
+    let { body, file } = req;
     const query = JSON.parse(body?.trainerData);
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
@@ -38,13 +38,7 @@ const updateTrainer = async (req,res,next) => {
     const updatedTrainer = await db.trainers.updateOne(
       { _id: query._id },
       {
-        trainerName: query.trainerName,
-        trainerEmail: query.trainerEmail,
-        trainerMobile: query.trainerMobile,
-        trainerDOB: query.trainerDOB,
-        trainerDesignation: query.trainerDesignation,
-        trainerImagePath: query.trainerImagePath,
-        trainerAddress: query.trainerAddress,
+        $set: query,
       }
     );
     if (query?.deleteImagePath) {
@@ -69,9 +63,9 @@ const updateTrainer = async (req,res,next) => {
   }
 };
 
-const deleteTrainer = async (req,res,next) => {
+const deleteTrainer = async (req, res, next) => {
   try {
-    let data = req.query
+    let data = req.query;
     const isExistedTrainer = await db.classes.aggregate([
       {
         $match: {
@@ -83,19 +77,21 @@ const deleteTrainer = async (req,res,next) => {
     ]);
 
     if (isExistedTrainer.length) {
-      return res.status(200).send({ message: "This Trainer is existed in class", completed: 0 });
+      return res
+        .status(202)
+        .send({ message: "This Trainer is existed in class" });
     }
 
     const deleteTrainer = await db.trainers.deleteOne({ _id: data._id });
-    return res.status(200).send({ message: "Trainer deleted successfully !", completed: 1 });
+    return res.status(200).send({ message: "Trainer deleted successfully !" });
   } catch (err) {
     next(err);
   }
 };
 
-const getTrainer = async (req,res,next) => {
+const getTrainer = async (req, res, next) => {
   try {
-    let data = req.query
+    let data = req.query;
     const trainerData = await db.trainers.findOne({ _id: data._id });
     return res.status(200).send(trainerData);
   } catch (err) {
@@ -103,9 +99,9 @@ const getTrainer = async (req,res,next) => {
   }
 };
 
-const trainerClassDetails = async (req,res,next) => {
+const trainerClassDetails = async (req, res, next) => {
   try {
-    let data = req.query
+    let data = req.query;
     const trainerCourses = await db.classes.aggregate([
       {
         $match: {

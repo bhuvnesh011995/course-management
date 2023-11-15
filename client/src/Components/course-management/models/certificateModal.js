@@ -47,6 +47,7 @@ const AddNewCertificate = ({
 
   const addCertificate = async (newCertificate) => {
     try {
+      toast.dismiss();
       const formData = new FormData();
       for (let file of newCertificate.certificateAttchment)
         formData.append("file", file);
@@ -56,17 +57,18 @@ const AddNewCertificate = ({
         "/certificates/addCertificate",
         formData
       );
-      toast.success("certificate Added")
+      toast.success("certificate Added");
       callback(data);
       handleClose();
     } catch (err) {
-      toast.error('error occured')
+      toast.error("error occured");
       console.error(err);
     }
   };
 
   const updateCertificate = async (updatedCertificate) => {
     try {
+      toast.dismiss();
       const formData = new FormData();
 
       if (updatedCertificate?.certificateAttchment[0]?.name) {
@@ -85,11 +87,11 @@ const AddNewCertificate = ({
         "/certificates/updateCertificate",
         formData
       );
-      toast.success('certificate updated')
+      toast.success("certificate updated");
       callback(data.updatedCertificate);
       handleClose();
     } catch (err) {
-      toast.error("error occured")
+      toast.error("error occured");
       console.error(err);
     }
   };
@@ -187,8 +189,10 @@ const AddNewCertificate = ({
                 >
                   <option value="">Select courses</option>
                   {courses?.length &&
-                    courses.map((course) => (
-                      <option value={course._id}>{course.courseName}</option>
+                    courses.map((course, index) => (
+                      <option key={index} value={course._id}>
+                        {course.courseName}
+                      </option>
                     ))}
                 </select>
                 {errors?.courseId && (
@@ -199,20 +203,15 @@ const AddNewCertificate = ({
               </div>
               <div className="col-md-6 mb-3">
                 <label className="form-label">Course Duration</label>
-                <select
-                  className="form-select"
+                <input
+                  type="text"
+                  className="form-control"
                   {...register("courseDuration", {
                     required: "Please Select Course Duration",
                   })}
+                  placeholder="weeks, months, years"
                   disabled={viewCertificate}
-                >
-                  <option value="" selected>
-                    Select Duration
-                  </option>
-                  <option value="3 Months">3 Months</option>
-                  <option value="6 Months">6 Months</option>
-                  <option value="1 Year">1 Year</option>
-                </select>
+                />
                 {errors?.courseDuration && (
                   <span className="text-danger">
                     {errors?.courseDuration.message}
@@ -227,9 +226,7 @@ const AddNewCertificate = ({
                   {...register("grade", { required: "Please Select Grade" })}
                   disabled={viewCertificate}
                 >
-                  <option value="" selected>
-                    Select Grade
-                  </option>
+                  <option value="">Select Grade</option>
                   <option value="A+">A+</option>
                   <option value="A">A</option>
                   <option value="B">B</option>

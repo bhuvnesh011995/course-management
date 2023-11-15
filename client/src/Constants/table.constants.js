@@ -240,7 +240,16 @@ export const payrollHeaders = {
 export const timesheetHeaders = {
   date: "Date",
   employeeName: "Employee Name",
-  hoursWorked: "Hours Worked",
-  overtimeHours: "Overtime Hours",
-  shift: "Shift",
+  addHoursWorked: "Hours Worked",
+  addOvertimeHours: "Overtime Hours",
+  shiftTiming: "Shift",
+};
+
+export const leaveHeaders = {
+  employeeName: "Employee Name",
+  employeeDepartment: "Department",
+  employeePosition: "Position",
+  leavetype: "Leave Type",
+  startDate: "Start Date",
+  endDate: "End Date",
 };

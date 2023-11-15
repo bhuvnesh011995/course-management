@@ -30,6 +30,7 @@ export const CourseModal = ({
 
   const addNewCourse = async (newCourse) => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.post(
         "/courses/addNewCourse",
         newCourse
@@ -125,8 +126,10 @@ export const CourseModal = ({
                 disabled={viewCourse}
               >
                 <option value="">-- Select Trade Type --</option>
-                {tradeTypes.map((e) => (
-                  <option value={e._id}>{e.tradeType}</option>
+                {tradeTypes.map((e, index) => (
+                  <option key={index} value={e._id}>
+                    {e.tradeType}
+                  </option>
                 ))}
               </select>
               <span className="text-danger">
@@ -145,8 +148,10 @@ export const CourseModal = ({
                 disabled={viewCourse}
               >
                 <option value="">-- Select Registration Type --</option>
-                {registrationTypes.map((e) => (
-                  <option value={e._id}>{e.registrationName}</option>
+                {registrationTypes.map((e, index) => (
+                  <option key={index} value={e._id}>
+                    {e.registrationName}
+                  </option>
                 ))}
               </select>
               <span className="text-danger">
@@ -164,8 +169,10 @@ export const CourseModal = ({
                   disabled={viewCourse}
                 >
                   <option value="">-- Select Registration Level --</option>
-                  {tradeLevels.map((e) => (
-                    <option value={e._id}>{e.tradeLevel}</option>
+                  {tradeLevels.map((e, index) => (
+                    <option key={index} value={e._id}>
+                      {e.tradeLevel}
+                    </option>
                   ))}
                 </select>
                 <span className="text-danger">
@@ -188,15 +195,12 @@ export const CourseModal = ({
             </div>
             <div className="col-md-6 mb-3">
               <label className="form-label">Duration:</label>
-              <select
-                className="form-select"
+              <input
+                className="form-control"
                 {...register("duration", { required: "Duration is required" })}
                 disabled={viewCourse}
-              >
-                <option value="">-- Select Duration --</option>
-                <option value="3 weeks">3 weeks</option>
-                <option value="6 weeks"> 6 weeks</option>
-              </select>
+                placeholder={"months, years, weeks"}
+              />
               <span className="text-danger">
                 {errors?.duration && errors?.duration.message}
               </span>

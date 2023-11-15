@@ -1,13 +1,13 @@
 const db = require("../models");
 
-const addPayroll = async (req, res, next) => {
+const addLeave = async (req, res, next) => {
   try {
-    const newPayroll = await db.payRolls.create(req.body);
-    const newPayrollData = await db.payRolls.aggregate([
+    const newLeave = await db.leaves.create(req.body);
+    const newLeaveData = await db.leaves.aggregate([
       {
         $match: {
           $expr: {
-            $eq: ["$_id", newPayroll._id],
+            $eq: ["$_id", newLeave._id],
           },
         },
       },
@@ -23,10 +23,10 @@ const addPayroll = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          allowances: 1,
-          deductions: 1,
-          netSalary: 1,
-          salary: 1,
+          leavetype: 1,
+          startDate: 1,
+          endDate: 1,
+          employee: 1,
           employeeName: "$employeeDetails.employeeName",
           employeeDepartment: "$employeeDetails.employeeDepartment",
           employeePosition: "$employeeDetails.employeePosition",
@@ -35,16 +35,16 @@ const addPayroll = async (req, res, next) => {
     ]);
     return res
       .status(200)
-      .send({ data: newPayrollData, message: "Payroll added successfully" });
+      .send({ data: newLeaveData, message: "Leave added successfully" });
   } catch (err) {
     console.error(err);
     next(err);
   }
 };
 
-const getPayroll = async (req, res, next) => {
+const getLeave = async (req, res, next) => {
   try {
-    const selectedPayrollData = await db.payRolls.aggregate([
+    const selectedLeaveData = await db.leaves.aggregate([
       {
         $match: {
           $expr: {
@@ -64,10 +64,9 @@ const getPayroll = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          allowances: 1,
-          deductions: 1,
-          netSalary: 1,
-          salary: 1,
+          leavetype: 1,
+          startDate: 1,
+          endDate: 1,
           employee: 1,
           employeeName: "$employeeDetails.employeeName",
           employeeDepartment: "$employeeDetails.employeeDepartment",
@@ -75,22 +74,22 @@ const getPayroll = async (req, res, next) => {
         },
       },
     ]);
-    return res.status(200).send(selectedPayrollData[0]);
+    return res.status(200).send(selectedLeaveData[0]);
   } catch (err) {
     console.error(err);
     next(err);
   }
 };
 
-const updatePayroll = async (req, res, next) => {
+const updateLeave = async (req, res, next) => {
   try {
-    const updatedPayroll = await db.payRolls.updateOne(
+    const updatedLeave = await db.leaves.updateOne(
       { _id: req.body._id },
       {
         $set: req.body,
       }
     );
-    const payroll = await db.payRolls.aggregate([
+    const leave = await db.leaves.aggregate([
       {
         $match: {
           $expr: {
@@ -110,10 +109,10 @@ const updatePayroll = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          allowances: 1,
-          deductions: 1,
-          netSalary: 1,
-          salary: 1,
+          leavetype: 1,
+          startDate: 1,
+          endDate: 1,
+          employee: 1,
           employeeName: "$employeeDetails.employeeName",
           employeeDepartment: "$employeeDetails.employeeDepartment",
           employeePosition: "$employeeDetails.employeePosition",
@@ -122,26 +121,26 @@ const updatePayroll = async (req, res, next) => {
     ]);
     return res
       .status(200)
-      .send({ data: payroll, message: "Payroll updated successfully !" });
+      .send({ data: leave, message: "leave updated successfully !" });
   } catch (err) {
     console.error(err);
     next(err);
   }
 };
 
-const deletePayroll = async (req, res, next) => {
+const deleteLeave = async (req, res, next) => {
   try {
-    const deletedPayroll = await db.payRolls.deleteOne({ _id: req.query._id });
-    return res.status(200).send("Payroll deleted Successfully !");
+    const deletedLeave = await db.leaves.deleteOne({ _id: req.query._id });
+    return res.status(200).send("leave deleted Successfully !");
   } catch (err) {
     console.error(err);
     next(err);
   }
 };
 
-const getPayrolls = async (req, res, next) => {
+const getLeaves = async (req, res, next) => {
   try {
-    const allPayrolls = await db.payRolls.aggregate([
+    const allLeaves = await db.leaves.aggregate([
       {
         $lookup: {
           from: "employees",
@@ -154,17 +153,17 @@ const getPayrolls = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          allowances: 1,
-          deductions: 1,
-          netSalary: 1,
-          salary: 1,
+          leavetype: 1,
+          startDate: 1,
+          endDate: 1,
+          employee: 1,
           employeeName: "$employeeDetails.employeeName",
           employeeDepartment: "$employeeDetails.employeeDepartment",
           employeePosition: "$employeeDetails.employeePosition",
         },
       },
     ]);
-    return res.status(200).send(allPayrolls);
+    return res.status(200).send(allLeaves);
   } catch (err) {
     console.error(err);
     next(err);
@@ -172,9 +171,9 @@ const getPayrolls = async (req, res, next) => {
 };
 
 module.exports = {
-  addPayroll,
-  getPayroll,
-  updatePayroll,
-  deletePayroll,
-  getPayrolls,
+  addLeave,
+  getLeaves,
+  getLeave,
+  updateLeave,
+  deleteLeave,
 };

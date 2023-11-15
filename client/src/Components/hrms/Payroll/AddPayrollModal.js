@@ -36,6 +36,7 @@ export default function AddPayrollModal({
       });
       if (selectedPayroll.status == 200) reset(selectedPayroll.data);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -45,19 +46,27 @@ export default function AddPayrollModal({
       const { data } = await AxiosInstance.get("/employee/getEmployees");
       setEmployees(data);
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
 
   const savePayroll = async (payrollData) => {
     try {
+      toast.dismiss();
       const newPayroll = await AxiosInstance.post(
         "/payrolls/addPayroll",
         payrollData
       );
-      callback(newPayroll.data[0]);
-      setShow(false);
+      if (newPayroll.status == 200) {
+        callback(newPayroll.data.data[0]);
+        toast.success(newPayroll.data.message);
+        setShow(false);
+      } else {
+        toast.error("something went wrong !");
+      }
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -69,10 +78,15 @@ export default function AddPayrollModal({
         "/payrolls/updatePayroll",
         updatedPayrollData
       );
-      callback(updatedPayrollData);
-      if (updatedPayroll.status == 200) toast.success(updatedPayroll.data);
-      setShow(false);
+      if (updatedPayroll.status == 200) {
+        callback(updatedPayroll.data.data[0]);
+        toast.success(updatedPayroll.data.message);
+        setShow(false);
+      } else {
+        toast.error("something went wrong !");
+      }
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -106,11 +120,8 @@ export default function AddPayrollModal({
                 disabled={viewPayroll}
               >
                 <option value="">Select Employee</option>
-                {employees.map((employee) => (
-                  <option
-                    value={employee._id}
-                    selected={watch("employee") == employee._id && employee._id}
-                  >
+                {employees.map((employee, index) => (
+                  <option value={employee._id} key={index}>
                     {employee.employeeName}
                   </option>
                 ))}
