@@ -1,10 +1,9 @@
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CustomToolbar } from "./calendarCustomComponent";
 import { convertUtcDateAndTime } from "./useCommonUsableFunctions";
-import { NewClassModal } from "../Components/course-management/models/classModal";
 
 export const AllCalendar = ({ events, callback, type }) => {
   const localizer = useMemo(() => momentLocalizer(moment), []);

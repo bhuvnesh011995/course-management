@@ -48,7 +48,12 @@ const addNewQuotation = async (req, res, next) => {
         },
       },
     ]);
-    return res.status(200).send(addedQuotation[0]);
+    return res
+      .status(200)
+      .send({
+        data: addedQuotation[0],
+        message: "Quotation added successfully",
+      });
   } catch (err) {
     console.error(err);
     next(err);

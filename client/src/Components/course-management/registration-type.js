@@ -9,6 +9,7 @@ import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { registrationTypeHeaders } from "../../Constants/table.constants";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { toast } from "react-toastify";
 //     <style>
 //         .select2-container {
 //             width: 100% !important;
@@ -141,24 +142,37 @@ export const RegistrationType = () => {
       (e) => e._id == registrationData._id
     );
     if (checkRegType.length) {
+      registrationData.tradeLevels = registrationData.tradeLevels.map(
+        (level) => level.tradeLevel + " , "
+      );
       registrationTypes[regIndex] = registrationData;
       setRegistrationTypes([...registrationTypes]);
     } else {
+      console.log(registrationData);
+      registrationData.tradeLevels = registrationData.tradeLevels.map(
+        (level) => level.tradeLevel + " , "
+      );
       setRegistrationTypes((old) => [...old, registrationData]);
     }
   };
 
   const deleteRegistrationType = async (selectedData) => {
     try {
-      const { data } = await AxiosInstance.delete(
+      const deletedRegistration = await AxiosInstance.delete(
         "/registrationType/deleteRegistration",
         { params: selectedData }
       );
-      const filterRegistrationTypes = registrationTypes.filter(
-        (e) => e._id != selectedData._id
-      );
-      setRegistrationTypes([...filterRegistrationTypes]);
+      if (deletedRegistration.status == 200) {
+        const filterRegistrationTypes = registrationTypes.filter(
+          (e) => e._id != selectedData._id
+        );
+        setRegistrationTypes([...filterRegistrationTypes]);
+        toast.success(deletedRegistration.data.message);
+      } else {
+        toast.error("something went wrong !");
+      }
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -191,7 +205,7 @@ export const RegistrationType = () => {
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-50">
-                        <div className="col-xl-5">
+                        {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest
@@ -203,7 +217,7 @@ export const RegistrationType = () => {
                               Recent
                             </option>
                           </select>
-                        </div>
+                        </div> */}
                       </div>
                       <button
                         className="btn btn-primary me-2"

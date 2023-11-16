@@ -11,8 +11,7 @@ const addNewUser = async (req, res, next) => {
     req.body["name"] = req.body.firstName + " " + req.body.lastName;
     req.body["contactNumber"] = req.body.mobile;
     const user = await db.user.create(req.body);
-    const newUser = user.save();
-    return res.status(200).send(newUser);
+    return res.status(200).send(user);
   } catch (err) {
     next(err);
   }

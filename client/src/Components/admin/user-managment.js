@@ -126,24 +126,7 @@ export const UserManagement = () => {
                 <div className="card">
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50">
-                        <div className="col-xl-5">
-                          <select
-                            className="form-select"
-                            onChange={changeToDateData}
-                          >
-                            <option key={"new"} value="New">
-                              Newest
-                            </option>
-                            <option key={"old"} value="Old">
-                              Oldest
-                            </option>
-                            <option key={"rec"} value="Rec">
-                              Recent
-                            </option>
-                          </select>
-                        </div>
-                      </div>
+                      <div className="row w-50"></div>
                       {loginUser?.roleData?.userManagement?.write && (
                         <button
                           className="btn btn-primary me-2"

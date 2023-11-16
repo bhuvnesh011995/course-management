@@ -3,9 +3,41 @@ const db = require("../models");
 const addRegistrationType = async (req, res, next) => {
   try {
     let data = req.body;
+    if (!data.tradeLevelIds) {
+      data.tradeLevelIds = [];
+    }
     const newRegistrationType = await db.registrationType.create(data);
-    const registrationType = newRegistrationType.save();
-    return res.status(200).send(registrationType);
+    const registrationData = await db.registrationType.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: ["$_id", newRegistrationType._id],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "tradelevels",
+          let: { levelIds: "$tradeLevelIds" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $in: ["$_id", "$$levelIds"],
+                },
+              },
+            },
+          ],
+          as: "tradeLevels",
+        },
+      },
+    ]);
+    return res
+      .status(200)
+      .send({
+        data: registrationData,
+        message: "registration type added successfully ",
+      });
   } catch (err) {
     next(err);
   }
@@ -14,47 +46,24 @@ const addRegistrationType = async (req, res, next) => {
 const getRegistrationTypes = async (req, res, next) => {
   try {
     let data = req.user;
-    const registrationData = await db.registrationType
-      // find({})
-      // .populate({ path: "tradeLevelIds", model: "tradeLevel" })
-      // .populate("tradeLevelIds", "tradeLevel");
-      .aggregate([
-        {
-          $lookup: {
-            from: "tradelevels",
-            let: { levelIds: "$tradeLevelIds" },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $in: ["$_id", "$$levelIds"],
-                  },
+    const registrationData = await db.registrationType.aggregate([
+      {
+        $lookup: {
+          from: "tradelevels",
+          let: { levelIds: "$tradeLevelIds" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $in: ["$_id", "$$levelIds"],
                 },
               },
-            ],
-            as: "tradeLevels",
-          },
+            },
+          ],
+          as: "tradeLevels",
         },
-        // {
-        //   $project: {
-        //     _id: 1,
-        //     registrationName: 1,
-        //     registrationCode: 1,
-        //     created_at: 1,
-        //     updated_at: 1,
-        //     tradeLevels: {
-        //       $map: {
-        //         input: "$tradeLevels",
-        //         as: "level",
-        //         in: {
-        //           tradeLevels: "$$level.tradeLevel",
-        //           _id: "$$level._id",
-        //         },
-        //       },
-        //     },
-        //   },
-        // },
-      ]);
+      },
+    ]);
     return res.status(200).send(registrationData);
   } catch (err) {
     next(err);
@@ -84,15 +93,41 @@ const updateRegistration = async (req, res, next) => {
         $set: data,
       }
     );
-    return res
-      .status(200)
-      .send({ message: "Registration Type Updated Successfully" });
+    const updatedRegistrationData = await db.registrationType.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [data._id, { $toString: "$_id" }],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "tradelevels",
+          let: { levelIds: "$tradeLevelIds" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $in: ["$_id", "$$levelIds"],
+                },
+              },
+            },
+          ],
+          as: "tradeLevels",
+        },
+      },
+    ]);
+    return res.status(200).send({
+      data: updatedRegistrationData[0],
+      message: "Registration Type Updated Successfully",
+    });
   } catch (err) {
     next(err);
   }
 };
 
-const deleteRegistration = async () => {
+const deleteRegistration = async (req, res, next) => {
   try {
     let data = req.query;
     const deleteReg = await db.registrationType.deleteOne({ _id: data._id });

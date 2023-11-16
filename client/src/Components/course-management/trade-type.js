@@ -6,6 +6,7 @@ import { TradeTypeModal } from "./models/tradeTypeModel";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { tradeTypeHeaders } from "../../Constants/table.constants";
+import { toast } from "react-toastify";
 
 export const TradeType = () => {
   const [tradeModalOpen, setTradeModalOpen] = useState(false);
@@ -56,13 +57,22 @@ export const TradeType = () => {
 
   const deleteTrade = async (tradeData) => {
     try {
-      const { data } = await AxiosInstance.delete("/trades/deleteTradeType", {
-        params: tradeData,
-      });
-
-      const newTradeTypes = tradeTypes.filter((e) => e._id != tradeData._id);
-      setTradeTypes([...newTradeTypes]);
+      toast.dismiss();
+      const deleteTradeType = await AxiosInstance.delete(
+        "/trades/deleteTradeType",
+        {
+          params: tradeData,
+        }
+      );
+      if (deleteTradeType.status == 200) {
+        const newTradeTypes = tradeTypes.filter((e) => e._id != tradeData._id);
+        setTradeTypes([...newTradeTypes]);
+        toast.success(deleteTradeType.data.message);
+      } else {
+        toast.error("something went wrong ");
+      }
     } catch (err) {
+      toast.error("something went wrong ");
       console.error(err);
     }
   };
@@ -93,7 +103,7 @@ export const TradeType = () => {
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-50">
-                        <div className="col-xl-5">
+                        {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest
@@ -118,7 +128,7 @@ export const TradeType = () => {
                               Search
                             </button>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                       <button
                         className="btn btn-primary me-2"

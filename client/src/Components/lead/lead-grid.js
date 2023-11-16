@@ -145,36 +145,6 @@ export const LeadGrid = () => {
     }
   };
 
-  // const filterLeads = (leadId, type) => {
-  //   if (leadId.length) {
-  //     leads.allLeads.map((lead) => {
-  //       if (lead._id === leadId) {
-  //         const leadData = leadKeys;
-  //         leadData.allLeads = leads.allLeads;
-  //         if (!lead.courseAssigned) {
-  //           leadData.newLeads.push(lead);
-  //         } else if (
-  //           lead.courseAssigned &&
-  //           !lead.getPayment &&
-  //           !lead.confirmed
-  //         ) {
-  //           leadData.pendingLeads.push(lead);
-  //         } else if (
-  //           lead.getPayment &&
-  //           !lead.confirmed &&
-  //           lead.courseAssigned
-  //         ) {
-  //           leadData.assignCourseLeads.push(lead);
-  //         } else if (lead.getPayment && lead.confirmed && lead.courseAssigned) {
-  //           leadData.completedLeads.push(lead);
-  //         }
-  //         setLeads((old) => ({ ...leadData }));
-  //         return;
-  //       }
-  //     });
-  //   }
-  // };
-
   const deleteLead = async (leadData) => {
     try {
       toast.dismiss();
@@ -236,10 +206,12 @@ export const LeadGrid = () => {
                             >
                               Payment-Pending
                             </option>
-                            <option value={"assignCourse"}>
+                            <option key={"assignCourse"} value={"assignCourse"}>
                               Course-Assign
                             </option>
-                            <option value={"completed"}>completed</option>
+                            <option key={"completed"} value={"completed"}>
+                              completed
+                            </option>
                           </select>
                         </div>
 

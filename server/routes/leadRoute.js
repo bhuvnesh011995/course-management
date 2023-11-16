@@ -14,7 +14,7 @@ routes.post("/getPayment", leadManager.getPayment);
 
 routes.post("/confirmPayment", leadManager.confirmPayment);
 
-routes.post("/assignCourse", leadManager.assignCourse);
+routes.post("/assignCourse", leadManager.updateAssignCourse);
 
 routes.get("/accountHistory", leadManager.accountHistory);
 

@@ -31,12 +31,10 @@ export const AddNewLeadModel = ({
   const [tradeLevels, setTradeLevels] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState("");
-  const [pdf, setPdf] = useState(null);
 
   const {
     register,
     reset,
-    getValues,
     setValue,
     watch,
     setError,
@@ -62,6 +60,21 @@ export const AddNewLeadModel = ({
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (leadData?.courseAssigned) {
+      if (
+        watch("tradeType") ||
+        watch("registrationType") ||
+        watch("tradeLevel")
+      )
+        getFilteredCourses({
+          tradeType: watch("tradeType"),
+          registrationType: watch("registrationType"),
+          tradeLevel: watch("tradeLevel"),
+        });
+    }
+  }, [watch("tradeLevel"), watch("tradeType"), watch("registrationType")]);
 
   const setCoreTradeRegNo = () => {
     const CTDnumber =
@@ -269,6 +282,14 @@ export const AddNewLeadModel = ({
             formdata.append("files", file);
           }
         }
+
+      if (watch("course")?.length) {
+        newLeadData["course"] = watch("course");
+        newLeadData["courseAssigned"] = true;
+      } else {
+        setError("course", { message: "Please Select Course" });
+        return;
+      }
       newLeadData["deleteFileList"] = deleteFiles;
       formdata.append("leadData", JSON.stringify(newLeadData));
       const { data } = await AxiosInstance.post("/leads/updateLead", formdata);
@@ -330,12 +351,18 @@ export const AddNewLeadModel = ({
         "/leads/getPayment",
         leadData
       );
-      delete leadData.paymentPdfBase64;
-      delete leadData.bankDetailsPdfBase64;
-      callback(leadData, "getPayment");
+      if (getPaymentData.status == 200) {
+        toast.success(getPaymentData.data.message);
+        delete leadData.paymentPdfBase64;
+        delete leadData.bankDetailsPdfBase64;
+        callback(leadData, "getPayment");
+      } else {
+        toast.error("something went wrong");
+      }
 
       handleClose();
     } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };
@@ -346,10 +373,16 @@ export const AddNewLeadModel = ({
         "/leads/confirmPayment",
         leadData
       );
-      leadData.confirmed = true;
-      callback(leadData, "confirm");
+      if (confirmPayment.status == 200) {
+        toast.success(confirmPayment.data.message);
+        leadData.confirmed = true;
+        callback(leadData, "confirm");
+      } else {
+        toast.error("something went wrong");
+      }
       handleClose();
     } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };
@@ -817,7 +850,7 @@ export const AddNewLeadModel = ({
                   </span>
                 </div>
               )}
-              {viewLead && leadData && (
+              {leadData && (
                 <div className="col-md-4 mb-3">
                   <label className="form-label">Course</label>
                   <select
@@ -830,7 +863,11 @@ export const AddNewLeadModel = ({
                     <option value="">Select Course</option>
                     {allCourses?.length &&
                       allCourses.map((e) => (
-                        <option key={e._id} value={e._id}>
+                        <option
+                          key={e._id}
+                          value={e._id}
+                          selected={watch("course") == e._id && e._id}
+                        >
                           {e.courseName}
                         </option>
                       ))}
@@ -1281,7 +1318,7 @@ export const AddNewLeadModel = ({
                             <div className="d-flex">
                               <button
                                 type="submit"
-                                onClick={confirmCourseAssigned}
+                                // onClick={() => confirmCourseAssigned()}
                                 className="btn mx-1 btn-success"
                               >
                                 Assign Course

@@ -53,15 +53,21 @@ export const Quotation = () => {
         const filterQuotations = allQuoatations.filter(
           (quote) => quote._id != quotation._id
         );
+        filterQuotations.map(
+          (quotation, index) =>
+            (filterQuotations[index].quotationNo = index + 1)
+        );
         setAllQuotations([...filterQuotations]);
         toast.success(deletedQuote.data);
       } else toast.error("Something Went Wrong");
     } catch (err) {
+      toast.error("Something Went Wrong");
       console.error(err);
     }
   };
 
   const updateQuotations = (newQuotation) => {
+    newQuotation.quotationNo = allQuoatations.length + 1;
     setAllQuotations([...allQuoatations, newQuotation]);
   };
 

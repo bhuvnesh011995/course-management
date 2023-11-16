@@ -210,7 +210,7 @@ export const Lead = () => {
         setFilteredLeads([...newLeads]);
         break;
     }
-    setLeadTab(type);
+    if (type != "delete") setLeadTab(type);
   };
 
   const clearFilters = () => {

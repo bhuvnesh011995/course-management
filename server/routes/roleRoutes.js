@@ -7,5 +7,6 @@ routes.get("/getRoles", userAuth, roleManager.getRoles);
 routes.get("/selectedRoleData", roleManager.selectedRoleData);
 routes.post("/editRole", roleManager.editRole);
 routes.get("/getUserRoleInfo", roleManager.getUserRoleInfo);
+routes.delete("/deleteRole", roleManager.deleteRole);
 
 module.exports = routes;

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { quotationPreviewHeaders } from "../../Constants/table.constants";
+import { toast } from "react-toastify";
 
 export default function ViewQuotationModal({
   show,
@@ -53,6 +54,7 @@ export default function ViewQuotationModal({
       const { data } = await AxiosInstance.get("/quotations/getQuotation", {
         params: quotationData,
       });
+      toast.success("quotation updated to invoice");
       setSelectedQuotation(data);
       calculateQuotation(data.quotationCourses);
     } catch (err) {

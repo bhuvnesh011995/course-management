@@ -99,10 +99,20 @@ const getUserRoleInfo = async (req, res, next) => {
   }
 };
 
+const deleteRole = async (req, res, next) => {
+  try {
+    const deleteUser = await db.roles.deleteOne({ _id: req.query._id });
+    return res.status(200).send({ message: "Role deleted successfully" });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   addNewRole,
   getRoles,
   selectedRoleData,
   editRole,
   getUserRoleInfo,
+  deleteRole,
 };

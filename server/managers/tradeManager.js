@@ -5,7 +5,9 @@ const saveTradeLevel = async (req, res, next) => {
     let data = req.body;
     const newTrade = await db.tradeLevel.create(data);
     const tradeLevel = await newTrade.save();
-    return res.status(200).send(tradeLevel);
+    return res
+      .status(200)
+      .send({ data: tradeLevel, message: "trade level added successfully" });
   } catch (err) {
     next(err);
   }
@@ -21,7 +23,7 @@ const getTradeLevels = async (req, res, next) => {
   }
 };
 
-const updateTradeLevel = async () => {
+const updateTradeLevel = async (req, res, next) => {
   try {
     let data = req.body;
     const updateTrade = await db.tradeLevel.updateOne(
@@ -38,9 +40,15 @@ const updateTradeLevel = async () => {
   }
 };
 
-const deleteTradeLevel = async () => {
+const deleteTradeLevel = async (req, res, next) => {
   try {
     let data = req.query;
+    const isAssignedInRegistrationType = await db.registrationType.find({
+      tradeLevelIds: { $in: data._id },
+    });
+    if(isAssignedInRegistrationType.length){
+      return res.status(202).send({message:'Trade Level is existed in registration type'})
+    }
     await db.tradeLevel.deleteOne({ _id: data._id });
     return res
       .status(200)
@@ -55,7 +63,9 @@ const saveTradeType = async (req, res, next) => {
     let data = req.body;
     const newTradeType = await db.tradeTypeModel.create(data);
     const tradeType = await newTradeType.save();
-    return res.status(200).send(tradeType);
+    return res
+      .status(200)
+      .send({ data: tradeType, message: "trade type added successfully" });
   } catch (err) {
     next(err);
   }
@@ -88,7 +98,7 @@ const updateTradeType = async (req, res, next) => {
   }
 };
 
-const deleteTradeType = async () => {
+const deleteTradeType = async (req, res, next) => {
   try {
     let data = req.query;
     await db.tradeTypeModel.deleteOne({ _id: data._id });

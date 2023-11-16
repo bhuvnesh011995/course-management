@@ -1,86 +1,12 @@
-// <!doctype html>
-// <html lang="en">
-
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
 import { NewTrainerModal } from "./modals/AddTrainerModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { trainerHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
-import { TogelErrorMessage } from "../../common-components/togelMessage";
 import { ViewTrainer } from "./modals/ViewTrainerModal";
 import { toast } from "react-toastify";
 
-// <head>
-
-//     <meta charset="utf-8" />
-//     <title>Trainer Management | Tonga</title>
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <meta content="#" name="description" />
-//     <meta content="Themesbrand" name="author" />
-//     <!-- App favicon -->
-//     <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-//     <!-- DataTables -->
-//     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-//     <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
-//         type="text/css" />
-
-//     <!-- Responsive datatable examples -->
-//     <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
-//         type="text/css" />
-
-//     <!-- Bootstrap Css -->
-//     <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-//     <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-//     <!-- Icons Css -->
-//     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-//     <!-- App Css-->
-//     <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-//     <!-- Custom Css-->
-//     <link href="assets/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
-//     <link rel="stylesheet" href="assets/libs/smart-wizaed/smart-wizaed.css">
-//     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.css" rel="stylesheet">
-//     <style>
-//         #calendar {
-//     width: 100%;
-//     height: 100%;
-// }
-//         .select2-container {
-//             width: 100% !important;
-//         }
-
-//         /* Styling for the custom file input container */
-//         .custom-file-input {
-//             position: relative;
-//             display: inline-block;
-//             cursor: pointer;
-//             border: 1px solid #ccc;
-//             padding: 0.47rem 1.75rem 0.47rem 0.75rem;
-//             border-radius: 5px;
-//             width: 90%;
-//         }
-
-//         /* Styling for the actual file input */
-//         .custom-file-input input[type="file"] {
-//             display: none;
-//         }
-
-//         .avatar-md {
-//             height: 2rem;
-//             width: 2rem;
-//         }
-//         .sw>.tab-content {
-//             height: 100% !important;
-//         }
-//     </style>
-// </head>
-
-// <body data-sidebar="dark">
-
-//     <!-- Start layout-wrapper -->
 export const Trainer = () => {
   const [trainers, setTrainers] = useState([]);
   const [trainerModal, setTrainerModal] = useState(false);
@@ -134,7 +60,6 @@ export const Trainer = () => {
           params: trainerData,
         }
       );
-      console.log(deletedTrainer);
       if (deletedTrainer.status == 200) {
         const filteredTrainers = trainers.filter(
           (e) => e._id != trainerData._id
@@ -145,6 +70,7 @@ export const Trainer = () => {
         toast.error(deletedTrainer.data.message);
       }
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };

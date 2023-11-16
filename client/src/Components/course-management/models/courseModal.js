@@ -18,9 +18,7 @@ export const CourseModal = ({
   const {
     handleSubmit,
     register,
-    watch,
     reset,
-    setValue,
     formState: { errors },
   } = useForm();
 
@@ -75,13 +73,20 @@ export const CourseModal = ({
 
   const updateCourse = async (updatedCourse) => {
     try {
-      const { data } = await AxiosInstance.post(
+      toast.dismiss();
+      const course = await AxiosInstance.post(
         "/courses/updateCourse",
         updatedCourse
       );
-      callback(data.updatedCourse);
+      if (course.status == 200) {
+        callback(course.data.updatedCourse);
+        toast.success(course.data.message);
+      } else {
+        toast.error("something went wrong ");
+      }
       handleClose();
     } catch (err) {
+      toast.error("something went wrong ");
       console.error(err);
     }
   };

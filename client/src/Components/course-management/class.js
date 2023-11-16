@@ -99,7 +99,7 @@ export const Class = () => {
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-50">
-                        <div className="col-xl-5">
+                        {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest
@@ -124,7 +124,7 @@ export const Class = () => {
                               Search
                             </button>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                       <button
                         className="btn btn-primary me-2"

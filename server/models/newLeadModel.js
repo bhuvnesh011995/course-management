@@ -42,11 +42,11 @@ const leadSchema = new mongoose.Schema(
     DOB: { type: Date },
     nationality: { type: String },
     educationalLevel: { type: String },
+    courseAssigned: { type: Boolean, default: false },
     coreTradeRegNo: { type: String },
     getPayment: { type: Boolean, default: false },
     confirmed: { type: Boolean, default: false },
     course: { type: String },
-    courseAssigned: { type: Boolean, default: false },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

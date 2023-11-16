@@ -102,13 +102,32 @@ export const Course = () => {
   const deleteSelectedCourse = async (course) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.delete("/courses/deleteCourse", {
-        params: course,
-      });
+      const deletedCourse = await AxiosInstance.delete(
+        "/courses/deleteCourse",
+        {
+          params: course,
+        }
+      );
+      if (deletedCourse.status == 200) {
+        const filteredCourses = allCourses.filter((e) => e._id != course._id);
+        const onOffCourses = {
+          active: 0,
+          inActive: 0,
+        };
+        filteredCourses.map((course) => {
+          if (course.ActiveCourses.length > 0) {
+            onOffCourses.active += 1;
+          } else {
+            onOffCourses.inActive += 1;
+          }
+        });
+        setOnOffCourses({ ...onOffCourses });
+        setAllCourses([...filteredCourses]);
 
-      toast.success("course deleted");
-      const filteredCourses = allCourses.filter((e) => e._id != course._id);
-      setAllCourses([...filteredCourses]);
+        toast.success(deletedCourse.data.message);
+      } else {
+        toast.error(deletedCourse.data.message);
+      }
     } catch (err) {
       toast.error("error occured");
       console.error(err);
@@ -143,34 +162,7 @@ export const Course = () => {
                   <div className="card">
                     <div className="card-body p-3">
                       <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div className="row w-50">
-                          <div className="col-xl-5">
-                            <select className="form-select">
-                              <option key={"CA"} value="CA">
-                                Newest
-                              </option>
-                              <option key={"NV"} value="NV">
-                                Oldest
-                              </option>
-                              <option key={"OR"} value="OR">
-                                Recent
-                              </option>
-                            </select>
-                          </div>
-                          <div className="col-xl-7">
-                            <div className="d-flex" role="search">
-                              <input
-                                className="form-control me-2"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search"
-                              />{" "}
-                              <button className="btn btn-light" type="submit">
-                                Search
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                        <div className="row w-50"></div>
                         <button
                           className="btn btn-primary me-2"
                           onClick={() => showCourseModal()}

@@ -7,6 +7,7 @@ import { rolesTableHeaders } from "../../../Constants/table.constants";
 import { UserRoleModel } from "./UserRoleModel";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { DeleteModel } from "../../../common-components/models/DeleteModal";
 
 //     <title>Role Management | Tonga</title>
 
@@ -20,6 +21,7 @@ export const Roles = () => {
   const [userRoleModelOpen, setUserRoleModelOpen] = useState(false);
   const [userRoleData, setUserRoleData] = useState(null);
   const [loginUser, setLoginUser] = useState({});
+  const [deleteRoleModal, setDeleteRoleModal] = useState(false);
 
   useEffect(() => {
     getUserRoleInfo();
@@ -34,10 +36,15 @@ export const Roles = () => {
     }
     if (type == "viewRole") {
       setViewRole(true);
+      setDeleteRoleModal(false);
+    } else if (type == "delete") {
+      setViewRole(false);
+      setDeleteRoleModal(true);
     } else {
+      setDeleteRoleModal(false);
       setViewRole(false);
     }
-    setRoleModalOpen(true);
+    if (type != "delete") setRoleModalOpen(true);
   };
 
   const updateRoleData = (newData) => {
@@ -91,6 +98,26 @@ export const Roles = () => {
     );
 
     setFilteredRoles(newRoles);
+  };
+
+  const deleteSelectedRole = async (roleId) => {
+    try {
+      toast.dismiss();
+      const deletedRole = await AxiosInstance.delete("/roles/deleteRole", {
+        params: { _id: roleId },
+      });
+      if (deletedRole.status == 200) {
+        const filteredRoles = roles.filter((role) => role._id != roleId);
+        setRoles([...filteredRoles]);
+        setFilteredRoles([...filteredRoles]);
+        toast.success(deletedRole.data.message);
+      } else {
+        toast.error("something went wrong");
+      }
+    } catch (err) {
+      toast.error("something went wrong");
+      console.error(err);
+    }
   };
 
   return (
@@ -190,12 +217,20 @@ export const Roles = () => {
                               <a>{e.roleName}</a>
                             </h4>
                             {loginUser?.roleData?.role?.write && (
-                              <button
-                                onClick={() => showRoleModal(e._id)}
-                                className="btn btn-sm btn-primary role-edit-modal"
-                              >
-                                <small>Edit Role</small>
-                              </button>
+                              <div>
+                                <button
+                                  onClick={() => showRoleModal(e._id)}
+                                  className="btn btn-sm btn-primary role-edit-modal mx-1"
+                                >
+                                  <small>Edit Role</small>
+                                </button>
+                                <button
+                                  onClick={() => showRoleModal(e._id, "delete")}
+                                  className="btn btn-sm btn-danger role-edit-modal"
+                                >
+                                  <small>Delete Role</small>
+                                </button>
+                              </div>
                             )}
                           </div>
                           <a className="text-muted cursor-pointer">
@@ -265,6 +300,16 @@ export const Roles = () => {
           isOpen={userRoleModelOpen}
           setIsOpen={setUserRoleModelOpen}
           userData={userRoleData}
+        />
+      )}
+      {deleteRoleModal && (
+        <DeleteModel
+          setIsOpen={setDeleteRoleModal}
+          isOpen={deleteRoleModal}
+          message={"Do you really want to delete this role."}
+          callback={(roleId) => deleteSelectedRole(roleId)}
+          deleteHeader="Role"
+          data={roleId}
         />
       )}
     </div>

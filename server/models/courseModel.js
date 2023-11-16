@@ -3,10 +3,9 @@ const mongoose = require("mongoose");
 const courseSchema = new mongoose.Schema(
   {
     courseName: { type: String },
-    tradeType: { type: mongoose.Schema.Types.ObjectId, ref: "tradeType" },
+    tradeType: { type: mongoose.Schema.Types.ObjectId },
     registrationType: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "registrationType",
     },
     tradeLevel: { type: String },
     price: { type: Number },

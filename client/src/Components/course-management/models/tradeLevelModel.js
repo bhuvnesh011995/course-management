@@ -2,6 +2,7 @@ import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export const TradeLevelModal = ({
   setIsOpen,
@@ -19,8 +20,6 @@ export const TradeLevelModal = ({
     register,
     handleSubmit,
     reset,
-    getValues,
-    setValue,
     formState: { errors },
   } = useForm();
 
@@ -30,26 +29,40 @@ export const TradeLevelModal = ({
 
   const saveTradeLevel = async (tradeLevel) => {
     try {
-      const { data } = await AxiosInstance.post(
+      toast.dismiss();
+      const newTradeLevel = await AxiosInstance.post(
         "/trades/saveTradeLevel",
         tradeLevel
       );
-      callback(data);
+      if (newTradeLevel.status == 200) {
+        callback(newTradeLevel.data.data);
+        toast.success(newTradeLevel.data.message);
+      } else {
+        toast.error("something went wrong");
+      }
       handleClose();
     } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };
 
   const editTradeLevel = async (tradeData) => {
     try {
-      const { data } = await AxiosInstance.post(
+      toast.dismiss();
+      const updatedTradeLevel = await AxiosInstance.post(
         "/trades/updateTradeLevel",
         tradeData
       );
-      callback(tradeData);
+      if (updatedTradeLevel.status == 200) {
+        callback(tradeData);
+        toast.success(updatedTradeLevel.data.message);
+      } else {
+        toast.error("something went wrong");
+      }
       handleClose();
     } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };
@@ -86,23 +99,22 @@ export const TradeLevelModal = ({
               {errors?.tradeLevel && errors?.tradeLevel.message}
             </span>
           </div>
-          {tradeData && (
-            <div className="mb-3">
-              <label className="form-label">Level Code :</label>
-              <input
-                type="text"
-                className="form-control"
-                {...register("tradeCode", {
-                  required: "This field is required",
-                })}
-                placeholder="Enter Trade Code"
-                disabled={viewTradeLevel}
-              />
-              <span className="text-danger">
-                {errors?.tradeCode && errors?.tradeCode.message}
-              </span>
-            </div>
-          )}
+
+          <div className="mb-3">
+            <label className="form-label">Level Code :</label>
+            <input
+              type="text"
+              className="form-control"
+              {...register("tradeCode", {
+                required: "This field is required",
+              })}
+              placeholder="Enter Trade Code"
+              disabled={viewTradeLevel}
+            />
+            <span className="text-danger">
+              {errors?.tradeCode && errors?.tradeCode.message}
+            </span>
+          </div>
           <Modal.Footer>
             <div>
               <button

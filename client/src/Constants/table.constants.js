@@ -204,7 +204,7 @@ export const quotationPreviewHeaders = {
 };
 
 export const quoatationListHeaders = {
-  quotationNo: "Quotation No.",
+  _id: "Quotation No.",
   contactPerson: "Customer Name",
   contactPersonEmail: "Email",
   contactPersonMobile: "Mobile",
@@ -212,7 +212,7 @@ export const quoatationListHeaders = {
 };
 
 export const salesQuoatationListHeaders = {
-  salesQuotationNo: "Sales Quotation No.",
+  _id: "Sales Quotation No.",
   contactPerson: "Customer Name",
   contactPersonEmail: "Email",
   contactPersonMobile: "Mobile",
@@ -220,7 +220,7 @@ export const salesQuoatationListHeaders = {
 };
 
 export const invoiceQuoatationListHeaders = {
-  invoiceQuotationNo: "Invoice Quotation No.",
+  _id: "Invoice Quotation No.",
   contactPerson: "Customer Name",
   contactPersonEmail: "Email",
   contactPersonMobile: "Mobile",

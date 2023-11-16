@@ -133,13 +133,19 @@ export default function AddQuotationModal({ show, setShow, callback }) {
       const Obj = {};
       Obj["quotationCourses"] = newCourses;
       Obj["leadId"] = selectedLead._id;
-      const { data } = await AxiosInstance.post(
+      const newQuotation = await AxiosInstance.post(
         "/quotations/addNewQuotation",
         Obj
       );
-      callback(data);
+      if (newQuotation.status == 200) {
+        callback(newQuotation.data.data);
+        toast.success(newQuotation.data.message);
+      } else {
+        toast.error("something went wrong");
+      }
       handleClose();
     } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };

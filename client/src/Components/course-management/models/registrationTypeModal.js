@@ -2,6 +2,7 @@ import { Modal } from "react-bootstrap";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export const RegistrationTypeModal = ({
   isOpen,
@@ -41,19 +42,21 @@ export const RegistrationTypeModal = ({
 
   const saveRegistrationData = async (registrationData) => {
     try {
-      const { data } = await AxiosInstance.post(
+      toast.dismiss();
+      const newRegistration = await AxiosInstance.post(
         "/registrationType/addRegistrationType",
         registrationData
       );
-      const selectedTrades = tradeLevels.filter((e) =>
-        data.tradeLevelIds.includes(e._id)
-      );
-      data["tradeLevelIds"] = selectedTrades.map((e) => {
-        return e.tradeLevel + " ,";
-      });
-      callback(data);
+
+      if (newRegistration.status == 200) {
+        callback(newRegistration.data.data[0]);
+        toast.success(newRegistration.data.message);
+      } else {
+        toast.error("something went wrong !");
+      }
       handleClose();
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -108,6 +111,7 @@ export const RegistrationTypeModal = ({
         "/registrationType/getRegistrationType",
         { params: { registrationData } }
       );
+      setSelectAllTradeLevel([...data[0].tradeLevelIds]);
       reset(data[0]);
     } catch (err) {
       console.error(err);
@@ -116,19 +120,20 @@ export const RegistrationTypeModal = ({
 
   const editRegistrationType = async (newData) => {
     try {
-      const { data } = await AxiosInstance.post(
+      toast.dismiss();
+      const updatedRegistration = await AxiosInstance.post(
         "/registrationType/updateRegistration",
         newData
       );
-      const selectedTrades = tradeLevels.filter((e) =>
-        newData.tradeLevelIds.includes(e._id)
-      );
-      newData["tradeLevelIds"] = selectedTrades.map((e) => {
-        return e.tradeLevel + " ,";
-      });
-      callback(newData);
+      if (updatedRegistration.status == 200) {
+        callback(updatedRegistration.data.data);
+        toast.success(updatedRegistration.data.message);
+      } else {
+        toast.error("something went wrong !");
+      }
       handleClose();
     } catch (err) {
+      toast.error("something went wrong !");
       console.error(err);
     }
   };

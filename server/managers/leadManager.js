@@ -520,12 +520,14 @@ const confirmPayment = async (req, res, next) => {
   }
 };
 
-const assignCourse = async (req, res, next) => {
+const updateAssignCourse = async (req, res, next) => {
   try {
     const { body } = req;
     const updateLeadCourse = await db.lead.updateOne(
       { _id: body._id },
-      { $set: body }
+      {
+        $set: body,
+      }
     );
     return res.status(200).send({ message: "course Assigned to user" });
   } catch (err) {
@@ -1018,7 +1020,7 @@ module.exports = {
   getLead,
   getPayment,
   confirmPayment,
-  assignCourse,
+  updateAssignCourse,
   accountHistory,
   getSelectedLead,
   getFilteredLeads,

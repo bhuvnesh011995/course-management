@@ -2,6 +2,7 @@ import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export const TradeTypeModal = ({
   setIsOpen,
@@ -10,6 +11,7 @@ export const TradeTypeModal = ({
   tradeData,
   viewTradeType,
 }) => {
+  console.log(viewTradeType);
   const handleClose = () => {
     setIsOpen(false);
     reset({});
@@ -18,8 +20,6 @@ export const TradeTypeModal = ({
     register,
     handleSubmit,
     reset,
-    getValues,
-    setValue,
     formState: { errors },
   } = useForm();
 
@@ -29,26 +29,41 @@ export const TradeTypeModal = ({
 
   const saveTradeType = async (tradeType) => {
     try {
-      const { data } = await AxiosInstance.post(
+      toast.dismiss();
+      const newTradeType = await AxiosInstance.post(
         "/trades/saveTradeType",
         tradeType
       );
-      callback(data);
+      if (newTradeType.status == 200) {
+        callback(newTradeType.data.data);
+        toast.success(newTradeType.data.message);
+      } else {
+        toast.error("something went wrong");
+      }
       handleClose();
     } catch (err) {
+      toast.error("something went wrong");
       console.error(err);
     }
   };
 
   const editTradeType = async (tradeData) => {
     try {
-      const { data } = await AxiosInstance.post(
+      toast.dismiss();
+      const updatedTradeType = await AxiosInstance.post(
         "/trades/updateTradeType",
         tradeData
       );
-      callback(tradeData);
+      if (updatedTradeType.status == 200) {
+        callback(tradeData);
+        toast.success(updatedTradeType.data.message);
+      } else {
+        toast.error("something went wrong ");
+      }
+
       handleClose();
     } catch (err) {
+      toast.error("something went wrong ");
       console.error(err);
     }
   };
@@ -57,13 +72,10 @@ export const TradeTypeModal = ({
     <Modal show={isOpen} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>
-          {viewTradeType ? (
-            <h5 className="modal-title">View Trade Type</h5>
-          ) : (
-            <h5 className="modal-title">
-              {tradeData ? "Update " : "Add New "} Trade Type
-            </h5>
-          )}
+          <h5 className="modal-title">
+            {viewTradeType ? "View" : tradeData ? "Update " : "Add New "} Trade
+            Type
+          </h5>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

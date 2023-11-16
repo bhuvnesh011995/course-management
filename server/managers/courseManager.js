@@ -5,9 +5,8 @@ const addNewCourse = async (req, res, next) => {
   try {
     const { body } = req;
     const newCourse = await db.course.create(body);
-    const course = await newCourse.save();
     const getNewCourse = await db.course.aggregate([
-      { $match: { _id: course._id } },
+      { $match: { _id: newCourse._id } },
       {
         $lookup: {
           from: "tradetypes",
@@ -389,6 +388,22 @@ const updateCourse = async (req, res, next) => {
 const deleteCourse = async (req, res, next) => {
   try {
     const { query } = req;
+    const courseIsAssignedInLead = await db.lead.find({ course: query._id });
+
+    if (courseIsAssignedInLead.length) {
+      return res.status(202).send({
+        message: `course is existed in lead `,
+      });
+    }
+
+    const courseIsAssignedInClass = await db.classes.find({
+      course: query._id,
+    });
+    if (courseIsAssignedInClass.length) {
+      return res.status(202).send({
+        message: `course is existed in class `,
+      });
+    }
     const deleteCourse = await db.course.deleteOne({ _id: query._id });
     return res.status(200).send({ message: "course deleted successfully !" });
   } catch (err) {
@@ -399,11 +414,29 @@ const deleteCourse = async (req, res, next) => {
 const getFilteredCourses = async (req, res, next) => {
   try {
     const { query } = req;
-    const filteredCourses = await db.course.find({
-      tradeType: query.tradeType,
-      registrationType: query.registrationType,
-      tradeLevel: query.tradeLevel,
-    });
+    const filteredCourses = await db.course.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$tradeType" }, query.tradeType],
+          },
+        },
+      },
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$tradeLevel" }, query.tradeLevel],
+          },
+        },
+      },
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$registrationType" }, query.registrationType],
+          },
+        },
+      },
+    ]);
     return res.status(200).send(filteredCourses);
   } catch (err) {
     next(err);
