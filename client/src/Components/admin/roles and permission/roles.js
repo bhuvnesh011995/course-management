@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../../common-components/MenuBar";
-import { CommonNavbar } from "../../../common-components/Navbar";
 import { AddNewRoleModel } from "./RoleManagementModels";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { rolesTableHeaders } from "../../../Constants/table.constants";
@@ -8,8 +6,6 @@ import { UserRoleModel } from "./UserRoleModel";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
-
-//     <title>Role Management | Tonga</title>
 
 export const Roles = () => {
   const [roleModalOpen, setRoleModalOpen] = useState(false);

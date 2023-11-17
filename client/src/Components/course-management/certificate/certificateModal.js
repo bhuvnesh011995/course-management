@@ -6,7 +6,6 @@ import {
   formAxiosInstance,
 } from "../../../common-components/axiosInstance";
 import { filePath } from "../../../common-components/useCommonUsableFunctions";
-import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 
 const AddNewCertificate = ({

@@ -1,17 +1,8 @@
-// <!doctype html>
-// <html lang="en">
-
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
-import { AxiosInstance } from "../../common-components/axiosInstance";
-import { CommonDataTable } from "../../common-components/CommonDataTable";
-import { attendanceHeaders } from "../../Constants/table.constants";
-import {
-  AttendanceGenerateExcelModal,
-  AttendanceGenerateModal,
-} from "./models/generateLeads";
-import { convertToMongooseStartEndTiming } from "../../common-components/useCommonUsableFunctions";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { CommonDataTable } from "../../../common-components/CommonDataTable";
+import { attendanceHeaders } from "../../../Constants/table.constants";
+import { AttendanceGenerateModal } from "./generateLeads";
 import { toast } from "react-toastify";
 
 export const Attendance = () => {
@@ -179,8 +170,7 @@ export const Attendance = () => {
           <div className="container-fluid">
             <div className="row">
               <div className="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> ©
-                Tonga.
+                <script>{new Date().getFullYear()}</script> © Tonga.
               </div>
               <div className="col-sm-6">
                 <div className="text-sm-end d-none d-sm-block">

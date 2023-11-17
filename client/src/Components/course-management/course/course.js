@@ -2,11 +2,11 @@
 // <html lang="en">
 
 import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../common-components/axiosInstance";
-import { CourseModal } from "./models/courseModal";
-import { CommonDataTable } from "../../common-components/CommonDataTable";
-import { courseHeaders } from "../../Constants/table.constants";
-import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { CourseModal } from "./courseModal";
+import { CommonDataTable } from "../../../common-components/CommonDataTable";
+import { courseHeaders } from "../../../Constants/table.constants";
+import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 
 export const Course = () => {

@@ -1,12 +1,12 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { Index } from "../Components";
+import { Index } from "../Components/dashboard/index";
 import { AccountHistory } from "../Components/account-history";
-import { Attendance } from "../Components/course-management/attendance";
+import { Attendance } from "../Components/course-management/attendance/attendance";
 import { Category } from "../Components/categoery";
 import { SelectCourse } from "../Components/cccccc";
-import { Certificate } from "../Components/course-management/certificate";
-import { Class } from "../Components/course-management/class";
-import { Course } from "../Components/course-management/course";
+import { Certificate } from "../Components/course-management/certificate/certificate";
+import { Class } from "../Components/course-management/class/class";
+import { Course } from "../Components/course-management/course/course";
 import { CustomerManagement } from "../Components/customers/customer-maagment";
 import { D } from "../Components/d";
 import { DateRange } from "../Components/schedule/date-range";
@@ -16,7 +16,6 @@ import { FeedBack } from "../Components/course-management/feedback";
 import { Invoice } from "../Components/Quotation/invoice";
 import { LeadGrid } from "../Components/lead/lead-grid";
 import { Lead } from "../Components/lead/lead";
-import { Lead2 } from "../Components/lead/lead2";
 import { Leave } from "../Components/hrms/leave/leave";
 import { Mail } from "../Components/mail";
 import { MonitorVenueAvailability } from "../Components/monitor-venue-availability";
@@ -24,19 +23,18 @@ import { PayRoll } from "../Components/hrms/Payroll/payroll";
 import { Profile } from "../Components/profile";
 
 import { ReadEmail } from "../Components/read-email";
-import { RegistrationType } from "../Components/course-management/registration-type";
+import { RegistrationType } from "../Components/course-management/registration-type/registration-type";
 import { S } from "../Components/s";
 import { SalesQuotation } from "../Components/Quotation/sales-quotation";
 import { Scheduling } from "../Components/schedule/sceduling";
 import { SubCategory } from "../Components/sub-categoery";
 import { Table } from "../Components/table";
-import { TradeLevel } from "../Components/course-management/trade-level";
-import { TradeType } from "../Components/course-management/trade-type";
+import { TradeLevel } from "../Components/course-management/trade-level/trade-level";
+import { TradeType } from "../Components/course-management/trade-type/trade-type";
 import { Trainer } from "../Components/schedule/trainer";
 import { AdminRoutes } from "./adminRoutes";
 import { useEffect } from "react";
 import { Roles } from "../Components/admin/roles and permission/roles";
-import { Permission } from "../Components/admin/roles and permission/permission";
 import { UserManagement } from "../Components/admin/user-managment";
 import { LoginUser } from "../Components/registration/user-login";
 import { UserRegistration } from "../Components/registration/user-registraion";
@@ -62,7 +60,6 @@ export const AllRoutes = () => {
       )}
       <Routes>
         <Route path="/admin/roles" Component={Roles}></Route>
-        <Route path="/permission" Component={Permission}></Route>
         <Route path="/admin/user-management" Component={UserManagement}></Route>
         <Route path="/" Component={Index}></Route>
         <Route path="/login" Component={LoginUser}></Route>
@@ -90,7 +87,6 @@ export const AllRoutes = () => {
         <Route path="/finance/invoice" Component={Invoice}></Route>
         <Route path="/lead-grid" Component={LeadGrid}></Route>
         <Route path="/lead" Component={Lead}></Route>
-        <Route path="/lead2" Component={Lead2}></Route>
         <Route path="/hrms/leave" Component={Leave}></Route>
         <Route path="/mail" Component={Mail}></Route>
         <Route

@@ -86,13 +86,13 @@ export const LoginUser = () => {
                     </div>
                   </a>
 
-                  <Link to="/dashboard" className="auth-logo-dark">
+                  {/* <Link to="/" className="auth-logo-dark">
                     <div className="avatar-md profile-user-wid mb-4">
                       <span className="avatar-title rounded-circle bg-light">
                         <img src={logo} alt="" className="rounded-circle" />
                       </span>
                     </div>
-                  </Link>
+                  </Link> */}
                 </div>
                 <div className="p-2">
                   <form

@@ -20,4 +20,6 @@ routes.delete("/deleteTrainer", trainerManager.deleteTrainer);
 
 routes.get("/trainerClassDetails", trainerManager.trainerClassDetails);
 
+routes.get("/getDashboardTrainers", trainerManager.getDashboardTrainers);
+
 module.exports = routes;

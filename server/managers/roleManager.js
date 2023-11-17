@@ -73,14 +73,6 @@ const getUserRoleInfo = async (req, res, next) => {
           as: "roleDetails",
         },
       },
-
-      /* 
-      roleDetails = [{},{}]
-      roleDetails = {
-      
-      }
-      
-      */
       { $unwind: "$roleDetails" },
       {
         $project: {

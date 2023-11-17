@@ -443,6 +443,57 @@ const getFilteredCourses = async (req, res, next) => {
   }
 };
 
+const getDashboardCourses = async (req, res, next) => {
+  const dashboardCourses = await db.classes.aggregate([
+    {
+      $lookup: {
+        from: "courses",
+        let: { courseId: "$course" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$$courseId", "$_id"],
+              },
+            },
+          },
+        ],
+        as: "courseDetails",
+      },
+    },
+    { $unwind: "$courseDetails" },
+    {
+      $lookup: {
+        from: "trainers",
+        let: { trainerId: "$trainer" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$$trainerId", "$_id"],
+              },
+            },
+          },
+        ],
+        as: "trainerDetails",
+      },
+    },
+    { $unwind: "$trainerDetails" },
+    {
+      $project: {
+        _id: 1,
+        trainerName: "$trainerDetails.trainerName",
+        trainerImagePath: "$trainerDetails.trainerImagePath",
+        courseName: "$courseDetails.courseName",
+        duration: "$courseDetails.duration",
+        startDate: 1,
+        endDate: 1,
+      },
+    },
+  ]);
+  return res.status(200).send(dashboardCourses);
+};
+
 module.exports = {
   addNewCourse,
   getCourses,
@@ -450,4 +501,5 @@ module.exports = {
   updateCourse,
   deleteCourse,
   getFilteredCourses,
+  getDashboardCourses,
 };
