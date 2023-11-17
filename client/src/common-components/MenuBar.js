@@ -305,6 +305,26 @@ export const MenuBar = () => {
                 </li>
               </ul>
             </li>
+            <li>
+              <a
+                className={`has-arrow waves-effect ${
+                  pathname.split("/")[1] == "setting" && "mm-active"
+                }`}
+                onClick={() => showMenuList("setting-menu")}
+              >
+                <i className="bx bx-customize" />
+                <span key="t-setting">Settings</span>
+              </a>
+              <ul className="sub-menu mm-collapse" id="setting-menu">
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "multilanguage" && "mm-active"
+                  }`}
+                >
+                  <Link to="/settings/multilanguage">Multi Language</Link>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
         {/* Sidebar */}

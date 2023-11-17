@@ -5,6 +5,7 @@ import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { payrollHeaders } from "../../../Constants/table.constants";
 import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
+import { Link } from "react-router-dom";
 
 export const PayRoll = () => {
   const [isAddPayrollModalOpen, setAddPayrollModal] = useState(false);
@@ -89,7 +90,7 @@ export const PayRoll = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Payroll Management

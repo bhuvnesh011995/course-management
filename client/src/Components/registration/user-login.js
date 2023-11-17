@@ -13,7 +13,7 @@ export const LoginUser = () => {
   const { setUser, user, initialUser } = useAuth();
 
   useEffect(() => {
-    if (user.token || localStorage.getItem("token")) navigate("/dashboard");
+    if (user.token || localStorage.getItem("token")) navigate("/");
   }, []);
 
   const {
@@ -33,7 +33,7 @@ export const LoginUser = () => {
           setUser({
             token: response.data.token,
           });
-          navigate("/dashboard");
+          navigate("/");
           localStorage.setItem("token", response.data.token);
         }
       } else {

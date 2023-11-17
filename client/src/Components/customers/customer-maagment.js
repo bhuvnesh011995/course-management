@@ -10,6 +10,7 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
 import { AddNewLeadModel } from "../lead/addNewLeadModel";
 import { ViewCustomerModal } from "./customerModal";
+import { Link } from "react-router-dom";
 
 export const CustomerManagement = () => {
   const [allCustomers, setAllCustomers] = useState([]);
@@ -93,7 +94,7 @@ export const CustomerManagement = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         customer Management
