@@ -6,6 +6,7 @@ import { UserRoleModel } from "./UserRoleModel";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
+import { Link } from "react-router-dom";
 
 export const Roles = () => {
   const [roleModalOpen, setRoleModalOpen] = useState(false);
@@ -128,7 +129,7 @@ export const Roles = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Role Management
