@@ -67,16 +67,36 @@ export default function AddQuotationModal({ show, setShow, callback }) {
     }
   }, [selectedFilter, event]);
 
-  function handleNext() {
+  async function handleNext() {
     toast.dismiss();
-    if (event === "customer" && selectedLead) {
-      setEvent("course");
-    } else if (event === "course") {
-      setEvent("preview");
+    if (!selectedLead) {
+      toast.error("Please Select Customer !");
+      return;
+    } else if (!selectedLead?.courseAssigned) {
+      toast.error("Course is not assigned for this customer");
+      return;
     }
+    if (selectedLead?.courseAssigned) {
+      const chekedClass = await checkCourseInClass();
 
-    if (!selectedLead) toast("Please Select Customer !");
+      if (chekedClass.status != 200) {
+        toast.error(chekedClass.data.message);
+        return;
+      }
+      if (event === "customer" && selectedLead) {
+        setEvent("course");
+      } else if (event === "course") {
+        setEvent("preview");
+      }
+    }
   }
+
+  const checkCourseInClass = async () => {
+    const checkClass = await AxiosInstance.get("/class/getCourseClass", {
+      params: { courseId: selectedLead?.course },
+    });
+    return checkClass;
+  };
 
   function handlePrevious() {
     if (event === "preview") {
@@ -130,6 +150,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
 
   const saveQuotationData = async () => {
     try {
+      toast.dismiss();
       const Obj = {};
       Obj["quotationCourses"] = newCourses;
       Obj["leadId"] = selectedLead._id;
@@ -195,20 +216,25 @@ export default function AddQuotationModal({ show, setShow, callback }) {
     calculateCoursePrices();
   };
 
-  const handleTabSelect = (tabKey) => {
+  const handleTabSelect = async (tabKey) => {
     toast.dismiss();
     if (!selectedLead) {
-      toast("Please Select Customer !");
+      toast.error("Please Select Customer !");
       return;
     }
     if (tabKey == "preview") {
       if (!coursePrices.grandTotal || !coursePrices.totalGrossAmt) {
-        toast("Please Enter Course Details !");
+        toast.error("Please Enter Course Details !");
         return;
       }
     }
     if (!selectedLead.courseAssigned) {
-      toast("Course is not assigned for this customer");
+      toast.error("Course is not assigned for this customer");
+      return;
+    }
+    const chekedClass = await checkCourseInClass();
+    if (chekedClass.status != 200) {
+      toast.error(chekedClass.data.message);
       return;
     }
     setEvent(tabKey);

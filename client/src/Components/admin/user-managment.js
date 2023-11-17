@@ -1,7 +1,5 @@
 /* eslint-disable default-case */
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
 import { AddNewUserModal } from "./UserManagementModel";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { userTableHeaders } from "../../Constants/table.constants";
@@ -173,69 +171,6 @@ export const UserManagement = () => {
           </div>{" "}
         </div>
 
-        <div
-          className="modal fade"
-          id="varify-user"
-          tabIndex={-1}
-          aria-labelledby="viewUserModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="viewUserModalLabel">
-                  Send Verification Email
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-body">
-                <div>
-                  <div className="mb-3">
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="To : jhone@123"
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Subject : Verify Email Address"
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <form method="post">
-                      <textarea
-                        id="open-source-plugins"
-                        defaultValue={
-                          '                                <p>Congratulations! Your account has been successfully registered. Please confirm your email address by clicking the link below.</p>\n                                <p>We may need to send you critical information about our service, and it is important that we have an accurate email address.</p>\n                               \n                                <a href="#" style="font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #fff; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #34c38f; margin: 0; border-color: #34c38f; border-style: solid; border-width: 8px 16px;">Confirm email address</a>\n                                <p><strong>Tonga</strong> <br>\n                                    Support Team\n                                </p>\n\n                                \n                            '
-                        }
-                      />
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-success">
-                  Send
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
         <footer className="footer">
           <div className="container-fluid">
             <div className="row">

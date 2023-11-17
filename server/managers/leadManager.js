@@ -523,7 +523,7 @@ const confirmPayment = async (req, res, next) => {
 const updateAssignCourse = async (req, res, next) => {
   try {
     const { body } = req;
-    const updateLeadCourse = await db.lead.updateOne(
+    await db.lead.updateOne(
       { _id: body._id },
       {
         $set: body,
@@ -1012,6 +1012,66 @@ const getCompany = async (req, res, next) => {
   }
 };
 
+const getDashboardCustomers = async (req, res, next) => {
+  const dashboardCustomers = await db.lead.aggregate([
+    {
+      $lookup: {
+        from: "courses",
+        let: { courseId: "$course" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$$courseId", { $toString: "$_id" }],
+              },
+            },
+          },
+        ],
+        as: "courseDetails",
+      },
+    },
+
+    {
+      $group: {
+        _id: {
+          contactPerson: "$contactPerson",
+          contactPersonEmail: "$contactPersonEmail",
+        },
+        courseCount: {
+          $sum: {
+            $cond: [{ $gt: [{ $size: "$courseDetails" }, 0] }, 1, 0],
+          },
+        },
+        completedCount: {
+          $sum: {
+            $cond: {
+              if: {
+                $and: [
+                  { $eq: ["$courseAssigned", true] },
+                  { $eq: ["$getPayment", true] },
+                  { $eq: ["$confirmed", true] },
+                ],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        contactPersonEmail: "$_id.contactPersonEmail",
+        contactPerson: "$_id.contactPerson",
+        courseCount: 1,
+        completedCount: 1,
+      },
+    },
+  ]);
+  return res.status(200).send(dashboardCustomers);
+};
+
 module.exports = {
   addNewLead,
   getAllLeads,
@@ -1026,4 +1086,5 @@ module.exports = {
   getFilteredLeads,
   getAllCompanies,
   getCompany,
+  getDashboardCustomers,
 };

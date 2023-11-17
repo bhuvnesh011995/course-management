@@ -1,14 +1,9 @@
-// <!doctype html>
-// <html lang="en">
-
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
-import AddNewCertificate from "./models/certificateModal";
-import { AxiosInstance } from "../../common-components/axiosInstance";
-import { CommonDataTable } from "../../common-components/CommonDataTable";
-import { certificateHeaders } from "../../Constants/table.constants";
-import { DeleteModel } from "../../common-components/models/DeleteModal";
+import AddNewCertificate from "./certificateModal";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { CommonDataTable } from "../../../common-components/CommonDataTable";
+import { certificateHeaders } from "../../../Constants/table.constants";
+import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 
 export const Certificate = () => {

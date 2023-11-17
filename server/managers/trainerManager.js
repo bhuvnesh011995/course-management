@@ -140,6 +140,13 @@ const trainerClassDetails = async (req, res, next) => {
   }
 };
 
+const getDashboardTrainers = async (req, res, next) => {
+  // const dashboardTrainers = await db.trainers.aggregate([
+
+  // ])
+  console.log("kojhug");
+};
+
 module.exports = {
   addNewTrainer,
   getTrainers,
@@ -147,4 +154,5 @@ module.exports = {
   deleteTrainer,
   getTrainer,
   trainerClassDetails,
+  getDashboardTrainers,
 };

@@ -5,6 +5,7 @@ import {
   convertToMongooseStartEndTiming,
   exportToExcel,
   exportToPDFTable,
+  filePath,
 } from "./useCommonUsableFunctions";
 import { useEffect, useState } from "react";
 import {
@@ -38,6 +39,26 @@ export const CommonDataTable = ({
   const dataKeys = Object.keys(tableHeaders);
   const tableColumns = [];
   dataKeys.map((e, index) => {
+    if (e == "trainerName") {
+      tableColumns.push({
+        accessorKey: e,
+        Cell: ({ row }) => (
+          <div className="d-flex align-items-center">
+            {row.original?.trainerImagePath && (
+              <div className="me-2">
+                {" "}
+                <span className="avatar avatar-sm avatar-rounded">
+                  <img src={filePath(row.original?.trainerImagePath)} alt="" />{" "}
+                </span>{" "}
+              </div>
+            )}
+            <div className="fw-semibold">{row.original.trainerName}</div>
+          </div>
+        ),
+        header: tableHeaders[e],
+      });
+      return;
+    }
     if (e == "status") {
       tableColumns.push({
         accessorKey: e,

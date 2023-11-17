@@ -1,25 +1,65 @@
-// <!doctype html>
-// <html lang="en">
-
-import { MenuBar } from "../common-components/MenuBar";
-import { CommonNavbar } from "../common-components/Navbar";
-import { useState } from "react";
 import {
   BarChart,
   DoughnutChart,
-} from "../common-components/models/EarningChartModel";
-import { CommonDataTable } from "../common-components/CommonDataTable";
-import { courseData, tableHeaders } from "../Constants/table.constants";
+} from "../../common-components/models/EarningChartModel";
+import { CommonDataTable } from "../../common-components/CommonDataTable";
+import {
+  courseData,
+  dashboardCourseHeaders,
+  dashboardCustomerHeaders,
+  tableHeaders,
+} from "../../Constants/table.constants";
+import { AxiosInstance } from "../../common-components/axiosInstance";
+import { useEffect, useState } from "react";
 
 export const Index = () => {
-  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [dashboardCourses, setDashboardCourses] = useState([]);
+  const [dashboardCustomers, setDashboardCustomers] = useState([]);
+  const [dashboardTrainers, setDashboardTrainers] = useState([]);
+
+  useEffect(() => {
+    getDashboardCourses();
+    getDashboardCustomers();
+    getDashboardTrainers();
+  }, []);
+  const getDashboardCourses = async () => {
+    try {
+      const dashboardCourses = await AxiosInstance.get(
+        "/courses/getDashboardCourses"
+      );
+      setDashboardCourses(dashboardCourses.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getDashboardCustomers = async () => {
+    try {
+      const dashboardCustomers = await AxiosInstance.get(
+        "/leads/getDashboardCustomers"
+      );
+      setDashboardCustomers(dashboardCustomers.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getDashboardTrainers = async () => {
+    try {
+      const dashboardTrainers = await AxiosInstance.get(
+        "/trainer/getDashboardTrainers"
+      );
+      // setDashboardTrainers(dashboardTrainers.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div id="layout-wrapper">
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
-            {/* start page title */}
             <div className="row">
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -27,7 +67,6 @@ export const Index = () => {
                 </div>
               </div>
             </div>
-            {/* end page title */}
             <div className="row">
               <div className="col-xxl-7 col-xl-7 col-lg-12">
                 <div className="row">
@@ -198,11 +237,6 @@ export const Index = () => {
                         </div>
                       </div>
                       <div className="card-body">
-                        {/* <div
-                          id="stacked-column-chart"
-                          className="apex-charts"
-                          dir="ltr"
-                        /> */}
                         <BarChart />
                       </div>
                     </div>
@@ -353,7 +387,7 @@ export const Index = () => {
                       </div>
                       <div className="card-body p-0">
                         <div className="table-responsive">
-                          <table className="table text-nowrap">
+                          {/* <table className="table text-nowrap">
                             <thead>
                               <tr>
                                 <th scope="col">Course Title</th>
@@ -665,7 +699,12 @@ export const Index = () => {
                                 </td>
                               </tr>
                             </tbody>
-                          </table>
+                          </table> */}
+                          <CommonDataTable
+                            data={dashboardCourses}
+                            tableHeaders={dashboardCourseHeaders}
+                            tableSearchBar={false}
+                          />
                         </div>
                       </div>
                     </div>
@@ -852,7 +891,7 @@ export const Index = () => {
                   </div>
                   <div className="card-body p-0">
                     <div className="table-responsive">
-                      <table className="table text-nowrap">
+                      {/* <table className="table text-nowrap">
                         <thead>
                           <tr>
                             <th scope="col">Name</th>
@@ -1039,7 +1078,12 @@ export const Index = () => {
                             </td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> */}
+                      <CommonDataTable
+                        data={dashboardCustomers}
+                        tableHeaders={dashboardCustomerHeaders}
+                        tableSearchBar={false}
+                      />
                     </div>
                   </div>
                 </div>
@@ -1069,7 +1113,6 @@ export const Index = () => {
                     </div>
                   </div>
                   <div className="card-body">
-                    {/* <div id="donut_chart" className="apex-charts" dir="ltr" /> */}
                     <DoughnutChart />
                   </div>
                 </div>
@@ -1098,10 +1141,7 @@ export const Index = () => {
               </div>
             </div>
           </div>
-          {/* container-fluid */}
         </div>
-        {/* End Page-content */}
-        {/* Transaction Modal */}
         <div
           className="modal fade transaction-detailModal"
           tabIndex={-1}
@@ -1214,7 +1254,6 @@ export const Index = () => {
             </div>
           </div>
         </div>
-        {/* end modal */}
         <footer className="footer">
           <div className="container-fluid">
             <div className="row">
@@ -1231,117 +1270,6 @@ export const Index = () => {
           </div>
         </footer>
       </div>
-      {/* end main content*/}
     </div>
   );
 };
-
-{
-  /* <!-- JAVASCRIPT -->
-    <script src="assets/libs/jquery/jquery.min.js"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/node-waves/waves.min.js"></script>
-    <script src="assets/libs/select2/js/select2.min.js"></script>
-    <script src="assets/libs/smart-wizaed/smart-wizaed.js"></script>
-
-    <!-- Required datatable js -->
-    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <!-- Buttons examples -->
-    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="assets/libs/jszip/jszip.min.js"></script>
-    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-
-    <!-- Responsive examples -->
-    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-    <!-- Datatable init js -->
-    <script src="assets/js/pages/datatables.init.js"></script>
- <!-- apexcharts -->
- <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
-
- <!-- apexcharts init -->
- <script src="assets/js/pages/apexcharts.init.js"></script>
-
- <!-- dashboard init -->
- <script src="assets/js/pages/dashboard.init.js"></script>
-
- <!-- App js -->
- <script src="assets/js/app.js"></script>
-
-    <script src="assets/js/app.js"></script>
-    <!-- form advanced init -->
-    <script
-        src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5.10.7-133/tinymce.min.js"></script>
-    <script src="assets/js/pages/email-editor.js"></script>
-    
-    <script>
-        $('#smartwizard').smartWizard({
-            transition: {
-                animation: 'slideHorizontal', // Effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
-            }
-        });
-    </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth', // Default view
-            events: [ // Sample events
-                {
-                    title: 'Event 1',
-                    start: '2023-09-15',
-                    end: '2023-09-16'
-                },
-                {
-                    title: 'Event 2',
-                    start: '2023-09-18',
-                    end: '2023-09-20'
-                }
-            ]
-        });
-        calendar.render();
-    });
-</script>
-    <script>
-
-        $(document).ready(function () {
-
-            $(".select2").select2({
-
-                dropdownParent: $("#addUserModal")
-
-            });
-
-        });
-
-    </script>
-    <script>
-
-        $(document).ready(function () {
-
-            $(".select2").select2({
-
-                dropdownParent: $("#editUserModal")
-
-            });
-
-        });
-
-    </script>
-
-</body>
-
-</html> */
-}

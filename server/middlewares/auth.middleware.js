@@ -4,7 +4,6 @@ const userModel = require("../models/userModel");
 const userAuth = async (req, res, next) => {
   try {
     const token = req.headers["x-token-header"];
-    const { headers } = req;
     if (token) {
       const decode = jwt.decode(token);
       const getUserData = await userModel.aggregate([
@@ -28,7 +27,6 @@ const userAuth = async (req, res, next) => {
         { $unwind: "$roleData" },
       ]);
       req.user = getUserData;
-
       next();
     } else {
       return { message: "Need to Login Again " };

@@ -25,5 +25,6 @@ routes.get("/getFilteredLeads", leadManager.getFilteredLeads);
 routes.get("/getAllCompanies", leadManager.getAllCompanies);
 
 routes.get("/getCompany", leadManager.getCompany);
+routes.get("/getDashboardCustomers", leadManager.getDashboardCustomers);
 
 module.exports = routes;

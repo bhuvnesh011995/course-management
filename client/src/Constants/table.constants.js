@@ -1,12 +1,3 @@
-import avatar1 from "../assets/images/users/avatar-1.jpg";
-import avatar2 from "../assets/images/users/avatar-2.jpg";
-import avatar3 from "../assets/images/users/avatar-3.jpg";
-import avatar4 from "../assets/images/users/avatar-4.jpg";
-import avatar5 from "../assets/images/users/avatar-5.jpg";
-import avatar6 from "../assets/images/users/avatar-6.jpg";
-import avatar7 from "../assets/images/users/avatar-7.jpg";
-import avatar8 from "../assets/images/users/avatar-8.jpg";
-
 export const courseData = [
   {
     courseName: "Ray Optics & Optical Fibre Master Class",
@@ -61,6 +52,7 @@ export const userTableHeaders = {
   userName: "User Name",
   phoneNo: "Mobile",
   email: "Email",
+  roleName: "User Right",
   created_at: "Created At",
 };
 
@@ -252,4 +244,18 @@ export const leaveHeaders = {
   leavetype: "Leave Type",
   startDate: "Start Date",
   endDate: "End Date",
+};
+
+export const dashboardCourseHeaders = {
+  courseName: "Course Title",
+  status: "Status",
+  duration: "Duration",
+  trainerName: "Trainer",
+};
+
+export const dashboardCustomerHeaders = {
+  contactPerson: "Name",
+  contactPersonEmail: "Email",
+  courseCount: "Courses",
+  completedCount: "Completed",
 };

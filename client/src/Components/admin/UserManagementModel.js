@@ -20,8 +20,6 @@ export const AddNewUserModal = ({
   const [userRoles, setUserRoles] = useState([]);
   const {
     register,
-    setValue,
-    getValues,
     reset,
     handleSubmit,
     formState: { errors },

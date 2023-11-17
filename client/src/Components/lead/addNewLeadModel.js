@@ -334,6 +334,8 @@ export const AddNewLeadModel = ({
 
   const getPaymentRegistration = async () => {
     try {
+      toast.dismiss();
+      console.log("clicked");
       const { data } = await AxiosInstance.get("/leads/getSelectedLead", {
         params: leadData,
       });
@@ -1318,7 +1320,7 @@ export const AddNewLeadModel = ({
                             <div className="d-flex">
                               <button
                                 type="submit"
-                                // onClick={() => confirmCourseAssigned()}
+                                onClick={() => confirmCourseAssigned()}
                                 className="btn mx-1 btn-success"
                               >
                                 Assign Course

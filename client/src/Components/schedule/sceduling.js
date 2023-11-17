@@ -6,71 +6,8 @@ import { AllCalendar } from "../../common-components/Calendar";
 import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
-import { NewClassModal } from "../course-management/models/classModal";
+import { NewClassModal } from "../course-management/class/classModal";
 import { AddNewHoliday } from "./modals/HolidayModal";
-
-//     <style>
-//         .event-holiday {
-//             background-color: #28a745;
-//             /* Success color */
-//             color: #fff;
-//             /* White text */
-//             border-color: #28a745;
-//             /* Success color */
-//         }
-
-//         .event-weekend {
-//             background-color: #007bff;
-//             /* Primary color */
-//             color: #fff;
-//             /* White text */
-//             border-color: #007bff;
-//             /* Primary color */
-//         }
-
-//         .event-leave {
-//             background-color: #dc3545;
-//             /* Danger color */
-//             color: #fff;
-//             /* White text */
-//             border-color: #dc3545;
-//             /* Danger color */
-//         }
-
-//         #legend {
-//             margin-top: 5px;
-//         }
-
-//         .legend-item {
-//             display: flex;
-//             align-items: center;
-//             margin-bottom: 8px;
-//         }
-
-//         .legend-color {
-//             width: 10px;
-//             height: 10px;
-//             margin-right: 5px;
-//             border-radius: 50%;
-//         }
-
-//         .legend-label {
-//             font-size: 14px;
-//         }
-
-//         .event-holiday {
-//             background-color: #28a745;
-//         }
-
-//         .event-weekend {
-//             background-color: #007bff;
-//         }
-
-//         .event-leave {
-//             background-color: #dc3545;
-//         }
-//     </style>
-// </head>
 
 export const Scheduling = () => {
   const filterObject = {
@@ -191,16 +128,6 @@ export const Scheduling = () => {
               <div className="col-lg-3">
                 <div className="card">
                   <div className="card-body">
-                    {/* <div className="d-grid">
-                      <button
-                        className="btn font-16 btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addEventModal"
-                      >
-                        <i className="mdi mdi-plus-circle-outline" /> Add New
-                      </button>
-                    </div>
-                    <hr /> */}
                     <div className="mb-3">
                       <label className="form-label">Start Date</label>
                       <input
@@ -313,12 +240,6 @@ export const Scheduling = () => {
         </div>
       </footer>
       {classEventModal && (
-        // <AddEvent
-        //   isOpen={classEventModal}
-        //   setIsOpen={setClassEventModal}
-        //   eventData={eventData}
-        //   callback={(e, type) => updateEvent(e, type)}
-        // />
         <NewClassModal
           setIsOpen={setClassEventModal}
           isOpen={classEventModal}

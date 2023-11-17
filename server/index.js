@@ -11,7 +11,6 @@ require("./configs/database.config");
 
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
-// app.use(express.urlencoded({ limit: "50mb" }));
 app.use(express.static("uploads"));
 
 app.use(function (req, res, next) {
@@ -28,5 +27,4 @@ app.listen(process.env.PORT, () => {
 
 app.use("/api", require("./routes/route"));
 
-
-app.use(require("./middlewares/errorHandler"))
+app.use(require("./middlewares/errorHandler"));

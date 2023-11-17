@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { AddNewLeadModel } from "./addNewLeadModel";
 import { DeleteModel } from "../../common-components/models/DeleteModal";

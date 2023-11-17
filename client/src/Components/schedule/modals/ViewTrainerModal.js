@@ -3,11 +3,7 @@ import { Modal } from "react-bootstrap";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { viewTrainerHeaders } from "../../../Constants/table.constants";
-import {
-  AllCalendar,
-  CommonCalendar,
-} from "../../../common-components/Calendar";
-import { NewClassModal } from "../../course-management/models/classModal";
+import { AllCalendar } from "../../../common-components/Calendar";
 
 export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
   const [viewTab, setViewTab] = useState("trainerDetails");

@@ -4,10 +4,7 @@
 import { useEffect, useState } from "react";
 import { customersHeaders } from "../../Constants/table.constants";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
-import { onMenuClicked } from "../../common-components/useCommonUsableFunctions";
 import { AddNewLeadModel } from "../lead/addNewLeadModel";
 import { ViewCustomerModal } from "./customerModal";
 

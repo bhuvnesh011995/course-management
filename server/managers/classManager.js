@@ -225,6 +225,22 @@ const updateClass = async (req, res, next) => {
   }
 };
 
+const getCourseClass = async (req, res, next) => {
+  try {
+    const getCourseClass = await db.classes.find({
+      course: req.query.courseId,
+    });
+    if (getCourseClass.length) return res.status(200).send(getCourseClass);
+    else
+      return res
+        .status(202)
+        .send({ message: "customer course not assigned in any class" });
+  } catch (err) {
+    next(err);
+    console.error(err);
+  }
+};
+
 const deleteClass = async (req, res, next) => {
   try {
     const { query } = req;
@@ -260,4 +276,5 @@ module.exports = {
   updateClass,
   deleteClass,
   getCourseClasses,
+  getCourseClass,
 };
