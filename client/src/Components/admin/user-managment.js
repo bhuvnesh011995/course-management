@@ -7,6 +7,7 @@ import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { EmailVerfificationModal } from "../../common-components/models/emailVerificationModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -109,7 +110,7 @@ export const UserManagement = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         User Management
