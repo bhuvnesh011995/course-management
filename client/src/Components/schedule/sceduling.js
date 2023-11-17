@@ -8,6 +8,7 @@ import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { NewClassModal } from "../course-management/class/classModal";
 import { AddNewHoliday } from "./modals/HolidayModal";
+import { Link } from "react-router-dom";
 
 export const Scheduling = () => {
   const filterObject = {
@@ -116,7 +117,7 @@ export const Scheduling = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a>Dashboard</a>
+                        <Link to={"/"}>Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">Scedule</li>
                     </ol>

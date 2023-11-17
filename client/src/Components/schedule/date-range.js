@@ -7,6 +7,7 @@ import { MenuBar } from "../../common-components/MenuBar";
 import { CommonNavbar } from "../../common-components/Navbar";
 import { AddNewHoliday } from "./modals/HolidayModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
+import { Link } from "react-router-dom";
 
 //         .event-holiday {
 //             background-color: #28a745;
@@ -119,7 +120,7 @@ export const DateRange = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a>Dashboard</a>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">Date Range</li>
                     </ol>

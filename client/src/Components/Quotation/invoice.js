@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { invoiceQuoatationListHeaders } from "../../Constants/table.constants";
 import ViewQuotationModal from "./ViewQuotationModal";
+import { Link } from "react-router-dom";
 
 export const Invoice = () => {
   const [allQuoatations, setAllQuotations] = useState([]);
@@ -70,7 +71,7 @@ export const Invoice = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Invoice Management

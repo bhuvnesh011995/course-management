@@ -6,6 +6,7 @@ import { trainerHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { ViewTrainer } from "./modals/ViewTrainerModal";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export const Trainer = () => {
   const [trainers, setTrainers] = useState([]);
@@ -87,7 +88,7 @@ export const Trainer = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to="/" href="index.html">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Trainer Management

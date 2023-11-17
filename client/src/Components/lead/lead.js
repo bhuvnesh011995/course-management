@@ -93,14 +93,17 @@ export const Lead = () => {
 
   const getAllLeads = async (filterLead) => {
     try {
+      console.log("hiii")
       const { data } = await AxiosInstance.get("/leads/getAllLeads", {
         params: selectedFilter,
       });
+      console.log("hlii2")
       data.leads.map((lead) => {
         tradeType.map((e) => {
           if (e.value == lead.tradeType) lead.tradeType = e.name;
         });
       });
+      console.log("hlii3")
       setLeads(data.leads);
       setFilteredLeads(data.leads);
     } catch (err) {

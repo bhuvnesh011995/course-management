@@ -7,8 +7,10 @@ import russiaIcon from "../assets/images/flags/russia.jpg";
 import headerAvatar from "../assets/images/users/avatar-1.jpg";
 import { onMenuClicked } from "./useCommonUsableFunctions";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 export const CommonNavbar = () => {
+  const {initialUser, user,setUser} = useAuth()
   const navigate = useNavigate();
   const [showLanguages, setShowLanguages] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -33,6 +35,8 @@ export const CommonNavbar = () => {
 
   const userLogOut = () => {
     localStorage.removeItem("token");
+    setUser(initialUser)
+
     navigate("/login");
   };
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
+
 import AddQuotationModal from "./AddQuotationModal";
 import ViewQuotationModal from "./ViewQuotationModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
@@ -8,6 +7,7 @@ import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { quoatationListHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export const Quotation = () => {
   const [isAddModelOpen, setAddModal] = useState(false);
@@ -83,7 +83,7 @@ export const Quotation = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to='/'>Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Quotation Management

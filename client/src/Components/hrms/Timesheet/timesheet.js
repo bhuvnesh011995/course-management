@@ -5,6 +5,7 @@ import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { timesheetHeaders } from "../../../Constants/table.constants";
+import { Link } from "react-router-dom";
 
 export const TimeSheet = () => {
   const [isAddModalOpen, setAddModal] = useState(false);
@@ -87,7 +88,7 @@ export const TimeSheet = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Timesheet Tracking
