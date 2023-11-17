@@ -30,12 +30,7 @@ exports.getById= async function (req, res, next) {
     try {
         if(!id){
             let language = await db.language.findOne({}).select({ name: 1,language:1, code: 1, status: 1 })
-            if(!language) return res.status(500).json({
-                success: false,
-                message: "error occured"
-            })
-
-            return res.status(200).json(language)
+            return res.status(200).json(language || [])
         }else{
             let language = await db.language.findOne({ _id: id}).select({ name: 1,language:1, code: 1, status: 1 })
         res.status(200).json(language)
@@ -60,10 +55,7 @@ exports.getAllTheLanguage=async function(req,res,next){
             message:"error occured"
         })
 
-        res.status(200).json({
-            success:true,
-            languages
-        })
+        res.status(200).json(languages)
     } catch (error) {
         console.log(error)
         res.status(500).json({
