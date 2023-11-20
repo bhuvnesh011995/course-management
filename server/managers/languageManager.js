@@ -78,7 +78,7 @@ exports.updateLanguageKey = async function (req, res, next) {
             acc[`language.${curr}`] = updateData[curr]
             return acc
         },{})
-
+console.log(obj)
         
         await db.language.findOneAndUpdate({_id:id}, {
             $set: obj
@@ -92,13 +92,29 @@ exports.updateLanguageKey = async function (req, res, next) {
         res.status(500).json({
             success: false,
             message: "error occured",
-            error: error
         })
     }
 }
 
 
+exports.updateLanguage = async (req,res,next)=>{
+try {
+    let {name,code} = req.body
+    let {id} = req.params
 
+    await db.language.findOneAndUpdate({_id:id}, {
+        $set: {name,code}
+    })
+
+    res.status(204).end()
+} catch (error) {
+    console.log(error)
+        res.status(500).json({
+            success: false,
+            message: "error occured",
+        })
+}
+}
 
 exports.deleteLanguage = async (req,res,next)=>{
 

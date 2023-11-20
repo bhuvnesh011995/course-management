@@ -9,6 +9,7 @@ export default function AddNew({data,setData,show,setShow,getLanguages}) {
     const {
         register,
         reset,
+        watch,
         handleSubmit,
         formState: { errors },
       } = useForm()
@@ -18,10 +19,12 @@ export default function AddNew({data,setData,show,setShow,getLanguages}) {
         try {
             if(data){
                 if(!updateData) return
-                let res = await AxiosInstance.put("/languages/"+data._id,updateData)
+                let res = await AxiosInstance.put("/languages/language/"+data._id,updateData)
+                
                 if(res.status===204){
                     toast.success("language update successfull")
                     setShow(false)
+                    getLanguages()
                 }else{
                     toast.error('error occured while updating')
                 }
@@ -48,7 +51,6 @@ export default function AddNew({data,setData,show,setShow,getLanguages}) {
     useEffect(()=>{
         if(data) reset(data)
         return ()=>{
-            setData(null)
             setUpdateData(null)
         }
     },[])
@@ -59,23 +61,26 @@ export default function AddNew({data,setData,show,setShow,getLanguages}) {
           </Modal.Header>
     
           <Modal.Body>
-            <form onSubmit={handleSubmit(onSubmit)} class="row">
+            <form onSubmit={handleSubmit(data=>onSubmit(data,updateData))} class="row">
                 <div class="col-md-12 mb-2">
                     <label for="">Language Name</label>
                     <input
-                    {...register("name",{required:"name is requried",onChange:e=>setUpdateData(preVal=>({...preVal,name:e.target.value}))})}
+                    {...register("name",{required:"name is requried",onChange:(e)=>setUpdateData(preVal=>({...preVal,name:e.target.value}))})}
                     type="text" class="form-control" placeholder=""/>
                     {errors.name && <span style={{color:"red"}}>{errors.name.message}</span>}
                 </div>
                 <div class="col-md-12 mb-2">
                     <label for="">Language Code</label>
                     <input
-                    {...register("code",{required:"code is required field",onChange:e=>setUpdateData(preVal=>({...preVal,code:e.target.value}))})}
+                    {...register("code",{required:"code is required field",onChange:(e)=>setUpdateData(preVal=>({...preVal,code:e.target.value}))})}
                     type="text" class="form-control" placeholder=""/>
                     {errors.code && <span style={{color:"red"}}>{errors.code.message}</span>}
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-info float-end">Add Language</button>
+                    <button onMouseEnter={()=>{
+                        console.log(watch("name"))
+                        console.log(updateData)
+                    }} type="submit" class="btn btn-info float-end">Add Language</button>
                 </div>
             </form>
           </Modal.Body>
