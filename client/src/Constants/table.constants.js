@@ -120,7 +120,7 @@ export const trainerHeaders = {
   trainerEmail: "Email ID",
   trainerMobile: "Mobile No.",
   trainerDOB: "DOB",
-  trainerDesignation: "Designation",
+  designation: "Designation",
 };
 
 export const viewTrainerHeaders = {

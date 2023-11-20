@@ -59,6 +59,21 @@ export const CommonDataTable = ({
       });
       return;
     }
+    if (e == "duration") {
+      tableColumns.push({
+        accessorKey: e,
+        Cell: ({ row }) => (
+          <div className="d-flex align-items-center">
+            <div className="me-2">
+              {row.original.durationNumber + " " + row.original.durationType}
+              {row.original.durationNumber > 1 ? "s" : ""}
+            </div>
+          </div>
+        ),
+        header: tableHeaders[e],
+      });
+      return;
+    }
     if (e == "status") {
       tableColumns.push({
         accessorKey: e,

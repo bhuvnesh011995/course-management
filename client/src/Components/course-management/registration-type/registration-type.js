@@ -5,6 +5,7 @@ import { registrationTypeHeaders } from "../../../Constants/table.constants";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export const RegistrationType = () => {
   const [registrationModal, setRegistrationModal] = useState(false);
@@ -102,7 +103,7 @@ export const RegistrationType = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to={"/"}>Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Registration Type

@@ -5,6 +5,7 @@ import { salesQuoatationListHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import ViewQuotationModal from "./ViewQuotationModal";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export const SalesQuotation = () => {
   const [allQuoatations, setAllQuotations] = useState([]);
@@ -79,7 +80,7 @@ export const SalesQuotation = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Sales Quotation

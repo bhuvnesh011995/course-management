@@ -323,6 +323,20 @@ export const MenuBar = () => {
                 >
                   <Link to="/settings/multilanguage">Multi Language</Link>
                 </li>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "designations" && "mm-active"
+                  }`}
+                >
+                  <Link to="/settings/designations">Designations</Link>
+                </li>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "durations" && "mm-active"
+                  }`}
+                >
+                  <Link to="/settings/durations">Durations</Link>
+                </li>
               </ul>
             </li>
           </ul>

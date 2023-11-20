@@ -11,6 +11,8 @@ import {
 } from "../../Constants/table.constants";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
+import { filePath } from "../../common-components/useCommonUsableFunctions";
+import moment from "moment";
 
 export const Index = () => {
   const [dashboardCourses, setDashboardCourses] = useState([]);
@@ -27,6 +29,18 @@ export const Index = () => {
       const dashboardCourses = await AxiosInstance.get(
         "/courses/getDashboardCourses"
       );
+      dashboardCourses.data.map((course, index) => {
+        const startDate = moment(course.startDate).format("YYYY-MM-DD");
+        const endDate = moment(course.endDate).format("YYYY-MM-DD");
+        const toDayDate = moment(new Date()).format("YYYY-MM-DD");
+
+        const totalClassDuration = moment(endDate).diff(startDate, "days");
+        const totalClassDone = moment(startDate).diff(toDayDate, "days");
+        if (startDate > toDayDate) {
+          dashboardCourses.data[index].status = 0;
+        } else {
+        }
+      });
       setDashboardCourses(dashboardCourses.data);
     } catch (err) {
       console.error(err);
@@ -49,7 +63,7 @@ export const Index = () => {
       const dashboardTrainers = await AxiosInstance.get(
         "/trainer/getDashboardTrainers"
       );
-      // setDashboardTrainers(dashboardTrainers.data);
+      setDashboardTrainers(dashboardTrainers.data);
     } catch (err) {
       console.error(err);
     }
@@ -720,39 +734,49 @@ export const Index = () => {
                   </div>
                   <div className="card-body">
                     <ul className="list-unstyled courses-Trainers mb-0">
-                      <li>
-                        <div className="d-flex">
-                          <div className="d-flex flex-fill align-items-center">
-                            <div className="me-2">
-                              {" "}
-                              <span className="avatar avatar-rounded">
+                      {dashboardTrainers.length ? (
+                        dashboardTrainers.map((trainer) => (
+                          <li>
+                            <div className="d-flex">
+                              <div className="d-flex flex-fill align-items-center">
+                                <div className="me-2">
+                                  {" "}
+                                  <span className="avatar avatar-rounded">
+                                    {" "}
+                                    {trainer.trainerImagePath && (
+                                      <img
+                                        src={filePath(trainer.trainerImagePath)}
+                                        alt=""
+                                      />
+                                    )}{" "}
+                                  </span>
+                                </div>
+                                <div>
+                                  {" "}
+                                  <span className="d-block fw-semibold">
+                                    {trainer.trainerName}
+                                  </span>{" "}
+                                  <span className="text-muted">
+                                    {trainer.designation}
+                                  </span>{" "}
+                                </div>
+                              </div>
+                              <div className="text-end">
                                 {" "}
-                                <img
-                                  src="../assets/images/faces/1.jpg"
-                                  alt=""
-                                />{" "}
-                              </span>
+                                <span className="d-block text-primary fw-semibold">
+                                  {trainer.classCount} Classes
+                                </span>
+                                <span className="text-muted">
+                                  Digital Marketing
+                                </span>
+                              </div>
                             </div>
-                            <div>
-                              {" "}
-                              <span className="d-block fw-semibold">
-                                John Henry
-                              </span>{" "}
-                              <span className="text-muted">M.Tech</span>{" "}
-                            </div>
-                          </div>
-                          <div className="text-end">
-                            {" "}
-                            <span className="d-block text-primary fw-semibold">
-                              321 Classes
-                            </span>
-                            <span className="text-muted">
-                              Digital Marketing
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
+                          </li>
+                        ))
+                      ) : (
+                        <div></div>
+                      )}
+                      {/* <li>
                         <div className="d-flex">
                           <div className="d-flex flex-fill align-items-center">
                             <div className="me-2">
@@ -873,7 +897,7 @@ export const Index = () => {
                             <span className="text-muted">Web Development</span>
                           </div>
                         </div>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>

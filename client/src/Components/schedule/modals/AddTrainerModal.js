@@ -21,11 +21,10 @@ export const NewTrainerModal = ({
   callback,
 }) => {
   const [imageUrl, setImageUrl] = useState("");
+  const [designations, setDesignations] = useState([]);
 
   const {
     register,
-    getValues,
-    setValue,
     handleSubmit,
     formState: { errors },
     reset,
@@ -36,7 +35,27 @@ export const NewTrainerModal = ({
     if (trainerData) {
       getTrainer();
     }
+    getAllDesignations();
   }, []);
+
+  const getAllDesignations = async () => {
+    try {
+      const allDesignations = await AxiosInstance.get(
+        "/designations/getDesignations"
+      );
+      if (allDesignations.status == 200) {
+        if (allDesignations.data?.length) {
+          setDesignations(allDesignations.data);
+        } else {
+          toast.error("please add designations");
+        }
+      } else {
+        toast.error("something went wrong");
+      }
+    } catch (err) {
+      toast.error("something went wrong");
+    }
+  };
 
   const handleClose = () => {
     setIsOpen(false);
@@ -72,12 +91,14 @@ export const NewTrainerModal = ({
         trainerData["deleteImagePath"] = trainerData.trainerImagePath;
       }
       formData.append("trainerData", JSON.stringify(trainerData));
-      const { data } = await AxiosInstance.post(
+      const updatedTrainer = await AxiosInstance.post(
         "/trainer/updateTrainer",
         formData
       );
-      toast.success("Trainer Updated");
-      callback(trainerData);
+      if (updatedTrainer.status == 200) {
+        callback(updatedTrainer.data.data);
+        toast.success(updatedTrainer.data.message);
+      }
       handleClose();
     } catch (err) {
       toast.error("Error occured");
@@ -193,19 +214,19 @@ export const NewTrainerModal = ({
                     required: "Please Select Designation",
                   })}
                 >
-                  <option key={""} value="" disabled>
+                  <option key={""} value="">
                     Select Designation
                   </option>
-                  <option key={"Trainer"} value="Trainer">
-                    Trainer
-                  </option>
-                  <option key={"Instructor"} value="Instructor">
-                    Instructor
-                  </option>
-                  <option key={"Coach"} value="Coach">
-                    Coach
-                  </option>
-                  {/* Add more options as needed */}
+                  {designations.length &&
+                    designations.map((e) => (
+                      <option
+                        key={e._id}
+                        value={e._id}
+                        selected={e._id == watch("trainerDesignation")}
+                      >
+                        {e.designation}
+                      </option>
+                    ))}
                 </select>
                 {errors?.trainerDesignation && (
                   <span className="text-danger">

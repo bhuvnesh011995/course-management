@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const FeedBack = () => {
   return (
     <div id="layout-wrapper">
@@ -11,7 +13,7 @@ export const FeedBack = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to={"/"}>Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Feedback Management

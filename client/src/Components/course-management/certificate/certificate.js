@@ -5,6 +5,7 @@ import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { certificateHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export const Certificate = () => {
   const [certificateModal, setCertificateModal] = useState(false);
@@ -87,7 +88,7 @@ export const Certificate = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to={"/"}>Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Certificate Management
