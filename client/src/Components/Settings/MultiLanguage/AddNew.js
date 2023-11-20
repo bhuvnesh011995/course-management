@@ -77,10 +77,7 @@ export default function AddNew({data,setData,show,setShow,getLanguages}) {
                     {errors.code && <span style={{color:"red"}}>{errors.code.message}</span>}
                 </div>
                 <div class="col-md-12">
-                    <button onMouseEnter={()=>{
-                        console.log(watch("name"))
-                        console.log(updateData)
-                    }} type="submit" class="btn btn-info float-end">Add Language</button>
+                    <button type="submit" class="btn btn-info float-end">{data?"update":"Add"} Language</button>
                 </div>
             </form>
           </Modal.Body>
