@@ -1,28 +1,59 @@
 import { useCallback, useEffect, useState } from "react";
-import Table from "./Table";
+
+import MaterialReactTable from "material-react-table";
+import { Box, IconButton } from "@mui/material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import AddNew from "./AddNew";
 import { Link } from "react-router-dom";
+import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { toast } from "react-toastify";
+import LanguageModal from "./LanguageModal";
+import { useMemo } from "react";
 
 export default function MultiLanguage() {
     const [isOpen,setIsOpen]= useState(false)
-    const [data,setData] = useState([
-        {name:"english",
-    code:"en",
-status:"active"},
-{name:"hindi",
-    code:"hi",
-status:"inactive"}
-    ])
+    const [data,setData] = useState([])
+    const [updateData,setUpdataData] = useState(null)
+    const [showLagModal,setShowLngModal] = useState(false)
+    const [language,setLanguage] = useState({})
+  
+       const columns = useMemo(() => [
+       {
+           accessorKey: 'name',
+           header: 'Name',
+         },
+         {
+             accessorKey: 'code',
+             header: 'Code',
+           },
+           {
+               accessorKey: 'status',
+               header: 'Status',   
+             },
+       ],[])
     const getLanguages = useCallback(async ()=>{
-
+      try {
+        let res = await AxiosInstance.get("/languages")
+      if(res.status===200){
+        setData(res.data)
+      }else{
+        toast.error("error while fetching")
+        setData([])
+        console.log(res)
+      }
+      } catch (error) {
+        toast.error("error while fetcing")
+        console.log(error.response)
+      }
+      
     },[])
     useEffect(()=>{
-
+      getLanguages()
     },[])
 
     return(
         <div id="layout-wrapper">
-            {isOpen && <AddNew  show={isOpen} getLanguages={getLanguages} setShow={setIsOpen}/>}
+            {isOpen && <AddNew data={updateData} setData={setUpdataData}  show={isOpen} getLanguages={getLanguages} setShow={setIsOpen}/>}
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
@@ -69,7 +100,61 @@ status:"inactive"}
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">
-                      <Table getLanguages={getLanguages} data={data || []} />
+                    {showLagModal && <LanguageModal getLanguages={getLanguages} show={showLagModal} setShow={setShowLngModal} language={language} />}
+  <MaterialReactTable
+ columns={columns}
+ data={data}
+ enableColumnActions={false}
+ enableColumnFilters={false}
+ enableSorting={false}
+ enableTopToolbar={false}
+ enableRowActions
+             positionActionsColumn="last"
+             enableRowNumbers
+             rowNumberMode="static"
+             renderRowActions={({ row, table }) => (
+                <div className="hstack gap-2 fs-1">
+                   <button
+              onClick={() =>{
+                setLanguage(row.original)
+                setShowLngModal(true)
+              }}
+              className="btn btn-icon btn-sm btn-warning rounded-pill"
+            >
+              <i className="mdi mdi-eye"></i>
+            </button>
+            <button
+                onClick={() => {
+                  setUpdataData({_id:row.original._id,name:row.original.name,code:row.original.code})
+                  setIsOpen(true)
+                }}
+                className="btn btn-icon btn-sm btn-info rounded-pill"
+              >
+                <i className="bx bxs-edit-alt" />
+              </button>
+              <button
+                onClick={async () =>{
+                  try{
+                    let response = await AxiosInstance.delete("/languages/"+row.original._id)
+                    if(response.status===204){
+                      toast.success("language deleted successfully")
+                      getLanguages()
+                    }else{
+                      console.log(response)
+                      toast.error("error occured while deleting language")
+                    }
+                  }catch(error){
+                    toast.error('error occured while deleting language')
+                    console.log(error.response)
+                  }
+                }}
+                className="btn btn-icon btn-sm btn-danger rounded-pill"
+              >
+                <i className="bx bxs-trash" />
+              </button>
+                 </div>
+             )}
+ /> 
                     </div>
                   </div>
                 </div>

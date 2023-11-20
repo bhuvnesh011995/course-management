@@ -30,41 +30,7 @@ export default function Table({data,getLanguages}) {
   return (
     <>
       
-{showLagModal && <LanguageModal getLanguages={getLanguages} show={showLagModal} setShow={setShowLngModal} language={language} />}
-  <MaterialReactTable
- columns={columns}
- data={data}
- enableColumnActions={false}
- enableColumnFilters={false}
- enableSorting={false}
- enableTopToolbar={false}
- enableRowActions
-             positionActionsColumn="last"
-             enableRowNumbers
-             rowNumberMode="static"
-             renderRowActions={({ row, table }) => (
-                <div className="hstack gap-2 fs-1">
-                   <button
-              onClick={() =>{}}
-              className="btn btn-icon btn-sm btn-warning rounded-pill"
-            >
-              <i className="mdi mdi-eye"></i>
-            </button>
-            <button
-                onClick={() => {}}
-                className="btn btn-icon btn-sm btn-info rounded-pill"
-              >
-                <i className="bx bxs-edit-alt" />
-              </button>
-              <button
-                onClick={() =>{}}
-                className="btn btn-icon btn-sm btn-danger rounded-pill"
-              >
-                <i className="bx bxs-trash" />
-              </button>
-                 </div>
-             )}
- /> 
+
     </>
   );
 }

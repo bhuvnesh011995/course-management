@@ -2,13 +2,15 @@ import { Modal } from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 import { useCallback, useMemo, useState } from "react";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
+import { toast } from "react-toastify";
 
 export default function LanguageModal({getLanguages, show, setShow, language }) {
     const [updateData,setUpdateData] = useState(null)
 const handleSubmit = useCallback(async (id,data)=>{
   if(!data) return
-  let res = await AxiosInstance("/")
+  let res = await AxiosInstance.put("/languages/"+id, data)
   if(res.status ===204){
+    toast.success("language updaate successfull")
     setShow(false)
     setUpdateData(null)
     getLanguages()
@@ -41,12 +43,12 @@ const handleSubmit = useCallback(async (id,data)=>{
   }))
 
   const handleSaveCell = (row,cell, value) => {
-    //if using flat data and simple accessorKeys/ids, you can just do a simple assignment here
+    
     tableData[cell.row.index][cell.column.id] = value;
-    //send/receive api updates here
+   
    
     setUpdateData(preVal=>({...preVal,[row.original.key]:value}))
-    setTableData([...tableData]); //re-render with new data
+    setTableData([...tableData]);
   };
 
   return (
