@@ -30,12 +30,7 @@ exports.getById= async function (req, res, next) {
     try {
         if(!id){
             let language = await db.language.findOne({}).select({ name: 1,language:1, code: 1, status: 1 })
-            if(!language) return res.status(500).json({
-                success: false,
-                message: "error occured"
-            })
-
-            return res.status(200).json(language)
+            return res.status(200).json(language || [])
         }else{
             let language = await db.language.findOne({ _id: id}).select({ name: 1,language:1, code: 1, status: 1 })
         res.status(200).json(language)
@@ -60,10 +55,7 @@ exports.getAllTheLanguage=async function(req,res,next){
             message:"error occured"
         })
 
-        res.status(200).json({
-            success:true,
-            languages
-        })
+        res.status(200).json(languages)
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -86,7 +78,7 @@ exports.updateLanguageKey = async function (req, res, next) {
             acc[`language.${curr}`] = updateData[curr]
             return acc
         },{})
-
+console.log(obj)
         
         await db.language.findOneAndUpdate({_id:id}, {
             $set: obj
@@ -100,13 +92,29 @@ exports.updateLanguageKey = async function (req, res, next) {
         res.status(500).json({
             success: false,
             message: "error occured",
-            error: error
         })
     }
 }
 
 
+exports.updateLanguage = async (req,res,next)=>{
+try {
+    let {name,code} = req.body
+    let {id} = req.params
 
+    await db.language.findOneAndUpdate({_id:id}, {
+        $set: {name,code}
+    })
+
+    res.status(204).end()
+} catch (error) {
+    console.log(error)
+        res.status(500).json({
+            success: false,
+            message: "error occured",
+        })
+}
+}
 
 exports.deleteLanguage = async (req,res,next)=>{
 
