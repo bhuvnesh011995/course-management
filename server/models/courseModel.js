@@ -9,7 +9,6 @@ const courseSchema = new mongoose.Schema(
     },
     tradeLevel: { type: String },
     price: { type: Number },
-    duration: { type: String },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

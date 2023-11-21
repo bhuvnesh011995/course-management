@@ -213,34 +213,6 @@ export const CourseModal = ({
                 {errors?.price && errors?.price.message}
               </span>
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Duration:</label>
-              <select
-                className="form-select"
-                {...register("duration", { required: "Duration is required" })}
-                disabled={viewCourse}
-                // placeholder={"months, years, weeks"}
-              >
-                <option value={""}>select</option>
-                {durations.length ? (
-                  durations.map((e) => (
-                    <option
-                      selected={e._id == watch("duration") && e._id}
-                      key={e.duration}
-                      value={e._id}
-                    >
-                      {e.duration + " " + e.type}
-                      {e.duration > 1 ? "s" : ""}
-                    </option>
-                  ))
-                ) : (
-                  <div></div>
-                )}
-              </select>
-              <span className="text-danger">
-                {errors?.duration && errors?.duration.message}
-              </span>
-            </div>
             <Modal.Footer>
               <div>
                 <button

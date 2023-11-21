@@ -92,9 +92,6 @@ export const UserManagement = () => {
         );
         setUsers([...newSorted]);
         break;
-      case "Rec":
-        console.log("Recent");
-        break;
     }
   };
 

@@ -126,8 +126,6 @@ const updateCertificate = async (req, res, next) => {
         fs.unlink(`uploads\\images\\${query.removeOldAttachment}`, (err) => {
           if (err) {
             console.error(err);
-          } else {
-            console.log("file deleted");
           }
         });
       }
@@ -203,8 +201,6 @@ const deleteCertificate = async (req, res, next) => {
         (err) => {
           if (err) {
             console.error(err);
-          } else {
-            console.log("file removed");
           }
         }
       );

@@ -106,9 +106,6 @@ export default function ViewQuotationModal({
                   </h3>
                   <p className="m-0 card-p">{selectedQuotation?.courseName}</p>
                   <p className="m-0">
-                    Duration : {selectedQuotation?.duration}
-                  </p>
-                  <p className="m-0">
                     Starting Date:{" "}
                     {moment(selectedQuotation?.startDate).format("DD/MM/YYYY")}
                   </p>

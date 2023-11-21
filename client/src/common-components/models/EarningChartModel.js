@@ -104,12 +104,8 @@ export const BarChart = ({ data, options }) => {
   );
 };
 
-export const DoughnutChart = () => {
-  const [payoutChartLabels, setPayoutChartLabels] = useState([
-    "Paid",
-    "UnPaid",
-  ]);
-
+export const DoughnutChart = ({ paid, unPaid }) => {
+  const payoutChartLabels = ["Paid", "unPaid"];
   const payoutChartOptions = {
     plugins: {
       legend: {
@@ -131,9 +127,9 @@ export const DoughnutChart = () => {
 
     datasets: [
       {
-        data: [44, 56],
-        backgroundColor: ["#f46a6a", "#34c38f"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
+        data: [50, 50],
+        backgroundColor: ["#34c38f", "#f46a6a"],
+        borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)"],
         borderWidth: 1,
         borderWidth: 2,
         borderColor: "white",

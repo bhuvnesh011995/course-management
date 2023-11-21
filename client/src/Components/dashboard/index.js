@@ -5,6 +5,7 @@ import {
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import {
   courseData,
+  dashboardClassHeaders,
   dashboardCourseHeaders,
   dashboardCustomerHeaders,
   tableHeaders,
@@ -13,35 +14,94 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import moment from "moment";
+import { Doughnut } from "react-chartjs-2";
+import Img1 from "../../assets/images/companies/img-1.png";
+import Img2 from "../../assets/images/companies/img-2.png";
+import Img3 from "../../assets/images/companies/img-3.png";
+import Img4 from "../../assets/images/companies/img-4.png";
+import Img5 from "../../assets/images/companies/img-5.png";
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from "chart.js";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export const Index = () => {
-  const [dashboardCourses, setDashboardCourses] = useState([]);
+  const allRegistrationIcons = [Img1, Img2, Img3, Img4, Img5];
+  const [dashboardClasses, setDashboardClasses] = useState([]);
   const [dashboardCustomers, setDashboardCustomers] = useState([]);
   const [dashboardTrainers, setDashboardTrainers] = useState([]);
+  const [payoutLead, setPayoutLead] = useState({
+    paid: 0,
+    unPaid: 0,
+  });
+  const [categoryTypes, setCategoryTypes] = useState([]);
+  const [dashoardCourses, setDashoardCourses] = useState([]);
 
   useEffect(() => {
-    getDashboardCourses();
+    getDashboardClasses();
     getDashboardCustomers();
     getDashboardTrainers();
+    allDashboardClassTypes();
+    allDashboardCourses();
   }, []);
-  const getDashboardCourses = async () => {
+  const getDashboardClasses = async () => {
     try {
-      const dashboardCourses = await AxiosInstance.get(
-        "/courses/getDashboardCourses"
+      const dashboardClassesData = await AxiosInstance.get(
+        "/class/getDashboardClasses"
       );
-      dashboardCourses.data.map((course, index) => {
+      dashboardClassesData.data.map((course, index) => {
         const startDate = moment(course.startDate).format("YYYY-MM-DD");
         const endDate = moment(course.endDate).format("YYYY-MM-DD");
         const toDayDate = moment(new Date()).format("YYYY-MM-DD");
 
         const totalClassDuration = moment(endDate).diff(startDate, "days");
-        const totalClassDone = moment(startDate).diff(toDayDate, "days");
+        const totalClassDone = moment(toDayDate).diff(startDate, "days");
+
+        const duration = moment.duration(moment(endDate).diff(startDate));
+
+        const doneDuration = moment.duration(moment(toDayDate).diff(startDate));
+
         if (startDate > toDayDate) {
-          dashboardCourses.data[index].status = 0;
+          dashboardClassesData.data[index].durationStatus = 0 + " %";
+          dashboardClassesData.data[index].duration =
+            duration.asDays() + " days" + ` (class not started)`;
+        } else if (totalClassDone >= totalClassDuration) {
+          dashboardClassesData.data[index].durationStatus = 100 + " %";
+          dashboardClassesData.data[index].duration =
+            duration.asDays() + " days" + ` (Completed)`;
         } else {
+          dashboardClassesData.data[index].duration =
+            duration.asDays() + " days" + ` (${doneDuration.asDays()} days)`;
+          dashboardClassesData.data[index].durationStatus =
+            100 -
+            Math.round(
+              Math.abs(
+                (100 / totalClassDuration) *
+                  (Math.abs(totalClassDone) - Math.abs(totalClassDuration))
+              )
+            ) +
+            " %";
         }
       });
-      setDashboardCourses(dashboardCourses.data);
+      setDashboardClasses(dashboardClassesData.data);
     } catch (err) {
       console.error(err);
     }
@@ -52,6 +112,15 @@ export const Index = () => {
       const dashboardCustomers = await AxiosInstance.get(
         "/leads/getDashboardCustomers"
       );
+      const payouts = {
+        paid: 0,
+        unPaid: 0,
+      };
+      dashboardCustomers.data.map((lead) => {
+        payouts.paid += lead.completedCount;
+        payouts.unPaid += lead.unCompletedCount;
+      });
+      setPayoutLead(payouts);
       setDashboardCustomers(dashboardCustomers.data);
     } catch (err) {
       console.error(err);
@@ -64,6 +133,60 @@ export const Index = () => {
         "/trainer/getDashboardTrainers"
       );
       setDashboardTrainers(dashboardTrainers.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const payoutChartLabels = ["Paid", "unPaid"];
+  const payoutChartOptions = {
+    plugins: {
+      legend: {
+        position: "bottom",
+        maxWidth: 5,
+        labels: {
+          usePointStyle: true,
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+    cutoutPercentage: 85,
+  };
+
+  const payoutChartData = {
+    labels: payoutChartLabels,
+
+    datasets: [
+      {
+        data: [payoutLead.paid, payoutLead.unPaid],
+        backgroundColor: ["#34c38f", "#f46a6a"],
+        borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)"],
+        borderWidth: 1,
+        borderWidth: 2,
+        borderColor: "white",
+      },
+    ],
+  };
+
+  const allDashboardClassTypes = async () => {
+    try {
+      const totalClassTypes = await AxiosInstance.get(
+        "/registrationType/allDashboardClassTypes"
+      );
+      setCategoryTypes(totalClassTypes.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const allDashboardCourses = async () => {
+    try {
+      const allCourses = await AxiosInstance.get(
+        "/courses/allDashboardCourses"
+      );
+      setDashoardCourses(allCourses.data);
     } catch (err) {
       console.error(err);
     }
@@ -100,33 +223,34 @@ export const Index = () => {
                       </div>
                       <div className="card-body">
                         <div className="row gy-xl-0 gy-3">
-                          <div className="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div>
-                              {" "}
-                              <a className="category-link primary text-center">
-                                {" "}
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="category-svg"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M0 0h24v24H0V0z" fill="none" />
-                                  <path
-                                    d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z"
-                                    opacity=".3"
-                                  />
-                                  <path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z"></path>
-                                </svg>
-                                <p className="fs-6 mb-1 text-dark fw-semibold">
-                                  UI/UX Design
-                                </p>
-                                <span className="fs-11 text-muted">
-                                  1000+ Courses
-                                </span>
-                              </a>{" "}
-                            </div>
-                          </div>
-                          <div className="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+                          {categoryTypes.length ? (
+                            categoryTypes.map((type, index) => (
+                              <div className="cursor-pointer col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 p-2">
+                                <div>
+                                  {" "}
+                                  <a className="category-link primary text-center">
+                                    {" "}
+                                    <div className="category-svg">
+                                      <img
+                                        src={allRegistrationIcons[index]}
+                                        width={40}
+                                        height={40}
+                                      />
+                                    </div>
+                                    <p className="fs-6 mb-1 text-dark fw-semibold">
+                                      {type.registrationName}
+                                    </p>
+                                    <span className="fs-11 text-muted">
+                                      {type.totalRegistrations} Courses
+                                    </span>
+                                  </a>{" "}
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <div></div>
+                          )}
+                          {/* <div className="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div>
                               {" "}
                               <a className="category-link secondary text-center">
@@ -219,7 +343,7 @@ export const Index = () => {
                                 </span>
                               </a>{" "}
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -388,7 +512,7 @@ export const Index = () => {
                   <div className="col-xl-12">
                     <div className="card  overflow-hidden">
                       <div className="card-header d-flex align-items-center justify-content-between">
-                        <div className="card-title"> My Courses </div>
+                        <div className="card-title"> All Classes </div>
                         <div>
                           {" "}
                           <button
@@ -715,8 +839,8 @@ export const Index = () => {
                             </tbody>
                           </table> */}
                           <CommonDataTable
-                            data={dashboardCourses}
-                            tableHeaders={dashboardCourseHeaders}
+                            data={dashboardClasses}
+                            tableHeaders={dashboardClassHeaders}
                             tableSearchBar={false}
                           />
                         </div>
@@ -766,9 +890,6 @@ export const Index = () => {
                                 <span className="d-block text-primary fw-semibold">
                                   {trainer.classCount} Classes
                                 </span>
-                                <span className="text-muted">
-                                  Digital Marketing
-                                </span>
                               </div>
                             </div>
                           </li>
@@ -776,128 +897,6 @@ export const Index = () => {
                       ) : (
                         <div></div>
                       )}
-                      {/* <li>
-                        <div className="d-flex">
-                          <div className="d-flex flex-fill align-items-center">
-                            <div className="me-2">
-                              {" "}
-                              <span className="avatar avatar-rounded">
-                                {" "}
-                                <img
-                                  src="../assets/images/faces/5.jpg"
-                                  alt=""
-                                />{" "}
-                              </span>
-                            </div>
-                            <div>
-                              {" "}
-                              <span className="d-block fw-semibold">
-                                Mortal Yun
-                              </span>{" "}
-                              <span className="text-muted">P.H.D</span>{" "}
-                            </div>
-                          </div>
-                          <div className="text-end">
-                            {" "}
-                            <span className="d-block text-primary fw-semibold">
-                              25 Classes
-                            </span>{" "}
-                            <span className="text-muted">
-                              Stocks &amp; Trading
-                            </span>{" "}
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="d-flex">
-                          <div className="d-flex flex-fill align-items-center">
-                            <div className="me-2">
-                              {" "}
-                              <span className="avatar avatar-rounded">
-                                {" "}
-                                <img
-                                  src="../assets/images/faces/8.jpg"
-                                  alt=""
-                                />{" "}
-                              </span>
-                            </div>
-                            <div>
-                              {" "}
-                              <span className="d-block fw-semibold">
-                                Trex Con
-                              </span>{" "}
-                              <span className="text-muted">MBBS</span>{" "}
-                            </div>
-                          </div>
-                          <div className="text-end">
-                            {" "}
-                            <span className="d-block text-primary fw-semibold">
-                              39 Classes
-                            </span>{" "}
-                            <span className="text-muted">Science</span>{" "}
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="d-flex">
-                          <div className="d-flex flex-fill align-items-center">
-                            <div className="me-2">
-                              {" "}
-                              <span className="avatar avatar-rounded">
-                                {" "}
-                                <img
-                                  src="../assets/images/faces/12.jpg"
-                                  alt=""
-                                />{" "}
-                              </span>
-                            </div>
-                            <div>
-                              {" "}
-                              <span className="d-block fw-semibold">
-                                Saiu Sarah
-                              </span>{" "}
-                              <span className="text-muted">P.H.D</span>{" "}
-                            </div>
-                          </div>
-                          <div className="text-end">
-                            {" "}
-                            <span className="d-block text-primary fw-semibold">
-                              11 Classes
-                            </span>{" "}
-                            <span className="text-muted">Science</span>{" "}
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="d-flex">
-                          <div className="d-flex flex-fill align-items-center">
-                            <div className="me-2">
-                              {" "}
-                              <span className="avatar avatar-rounded">
-                                {" "}
-                                <img
-                                  src="../assets/images/faces/15.jpg"
-                                  alt=""
-                                />{" "}
-                              </span>
-                            </div>
-                            <div>
-                              {" "}
-                              <span className="d-block fw-semibold">
-                                Ion Hau
-                              </span>{" "}
-                              <span className="text-muted">M.Tech</span>{" "}
-                            </div>
-                          </div>
-                          <div className="text-end">
-                            {" "}
-                            <span className="d-block text-primary fw-semibold">
-                              124 Classes
-                            </span>
-                            <span className="text-muted">Web Development</span>
-                          </div>
-                        </div>
-                      </li> */}
                     </ul>
                   </div>
                 </div>
@@ -905,7 +904,7 @@ export const Index = () => {
               <div className="col-xl-5">
                 <div className="card ">
                   <div className="card-header justify-content-between">
-                    <div className="card-title"> New Customers </div>
+                    <div className="card-title"> Customers </div>
                     <div>
                       {" "}
                       <button type="button" className="btn btn-sm btn-light">
@@ -915,194 +914,6 @@ export const Index = () => {
                   </div>
                   <div className="card-body p-0">
                     <div className="table-responsive">
-                      {/* <table className="table text-nowrap">
-                        <thead>
-                          <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Courses</th>
-                            <th scope="col">Completed</th>
-                            <th scope="col">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">
-                              <div className="d-flex align-items-center">
-                                <div className="me-2">
-                                  {" "}
-                                  <span className="avatar avatar-rounded">
-                                    {" "}
-                                    <img
-                                      src="../assets/images/faces/13.jpg"
-                                      alt=""
-                                    />
-                                  </span>{" "}
-                                </div>
-                                <div>
-                                  {" "}
-                                  <span className="d-blockfw-semibold">
-                                    Richard Dom
-                                  </span>
-                                  <span className="d-block fs-12 text-muted">
-                                    richarddom1116@demo.com
-                                  </span>
-                                </div>
-                              </div>
-                            </th>
-                            <td>9</td>
-                            <td>1</td>
-                            <td>
-                              <div className="hstack gap-2 fs-15">
-                                {" "}
-                                <a
-                                  aria-label="anchor"
-                                  className="btn btn-icon btn-sm btn-info rounded-pill"
-                                >
-                                  <i className="bx bxs-edit-alt" />
-                                </a>{" "}
-                                <a
-                                  aria-label="anchor"
-                                  className="btn btn-icon btn-sm btn-danger rounded-pill"
-                                >
-                                  <i className="bx bxs-trash" />
-                                </a>{" "}
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <div className="d-flex align-items-center">
-                                <div className="me-2">
-                                  {" "}
-                                  <span className="avatar avatar-rounded">
-                                    {" "}
-                                    <img
-                                      src="../assets/images/faces/5.jpg"
-                                      alt=""
-                                    />
-                                  </span>{" "}
-                                </div>
-                                <div>
-                                  {" "}
-                                  <span className="d-blockfw-semibold">
-                                    Alicia Keys
-                                  </span>
-                                  <span className="d-block fs-12 text-muted">
-                                    aliciakeys89@gmail.com
-                                  </span>
-                                </div>
-                              </div>
-                            </th>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>
-                              <div className="hstack gap-2 fs-15">
-                                {" "}
-                                <a
-                                  aria-label="anchor"
-                                  className="btn btn-icon btn-sm btn-info rounded-pill"
-                                >
-                                  <i className="bx bxs-edit-alt" />
-                                </a>{" "}
-                                <a
-                                  aria-label="anchor"
-                                  className="btn btn-icon btn-sm btn-danger rounded-pill"
-                                >
-                                  <i className="bx bxs-trash" />
-                                </a>{" "}
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <div className="d-flex align-items-center">
-                                <div className="me-2">
-                                  {" "}
-                                  <span className="avatar avatar-rounded">
-                                    {" "}
-                                    <img
-                                      src="../assets/images/faces/10.jpg"
-                                      alt=""
-                                    />
-                                  </span>{" "}
-                                </div>
-                                <div>
-                                  {" "}
-                                  <span className="d-blockfw-semibold">
-                                    Robert Brook
-                                  </span>
-                                  <span className="d-block fs-12 text-muted">
-                                    robertbrook95@gmail.com
-                                  </span>
-                                </div>
-                              </div>
-                            </th>
-                            <td>15</td>
-                            <td>0</td>
-                            <td>
-                              <div className="hstack gap-2 fs-15">
-                                {" "}
-                                <a
-                                  aria-label="anchor"
-                                  className="btn btn-icon btn-sm btn-info rounded-pill"
-                                >
-                                  <i className="bx bxs-edit-alt" />
-                                </a>{" "}
-                                <a
-                                  aria-label="anchor"
-                                  className="btn btn-icon btn-sm btn-danger rounded-pill"
-                                >
-                                  <i className="bx bxs-trash" />
-                                </a>{" "}
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row" className="border-bottom-0">
-                              <div className="d-flex align-items-center">
-                                <div className="me-2">
-                                  {" "}
-                                  <span className="avatar avatar-rounded">
-                                    {" "}
-                                    <img
-                                      src="../assets/images/faces/9.jpg"
-                                      alt=""
-                                    />
-                                  </span>{" "}
-                                </div>
-                                <div>
-                                  {" "}
-                                  <span className="d-blockfw-semibold">
-                                    Alex Boi
-                                  </span>{" "}
-                                  <span className="d-block fs-12 text-muted">
-                                    alexboi555@gmail.com
-                                  </span>
-                                </div>
-                              </div>
-                            </th>
-                            <td className="border-bottom-0">16</td>
-                            <td className="border-bottom-0">3</td>
-                            <td className="border-bottom-0">
-                              <div className="hstack gap-2 fs-15">
-                                {" "}
-                                <a
-                                  aria-label="anchor"
-                                  className="btn btn-icon btn-sm btn-info rounded-pill"
-                                >
-                                  <i className="bx bxs-edit-alt" />
-                                </a>{" "}
-                                <a
-                                  aria-label="anchor"
-                                  className="btn btn-icon btn-sm btn-danger rounded-pill"
-                                >
-                                  <i className="bx bxs-trash" />
-                                </a>{" "}
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table> */}
                       <CommonDataTable
                         data={dashboardCustomers}
                         tableHeaders={dashboardCustomerHeaders}
@@ -1117,7 +928,7 @@ export const Index = () => {
                   <div className="card-header d-flex align-items-center justify-content-between">
                     <div className="card-title"> Payouts </div>
                     <div className="ms-auto">
-                      <ul className="nav nav-pills">
+                      {/* <ul className="nav nav-pills">
                         <li className="nav-item">
                           <a className="nav-link" href="#">
                             1M
@@ -1133,11 +944,18 @@ export const Index = () => {
                             1Y
                           </a>
                         </li>
-                      </ul>
+                      </ul> */}
                     </div>
                   </div>
                   <div className="card-body">
-                    <DoughnutChart />
+                    {/* <DoughnutChart
+                      paid={payoutLead.paid}
+                      unPaid={payoutLead.unPaid}
+                    /> */}
+                    <Doughnut
+                      options={payoutChartOptions}
+                      data={payoutChartData}
+                    />
                   </div>
                 </div>
               </div>
@@ -1152,12 +970,8 @@ export const Index = () => {
                   <div className="card-body">
                     <div className="table-responsive">
                       <CommonDataTable
-                        data={courseData}
-                        tableHeaders={tableHeaders}
-                        actionButtons
-                        callback={(data) => console.log(data)}
-                        editButton
-                        deleteButton
+                        data={dashoardCourses}
+                        tableHeaders={dashboardCourseHeaders}
                       />
                     </div>
                   </div>

@@ -45,7 +45,6 @@ const sendMail = async (req, res, next) => {
             `uploads\\images\\${e.split("uploads/images/")[1]}`,
             (err) => {
               if (err) console.error(err);
-              else console.log("file is deleted");
             }
           );
         });

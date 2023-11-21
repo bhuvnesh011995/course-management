@@ -18,6 +18,7 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 export const AddNewLeadModel = ({
   setIsOpen,
@@ -308,6 +309,7 @@ export const AddNewLeadModel = ({
         params: leadData,
       });
       if (data[0]) {
+        if (data[0].DOB) data[0].DOB = moment(data[0].DOB).format("YYYY-MM-DD");
         reset(data[0]);
         if (leadData) {
           getFilteredCourses(data[0]);
@@ -335,7 +337,6 @@ export const AddNewLeadModel = ({
   const getPaymentRegistration = async () => {
     try {
       toast.dismiss();
-      console.log("clicked");
       const { data } = await AxiosInstance.get("/leads/getSelectedLead", {
         params: leadData,
       });
@@ -385,26 +386,6 @@ export const AddNewLeadModel = ({
       handleClose();
     } catch (err) {
       toast.error("something went wrong");
-      console.error(err);
-    }
-  };
-
-  const confirmCourseAssigned = async () => {
-    try {
-      if (watch("course")?.length) {
-        leadData["course"] = watch("course");
-        leadData["courseAssigned"] = true;
-      } else {
-        setError("course", { message: "Please Select Course" });
-        return;
-      }
-      const { data } = await AxiosInstance.post(
-        "/leads/assignCourse",
-        leadData
-      );
-      callback(leadData, "courseAssign");
-      handleClose();
-    } catch (err) {
       console.error(err);
     }
   };
@@ -1320,7 +1301,6 @@ export const AddNewLeadModel = ({
                             <div className="d-flex">
                               <button
                                 type="submit"
-                                onClick={() => confirmCourseAssigned()}
                                 className="btn mx-1 btn-success"
                               >
                                 Assign Course

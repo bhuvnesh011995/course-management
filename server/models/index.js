@@ -19,5 +19,4 @@ module.exports = {
   leaves: require("./leaveModel"),
   language: require("./languageModel"),
   designation: require("./designationModel"),
-  duration: require("./durationModel"),
 };

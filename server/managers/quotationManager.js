@@ -48,12 +48,10 @@ const addNewQuotation = async (req, res, next) => {
         },
       },
     ]);
-    return res
-      .status(200)
-      .send({
-        data: addedQuotation[0],
-        message: "Quotation added successfully",
-      });
+    return res.status(200).send({
+      data: addedQuotation[0],
+      message: "Quotation added successfully",
+    });
   } catch (err) {
     console.error(err);
     next(err);
@@ -184,7 +182,6 @@ const getQuotation = async (req, res, next) => {
           contactPerson: "$leadDetails.contactPerson",
           contactPersonMobile: "$leadDetails.contactPersonMobile",
           courseName: "$courseDetails.courseName",
-          duration: "$courseDetails.duration",
           startDate: "$classDetails.startDate",
           startTime: "$classDetails.startTime",
           quotationCourses: 1,

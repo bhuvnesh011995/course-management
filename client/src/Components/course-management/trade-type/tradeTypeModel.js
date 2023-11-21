@@ -11,7 +11,6 @@ export const TradeTypeModal = ({
   tradeData,
   viewTradeType,
 }) => {
-  console.log(viewTradeType);
   const handleClose = () => {
     setIsOpen(false);
     reset({});

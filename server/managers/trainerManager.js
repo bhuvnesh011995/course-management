@@ -126,8 +126,6 @@ const updateTrainer = async (req, res, next) => {
         (err) => {
           if (err) {
             console.error(err);
-          } else {
-            console.log("file Deleted");
           }
         }
       );

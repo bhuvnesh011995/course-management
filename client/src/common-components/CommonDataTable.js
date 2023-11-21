@@ -59,15 +59,12 @@ export const CommonDataTable = ({
       });
       return;
     }
-    if (e == "duration") {
+    if (e == "durationStatus") {
       tableColumns.push({
         accessorKey: e,
         Cell: ({ row }) => (
-          <div className="d-flex align-items-center">
-            <div className="me-2">
-              {row.original.durationNumber + " " + row.original.durationType}
-              {row.original.durationNumber > 1 ? "s" : ""}
-            </div>
+          <div className="d-flex align-items-center justify-content-center">
+            {row.original.durationStatus}
           </div>
         ),
         header: tableHeaders[e],
@@ -141,6 +138,9 @@ export const CommonDataTable = ({
   if (data[0]?.created_at) {
     data.map((e, index) => (e.created_at = convertMongooseDate(e.created_at)));
   }
+  if (data[0]?.updated_at) {
+    data.map((e, index) => (e.updated_at = convertMongooseDate(e.updated_at)));
+  }
   if (data[0]?.date) {
     data.map((e, index) => (e.date = convertMongooseDate(e.date)));
   }
@@ -211,18 +211,12 @@ export const CommonDataTable = ({
             </button>
           )}
           {leadModelButtons && row.original?.getPayment && (
-            <button
-              onClick={() => console.log("get payment")}
-              className="btn btn-icon rounded-pill"
-            >
+            <button className="btn btn-icon rounded-pill">
               <i className="bx bx-money align-middle me-1 text-info" />
             </button>
           )}
           {leadModelButtons && row.original?.confirmed && (
-            <button
-              onClick={() => console.log("is confirmed")}
-              className="btn btn-icon rounded-pill"
-            >
+            <button className="btn btn-icon rounded-pill">
               <i className="mdi mdi-check-circle align-middle text-success" />
             </button>
           )}
@@ -232,7 +226,7 @@ export const CommonDataTable = ({
   }
 
   return (
-    <div>
+    <div className="p-3">
       <MaterialReactTable
         columns={tableColumns}
         data={data}

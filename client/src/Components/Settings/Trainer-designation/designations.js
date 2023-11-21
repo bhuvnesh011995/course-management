@@ -18,7 +18,6 @@ export const Designations = () => {
   const showDesignationModal = (e, type, index) => {
     setDesignationIndex(index);
     setDesignationData(e);
-    console.log(type);
     if (type == "delete") {
       setDeleteDesignation(true);
     }

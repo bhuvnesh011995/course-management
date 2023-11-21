@@ -94,7 +94,6 @@ export const courseHeaders = {
   registrationType: "Registration Type",
   tradeLevel: "Trade Level",
   price: "Price ($)",
-  duration: "Duration",
 };
 
 export const classHeaders = {
@@ -246,9 +245,10 @@ export const leaveHeaders = {
   endDate: "End Date",
 };
 
-export const dashboardCourseHeaders = {
+export const dashboardClassHeaders = {
+  classCode: "Class",
   courseName: "Course Title",
-  status: "Status",
+  durationStatus: "Status",
   duration: "Duration",
   trainerName: "Trainer",
 };
@@ -258,4 +258,12 @@ export const dashboardCustomerHeaders = {
   contactPersonEmail: "Email",
   courseCount: "Courses",
   completedCount: "Completed",
+};
+
+export const dashboardCourseHeaders = {
+  courseName: "Course",
+  courseType: "Category",
+  totalClasses: "Classes",
+  updated_at: "Last Updated",
+  totalCustomers: "Cutomers",
 };

@@ -13,4 +13,6 @@ routes.delete("/deleteClass", classManager.deleteClass);
 
 routes.get("/getCourseClasses", classManager.getCourseClasses);
 
+routes.get("/getDashboardClasses", classManager.getDashboardClasses);
+
 module.exports = routes;

@@ -37,7 +37,7 @@ export const LoginUser = () => {
           localStorage.setItem("token", response.data.token);
         }
       } else {
-        console.log(response);
+        toast.error("something went wrong");
       }
     } catch (err) {
       if (err.response.status === 401) {

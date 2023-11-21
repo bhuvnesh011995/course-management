@@ -32,12 +32,10 @@ const addRegistrationType = async (req, res, next) => {
         },
       },
     ]);
-    return res
-      .status(200)
-      .send({
-        data: registrationData,
-        message: "registration type added successfully ",
-      });
+    return res.status(200).send({
+      data: registrationData,
+      message: "registration type added successfully ",
+    });
   } catch (err) {
     next(err);
   }
@@ -139,10 +137,49 @@ const deleteRegistration = async (req, res, next) => {
   }
 };
 
+const allDashboardClassTypes = async (req, res, next) => {
+  try {
+    const allClassTypes = await db.registrationType.aggregate([
+      {
+        $lookup: {
+          from: "courses",
+          let: { registrationId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$registrationId", "$registrationType"],
+                },
+              },
+            },
+          ],
+          as: "courseDetails",
+        },
+      },
+      {
+        $addFields: {
+          totalRegistrations: { $size: "$courseDetails" },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          totalRegistrations: 1,
+          registrationName: 1,
+        },
+      },
+    ]);
+    return res.status(200).send(allClassTypes);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   addRegistrationType,
   getRegistrationTypes,
   getRegistrationType,
   updateRegistration,
   deleteRegistration,
+  allDashboardClassTypes,
 };

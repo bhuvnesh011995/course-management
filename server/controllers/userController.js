@@ -43,7 +43,7 @@ const signIn = (req, res) => {
       res
         .status(500)
         .json({ success: false, message: "internal error occured" });
-      console.log(err);
+      console.error(err);
     });
 };
 

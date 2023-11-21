@@ -279,8 +279,7 @@ const updateLead = async (req, res, next) => {
         fs.unlink(
           `uploads\\images\\${path.split("/")[path.split("/").length - 1]}`,
           (err) => {
-            if (err) console.log(err);
-            else console.log("file is deleted");
+            if (err) console.error(err);
           }
         );
       }
@@ -432,8 +431,7 @@ const deleteLead = async (req, res, next) => {
           ]
         }`,
         (err) => {
-          if (err) console.log(err);
-          else console.log("file is deleted");
+          if (err) console.error(err);
         }
       )
     );
@@ -469,16 +467,12 @@ const getPayment = async (req, res, next) => {
     fs.writeFileSync(bankFilePath, bankPdfBuffer, "binary", (err) => {
       if (err) {
         console.error(err);
-      } else {
-        console.log("pdf file generated");
       }
     });
 
     fs.writeFileSync(filePath, paymentPdfBuffer, "binary", (err) => {
       if (err) {
         console.error(err);
-      } else {
-        console.log("pdf file generated");
       }
     });
     const sendMailObj = {
@@ -625,7 +619,6 @@ const accountHistory = async (req, res, next) => {
           price: "$courseDetails.price",
           class: "$classDetails.classCode",
           trainer: "$trainerDetails.trainerName",
-          duration: "$courseDetails.duration",
           startDate: "$classDetails.startDate",
           startTime: "$classDetails.startTime",
           created_at: 1,
@@ -1013,63 +1006,80 @@ const getCompany = async (req, res, next) => {
 };
 
 const getDashboardCustomers = async (req, res, next) => {
-  const dashboardCustomers = await db.lead.aggregate([
-    {
-      $lookup: {
-        from: "courses",
-        let: { courseId: "$course" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ["$$courseId", { $toString: "$_id" }],
+  try {
+    const dashboardCustomers = await db.lead.aggregate([
+      {
+        $lookup: {
+          from: "courses",
+          let: { courseId: "$course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$courseId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "courseDetails",
+        },
+      },
+      {
+        $group: {
+          _id: {
+            contactPerson: "$contactPerson",
+            contactPersonEmail: "$contactPersonEmail",
+          },
+          courseCount: {
+            $sum: {
+              $cond: [{ $gt: [{ $size: "$courseDetails" }, 0] }, 1, 0],
+            },
+          },
+          completedCount: {
+            $sum: {
+              $cond: {
+                if: {
+                  $and: [
+                    { $eq: ["$courseAssigned", true] },
+                    { $eq: ["$getPayment", true] },
+                    { $eq: ["$confirmed", true] },
+                  ],
+                },
+                then: 1,
+                else: 0,
               },
             },
           },
-        ],
-        as: "courseDetails",
+          unCompletedCount: {
+            $sum: {
+              $cond: {
+                if: {
+                  $and: [{ $eq: ["$confirmed", false] }],
+                },
+                then: 1,
+                else: 0,
+              },
+            },
+          },
+        },
       },
-    },
 
-    {
-      $group: {
-        _id: {
-          contactPerson: "$contactPerson",
-          contactPersonEmail: "$contactPersonEmail",
-        },
-        courseCount: {
-          $sum: {
-            $cond: [{ $gt: [{ $size: "$courseDetails" }, 0] }, 1, 0],
-          },
-        },
-        completedCount: {
-          $sum: {
-            $cond: {
-              if: {
-                $and: [
-                  { $eq: ["$courseAssigned", true] },
-                  { $eq: ["$getPayment", true] },
-                  { $eq: ["$confirmed", true] },
-                ],
-              },
-              then: 1,
-              else: 0,
-            },
-          },
+      {
+        $project: {
+          _id: 0,
+          contactPersonEmail: "$_id.contactPersonEmail",
+          contactPerson: "$_id.contactPerson",
+          courseCount: 1,
+          completedCount: 1,
+          unCompletedCount: 1,
         },
       },
-    },
-    {
-      $project: {
-        _id: 0,
-        contactPersonEmail: "$_id.contactPersonEmail",
-        contactPerson: "$_id.contactPerson",
-        courseCount: 1,
-        completedCount: 1,
-      },
-    },
-  ]);
-  return res.status(200).send(dashboardCustomers);
+    ]);
+    return res.status(200).send(dashboardCustomers);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 };
 
 module.exports = {

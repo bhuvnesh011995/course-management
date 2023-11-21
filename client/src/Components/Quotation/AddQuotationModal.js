@@ -754,9 +754,6 @@ export default function AddQuotationModal({ show, setShow, callback }) {
                                         <p className="m-0 ps-4">
                                           Trainer - {course.trainer}
                                         </p>
-                                        <p className="m-0 ps-4">
-                                          Duration - {course.duration[0]}
-                                        </p>
                                       </div>
                                     </div>
                                   </div>
@@ -1064,9 +1061,6 @@ export default function AddQuotationModal({ show, setShow, callback }) {
                                   style={{ fontWeight: "bold" }}
                                 >
                                   {course.course[0]}
-                                </p>
-                                <p className="m-0">
-                                  Duration : {course.duration[0]}
                                 </p>
                                 <p className="m-0">
                                   Starting Date:{" "}

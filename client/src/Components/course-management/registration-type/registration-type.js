@@ -62,7 +62,6 @@ export const RegistrationType = () => {
       registrationTypes[regIndex] = registrationData;
       setRegistrationTypes([...registrationTypes]);
     } else {
-      console.log(registrationData);
       registrationData.tradeLevels = registrationData.tradeLevels.map(
         (level) => level.tradeLevel + " , "
       );
