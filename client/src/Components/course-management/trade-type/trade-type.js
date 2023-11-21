@@ -5,6 +5,7 @@ import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { tradeTypeHeaders } from "../../../Constants/table.constants";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export const TradeType = () => {
   const [tradeModalOpen, setTradeModalOpen] = useState(false);
@@ -87,7 +88,7 @@ export const TradeType = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to={"/"}>Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">Trade Type</li>
                     </ol>

@@ -17,5 +17,7 @@ module.exports = {
   payRolls: require("./PayrollModel"),
   timesheets: require("./timeSheetModel"),
   leaves: require("./leaveModel"),
-  language:require("./languageModel")
+  language: require("./languageModel"),
+  designation: require("./designationModel"),
+  duration: require("./durationModel"),
 };

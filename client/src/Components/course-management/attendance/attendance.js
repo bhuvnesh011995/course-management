@@ -4,6 +4,7 @@ import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { attendanceHeaders } from "../../../Constants/table.constants";
 import { AttendanceGenerateModal } from "./generateLeads";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export const Attendance = () => {
   const filterObject = {
@@ -62,7 +63,7 @@ export const Attendance = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <Link to={"/"}>Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Attendance Management

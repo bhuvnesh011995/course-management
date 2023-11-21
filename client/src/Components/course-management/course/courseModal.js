@@ -15,15 +15,19 @@ export const CourseModal = ({
 }) => {
   const [tradeLevels, setTradeLevels] = useState([]);
   const [registrationCode, setRegistrationCode] = useState("");
+  const [durations, setDurations] = useState([]);
+
   const {
     handleSubmit,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
 
   useEffect(() => {
     if (courseData) getSelectedCourse();
+    getAllDurations();
   }, []);
 
   const addNewCourse = async (newCourse) => {
@@ -38,6 +42,17 @@ export const CourseModal = ({
       handleClose();
     } catch (err) {
       toast.error("error occured");
+      console.error(err);
+    }
+  };
+
+  const getAllDurations = async () => {
+    try {
+      const allDurations = await AxiosInstance.get("/durations/getDurations");
+      if (allDurations.status == 200) {
+        setDurations(allDurations.data);
+      }
+    } catch (err) {
       console.error(err);
     }
   };
@@ -200,12 +215,28 @@ export const CourseModal = ({
             </div>
             <div className="col-md-6 mb-3">
               <label className="form-label">Duration:</label>
-              <input
-                className="form-control"
+              <select
+                className="form-select"
                 {...register("duration", { required: "Duration is required" })}
                 disabled={viewCourse}
-                placeholder={"months, years, weeks"}
-              />
+                // placeholder={"months, years, weeks"}
+              >
+                <option value={""}>select</option>
+                {durations.length ? (
+                  durations.map((e) => (
+                    <option
+                      selected={e._id == watch("duration") && e._id}
+                      key={e.duration}
+                      value={e._id}
+                    >
+                      {e.duration + " " + e.type}
+                      {e.duration > 1 ? "s" : ""}
+                    </option>
+                  ))
+                ) : (
+                  <div></div>
+                )}
+              </select>
               <span className="text-danger">
                 {errors?.duration && errors?.duration.message}
               </span>

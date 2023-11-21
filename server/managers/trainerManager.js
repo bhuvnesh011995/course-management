@@ -12,8 +12,49 @@ const addNewTrainer = async (req, res, next) => {
       query["trainerImageName"] = `images/${file.originalName}`;
     }
     const newTrainer = await db.trainers.create(query);
-    const saveTrainer = await newTrainer.save();
-    return res.status(200).send(saveTrainer);
+    const trainer = await db.trainers.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [newTrainer._id, "$_id"],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "designations",
+          let: { designationId: "$trainerDesignation" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$designationId"],
+                },
+              },
+            },
+          ],
+          as: "designationDetails",
+        },
+      },
+      {
+        $unwind: "$designationDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          trainerName: 1,
+          trainerEmail: 1,
+          trainerMobile: 1,
+          trainerDOB: 1,
+          trainerDesignation: 1,
+          designation: "$designationDetails.designation",
+          trainerImagePath: 1,
+          trainerAddress: 1,
+          trainerImageName: 1,
+        },
+      },
+    ]);
+    return res.status(200).send(trainer[0]);
   } catch (err) {
     next(err);
   }
@@ -21,7 +62,41 @@ const addNewTrainer = async (req, res, next) => {
 
 const getTrainers = async (req, res, next) => {
   try {
-    const trainers = await db.trainers.find({});
+    const trainers = await db.trainers.aggregate([
+      {
+        $lookup: {
+          from: "designations",
+          let: { designationId: "$trainerDesignation" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$designationId"],
+                },
+              },
+            },
+          ],
+          as: "designationDetails",
+        },
+      },
+      {
+        $unwind: "$designationDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          trainerName: 1,
+          trainerEmail: 1,
+          trainerMobile: 1,
+          trainerDOB: 1,
+          trainerDesignation: 1,
+          designation: "$designationDetails.designation",
+          trainerImagePath: 1,
+          trainerAddress: 1,
+          trainerImageName: 1,
+        },
+      },
+    ]);
     return res.status(200).send(trainers);
   } catch (err) {
     next(err);
@@ -57,7 +132,51 @@ const updateTrainer = async (req, res, next) => {
         }
       );
     }
-    return res.status(200).send({ message: "Trainer updated Successfully !" });
+    const trainer = await db.trainers.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [query._id, { $toString: "$_id" }],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "designations",
+          let: { designationId: "$trainerDesignation" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$designationId"],
+                },
+              },
+            },
+          ],
+          as: "designationDetails",
+        },
+      },
+      {
+        $unwind: "$designationDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          trainerName: 1,
+          trainerEmail: 1,
+          trainerMobile: 1,
+          trainerDOB: 1,
+          trainerDesignation: 1,
+          designation: "$designationDetails.designation",
+          trainerImagePath: 1,
+          trainerAddress: 1,
+          trainerImageName: 1,
+        },
+      },
+    ]);
+    return res
+      .status(200)
+      .send({ data: trainer[0], message: "Trainer updated Successfully !" });
   } catch (err) {
     next(err);
   }
@@ -141,10 +260,76 @@ const trainerClassDetails = async (req, res, next) => {
 };
 
 const getDashboardTrainers = async (req, res, next) => {
-  // const dashboardTrainers = await db.trainers.aggregate([
-
-  // ])
-  console.log("kojhug");
+  try {
+    const dashboardTrainers = await db.trainers.aggregate([
+      {
+        $lookup: {
+          from: "designations",
+          let: { designationId: "$trainerDesignation" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$designationId"],
+                },
+              },
+            },
+          ],
+          as: "designationDetails",
+        },
+      },
+      {
+        $unwind: "$designationDetails",
+      },
+      {
+        $lookup: {
+          from: "classes",
+          let: { trainerId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$trainerId", "$trainer"],
+                },
+              },
+            },
+          ],
+          as: "classDetails",
+        },
+      },
+      {
+        $group: {
+          _id: {
+            trainerEmail: "$trainerEmail",
+            trainerName: "$trainerName",
+            designation: "$designationDetails.designation",
+            trainerImagePath: "$trainerImagePath",
+            startTime: "$startTime",
+            endTime: "$endTime",
+            startDate: "$startDate",
+            endDate: "$endDate",
+          },
+          classCount: {
+            $sum: {
+              $size: "$classDetails",
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          trainerName: "$_id.trainerName",
+          classCount: 1,
+          designation: "$_id.designation",
+          trainerImagePath: "$_id.trainerImagePath",
+        },
+      },
+    ]);
+    return res.status(200).send(dashboardTrainers);
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {

@@ -26,6 +26,23 @@ const addNewCourse = async (req, res, next) => {
       { $unwind: "$tradeTypeDetails" },
       {
         $lookup: {
+          from: "durations",
+          let: { durationId: "$duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$durationId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
+      {
+        $lookup: {
           from: "registrationtypes",
           let: { registrationId: "$registrationType" },
           pipeline: [
@@ -103,6 +120,8 @@ const addNewCourse = async (req, res, next) => {
           duration: "$bothCombined.duration",
           tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
           tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          durationNumber: "$bothCombined.durationDetails.duration",
+          durationType: "$bothCombined.durationDetails.type",
           registrationType:
             "$bothCombined.registrationTypeDetails.registrationName",
           created_at: "$bothCombined.created_at",
@@ -135,6 +154,23 @@ const getCourses = async (req, res, next) => {
         },
       },
       { $unwind: "$tradeTypeDetails" },
+      {
+        $lookup: {
+          from: "durations",
+          let: { durationId: "$duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$durationId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
       {
         $lookup: {
           from: "registrationtypes",
@@ -232,6 +268,8 @@ const getCourses = async (req, res, next) => {
           duration: "$bothCombined.duration",
           tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
           tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          durationNumber: "$bothCombined.durationDetails.duration",
+          durationType: "$bothCombined.durationDetails.type",
           registrationType:
             "$bothCombined.registrationTypeDetails.registrationName",
           ActiveCourses: "$bothCombined.leadCourses",
@@ -289,6 +327,23 @@ const updateCourse = async (req, res, next) => {
         },
       },
       { $unwind: "$tradeTypeDetails" },
+      {
+        $lookup: {
+          from: "durations",
+          let: { durationId: "$duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$durationId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
       {
         $lookup: {
           from: "registrationtypes",
@@ -369,6 +424,8 @@ const updateCourse = async (req, res, next) => {
           price: "$bothCombined.price",
           duration: "$bothCombined.duration",
           tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
+          durationNumber: "$bothCombined.durationDetails.duration",
+          durationType: "$bothCombined.durationDetails.type",
           tradeType: "$bothCombined.tradeTypeDetails.tradeType",
           registrationType:
             "$bothCombined.registrationTypeDetails.registrationName",
@@ -444,54 +501,77 @@ const getFilteredCourses = async (req, res, next) => {
 };
 
 const getDashboardCourses = async (req, res, next) => {
-  const dashboardCourses = await db.classes.aggregate([
-    {
-      $lookup: {
-        from: "courses",
-        let: { courseId: "$course" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ["$$courseId", "$_id"],
+  try {
+    const dashboardCourses = await db.classes.aggregate([
+      {
+        $lookup: {
+          from: "courses",
+          let: { courseId: "$course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$courseId", "$_id"],
+                },
               },
             },
-          },
-        ],
-        as: "courseDetails",
+          ],
+          as: "courseDetails",
+        },
       },
-    },
-    { $unwind: "$courseDetails" },
-    {
-      $lookup: {
-        from: "trainers",
-        let: { trainerId: "$trainer" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ["$$trainerId", "$_id"],
+      { $unwind: "$courseDetails" },
+      {
+        $lookup: {
+          from: "durations",
+          let: { durationId: "$courseDetails.duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$durationId", { $toString: "$_id" }],
+                },
               },
             },
-          },
-        ],
-        as: "trainerDetails",
+          ],
+          as: "durationDetails",
+        },
       },
-    },
-    { $unwind: "$trainerDetails" },
-    {
-      $project: {
-        _id: 1,
-        trainerName: "$trainerDetails.trainerName",
-        trainerImagePath: "$trainerDetails.trainerImagePath",
-        courseName: "$courseDetails.courseName",
-        duration: "$courseDetails.duration",
-        startDate: 1,
-        endDate: 1,
+      { $unwind: "$durationDetails" },
+      {
+        $lookup: {
+          from: "trainers",
+          let: { trainerId: "$trainer" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$trainerId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "trainerDetails",
+        },
       },
-    },
-  ]);
-  return res.status(200).send(dashboardCourses);
+      { $unwind: "$trainerDetails" },
+      {
+        $project: {
+          _id: 1,
+          trainerName: "$trainerDetails.trainerName",
+          trainerImagePath: "$trainerDetails.trainerImagePath",
+          courseName: "$courseDetails.courseName",
+          duration: "$courseDetails.duration",
+          durationNumber: "$durationDetails.duration",
+          durationType: "$durationDetails.type",
+          startDate: 1,
+          endDate: 1,
+        },
+      },
+    ]);
+    return res.status(200).send(dashboardCourses);
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {
