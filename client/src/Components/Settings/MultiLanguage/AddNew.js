@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 
 export default function AddNew({data,setData,show,setShow,getLanguages}) {
+    const [ready,setReady] = useState(false)
     const {
         register,
         reset,
@@ -15,8 +16,9 @@ export default function AddNew({data,setData,show,setShow,getLanguages}) {
       } = useForm()
 
       const [updateData,setUpdateData] = useState(null)
-    const onSubmit = useCallback(async (data,updateData)=>{
+    const onSubmit = useCallback(async (languageData,updateData)=>{
         try {
+            console.log(data)
             if(data){
                 if(!updateData) return
                 let res = await AxiosInstance.put("/languages/language/"+data._id,updateData)
@@ -29,7 +31,8 @@ export default function AddNew({data,setData,show,setShow,getLanguages}) {
                     toast.error('error occured while updating')
                 }
             }else{
-                let res = await AxiosInstance.post("/languages",data)
+                console.log("in post")
+                let res = await AxiosInstance.post("/languages",languageData)
                 if(res.status===201){
                     toast.success("language added successfully")
                     getLanguages()
@@ -46,12 +49,17 @@ export default function AddNew({data,setData,show,setShow,getLanguages}) {
         }
         
         
-    })
+    },[data])
 
     useEffect(()=>{
         if(data) reset(data)
+
         return ()=>{
-            setUpdateData(null)
+            if(ready){
+                setUpdateData(null)
+                setData(null)
+            }else setReady(true)
+            
         }
     },[])
     return(
