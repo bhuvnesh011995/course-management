@@ -19,7 +19,7 @@ exports.addLanguage = async function (req, res, next) {
 
 exports.getById = async function (req, res, next) {
   let { code } = req.query;
-  console.log(code, "code");
+  console.log(code,"code")
   try {
     if (code === "undefined" || !code || code === "null") {
       let language = await db.language

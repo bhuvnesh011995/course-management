@@ -44,6 +44,7 @@ import { Quotation } from "../Components/Quotation/quotation";
 import { TimeSheet } from "../Components/hrms/Timesheet/timesheet";
 import MultiLanguage from "../Components/Settings/MultiLanguage/MultiLanguage";
 import { Designations } from "../Components/Settings/Trainer-designation/designations";
+import { Constants } from "../Components/Settings/Constants/Constants";
 
 export const AllRoutes = () => {
   const navigate = useNavigate();
@@ -122,6 +123,7 @@ export const AllRoutes = () => {
         <Route path="/schedule/trainer" Component={Trainer}></Route>
         <Route path="/settings/multilanguage" Component={MultiLanguage}></Route>
         <Route path="/settings/designations" Component={Designations}></Route>
+        <Route path="/settings/constants" Component={Constants}></Route>
       </Routes>
     </div>
   );

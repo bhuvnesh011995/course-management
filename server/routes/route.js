@@ -20,5 +20,6 @@ routes.use("/timesheets", require("./timeSheetRoute"));
 routes.use("/leaves", require("./leaveRoute"));
 routes.use("/languages", require("./languageRoute"));
 routes.use("/designations", require("./designationRoute"));
+routes.use("/constants",require("./constants"))
 
 module.exports = routes;

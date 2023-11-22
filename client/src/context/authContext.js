@@ -16,13 +16,13 @@ export default function AuthProvider({children}){
     const [user,setUser] = useState(initialUser)
     const [lanCode,setLanCode] = useState()
     const [language,setLanguage] = useState()
+    const [ready,setReady]= useState(false)
     const getLanguage = useCallback(async (languageCode)=>{
         try {
             let response = await AxiosInstance.get("/languages/language/?code="+languageCode ?? "")
             if(response && response.status===200){
-                console.log(response)
+          
                 setLanguage(response.data.language)
-                setLanCode(response.data.code)
             }else{
                 
                 toast.error("cannot get language data")
@@ -31,13 +31,15 @@ export default function AuthProvider({children}){
             console.log(error)
             toast.error("error occured while fetching data")
         }
-    })
+    },[])
     useEffect(()=>{
-        getLanguage(lanCode)
+        if(ready){
+           getLanguage(lanCode) 
+        }else setReady(true)
     },[lanCode])
     return(
         <IntlProvider locale={lanCode||"en"} messages={language}>
-        <authContext.Provider value={{initialUser, user,setUser,lanCode,setLanCode}} >
+        <authContext.Provider value={{initialUser, user,setUser,lanCode,setLanCode,getLanguage}} >
             {children}
         </authContext.Provider>
         </IntlProvider>

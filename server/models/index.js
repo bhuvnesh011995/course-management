@@ -19,4 +19,6 @@ module.exports = {
   leaves: require("./leaveModel"),
   language: require("./languageModel"),
   designation: require("./designationModel"),
+  constants:require("./constants"),
+  
 };

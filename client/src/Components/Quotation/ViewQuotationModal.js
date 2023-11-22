@@ -54,7 +54,7 @@ export default function ViewQuotationModal({
       const { data } = await AxiosInstance.get("/quotations/getQuotation", {
         params: quotationData,
       });
-      toast.success("quotation updated to invoice");
+     
       setSelectedQuotation(data);
       calculateQuotation(data.quotationCourses);
     } catch (err) {

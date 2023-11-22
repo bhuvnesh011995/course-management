@@ -12,7 +12,8 @@ import { AxiosInstance } from "./axiosInstance";
 import { toast } from "react-toastify";
 
 export const CommonNavbar = () => {
-  const {initialUser, user,setUser} = useAuth()
+  const {initialUser, user,setUser,setLanCode,lanCode,getLanguage} = useAuth()
+  const [ready,setReady] =useState(false)
   const navigate = useNavigate();
   const [showLanguages, setShowLanguages] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -23,6 +24,7 @@ export const CommonNavbar = () => {
       let response = await AxiosInstance.get("/languages")
       if(response.status===200){
         setLanguages(response.data??[])
+        setLanCode(response.data && response.data[0].code)
       }
     } catch (error) {
       toast.error("error while fecting languages")
@@ -31,8 +33,9 @@ export const CommonNavbar = () => {
   useEffect(()=>{
     getLanguages()
   },[])
+  
   const [isFullScreen, setIsFullScreen] = useState(false);
-const {setLanCode,lanCode} = useAuth()
+
   const fullScreen = () => {
     if (!isFullScreen) {
       document.getElementById("layout-wrapper").requestFullscreen();

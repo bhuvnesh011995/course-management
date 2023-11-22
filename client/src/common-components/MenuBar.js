@@ -331,11 +331,18 @@ export const MenuBar = () => {
                 >
                   <Link to="/settings/designations">Designations</Link>
                 </li>
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "constants" && "mm-active"
+                  }`}
+                >
+                  <Link to="/settings/constants">Constants</Link>
+                </li>
               </ul>
             </li>
           </ul>
         </div>
-        {/* Sidebar */}
+        
       </div>
     </div>
   );
