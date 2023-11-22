@@ -1,14 +1,9 @@
-import {
-  BarChart,
-  DoughnutChart,
-} from "../../common-components/models/EarningChartModel";
+import { BarChart } from "../../common-components/models/EarningChartModel";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import {
-  courseData,
   dashboardClassHeaders,
   dashboardCourseHeaders,
   dashboardCustomerHeaders,
-  tableHeaders,
 } from "../../Constants/table.constants";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
@@ -31,6 +26,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import { Link } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -52,6 +48,12 @@ export const Index = () => {
     paid: 0,
     unPaid: 0,
   });
+  const [all, setAll] = useState({
+    trainers: 0,
+    customers: 0,
+    courses: 0,
+    registrations: 0,
+  });
   const [categoryTypes, setCategoryTypes] = useState([]);
   const [dashoardCourses, setDashoardCourses] = useState([]);
 
@@ -61,6 +63,7 @@ export const Index = () => {
     getDashboardTrainers();
     allDashboardClassTypes();
     allDashboardCourses();
+    allUsers();
   }, []);
   const getDashboardClasses = async () => {
     try {
@@ -112,6 +115,8 @@ export const Index = () => {
       const dashboardCustomers = await AxiosInstance.get(
         "/leads/getDashboardCustomers"
       );
+      setAll((old) => ({ ...old, customers: dashboardCustomers.data.length }));
+
       const payouts = {
         paid: 0,
         unPaid: 0,
@@ -132,6 +137,7 @@ export const Index = () => {
       const dashboardTrainers = await AxiosInstance.get(
         "/trainer/getDashboardTrainers"
       );
+      setAll((old) => ({ ...old, trainers: dashboardTrainers.data.length }));
       setDashboardTrainers(dashboardTrainers.data);
     } catch (err) {
       console.error(err);
@@ -186,7 +192,18 @@ export const Index = () => {
       const allCourses = await AxiosInstance.get(
         "/courses/allDashboardCourses"
       );
+      setAll((old) => ({ ...old, courses: allCourses.data.length }));
+
       setDashoardCourses(allCourses.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const allUsers = async () => {
+    try {
+      const users = await AxiosInstance.get("/users/getUsers");
+      setAll((old) => ({ ...old, registrations: users.data.users.length }));
     } catch (err) {
       console.error(err);
     }
@@ -213,12 +230,12 @@ export const Index = () => {
                         <div className="card-title"> Top Categories </div>
                         <div>
                           {" "}
-                          <button
-                            type="button"
-                            className="btn btn-light btn-wave btn-sm waves-effect waves-light"
+                          <Link
+                            className="d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer"
+                            to="/course-management/registration-type"
                           >
                             View All
-                          </button>{" "}
+                          </Link>
                         </div>
                       </div>
                       <div className="card-body">
@@ -394,21 +411,24 @@ export const Index = () => {
                           </div>
                           <div className="flex-fill">
                             <h5 className="d-block fw-semibold fs-18 mb-1">
-                              928
+                              {all.registrations}
                             </h5>
                             <div className="d-flex justify-content-between align-items-center">
                               <div className="text-muted fs-12">
-                                Daily Registration
+                                total Registration
                               </div>
-                              <div className="text-success">
+                              {/* <div className="text-success">
                                 <i className="bx bx-trending-up fs-16 me-1 align-middle d-inline-flex" />
                                 +2.02%
-                              </div>
+                              </div> */}
                             </div>{" "}
-                            <a className="text-primary fs-12">
+                            <Link
+                              to="/admin/user-management"
+                              className="text-primary fs-12"
+                            >
                               View All
                               <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -425,21 +445,24 @@ export const Index = () => {
                           </div>
                           <div className="flex-fill">
                             <h5 className="d-block fw-semibold fs-18 mb-1">
-                              35,393
+                              {all.customers}
                             </h5>
                             <div className="d-flex justify-content-between align-items-center">
                               <div className="text-muted fs-12">
                                 Total Customers
                               </div>
-                              <div className="text-danger">
+                              {/* <div className="text-danger">
                                 <i className="bx bx-trending-down fs-16 me-1 align-middle d-inline-flex" />
                                 -0.24%
-                              </div>
+                              </div> */}
                             </div>{" "}
-                            <a className="text-secondary fs-12">
+                            <Link
+                              to="/customer-management"
+                              className="text-secondary fs-12"
+                            >
                               View All
                               <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -456,21 +479,24 @@ export const Index = () => {
                           </div>
                           <div className="flex-fill">
                             <h5 className="d-block fw-semibold fs-18 mb-1">
-                              573
+                              {all.trainers}
                             </h5>
                             <div className="d-flex justify-content-between align-items-center">
                               <div className="text-muted fs-12">
                                 Total Trainers
                               </div>
-                              <div className="text-danger">
+                              {/* <div className="text-danger">
                                 <i className="bx bx-trending-down fs-16 me-1 align-middle d-inline-flex" />
                                 -1.32%
-                              </div>
+                              </div> */}
                             </div>{" "}
-                            <a className="text-warning fs-12">
+                            <Link
+                              to="/schedule/trainer"
+                              className="text-warning fs-12"
+                            >
                               View All
                               <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -487,21 +513,24 @@ export const Index = () => {
                           </div>
                           <div className="flex-fill">
                             <h5 className="d-block fw-semibold fs-18 mb-1">
-                              2,389
+                              {all.courses}
                             </h5>
                             <div className="d-flex justify-content-between align-items-center">
                               <div className="text-muted fs-12">
                                 Total Courses
                               </div>
-                              <div className="text-success">
+                              {/* <div className="text-success">
                                 <i className="bx bx-trending-up fs-16 me-1 align-middle d-inline-flex" />
                                 +0.89%
-                              </div>
+                              </div> */}
                             </div>{" "}
-                            <a className="text-danger fs-12">
+                            <Link
+                              to="/course-management/course"
+                              className="text-danger fs-12"
+                            >
                               View All
                               <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -515,12 +544,12 @@ export const Index = () => {
                         <div className="card-title"> All Classes </div>
                         <div>
                           {" "}
-                          <button
-                            type="button"
-                            className="btn btn-light btn-sm"
+                          <Link
+                            className="d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer"
+                            to="/course-management/class"
                           >
                             View All
-                          </button>
+                          </Link>
                         </div>
                       </div>
                       <div className="card-body p-0">
@@ -907,9 +936,12 @@ export const Index = () => {
                     <div className="card-title"> Customers </div>
                     <div>
                       {" "}
-                      <button type="button" className="btn btn-sm btn-light">
+                      <Link
+                        className="d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer"
+                        to="/lead"
+                      >
                         View All
-                      </button>{" "}
+                      </Link>
                     </div>
                   </div>
                   <div className="card-body p-0">

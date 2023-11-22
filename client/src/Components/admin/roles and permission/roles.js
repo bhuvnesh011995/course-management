@@ -17,7 +17,6 @@ export const Roles = () => {
   const [userRoles, setUserRoles] = useState([]);
   const [userRoleModelOpen, setUserRoleModelOpen] = useState(false);
   const [userRoleData, setUserRoleData] = useState(null);
-  const [loginUser, setLoginUser] = useState({});
   const [deleteRoleModal, setDeleteRoleModal] = useState(false);
 
   useEffect(() => {
@@ -67,7 +66,6 @@ export const Roles = () => {
       });
       setRoles(data.roleData);
       setFilteredRoles(data.roleData);
-      setLoginUser(data.user[0]);
     } catch (err) {
       toast.error("something went wrong !");
       console.error(err);
@@ -159,15 +157,13 @@ export const Roles = () => {
                           </div>
                         </div>
                       </div>
-                      {loginUser?.roleData?.role?.create && (
-                        <button
-                          className="btn btn-primary me-2"
-                          onClick={() => showRoleModal()}
-                        >
-                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                          Add New Role
-                        </button>
-                      )}
+                      <button
+                        className="btn btn-primary me-2"
+                        onClick={() => showRoleModal()}
+                      >
+                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                        Add New Role
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -213,22 +209,20 @@ export const Roles = () => {
                             >
                               <a>{e.roleName}</a>
                             </h4>
-                            {loginUser?.roleData?.role?.write && (
-                              <div>
-                                <button
-                                  onClick={() => showRoleModal(e._id)}
-                                  className="btn btn-sm btn-primary role-edit-modal mx-1"
-                                >
-                                  <small>Edit Role</small>
-                                </button>
-                                <button
-                                  onClick={() => showRoleModal(e._id, "delete")}
-                                  className="btn btn-sm btn-danger role-edit-modal"
-                                >
-                                  <small>Delete Role</small>
-                                </button>
-                              </div>
-                            )}
+                            <div>
+                              <button
+                                onClick={() => showRoleModal(e._id)}
+                                className="btn btn-sm btn-primary role-edit-modal mx-1"
+                              >
+                                <small>Edit Role</small>
+                              </button>
+                              <button
+                                onClick={() => showRoleModal(e._id, "delete")}
+                                className="btn btn-sm btn-danger role-edit-modal"
+                              >
+                                <small>Delete Role</small>
+                              </button>
+                            </div>
                           </div>
                           <a className="text-muted cursor-pointer">
                             <i className="bx bx-copy fs-4" />
@@ -253,7 +247,7 @@ export const Roles = () => {
                         data={userRoles}
                         tableHeaders={rolesTableHeaders}
                         actionButtons
-                        viewButton={loginUser?.roleData?.role?.read}
+                        viewButton
                         downloadExcel
                         downloadPdf
                         callback={(e, type) => showUserRoleModel(e, type)}

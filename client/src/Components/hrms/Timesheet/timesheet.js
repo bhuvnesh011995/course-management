@@ -109,7 +109,7 @@ export const TimeSheet = () => {
                         onClick={() => showTimesheet()}
                       >
                         <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New
+                        Add New Timesheet
                       </button>
                     </div>
                   </div>
@@ -171,7 +171,7 @@ export const TimeSheet = () => {
         <DeleteModel
           setIsOpen={setDeleteTimesheet}
           isOpen={deleteTimesheet}
-          message={`Do you really want to delete Customer ${timesheetData?.employeeName} timeSheet`}
+          message={`Do you really want to delete Customer ${timesheetData?.name} timeSheet`}
           callback={(data) => deleteSelectedTimeSheet(data)}
           deleteHeader={"TimeSheet"}
           data={timesheetData}

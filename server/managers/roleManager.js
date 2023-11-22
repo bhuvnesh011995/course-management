@@ -5,9 +5,13 @@ const db = require("../models");
 const addNewRole = async (req, res, next) => {
   try {
     let data = req.body;
-    const newRole = await db.roles.create(data);
-    const role = newRole.save();
-    return res.status(200).send(role);
+    const roleIn = await db.roles.find({ roleName: data.roleName });
+    if (!roleIn.length) {
+      const newRole = await db.roles.create(data);
+      return res.status(200).send(newRole);
+    } else {
+      return res.status(203).send({ message: "role already existed" });
+    }
   } catch (err) {
     next(err);
   }
@@ -16,7 +20,13 @@ const addNewRole = async (req, res, next) => {
 const getRoles = async (req, res, next) => {
   try {
     let user = req.user;
-    const roleData = await RoleModel.find({});
+    const roleData = await RoleModel.aggregate([
+      {
+        $match: {
+          roleName: { $ne: "Admin" },
+        },
+      },
+    ]);
     return res.status(200).send({ roleData, user });
   } catch (err) {
     next(err);
@@ -52,6 +62,11 @@ const getUserRoleInfo = async (req, res, next) => {
   try {
     const getUsers = await db.user.aggregate([
       {
+        $match: {
+          email: { $ne: "admin@tonga.com" },
+        },
+      },
+      {
         $lookup: {
           from: "roles",
           let: { roleId: "$userRole" },
@@ -59,7 +74,7 @@ const getUserRoleInfo = async (req, res, next) => {
             {
               $match: {
                 $expr: {
-                  $eq: ["$$roleId", { $toString: "$_id" }],
+                  $eq: ["$$roleId", "$_id"],
                 },
               },
             },

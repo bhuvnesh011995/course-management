@@ -10,12 +10,20 @@ module.exports = async () => {
 
     let admin = await db.user.findOne({ userRole: adminrole._id });
     if (!admin) {
-      await db.user.create({
-        name: "admin",
-        email: "admin@tonga.com",
-        password: "admin@123",
-        userRole: adminrole._id,
-      });
+      const isAdmin = await db.user.findOne({ email: "admin@tonga.com" });
+
+      if (isAdmin)
+        await db.user.updateOne(
+          { _id: isAdmin._id },
+          { $set: { userRole: adminrole._id } }
+        );
+      else
+        await db.user.create({
+          name: "admin",
+          email: "admin@tonga.com",
+          password: "admin@123",
+          userRole: adminrole._id,
+        });
     }
 
     let [

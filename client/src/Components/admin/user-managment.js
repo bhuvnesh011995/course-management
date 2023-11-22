@@ -17,7 +17,6 @@ export const UserManagement = () => {
   const [userData, setUserData] = useState(null);
   const [userIndex, setUserIndex] = useState(null);
   const [emailModal, setEmailModal] = useState(false);
-  const [loginUser, setLoginUser] = useState({});
 
   const showNewUserModal = (data, type, index) => {
     setUserIndex(index);
@@ -46,7 +45,6 @@ export const UserManagement = () => {
         params: { token: localStorage.getItem("token") },
       });
       setUsers(data.users);
-      setLoginUser(data.userData[0]);
     } catch (err) {
       toast.error("something went wrong !");
       console.error(err);
@@ -117,26 +115,24 @@ export const UserManagement = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
+            {/* <div className="row">
               <div className="col-xl-12">
                 <div className="card">
                   <div className="card-body p-3">
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                       <div className="row w-50"></div>
-                      {loginUser?.roleData?.userManagement?.write && (
-                        <button
-                          className="btn btn-primary me-2"
-                          onClick={() => showNewUserModal()}
-                        >
-                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                          Add New User
-                        </button>
-                      )}
+                      <button
+                        className="btn btn-primary me-2"
+                        onClick={() => showNewUserModal()}
+                      >
+                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                        Add New User
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card ">
@@ -149,11 +145,9 @@ export const UserManagement = () => {
                         data={users}
                         tableHeaders={userTableHeaders}
                         actionButtons
-                        editButton={loginUser?.roleData?.userManagement?.create}
-                        viewButton={loginUser?.roleData?.userManagement?.read}
-                        deleteButton={
-                          loginUser?.roleData?.userManagement?.delete
-                        }
+                        editButton
+                        viewButton
+                        deleteButton
                         verificationMailButton
                         downloadExcel
                         downloadPdf

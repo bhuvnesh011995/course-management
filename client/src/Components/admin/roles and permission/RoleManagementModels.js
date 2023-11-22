@@ -71,9 +71,13 @@ export const AddNewRoleModel = ({
   const addNewRole = async (roleData) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.post("/roles/addNewRole", roleData);
-      toast.success("Role Added Successfully");
-      callback(data);
+      const newRole = await AxiosInstance.post("/roles/addNewRole", roleData);
+      if (newRole.status == 200) {
+        toast.success("Role Added Successfully");
+        callback(newRole.data);
+      } else {
+        toast.error(newRole.data.message);
+      }
       handleCloseRoleModal();
     } catch (err) {
       toast.error("something went wrong !");

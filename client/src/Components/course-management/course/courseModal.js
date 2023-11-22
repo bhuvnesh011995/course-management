@@ -15,7 +15,6 @@ export const CourseModal = ({
 }) => {
   const [tradeLevels, setTradeLevels] = useState([]);
   const [registrationCode, setRegistrationCode] = useState("");
-  const [durations, setDurations] = useState([]);
 
   const {
     handleSubmit,
@@ -27,7 +26,6 @@ export const CourseModal = ({
 
   useEffect(() => {
     if (courseData) getSelectedCourse();
-    getAllDurations();
   }, []);
 
   const addNewCourse = async (newCourse) => {
@@ -42,17 +40,6 @@ export const CourseModal = ({
       handleClose();
     } catch (err) {
       toast.error("error occured");
-      console.error(err);
-    }
-  };
-
-  const getAllDurations = async () => {
-    try {
-      const allDurations = await AxiosInstance.get("/durations/getDurations");
-      if (allDurations.status == 200) {
-        setDurations(allDurations.data);
-      }
-    } catch (err) {
       console.error(err);
     }
   };

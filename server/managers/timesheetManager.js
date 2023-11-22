@@ -13,7 +13,7 @@ const addTimesheet = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -28,7 +28,7 @@ const addTimesheet = async (req, res, next) => {
           addHoursWorked: 1,
           addOvertimeHours: 1,
           shiftTiming: 1,
-          employeeName: "$employeeDetails.employeeName",
+          name: "$employeeDetails.name",
         },
       },
     ]);
@@ -47,7 +47,7 @@ const getTimesheets = async (req, res, next) => {
     const allTimesheets = await db.timesheets.aggregate([
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -62,7 +62,7 @@ const getTimesheets = async (req, res, next) => {
           addHoursWorked: 1,
           addOvertimeHours: 1,
           shiftTiming: 1,
-          employeeName: "$employeeDetails.employeeName",
+          name: "$employeeDetails.name",
         },
       },
     ]);
@@ -85,7 +85,7 @@ const getTimesheet = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -100,7 +100,7 @@ const getTimesheet = async (req, res, next) => {
           addHoursWorked: 1,
           addOvertimeHours: 1,
           shiftTiming: 1,
-          employeeName: "$employeeDetails.employeeName",
+          name: "$employeeDetails.name",
         },
       },
     ]);
@@ -129,7 +129,7 @@ const updateTimesheet = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -144,7 +144,7 @@ const updateTimesheet = async (req, res, next) => {
           addHoursWorked: 1,
           addOvertimeHours: 1,
           shiftTiming: 1,
-          employeeName: "$employeeDetails.employeeName",
+          name: "$employeeDetails.name",
         },
       },
     ]);

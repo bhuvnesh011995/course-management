@@ -107,7 +107,7 @@ export const Leave = () => {
                         onClick={() => showLeaveModal()}
                       >
                         <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Payroll
+                        Add New Leave
                       </button>
                     </div>
                   </div>
@@ -161,7 +161,7 @@ export const Leave = () => {
         <DeleteModel
           setIsOpen={setDeleteLeave}
           isOpen={deleteLeave}
-          message={`do you really want to delete ${leaveData.employeeName} leave .`}
+          message={`do you really want to delete ${leaveData.name} leave .`}
           callback={(data) => deleteSelectedLeave(data)}
           deleteHeader={"Leave"}
           data={leaveData}

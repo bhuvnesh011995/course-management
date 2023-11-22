@@ -19,7 +19,7 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
   const onSubmit = useCallback(
     async (languageData, updateData) => {
       try {
-        console.log(data);
+        toast.dismiss();
         if (data) {
           if (!updateData) return;
           let res = await AxiosInstance.put(

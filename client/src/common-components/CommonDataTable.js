@@ -153,11 +153,8 @@ export const CommonDataTable = ({
   if (data[0]?.trainerDOB) {
     data.map((e, index) => (e.trainerDOB = convertMongooseDate(e.trainerDOB)));
   }
-  if (data[0]?.employeeJoinDate) {
-    data.map(
-      (e, index) =>
-        (e.employeeJoinDate = convertMongooseDate(e.employeeJoinDate))
-    );
+  if (data[0]?.joinDate) {
+    data.map((e, index) => (e.joinDate = convertMongooseDate(e.joinDate)));
   }
   if (data[0]?.startTime && data[0]?.endTime) {
     data.map((e, index) => {
