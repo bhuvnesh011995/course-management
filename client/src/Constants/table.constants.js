@@ -153,12 +153,12 @@ export const certificateHeaders = {
 
 export const employeeHeaders = {
   _id: "Employee ID",
-  employeeName: "Name",
-  employeePosition: "Position",
-  employeeEmail: "Email",
-  employeePhone: "Phone",
-  employeeDepartment: "Department",
-  employeeJoinDate: "Join Date",
+  name: "Name",
+  position: "Position",
+  email: "Email",
+  phoneNo: "Phone",
+  department: "Department",
+  joinDate: "Join Date",
   status: "Status",
 };
 
@@ -219,9 +219,9 @@ export const invoiceQuoatationListHeaders = {
 };
 
 export const payrollHeaders = {
-  employeeName: "Employee Name",
-  employeeDepartment: "Department",
-  employeePosition: "Position",
+  name: "Employee Name",
+  department: "Department",
+  position: "Position",
   salary: "Basic Salary",
   allowances: "Allowances",
   deductions: "Deductions",
@@ -230,16 +230,16 @@ export const payrollHeaders = {
 
 export const timesheetHeaders = {
   date: "Date",
-  employeeName: "Employee Name",
+  name: "Employee Name",
   addHoursWorked: "Hours Worked",
   addOvertimeHours: "Overtime Hours",
   shiftTiming: "Shift",
 };
 
 export const leaveHeaders = {
-  employeeName: "Employee Name",
-  employeeDepartment: "Department",
-  employeePosition: "Position",
+  name: "Employee Name",
+  department: "Department",
+  position: "Position",
   leavetype: "Leave Type",
   startDate: "Start Date",
   endDate: "End Date",

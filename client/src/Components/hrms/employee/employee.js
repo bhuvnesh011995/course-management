@@ -51,8 +51,9 @@ export const Employee = () => {
 
   const getEmployees = async () => {
     try {
-      const { data } = await AxiosInstance.get("/employee/getEmployees");
-      setEmployees(data);
+      const { data } = await AxiosInstance.get("/users/getUsers");
+      console.log(data);
+      setEmployees(data.users);
     } catch (err) {
       console.error(err);
     }
@@ -61,7 +62,7 @@ export const Employee = () => {
   const deleteSelectedEmployee = async (employee) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.delete("/employee/deleteEmployee", {
+      const { data } = await AxiosInstance.delete("/users/deleteUser", {
         params: employee,
       });
       toast.success("employee deleted");
@@ -169,7 +170,7 @@ export const Employee = () => {
         <DeleteModel
           setIsOpen={setDeleteEmployee}
           isOpen={deleteEmployee}
-          message={`Do you really want to delete ${employeeData.employeeName}.`}
+          message={`Do you really want to delete ${employeeData.name}.`}
           callback={(e) => deleteSelectedEmployee(e)}
           deleteHeader={"Employee"}
           data={employeeData}

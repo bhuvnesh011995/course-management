@@ -43,8 +43,8 @@ export default function AddPayrollModal({
 
   const getEmployees = async () => {
     try {
-      const { data } = await AxiosInstance.get("/employee/getEmployees");
-      setEmployees(data);
+      const { data } = await AxiosInstance.get("/users/getUsers");
+      setEmployees(data.users);
     } catch (err) {
       toast.error("something went wrong !");
       console.error(err);
@@ -122,7 +122,7 @@ export default function AddPayrollModal({
                 <option value="">Select Employee</option>
                 {employees.map((employee, index) => (
                   <option value={employee._id} key={index}>
-                    {employee.employeeName}
+                    {employee.name}
                   </option>
                 ))}
               </select>

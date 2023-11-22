@@ -13,7 +13,7 @@ const addLeave = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -27,9 +27,9 @@ const addLeave = async (req, res, next) => {
           startDate: 1,
           endDate: 1,
           employee: 1,
-          employeeName: "$employeeDetails.employeeName",
-          employeeDepartment: "$employeeDetails.employeeDepartment",
-          employeePosition: "$employeeDetails.employeePosition",
+          name: "$employeeDetails.name",
+          department: "$employeeDetails.department",
+          position: "$employeeDetails.position",
         },
       },
     ]);
@@ -54,7 +54,7 @@ const getLeave = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -68,9 +68,9 @@ const getLeave = async (req, res, next) => {
           startDate: 1,
           endDate: 1,
           employee: 1,
-          employeeName: "$employeeDetails.employeeName",
-          employeeDepartment: "$employeeDetails.employeeDepartment",
-          employeePosition: "$employeeDetails.employeePosition",
+          name: "$employeeDetails.name",
+          department: "$employeeDetails.department",
+          position: "$employeeDetails.position",
         },
       },
     ]);
@@ -99,7 +99,7 @@ const updateLeave = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -113,9 +113,9 @@ const updateLeave = async (req, res, next) => {
           startDate: 1,
           endDate: 1,
           employee: 1,
-          employeeName: "$employeeDetails.employeeName",
-          employeeDepartment: "$employeeDetails.employeeDepartment",
-          employeePosition: "$employeeDetails.employeePosition",
+          name: "$employeeDetails.name",
+          department: "$employeeDetails.department",
+          position: "$employeeDetails.position",
         },
       },
     ]);
@@ -143,7 +143,7 @@ const getLeaves = async (req, res, next) => {
     const allLeaves = await db.leaves.aggregate([
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -157,9 +157,9 @@ const getLeaves = async (req, res, next) => {
           startDate: 1,
           endDate: 1,
           employee: 1,
-          employeeName: "$employeeDetails.employeeName",
-          employeeDepartment: "$employeeDetails.employeeDepartment",
-          employeePosition: "$employeeDetails.employeePosition",
+          name: "$employeeDetails.name",
+          department: "$employeeDetails.department",
+          position: "$employeeDetails.position",
         },
       },
     ]);

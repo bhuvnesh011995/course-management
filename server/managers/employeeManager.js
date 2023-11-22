@@ -4,9 +4,8 @@ const db = require("../models");
 const addEmployee = async (req, res, next) => {
   try {
     const { body } = req;
-    body["employeeName"] =
-      body["employeeFirstName"] + " " + body["employeeLastName"];
-    const createEmployee = await db.employees.create(body);
+    body["name"] = body["firstName"] + " " + body["lastName"];
+    const createEmployee = await db.user.create(body);
     const saveEmployee = await createEmployee.save();
 
     return res.status(200).send(saveEmployee);
@@ -18,7 +17,7 @@ const addEmployee = async (req, res, next) => {
 const getEmployee = async (req, res, next) => {
   try {
     const { query } = req;
-    const selectedEmployee = await db.employees.findOne({ _id: query._id });
+    const selectedEmployee = await db.user.findOne({ _id: query._id });
     return res.status(200).send(selectedEmployee);
   } catch (err) {
     next(err);
@@ -28,44 +27,7 @@ const getEmployee = async (req, res, next) => {
 const getEmployees = async (req, res, next) => {
   try {
     const { query, user } = req;
-    const allEmployees = await db.employees.find({});
-    // aggregate([
-    //   {
-    //     $lookup: {
-    //       from: "roles",
-    //       let: { roleId: "$employeeRole" },
-    //       pipeline: [
-    //         {
-    //           $match: {
-    //             $expr: {
-    //               $eq: ["$_id", "$$roleId"],
-    //             },
-    //           },
-    //         },
-    //       ],
-    //       as: "roleDetails",
-    //     },
-    //   },
-    //   { $unwind: "$roleDetails" },
-    //   {
-    //     $project: {
-    //       _id: 1,
-    //       employeeFirstName: 1,
-    //       employeeLastName: 1,
-    // employeeName:1,
-    //       employeeEmail: 1,
-    //       employeePhone: 1,
-    //       employeePosition: 1,
-    //       employeeDepartment: 1,
-    //       employeeJoinDate: 1,
-    //       employeeSalary: 1,
-    //       employeeGender: 1,
-    //       employeeRole: "$roleDetails.roleName",
-    //       status: 1,
-    //       employeeAddress: 1,
-    //     },
-    //   },
-    // ]);
+    const allEmployees = await db.user.find({});
     return res.status(200).send(allEmployees);
   } catch (err) {
     next(err);
@@ -75,9 +37,8 @@ const getEmployees = async (req, res, next) => {
 const updateEmployee = async (req, res, next) => {
   try {
     const { body } = req;
-    body["employeeName"] =
-      body["employeeFirstName"] + " " + body["employeeLastName"];
-    const updateEmployee = await db.employees.updateOne(
+    body["name"] = body["firstName"] + " " + body["lastName"];
+    const updateEmployee = await db.user.updateOne(
       { _id: body._id },
       {
         $set: body,
@@ -94,7 +55,7 @@ const updateEmployee = async (req, res, next) => {
 const deleteEmployee = async (req, res, next) => {
   try {
     const { query } = req;
-    const deleteEmployee = await db.employees.deleteOne({ _id: query._id });
+    const deleteEmployee = await db.user.deleteOne({ _id: query._id });
     return res.status(200).send({ message: "Employee Deleted Successfully !" });
   } catch (err) {
     next(err);

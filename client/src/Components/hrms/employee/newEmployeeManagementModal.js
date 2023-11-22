@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import {
   emailPattern,
   namePattern,
+  passwordPattern,
   phonePattern,
 } from "../../../common-components/validations";
 import moment from "moment";
@@ -22,15 +23,14 @@ export const NewEmployeeManagementModal = ({
   const {
     register,
     handleSubmit,
-    setValue,
-    reset,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
   useEffect(() => {
     getRoles();
-    if (employeeData?._id) getEmployee();
+    if (employeeData?._id) reset(employeeData);
   }, []);
 
   const handleClose = () => {
@@ -41,12 +41,14 @@ export const NewEmployeeManagementModal = ({
   const addEmployee = async (newEmployee) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.post(
-        "/employee/addEmployee",
+      const addedEmployee = await AxiosInstance.post(
+        "/users/addNewUser",
         newEmployee
       );
-      toast.success("New Employee Added");
-      callback(data);
+      if (addedEmployee.status == 200) {
+        toast.success("New Employee Added");
+        callback(addedEmployee.data);
+      }
       handleClose();
     } catch (err) {
       toast.error("error occured");
@@ -58,32 +60,16 @@ export const NewEmployeeManagementModal = ({
     try {
       toast.dismiss();
       const { data } = await AxiosInstance.post(
-        "/employee/updateEmployee",
+        "/users/updateUser",
         updatedEmployee
       );
       toast.success("employee updated");
-      updatedEmployee["employeeName"] =
-        updatedEmployee["employeeFirstName"] +
-        " " +
-        updatedEmployee["employeeLastName"];
+      updatedEmployee["name"] =
+        updatedEmployee["firstName"] + " " + updatedEmployee["lastName"];
       callback(updatedEmployee);
       handleClose();
     } catch (err) {
       toast.error("error occured");
-      console.error(err);
-    }
-  };
-
-  const getEmployee = async () => {
-    try {
-      const { data } = await AxiosInstance.get("/employee/getEmployee", {
-        params: employeeData,
-      });
-      data["employeeJoinDate"] = moment(data["employeeJoinDate"]).format(
-        "YYYY-MM-DD"
-      );
-      reset(data);
-    } catch (err) {
       console.error(err);
     }
   };
@@ -120,17 +106,15 @@ export const NewEmployeeManagementModal = ({
               <input
                 type="text"
                 className="form-control"
-                {...register("employeeFirstName", {
+                {...register("firstName", {
                   required: "Please Enter First Name",
                   pattern: namePattern,
                 })}
                 placeholder="Enter first name"
                 disabled={viewEmployee}
               />
-              {errors?.employeeFirstName && (
-                <span className="text-danger">
-                  {errors?.employeeFirstName.message}
-                </span>
+              {errors?.firstName && (
+                <span className="text-danger">{errors?.firstName.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
@@ -139,16 +123,14 @@ export const NewEmployeeManagementModal = ({
                 type="text"
                 className="form-control"
                 placeholder="Enter last name"
-                {...register("employeeLastName", {
+                {...register("lastName", {
                   required: "Please Enter Last Name",
                   pattern: namePattern,
                 })}
                 disabled={viewEmployee}
               />
-              {errors?.employeeLastName && (
-                <span className="text-danger">
-                  {errors?.employeeLastName.message}
-                </span>
+              {errors?.lastName && (
+                <span className="text-danger">{errors?.lastName.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
@@ -157,16 +139,14 @@ export const NewEmployeeManagementModal = ({
                 type="email"
                 className="form-control"
                 placeholder="Enter employee email"
-                {...register("employeeEmail", {
+                {...register("email", {
                   required: "Please Enter Employee Email",
                   pattern: emailPattern,
                 })}
                 disabled={viewEmployee}
               />
-              {errors?.employeeEmail && (
-                <span className="text-danger">
-                  {errors?.employeeEmail.message}
-                </span>
+              {errors?.email && (
+                <span className="text-danger">{errors?.email.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
@@ -175,23 +155,21 @@ export const NewEmployeeManagementModal = ({
                 type="tel"
                 className="form-control"
                 placeholder="Enter employee phone"
-                {...register("employeePhone", {
+                {...register("phoneNo", {
                   required: "Please Enter Employee Phone No.",
                   pattern: phonePattern,
                 })}
                 disabled={viewEmployee}
               />
-              {errors?.employeePhone && (
-                <span className="text-danger">
-                  {errors?.employeePhone.message}
-                </span>
+              {errors?.phoneNo && (
+                <span className="text-danger">{errors?.phoneNo.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
               <label className="form-label">Position</label>
               <select
                 className="form-select"
-                {...register("employeePosition", {
+                {...register("position", {
                   required: "Please Select Employee Position",
                 })}
                 disabled={viewEmployee}
@@ -209,17 +187,15 @@ export const NewEmployeeManagementModal = ({
                   Associate
                 </option>
               </select>
-              {errors?.employeePosition && (
-                <span className="text-danger">
-                  {errors?.employeePosition.message}
-                </span>
+              {errors?.position && (
+                <span className="text-danger">{errors?.position.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
               <label className="form-label">Department</label>
               <select
                 className="form-select"
-                {...register("employeeDepartment", {
+                {...register("department", {
                   required: "Please Select Employee Department",
                 })}
                 disabled={viewEmployee}
@@ -237,9 +213,9 @@ export const NewEmployeeManagementModal = ({
                   IT
                 </option>
               </select>
-              {errors?.employeeDepartment && (
+              {errors?.department && (
                 <span className="text-danger">
-                  {errors?.employeeDepartment.message}
+                  {errors?.department.message}
                 </span>
               )}
             </div>
@@ -248,15 +224,13 @@ export const NewEmployeeManagementModal = ({
               <input
                 type="date"
                 className="form-control"
-                {...register("employeeJoinDate", {
+                {...register("joinDate", {
                   required: "Please Enter Employee Join Date",
                 })}
                 disabled={viewEmployee}
               />
-              {errors?.employeeJoinDate && (
-                <span className="text-danger">
-                  {errors?.employeeJoinDate.message}
-                </span>
+              {errors?.joinDate && (
+                <span className="text-danger">{errors?.joinDate.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
@@ -265,22 +239,20 @@ export const NewEmployeeManagementModal = ({
                 type="number"
                 className="form-control"
                 placeholder="Enter employee salary"
-                {...register("employeeSalary", {
+                {...register("salary", {
                   required: "Please Enter Employee Salary",
                 })}
                 disabled={viewEmployee}
               />
-              {errors?.employeeSalary && (
-                <span className="text-danger">
-                  {errors?.employeeSalary.message}
-                </span>
+              {errors?.salary && (
+                <span className="text-danger">{errors?.salary.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
               <label className="form-label">Gender</label>
               <select
                 className="form-select"
-                {...register("employeeGender", {
+                {...register("gender", {
                   required: "Please Select Employee Gender",
                 })}
                 disabled={viewEmployee}
@@ -298,32 +270,32 @@ export const NewEmployeeManagementModal = ({
                   Other
                 </option>
               </select>
-              {errors?.employeeGender && (
-                <span className="text-danger">
-                  {errors?.employeeGender.message}
-                </span>
+              {errors?.gender && (
+                <span className="text-danger">{errors?.gender.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
               <label className="form-label">Role</label>
               <select
                 className="form-select"
-                {...register("employeeRole", {
+                {...register("userRole", {
                   required: "Please Select Employee Role",
                 })}
                 disabled={viewEmployee}
               >
                 <option value="">Select role</option>
                 {roles.map((e, index) => (
-                  <option key={index} value={e?._id}>
+                  <option
+                    key={index}
+                    value={e?._id}
+                    selected={e._id == watch("userRole") && e._id}
+                  >
                     {e?.roleName}
                   </option>
                 ))}
               </select>
-              {errors?.employeeRole && (
-                <span className="text-danger">
-                  {errors?.employeeRole.message}
-                </span>
+              {errors?.userRole && (
+                <span className="text-danger">{errors?.userRole.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
@@ -349,24 +321,59 @@ export const NewEmployeeManagementModal = ({
                 <span className="text-danger">{errors?.status.message}</span>
               )}
             </div>
+            <div className="col-md-6 mb-3">
+              <label className="form-label">User Name</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter username"
+                {...register("userName", {
+                  required: "User Name is required",
+                  pattern: namePattern,
+                })}
+                disabled={viewEmployee}
+              />
+              <span className="text-danger">
+                {errors?.userName && errors?.userName.message}
+              </span>
+            </div>
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter password"
+                {...register("password", {
+                  required: "Password is required",
+                  pattern: passwordPattern,
+                  minLength: {
+                    value: 8,
+                    message: "password must be greater than 8 characters",
+                  },
+                })}
+                disabled={viewEmployee}
+              />
+              <span className="text-danger">
+                {errors?.password && errors?.password.message}
+              </span>
+            </div>
             <div className="col-md-12 mb-3">
               <label className="form-label">Address</label>
               <textarea
                 className="form-control"
                 rows={3}
                 placeholder="Enter employee address"
-                {...register("employeeAddress", {
+                {...register("address", {
                   required: "Please Enter Employee Address",
                 })}
                 disabled={viewEmployee}
                 defaultValue={""}
               />
-              {errors?.employeeAddress && (
-                <span className="text-danger">
-                  {errors?.employeeAddress.message}
-                </span>
+              {errors?.address && (
+                <span className="text-danger">{errors?.address.message}</span>
               )}
             </div>
+
             <Modal.Footer>
               <button
                 type="button"

@@ -11,7 +11,50 @@ const addNewUser = async (req, res, next) => {
     req.body["name"] = req.body.firstName + " " + req.body.lastName;
     req.body["contactNumber"] = req.body.mobile;
     const user = await db.user.create(req.body);
-    return res.status(200).send(user);
+    const newUser = await db.user.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: ["$_id", user._id],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "roles",
+          localField: "userRole",
+          foreignField: "_id",
+          as: "roleDetails",
+        },
+      },
+      { $unwind: "$roleDetails" },
+      {
+        $project: {
+          _id: 1,
+          firstName: 1,
+          lastName: 1,
+          course: 1,
+          discription: 1,
+          name: 1,
+          email: 1,
+          phoneNo: 1,
+          userName: 1,
+          password: 1,
+          userImagePath: 1,
+          userRole: 1,
+          roleName: "$roleDetails.roleName",
+          status: 1,
+          department: 1,
+          joinDate: 1,
+          position: 1,
+          salary: 1,
+          created_at: 1,
+          gender: 1,
+          address: 1,
+        },
+      },
+    ]);
+    return res.status(200).send(newUser[0]);
   } catch (err) {
     next(err);
   }
@@ -23,6 +66,40 @@ const getUsers = async (req, res, next) => {
       {
         $match: {
           email: { $ne: "admin@tonga.com" },
+        },
+      },
+      {
+        $lookup: {
+          from: "roles",
+          localField: "userRole",
+          foreignField: "_id",
+          as: "roleDetails",
+        },
+      },
+      { $unwind: "$roleDetails" },
+      {
+        $project: {
+          _id: 1,
+          firstName: 1,
+          lastName: 1,
+          course: 1,
+          discription: 1,
+          name: 1,
+          email: 1,
+          phoneNo: 1,
+          userName: 1,
+          password: 1,
+          userImagePath: 1,
+          userRole: 1,
+          roleName: "$roleDetails.roleName",
+          status: 1,
+          department: 1,
+          joinDate: 1,
+          position: 1,
+          salary: 1,
+          created_at: 1,
+          gender: 1,
+          address: 1,
         },
       },
     ]);

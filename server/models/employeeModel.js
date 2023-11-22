@@ -2,19 +2,19 @@ const mongoose = require("mongoose");
 
 const employeeSchema = new mongoose.Schema(
   {
-    employeeFirstName: { type: String },
-    employeeLastName: { type: String },
-    employeeName: { type: String },
-    employeeEmail: { type: String, unique: true, match: /.+\@.+\..+/ },
-    employeePhone: { type: Number },
-    employeePosition: { type: String },
-    employeeDepartment: { type: String },
-    employeeJoinDate: { type: Date },
-    employeeSalary: { type: Number },
-    employeeGender: { type: String },
-    employeeRole: { type: mongoose.Schema.Types.ObjectId },
+    firstName: { type: String },
+    lastName: { type: String },
+    name: { type: String },
+    email: { type: String, unique: true, match: /.+\@.+\..+/ },
+    phoneNo: { type: Number },
+    position: { type: String },
+    department: { type: String },
+    joinDate: { type: Date },
+    salary: { type: Number },
+    gender: { type: String },
+    userRole: { type: mongoose.Schema.Types.ObjectId },
     status: { type: String },
-    employeeAddress: { type: String },
+    address: { type: String },
   },
 
   {

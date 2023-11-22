@@ -174,7 +174,7 @@ export const PayRoll = () => {
         <DeleteModel
           setIsOpen={setDeletePayroll}
           isOpen={deletePayroll}
-          message={`Do you really want to delete employee ${payrollData?.employeeName} payroll.`}
+          message={`Do you really want to delete employee ${payrollData?.name} payroll.`}
           callback={(data) => deleteSelectedPayroll(data)}
           deleteHeader={"Payroll"}
           data={payrollData}

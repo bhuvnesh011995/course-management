@@ -23,7 +23,7 @@ export const MenuBar = () => {
           element.parentElement.classList.add("mm-active");
         }
     }
-  }, []);
+  }, [pathname]);
 
   const showMenuList = (menuName) => {
     const element = document.getElementById(menuName);
@@ -63,7 +63,12 @@ export const MenuBar = () => {
               >
                 <i className="bx bx-home-circle" />
                 <span className="badge rounded-pill bg-info float-end">02</span>
-                <span key="t-dashboards"><FormattedMessage id="Dashboard" defaultMessage={"Dashboard"} /></span>
+                <span key="t-dashboards">
+                  <FormattedMessage
+                    id="Dashboard"
+                    defaultMessage={"Dashboard"}
+                  />
+                </span>
               </Link>
             </li>
             <li>
@@ -75,7 +80,9 @@ export const MenuBar = () => {
                 onClick={() => showMenuList()}
               >
                 <i className="bx bx-task" />
-                <span key="t-lead"><FormattedMessage id="Lead" defaultMessage={"Lead"} /> </span>
+                <span key="t-lead">
+                  <FormattedMessage id="Lead" defaultMessage={"Lead"} />{" "}
+                </span>
               </Link>
             </li>
             <li>
@@ -124,7 +131,12 @@ export const MenuBar = () => {
                 }`}
               >
                 <i className="bx bx-food-menu" />
-                <span key="t-course"><FormattedMessage id="Course_Management" defaultMessage={"Course Management"} /></span>
+                <span key="t-course">
+                  <FormattedMessage
+                    id="Course_Management"
+                    defaultMessage={"Course Management"}
+                  />
+                </span>
               </a>
               <ul className="sub-menu mm-collapse" id="course-management-menu">
                 <li
@@ -198,7 +210,9 @@ export const MenuBar = () => {
                 onClick={() => showMenuList()}
               >
                 <i className="bx bxs-graduation" />
-                <span key="t-Customer"><FormattedMessage id="Customer" defaultMessage={"Customer"}/> </span>
+                <span key="t-Customer">
+                  <FormattedMessage id="Customer" defaultMessage={"Customer"} />{" "}
+                </span>
               </Link>
             </li>
 
@@ -210,7 +224,9 @@ export const MenuBar = () => {
                 }`}
               >
                 <i className="bx bx-dollar" />
-                <span key="t-finance"><FormattedMessage id="Finance" defaultMessage={"Finance"}/> </span>
+                <span key="t-finance">
+                  <FormattedMessage id="Finance" defaultMessage={"Finance"} />{" "}
+                </span>
               </a>
               <ul className="sub-menu mm-collapse" id="finance-menu">
                 <li
@@ -244,7 +260,9 @@ export const MenuBar = () => {
                 }`}
               >
                 <i className="bx bx-user" />
-                <span><FormattedMessage id="Admin" defaultMessage={"Admin"}/></span>
+                <span>
+                  <FormattedMessage id="Admin" defaultMessage={"Admin"} />
+                </span>
               </a>
               <ul className="sub-menu mm-collapse " id="admin-menu">
                 <li
@@ -273,7 +291,9 @@ export const MenuBar = () => {
                 onClick={() => showMenuList("hrms-menu")}
               >
                 <i className="bx bx-customize" />
-                <span key="t-hrms"><FormattedMessage id="HRMS" defaultMessage={"HRMS"}/></span>
+                <span key="t-hrms">
+                  <FormattedMessage id="HRMS" defaultMessage={"HRMS"} />
+                </span>
               </a>
               <ul className="sub-menu mm-collapse" id="hrms-menu">
                 <li
@@ -314,7 +334,9 @@ export const MenuBar = () => {
                 onClick={() => showMenuList("setting-menu")}
               >
                 <i className="bx bx-customize" />
-                <span key="t-setting"><FormattedMessage id="Settings" defaultMessage={"Settings"}/></span>
+                <span key="t-setting">
+                  <FormattedMessage id="Settings" defaultMessage={"Settings"} />
+                </span>
               </a>
               <ul className="sub-menu mm-collapse" id="setting-menu">
                 <li

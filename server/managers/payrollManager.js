@@ -13,7 +13,7 @@ const addPayroll = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -27,9 +27,9 @@ const addPayroll = async (req, res, next) => {
           deductions: 1,
           netSalary: 1,
           salary: 1,
-          employeeName: "$employeeDetails.employeeName",
-          employeeDepartment: "$employeeDetails.employeeDepartment",
-          employeePosition: "$employeeDetails.employeePosition",
+          name: "$employeeDetails.name",
+          department: "$employeeDetails.department",
+          position: "$employeeDetails.position",
         },
       },
     ]);
@@ -54,7 +54,7 @@ const getPayroll = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -69,9 +69,9 @@ const getPayroll = async (req, res, next) => {
           netSalary: 1,
           salary: 1,
           employee: 1,
-          employeeName: "$employeeDetails.employeeName",
-          employeeDepartment: "$employeeDetails.employeeDepartment",
-          employeePosition: "$employeeDetails.employeePosition",
+          name: "$employeeDetails.name",
+          department: "$employeeDetails.department",
+          position: "$employeeDetails.position",
         },
       },
     ]);
@@ -100,7 +100,7 @@ const updatePayroll = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -114,9 +114,9 @@ const updatePayroll = async (req, res, next) => {
           deductions: 1,
           netSalary: 1,
           salary: 1,
-          employeeName: "$employeeDetails.employeeName",
-          employeeDepartment: "$employeeDetails.employeeDepartment",
-          employeePosition: "$employeeDetails.employeePosition",
+          name: "$employeeDetails.name",
+          department: "$employeeDetails.department",
+          position: "$employeeDetails.position",
         },
       },
     ]);
@@ -144,7 +144,7 @@ const getPayrolls = async (req, res, next) => {
     const allPayrolls = await db.payRolls.aggregate([
       {
         $lookup: {
-          from: "employees",
+          from: "users",
           localField: "employee",
           foreignField: "_id",
           as: "employeeDetails",
@@ -158,9 +158,9 @@ const getPayrolls = async (req, res, next) => {
           deductions: 1,
           netSalary: 1,
           salary: 1,
-          employeeName: "$employeeDetails.employeeName",
-          employeeDepartment: "$employeeDetails.employeeDepartment",
-          employeePosition: "$employeeDetails.employeePosition",
+          name: "$employeeDetails.name",
+          department: "$employeeDetails.department",
+          position: "$employeeDetails.position",
         },
       },
     ]);

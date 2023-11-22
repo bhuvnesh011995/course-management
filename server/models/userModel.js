@@ -12,8 +12,15 @@ const userSchema = new mongoose.Schema(
     userName: { type: String },
     password: { type: String },
     userImagePath: { type: String },
-    userRole: { type: String },
+    userRole: { type: mongoose.Schema.Types.ObjectId },
     status: { type: String },
+    department: { type: String },
+    joinDate: { type: Date },
+    position: { type: String },
+    salary: { type: Number },
+
+    gender: { type: String },
+    address: { type: String },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
