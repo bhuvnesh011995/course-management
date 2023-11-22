@@ -19,6 +19,7 @@ import { filePath } from "../../common-components/useCommonUsableFunctions";
 import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { FormattedMessage } from "react-intl";
 
 export const AddNewLeadModel = ({
   setIsOpen,
@@ -428,16 +429,33 @@ export const AddNewLeadModel = ({
               </div>
               <div className="col-md-4 mb-3">
                 <label className="form-label">Company Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  {...register("companyName", {
-                    required: "Please Enter Company Name",
-                    pattern: namePattern,
-                  })}
-                  disabled={viewLead}
-                  placeholder="Enter Company Name"
-                />
+                <FormattedMessage
+                  id="Enter_Company_Name"
+                  defaultMessage={"Enter Company Name"}
+                >
+                  {(placeholder) => (
+                    <FormattedMessage
+                      id="Please_Enter_Company_Name"
+                      defaultMessage={"Please Emter Company Name"}
+                    >
+                      {(requiredMsg) =>
+                        console.log(requiredMsg) || (
+                          <input
+                            type="text"
+                            className="form-control"
+                            {...register("companyName", {
+                              required: requiredMsg[0],
+                              pattern: namePattern,
+                            })}
+                            disabled={viewLead}
+                            placeholder={placeholder}
+                          />
+                        )
+                      }
+                    </FormattedMessage>
+                  )}
+                </FormattedMessage>
+
                 <span className="text-danger">
                   {errors?.companyName && errors?.companyName.message}
                 </span>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import usIcon from "../assets/images/flags/us.jpg";
 import italyIcon from "../assets/images/flags/italy.jpg";
 import spainIcon from "../assets/images/flags/spain.jpg";
@@ -8,6 +8,8 @@ import headerAvatar from "../assets/images/users/avatar-1.jpg";
 import { onMenuClicked } from "./useCommonUsableFunctions";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import { AxiosInstance } from "./axiosInstance";
+import { toast } from "react-toastify";
 
 export const CommonNavbar = () => {
   const {initialUser, user,setUser} = useAuth()
@@ -15,9 +17,22 @@ export const CommonNavbar = () => {
   const [showLanguages, setShowLanguages] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-
+  const [languages,setLanguages] = useState([])
+  const getLanguages = useCallback(async ()=>{
+    try {
+      let response = await AxiosInstance.get("/languages")
+      if(response.status===200){
+        setLanguages(response.data??[])
+      }
+    } catch (error) {
+      toast.error("error while fecting languages")
+    }
+  })
+  useEffect(()=>{
+    getLanguages()
+  },[])
   const [isFullScreen, setIsFullScreen] = useState(false);
-
+const {setLanCode,lanCode} = useAuth()
   const fullScreen = () => {
     if (!isFullScreen) {
       document.getElementById("layout-wrapper").requestFullscreen();
@@ -111,8 +126,13 @@ export const CommonNavbar = () => {
                 </form> */}
               </div>
             </div>
-            <div className="dropdown d-inline-block">
-              <button
+            <div className="dropdown mt-4">
+            <select value={lanCode} onChange={e=>setLanCode(e.target.value)}>
+                {languages?.map((ele,i)=>(
+                  <option key={i} value={ele.code}>{ele.name}</option>
+                ))}
+            </select>
+              {/* <button
                 type="button"
                 className="btn header-item waves-effect"
                 onClick={() => setShowLanguages(!showLanguages)}
@@ -126,7 +146,7 @@ export const CommonNavbar = () => {
               </button>
               {showLanguages && (
                 <div className="right-10 dropdown-menu dropdown-menu-end">
-                  {/* item*/}
+           
                   <a
                     className="dropdown-item notify-item language"
                     onClick={() => changeLanguage(usIcon)}
@@ -139,7 +159,7 @@ export const CommonNavbar = () => {
                     />{" "}
                     <span className="align-middle">English</span>
                   </a>
-                  {/* item*/}
+             
                   <a
                     className="dropdown-item notify-item language"
                     onClick={() => changeLanguage(spainIcon)}
@@ -152,7 +172,7 @@ export const CommonNavbar = () => {
                     />
                     <span className="align-middle">Spanish</span>
                   </a>
-                  {/* item*/}
+             
                   <a
                     className="dropdown-item notify-item language"
                     onClick={() => changeLanguage(germanIcon)}
@@ -165,7 +185,7 @@ export const CommonNavbar = () => {
                     />
                     <span className="align-middle">German</span>
                   </a>
-                  {/* item*/}
+             
                   <a
                     className="dropdown-item notify-item language"
                     onClick={() => changeLanguage(italyIcon)}
@@ -178,7 +198,7 @@ export const CommonNavbar = () => {
                     />
                     <span className="align-middle">Italian</span>
                   </a>
-                  {/* item*/}
+             
                   <a
                     className="dropdown-item notify-item language"
                     onClick={() => changeLanguage(russiaIcon)}
@@ -192,7 +212,7 @@ export const CommonNavbar = () => {
                     <span className="align-middle">Russian</span>
                   </a>
                 </div>
-              )}
+              )} */}
             </div>
             <div className="dropdown d-none d-lg-inline-block ms-1">
               <button
@@ -353,7 +373,7 @@ export const CommonNavbar = () => {
               </button>
               {showUserMenu && (
                 <div className="right-10 dropdown-menu dropdown-menu-end">
-                  {/* item*/}
+             
                   <a className="dropdown-item" href="#">
                     <i className="bx bx-user font-size-16 align-middle me-1" />
                     <span key="t-profile">Profile</span>

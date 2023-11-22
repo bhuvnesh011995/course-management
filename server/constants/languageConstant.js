@@ -12,5 +12,19 @@ module.exports = [
     "Top_Trainers",
     "New_Customers",
     "Payouts",
-    "Course_List"
+    "Course_List",
+    "Customer_Nabagement",
+    "customer_List",
+    "Lead_List",
+    "All",
+    "New",
+    "Pending",
+    "Assign",
+    "Completed",
+    "Search",
+    "Select_Company",
+    "Add_New",
+    "Clear_Filters",
+    "Enter_Company_Name",
+    "Please_Enter_Company_Name"
 ]

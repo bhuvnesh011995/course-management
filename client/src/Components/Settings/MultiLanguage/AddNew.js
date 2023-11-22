@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 
 export default function AddNew({ data, setData, show, setShow, getLanguages }) {
+  const [ready, setReady] = useState(false);
   const {
     register,
     reset,
@@ -15,44 +16,55 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
   } = useForm();
 
   const [updateData, setUpdateData] = useState(null);
-  const onSubmit = useCallback(async (data, updateData) => {
-    try {
-      if (data) {
-        if (!updateData) return;
-        let res = await AxiosInstance.put(
-          "/languages/language/" + data._id,
-          updateData
-        );
+  const onSubmit = useCallback(
+    async (languageData, updateData) => {
+      try {
+        console.log(data);
+        if (data) {
+          if (!updateData) return;
+          let res = await AxiosInstance.put(
+            "/languages/language/" + data._id,
+            updateData
+          );
 
-        if (res.status === 204) {
-          toast.success("language update successfull");
-          setShow(false);
-          getLanguages();
+          if (res.status === 204) {
+            toast.success("language update successfull");
+            setShow(false);
+            getLanguages();
+          } else {
+            toast.error("error occured while updating");
+          }
         } else {
-          toast.error("error occured while updating");
+          console.log("in post");
+          let res = await AxiosInstance.post("/languages", languageData);
+          if (res.status === 201) {
+            toast.success("language added successfully");
+            getLanguages();
+            setShow(false);
+          } else {
+            toast.error("error occured");
+            console.log(res);
+          }
         }
-      } else {
-        let res = await AxiosInstance.post("/languages", data);
-        if (res.status === 201) {
-          toast.success("language added successfully");
-          getLanguages();
-          setShow(false);
-        } else {
-          toast.error("error occured");
-        }
+      } catch (error) {
+        toast.error("error occured");
+        console.log(error.response);
       }
-    } catch (error) {
-      toast.error("error occured");
-      console.error(error.response);
-    }
-  });
+    },
+    [data]
+  );
 
   useEffect(() => {
     if (data) reset(data);
+
     return () => {
-      setUpdateData(null);
+      if (ready) {
+        setUpdateData(null);
+        setData(null);
+      } else setReady(true);
     };
   }, []);
+
   return (
     <Modal size="sm" show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton>

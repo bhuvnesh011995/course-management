@@ -18,18 +18,18 @@ exports.addLanguage = async function (req, res, next) {
 };
 
 exports.getById = async function (req, res, next) {
-  let { id } = req.query;
-
+  let { code } = req.query;
+  console.log(code, "code");
   try {
-    if (!id) {
+    if (code === "undefined" || !code || code === "null") {
       let language = await db.language
         .findOne({})
-        .select({ name: 1, language: 1, code: 1, status: 1 });
-      return res.status(200).json(language || []);
+        .select({ language: 1, _id: 0, code: 1 });
+      return res.status(200).json(language);
     } else {
       let language = await db.language
-        .findOne({ _id: id })
-        .select({ name: 1, language: 1, code: 1, status: 1 });
+        .findOne({ code })
+        .select({ language: 1, _id: 0, code: 1 });
       res.status(200).json(language);
     }
   } catch (error) {

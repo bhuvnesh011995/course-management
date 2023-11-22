@@ -8,6 +8,7 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { tradeType } from "../../Constants/newLeadContants";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
 
 export const Lead = () => {
   const [newLeadModal, setNewLeadModal] = useState(false);
@@ -226,7 +227,7 @@ export const Lead = () => {
               <div className="col-md-12">
                 <div className="card">
                   <div className="card-header d-flex align-items-center justify-content-between">
-                    <div className="card-title">Lead List </div>
+                    <div className="card-title"><FormattedMessage id="Lead_List" defaultMessage="Lead List"/></div>
                     <div className="row w-75">
                       <div className="col-xl-4">
                         <select
@@ -267,7 +268,7 @@ export const Lead = () => {
                             type="submit"
                             style={{ width: "200px" }}
                           >
-                            Clear Filters
+                            <FormattedMessage id="Clear_Filters" defaultMessage="Clear Filters" />
                           </button>
                         </div>
                       </div>
@@ -279,7 +280,7 @@ export const Lead = () => {
                         style={{ height: "20px", padding: "0 0.5rem" }}
                       >
                         <i className="bx bx-plus fw-semibold align-middle" />{" "}
-                        Add New
+                        <FormattedMessage id="Add_New" defaultMessage="Add New"/>
                       </button>
                       <Link
                         to="/lead-grid"
