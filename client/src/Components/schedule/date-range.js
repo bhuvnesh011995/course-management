@@ -8,6 +8,7 @@ import { CommonNavbar } from "../../common-components/Navbar";
 import { AddNewHoliday } from "./modals/HolidayModal";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 //         .event-holiday {
 //             background-color: #28a745;
@@ -74,6 +75,7 @@ export const DateRange = () => {
     sortBy: "",
   };
 
+  const { user } = useAuth();
   const [events, setEvents] = useState([]);
   const [showEvent, setShowEvent] = useState(false);
   const [eventData, setEventData] = useState(null);
@@ -131,14 +133,16 @@ export const DateRange = () => {
             <div className="card">
               <div className="card-body">
                 <div className="row">
-                  <div className="col-lg-3">
-                    <button
-                      className="btn font-16 btn-primary text-end"
-                      onClick={() => addNewEvent()}
-                    >
-                      <i className="mdi mdi-plus-circle-outline" /> Add New
-                    </button>
-                  </div>
+                  {user.userData?.roleData?.holiday?.create && (
+                    <div className="col-lg-3">
+                      <button
+                        className="btn font-16 btn-primary text-end"
+                        onClick={() => addNewEvent()}
+                      >
+                        <i className="mdi mdi-plus-circle-outline" /> Add New
+                      </button>
+                    </div>
+                  )}
                   <div className="col-lg-3">
                     <div className="form-group">
                       <select

@@ -6,8 +6,10 @@ import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const RegistrationType = () => {
+  const { user } = useAuth();
   const [registrationModal, setRegistrationModal] = useState(false);
   const [registrationTypes, setRegistrationTypes] = useState([]);
   const [registrationData, setRegistrationData] = useState(null);
@@ -112,13 +114,14 @@ export const RegistrationType = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50">
-                        {/* <div className="col-xl-5">
+            {user.userData?.roleData?.registrationType?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50">
+                          {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest
@@ -131,19 +134,20 @@ export const RegistrationType = () => {
                             </option>
                           </select>
                         </div> */}
+                        </div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showRegistrationModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New
+                        </button>
                       </div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showRegistrationModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card">
@@ -157,8 +161,12 @@ export const RegistrationType = () => {
                         data={registrationTypes}
                         actionButtons
                         viewButton
-                        editButton
-                        deleteButton
+                        editButton={
+                          user.userData?.roleData?.registrationType?.write
+                        }
+                        deleteButton={
+                          user.userData?.roleData?.registrationType?.delete
+                        }
                         callback={(e, type, index) =>
                           showRegistrationModal(e, type, index)
                         }

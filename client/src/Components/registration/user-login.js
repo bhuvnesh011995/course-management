@@ -26,15 +26,13 @@ export const LoginUser = () => {
     try {
       toast.dismiss();
       const response = await AxiosInstance.post("/users/signIn", userData);
-
       if (response.status === 200) {
         if (response.data.token) {
+          const token = response.data.token;
           toast.success("Login Successfull");
-          setUser({
-            token: response.data.token,
-          });
+          setUser((old) => ({ ...old, token: token }));
+          localStorage.setItem("token", token);
           navigate("/");
-          localStorage.setItem("token", response.data.token);
         }
       } else {
         toast.error("something went wrong");

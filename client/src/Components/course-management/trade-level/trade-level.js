@@ -6,8 +6,10 @@ import { tradeLevelHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const TradeLevel = () => {
+  const { user } = useAuth();
   const [tradeModalOpen, setTradeModalOpen] = useState(false);
   const [tradeLevels, setTradeLevels] = useState([]);
   const [tradeIndex, setTradeIndex] = useState(null);
@@ -99,24 +101,26 @@ export const TradeLevel = () => {
               </div>
             </div>
             {/* end page title */}
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50"></div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showTradeLevelModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New
-                      </button>
+            {user.userData?.roleData?.tradeLevel?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50"></div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showTradeLevelModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 {/* Registration Type Table */}
@@ -131,8 +135,10 @@ export const TradeLevel = () => {
                         tableHeaders={tradeLevelHeaders}
                         actionButtons
                         viewButton
-                        editButton
-                        deleteButton
+                        editButton={user.userData?.roleData?.tradeLevel?.write}
+                        deleteButton={
+                          user.userData?.roleData?.tradeLevel?.delete
+                        }
                         callback={(e, type, index) =>
                           showTradeLevelModal(e, type, index)
                         }

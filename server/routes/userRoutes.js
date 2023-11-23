@@ -3,17 +3,20 @@ const userManager = require("../managers/userManager");
 const { userAuth } = require("../middlewares/auth.middleware");
 const { upload } = require("../utils/upload.utils");
 
-routes.post("/addNewUser", userManager.addNewUser);
-routes.get("/getUsers", userAuth, userManager.getUsers);
-routes.delete("/deleteUser", userManager.deleteUser);
-routes.post("/updateUser", userManager.updateUser);
+routes.post("/addNewUser", [userAuth], userManager.addNewUser);
+routes.get("/getUsers", [userAuth], userManager.getUsers);
+routes.delete("/deleteUser", [userAuth], userManager.deleteUser);
+routes.post("/updateUser", [userAuth], userManager.updateUser);
 
 routes.post(
   "/updateUserWithImage",
+  [userAuth],
   upload.single("file"),
   userManager.updateUserWithImage
 );
 
 routes.post("/signIn", userManager.signIn);
+
+routes.get("/tokenUser/:token", [userAuth], userManager.tokenUser);
 
 module.exports = routes;

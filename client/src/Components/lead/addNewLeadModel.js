@@ -20,6 +20,7 @@ import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { FormattedMessage } from "react-intl";
+import { useAuth } from "../../context/authContext";
 
 export const AddNewLeadModel = ({
   setIsOpen,
@@ -30,6 +31,7 @@ export const AddNewLeadModel = ({
   registrationTypes,
   tradeTypes,
 }) => {
+  const { user } = useAuth();
   const [tradeLevels, setTradeLevels] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState("");
@@ -1284,7 +1286,7 @@ export const AddNewLeadModel = ({
                         {leadData ? "Update" : "Add New"}
                       </button>
                     )}
-                    {viewLead && (
+                    {user.userData?.roleData?.lead?.write && viewLead && (
                       <div className="d-flex">
                         {leadData.courseAssigned && !leadData.getPayment && (
                           <button

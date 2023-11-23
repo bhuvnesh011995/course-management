@@ -184,6 +184,38 @@ const signIn = async (req, res, next) => {
   }
 };
 
+const tokenUser = async (req, res, next) => {
+  try {
+    console.log("decode", "================================");
+    const token = req.params.token;
+    const decode = jwt.verify(token, process.env.JWTSECRETKEY);
+    const tokenUserData = await db.user.aggregate([
+      { $match: { email: decode.email } },
+      {
+        $lookup: {
+          from: "roles",
+          let: { roleId: "$userRole" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$roleId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "roleData",
+        },
+      },
+      { $unwind: "$roleData" },
+    ]);
+    console.log("inin");
+    return res.status(200).send(tokenUserData[0]);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   addNewUser,
   getUsers,
@@ -191,4 +223,5 @@ module.exports = {
   updateUser,
   updateUserWithImage,
   signIn,
+  tokenUser,
 };

@@ -8,8 +8,10 @@ import { quoatationListHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 export const Quotation = () => {
+  const { user } = useAuth();
   const [isAddModelOpen, setAddModal] = useState(false);
   const [isViewModalOpen, setViewModal] = useState(false);
   const [allQuoatations, setAllQuotations] = useState([]);
@@ -83,7 +85,7 @@ export const Quotation = () => {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <Link to='/'>Dashboard</Link>
+                        <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
                         Quotation Management
@@ -93,24 +95,26 @@ export const Quotation = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50"></div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showQuotationModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Quotation
-                      </button>
+            {user.userData?.roleData?.finManagement?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50"></div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showQuotationModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Quotation
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card ">
@@ -123,7 +127,9 @@ export const Quotation = () => {
                         data={allQuoatations}
                         tableHeaders={quoatationListHeaders}
                         actionButtons
-                        deleteButton
+                        deleteButton={
+                          user.userData?.roleData?.finManagement?.delete
+                        }
                         enableRowNumbers={false}
                         viewButton
                         callback={(data, type, index) =>

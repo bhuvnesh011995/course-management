@@ -6,8 +6,10 @@ import { certificateHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const Certificate = () => {
+  const { user } = useAuth();
   const [certificateModal, setCertificateModal] = useState(false);
   const [certificateData, setCertificateData] = useState({});
   const [certificates, setCertificates] = useState([]);
@@ -98,13 +100,14 @@ export const Certificate = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50">
-                        {/* <div className="col-xl-5">
+            {user.userData?.roleData?.certificateGeneration?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50">
+                          {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest
@@ -130,19 +133,20 @@ export const Certificate = () => {
                             </button>
                           </div>
                         </div> */}
+                        </div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showCertificateModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Certificate
+                        </button>
                       </div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showCertificateModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Certificate
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row">
               <div className="col-12">
                 <div className="card">
@@ -154,8 +158,12 @@ export const Certificate = () => {
                       tableHeaders={certificateHeaders}
                       data={certificates}
                       actionButtons
-                      editButton
-                      deleteButton
+                      editButton={
+                        user.userData?.roleData?.certificateGeneration?.write
+                      }
+                      deleteButton={
+                        user.userData?.roleData?.certificateGeneration?.delete
+                      }
                       viewButton
                       callback={(e, type, index) =>
                         showCertificateModal(e, type, index)

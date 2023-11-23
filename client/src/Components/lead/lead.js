@@ -9,8 +9,11 @@ import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { tradeType } from "../../Constants/newLeadContants";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
+import { useAuth } from "../../context/authContext";
 
 export const Lead = () => {
+  const { user } = useAuth();
+  console.log(user, "leaduser");
   const [newLeadModal, setNewLeadModal] = useState(false);
   const [leads, setLeads] = useState([]);
   const [filteredLeads, setFilteredLeads] = useState([]);
@@ -227,7 +230,12 @@ export const Lead = () => {
               <div className="col-md-12">
                 <div className="card">
                   <div className="card-header d-flex align-items-center justify-content-between">
-                    <div className="card-title"><FormattedMessage id="Lead_List" defaultMessage="Lead List"/></div>
+                    <div className="card-title">
+                      <FormattedMessage
+                        id="Lead_List"
+                        defaultMessage="Lead List"
+                      />
+                    </div>
                     <div className="row w-75">
                       <div className="col-xl-4">
                         <select
@@ -268,20 +276,28 @@ export const Lead = () => {
                             type="submit"
                             style={{ width: "200px" }}
                           >
-                            <FormattedMessage id="Clear_Filters" defaultMessage="Clear Filters" />
+                            <FormattedMessage
+                              id="Clear_Filters"
+                              defaultMessage="Clear Filters"
+                            />
                           </button>
                         </div>
                       </div>
                     </div>
                     <div className="btns">
-                      <button
-                        className="mx-1 btn btn-primary"
-                        onClick={() => showLeadModal()}
-                        style={{ height: "20px", padding: "0 0.5rem" }}
-                      >
-                        <i className="bx bx-plus fw-semibold align-middle" />{" "}
-                        <FormattedMessage id="Add_New" defaultMessage="Add New"/>
-                      </button>
+                      {user.userData?.roleData?.lead?.create && (
+                        <button
+                          className="mx-1 btn btn-primary"
+                          onClick={() => showLeadModal()}
+                          style={{ height: "20px", padding: "0 0.5rem" }}
+                        >
+                          <i className="bx bx-plus fw-semibold align-middle" />{" "}
+                          <FormattedMessage
+                            id="Add_New"
+                            defaultMessage="Add New"
+                          />
+                        </button>
+                      )}
                       <Link
                         to="/lead-grid"
                         className="btn mx-1 btn-primary me-2"
@@ -297,9 +313,9 @@ export const Lead = () => {
                         data={filteredLeads}
                         tableHeaders={leadTableHeaders}
                         actionButtons
-                        editButton
+                        editButton={user.userData?.roleData?.lead?.write}
                         tableSearchBar={false}
-                        deleteButton
+                        deleteButton={user.userData?.roleData?.lead?.delete}
                         callback={(e, type, index) =>
                           showLeadModal(e, type, index)
                         }

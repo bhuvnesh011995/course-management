@@ -17,10 +17,11 @@ export const UserRoleModel = ({
   const [isAllSelected, setIsAllSelected] = useState(false);
 
   const [permissionChecked, setPermissionChecked] = useState({
+    lead: false,
     userManagement: false,
-    contentManagement: false,
+    employeeManagement: false,
     finManagement: false,
-    reporting: false,
+    leaveManagement: false,
     payroll: false,
     role: false,
     admin: false,
@@ -45,18 +46,19 @@ export const UserRoleModel = ({
 
   const checkAllSelected = (data) => {
     const isAllChecked = {
+      lead: [],
       userManagement: [],
       finManagement: [],
       payroll: [],
-      reporting: [],
-      contentManagement: [],
+      leaveManagement: [],
+      employeeManagement: [],
       role: [],
       isAllSelected: [],
     };
     if (Object.keys(data).length) {
-      for (const checkbox in data.contentManagement) {
-        isAllChecked.contentManagement.push(data.contentManagement[checkbox]);
-        isAllChecked.isAllSelected.push(data.contentManagement[checkbox]);
+      for (const checkbox in data.employeeManagement) {
+        isAllChecked.employeeManagement.push(data.employeeManagement[checkbox]);
+        isAllChecked.isAllSelected.push(data.employeeManagement[checkbox]);
       }
       for (const checkbox in data.finManagement) {
         isAllChecked.finManagement.push(data.finManagement[checkbox]);
@@ -66,13 +68,17 @@ export const UserRoleModel = ({
         isAllChecked.payroll.push(data.payRoll[checkbox]);
         isAllChecked.isAllSelected.push(data.payRoll[checkbox]);
       }
-      for (const checkbox in data.reporting) {
-        isAllChecked.reporting.push(data.reporting[checkbox]);
-        isAllChecked.isAllSelected.push(data.reporting[checkbox]);
+      for (const checkbox in data.leaveManagement) {
+        isAllChecked.leaveManagement.push(data.leaveManagement[checkbox]);
+        isAllChecked.isAllSelected.push(data.leaveManagement[checkbox]);
       }
       for (const checkbox in data.userManagement) {
         isAllChecked.userManagement.push(data.userManagement[checkbox]);
         isAllChecked.isAllSelected.push(data.userManagement[checkbox]);
+      }
+      for (const checkbox in data.lead) {
+        isAllChecked.lead.push(data.lead[checkbox]);
+        isAllChecked.isAllSelected.push(data.lead[checkbox]);
       }
       for (const checkbox in data.role) {
         isAllChecked.role.push(data.role[checkbox]);
@@ -86,20 +92,25 @@ export const UserRoleModel = ({
   };
 
   const checkIfAllSelected = (isAllChecked) => {
-    if (isAllChecked.contentManagement.includes(false)) {
-      permissionChecked.contentManagement = false;
+    if (isAllChecked.employeeManagement.includes(false)) {
+      permissionChecked.employeeManagement = false;
     } else {
-      permissionChecked.contentManagement = true;
+      permissionChecked.employeeManagement = true;
     }
     if (isAllChecked.userManagement.includes(false)) {
       permissionChecked.userManagement = false;
     } else {
       permissionChecked.userManagement = true;
     }
-    if (isAllChecked.reporting.includes(false)) {
-      permissionChecked.reporting = false;
+    if (isAllChecked.lead.includes(false)) {
+      permissionChecked.lead = false;
     } else {
-      permissionChecked.reporting = true;
+      permissionChecked.lead = true;
+    }
+    if (isAllChecked.leaveManagement.includes(false)) {
+      permissionChecked.leaveManagement = false;
+    } else {
+      permissionChecked.leaveManagement = true;
     }
     if (isAllChecked.payroll.includes(false)) {
       permissionChecked.payroll = false;
@@ -182,6 +193,57 @@ export const UserRoleModel = ({
                             disabled={viewRole}
                           />
                           <label className="form-check-label">Select All</label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <div className="form-check mx-3">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          checked={permissionChecked.lead}
+                          disabled={viewRole}
+                        />
+                        <td className="text-nowrap fw-medium">Lead</td>
+                      </div>
+                      <td>
+                        <div className="d-flex">
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("lead.read")}
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Read</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("lead.write")}
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Write</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("lead.create")}
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Create</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("lead.delete")}
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Delete</label>
+                          </div>
                         </div>
                       </td>
                     </tr>
@@ -325,11 +387,11 @@ export const UserRoleModel = ({
                         <input
                           className="form-check-input"
                           type="checkbox"
-                          checked={permissionChecked.contentManagement}
+                          checked={permissionChecked.employeeManagement}
                           disabled={viewRole}
                         />
                         <td className="text-nowrap fw-medium">
-                          Content Management
+                          Employee Management
                         </td>
                       </div>
                       <td>
@@ -338,7 +400,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("contentManagement.read")}
+                              {...register("employeeManagement.read")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Read</label>
@@ -347,7 +409,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("contentManagement.write")}
+                              {...register("employeeManagement.write")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Write</label>
@@ -356,7 +418,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("contentManagement.create")}
+                              {...register("employeeManagement.create")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Create</label>
@@ -365,7 +427,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("contentManagement.delete")}
+                              {...register("employeeManagement.delete")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Delete</label>
@@ -431,10 +493,12 @@ export const UserRoleModel = ({
                         <input
                           className="form-check-input"
                           type="checkbox"
-                          checked={permissionChecked.reporting}
+                          checked={permissionChecked.leaveManagement}
                           disabled={viewRole}
                         />
-                        <td className="text-nowrap fw-medium">Reporting</td>
+                        <td className="text-nowrap fw-medium">
+                          leaveManagement
+                        </td>
                       </div>
                       <td>
                         <div className="d-flex">
@@ -442,7 +506,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("reporting.read")}
+                              {...register("leaveManagement.read")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Read</label>
@@ -451,7 +515,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("reporting.write")}
+                              {...register("leaveManagement.write")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Write</label>
@@ -460,7 +524,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("reporting.create")}
+                              {...register("leaveManagement.create")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Create</label>
@@ -469,7 +533,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("reporting.delete")}
+                              {...register("leaveManagement.delete")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Delete</label>

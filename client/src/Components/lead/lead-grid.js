@@ -5,8 +5,10 @@ import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
 import { Dropdown } from "../../common-components/common-dropDown";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
 
 export const LeadGrid = () => {
+  const { user } = useAuth();
   const filterTypes = {
     sortBy: "",
     textSearch: "",
@@ -239,18 +241,20 @@ export const LeadGrid = () => {
                         </div>
                       </div>
                       <div className="btns">
-                        <button
-                          className="btn btn-primary"
-                          style={{
-                            height: "20px",
-                            padding: "0 0.5rem",
-                            fontSize: "0.7rem",
-                          }}
-                          onClick={() => showLeadModal()}
-                        >
-                          <i className="bx bx-plus fw-semibold align-middle" />{" "}
-                          Add New
-                        </button>
+                        {user.userData?.roleData?.lead?.create && (
+                          <button
+                            className="btn btn-primary"
+                            style={{
+                              height: "20px",
+                              padding: "0 0.5rem",
+                              fontSize: "0.7rem",
+                            }}
+                            onClick={() => showLeadModal()}
+                          >
+                            <i className="bx bx-plus fw-semibold align-middle" />{" "}
+                            Add New
+                          </button>
+                        )}
                         <Link
                           to={"/lead"}
                           className="btn btn-primary me-2"
@@ -305,12 +309,14 @@ export const LeadGrid = () => {
                                         <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
                                         View
                                       </Dropdown.Item>
-                                      <Dropdown.Item
-                                        onClick={() => showLeadModal(lead)}
-                                      >
-                                        <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
-                                        Edit
-                                      </Dropdown.Item>
+                                      {user.userData?.roleData?.lead?.write && (
+                                        <Dropdown.Item
+                                          onClick={() => showLeadModal(lead)}
+                                        >
+                                          <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
+                                          Edit
+                                        </Dropdown.Item>
+                                      )}
                                       {lead?.getPayment && (
                                         <Dropdown.Item>
                                           <span className="">
@@ -327,16 +333,19 @@ export const LeadGrid = () => {
                                           </span>
                                         </Dropdown.Item>
                                       )}
-                                      <Dropdown.Item
-                                        onClick={() => {
-                                          showLeadModal(lead, "delete");
-                                        }}
-                                      >
-                                        <span className="">
-                                          <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
-                                          Delete
-                                        </span>
-                                      </Dropdown.Item>
+                                      {user.userData?.roleData?.lead
+                                        ?.delete && (
+                                        <Dropdown.Item
+                                          onClick={() => {
+                                            showLeadModal(lead, "delete");
+                                          }}
+                                        >
+                                          <span className="">
+                                            <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
+                                            Delete
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
                                     </Dropdown.Container>
                                   </div>
                                   <div className="kanban-content">
@@ -431,12 +440,14 @@ export const LeadGrid = () => {
                                         <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
                                         View
                                       </Dropdown.Item>
-                                      <Dropdown.Item
-                                        onClick={() => showLeadModal(lead)}
-                                      >
-                                        <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
-                                        Edit
-                                      </Dropdown.Item>
+                                      {user.userData?.roleData?.lead?.write && (
+                                        <Dropdown.Item
+                                          onClick={() => showLeadModal(lead)}
+                                        >
+                                          <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
+                                          Edit
+                                        </Dropdown.Item>
+                                      )}
                                       {lead?.getPayment && (
                                         <Dropdown.Item>
                                           <span className="">
@@ -453,16 +464,19 @@ export const LeadGrid = () => {
                                           </span>
                                         </Dropdown.Item>
                                       )}
-                                      <Dropdown.Item
-                                        onClick={() => {
-                                          showLeadModal(lead, "delete");
-                                        }}
-                                      >
-                                        <span className="">
-                                          <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
-                                          Delete
-                                        </span>
-                                      </Dropdown.Item>
+                                      {user.userData?.roleData?.lead
+                                        ?.delete && (
+                                        <Dropdown.Item
+                                          onClick={() => {
+                                            showLeadModal(lead, "delete");
+                                          }}
+                                        >
+                                          <span className="">
+                                            <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
+                                            Delete
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
                                     </Dropdown.Container>
                                   </div>
                                   <div className="kanban-content">
@@ -557,12 +571,14 @@ export const LeadGrid = () => {
                                         <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
                                         View
                                       </Dropdown.Item>
-                                      <Dropdown.Item
-                                        onClick={() => showLeadModal(lead)}
-                                      >
-                                        <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
-                                        Edit
-                                      </Dropdown.Item>
+                                      {user.userData?.roleData?.lead?.write && (
+                                        <Dropdown.Item
+                                          onClick={() => showLeadModal(lead)}
+                                        >
+                                          <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
+                                          Edit
+                                        </Dropdown.Item>
+                                      )}
                                       {lead?.getPayment && (
                                         <Dropdown.Item>
                                           <span className="">
@@ -580,16 +596,19 @@ export const LeadGrid = () => {
                                           </span>
                                         </Dropdown.Item>
                                       )}
-                                      <Dropdown.Item
-                                        onClick={() => {
-                                          showLeadModal(lead, "delete");
-                                        }}
-                                      >
-                                        <span className="">
-                                          <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
-                                          Delete
-                                        </span>
-                                      </Dropdown.Item>
+                                      {user.userData?.roleData?.lead
+                                        ?.delete && (
+                                        <Dropdown.Item
+                                          onClick={() => {
+                                            showLeadModal(lead, "delete");
+                                          }}
+                                        >
+                                          <span className="">
+                                            <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
+                                            Delete
+                                          </span>
+                                        </Dropdown.Item>
+                                      )}
                                     </Dropdown.Container>
                                   </div>
                                   <div className="kanban-content">
@@ -685,12 +704,14 @@ export const LeadGrid = () => {
                                         <i className="mdi mdi-eye me-1 align-middle d-inline-block text-warning" />
                                         View
                                       </Dropdown.Item>
-                                      <Dropdown.Item
-                                        onClick={() => showLeadModal(lead)}
-                                      >
-                                        <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
-                                        Edit
-                                      </Dropdown.Item>
+                                      {user.userData?.roleData?.lead?.write && (
+                                        <Dropdown.Item
+                                          onClick={() => showLeadModal(lead)}
+                                        >
+                                          <i className="mdi mdi-pencil me-1 align-middle d-inline-block text-primary" />
+                                          Edit
+                                        </Dropdown.Item>
+                                      )}
                                       {lead?.getPayment && (
                                         <Dropdown.Item>
                                           <i className="bx bx-money me-1 align-middle d-inline-block text-info" />
@@ -703,14 +724,17 @@ export const LeadGrid = () => {
                                           Confirm
                                         </Dropdown.Item>
                                       )}
-                                      <Dropdown.Item
-                                        onClick={() => {
-                                          showLeadModal(lead, "delete");
-                                        }}
-                                      >
-                                        <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
-                                        Delete
-                                      </Dropdown.Item>
+                                      {user.userData?.roleData?.lead
+                                        ?.delete && (
+                                        <Dropdown.Item
+                                          onClick={() => {
+                                            showLeadModal(lead, "delete");
+                                          }}
+                                        >
+                                          <i className="mdi mdi-trash-can me-1 align-middle d-inline-block text-danger" />
+                                          Delete
+                                        </Dropdown.Item>
+                                      )}
                                     </Dropdown.Container>
                                   </div>
                                   <div className="kanban-content">

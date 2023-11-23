@@ -1,11 +1,20 @@
 const routes = require("express").Router();
 const designationManager = require("../managers/designationManager");
+const { userAuth } = require("../middlewares/auth.middleware");
 
-routes.post("/addDesignation", designationManager.addDesignation);
+routes.post("/addDesignation", [userAuth], designationManager.addDesignation);
 
-routes.get("/getDesignations", designationManager.getDesignations);
+routes.get("/getDesignations", [userAuth], designationManager.getDesignations);
 
-routes.post("/updateDesignation", designationManager.updateDesignation);
-routes.delete("/deleteDesignation", designationManager.deleteDesignation);
+routes.post(
+  "/updateDesignation",
+  [userAuth],
+  designationManager.updateDesignation
+);
+routes.delete(
+  "/deleteDesignation",
+  [userAuth],
+  designationManager.deleteDesignation
+);
 
 module.exports = routes;

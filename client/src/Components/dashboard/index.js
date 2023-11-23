@@ -27,6 +27,7 @@ import {
   ArcElement,
 } from "chart.js";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

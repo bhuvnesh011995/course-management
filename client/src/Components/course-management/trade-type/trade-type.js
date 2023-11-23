@@ -6,8 +6,10 @@ import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { tradeTypeHeaders } from "../../../Constants/table.constants";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const TradeType = () => {
+  const { user } = useAuth();
   const [tradeModalOpen, setTradeModalOpen] = useState(false);
   const [tradeTypes, setTradeTypes] = useState([]);
   const [tradeIndex, setTradeIndex] = useState(null);
@@ -96,13 +98,14 @@ export const TradeType = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50">
-                        {/* <div className="col-xl-5">
+            {user.userData?.roleData?.tradeType?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50">
+                          {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest
@@ -128,19 +131,20 @@ export const TradeType = () => {
                             </button>
                           </div>
                         </div> */}
+                        </div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showTradeTypeModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New
+                        </button>
                       </div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showTradeTypeModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card">
@@ -154,8 +158,10 @@ export const TradeType = () => {
                         tableHeaders={tradeTypeHeaders}
                         actionButtons
                         viewButton
-                        editButton
-                        deleteButton
+                        editButton={user.userData?.roleData?.tradeType?.write}
+                        deleteButton={
+                          user.userData?.roleData?.tradeType?.delete
+                        }
                         callback={(e, type, index) =>
                           showTradeTypeModal(e, type, index)
                         }

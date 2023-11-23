@@ -5,6 +5,7 @@ import moment from "moment";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { quotationPreviewHeaders } from "../../Constants/table.constants";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
 
 export default function ViewQuotationModal({
   show,
@@ -13,6 +14,7 @@ export default function ViewQuotationModal({
   isSalesQuotation,
   callback,
 }) {
+  const { user } = useAuth();
   const [selectedQuotation, setSelectedQuotation] = useState(null);
   const [totalAmt, setTotalAmt] = useState(null);
 
@@ -54,7 +56,7 @@ export default function ViewQuotationModal({
       const { data } = await AxiosInstance.get("/quotations/getQuotation", {
         params: quotationData,
       });
-     
+
       setSelectedQuotation(data);
       calculateQuotation(data.quotationCourses);
     } catch (err) {
@@ -186,15 +188,16 @@ export default function ViewQuotationModal({
                           }%`}</p>
                           <h6>{`$${totalAmt ? totalAmt?.grandTotal : 0}`}</h6>
                         </div>
-                        {isSalesQuotation && (
-                          <button
-                            type="button"
-                            className="btn btn-info w-100 mt-3"
-                            onClick={updateSalesQuotation}
-                          >
-                            Confirm
-                          </button>
-                        )}
+                        {user.userData?.roleData?.finManagement?.write &&
+                          isSalesQuotation && (
+                            <button
+                              type="button"
+                              className="btn btn-info w-100 mt-3"
+                              onClick={updateSalesQuotation}
+                            >
+                              Confirm
+                            </button>
+                          )}
                       </div>
                     </div>
                   </div>

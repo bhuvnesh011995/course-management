@@ -6,8 +6,9 @@ const { upload } = require("../utils/upload.utils");
 const ExcelJs = require("exceljs");
 
 const { Blob } = require("buffer");
+const { userAuth } = require("../middlewares/auth.middleware");
 
-routes.post("/excel", upload.single("file"), async (req, res) => {
+routes.post("/excel", [userAuth], upload.single("file"), async (req, res) => {
   try {
     const { body, file } = req;
 
