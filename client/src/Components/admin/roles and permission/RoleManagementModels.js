@@ -15,10 +15,11 @@ export const AddNewRoleModel = ({
   const [isAllSelected, setIsAllSelected] = useState(false);
 
   const [permissionChecked, setPermissionChecked] = useState({
+    lead: false,
     userManagement: false,
-    contentManagement: false,
+    employeeManagement: false,
     finManagement: false,
-    reporting: false,
+    leaveManagement: false,
     payroll: false,
     role: false,
     admin: false,
@@ -92,30 +93,32 @@ export const AddNewRoleModel = ({
   };
 
   const selectAll = (isChecked) => {
-    selectAllContentManagement(isChecked);
+    selectAllemployeeManagement(isChecked);
     selectAllFinManagement(isChecked);
     selectAllPayRoll(isChecked);
-    selectAllReporting(isChecked);
+    selectAllleaveManagement(isChecked);
     selectAllUserManagement(isChecked);
+    selectAllLead(isChecked);
     setIsAllSelected(isChecked);
     selectAllRoles(isChecked);
     setPermissionChecked({
+      lead: isChecked,
       userManagement: isChecked,
-      contentManagement: isChecked,
+      employeeManagement: isChecked,
       finManagement: isChecked,
-      reporting: isChecked,
+      leaveManagement: isChecked,
       payroll: isChecked,
       role: isChecked,
       admin: isChecked,
     });
   };
 
-  const selectAllContentManagement = (isChecked) => {
-    setValue("contentManagement.read", isChecked);
-    setValue("contentManagement.write", isChecked);
-    setValue("contentManagement.create", isChecked);
-    setValue("contentManagement.delete", isChecked);
-    permissionChecked.contentManagement = isChecked;
+  const selectAllemployeeManagement = (isChecked) => {
+    setValue("employeeManagement.read", isChecked);
+    setValue("employeeManagement.write", isChecked);
+    setValue("employeeManagement.create", isChecked);
+    setValue("employeeManagement.delete", isChecked);
+    permissionChecked.employeeManagement = isChecked;
     setPermissionChecked(permissionChecked);
   };
 
@@ -146,12 +149,21 @@ export const AddNewRoleModel = ({
     setPermissionChecked(permissionChecked);
   };
 
-  const selectAllReporting = (isChecked) => {
-    setValue("reporting.read", isChecked);
-    setValue("reporting.write", isChecked);
-    setValue("reporting.create", isChecked);
-    setValue("reporting.delete", isChecked);
-    permissionChecked.reporting = isChecked;
+  const selectAllLead = (isChecked) => {
+    setValue("lead.read", isChecked);
+    setValue("lead.write", isChecked);
+    setValue("lead.create", isChecked);
+    setValue("lead.delete", isChecked);
+    permissionChecked.lead = isChecked;
+    setPermissionChecked(permissionChecked);
+  };
+
+  const selectAllleaveManagement = (isChecked) => {
+    setValue("leaveManagement.read", isChecked);
+    setValue("leaveManagement.write", isChecked);
+    setValue("leaveManagement.create", isChecked);
+    setValue("leaveManagement.delete", isChecked);
+    permissionChecked.leaveManagement = isChecked;
     setPermissionChecked(permissionChecked);
   };
 
@@ -175,14 +187,17 @@ export const AddNewRoleModel = ({
       case "userManagement.selectAll":
         selectAllUserManagement(getValues(permission));
         break;
-      case "contentManagement.selectAll":
-        selectAllContentManagement(getValues(permission));
+      case "lead.selectAll":
+        selectAllLead(getValues(permission));
+        break;
+      case "employeeManagement.selectAll":
+        selectAllemployeeManagement(getValues(permission));
         break;
       case "finManagement.selectAll":
         selectAllFinManagement(getValues(permission));
         break;
-      case "reporting.selectAll":
-        selectAllReporting(getValues(permission));
+      case "leaveManagement.selectAll":
+        selectAllleaveManagement(getValues(permission));
         break;
       case "payroll.selectAll":
         selectAllPayRoll(getValues(permission));
@@ -195,18 +210,19 @@ export const AddNewRoleModel = ({
 
   const checkAllSelected = (data = getValues()) => {
     const isAllChecked = {
+      lead: [],
       userManagement: [],
       finManagement: [],
       payroll: [],
-      reporting: [],
-      contentManagement: [],
+      leaveManagement: [],
+      employeeManagement: [],
       role: [],
       isAllSelected: [],
     };
     if (Object.keys(data).length) {
-      for (const checkbox in data.contentManagement) {
-        isAllChecked.contentManagement.push(data.contentManagement[checkbox]);
-        isAllChecked.isAllSelected.push(data.contentManagement[checkbox]);
+      for (const checkbox in data.employeeManagement) {
+        isAllChecked.employeeManagement.push(data.employeeManagement[checkbox]);
+        isAllChecked.isAllSelected.push(data.employeeManagement[checkbox]);
       }
       for (const checkbox in data.finManagement) {
         isAllChecked.finManagement.push(data.finManagement[checkbox]);
@@ -216,13 +232,17 @@ export const AddNewRoleModel = ({
         isAllChecked.payroll.push(data.payRoll[checkbox]);
         isAllChecked.isAllSelected.push(data.payRoll[checkbox]);
       }
-      for (const checkbox in data.reporting) {
-        isAllChecked.reporting.push(data.reporting[checkbox]);
-        isAllChecked.isAllSelected.push(data.reporting[checkbox]);
+      for (const checkbox in data.leaveManagement) {
+        isAllChecked.leaveManagement.push(data.leaveManagement[checkbox]);
+        isAllChecked.isAllSelected.push(data.leaveManagement[checkbox]);
       }
       for (const checkbox in data.userManagement) {
         isAllChecked.userManagement.push(data.userManagement[checkbox]);
         isAllChecked.isAllSelected.push(data.userManagement[checkbox]);
+      }
+      for (const checkbox in data.lead) {
+        isAllChecked.lead.push(data.lead[checkbox]);
+        isAllChecked.isAllSelected.push(data.lead[checkbox]);
       }
       for (const checkbox in data.role) {
         isAllChecked.role.push(data.role[checkbox]);
@@ -236,20 +256,25 @@ export const AddNewRoleModel = ({
   };
 
   const checkIfAllSelected = (isAllChecked) => {
-    if (isAllChecked.contentManagement.includes(false)) {
-      permissionChecked.contentManagement = false;
+    if (isAllChecked.employeeManagement.includes(false)) {
+      permissionChecked.employeeManagement = false;
     } else {
-      permissionChecked.contentManagement = true;
+      permissionChecked.employeeManagement = true;
     }
     if (isAllChecked.userManagement.includes(false)) {
       permissionChecked.userManagement = false;
     } else {
       permissionChecked.userManagement = true;
     }
-    if (isAllChecked.reporting.includes(false)) {
-      permissionChecked.reporting = false;
+    if (isAllChecked.lead.includes(false)) {
+      permissionChecked.lead = false;
     } else {
-      permissionChecked.reporting = true;
+      permissionChecked.lead = true;
+    }
+    if (isAllChecked.leaveManagement.includes(false)) {
+      permissionChecked.leaveManagement = false;
+    } else {
+      permissionChecked.leaveManagement = true;
     }
     if (isAllChecked.payroll.includes(false)) {
       permissionChecked.payroll = false;
@@ -561,13 +586,13 @@ export const AddNewRoleModel = ({
                           className="form-check-input"
                           type="checkbox"
                           onChange={() =>
-                            onPermissionChange("contentManagement.selectAll")
+                            onPermissionChange("employeeManagement.selectAll")
                           }
-                          checked={permissionChecked.contentManagement}
+                          checked={permissionChecked.employeeManagement}
                           disabled={viewRole}
                         />
                         <td className="text-nowrap fw-medium">
-                          Content Management
+                          employee Management
                         </td>
                       </div>
                       <td>
@@ -576,14 +601,14 @@ export const AddNewRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("contentManagement.read")}
+                              {...register("employeeManagement.read")}
                               onChange={() =>
-                                onPermissionChange("contentManagement.read")
+                                onPermissionChange("employeeManagement.read")
                               }
                               checked={
-                                permissionChecked.contentManagement
-                                  ? permissionChecked.contentManagement
-                                  : watch("contentManagement.read")
+                                permissionChecked.employeeManagement
+                                  ? permissionChecked.employeeManagement
+                                  : watch("employeeManagement.read")
                               }
                               disabled={viewRole}
                             />
@@ -593,14 +618,14 @@ export const AddNewRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("contentManagement.write")}
+                              {...register("employeeManagement.write")}
                               onChange={() =>
-                                onPermissionChange("contentManagement.write")
+                                onPermissionChange("employeeManagement.write")
                               }
                               checked={
-                                permissionChecked.contentManagement
-                                  ? permissionChecked.contentManagement
-                                  : watch("contentManagement.write")
+                                permissionChecked.employeeManagement
+                                  ? permissionChecked.employeeManagement
+                                  : watch("employeeManagement.write")
                               }
                               disabled={viewRole}
                             />
@@ -610,14 +635,14 @@ export const AddNewRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("contentManagement.create")}
+                              {...register("employeeManagement.create")}
                               onChange={() =>
-                                onPermissionChange("contentManagement.create")
+                                onPermissionChange("employeeManagement.create")
                               }
                               checked={
-                                permissionChecked.contentManagement
-                                  ? permissionChecked.contentManagement
-                                  : watch("contentManagement.create")
+                                permissionChecked.employeeManagement
+                                  ? permissionChecked.employeeManagement
+                                  : watch("employeeManagement.create")
                               }
                               disabled={viewRole}
                             />
@@ -627,14 +652,14 @@ export const AddNewRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("contentManagement.delete")}
+                              {...register("employeeManagement.delete")}
                               onChange={() =>
-                                onPermissionChange("contentManagement.delete")
+                                onPermissionChange("employeeManagement.delete")
                               }
                               checked={
-                                permissionChecked.contentManagement
-                                  ? permissionChecked.contentManagement
-                                  : watch("contentManagement.delete")
+                                permissionChecked.employeeManagement
+                                  ? permissionChecked.employeeManagement
+                                  : watch("employeeManagement.delete")
                               }
                               disabled={viewRole}
                             />
@@ -737,12 +762,14 @@ export const AddNewRoleModel = ({
                           className="form-check-input"
                           type="checkbox"
                           onChange={() =>
-                            onPermissionChange("reporting.selectAll")
+                            onPermissionChange("leaveManagement.selectAll")
                           }
-                          checked={permissionChecked.reporting}
+                          checked={permissionChecked.leaveManagement}
                           disabled={viewRole}
                         />
-                        <td className="text-nowrap fw-medium">Reporting</td>
+                        <td className="text-nowrap fw-medium">
+                          leaveManagement
+                        </td>
                       </div>
                       <td>
                         <div className="d-flex">
@@ -750,14 +777,14 @@ export const AddNewRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("reporting.read")}
+                              {...register("leaveManagement.read")}
                               onChange={() =>
-                                onPermissionChange("reporting.read")
+                                onPermissionChange("leaveManagement.read")
                               }
                               checked={
-                                permissionChecked.reporting
-                                  ? permissionChecked.reporting
-                                  : watch("reporting.read")
+                                permissionChecked.leaveManagement
+                                  ? permissionChecked.leaveManagement
+                                  : watch("leaveManagement.read")
                               }
                               disabled={viewRole}
                             />
@@ -767,14 +794,14 @@ export const AddNewRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("reporting.write")}
+                              {...register("leaveManagement.write")}
                               onChange={() =>
-                                onPermissionChange("reporting.write")
+                                onPermissionChange("leaveManagement.write")
                               }
                               checked={
-                                permissionChecked.reporting
-                                  ? permissionChecked.reporting
-                                  : watch("reporting.write")
+                                permissionChecked.leaveManagement
+                                  ? permissionChecked.leaveManagement
+                                  : watch("leaveManagement.write")
                               }
                               disabled={viewRole}
                             />
@@ -784,14 +811,14 @@ export const AddNewRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("reporting.create")}
+                              {...register("leaveManagement.create")}
                               onChange={() =>
-                                onPermissionChange("reporting.create")
+                                onPermissionChange("leaveManagement.create")
                               }
                               checked={
-                                permissionChecked.reporting
-                                  ? permissionChecked.reporting
-                                  : watch("reporting.create")
+                                permissionChecked.leaveManagement
+                                  ? permissionChecked.leaveManagement
+                                  : watch("leaveManagement.create")
                               }
                               disabled={viewRole}
                             />
@@ -801,14 +828,14 @@ export const AddNewRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("reporting.delete")}
+                              {...register("leaveManagement.delete")}
                               onChange={() =>
-                                onPermissionChange("reporting.delete")
+                                onPermissionChange("leaveManagement.delete")
                               }
                               checked={
-                                permissionChecked.reporting
-                                  ? permissionChecked.reporting
-                                  : watch("reporting.delete")
+                                permissionChecked.leaveManagement
+                                  ? permissionChecked.leaveManagement
+                                  : watch("leaveManagement.delete")
                               }
                               disabled={viewRole}
                             />
@@ -895,6 +922,82 @@ export const AddNewRoleModel = ({
                                 permissionChecked.payroll
                                   ? permissionChecked.payroll
                                   : watch("payRoll.delete")
+                              }
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Delete</label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <div className="form-check mx-3">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          onChange={() => onPermissionChange("lead.selectAll")}
+                          checked={permissionChecked.lead}
+                          disabled={viewRole}
+                        />
+                        <td className="text-nowrap fw-medium">Lead</td>
+                      </div>
+                      <td>
+                        <div className="d-flex">
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("lead.read")}
+                              onChange={() => onPermissionChange("lead.read")}
+                              checked={
+                                permissionChecked.lead
+                                  ? permissionChecked.lead
+                                  : watch("lead.read")
+                              }
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Read</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("lead.write")}
+                              onChange={() => onPermissionChange("lead.write")}
+                              checked={
+                                permissionChecked.lead
+                                  ? permissionChecked.lead
+                                  : watch("lead.write")
+                              }
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Write</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("lead.create")}
+                              onChange={() => onPermissionChange("lead.create")}
+                              checked={
+                                permissionChecked.lead
+                                  ? permissionChecked.lead
+                                  : watch("lead.create")
+                              }
+                              disabled={viewRole}
+                            />
+                            <label className="form-check-label">Create</label>
+                          </div>
+                          <div className="form-check me-3 me-lg-5">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              {...register("lead.delete")}
+                              onChange={() => onPermissionChange("lead.delete")}
+                              checked={
+                                permissionChecked.lead
+                                  ? permissionChecked.lead
+                                  : watch("lead.delete")
                               }
                               disabled={viewRole}
                             />

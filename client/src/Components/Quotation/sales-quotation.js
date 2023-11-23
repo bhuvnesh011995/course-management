@@ -6,8 +6,10 @@ import { DeleteModel } from "../../common-components/models/DeleteModal";
 import ViewQuotationModal from "./ViewQuotationModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 export const SalesQuotation = () => {
+  const { user } = useAuth();
   const [allQuoatations, setAllQuotations] = useState([]);
   const [isViewModalOpen, setViewModal] = useState(false);
   const [quotationData, setQuotationData] = useState(null);
@@ -103,7 +105,9 @@ export const SalesQuotation = () => {
                         data={allQuoatations}
                         tableHeaders={salesQuoatationListHeaders}
                         actionButtons
-                        deleteButton
+                        deleteButton={
+                          user.userData?.roleData?.finManagement?.delete
+                        }
                         enableRowNumbers={false}
                         viewButton
                         callback={(data, type, index) =>

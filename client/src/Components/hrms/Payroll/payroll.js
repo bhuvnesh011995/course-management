@@ -6,8 +6,10 @@ import { payrollHeaders } from "../../../Constants/table.constants";
 import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const PayRoll = () => {
+  const { user } = useAuth();
   const [isAddPayrollModalOpen, setAddPayrollModal] = useState(false);
   const [allPayrolls, setAllPayrolls] = useState([]);
   const [deletePayroll, setDeletePayroll] = useState(false);
@@ -100,24 +102,26 @@ export const PayRoll = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50"></div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showPayroll()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Payroll
-                      </button>
+            {user.userData?.roleData?.payRoll?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50"></div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showPayroll()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Payroll
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card ">
@@ -130,8 +134,8 @@ export const PayRoll = () => {
                         data={allPayrolls}
                         tableHeaders={payrollHeaders}
                         actionButtons
-                        editButton
-                        deleteButton
+                        editButton={user.userData?.roleData?.payRoll?.write}
+                        deleteButton={user.userData?.roleData?.payRoll?.delete}
                         viewButton
                         callback={(data, type, index) =>
                           showPayroll(data, type, index)

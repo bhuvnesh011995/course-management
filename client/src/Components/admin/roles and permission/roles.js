@@ -7,8 +7,10 @@ import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const Roles = () => {
+  const { user } = useAuth();
   const [roleModalOpen, setRoleModalOpen] = useState(false);
   const [roles, setRoles] = useState([]);
   const [filteredRoles, setFilteredRoles] = useState([]);
@@ -157,13 +159,15 @@ export const Roles = () => {
                           </div>
                         </div>
                       </div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showRoleModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Role
-                      </button>
+                      {user.userData?.roleData?.role?.create && (
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showRoleModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Role
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -210,18 +214,22 @@ export const Roles = () => {
                               <a>{e.roleName}</a>
                             </h4>
                             <div>
-                              <button
-                                onClick={() => showRoleModal(e._id)}
-                                className="btn btn-sm btn-primary role-edit-modal mx-1"
-                              >
-                                <small>Edit Role</small>
-                              </button>
-                              <button
-                                onClick={() => showRoleModal(e._id, "delete")}
-                                className="btn btn-sm btn-danger role-edit-modal"
-                              >
-                                <small>Delete Role</small>
-                              </button>
+                              {user.userData?.roleData?.role?.write && (
+                                <button
+                                  onClick={() => showRoleModal(e._id)}
+                                  className="btn btn-sm btn-primary role-edit-modal mx-1"
+                                >
+                                  <small>Edit Role</small>
+                                </button>
+                              )}
+                              {user.userData?.roleData?.role?.delete && (
+                                <button
+                                  onClick={() => showRoleModal(e._id, "delete")}
+                                  className="btn btn-sm btn-danger role-edit-modal"
+                                >
+                                  <small>Delete Role</small>
+                                </button>
+                              )}
                             </div>
                           </div>
                           <a className="text-muted cursor-pointer">

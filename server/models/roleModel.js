@@ -4,19 +4,16 @@ const roleCommon = require("./common/roleCommon");
 const roleSchema = new mongoose.Schema(
   {
     roleName: { type: String },
-  
-    contentManagement: roleCommon,
-
-    finManagement: roleCommon,
-
-    payRoll: roleCommon,
-
-    reporting: roleCommon,
-
-    userManagement: roleCommon,
-    role: roleCommon,
-    customer: roleCommon,
     lead: roleCommon,
+    payRoll: roleCommon,
+    leaveManagement: roleCommon,
+    userManagement: roleCommon,
+    employeeManagement: roleCommon,
+    finManagement: roleCommon,
+    role: roleCommon,
+
+    timesheet: roleCommon,
+    customer: roleCommon,
     trainer: roleCommon,
     holiday: roleCommon,
     registrationType: roleCommon,

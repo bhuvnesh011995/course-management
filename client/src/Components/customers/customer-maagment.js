@@ -8,8 +8,10 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { AddNewLeadModel } from "../lead/addNewLeadModel";
 import { ViewCustomerModal } from "./customerModal";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 export const CustomerManagement = () => {
+  const { user } = useAuth();
   const [allCustomers, setAllCustomers] = useState([]);
   const [customerModal, setCustomerModal] = useState(false);
   const [customerData, setCustomerData] = useState(null);
@@ -136,8 +138,8 @@ export const CustomerManagement = () => {
                         data={allCustomers}
                         actionButtons
                         viewButton
-                        editButton
-                        deleteButton
+                        editButton={user.userData?.roleData?.customer?.write}
+                        deleteButton={user.userData?.roleData?.customer?.delete}
                         downloadExcel
                         callback={(e, type, index) =>
                           showCustomerModal(e, type, index)

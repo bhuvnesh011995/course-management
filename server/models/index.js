@@ -2,7 +2,6 @@ module.exports = {
   certificates: require("./certificateModel"),
   course: require("./courseModel"),
   classes: require("./classModel"),
-  employees: require("./employeeModel"),
   events: require("./eventModal"),
   lead: require("./newLeadModel"),
   permission: require("./permissionModel"),

@@ -9,8 +9,10 @@ import { courseHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const Course = () => {
+  const { user } = useAuth();
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
   const [courseModal, setCourseModal] = useState(false);
@@ -158,24 +160,26 @@ export const Course = () => {
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-xl-12">
-                  <div className="card">
-                    <div className="card-body p-3">
-                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div className="row w-50"></div>
-                        <button
-                          className="btn btn-primary me-2"
-                          onClick={() => showCourseModal()}
-                        >
-                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                          Add New Course
-                        </button>
+              {user.userData?.roleData?.courses?.create && (
+                <div className="row">
+                  <div className="col-xl-12">
+                    <div className="card">
+                      <div className="card-body p-3">
+                        <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                          <div className="row w-50"></div>
+                          <button
+                            className="btn btn-primary me-2"
+                            onClick={() => showCourseModal()}
+                          >
+                            <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                            Add New Course
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
               <div className="row">
                 <div className="col-lg-3">
                   <div className="card mini-stats-wid">
@@ -268,8 +272,10 @@ export const Course = () => {
                           tableHeaders={courseHeaders}
                           data={allCourses}
                           actionButtons
-                          editButton
-                          deleteButton
+                          editButton={user.userData?.roleData?.courses?.write}
+                          deleteButton={
+                            user.userData?.roleData?.courses?.delete
+                          }
                           viewButton
                           callback={(e, type, index) =>
                             showCourseModal(e, type, index)

@@ -7,22 +7,14 @@ export const MenuBar = () => {
   const [previousMenu, setPreviousMenu] = useState("");
 
   useEffect(() => {
-    if (
-      pathname.split("/")[1] == "admin" ||
-      pathname.split("/")[1] == "schedule" ||
-      pathname.split("/")[1] == "course-management" ||
-      pathname.split("/")[1] == "finance" ||
-      pathname.split("/")[1] == "hrms"
-    ) {
-      showMenuList(`${pathname.split("/")[1]}-menu`);
-      const element = document.getElementById(`${pathname.split("/")[1]}-menu`);
+    showMenuList(`${pathname.split("/")[1]}-menu`);
+    const element = document.getElementById(`${pathname.split("/")[1]}-menu`);
 
-      if (element)
-        if (!element.classList.contains("mm-show")) {
-          element.classList.add("mm-show");
-          element.parentElement.classList.add("mm-active");
-        }
-    }
+    if (element)
+      if (!element.classList.contains("mm-show")) {
+        element.classList.add("mm-show");
+        element.parentElement.classList.add("mm-active");
+      }
   }, [pathname]);
 
   const showMenuList = (menuName) => {
@@ -51,7 +43,10 @@ export const MenuBar = () => {
   };
 
   return (
-    <div className="vertical-menu">
+    <div
+      className="vertical-menu"
+      style={{ overflow: "hidden", overflowY: true }}
+    >
       <div data-simplebar className="h-100">
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled mm-show" id="side-menu">
@@ -331,14 +326,14 @@ export const MenuBar = () => {
                 className={`has-arrow waves-effect ${
                   pathname.split("/")[1] == "setting" && "mm-active"
                 }`}
-                onClick={() => showMenuList("setting-menu")}
+                onClick={() => showMenuList("settings-menu")}
               >
                 <i className="bx bx-customize" />
                 <span key="t-setting">
                   <FormattedMessage id="Settings" defaultMessage={"Settings"} />
                 </span>
               </a>
-              <ul className="sub-menu mm-collapse" id="setting-menu">
+              <ul className="sub-menu mm-collapse" id="settings-menu">
                 <li
                   className={`${
                     pathname.split("/")[2] == "multilanguage" && "mm-active"
@@ -364,7 +359,6 @@ export const MenuBar = () => {
             </li>
           </ul>
         </div>
-        
       </div>
     </div>
   );

@@ -1,17 +1,22 @@
 const routes = require("express").Router();
 const courseManager = require("../managers/courseManager");
+const { userAuth } = require("../middlewares/auth.middleware");
 
-routes.post("/addNewCourse", courseManager.addNewCourse);
+routes.post("/addNewCourse", [userAuth], courseManager.addNewCourse);
 
-routes.get("/getCourses", courseManager.getCourses);
+routes.get("/getCourses", [userAuth], courseManager.getCourses);
 
-routes.get("/getCourse", courseManager.getCourse);
+routes.get("/getCourse", [userAuth], courseManager.getCourse);
 
-routes.post("/updateCourse", courseManager.updateCourse);
-routes.delete("/deleteCourse", courseManager.deleteCourse);
+routes.post("/updateCourse", [userAuth], courseManager.updateCourse);
+routes.delete("/deleteCourse", [userAuth], courseManager.deleteCourse);
 
-routes.get("/getFilteredCourses", courseManager.getFilteredCourses);
+routes.get("/getFilteredCourses", [userAuth], courseManager.getFilteredCourses);
 
-routes.get("/allDashboardCourses", courseManager.allDashboardCourses);
+routes.get(
+  "/allDashboardCourses",
+  [userAuth],
+  courseManager.allDashboardCourses
+);
 
 module.exports = routes;

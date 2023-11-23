@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASEURL } from "../config/config";
 
 export const AxiosInstance = axios.create({
-  baseURL: BASEURL+"/api",
+  baseURL: BASEURL + "/api",
   headers: {
     "x-token-header": localStorage.getItem("token"),
   },

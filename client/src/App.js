@@ -14,23 +14,22 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-      <BrowserRouter>
-      <ToastContainer
-    position="top-right"
-    autoClose={5000}
-    hideProgressBar={false}
-    newestOnTop={false}
-    closeOnClick
-    rtl={false}
-    pauseOnFocusLoss
-    draggable
-    pauseOnHover
-    theme="light"
-    />
-      <AllRoutes />
-        
-      </BrowserRouter>
-      {/* <Course /> */}
+        <BrowserRouter>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          <AllRoutes />
+        </BrowserRouter>
+        {/* <Course /> */}
       </AuthProvider>
     </div>
   );

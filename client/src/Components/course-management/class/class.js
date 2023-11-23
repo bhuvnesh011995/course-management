@@ -6,8 +6,10 @@ import { classHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const Class = () => {
+  const { user } = useAuth();
   const [classModal, setClassModal] = useState(false);
   const [classes, setClasses] = useState([]);
   const [classData, setClassData] = useState({});
@@ -92,13 +94,14 @@ export const Class = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50">
-                        {/* <div className="col-xl-5">
+            {user.userData?.roleData?.class?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50">
+                          {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest
@@ -124,19 +127,20 @@ export const Class = () => {
                             </button>
                           </div>
                         </div> */}
+                        </div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showClass()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Class
+                        </button>
                       </div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showClass()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Class
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card ">
@@ -149,8 +153,8 @@ export const Class = () => {
                         tableHeaders={classHeaders}
                         data={classes}
                         actionButtons
-                        editButton
-                        deleteButton
+                        editButton={user.userData?.roleData?.class?.write}
+                        deleteButton={user.userData?.roleData?.class?.delete}
                         viewButton
                         callback={(e, type, index) => showClass(e, type, index)}
                       />

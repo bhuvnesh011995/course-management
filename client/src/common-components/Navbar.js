@@ -12,28 +12,31 @@ import { AxiosInstance } from "./axiosInstance";
 import { toast } from "react-toastify";
 
 export const CommonNavbar = () => {
-  const {initialUser, user,setUser,setLanCode,lanCode,getLanguage} = useAuth()
-  const [ready,setReady] =useState(false)
+  const { initialUser, user, setUser, setLanCode, lanCode, getLanguage } =
+    useAuth();
+  const [ready, setReady] = useState(false);
   const navigate = useNavigate();
   const [showLanguages, setShowLanguages] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [languages,setLanguages] = useState([])
-  const getLanguages = useCallback(async ()=>{
+  const [languages, setLanguages] = useState([]);
+  const getLanguages = useCallback(async () => {
     try {
-      let response = await AxiosInstance.get("/languages")
-      if(response.status===200){
-        setLanguages(response.data??[])
-        setLanCode(response.data && response.data[0].code)
+      let response = await AxiosInstance.get("/languages");
+      if (response.status === 200) {
+        setLanguages(response.data ?? []);
+        setLanCode(response.data && response.data[0].code);
       }
     } catch (error) {
-      toast.error("error while fecting languages")
+      if (error.response.status == 401)
+        toast.error(error.response.data.message);
+      toast.error("error while fecting languages");
     }
-  })
-  useEffect(()=>{
-    getLanguages()
-  },[])
-  
+  });
+  useEffect(() => {
+    getLanguages();
+  }, []);
+
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   const fullScreen = () => {
@@ -53,7 +56,7 @@ export const CommonNavbar = () => {
 
   const userLogOut = () => {
     localStorage.removeItem("token");
-    setUser(initialUser)
+    setUser(initialUser);
 
     navigate("/login");
   };
@@ -130,11 +133,16 @@ export const CommonNavbar = () => {
               </div>
             </div>
             <div className="dropdown mt-4">
-            <select value={lanCode} onChange={e=>setLanCode(e.target.value)}>
-                {languages?.map((ele,i)=>(
-                  <option key={i} value={ele.code}>{ele.name}</option>
+              <select
+                value={lanCode}
+                onChange={(e) => setLanCode(e.target.value)}
+              >
+                {languages?.map((ele, i) => (
+                  <option key={i} value={ele.code}>
+                    {ele.name}
+                  </option>
                 ))}
-            </select>
+              </select>
               {/* <button
                 type="button"
                 className="btn header-item waves-effect"
@@ -376,7 +384,6 @@ export const CommonNavbar = () => {
               </button>
               {showUserMenu && (
                 <div className="right-10 dropdown-menu dropdown-menu-end">
-             
                   <a className="dropdown-item" href="#">
                     <i className="bx bx-user font-size-16 align-middle me-1" />
                     <span key="t-profile">Profile</span>

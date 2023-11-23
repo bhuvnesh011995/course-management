@@ -3,28 +3,42 @@ const leadManager = require("../managers/leadManager");
 const { userAuth } = require("../middlewares/auth.middleware");
 const { upload } = require("../utils/upload.utils");
 
-routes.post("/addNewLead", upload.array("files", 10), leadManager.addNewLead);
-routes.get("/getAllLeads", userAuth, leadManager.getAllLeads);
-routes.post("/updateLead", upload.array("files", 10), leadManager.updateLead);
-routes.delete("/deleteLead", leadManager.deleteLead);
+routes.post(
+  "/addNewLead",
+  [userAuth],
+  upload.array("files", 10),
+  leadManager.addNewLead
+);
+routes.get("/getAllLeads", [userAuth], leadManager.getAllLeads);
+routes.post(
+  "/updateLead",
+  [userAuth],
+  upload.array("files", 10),
+  leadManager.updateLead
+);
+routes.delete("/deleteLead", [userAuth], leadManager.deleteLead);
 
-routes.get("/getLead", leadManager.getLead);
+routes.get("/getLead", [userAuth], leadManager.getLead);
 
-routes.post("/getPayment", leadManager.getPayment);
+routes.post("/getPayment", [userAuth], leadManager.getPayment);
 
-routes.post("/confirmPayment", leadManager.confirmPayment);
+routes.post("/confirmPayment", [userAuth], leadManager.confirmPayment);
 
-routes.post("/assignCourse", leadManager.updateAssignCourse);
+routes.post("/assignCourse", [userAuth], leadManager.updateAssignCourse);
 
-routes.get("/accountHistory", leadManager.accountHistory);
+routes.get("/accountHistory", [userAuth], leadManager.accountHistory);
 
-routes.get("/getSelectedLead", userAuth, leadManager.getSelectedLead);
+routes.get("/getSelectedLead", [userAuth], leadManager.getSelectedLead);
 
-routes.get("/getFilteredLeads", leadManager.getFilteredLeads);
+routes.get("/getFilteredLeads", [userAuth], leadManager.getFilteredLeads);
 
-routes.get("/getAllCompanies", leadManager.getAllCompanies);
+routes.get("/getAllCompanies", [userAuth], leadManager.getAllCompanies);
 
-routes.get("/getCompany", leadManager.getCompany);
-routes.get("/getDashboardCustomers", leadManager.getDashboardCustomers);
+routes.get("/getCompany", [userAuth], leadManager.getCompany);
+routes.get(
+  "/getDashboardCustomers",
+  [userAuth],
+  leadManager.getDashboardCustomers
+);
 
 module.exports = routes;

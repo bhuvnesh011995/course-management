@@ -8,8 +8,10 @@ import { EmailVerfificationModal } from "../../common-components/models/emailVer
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 export const UserManagement = () => {
+  const { user } = useAuth();
   const [users, setUsers] = useState([]);
   const [newUserModal, setNewUserModal] = useState(false);
   const [deleteUserModal, setDeleteUserModal] = useState(false);
@@ -145,9 +147,13 @@ export const UserManagement = () => {
                         data={users}
                         tableHeaders={userTableHeaders}
                         actionButtons
-                        editButton
+                        editButton={
+                          user.userData?.roleData?.userManagement?.write
+                        }
                         viewButton
-                        deleteButton
+                        deleteButton={
+                          user.userData?.roleData?.userManagement?.delete
+                        }
                         verificationMailButton
                         downloadExcel
                         downloadPdf

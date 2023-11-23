@@ -5,8 +5,11 @@ import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { invoiceQuoatationListHeaders } from "../../Constants/table.constants";
 import ViewQuotationModal from "./ViewQuotationModal";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
+import { DeleteModel } from "../../common-components/models/DeleteModal";
 
 export const Invoice = () => {
+  const { user } = useAuth();
   const [allQuoatations, setAllQuotations] = useState([]);
   const [isViewModalOpen, setViewModal] = useState(false);
   const [quotationData, setQuotationData] = useState(null);
@@ -128,7 +131,9 @@ export const Invoice = () => {
                         data={allQuoatations}
                         tableHeaders={invoiceQuoatationListHeaders}
                         actionButtons
-                        deleteButton
+                        deleteButton={
+                          user.userData?.roleData?.finManagement?.delete
+                        }
                         enableRowNumbers={false}
                         viewButton
                         callback={(data, type, index) =>
@@ -163,6 +168,17 @@ export const Invoice = () => {
           show={isViewModalOpen}
           setShow={setViewModal}
           quotationData={quotationData}
+        />
+      )}
+
+      {deleteQuotation && (
+        <DeleteModel
+          setIsOpen={setDeleteQuotation}
+          isOpen={deleteQuotation}
+          message={`Do yo really want to delete customer ${quotationData?.contactPerson} quotation`}
+          callback={(data) => deleteSelectedQuotation(data)}
+          deleteHeader="Quotation"
+          data={quotationData}
         />
       )}
     </div>

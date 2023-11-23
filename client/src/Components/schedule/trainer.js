@@ -7,8 +7,10 @@ import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { ViewTrainer } from "./modals/ViewTrainerModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 export const Trainer = () => {
+  const { user } = useAuth();
   const [trainers, setTrainers] = useState([]);
   const [trainerModal, setTrainerModal] = useState(false);
   const [viewTrainer, setViewTrainer] = useState(false);
@@ -98,24 +100,27 @@ export const Trainer = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50"></div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showTrainerModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Trainer
-                      </button>
+            {user.userData?.roleData?.trainer?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50"></div>
+
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showTrainerModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Trainer
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card ">
@@ -128,8 +133,8 @@ export const Trainer = () => {
                         tableHeaders={trainerHeaders}
                         data={trainers}
                         actionButtons
-                        deleteButton
-                        editButton
+                        deleteButton={user.userData?.roleData?.lead?.delete}
+                        editButton={user.userData?.roleData?.trainer?.write}
                         viewButton
                         callback={(e, type, index) =>
                           showTrainerModal(e, type, index)

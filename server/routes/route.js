@@ -12,7 +12,6 @@ routes.use("/class", require("./classRoute"));
 routes.use("/trainer", require("./trainerRoute"));
 routes.use("/events", require("./eventRoute"));
 routes.use("/certificates", require("./certificateRoute"));
-routes.use("/employee", require("./employeeRoute"));
 routes.use("/generateFile", require("./generateFileRoute"));
 routes.use("/quotations", require("./quotationRoute"));
 routes.use("/payrolls", require("./payrollRoute"));

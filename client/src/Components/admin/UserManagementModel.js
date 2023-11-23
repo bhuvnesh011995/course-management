@@ -21,6 +21,7 @@ export const AddNewUserModal = ({
   const {
     register,
     reset,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -211,7 +212,11 @@ export const AddNewUserModal = ({
                 >
                   <option value={""}>-- select --</option>
                   {userRoles.map((e) => (
-                    <option value={e._id} key={e._id}>
+                    <option
+                      value={e._id}
+                      selected={e._id == watch("userRole") && e._id}
+                      key={e._id}
+                    >
                       {e.roleName}
                     </option>
                   ))}
