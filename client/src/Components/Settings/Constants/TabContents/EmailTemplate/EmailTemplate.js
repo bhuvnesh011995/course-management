@@ -11,16 +11,16 @@ import DeleteModal2 from "../../../../../common-components/models/DeleteModal2";
 
 
 
-export default function Designation() {
+export default function EmailTemplate() {
   const [isDeleteModalOpen,setDeleteModalOpen] = useState(false)
   const [deleteInfo,setDeleteInfo] = useState()
     const [isOpen,setIsOpen] = useState(false)
     const [data,setData] = useState([])
     const [updateData,setUpdateData] = useState()
 
-    const getDesignations = useCallback(async()=>{
+    const getEmailTemplates = useCallback(async()=>{
       try {
-        let response = await AxiosInstance.get("/constants/designations")
+        let response = await AxiosInstance.get("/constants/emailtemplate")
         if(!response) toast.error("server error")
       if(response.status===200){
         setData(response.data)
@@ -32,29 +32,29 @@ export default function Designation() {
       }
       
     },[])
-    const addDesignation = useCallback(async(formData)=>{
+    const addEmailTemplate = useCallback(async(formData)=>{
       try {
-        let response = await AxiosInstance.post("/constants/designations",formData)
+        let response = await AxiosInstance.post("/constants/emailtemplate",formData)
         if(response.status===200){
-          toast.success("designation added successfully")
+          toast.success("Email Template added successfully")
           setData(preVal=>([...preVal,response.data]))
           setIsOpen(false)
         }else{
           console.log(response)
-          toast.error("error while added designation")
+          toast.error("error while added Email Template")
         }
       } catch (error) {
         console.log(error.response)
-        toast.error("error while adding designation")
+        toast.error("error while adding Email Template")
       }
     },[data])
 
-    const updateDesignation = useCallback(async(id,formData)=>{
+    const updateEmailTemplate = useCallback(async(id,formData)=>{
       try {
         console.log("run")
-        let response = await AxiosInstance.put("/constants/designations/"+id,formData)
+        let response = await AxiosInstance.put("/constants/emailtemplate/"+id,formData)
         if(response.status===200){
-          toast.success("designation updated successfully")
+          toast.success("Email Template updated successfully")
           let newArray = data.map(ele=>{
             if(ele._id===id) return response.data
             else return ele
@@ -63,17 +63,17 @@ export default function Designation() {
           setIsOpen(false)
         }else{
           console.log(response)
-          toast.error("error while updateing designation")
+          toast.error("error while updateing Email Template")
         }
       } catch (error) {
         console.log(error)
-        toast.error("error while updating designation")
+        toast.error("error while updating Email Template")
       }
     },[data])
 
 
     useEffect(()=>{
-      getDesignations()
+      getEmailTemplates()
     },[])
 
 
@@ -85,12 +85,12 @@ export default function Designation() {
       ],[])
 const handleDelete = useCallback(async id=>{
   try {
-    let response = await AxiosInstance.delete("/constants/designations/"+id)
+    let response = await AxiosInstance.delete("/constants/emailtemplate/"+id)
     if(response.status===204) {
       
       let newArray = data.filter(ele=>ele._id !=id)
       setData(newArray)
-      return {success:true,message:"designation deleted successfully"}
+      return {success:true,message:"Email Template deleted successfully"}
     }
     else return {success:false,message:"some error occured while deleting"}
   } catch (error) {
@@ -101,16 +101,16 @@ const handleDelete = useCallback(async id=>{
   return (
     <Card>
     {isDeleteModalOpen && <DeleteModal2 setInfo={setDeleteInfo} show={isDeleteModalOpen} info={deleteInfo} callback={handleDelete} setShow={setDeleteModalOpen}  />}
-    {isOpen && <AddNew show={isOpen} setShow={setIsOpen} addNew={addDesignation} data={updateData} setData={setUpdateData} update={updateDesignation} />}
+    {isOpen && <AddNew show={isOpen} setShow={setIsOpen} addNew={addEmailTemplate} data={updateData} setData={setUpdateData} update={updateEmailTemplate} />}
       <Card.Body>
         <div class="tab-pane">
-          <h4>List All Designations</h4>
+          <h4>List All Email Templates</h4>
           <p class="card-title-desc" style={{ textAlign: "right" }}>
             <button
               class="btn btn-primary text-right"
               onClick={() => setIsOpen(true)}
             >
-              Add New Designation
+              Add New Email Template
             </button>
           </p>
           
@@ -141,9 +141,9 @@ className="btn btn-icon btn-sm btn-info rounded-pill"
               onClick={async () => {
                           setDeleteInfo({
                             id:row.original._id,
-                            message:`Do you really want to delete ${row.original.name}
+                            message:`Do you really want to delete ${row.original.name} email template. 
                               this cannot be undone`,
-                              header:"Delete Designation"
+                              header:"Delete Email Template"
                           })
                           setDeleteModalOpen(true)
                         }}

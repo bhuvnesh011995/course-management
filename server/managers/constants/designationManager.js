@@ -40,6 +40,8 @@ exports.getDesignationById = async(req,res,next)=>{
 
 exports.updateDesignation = async (req,res,next)=>{
     try {
+        console.log(req.body,"body")
+        console.log(req.params,"pararms")
         let designation = await db.constants.designation.findOneAndUpdate({_id:req.params.id},{
             $set:req.body
         },{new:true})
