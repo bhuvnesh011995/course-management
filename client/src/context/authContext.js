@@ -43,8 +43,7 @@ export default function AuthProvider({ children }) {
 
   const getTokenUser = useCallback(async () => {
     try {
-      const token = user.token || localStorage.getItem("token");
-      const tokenUser = await AxiosInstance.get(`/users/tokenUser/${token}`);
+      const tokenUser = await AxiosInstance.get(`/users/tokenUser`);
       if (tokenUser.status == 200)
         setUser((old) => ({ ...old, userData: tokenUser.data }));
     } catch (err) {

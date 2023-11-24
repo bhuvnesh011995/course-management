@@ -4,18 +4,16 @@ const db = require("../models/index");
 const userAuth = async (req, res, next) => {
   try {
     const token = req.headers["x-token-header"];
+    const ACCESSTOKENSECRET = process.env.ACCESSTOKENSECRET;
     if (token) {
-      const decode = jwt.decode(token);
+      const decode = jwt.verify(token, ACCESSTOKENSECRET);
       const loginedUser = await db.user.findOne({ email: decode.email });
       if (loginedUser) {
-        if (loginedUser.password != decode.password) {
-          return res.status(401).send({ message: "Please Login Again" });
-        }
+        req.user = decode;
+        next();
       } else {
         return res.status(401).send({ message: "Please Login Again" });
       }
-      // console.log(loginedUser, decode);
-      next();
     } else {
       return res.status(500).send({ message: "Please Login Again " });
     }

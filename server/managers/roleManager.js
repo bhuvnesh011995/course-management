@@ -108,6 +108,18 @@ const getUserRoleInfo = async (req, res, next) => {
 
 const deleteRole = async (req, res, next) => {
   try {
+    const roleInUser = await db.user.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$userRole" }, req.query._id],
+          },
+        },
+      },
+    ]);
+    if (roleInUser.length) {
+      return res.status(202).send({ message: "This role aquired by User" });
+    }
     const deleteUser = await db.roles.deleteOne({ _id: req.query._id });
     return res.status(200).send({ message: "Role deleted successfully" });
   } catch (err) {

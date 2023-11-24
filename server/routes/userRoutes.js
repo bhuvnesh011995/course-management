@@ -17,6 +17,6 @@ routes.post(
 
 routes.post("/signIn", userManager.signIn);
 
-routes.get("/tokenUser/:token", [userAuth], userManager.tokenUser);
+routes.get("/tokenUser", [userAuth], userManager.tokenUser);
 
 module.exports = routes;

@@ -2,7 +2,7 @@ const UserModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
-const JWTSECRETKEY = process.env.JWTSECRETKEY;
+const ACCESSTOKENSECRET = process.env.ACCESSTOKENSECRET;
 
 const addNewUser = async (req, res, next) => {
   try {
@@ -164,11 +164,16 @@ const signIn = async (req, res, next) => {
 
     if (user) {
       if (user.password == data.password) {
-        const token = jwt.sign(
-          { email: user.email, password: user.password },
-          JWTSECRETKEY
-        );
-        return res.status(200).send({ token: token });
+        const token = jwt.sign({ email: user.email }, ACCESSTOKENSECRET);
+        // res
+        //   .status(200)
+        //   .cookie("jwtoken", token, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "None",
+        //     maxAge: 7 * 24 * 60 * 60 * 1000,
+        //   });
+        return res.status(200).json({ token });
       } else {
         let err = new Error("Wrong email id or password !");
         err.statusCode = 401;
@@ -186,11 +191,8 @@ const signIn = async (req, res, next) => {
 
 const tokenUser = async (req, res, next) => {
   try {
-    console.log("decode", "================================");
-    const token = req.params.token;
-    const decode = jwt.verify(token, process.env.JWTSECRETKEY);
     const tokenUserData = await db.user.aggregate([
-      { $match: { email: decode.email } },
+      { $match: { email: req.user.email } },
       {
         $lookup: {
           from: "roles",
@@ -209,7 +211,6 @@ const tokenUser = async (req, res, next) => {
       },
       { $unwind: "$roleData" },
     ]);
-    console.log("inin");
     return res.status(200).send(tokenUserData[0]);
   } catch (err) {
     next(err);

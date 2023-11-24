@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logoLight from "../../assets/images/logo-light.svg";
 import profileImg from "../../assets/images/profile-img.png";
-import logo from "../../assets/images/logo.svg";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
