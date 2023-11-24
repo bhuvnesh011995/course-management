@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { Card, Col, Nav, Row, Tab } from "react-bootstrap";
 import Designation from "./TabContents/Designation/Designation";
+import EmailTemplate from "./TabContents/EmailTemplate/EmailTemplate";
 
 export const Constants = () => {
 
@@ -53,7 +54,7 @@ export const Constants = () => {
         <Col xl={9}>
             <Tab.Content>
                 <Tab.Pane eventKey={"designation"}><Designation/></Tab.Pane>
-                <Tab.Pane eventKey={"email"}><div>Email Template</div></Tab.Pane>
+                <Tab.Pane eventKey={"email"}><EmailTemplate /></Tab.Pane>
 </Tab.Content>
         </Col>
       </Row>

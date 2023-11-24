@@ -9,8 +9,11 @@ import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import LanguageModal from "./LanguageModal";
 import { useMemo } from "react";
+import DeleteModal2 from "../../../common-components/models/DeleteModal2";
 
 export default function MultiLanguage() {
+  const [isDeleteModalOpen,setDeleteModalOpen] = useState(false)
+  const [deleteInfo,setDeleteInfo] =useState({})
     const [isOpen,setIsOpen]= useState(false)
     const [data,setData] = useState([])
     const [updateData,setUpdataData] = useState(null)
@@ -50,10 +53,27 @@ export default function MultiLanguage() {
     useEffect(()=>{
       getLanguages()
     },[])
-
+   
+    const handleDelete = useCallback(async id=>{
+      try {
+        let response = await AxiosInstance.delete("/languages/"+id)
+        if(response.status===204){
+          let newArray = data.filter(ele=>ele._id!=id)
+          setData(newArray)
+          return {success:true,message:"language deleted successfully"}
+        }else{
+          return {success:false,message:"error occured while deleting"}
+        }
+      } catch (error) {
+        console.log(error)
+        return {success:false,message:"server error occured"}
+      }
+    },[data])
     return(
         <div id="layout-wrapper">
-            {isOpen && <AddNew data={updateData} setData={setUpdataData}  show={isOpen} getLanguages={getLanguages} setShow={setIsOpen}/>}
+        {showLagModal && <LanguageModal getLanguages={getLanguages} show={showLagModal} setShow={setShowLngModal} language={language} />}
+        {isDeleteModalOpen && <DeleteModal2 show={isDeleteModalOpen} callback={handleDelete} setShow={setDeleteModalOpen} info={deleteInfo} setInfo={setDeleteInfo} />}
+        {isOpen && <AddNew data={updateData} setData={setUpdataData}  show={isOpen} getLanguages={getLanguages} setShow={setIsOpen}/>}
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
@@ -100,7 +120,6 @@ export default function MultiLanguage() {
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">
-                    {showLagModal && <LanguageModal getLanguages={getLanguages} show={showLagModal} setShow={setShowLngModal} language={language} />}
   <MaterialReactTable
  columns={columns}
  data={data}
@@ -134,19 +153,11 @@ export default function MultiLanguage() {
               </button>
               <button
                 onClick={async () =>{
-                  try{
-                    let response = await AxiosInstance.delete("/languages/"+row.original._id)
-                    if(response.status===204){
-                      toast.success("language deleted successfully")
-                      getLanguages()
-                    }else{
-                      console.log(response)
-                      toast.error("error occured while deleting language")
-                    }
-                  }catch(error){
-                    toast.error('error occured while deleting language')
-                    console.log(error.response)
-                  }
+                  setDeleteInfo({id:row.original._id,
+                  message:`Do you readlly want to delete ${row.original.name} language. This cannot be undone once deleted`,
+                  header:'Delete Language'
+                  })
+                  setDeleteModalOpen(true)
                 }}
                 className="btn btn-icon btn-sm btn-danger rounded-pill"
               >
