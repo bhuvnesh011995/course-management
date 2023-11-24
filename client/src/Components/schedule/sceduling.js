@@ -3,8 +3,6 @@
 
 import { useEffect, useState } from "react";
 import { AllCalendar } from "../../common-components/Calendar";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { NewClassModal } from "../course-management/class/classModal";
 import { AddNewHoliday } from "./modals/HolidayModal";
@@ -113,13 +111,13 @@ export const Scheduling = () => {
             <div className="row">
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Scedule</h4>
+                  <h4 className="mb-sm-0 font-size-18">Schedule</h4>
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
                         <Link to={"/"}>Dashboard</Link>
                       </li>
-                      <li className="breadcrumb-item active">Scedule</li>
+                      <li className="breadcrumb-item active">Schedule</li>
                     </ol>
                   </div>
                 </div>

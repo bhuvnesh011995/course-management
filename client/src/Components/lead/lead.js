@@ -13,7 +13,6 @@ import { useAuth } from "../../context/authContext";
 
 export const Lead = () => {
   const { user } = useAuth();
-  console.log(user, "leaduser");
   const [newLeadModal, setNewLeadModal] = useState(false);
   const [leads, setLeads] = useState([]);
   const [filteredLeads, setFilteredLeads] = useState([]);
@@ -27,7 +26,8 @@ export const Lead = () => {
   const [registrationTypes, setRegistrationTypes] = useState([]);
 
   const filterTypes = {
-    company: "",
+    registrationType: "",
+    tradeType: "",
     textSearch: "",
   };
   const [selectedFilter, setSelectedFilter] = useState(filterTypes);
@@ -51,10 +51,8 @@ export const Lead = () => {
 
   useEffect(() => {
     getAllLeads();
-    if (!selectedFilter.company.length && !selectedFilter.textSearch.length) {
-      getRegistrationTypes();
-      getTradeTypes();
-    }
+    getRegistrationTypes();
+    getTradeTypes();
   }, [selectedFilter]);
 
   const getTradeTypes = async () => {
@@ -148,13 +146,17 @@ export const Lead = () => {
           const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
-            const newLeads = filteredLeads.filter((e) => !e.courseAssigned);
+            const newLeads = filteredLeads.filter(
+              (e) => !e?.course?.length && e.status != "pending"
+            );
             setFilteredLeads([...newLeads]);
           } else {
             setFilteredLeads((old) => [...old, leadData]);
           }
         } else {
-          const newLeads = leads.filter((e) => !e.courseAssigned);
+          const newLeads = leads.filter(
+            (e) => !e?.course?.length && e.status != "pending"
+          );
           setFilteredLeads([...newLeads]);
         }
         break;
@@ -164,13 +166,13 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const pendingLeads = filteredLeads.filter(
-              (e) => e.courseAssigned && !e.getPayment && !e.confirmed
+              (e) => e?.course?.length && e.status != "assign"
             );
             setFilteredLeads([...pendingLeads]);
           }
         } else {
           const pendingLeads = leads.filter(
-            (e) => e.courseAssigned && !e.getPayment && !e.confirmed
+            (e) => e?.course?.length && e.status != "assign"
           );
           setFilteredLeads([...pendingLeads]);
         }
@@ -181,32 +183,15 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const assignedLeads = filteredLeads.filter(
-              (e) => e.getPayment && !e.confirmed && e.courseAssigned
+              (e) => e?.course?.length && e.status != "confirmed"
             );
             setFilteredLeads([...assignedLeads]);
           }
         } else {
           const assignedLeads = leads.filter(
-            (e) => e.getPayment && !e.confirmed && e.courseAssigned
+            (e) => e?.course?.length && e.status != "confirmed"
           );
           setFilteredLeads([...assignedLeads]);
-        }
-        break;
-      case "completed":
-        if (leadData) {
-          const checkLeads = filteredLeads.filter((e) => e._id == leadData._id);
-          if (checkLeads.length) {
-            filteredLeads[leadIndex] = leadData;
-            const completedLeads = filteredLeads.filter(
-              (e) => e.getPayment && e.confirmed && e.courseAssigned
-            );
-            setFilteredLeads([...completedLeads]);
-          }
-        } else {
-          const completedLeads = leads.filter(
-            (e) => e.getPayment && e.confirmed && e.courseAssigned
-          );
-          setFilteredLeads([...completedLeads]);
         }
         break;
       case "delete":
@@ -243,15 +228,34 @@ export const Lead = () => {
                           onChange={({ target }) => {
                             setSelectedFilter((old) => ({
                               ...old,
-                              company: target.value,
+                              tradeType: target.value,
                             }));
                           }}
-                          value={selectedFilter.company}
+                          value={selectedFilter.tradeType}
                         >
-                          <option value="">Select Company</option>
-                          {leads.map((lead) => (
-                            <option key={lead._id} value={lead._id}>
-                              {lead?.companyName}
+                          <option value="">Select Trade Type</option>
+                          {tradeTypes.map((type) => (
+                            <option key={type._id} value={type._id}>
+                              {type?.tradeType}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="col-xl-4">
+                        <select
+                          className="form-select"
+                          onChange={({ target }) => {
+                            setSelectedFilter((old) => ({
+                              ...old,
+                              registrationType: target.value,
+                            }));
+                          }}
+                          value={selectedFilter.registrationType}
+                        >
+                          <option value="">Select Registration Type</option>
+                          {registrationTypes.map((type) => (
+                            <option key={type._id} value={type._id}>
+                              {type?.registrationName}
                             </option>
                           ))}
                         </select>

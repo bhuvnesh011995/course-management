@@ -102,7 +102,7 @@ export const PayRoll = () => {
                 </div>
               </div>
             </div>
-            {user.userData?.roleData?.payRoll?.create && (
+            {user.userData?.roleData?.payroll?.create && (
               <div className="row">
                 <div className="col-xl-12">
                   <div className="card">
@@ -134,8 +134,8 @@ export const PayRoll = () => {
                         data={allPayrolls}
                         tableHeaders={payrollHeaders}
                         actionButtons
-                        editButton={user.userData?.roleData?.payRoll?.write}
-                        deleteButton={user.userData?.roleData?.payRoll?.delete}
+                        editButton={user.userData?.roleData?.payroll?.write}
+                        deleteButton={user.userData?.roleData?.payroll?.delete}
                         viewButton
                         callback={(data, type, index) =>
                           showPayroll(data, type, index)

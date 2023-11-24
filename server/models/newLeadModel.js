@@ -36,6 +36,8 @@ const leadSchema = new mongoose.Schema(
     participantNRIC: { type: String },
     postalCode: { type: String },
     registrationType: { type: String },
+    status: { type: String },
+    remarks: { type: String },
     tradeLevel: { type: String },
     tradeType: { type: String },
     participantName: { type: String },

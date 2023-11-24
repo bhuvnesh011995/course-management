@@ -22,9 +22,11 @@ export const TradeType = () => {
     if (data) setTradeData(data);
     else setTradeData(null);
     if (type == "view") {
-      setViewTradeType(!viewTradeType);
+      setViewTradeType(true);
+      setDeleteTradeModal(false);
     } else if (type == "delete") {
       setDeleteTradeModal(true);
+      setViewTradeType(false);
     } else {
       setViewTradeType(false);
       setDeleteTradeModal(false);

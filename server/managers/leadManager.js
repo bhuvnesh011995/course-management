@@ -1,8 +1,6 @@
-const LeadModel = require("../models/newLeadModel");
 const { sendMail } = require("../managers/mailManager");
 const db = require("../models");
 const fs = require("fs");
-const classModel = require("../models/classModel");
 
 const addNewLead = async (req, res, next) => {
   try {
@@ -68,9 +66,27 @@ const addNewLead = async (req, res, next) => {
       },
       { $unwind: "$tradeType" },
       {
+        $lookup: {
+          from: "registrationtypes",
+          let: { registrationId: "$registrationType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$registrationId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "registrationDetails",
+        },
+      },
+      { $unwind: "$registrationDetails" },
+      {
         $project: {
           _id: 1,
           fileLocations: 1,
+          leadRegistrationName: "$registrationDetails.registrationName",
           bcaAcknowledgementNotice: 1,
           MOMEploymentDetails: 1,
           nricWorkDocument: 1,
@@ -106,6 +122,8 @@ const addNewLead = async (req, res, next) => {
           confirmed: 1,
           course: 1,
           courseAssigned: 1,
+          status: 1,
+          remarks: 1,
         },
       },
     ]);
@@ -122,73 +140,22 @@ const getAllLeads = async (req, res, next) => {
   try {
     const leadQuery = [];
     const { user, query } = req;
-    if (query?.sortBy?.length) {
-      if (query.sortBy == "newLead")
-        leadQuery.push({
-          $match: {
-            $expr: { $eq: [false, "$courseAssigned"] },
-          },
-        });
-      else if (query.sortBy == "paymentPending")
-        leadQuery.push(
-          {
-            $match: {
-              $expr: { $eq: [true, "$courseAssigned"] },
-            },
-          },
-          {
-            $match: {
-              $expr: { $eq: [false, "$getPayment"] },
-            },
-          },
-          {
-            $match: {
-              $expr: { $eq: [false, "$confirmed"] },
-            },
-          }
-        );
-      else if (query.sortBy == "assignCourse")
-        leadQuery.push(
-          {
-            $match: {
-              $expr: { $eq: [true, "$getPayment"] },
-            },
-          },
-          {
-            $match: {
-              $expr: { $eq: [false, "$confirmed"] },
-            },
-          },
-          {
-            $match: {
-              $expr: { $eq: [true, "$courseAssigned"] },
-            },
-          }
-        );
-      else if (query.sortBy == "completed")
-        leadQuery.push(
-          {
-            $match: {
-              $expr: { $eq: [true, "$getPayment"] },
-            },
-          },
-          {
-            $match: {
-              $expr: { $eq: [true, "$confirmed"] },
-            },
-          },
-          {
-            $match: {
-              $expr: { $eq: [true, "$courseAssigned"] },
-            },
-          }
-        );
-    }
-    if (query?.company?.length) {
+
+    if (query?.registrationType?.length) {
       leadQuery.push({
         $match: {
           $expr: {
-            $eq: [{ $toString: "$_id" }, query.company],
+            $eq: ["$registrationType", query.registrationType],
+          },
+        },
+      });
+    }
+
+    if (query?.tradeType?.length) {
+      leadQuery.push({
+        $match: {
+          $expr: {
+            $eq: ["$tradeType", query.tradeType],
           },
         },
       });
@@ -221,8 +188,26 @@ const getAllLeads = async (req, res, next) => {
       },
       { $unwind: "$tradeType" },
       {
+        $lookup: {
+          from: "registrationtypes",
+          let: { registrationId: "$registrationType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$registrationId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "registrationDetails",
+        },
+      },
+      { $unwind: "$registrationDetails" },
+      {
         $project: {
           _id: 1,
+          leadRegistrationName: "$registrationDetails.registrationName",
           fileLocations: 1,
           bcaAcknowledgementNotice: 1,
           MOMEploymentDetails: 1,
@@ -259,6 +244,8 @@ const getAllLeads = async (req, res, next) => {
           confirmed: 1,
           course: 1,
           courseAssigned: 1,
+          status: 1,
+          remarks: 1,
         },
       }
     );
@@ -369,8 +356,26 @@ const updateLead = async (req, res, next) => {
       },
       { $unwind: "$tradeType" },
       {
+        $lookup: {
+          from: "registrationtypes",
+          let: { registrationId: "$registrationType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$registrationId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "registrationDetails",
+        },
+      },
+      { $unwind: "$registrationDetails" },
+      {
         $project: {
           _id: 1,
+          leadRegistrationName: "$registrationDetails.registrationName",
           fileLocations: 1,
           bcaAcknowledgementNotice: 1,
           MOMEploymentDetails: 1,
@@ -407,6 +412,8 @@ const updateLead = async (req, res, next) => {
           confirmed: 1,
           course: 1,
           courseAssigned: 1,
+          status: 1,
+          remarks: 1,
         },
       },
     ]);
@@ -728,7 +735,7 @@ const getSelectedLead = async (req, res, next) => {
         },
       },
     ]);
-    return res.status(200).send({ lead: leadData[0], user: user[0] });
+    return res.status(200).send({ lead: leadData[0], user: user });
   } catch (err) {
     next(err);
   }

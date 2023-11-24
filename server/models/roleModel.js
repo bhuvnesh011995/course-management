@@ -5,15 +5,15 @@ const roleSchema = new mongoose.Schema(
   {
     roleName: { type: String },
     lead: roleCommon,
-    payRoll: roleCommon,
+    payroll: roleCommon,
     leaveManagement: roleCommon,
     userManagement: roleCommon,
     employeeManagement: roleCommon,
     finManagement: roleCommon,
     role: roleCommon,
-
     timesheet: roleCommon,
     customer: roleCommon,
+
     trainer: roleCommon,
     holiday: roleCommon,
     registrationType: roleCommon,

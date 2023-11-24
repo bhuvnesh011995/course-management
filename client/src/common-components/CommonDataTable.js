@@ -14,6 +14,7 @@ import {
   tradeType,
 } from "../Constants/newLeadContants";
 import { dayColors } from "../Constants/table.constants";
+import { FormattedMessage } from "react-intl";
 
 export const CommonDataTable = ({
   data,
@@ -56,6 +57,12 @@ export const CommonDataTable = ({
           </div>
         ),
         header: tableHeaders[e],
+        Header: () => (
+          <FormattedMessage
+            id={tableHeaders[e]}
+            defaultMessage={tableHeaders[e]}
+          />
+        ),
       });
       return;
     }
@@ -68,6 +75,12 @@ export const CommonDataTable = ({
           </div>
         ),
         header: tableHeaders[e],
+        Header: () => (
+          <FormattedMessage
+            id={tableHeaders[e]}
+            defaultMessage={tableHeaders[e]}
+          />
+        ),
       });
       return;
     }
@@ -92,11 +105,17 @@ export const CommonDataTable = ({
           </div>
         ),
         header: tableHeaders[e],
+        Header: () => (
+          <FormattedMessage
+            id={tableHeaders[e]}
+            defaultMessage={tableHeaders[e]}
+          />
+        ),
       });
       return;
     }
 
-    if (e == "coreTradeRegNo") {
+    if (e == "leadRegistrationName") {
       tableColumns.push({
         accessorKey: e,
         Cell: ({ row }) => (
@@ -104,10 +123,16 @@ export const CommonDataTable = ({
             onClick={() => callback(row.original, "view", row.index)}
             className="cursor-pointer"
           >
-            {row.original.coreTradeRegNo}
+            {row.original.leadRegistrationName}
           </div>
         ),
         header: tableHeaders[e],
+        Header: () => (
+          <FormattedMessage
+            id={tableHeaders[e]}
+            defaultMessage={tableHeaders[e]}
+          />
+        ),
       });
     } else if (e == "lectureDay") {
       tableColumns.push({
@@ -130,9 +155,24 @@ export const CommonDataTable = ({
           </div>
         ),
         header: tableHeaders[e],
+        Header: () => (
+          <FormattedMessage
+            id={tableHeaders[e]}
+            defaultMessage={tableHeaders[e]}
+          />
+        ),
       });
     } else {
-      tableColumns.push({ accessorKey: e, header: tableHeaders[e] });
+      tableColumns.push({
+        accessorKey: e,
+        header: tableHeaders[e],
+        Header: () => (
+          <FormattedMessage
+            id={tableHeaders[e]}
+            defaultMessage={tableHeaders[e]}
+          />
+        ),
+      });
     }
   });
   if (data[0]?.created_at) {
@@ -165,6 +205,9 @@ export const CommonDataTable = ({
   if (actionButtons) {
     tableColumns.push({
       header: "Actions",
+      Header: () => (
+        <FormattedMessage id="Actions" defaultMessage={"Actions"} />
+      ),
       Cell: ({ row }) => (
         <div className="hstack gap-2 fs-1">
           {viewButton && (
@@ -300,17 +343,6 @@ export const CommonDataTable = ({
                   }}
                 >
                   Assign
-                </button>
-                <button
-                  className={`mx-1 btn ${
-                    leadValue == "completed" && "btn-primary"
-                  }`}
-                  onClick={() => {
-                    setLeadValue("completed");
-                    updateLeadList("completed");
-                  }}
-                >
-                  Completed
                 </button>
               </div>
             )}

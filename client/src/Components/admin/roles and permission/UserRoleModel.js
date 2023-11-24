@@ -64,9 +64,9 @@ export const UserRoleModel = ({
         isAllChecked.finManagement.push(data.finManagement[checkbox]);
         isAllChecked.isAllSelected.push(data.finManagement[checkbox]);
       }
-      for (const checkbox in data.payRoll) {
-        isAllChecked.payroll.push(data.payRoll[checkbox]);
-        isAllChecked.isAllSelected.push(data.payRoll[checkbox]);
+      for (const checkbox in data.payroll) {
+        isAllChecked.payroll.push(data.payroll[checkbox]);
+        isAllChecked.isAllSelected.push(data.payroll[checkbox]);
       }
       for (const checkbox in data.leaveManagement) {
         isAllChecked.leaveManagement.push(data.leaveManagement[checkbox]);
@@ -557,7 +557,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("payRoll.read")}
+                              {...register("payroll.read")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Read</label>
@@ -566,7 +566,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("payRoll.write")}
+                              {...register("payroll.write")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Write</label>
@@ -575,7 +575,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("payRoll.create")}
+                              {...register("payroll.create")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Create</label>
@@ -584,7 +584,7 @@ export const UserRoleModel = ({
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              {...register("payRoll.delete")}
+                              {...register("payroll.delete")}
                               disabled={viewRole}
                             />
                             <label className="form-check-label">Delete</label>

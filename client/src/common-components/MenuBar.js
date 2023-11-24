@@ -88,7 +88,7 @@ export const MenuBar = () => {
                 onClick={() => showMenuList("schedule-menu")}
               >
                 <i className="bx bx-calendar" />
-                <span key="t-scedule">Scedule </span>
+                <span key="t-scedule">Schedule </span>
               </a>
               <ul
                 className="sub-menu mm-collapse"

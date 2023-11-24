@@ -11,6 +11,7 @@ export const TradeLevelModal = ({
   tradeData,
   viewTradeLevel,
 }) => {
+  console.log(viewTradeLevel);
   const handleClose = () => {
     setIsOpen(false);
     reset({});

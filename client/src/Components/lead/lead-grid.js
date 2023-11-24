@@ -10,7 +10,8 @@ import { useAuth } from "../../context/authContext";
 export const LeadGrid = () => {
   const { user } = useAuth();
   const filterTypes = {
-    sortBy: "",
+    registrationType: "",
+    tradeType: "",
     textSearch: "",
   };
 
@@ -35,10 +36,8 @@ export const LeadGrid = () => {
 
   useEffect(() => {
     getAllLeads();
-    if (!selectedFilter.sortBy.length && !selectedFilter.textSearch.length) {
-      getRegistrationTypes();
-      getTradeTypes();
-    }
+    getRegistrationTypes();
+    getTradeTypes();
   }, [selectedFilter]);
 
   const showLeadModal = (data, type) => {
@@ -189,32 +188,38 @@ export const LeadGrid = () => {
                             onChange={({ target }) => {
                               setSelectedFilter((old) => ({
                                 ...old,
-                                sortBy: target.value,
+                                tradeType: target.value,
                               }));
                             }}
-                            value={selectedFilter.sortBy}
+                            value={selectedFilter.tradeType}
                           >
-                            <option key={""} value={""}>
-                              Sort By
-                            </option>
-                            <option key={"newLead"} value={"newLead"}>
-                              New Lead
-                            </option>
-                            <option
-                              key={"paymentPending"}
-                              value={"paymentPending"}
-                            >
-                              Payment-Pending
-                            </option>
-                            <option key={"assignCourse"} value={"assignCourse"}>
-                              Course-Assign
-                            </option>
-                            <option key={"completed"} value={"completed"}>
-                              completed
-                            </option>
+                            <option value="">Select Trade Type</option>
+                            {tradeTypes.map((type) => (
+                              <option key={type._id} value={type._id}>
+                                {type?.tradeType}
+                              </option>
+                            ))}
                           </select>
                         </div>
-
+                        <div className="col-xl-4">
+                          <select
+                            className="form-select"
+                            onChange={({ target }) => {
+                              setSelectedFilter((old) => ({
+                                ...old,
+                                registrationType: target.value,
+                              }));
+                            }}
+                            value={selectedFilter.registrationType}
+                          >
+                            <option value="">Select Registration Type</option>
+                            {registrationTypes.map((type) => (
+                              <option key={type._id} value={type._id}>
+                                {type?.registrationName}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                         <div className="col-xl-4">
                           <div className="d-flex" role="search">
                             <input

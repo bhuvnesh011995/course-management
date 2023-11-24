@@ -12,7 +12,7 @@ module.exports = {
     write: true,
     delete: true,
   },
-  payRoll: {
+  payroll: {
     create: true,
     read: true,
     write: true,

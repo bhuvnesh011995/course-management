@@ -57,7 +57,7 @@ export const userTableHeaders = {
 };
 
 export const leadTableHeaders = {
-  coreTradeRegNo: "CoreTrade Registration No",
+  leadRegistrationName: "Registration Type",
   companyName: "Company Name",
   contactPerson: "Contact Person",
   participantName: "Name of Participant",
@@ -266,4 +266,9 @@ export const dashboardCourseHeaders = {
   totalClasses: "Classes",
   updated_at: "Last Updated",
   totalCustomers: "Cutomers",
+};
+
+export const emailTemplateColumnHeaders = {
+  emailType: "Email Type",
+  name: "Name",
 };

@@ -22,9 +22,11 @@ export const TradeLevel = () => {
     if (data) setTradeData(data);
     else setTradeData(null);
     if (type == "view") {
-      setViewTradeLevel(!viewTradeLevel);
+      setViewTradeLevel(true);
+      setDeleteTradeModal(false);
     } else if (type == "delete") {
       setDeleteTradeModal(true);
+      setViewTradeLevel(false);
     } else {
       setViewTradeLevel(false);
       setDeleteTradeModal(false);
