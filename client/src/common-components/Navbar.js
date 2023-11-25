@@ -22,10 +22,10 @@ export const CommonNavbar = () => {
   const [languages, setLanguages] = useState([]);
   const getLanguages = useCallback(async () => {
     try {
-      let response = await AxiosInstance.get("/languages");
+      let response = await AxiosInstance.get("/languages/lang");
       if (response.status === 200) {
         setLanguages(response.data ?? []);
-        setLanCode(response.data && response.data[0].code);
+        response.data.length && setLanCode(response.data[0].code);
       }
     } catch (error) {
       if (error.response.status == 401)

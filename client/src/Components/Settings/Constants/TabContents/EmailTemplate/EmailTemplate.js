@@ -82,6 +82,15 @@ export default function EmailTemplate() {
     getEmailTemplates();
   }, []);
 
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Name",
+      },
+    ],
+    []
+  );
   const handleDelete = useCallback(
     async (id) => {
       try {

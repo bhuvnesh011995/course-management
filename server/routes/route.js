@@ -20,5 +20,5 @@ routes.use("/leaves", require("./leaveRoute"));
 routes.use("/languages", require("./languageRoute"));
 routes.use("/designations", require("./designationRoute"));
 routes.use("/constants",require("./constants"))
-
+routes.use("/tradeType",require("./tradeTypeRoute"))
 module.exports = routes;

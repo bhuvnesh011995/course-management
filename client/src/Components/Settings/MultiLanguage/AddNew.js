@@ -19,7 +19,6 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
   const onSubmit = useCallback(
     async (languageData, updateData) => {
       try {
-        toast.dismiss();
         if (data) {
           if (!updateData) return;
           let res = await AxiosInstance.put(
@@ -29,18 +28,16 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
 
           if (res.status === 204) {
             toast.success("language update successfull");
-            setShow(false);
-            getLanguages();
+            window.location.reload()
           } else {
             toast.error("error occured while updating");
           }
         } else {
-          console.log("in post");
+          
           let res = await AxiosInstance.post("/languages", languageData);
           if (res.status === 201) {
             toast.success("language added successfully");
-            getLanguages();
-            setShow(false);
+            window.location.reload()
           } else {
             toast.error("error occured");
             console.log(res);
@@ -53,22 +50,21 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
     },
     [data]
   );
-
   useEffect(() => {
     if (data) reset(data);
 
-    return () => {
-      if (ready) {
+    return ()=>{
+      if (ready){
         setUpdateData(null);
         setData(null);
-      } else setReady(true);
+      }else setReady(true)
     };
-  }, []);
+  }, [ready]);
 
   return (
     <Modal size="sm" show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton>
-        <Modal.Title>{data ? "Update" : "Add New"} Language</Modal.Title>
+        <Modal.Title>{data ? "Update Language" : "Add New Language"}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>

@@ -46,20 +46,19 @@ export const TradeTypeModal = ({
     }
   };
 
-  const editTradeType = async (tradeData) => {
+  const editTradeType = async (data) => {
     try {
       toast.dismiss();
-      const updatedTradeType = await AxiosInstance.post(
-        "/trades/updateTradeType",
-        tradeData
+      const response = await AxiosInstance.put(
+        "/tradeType/"+data._id,
+        {seat:data.seat}
       );
-      if (updatedTradeType.status == 200) {
-        callback(tradeData);
-        toast.success(updatedTradeType.data.message);
+      if (response.status == 200) {
+        callback(response.data);
+        toast.success("trade Type Updated Successfull");
       } else {
         toast.error("something went wrong ");
       }
-
       handleClose();
     } catch (err) {
       toast.error("something went wrong ");
@@ -90,7 +89,7 @@ export const TradeTypeModal = ({
                 required: "This field is required",
               })}
               placeholder="Enter Trade Type"
-              disabled={viewTradeType}
+              disabled
             />
             <span className="text-danger">
               {errors?.tradeType && errors?.tradeType.message}
@@ -105,10 +104,25 @@ export const TradeTypeModal = ({
                 required: "This field is required",
               })}
               placeholder="Enter Type Code"
-              disabled={viewTradeType}
+              disabled
             />
             <span className="text-danger">
               {errors?.typeCode && errors?.typeCode.message}
+            </span>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Seat :</label>
+            <input
+              type="text"
+              className="form-control"
+              {...register("seat", {
+                required: "This field is required",
+              })}
+              placeholder="Enter Number of Seat"
+              
+            />
+            <span className="text-danger">
+              {errors?.seat && errors?.seat.message}
             </span>
           </div>
           <Modal.Footer>

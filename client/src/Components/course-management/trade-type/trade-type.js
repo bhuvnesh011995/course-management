@@ -7,6 +7,7 @@ import { tradeTypeHeaders } from "../../../Constants/table.constants";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
+import useCustomUseEffect from "../../../common-components/CustomUseEffect";
 
 export const TradeType = () => {
   const { user } = useAuth();
@@ -45,9 +46,9 @@ export const TradeType = () => {
     }
   };
 
-  useEffect(() => {
-    getTrades();
-  }, []);
+  // useEffect(() => {
+  //   getTrades();
+  // }, []);
 
   const getTrades = async () => {
     try {
@@ -79,6 +80,7 @@ export const TradeType = () => {
       console.error(err);
     }
   };
+  useCustomUseEffect(getTrades)
 
   return (
     <div id="layout-wrapper">

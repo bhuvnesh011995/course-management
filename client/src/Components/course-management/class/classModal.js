@@ -458,7 +458,7 @@ export const NewClassModal = ({
               </div>
             )} */}
             <Controller name="lectureDay" control={control} render={({field})=>(
-              <ReactSelect {...field} options={lectureDayOptions} isMulti  />
+              <ReactSelect {...field} getOptionValue={option=>option.value} options={lectureDayOptions} isMulti  />
             )} />
                       
 

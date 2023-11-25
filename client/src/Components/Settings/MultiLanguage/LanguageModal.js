@@ -1,24 +1,29 @@
 import { Modal } from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 
 export default function LanguageModal({getLanguages, show, setShow, language }) {
     const [updateData,setUpdateData] = useState(null)
+    const [languageData,setLanguageData] = useState({})
+    const [ready,setReady] = useState(false)
 const handleSubmit = useCallback(async (id,data)=>{
   if(!data) return
+  try {
   let res = await AxiosInstance.put("/languages/"+id, data)
   if(res.status ===204){
     toast.success("language updaate successfull")
-    setShow(false)
     setUpdateData(null)
-    getLanguages()
   }else{
-
+    toast.error("error occured while fetching")
+  }
+  }catch (error) {
+    console.log(error)
+    toast.error("error occured while fetching")
   }
   
-})
+},[])
   const columns = useMemo(
     () => [
       {
@@ -33,14 +38,27 @@ const handleSubmit = useCallback(async (id,data)=>{
     ],
     []
   );
-  let array = useMemo(() => Object.keys(language?.language), []);
 
-  const [tableData, setTableData] = useState(()=>array.map((ele) => {
-    return {
-      key: ele,
-      value: language.language[ele] || "",
-    };
-  }))
+  const getLanguageData = useCallback(async id=>{
+    try {
+      let response = await AxiosInstance.get("/languages/"+id)
+      if(response.status===200){
+        let array = Object.keys(response.data||{}).map((ele) =>({
+          key: ele,
+          value: response.data[ele] || "",
+        }))
+        setTableData(array)
+      }
+    } catch (error) {
+      toast.error("error while fetching language")
+    }
+  },[])
+ useEffect(()=>{
+  if(ready) getLanguageData(language._id)
+  else setReady(true)
+ },[ready])
+
+  const [tableData, setTableData] = useState([])
 
   const handleSaveCell = (row,cell, value) => {
     

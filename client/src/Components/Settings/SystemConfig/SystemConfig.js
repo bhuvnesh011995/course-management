@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { Card, Col, Nav, Row, Tab } from "react-bootstrap";
 import Designation from "./TabContents/Designation/Designation";
 import EmailTemplate from "./TabContents/EmailTemplate/EmailTemplate";
-import Duration from "./TabContents/Duration/Duration";
 
 export const Constants = () => {
 
@@ -48,9 +47,6 @@ export const Constants = () => {
               <Nav.Item>
                 <Nav.Link eventKey="email">Email Template</Nav.Link>
               </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="duration">Duration</Nav.Link>
-              </Nav.Item>
               </Nav>
           </Card.Body>
           </Card>
@@ -59,7 +55,6 @@ export const Constants = () => {
             <Tab.Content>
                 <Tab.Pane eventKey={"designation"}><Designation/></Tab.Pane>
                 <Tab.Pane eventKey={"email"}><EmailTemplate /></Tab.Pane>
-                <Tab.Pane eventKey={"duration"}><Duration /></Tab.Pane>
 </Tab.Content>
         </Col>
       </Row>

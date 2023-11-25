@@ -912,7 +912,7 @@ export const Index = () => {
                                   </span>{" "}
                                   <span className="text-muted">
                                     {trainer.designation}
-                                  </span>{" "}
+                                  </span>
                                 </div>
                               </div>
                               <div className="text-end">

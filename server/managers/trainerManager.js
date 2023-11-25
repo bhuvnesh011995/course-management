@@ -22,7 +22,7 @@ const addNewTrainer = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "designations",
+          from: "designation",
           let: { designationId: "$trainerDesignation" },
           pipeline: [
             {
@@ -47,7 +47,7 @@ const addNewTrainer = async (req, res, next) => {
           trainerMobile: 1,
           trainerDOB: 1,
           trainerDesignation: 1,
-          designation: "$designationDetails.designation",
+          designation: "$designationDetails.name",
           trainerImagePath: 1,
           trainerAddress: 1,
           trainerImageName: 1,
@@ -65,7 +65,7 @@ const getTrainers = async (req, res, next) => {
     const trainers = await db.trainers.aggregate([
       {
         $lookup: {
-          from: "designations",
+          from: "designation",
           let: { designationId: "$trainerDesignation" },
           pipeline: [
             {
@@ -90,7 +90,7 @@ const getTrainers = async (req, res, next) => {
           trainerMobile: 1,
           trainerDOB: 1,
           trainerDesignation: 1,
-          designation: "$designationDetails.designation",
+          designation: "$designationDetails.name",
           trainerImagePath: 1,
           trainerAddress: 1,
           trainerImageName: 1,
@@ -140,7 +140,7 @@ const updateTrainer = async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "designations",
+          from: "designation",
           let: { designationId: "$trainerDesignation" },
           pipeline: [
             {
@@ -165,7 +165,7 @@ const updateTrainer = async (req, res, next) => {
           trainerMobile: 1,
           trainerDOB: 1,
           trainerDesignation: 1,
-          designation: "$designationDetails.designation",
+          designation: "$designationDetails.name",
           trainerImagePath: 1,
           trainerAddress: 1,
           trainerImageName: 1,
@@ -262,7 +262,7 @@ const getDashboardTrainers = async (req, res, next) => {
     const dashboardTrainers = await db.trainers.aggregate([
       {
         $lookup: {
-          from: "designations",
+          from: "designation",
           let: { designationId: "$trainerDesignation" },
           pipeline: [
             {
@@ -300,7 +300,7 @@ const getDashboardTrainers = async (req, res, next) => {
           _id: {
             trainerEmail: "$trainerEmail",
             trainerName: "$trainerName",
-            designation: "$designationDetails.designation",
+            designation: "$designationDetails.name",
             trainerImagePath: "$trainerImagePath",
             startTime: "$startTime",
             endTime: "$endTime",

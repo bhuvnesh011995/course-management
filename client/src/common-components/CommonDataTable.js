@@ -218,9 +218,9 @@ export const CommonDataTable = ({
               <i className="mdi mdi-eye"></i>
             </button>
           )}
+          {/* !tradeType.includes(row.original?.typeCode) && */}
           {editButton &&
             !TradeLevels.includes(row.original?.tradeCode) &&
-            !tradeType.includes(row.original?.typeCode) &&
             !registrationConstants.includes(row.original?.registrationCode) && (
               <button
                 onClick={() => {

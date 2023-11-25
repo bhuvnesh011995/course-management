@@ -17,9 +17,8 @@ exports.addLanguage = async function (req, res, next) {
   }
 };
 
-exports.getById = async function (req, res, next) {
+exports.getByCode = async function (req, res, next) {
   let { code } = req.query;
-  console.log(code,"code")
   try {
     if (code === "undefined" || !code || code === "null") {
       let language = await db.language
@@ -41,9 +40,46 @@ exports.getById = async function (req, res, next) {
   }
 };
 
+exports.getById = async function (req, res, next) {
+  let { id } = req.params;
+  try {
+      let language = await db.language
+        .findById(id)
+        .select({ language: 1, _id: 0});
+      res.status(200).json(language.language);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "error occured",
+    });
+  }
+};
+
+
 exports.getAllTheLanguage = async function (req, res, next) {
   try {
     let languages = await db.language.find({});
+
+    if (!languages)
+      return res.status(500).json({
+        success: true,
+        message: "error occured",
+      });
+
+    res.status(200).json(languages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "error occured",
+    });
+  }
+};
+exports.getAllTheLanguagesNameAndCode = async function (req, res, next) {
+  try {
+    let languages = await db.language.find({},{code:1,name:1});
 
     if (!languages)
       return res.status(500).json({
