@@ -9,6 +9,7 @@ import { AddNewHoliday } from "./modals/HolidayModal";
 import { Link } from "react-router-dom";
 
 export const Scheduling = () => {
+  
   const filterObject = {
     course: "",
     trainer: "",

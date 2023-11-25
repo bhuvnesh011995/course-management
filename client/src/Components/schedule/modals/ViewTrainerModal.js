@@ -60,7 +60,7 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
               >
                 <a className="nav-link" href="#step-33">
                   <span className="num">3</span>
-                  Schedule
+                  Scedule
                 </a>
               </li>
             </ul>
