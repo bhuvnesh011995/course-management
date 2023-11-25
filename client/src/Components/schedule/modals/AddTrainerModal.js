@@ -40,12 +40,12 @@ export const NewTrainerModal = ({
 
   const getAllDesignations = async () => {
     try {
-      const allDesignations = await AxiosInstance.get(
-        "/designations/getDesignations"
+      const response = await AxiosInstance.get(
+        "/constants/designations"
       );
-      if (allDesignations.status == 200) {
-        if (allDesignations.data?.length) {
-          setDesignations(allDesignations.data);
+      if (response.status == 200) {
+        if (response.data?.length) {
+          setDesignations(response.data);
         } else {
           toast.error("please add designations");
         }
@@ -64,6 +64,7 @@ export const NewTrainerModal = ({
 
   const addNewTrainer = async (trainerData) => {
     try {
+      console.log(trainerData)
       toast.dismiss();
       const formData = new FormData();
       if (trainerData?.trainerImage.length)
@@ -111,6 +112,7 @@ export const NewTrainerModal = ({
       const { data } = await AxiosInstance.get("/trainer/getTrainer", {
         params: trainerData,
       });
+      console.log(data)
       data.trainerDOB = convertMongooseDate(data.trainerDOB);
       reset(data);
     } catch (err) {
@@ -224,7 +226,7 @@ export const NewTrainerModal = ({
                         value={e._id}
                         selected={e._id == watch("trainerDesignation")}
                       >
-                        {e.designation}
+                        {e.name}
                       </option>
                     ))}
                 </select>

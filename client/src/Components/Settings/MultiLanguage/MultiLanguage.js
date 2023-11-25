@@ -45,7 +45,7 @@ export default function MultiLanguage() {
         console.log(res)
       }
       } catch (error) {
-        toast.error("error while fetcing")
+        toast.error("error while fetching")
         console.log(error.response)
       }
       

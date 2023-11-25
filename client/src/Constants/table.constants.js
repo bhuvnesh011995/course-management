@@ -71,8 +71,9 @@ export const tradeLevelHeaders = {
 };
 
 export const tradeTypeHeaders = {
-  tradeType: "Trade Type Name",
-  typeCode: "Trade Type Code",
+  tradeType: "Name",
+  typeCode: "Code",
+  seat:"Seat"
 };
 
 export const registrationTypeHeaders = {
