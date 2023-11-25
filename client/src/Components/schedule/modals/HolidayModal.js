@@ -133,7 +133,11 @@ export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
               )}
             </div>
             <Modal.Footer>
-              <button type="button" className="btn btn-secondary">
+              <button
+                type="button"
+                onClick={() => handleClose()}
+                className="btn btn-secondary"
+              >
                 Close
               </button>
               {!eventData && (

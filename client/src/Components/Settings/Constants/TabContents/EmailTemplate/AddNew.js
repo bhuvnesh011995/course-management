@@ -55,61 +55,106 @@ import { Modal } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import JoditEditor from "jodit-react";
 
-export default function AddNew({data,setData,addNew,
-  update,show,setShow}) {
-    const editor = useRef(null)
-    const [ready,setReady] = useState(false)
-    
-    const {
-      register,
-      watch,
-      handleSubmit,
-      control,
-      reset,
-      setValue,
-      formState: { errors },
-    } = useForm();
-    useEffect(()=>{
-      if(data){
-        reset(data)
-      }
-      return ()=>{
-        if(ready){
-          setData(null)
-        }else setReady(true)
-      }
-    },[ready])
+export default function AddNew({
+  data,
+  setData,
+  addNew,
+  update,
+  show,
+  setShow,
+}) {
+  const editor = useRef(null);
+  const [ready, setReady] = useState(false);
 
-    return (
-        <Modal size="lg" show={show} onHide={() => setShow(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>{data?"Update Emial Template":"Add New Email Template"}</Modal.Title>
-          </Modal.Header>
-    <form onSubmit={handleSubmit(formData=>{
-      data?._id ? update(data._id,formData) : addNew(formData)
-    })}>
-          <Modal.Body>
+  const {
+    register,
+    watch,
+    handleSubmit,
+    control,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  useEffect(() => {
+    if (data) {
+      reset(data);
+    }
+    return () => {
+      if (ready) {
+        setData(null);
+      } else setReady(true);
+    };
+  }, [ready]);
+
+  return (
+    <Modal size="lg" show={show} onHide={() => setShow(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          {data ? "Update Emial Template" : "Add New Email Template"}
+        </Modal.Title>
+      </Modal.Header>
+      <form
+        onSubmit={handleSubmit((formData) => {
+          data?._id ? update(data._id, formData) : addNew(formData);
+        })}
+      >
+        <Modal.Body>
           <label>Template Name</label>
-                <input
-                {...register("name",{required:"this is required field"})}
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Templete Name"
-                />
-                {errors.name && <span style={{color:"red"}}>{errors.name.message}</span>}
-                <JoditEditor ref={editor} value={watch("template")} onBlur={newValue=>setValue("template",newValue)} />
-          </Modal.Body>
-          <Modal.Footer>
-          <button onMouseEnter={()=>{
-            console.log(watch("template"))
-          }} onClick={()=>{setShow(false)}} type="button" class="btn btn-dander">
-                  Cancel
-                </button>
-                <button type="submit" class="btn btn-success">
-                  Save
-                </button>
-          </Modal.Footer>
-          </form>
-        </Modal>
-      );
-};
+          <input
+            {...register("name", { required: "this is required field" })}
+            type="text"
+            class="form-control"
+            placeholder="Enter Templete Name"
+          />
+          {errors.name && (
+            <span style={{ color: "red" }}>{errors.name.message}</span>
+          )}
+          <label>Subject </label>
+          <input
+            {...register("subject", { required: "this is required field" })}
+            type="text"
+            class="form-control"
+            placeholder="Enter Subject"
+          />
+          {errors.subject && (
+            <span style={{ color: "red" }}>{errors.subject.message}</span>
+          )}
+          <label>Email Type </label>
+          <select
+            {...register("emailType", { required: "this is required field" })}
+            class="form-select"
+          >
+            <option value="">Select Subject</option>
+            <option value="leadPayment">Lead Get Payment</option>
+            <option value="leadConfirmed">Lead Confirmed</option>
+          </select>
+          {errors.emailType && (
+            <span style={{ color: "red" }}>{errors.emailType.message}</span>
+          )}
+          <JoditEditor
+            ref={editor}
+            value={watch("template")}
+            onBlur={(newValue) => setValue("template", newValue)}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            onMouseEnter={() => {
+              console.log(watch("template"));
+            }}
+            onClick={() => {
+              setShow(false);
+            }}
+            type="button"
+            class="btn btn-dander"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-success">
+            Save
+          </button>
+        </Modal.Footer>
+      </form>
+    </Modal>
+  );
+}

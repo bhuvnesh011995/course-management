@@ -6,8 +6,10 @@ import { toast } from "react-toastify";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { timesheetHeaders } from "../../../Constants/table.constants";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const TimeSheet = () => {
+  const { user } = useAuth();
   const [isAddModalOpen, setAddModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [timesheetData, setTimesheetData] = useState(null);
@@ -98,24 +100,26 @@ export const TimeSheet = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50"></div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showTimesheet()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Timesheet
-                      </button>
+            {user.userData?.roleData?.timesheet?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50"></div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showTimesheet()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Timesheet
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card ">
@@ -128,8 +132,10 @@ export const TimeSheet = () => {
                         data={allTimesheets}
                         tableHeaders={timesheetHeaders}
                         actionButtons
-                        editButton
-                        deleteButton
+                        editButton={user.userData?.roleData?.timesheet?.write}
+                        deleteButton={
+                          user.userData?.roleData?.timesheet?.delete
+                        }
                         viewButton
                         callback={(data, type, index) =>
                           showTimesheet(data, type, index)

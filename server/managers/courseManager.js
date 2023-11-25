@@ -26,6 +26,23 @@ const addNewCourse = async (req, res, next) => {
       { $unwind: "$tradeTypeDetails" },
       {
         $lookup: {
+          from: "duration",
+          let: { durationId: "$duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$durationId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
+      {
+        $lookup: {
           from: "registrationtypes",
           let: { registrationId: "$registrationType" },
           pipeline: [
@@ -102,6 +119,7 @@ const addNewCourse = async (req, res, next) => {
           price: "$bothCombined.price",
           tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
           tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          duration: "$bothCombined.durationDetails.name",
           registrationType:
             "$bothCombined.registrationTypeDetails.registrationName",
           created_at: "$bothCombined.created_at",
@@ -151,7 +169,23 @@ const getCourses = async (req, res, next) => {
         },
       },
       { $unwind: "$registrationTypeDetails" },
-
+      {
+        $lookup: {
+          from: "duration",
+          let: { durationId: "$duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$durationId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
       {
         $lookup: {
           from: "leads",
@@ -230,6 +264,7 @@ const getCourses = async (req, res, next) => {
           price: "$bothCombined.price",
           tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
           tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          duration: "$bothCombined.durationDetails.name",
           registrationType:
             "$bothCombined.registrationTypeDetails.registrationName",
           ActiveCourses: "$bothCombined.leadCourses",
@@ -287,6 +322,23 @@ const updateCourse = async (req, res, next) => {
         },
       },
       { $unwind: "$tradeTypeDetails" },
+      {
+        $lookup: {
+          from: "duration",
+          let: { durationId: "$duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$durationId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
       {
         $lookup: {
           from: "registrationtypes",
@@ -367,6 +419,7 @@ const updateCourse = async (req, res, next) => {
           price: "$bothCombined.price",
           tradeLevel: "$bothCombined.tradeLevelDetails.tradeLevel",
           tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          duration: "$bothCombined.durationDetails.name",
           registrationType:
             "$bothCombined.registrationTypeDetails.registrationName",
           created_at: "$bothCombined.created_at",

@@ -397,7 +397,7 @@ export const AddNewLeadModel = ({
 
   return (
     <div>
-      <Modal show={isOpen} onHide={handleClose} size="xl">
+      <Modal show={isOpen} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>
             <h5 className="modal-title add-Customer-title">
@@ -466,7 +466,7 @@ export const AddNewLeadModel = ({
             <div className="row">
               <hr />
               <h4 className="mb-3">Company Information</h4>
-              <div className="col-md-4 mb-3">
+              <div className="col-md-12 mb-3">
                 <label className="form-label">Company Name</label>
                 <FormattedMessage
                   id="Enter_Company_Name"
@@ -499,7 +499,7 @@ export const AddNewLeadModel = ({
                   {errors?.companyName && errors?.companyName.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
+              <div className="col-md-12 mb-3">
                 <label className="form-label">Company UEN No.</label>
                 <input
                   type="text"
@@ -515,7 +515,7 @@ export const AddNewLeadModel = ({
                   {errors?.companyUEN && errors?.companyUEN.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
+              <div className="col-md-12 mb-3">
                 <label className="form-label">Company Address</label>
                 <input
                   type="text"
@@ -580,7 +580,7 @@ export const AddNewLeadModel = ({
                     errors?.contactPersonMobile.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
+              <div className="col-md-12 mb-3">
                 <label className="form-label">
                   Contact Person's Email Address
                 </label>

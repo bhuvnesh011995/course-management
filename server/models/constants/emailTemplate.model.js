@@ -1,11 +1,15 @@
-const {Schema,model} = require("mongoose")
+const { Schema, model } = require("mongoose");
 
-const schema = new Schema({
-    name:String,
-    template:String
-},{
-    collection:"emailtemplates"
-})
+const schema = new Schema(
+  {
+    name: String,
+    template: String,
+    subject: String,
+    emailType: String,
+  },
+  {
+    collection: "emailtemplates",
+  }
+);
 
-
-module.exports = model("emailtemplate",schema)
+module.exports = model("emailtemplate", schema);

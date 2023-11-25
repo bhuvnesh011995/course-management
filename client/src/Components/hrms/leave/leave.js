@@ -6,8 +6,10 @@ import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { leaveHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 export const Leave = () => {
+  const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [allLeaves, setAllLeaves] = useState([]);
   const [deleteLeave, setDeleteLeave] = useState(false);
@@ -96,24 +98,26 @@ export const Leave = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50"></div>
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => showLeaveModal()}
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Leave
-                      </button>
+            {user.userData?.roleData?.leaveManagement?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50"></div>
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => showLeaveModal()}
+                        >
+                          <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                          Add New Leave
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="row g-4">
               <div className="col-md-12">
                 {/* Role Table */}
@@ -128,7 +132,9 @@ export const Leave = () => {
                         tableHeaders={leaveHeaders}
                         actionButtons
                         viewButton
-                        deleteButton
+                        deleteButton={
+                          user.userData?.roleData?.leaveManagement?.delete
+                        }
                         callback={(data, type, index) =>
                           showLeaveModal(data, type, index)
                         }

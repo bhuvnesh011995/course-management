@@ -26,12 +26,14 @@ export const Attendance = () => {
 
   const getClasses = async () => {
     try {
+      toast.dismiss();
       const { data } = await AxiosInstance.get("/class/getClasses");
-      setClasses(data.classes);
-      filters.class = data.classes[0]._id;
-      setFilters({ ...filters });
+      if (data?.classes.length) {
+        setClasses(data?.classes);
+        filters.class = data.classes[0]._id;
+        setFilters({ ...filters });
+      }
     } catch (err) {
-      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -43,7 +45,6 @@ export const Attendance = () => {
       });
       setFilteredLeads(data);
     } catch (err) {
-      toast.error("something went wrong !");
       console.error(err);
     }
   };
@@ -90,11 +91,17 @@ export const Attendance = () => {
                               className="form-select"
                               value={filters.class}
                             >
-                              {classes.map((e) => (
-                                <option key={e._id} value={e._id}>
-                                  {e.classCode}
+                              {classes.length ? (
+                                classes.map((e) => (
+                                  <option key={e._id} value={e._id}>
+                                    {e.classCode}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value={""} selected>
+                                  No Classes
                                 </option>
-                              ))}
+                              )}
                             </select>
                           </div>
                         </div>
@@ -128,17 +135,6 @@ export const Attendance = () => {
                   <div className="card-header justify-content-between">
                     <div className="card-title">Attendance List </div>
                     <div className=" d-flex flex-end justify-content-end">
-                      <button
-                        className="btn btn-primary mx-1"
-                        style={{
-                          height: "20px",
-                          padding: "0 0.5rem",
-                          fontSize: "0.7rem",
-                        }}
-                      >
-                        {" "}
-                        <i className="mdi mdi-import me-1"></i>Import
-                      </button>
                       <button
                         className="btn btn-primary"
                         style={{

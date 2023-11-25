@@ -13,12 +13,12 @@ const roleSchema = new mongoose.Schema(
     role: roleCommon,
     timesheet: roleCommon,
     customer: roleCommon,
-
     trainer: roleCommon,
     holiday: roleCommon,
     registrationType: roleCommon,
     tradeLevel: roleCommon,
     tradeType: roleCommon,
+
     courses: roleCommon,
     class: roleCommon,
     certificateGeneration: roleCommon,

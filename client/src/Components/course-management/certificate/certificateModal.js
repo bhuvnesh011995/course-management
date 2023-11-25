@@ -29,12 +29,12 @@ const AddNewCertificate = ({
   useEffect(() => {
     getCourses();
     if (!certificateData?._id) {
-      setValue(
-        "certificateNo",
-        `cfg${Date.now() + Math.round(Math.random() * 1e9)}`
-      );
+      //   setValue(
+      //     "certificateNo",
+      //     `cfg${Date.now() + Math.round(Math.random() * 1e9)}`
+      //   );
       setValue("certificateAttchment", "");
-    } else {
+    } else if (certificateData?._id) {
       getCertificate();
     }
   }, []);
@@ -156,9 +156,17 @@ const AddNewCertificate = ({
                 <input
                   type="text"
                   className="form-control"
-                  {...register("certificateNo")}
-                  readOnly
+                  {...register("certificateNo", {
+                    required: "Please Enter Certificate Number",
+                  })}
+                  placeholder="Certificate Number"
+                  disabled={viewCertificate}
                 />
+                {errors?.certificateNo && (
+                  <span className="text-danger">
+                    {errors?.certificateNo.message}
+                  </span>
+                )}
               </div>
               <div className="col-md-6 mb-3">
                 <label className="form-label">Participant's Name</label>
@@ -200,7 +208,7 @@ const AddNewCertificate = ({
                   </span>
                 )}
               </div>
-              <div className="col-md-6 mb-3">
+              {/* <div className="col-md-6 mb-3">
                 <label className="form-label">Course Duration</label>
                 <input
                   type="text"
@@ -216,7 +224,7 @@ const AddNewCertificate = ({
                     {errors?.courseDuration.message}
                   </span>
                 )}
-              </div>
+              </div> */}
               <div className="col-md-6 mb-3">
                 <label className="form-label">Grade</label>
                 <select
@@ -289,12 +297,14 @@ const AddNewCertificate = ({
                     {errors?.certificateAttchment.message}
                   </span>
                 )}
-                {!viewCertificate && watch("certificateAttchment") && (
-                  <div className="input-icons">
+                <div className="input-icons">
+                  {!viewCertificate && watch("certificateAttchment") && (
                     <i
                       className="fas fa-trash text-danger cursor-pointer"
                       onClick={(e) => setValue("certificateAttchment", "")}
                     ></i>
+                  )}
+                  {watch("certificateAttchment") && (
                     <i
                       className="fas fa-eye text-primary cursor-pointer"
                       onClick={() =>
@@ -305,8 +315,8 @@ const AddNewCertificate = ({
                         )
                       }
                     ></i>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
             <Modal.Footer>

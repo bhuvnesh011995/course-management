@@ -80,7 +80,7 @@ export const TradeType = () => {
       console.error(err);
     }
   };
-  useCustomUseEffect(getTrades)
+  useCustomUseEffect(getTrades);
 
   return (
     <div id="layout-wrapper">

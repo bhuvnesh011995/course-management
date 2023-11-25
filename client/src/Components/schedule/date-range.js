@@ -85,9 +85,11 @@ export const DateRange = () => {
     getAllEvents();
   }, [filteredQueries]);
 
-  const addNewEvent = (data) => {
-    setShowEvent(true);
-    setEventData(data);
+  const addNewEvent = (data, type) => {
+    if (type) {
+      setShowEvent(true);
+      setEventData(data);
+    }
   };
 
   const getAllEvents = async () => {
@@ -216,7 +218,7 @@ export const DateRange = () => {
                   <div className="card-body">
                     <AllCalendar
                       events={events}
-                      callback={(e) => addNewEvent(e)}
+                      callback={(e, type) => addNewEvent(e, type)}
                       type={"holiday"}
                     />
                   </div>

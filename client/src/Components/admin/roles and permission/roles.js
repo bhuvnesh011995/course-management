@@ -213,24 +213,28 @@ export const Roles = () => {
                             >
                               <a>{e.roleName}</a>
                             </h4>
-                            <div>
-                              {user.userData?.roleData?.role?.write && (
-                                <button
-                                  onClick={() => showRoleModal(e._id)}
-                                  className="btn btn-sm btn-primary role-edit-modal mx-1"
-                                >
-                                  <small>Edit Role</small>
-                                </button>
-                              )}
-                              {user.userData?.roleData?.role?.delete && (
-                                <button
-                                  onClick={() => showRoleModal(e._id, "delete")}
-                                  className="btn btn-sm btn-danger role-edit-modal"
-                                >
-                                  <small>Delete Role</small>
-                                </button>
-                              )}
-                            </div>
+                            {user.userData?.roleData._id != e._id && (
+                              <div>
+                                {user.userData?.roleData?.role?.write && (
+                                  <button
+                                    onClick={() => showRoleModal(e._id)}
+                                    className="btn btn-sm btn-primary role-edit-modal mx-1"
+                                  >
+                                    <small>Edit Role</small>
+                                  </button>
+                                )}
+                                {user.userData?.roleData?.role?.delete && (
+                                  <button
+                                    onClick={() =>
+                                      showRoleModal(e._id, "delete")
+                                    }
+                                    className="btn btn-sm btn-danger role-edit-modal"
+                                  >
+                                    <small>Delete Role</small>
+                                  </button>
+                                )}
+                              </div>
+                            )}
                           </div>
                           <a className="text-muted cursor-pointer">
                             <i className="bx bx-copy fs-4" />

@@ -73,7 +73,7 @@ export const tradeLevelHeaders = {
 export const tradeTypeHeaders = {
   tradeType: "Name",
   typeCode: "Code",
-  seat:"Seat"
+  seat: "Seat",
 };
 
 export const registrationTypeHeaders = {
@@ -95,6 +95,7 @@ export const courseHeaders = {
   registrationType: "Registration Type",
   tradeLevel: "Trade Level",
   price: "Price ($)",
+  duration: "Duration",
 };
 
 export const classHeaders = {
@@ -270,6 +271,7 @@ export const dashboardCourseHeaders = {
 };
 
 export const emailTemplateColumnHeaders = {
-  emailType: "Email Type",
   name: "Name",
+  emailType: "Email Type",
+  subject: "Subject",
 };

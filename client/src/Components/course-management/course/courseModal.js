@@ -15,18 +15,28 @@ export const CourseModal = ({
 }) => {
   const [tradeLevels, setTradeLevels] = useState([]);
   const [registrationCode, setRegistrationCode] = useState("");
+  const [durations, setDurations] = useState([]);
 
   const {
     handleSubmit,
     register,
     reset,
-    watch,
     formState: { errors },
   } = useForm();
 
   useEffect(() => {
+    getAllDurations();
     if (courseData) getSelectedCourse();
   }, []);
+
+  const getAllDurations = async () => {
+    try {
+      const allDurations = await AxiosInstance.get("/constants/duration");
+      setDurations(allDurations.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const addNewCourse = async (newCourse) => {
     try {
@@ -198,6 +208,26 @@ export const CourseModal = ({
               />
               <span className="text-danger">
                 {errors?.price && errors?.price.message}
+              </span>
+            </div>
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Duration:</label>
+              <select
+                className="form-select"
+                {...register("duration", {
+                  required: "Duration is required",
+                })}
+                disabled={viewCourse}
+              >
+                <option value="">-- Select Duration --</option>
+                {durations.map((e, index) => (
+                  <option key={index} value={e._id}>
+                    {e.value + " " + e.name}
+                  </option>
+                ))}
+              </select>
+              <span className="text-danger">
+                {errors?.duration && errors?.duration.message}
               </span>
             </div>
             <Modal.Footer>

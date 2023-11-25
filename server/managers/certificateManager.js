@@ -38,9 +38,27 @@ const addCertificate = async (req, res, next) => {
       },
       { $unwind: "$courseData" },
       {
+        $lookup: {
+          from: "duration",
+          let: { durationId: "$courseData.duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$durationId"],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
+      {
         $project: {
           _id: 1,
           certificateNo: 1,
+          courseDuration: "$durationDetails.name",
           completionDate: 1,
           courseDuration: 1,
           grade: 1,
@@ -92,11 +110,28 @@ const getCertificates = async (req, res, next) => {
       },
       { $unwind: "$courseData" },
       {
+        $lookup: {
+          from: "duration",
+          let: { durationId: "$courseData.duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$durationId"],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
+      {
         $project: {
           _id: 1,
           certificateNo: 1,
           completionDate: 1,
-          courseDuration: 1,
+          courseDuration: "$durationDetails.name",
           grade: 1,
           participantName: 1,
           created_at: 1,
@@ -162,12 +197,30 @@ const updateCertificate = async (req, res, next) => {
       },
       { $unwind: "$courseData" },
       {
+        $lookup: {
+          from: "duration",
+          let: { durationId: "$courseData.duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$durationId"],
+                },
+              },
+            },
+          ],
+          as: "durationDetails",
+        },
+      },
+      { $unwind: "$durationDetails" },
+      {
         $project: {
           _id: 1,
           certificateNo: 1,
           completionDate: 1,
           courseDuration: 1,
           grade: 1,
+          courseDuration: "$durationDetails.name",
           certificateAttchment: 1,
           participantName: 1,
           created_at: 1,
