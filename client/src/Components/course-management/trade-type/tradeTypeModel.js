@@ -118,7 +118,7 @@ export const TradeTypeModal = ({
               {...register("seat", {
                 required: "This field is required",
               })}
-              placeholder="Enter Type Code"
+              placeholder="Enter Number of Seat"
               
             />
             <span className="text-danger">
