@@ -118,10 +118,7 @@ const addNewLead = async (req, res, next) => {
           nationality: 1,
           educationalLevel: 1,
           coreTradeRegNo: 1,
-          getPayment: 1,
-          confirmed: 1,
           course: 1,
-          courseAssigned: 1,
           status: 1,
           remarks: 1,
         },
@@ -240,10 +237,7 @@ const getAllLeads = async (req, res, next) => {
           nationality: 1,
           educationalLevel: 1,
           coreTradeRegNo: 1,
-          getPayment: 1,
-          confirmed: 1,
           course: 1,
-          courseAssigned: 1,
           status: 1,
           remarks: 1,
         },
@@ -408,10 +402,7 @@ const updateLead = async (req, res, next) => {
           nationality: 1,
           educationalLevel: 1,
           coreTradeRegNo: 1,
-          getPayment: 1,
-          confirmed: 1,
           course: 1,
-          courseAssigned: 1,
           status: 1,
           remarks: 1,
         },
@@ -493,7 +484,7 @@ const getPayment = async (req, res, next) => {
     await sendMail({ query: sendMailObj });
     const getLeadPayment = await db.lead.updateOne(
       { _id: body._id },
-      { getPayment: true }
+      { $set: { status: "assign" } }
     );
     return res.status(200).send({ message: "Mail Sent !" });
   } catch (err) {
@@ -513,24 +504,9 @@ const confirmPayment = async (req, res, next) => {
     await sendMail({ query: sendMailObj });
     const getLeadPayment = await db.lead.updateOne(
       { _id: body._id },
-      { confirmed: true }
+      { $set: { status: "confirmed" } }
     );
     return res.status(200).send({ message: "confirmation mail sent !" });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const updateAssignCourse = async (req, res, next) => {
-  try {
-    const { body } = req;
-    await db.lead.updateOne(
-      { _id: body._id },
-      {
-        $set: body,
-      }
-    );
-    return res.status(200).send({ message: "course Assigned to user" });
   } catch (err) {
     next(err);
   }
@@ -607,11 +583,7 @@ const accountHistory = async (req, res, next) => {
           isPaid: {
             $cond: {
               if: {
-                $and: [
-                  { $eq: ["$confirmed", true] },
-                  { $eq: ["$courseAssigned", true] },
-                  { $eq: ["$getPayment", true] },
-                ],
+                $and: [{ $eq: ["$status", "confirmed"] }],
               },
               then: true,
               else: false,
@@ -999,10 +971,8 @@ const getCompany = async (req, res, next) => {
           nationality: "$bothCombined.nationality",
           educationalLevel: "$bothCombined.educationalLevel",
           coreTradeRegNo: "$bothCombined.coreTradeRegNo",
-          getPayment: "$bothCombined.getPayment",
-          confirmed: "$bothCombined.confirmed",
+          status: "$bothCombined.status",
           course: "$bothCombined.course",
-          courseAssigned: "$bothCombined.courseAssigned",
         },
       },
     ]);
@@ -1046,11 +1016,7 @@ const getDashboardCustomers = async (req, res, next) => {
             $sum: {
               $cond: {
                 if: {
-                  $and: [
-                    { $eq: ["$courseAssigned", true] },
-                    { $eq: ["$getPayment", true] },
-                    { $eq: ["$confirmed", true] },
-                  ],
+                  $and: [{ $eq: ["$status", "confirmed"] }],
                 },
                 then: 1,
                 else: 0,
@@ -1097,7 +1063,6 @@ module.exports = {
   getLead,
   getPayment,
   confirmPayment,
-  updateAssignCourse,
   accountHistory,
   getSelectedLead,
   getFilteredLeads,

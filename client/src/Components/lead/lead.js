@@ -147,7 +147,7 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const newLeads = filteredLeads.filter(
-              (e) => !e?.course?.length && e.status != "pending"
+              (e) => e.status != "pending" && e.status == "new"
             );
             setFilteredLeads([...newLeads]);
           } else {
@@ -155,7 +155,7 @@ export const Lead = () => {
           }
         } else {
           const newLeads = leads.filter(
-            (e) => !e?.course?.length && e.status != "pending"
+            (e) => e.status != "pending" && e.status == "new"
           );
           setFilteredLeads([...newLeads]);
         }
@@ -166,13 +166,13 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const pendingLeads = filteredLeads.filter(
-              (e) => e?.course?.length && e.status != "assign"
+              (e) => e.status != "assign" && e.status == "pending"
             );
             setFilteredLeads([...pendingLeads]);
           }
         } else {
           const pendingLeads = leads.filter(
-            (e) => e?.course?.length && e.status != "assign"
+            (e) => e.status != "assign" && e.status == "pending"
           );
           setFilteredLeads([...pendingLeads]);
         }
@@ -183,13 +183,13 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const assignedLeads = filteredLeads.filter(
-              (e) => e?.course?.length && e.status != "confirmed"
+              (e) => e.status != "confirmed" && e.status == "assign"
             );
             setFilteredLeads([...assignedLeads]);
           }
         } else {
           const assignedLeads = leads.filter(
-            (e) => e?.course?.length && e.status != "confirmed"
+            (e) => e.status != "confirmed" && e.status == "assign"
           );
           setFilteredLeads([...assignedLeads]);
         }

@@ -289,7 +289,9 @@ export const AddNewLeadModel = ({
 
       if (watch("course")?.length) {
         newLeadData["course"] = watch("course");
-        newLeadData["status"] = "pending";
+        if (newLeadData["status"] == "new") newLeadData["status"] = "pending";
+        else if (newLeadData["status"] == "assign")
+          newLeadData["status"] = "assign";
       } else {
         setError("course", { message: "Please Select Course" });
         return;
