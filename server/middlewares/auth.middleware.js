@@ -5,6 +5,7 @@ const userAuth = async (req, res, next) => {
   try {
     const token = req.headers["x-token-header"];
     const ACCESSTOKENSECRET = process.env.ACCESSTOKENSECRET;
+    console.log(ACCESSTOKENSECRET)
     if (token) {
       const decode = jwt.verify(token, ACCESSTOKENSECRET);
       const loginedUser = await db.user.findOne({ email: decode.email });

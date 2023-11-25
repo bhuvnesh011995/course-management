@@ -19,5 +19,5 @@ module.exports = {
   language: require("./languageModel"),
   designation: require("./designationModel"),
   constants:require("./constants"),
-  
+  config:require("./system")
 };

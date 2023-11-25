@@ -355,6 +355,14 @@ export const MenuBar = () => {
                 >
                   <Link to="/settings/constants">Constants</Link>
                 </li>
+                
+                <li
+                  className={`${
+                    pathname.split("/")[2] == "system" && "mm-active"
+                  }`}
+                >
+                  <Link to="/settings/system">System Configuration</Link>
+                </li>
               </ul>
             </li>
           </ul>

@@ -101,15 +101,7 @@ export const TradeType = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            {user.userData?.roleData?.tradeType?.create && (
-              <div className="row">
-                <div className="col-xl-12">
-                  <div className="card">
-                    <div className="card-body p-3">
-                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div className="row w-50">
-                          {/* <div className="col-xl-5">
+            </div>{/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest
@@ -135,6 +127,14 @@ export const TradeType = () => {
                             </button>
                           </div>
                         </div> */}
+            {/* {user.userData?.roleData?.tradeType?.create && (
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div className="row w-50">
+                          
                         </div>
                         <button
                           className="btn btn-primary me-2"
@@ -148,7 +148,7 @@ export const TradeType = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card">

@@ -39,3 +39,8 @@ export const mustBeNumbers = {
   value: /^[0-9]+$/,
   message: "Must Be Numbers.",
 };
+
+
+export const numberWithoutPrecedingZero ={value:/^[1-9][0-9]?$/i,
+message:"wrong input field"
+}

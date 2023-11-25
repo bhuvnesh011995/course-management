@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { numberWithoutPrecedingZero } from "../../../common-components/validations";
 
 export const TradeTypeModal = ({
   setIsOpen,
@@ -117,6 +118,7 @@ export const TradeTypeModal = ({
               className="form-control"
               {...register("seat", {
                 required: "This field is required",
+                pattern:numberWithoutPrecedingZero
               })}
               placeholder="Enter Number of Seat"
               

@@ -64,7 +64,7 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
   return (
     <Modal size="sm" show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton>
-        <Modal.Title>{data ? "Update Language" : "Add New Language"}</Modal.Title>
+        <Modal.Title>{data ? "Update Language" : "Add New "}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>

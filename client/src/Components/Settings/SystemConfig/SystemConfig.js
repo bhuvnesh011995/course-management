@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { Card, Col, Nav, Row, Tab } from "react-bootstrap";
-import Designation from "./TabContents/Designation/Designation";
-import EmailTemplate from "./TabContents/EmailTemplate/EmailTemplate";
+import System from "./TabContents/System";
+import Other from "./TabContents/Other";
 
-export const Constants = () => {
+export const SystemConfig = () => {
 
 
   return (
@@ -19,14 +19,14 @@ export const Constants = () => {
             <div className="row">
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Constants</h4>
+                  <h4 className="mb-sm-0 font-size-18">System Configuration</h4>
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
                         <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
-                        Constants
+                      System Configuration
                       </li>
                     </ol>
                   </div>
@@ -34,7 +34,7 @@ export const Constants = () => {
               </div>
             </div>
             </div>
-                  <Tab.Container id="left-tabs-example" defaultActiveKey="designation">
+                  <Tab.Container id="left-tabs-example" defaultActiveKey="config">
       <Row>
         
         <Col xl={3}>
@@ -42,10 +42,10 @@ export const Constants = () => {
           <Card.Body>
             <Nav variant="pills" className="flex-column">
               <Nav.Item>
-                <Nav.Link eventKey="designation">Designation</Nav.Link>
+                <Nav.Link eventKey="config">System Configuration</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="email">Email Template</Nav.Link>
+                <Nav.Link eventKey="other">Other</Nav.Link>
               </Nav.Item>
               </Nav>
           </Card.Body>
@@ -53,8 +53,8 @@ export const Constants = () => {
         </Col>
         <Col xl={9}>
             <Tab.Content>
-                <Tab.Pane eventKey={"designation"}><Designation/></Tab.Pane>
-                <Tab.Pane eventKey={"email"}><EmailTemplate /></Tab.Pane>
+                <Tab.Pane eventKey={"config"}><System/></Tab.Pane>
+                <Tab.Pane eventKey={"other"}><Other/></Tab.Pane>
 </Tab.Content>
         </Col>
       </Row>

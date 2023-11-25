@@ -26,6 +26,17 @@ module.exports = async () => {
         });
     }
 
+
+    // this is for config
+
+    let systemConfig = await db.config.systemConfig.findOne({})
+
+    if(!systemConfig) await db.config.systemConfig.create({})
+
+    let otherConfig =await db.config.otherConfig.findOne({})
+
+    if(!otherConfig) await db.config.otherConfig.create({})
+
     let [
       TFS,
       TRT,

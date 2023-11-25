@@ -102,8 +102,7 @@ export const TradeLevel = () => {
                 </div>
               </div>
             </div>
-            {/* end page title */}
-            {user.userData?.roleData?.tradeLevel?.create && (
+            {/* {user.userData?.roleData?.tradeLevel?.create && (
               <div className="row">
                 <div className="col-xl-12">
                   <div className="card">
@@ -122,7 +121,7 @@ export const TradeLevel = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
             <div className="row g-4">
               <div className="col-md-12">
                 {/* Registration Type Table */}

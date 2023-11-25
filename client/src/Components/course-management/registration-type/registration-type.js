@@ -114,26 +114,14 @@ export const RegistrationType = () => {
                 </div>
               </div>
             </div>
-            {user.userData?.roleData?.registrationType?.create && (
+            {/* {user.userData?.roleData?.registrationType?.create && (
               <div className="row">
                 <div className="col-xl-12">
                   <div className="card">
                     <div className="card-body p-3">
                       <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <div className="row w-50">
-                          {/* <div className="col-xl-5">
-                          <select className="form-select">
-                            <option key={"CA"} value="CA">
-                              Newest
-                            </option>
-                            <option key={"NV"} value="NV">
-                              Oldest
-                            </option>
-                            <option key={"OR"} value="OR">
-                              Recent
-                            </option>
-                          </select>
-                        </div> */}
+                          
                         </div>
                         <button
                           className="btn btn-primary me-2"
@@ -147,7 +135,7 @@ export const RegistrationType = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
             <div className="row g-4">
               <div className="col-md-12">
                 <div className="card">

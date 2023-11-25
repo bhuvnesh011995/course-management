@@ -45,6 +45,7 @@ import { TimeSheet } from "../Components/hrms/Timesheet/timesheet";
 import MultiLanguage from "../Components/Settings/MultiLanguage/MultiLanguage";
 import { Designations } from "../Components/Settings/Trainer-designation/designations";
 import { Constants } from "../Components/Settings/Constants/Constants";
+import { SystemConfig } from "../Components/Settings/SystemConfig/SystemConfig";
 
 export const AllRoutes = () => {
   const navigate = useNavigate();
@@ -124,6 +125,7 @@ export const AllRoutes = () => {
         <Route path="/settings/multilanguage" Component={MultiLanguage}></Route>
         <Route path="/settings/designations" Component={Designations}></Route>
         <Route path="/settings/constants" Component={Constants}></Route>
+        <Route path="/settings/system" Component={SystemConfig}></Route>
       </Routes>
     </div>
   );
