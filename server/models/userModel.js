@@ -21,6 +21,8 @@ const userSchema = new mongoose.Schema(
 
     gender: { type: String },
     address: { type: String },
+    leadPaymentTemplate: { type: mongoose.Schema.Types.ObjectId },
+    leadConfirmedTemplate: { type: mongoose.Schema.Types.ObjectId },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

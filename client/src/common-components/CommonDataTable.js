@@ -250,12 +250,12 @@ export const CommonDataTable = ({
               <i className="mdi mdi-check-circle" />
             </button>
           )}
-          {leadModelButtons && row.original?.getPayment && (
+          {leadModelButtons && row.original?.status == "confirmed" && (
             <button className="btn btn-icon rounded-pill">
               <i className="bx bx-money align-middle me-1 text-info" />
             </button>
           )}
-          {leadModelButtons && row.original?.confirmed && (
+          {leadModelButtons && row.original?.status == "confirmed" && (
             <button className="btn btn-icon rounded-pill">
               <i className="mdi mdi-check-circle align-middle text-success" />
             </button>

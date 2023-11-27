@@ -14,15 +14,18 @@ export const NewClassModal = ({
   callback,
   isCalendar = false,
 }) => {
-  const lectureDayOptions = useMemo(()=>([
-    {label:"Monday",value:"Monday"},
-    {label:"Tuesday",value:"Tuesday"},
-    {label:"Wednesday",value:"Wednesday"},
-    {label:"Thursday",value:"Thursday"},
-    {label:"Friday",value:"Friday"},
-    {label:"Saturday",value:"Wednesday"},
-    {label:"Sunday",value:"Sunday"},
-  ]),[])
+  const lectureDayOptions = useMemo(
+    () => [
+      { label: "Monday", value: "Monday" },
+      { label: "Tuesday", value: "Tuesday" },
+      { label: "Wednesday", value: "Wednesday" },
+      { label: "Thursday", value: "Thursday" },
+      { label: "Friday", value: "Friday" },
+      { label: "Saturday", value: "Wednesday" },
+      { label: "Sunday", value: "Sunday" },
+    ],
+    []
+  );
   const [courses, setCourses] = useState([]);
   const [showLecDays, setShowLecDays] = useState(false);
   const [trainers, setTrainers] = useState([]);
@@ -81,7 +84,10 @@ export const NewClassModal = ({
       });
       data[0].startDate = moment(data[0].startDate).format("YYYY-MM-DD");
       data[0].endDate = moment(data[0].endDate).format("YYYY-MM-DD");
-      data[0].lectureDay = data[0].lectureDay?.map(ele=>({label:ele,value:ele}))
+      data[0].lectureDay = data[0].lectureDay?.map((ele) => ({
+        label: ele,
+        value: ele,
+      }));
       reset(data[0]);
     } catch (err) {
       console.error(err);
@@ -95,8 +101,8 @@ export const NewClassModal = ({
 
   const addNewClass = async (newClass) => {
     try {
-      if(newClass.lectureDay){
-        newClass.lectureDay = newClass.lectureDay.map(ele=>ele.value)
+      if (newClass.lectureDay) {
+        newClass.lectureDay = newClass.lectureDay.map((ele) => ele.value);
       }
       toast.dismiss();
       const { data } = await AxiosInstance.post("/class/addClass", newClass);
@@ -120,8 +126,10 @@ export const NewClassModal = ({
 
   const updateClass = async (updatedClass) => {
     try {
-      if(updatedClass.lectureDay){
-        updatedClass.lectureDay = updatedClass.lectureDay.map(ele=>ele.value)
+      if (updatedClass.lectureDay) {
+        updatedClass.lectureDay = updatedClass.lectureDay.map(
+          (ele) => ele.value
+        );
       }
       toast.dismiss();
       const { data } = await AxiosInstance.post(
@@ -202,7 +210,7 @@ export const NewClassModal = ({
         <Modal.Body>
           <form onSubmit={handleSubmit(classData ? updateClass : addNewClass)}>
             <div className="row">
-              <div className="col-md-6 mb-3">
+              {/* <div className="col-md-6 mb-3">
                 <label className="form-label">Class Name</label>
                 <input
                   type="text"
@@ -218,7 +226,7 @@ export const NewClassModal = ({
                     {errors?.classCode.message}
                   </span>
                 )}
-              </div>
+              </div> */}
               <div className="col-md-6 mb-3">
                 <label className="form-label">Course</label>
                 <select
@@ -457,10 +465,13 @@ export const NewClassModal = ({
                 </div>
               </div>
             )} */}
-            <Controller name="lectureDay" control={control} render={({field})=>(
-              <ReactSelect {...field} options={lectureDayOptions} isMulti  />
-            )} />
-                      
+            <Controller
+              name="lectureDay"
+              control={control}
+              render={({ field }) => (
+                <ReactSelect {...field} options={lectureDayOptions} isMulti />
+              )}
+            />
 
             <div className="modal-footer">
               <button
@@ -471,9 +482,13 @@ export const NewClassModal = ({
                 Cancel
               </button>
               {!viewClass && (
-                <button onMouseEnter={()=>{
-                  console.log(watch("lectureDay"))
-                }} type="submit" className="btn btn-primary">
+                <button
+                  onMouseEnter={() => {
+                    console.log(watch("lectureDay"));
+                  }}
+                  type="submit"
+                  className="btn btn-primary"
+                >
                   {classData ? "Update" : "Add"} Class
                 </button>
               )}

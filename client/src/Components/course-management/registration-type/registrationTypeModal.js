@@ -166,16 +166,6 @@ export const RegistrationTypeModal = ({
               />
             </div>
             <div className="mb-3">
-              <label className="form-label">Registration Code:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter registration Code"
-                disabled={viewModal}
-                {...register("registrationCode")}
-              />
-            </div>
-            <div className="mb-3">
               <div className="form-label">
                 Trade Level
                 <span className="text-danger">*</span>

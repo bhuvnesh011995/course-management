@@ -18,5 +18,6 @@ routes.post(
 routes.post("/signIn", userManager.signIn);
 
 routes.get("/tokenUser", [userAuth], userManager.tokenUser);
+routes.post("/selectedTemplate", [userAuth], userManager.selectedTemplate);
 
 module.exports = routes;

@@ -452,7 +452,13 @@ const getLead = async (req, res, next) => {
 
 const getPayment = async (req, res, next) => {
   try {
-    const { body } = req;
+    const { body, user } = req;
+    let paymentTemplate;
+    if (user?.leadPaymentTemplate) {
+      paymentTemplate = await db.constants.emailtemplates.findOne({
+        _id: user?.leadPaymentTemplate,
+      });
+    }
     const paymentPdfBuffer = Buffer.from(body.paymentPdfBase64, "base64");
     const bankPdfBuffer = Buffer.from(body.bankDetailsPdfBase64, "base64");
     const filePath = `uploads/images/doc${
@@ -476,9 +482,12 @@ const getPayment = async (req, res, next) => {
     const sendMailObj = {
       _id: body._id,
       email: body.contactPersonEmail,
-      subject: "Confirm Course Details and Confirm Payment !",
-      mailValue: `<h2></h2>\n
-      <p><strong>Tonga</strong> <br>\n`,
+      subject: paymentTemplate?.subject
+        ? paymentTemplate?.subject
+        : "Confirm Course Details and Confirm Payment !",
+      mailValue: paymentTemplate?.template
+        ? paymentTemplate?.template
+        : `<h2></h2>\n <p><strong>Tonga</strong> <br>\n`,
       path: [filePath, bankFilePath],
     };
     await sendMail({ query: sendMailObj });

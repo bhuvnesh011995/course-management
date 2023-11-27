@@ -50,10 +50,9 @@ export const TradeTypeModal = ({
   const editTradeType = async (data) => {
     try {
       toast.dismiss();
-      const response = await AxiosInstance.put(
-        "/tradeType/"+data._id,
-        {seat:data.seat}
-      );
+      const response = await AxiosInstance.put("/tradeType/" + data._id, {
+        seat: data.seat,
+      });
       if (response.status == 200) {
         callback(response.data);
         toast.success("trade Type Updated Successfull");
@@ -96,21 +95,7 @@ export const TradeTypeModal = ({
               {errors?.tradeType && errors?.tradeType.message}
             </span>
           </div>
-          <div className="mb-3">
-            <label className="form-label">Type Code :</label>
-            <input
-              type="text"
-              className="form-control"
-              {...register("typeCode", {
-                required: "This field is required",
-              })}
-              placeholder="Enter Type Code"
-              disabled
-            />
-            <span className="text-danger">
-              {errors?.typeCode && errors?.typeCode.message}
-            </span>
-          </div>
+
           <div className="mb-3">
             <label className="form-label">Seat :</label>
             <input
@@ -118,10 +103,9 @@ export const TradeTypeModal = ({
               className="form-control"
               {...register("seat", {
                 required: "This field is required",
-                pattern:numberWithoutPrecedingZero
+                pattern: numberWithoutPrecedingZero,
               })}
               placeholder="Enter Number of Seat"
-              
             />
             <span className="text-danger">
               {errors?.seat && errors?.seat.message}

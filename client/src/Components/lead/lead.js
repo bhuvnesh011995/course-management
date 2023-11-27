@@ -24,7 +24,6 @@ export const Lead = () => {
 
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
-
   const filterTypes = {
     registrationType: "",
     tradeType: "",

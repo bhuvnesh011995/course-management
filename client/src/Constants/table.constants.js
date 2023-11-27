@@ -71,7 +71,7 @@ export const tradeLevelHeaders = {
 
 export const tradeTypeHeaders = {
   tradeType: "Name",
-  seat:"Seat"
+  seat: "Seat",
 };
 
 export const registrationTypeHeaders = {
@@ -96,7 +96,7 @@ export const courseHeaders = {
 };
 
 export const classHeaders = {
-  classCode: "Class Name",
+  // classCode: "Class Name",
   trainer: "Trainer",
   course: "Course",
   startDate: "Start Date",
@@ -106,7 +106,7 @@ export const classHeaders = {
 
 export const accountHistoryHeaders = {
   course: "Course",
-  class: "Class",
+  // class: "Class",
   price: "Amount",
   created_at: "Purchase Date",
   // paymentStatus: "Payment Status",
@@ -123,7 +123,7 @@ export const trainerHeaders = {
 
 export const viewTrainerHeaders = {
   course: "Course",
-  classCode: "Class",
+  // classCode: "Class",
   startDate: "Date",
   classTiming: "Time",
   lectureDay: "Lec In Week",
@@ -165,7 +165,7 @@ export const attendanceHeaders = {
   coreTradeRegNo: "CoreTrade Registration No",
   participantName: "Name of Participant",
   course: "Course",
-  classCode: "Class",
+  // classCode: "Class",
   startDate: "Date",
 };
 
@@ -245,7 +245,7 @@ export const leaveHeaders = {
 };
 
 export const dashboardClassHeaders = {
-  classCode: "Class",
+  // classCode: "Class",
   courseName: "Course Title",
   durationStatus: "Status",
   duration: "Duration",

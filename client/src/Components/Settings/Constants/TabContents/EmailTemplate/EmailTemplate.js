@@ -7,13 +7,21 @@ import { toast } from "react-toastify";
 import DeleteModal2 from "../../../../../common-components/models/DeleteModal2";
 import { emailTemplateColumnHeaders } from "../../../../../Constants/table.constants";
 import { CommonDataTable } from "../../../../../common-components/CommonDataTable";
+import { useAuth } from "../../../../../context/authContext";
 
 export default function EmailTemplate() {
+  const { user, setUser } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
   const [updateData, setUpdateData] = useState();
+
+  const tableColumns = [
+    { accessorKey: "name", header: "Name" },
+    { accessorKey: "emailType", header: "Email Type" },
+    { accessorKey: "subject", header: "Subject" },
+  ];
 
   const getEmailTemplates = useCallback(async () => {
     try {
@@ -131,6 +139,27 @@ export default function EmailTemplate() {
     if (type != "delete") setIsOpen(true);
   };
 
+  const selectThisTemplate = async (template) => {
+    try {
+      const updateUserSelectedTemplate = await AxiosInstance.post(
+        "/users/selectedTemplate",
+        template
+      );
+      if (updateUserSelectedTemplate.status == 200) {
+        if (template == "leadPayment") {
+          user.userData["leadPaymentTemplate"] = template._id;
+        } else if (template == "leadConfirmed") {
+          user.userData["leadConfirmedTemplate"] = template._id;
+        }
+        toast.success(updateUserSelectedTemplate.data.message);
+      } else {
+        toast.error("something went wrong");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Card>
       {isDeleteModalOpen && (
@@ -164,8 +193,8 @@ export default function EmailTemplate() {
             </button>
           </p>
 
-          {/* <MaterialReactTable
-            columns={emailTemplateColumnHeaders}
+          <MaterialReactTable
+            columns={tableColumns}
             data={data || []}
             enableColumnActions={false}
             enableColumnFilters={false}
@@ -176,7 +205,7 @@ export default function EmailTemplate() {
             enableRowNumbers
             rowNumberMode="static"
             renderRowActions={({ row, table }) => (
-              <div className="hstack gap-2 fs-1">
+              <div className="hstack  fs-1">
                 <button
                   onClick={() => {
                     setUpdateData(row.original);
@@ -200,17 +229,25 @@ export default function EmailTemplate() {
                 >
                   <i className="bx bxs-trash" />
                 </button>
+                <button
+                  onClick={() => {
+                    selectThisTemplate(row.original);
+                  }}
+                  className="btn btn-icon rounded-pill"
+                >
+                  <i className="mdi mdi-check-circle align-middle text-success" />
+                </button>
               </div>
             )}
-          /> */}
-          <CommonDataTable
+          />
+          {/* <CommonDataTable
             tableHeaders={emailTemplateColumnHeaders}
             data={data}
             actionButtons
             editButton
             deleteButton
             callback={(data, type, index) => showModal(data, type, index)}
-          />
+          /> */}
         </div>
       </Card.Body>
     </Card>

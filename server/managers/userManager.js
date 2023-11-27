@@ -217,6 +217,24 @@ const tokenUser = async (req, res, next) => {
   }
 };
 
+const selectedTemplate = async (req, res, next) => {
+  try {
+    const { user, body } = req;
+    let templates = {};
+    if (body.emailType == "leadPayment") {
+      templates["leadPaymentTemplate"] = body._id;
+    } else if (body.emailType == "leadConfirmed") {
+      templates["leadConfirmedTemplate"] = body._id;
+    }
+    const selectedTemplate = await db.user.updateOne(
+      { _id: user._id },
+      { $set: templates }
+    );
+    return res.status(200).send({ message: "Template Selected Successfully" });
+  } catch (err) {
+    next(err);
+  }
+};
 module.exports = {
   addNewUser,
   getUsers,
@@ -225,4 +243,5 @@ module.exports = {
   updateUserWithImage,
   signIn,
   tokenUser,
+  selectedTemplate,
 };
