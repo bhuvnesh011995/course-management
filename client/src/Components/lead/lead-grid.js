@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Dropdown } from "../../common-components/common-dropDown";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
+import { CommonFooter } from "../../common-components/commonFooter";
 
 export const LeadGrid = () => {
   const { user } = useAuth();

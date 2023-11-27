@@ -7,6 +7,7 @@ import ViewQuotationModal from "./ViewQuotationModal";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
+import { CommonFooter } from "../../common-components/commonFooter";
 
 export const Invoice = () => {
   const { user } = useAuth();

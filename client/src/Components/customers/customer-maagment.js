@@ -9,6 +9,7 @@ import { AddNewLeadModel } from "../lead/addNewLeadModel";
 import { ViewCustomerModal } from "./customerModal";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { CommonFooter } from "../../common-components/commonFooter";
 
 export const CustomerManagement = () => {
   const { user } = useAuth();

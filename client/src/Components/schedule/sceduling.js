@@ -7,9 +7,9 @@ import { AxiosInstance } from "../../common-components/axiosInstance";
 import { NewClassModal } from "../course-management/class/classModal";
 import { AddNewHoliday } from "./modals/HolidayModal";
 import { Link } from "react-router-dom";
+import { CommonFooter } from "../../common-components/commonFooter";
 
 export const Scheduling = () => {
-  
   const filterObject = {
     course: "",
     trainer: "",

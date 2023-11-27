@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
+import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const PayRoll = () => {
   const { user } = useAuth();

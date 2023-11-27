@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
 import useCustomUseEffect from "../../../common-components/CustomUseEffect";
+import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const TradeType = () => {
   const { user } = useAuth();
@@ -101,7 +102,8 @@ export const TradeType = () => {
                   </div>
                 </div>
               </div>
-            </div>{/* <div className="col-xl-5">
+            </div>
+            {/* <div className="col-xl-5">
                           <select className="form-select">
                             <option key={"CA"} value="CA">
                               Newest

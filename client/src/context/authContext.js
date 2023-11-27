@@ -5,13 +5,15 @@ import { IntlProvider } from "react-intl";
 import { AxiosInstance } from "../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import {} from "react-router-dom";
-import axios from "axios";
-import { BASEURL } from "../config/config";
+import { filePath } from "../common-components/useCommonUsableFunctions";
+
 let initialUser = {
   username: "",
   email: "",
   token: "",
   userData: {},
+  systemConfigurations: {},
+  otherConfigurations: {},
 };
 let authContext = createContext(initialUser);
 

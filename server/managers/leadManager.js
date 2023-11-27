@@ -726,11 +726,10 @@ const getFilteredLeads = async (req, res, next) => {
   try {
     const { query } = req;
     const leadQuery = [];
-
-    if (query.class.length) {
+    if (query.course.length) {
       leadQuery.push({
         $match: {
-          $expr: { $eq: [query.class, { $toString: "$_id" }] },
+          $expr: { $eq: [query.course, { $toString: "$course" }] },
         },
       });
     }

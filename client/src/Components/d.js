@@ -1,3 +1,5 @@
+import { CommonFooter } from "../common-components/commonFooter";
+
 export const D = () => {
   return (
     <div id="layout-wrapper">
@@ -343,7 +345,6 @@ export const D = () => {
             </div>
           </div>
         </div>{" "}
-        {/* container-fluid */}
       </div>
       {/* End Page-content */}
       <footer className="footer">

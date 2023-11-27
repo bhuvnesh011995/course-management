@@ -5,33 +5,33 @@ import { attendanceHeaders } from "../../../Constants/table.constants";
 import { AttendanceGenerateModal } from "./generateLeads";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Attendance = () => {
   const filterObject = {
     participantName: "",
-    class: "",
+    course: "",
   };
 
-  const [classes, setClasses] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [filters, setFilters] = useState(filterObject);
   const [generatePdfModal, setGeneratePdfModal] = useState(false);
 
   const [filteredLeads, setFilteredLeads] = useState([]);
 
   useEffect(() => {
-    if (!filters.participantName.length && !filters.class.length) getClasses();
-    if (filters.participantName.length || filters.class.length)
+    if (!filters.participantName.length && !filters.course.length) getCourses();
+    if (filters.participantName.length || filters.course.length)
       getFilteredLeads();
   }, [filters]);
 
-  const getClasses = async () => {
+  const getCourses = async () => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.get("/class/getClasses");
-      console.log(data);
-      if (data?.classes.length) {
-        setClasses(data?.classes);
-        filters.class = data.classes[0]._id;
+      const { data } = await AxiosInstance.get("/courses/getCourses");
+      if (data?.allCourses.length) {
+        setCourses(data?.allCourses);
+        filters.course = data.allCourses[0]._id;
         setFilters({ ...filters });
       }
     } catch (err) {
@@ -86,16 +86,16 @@ export const Attendance = () => {
                             <label>Search By Class:</label>
                             <select
                               onChange={({ target }) => {
-                                filters.class = target.value;
+                                filters.course = target.value;
                                 setFilters({ ...filters });
                               }}
                               className="form-select"
-                              value={filters.class}
+                              value={filters.course}
                             >
-                              {classes.length ? (
-                                classes.map((e) => (
+                              {courses.length ? (
+                                courses.map((e) => (
                                   <option key={e._id} value={e._id}>
-                                    {e.classCode}
+                                    {e.courseName}
                                   </option>
                                 ))
                               ) : (
