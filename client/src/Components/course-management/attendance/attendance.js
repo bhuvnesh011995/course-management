@@ -28,6 +28,7 @@ export const Attendance = () => {
     try {
       toast.dismiss();
       const { data } = await AxiosInstance.get("/class/getClasses");
+      console.log(data);
       if (data?.classes.length) {
         setClasses(data?.classes);
         filters.class = data.classes[0]._id;
