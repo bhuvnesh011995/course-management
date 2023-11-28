@@ -40,7 +40,6 @@ import { MenuBar } from "../common-components/MenuBar";
 import { Quotation } from "../Components/Quotation/quotation";
 import { TimeSheet } from "../Components/hrms/Timesheet/timesheet";
 import MultiLanguage from "../Components/Settings/MultiLanguage/MultiLanguage";
-import { Designations } from "../Components/Settings/Trainer-designation/designations";
 import { Constants } from "../Components/Settings/Constants/Constants";
 import { SystemConfig } from "../Components/Settings/SystemConfig/SystemConfig";
 import { useAuth } from "../context/authContext";
@@ -62,10 +61,11 @@ export const AllRoutes = () => {
       const systemData = await AxiosInstance.get("/config/system");
       if (systemData.status == 200)
         setUser((old) => ({ ...old, systemConfigurations: systemData.data }));
-      const favIconUrl = filePath(systemData.data.systemFavicon);
-      const favIconElement = document.getElementById("favIcon-img");
-      favIconElement.href = favIconUrl;
-
+      if (systemData.data?.systemFavicon?.length) {
+        const favIconUrl = filePath(systemData.data.systemFavicon);
+        const favIconElement = document.getElementById("favIcon-img");
+        favIconElement.href = favIconUrl;
+      }
       const systemElement = document.getElementById("tongaSystemName");
       systemElement.textContent = systemData.data.name;
     } catch (err) {
@@ -153,7 +153,6 @@ export const AllRoutes = () => {
         ></Route>
         <Route path="/schedule/trainer" Component={Trainer}></Route>
         <Route path="/settings/multilanguage" Component={MultiLanguage}></Route>
-        <Route path="/settings/designations" Component={Designations}></Route>
         <Route path="/settings/constants" Component={Constants}></Route>
         <Route path="/settings/system" Component={SystemConfig}></Route>
       </Routes>

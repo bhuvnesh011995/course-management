@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import {
-  AxiosInstance,
-  formAxiosInstance,
-} from "../../../../common-components/axiosInstance";
+import { formAxiosInstance } from "../../../../common-components/axiosInstance";
 import { useAuth } from "../../../../context/authContext";
 import { filePath } from "../../../../common-components/useCommonUsableFunctions";
 
@@ -33,6 +30,11 @@ export default function System({ show, setShow }) {
         "/config/system",
         formdata
       );
+      if (newConfigurations?.name?.length) {
+        const systemElement = document.getElementById("tongaSystemName");
+        systemElement.textContent = newConfigurations?.name;
+      }
+
       setUser((old) => ({
         ...old,
         systemConfigurations: updateSystemConfiguration.data.data,
