@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const cheerio = require("cheerio");
 const fs = require("fs");
+const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
 
 const sendMail = async (req, res, next) => {
   try {
@@ -41,12 +42,13 @@ const sendMail = async (req, res, next) => {
       }
       if (data?.path) {
         data?.path.map((e) => {
-          fs.unlink(
-            `uploads\\images\\${e.split("uploads/images/")[1]}`,
-            (err) => {
-              if (err) console.error(err);
-            }
-          );
+          // fs.unlink(
+          //   `uploads\\images\\${e.split("uploads/images/")[1]}`,
+          //   (err) => {
+          //     if (err) console.error(err);
+          //   }
+          // );
+          deleteSelectedFile(e.split("uploads/images/")[1]);
         });
       }
       return res.status(200).send({ message: "Email sent successfully" });

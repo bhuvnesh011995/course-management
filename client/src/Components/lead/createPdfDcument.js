@@ -1,15 +1,21 @@
 import jsPDF from "jspdf";
 import moment from "moment";
 import pdfLogo from "../../assets/images/pdfLogo.png";
+import { filePath } from "../../common-components/useCommonUsableFunctions";
 
-export const CreatePaymentPdfBase64 = (lead, subject, user) => {
+export const CreatePaymentPdfBase64 = (
+  lead,
+  subject,
+  userData,
+  paymentLogo
+) => {
   const doc = new jsPDF();
 
   const createDate = moment().format("dddd, D MMMM YYYY h:mm A");
   let yPosition = 20;
 
   doc.setFontSize(13); // Adjust the font size as needed
-  const headingText = `${user.email}`;
+  const headingText = `${userData.email}`;
 
   // Add the heading to the PDF
   doc.text(headingText, 20, yPosition);
@@ -108,7 +114,7 @@ export const CreatePaymentPdfBase64 = (lead, subject, user) => {
   doc.setFontSize(11);
   doc.text("BEST REGARDS,", 20, yPosition);
   yPosition += 10;
-  doc.text(`${user.name}`, 20, yPosition);
+  doc.text(`${userData.name}`, 20, yPosition);
   yPosition += 6;
   doc.text(
     `TONGA PTE LTD | A training partner of SANTARLI ATTC & OTC |`,
@@ -145,9 +151,11 @@ export const CreatePaymentPdfBase64 = (lead, subject, user) => {
   doc.rect(99, 213.5, 36, 0.2, "F");
 
   yPosition += 15;
-
-  doc.addImage(pdfLogo, "png", 20, yPosition, 100, 40);
-
+  if (paymentLogo?.length) {
+    doc.addImage(filePath(paymentLogo), "png", 20, yPosition, 100, 40);
+  } else {
+    doc.addImage(pdfLogo, "png", 20, yPosition, 100, 40);
+  }
   const pdfDataUri = doc.output("datauristring");
   const base64Data = pdfDataUri.split(
     "data:application/pdf;filename=generated.pdf;base64,"

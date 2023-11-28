@@ -4,7 +4,6 @@ import { createContext } from "react";
 import { IntlProvider } from "react-intl";
 import { AxiosInstance } from "../common-components/axiosInstance";
 import { toast } from "react-toastify";
-import {} from "react-router-dom";
 import { filePath } from "../common-components/useCommonUsableFunctions";
 
 let initialUser = {
@@ -39,6 +38,7 @@ export default function AuthProvider({ children }) {
         toast.error("cannot get language data");
       }
     } catch (error) {
+      console.error(error);
       toast.error("error occured while fetching data");
     }
   }, []);
@@ -49,7 +49,7 @@ export default function AuthProvider({ children }) {
       if (tokenUser.status == 200)
         setUser((old) => ({ ...old, userData: tokenUser.data }));
     } catch (err) {
-      console.log(err.response, "errorroror");
+      console.error(err);
       // if (err.response.status == 401) {
       //   userLogOut();
       //   toast.error(err.response.data.message);
@@ -65,8 +65,40 @@ export default function AuthProvider({ children }) {
     } else setReady(true);
   }, [lanCode]);
 
+  const getSystemData = async () => {
+    try {
+      const systemData = await AxiosInstance.get("/config/system");
+      if (systemData?.status == 200)
+        setUser((old) => ({ ...old, systemConfigurations: systemData.data }));
+      if (systemData?.data?.systemFavicon?.length) {
+        const favIconUrl = filePath(systemData.data.systemFavicon);
+        const favIconElement = document.getElementById("favIcon-img");
+        if (favIconElement) favIconElement.href = favIconUrl;
+      }
+      if (systemData?.data?.name?.length) {
+        // const systemElement = document.getElementById("tongaSystemName");
+        // systemElement.textContent = systemData.data.name;
+        document.title = systemData.data.name;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getOtherData = async () => {
+    try {
+      const otherData = await AxiosInstance.get("/config/other");
+      if (otherData?.status == 200)
+        setUser((old) => ({ ...old, otherConfigurations: otherData.data }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     if (localStorage.getItem("token") || user.token) getTokenUser();
+    getSystemData();
+    getOtherData();
   }, [localStorage.getItem("token"), user.token]);
 
   return (

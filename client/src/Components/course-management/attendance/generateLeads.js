@@ -9,8 +9,10 @@ import "jspdf-autotable";
 import React from "react";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
@@ -35,6 +37,10 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
     });
     generatedData["dataObj"] = dataObjArray;
     generatedData["tableData"] = tableData;
+    if (user.otherConfigurations?.attendanceLogo?.length)
+      generatedData["attendanceLogo"] =
+        user.otherConfigurations?.attendanceLogo;
+
     const { data } = await AxiosInstance.post(
       "/generateFile/excel",
       generatedData
@@ -51,6 +57,13 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
     link.setAttribute("download", data.filePath.split("uploads/images/")[1]);
 
     link.click();
+    if (data) {
+      setTimeout(async () => {
+        await AxiosInstance.delete("/generateFile/deleteDownloadedFile", {
+          params: { fileName: data.filePath },
+        });
+      }, [2000]);
+    }
     toast.success("Xlsx File Generated !");
   };
 

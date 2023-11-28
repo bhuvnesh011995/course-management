@@ -222,7 +222,7 @@ export const CourseModal = ({
                 <option value="">-- Select Duration --</option>
                 {durations.map((e, index) => (
                   <option key={index} value={e._id}>
-                    {e.value + " " + e.name}
+                    {e.value + " days (" + e.name + " )"}
                   </option>
                 ))}
               </select>

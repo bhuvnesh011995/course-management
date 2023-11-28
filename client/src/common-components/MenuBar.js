@@ -32,14 +32,15 @@ export const MenuBar = () => {
   };
 
   const closePreviousMenu = (nextMenu) => {
-    if (previousMenu != nextMenu) {
-      const element = document.getElementById(previousMenu);
-      if (element)
-        if (element.classList.contains("mm-show")) {
-          element.classList.remove("mm-show");
-          element.parentElement.classList.remove("mm-active");
-        }
-    }
+    if (previousMenu)
+      if (previousMenu != nextMenu) {
+        const element = document.getElementById(previousMenu);
+        if (element)
+          if (element.classList.contains("mm-show")) {
+            element.classList.remove("mm-show");
+            element.parentElement.classList.remove("mm-active");
+          }
+      }
   };
 
   return (

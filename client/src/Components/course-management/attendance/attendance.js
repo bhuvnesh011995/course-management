@@ -83,7 +83,7 @@ export const Attendance = () => {
                       <div className="row w-100">
                         <div className="col-xl-4">
                           <div className="className-select">
-                            <label>Search By Class:</label>
+                            <label>Search By Course:</label>
                             <select
                               onChange={({ target }) => {
                                 filters.course = target.value;
@@ -100,7 +100,7 @@ export const Attendance = () => {
                                 ))
                               ) : (
                                 <option value={""} selected>
-                                  No Classes
+                                  No Courses
                                 </option>
                               )}
                             </select>
@@ -143,7 +143,10 @@ export const Attendance = () => {
                           padding: "0 0.5rem",
                           fontSize: "0.7rem",
                         }}
-                        onClick={() => setGeneratePdfModal(true)}
+                        onClick={() => {
+                          if (filteredLeads.length) setGeneratePdfModal(true);
+                          else toast.error("No Customer Courses");
+                        }}
                       >
                         Generate
                       </button>

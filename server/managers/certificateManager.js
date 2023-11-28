@@ -1,6 +1,7 @@
 const CertificateModel = require("../models/certificateModel");
 const db = require("../models");
 const fs = require("fs");
+const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
 
 const addCertificate = async (req, res, next) => {
   try {
@@ -158,11 +159,12 @@ const updateCertificate = async (req, res, next) => {
       query["certificateAttchment"] = file?.originalname;
       query["certificateFilePath"] = `/images/${file?.filename}`;
       if (query?.removeOldAttachment) {
-        fs.unlink(`uploads\\images\\${query.removeOldAttachment}`, (err) => {
-          if (err) {
-            console.error(err);
-          }
-        });
+        // fs.unlink(`uploads\\images\\${query.removeOldAttachment}`, (err) => {
+        //   if (err) {
+        //     console.error(err);
+        //   }
+        // });
+        deleteSelectedFile(query?.removeOldAttachment);
       }
     }
     const updateCertificate = await db.certificates.updateOne(
@@ -245,18 +247,23 @@ const deleteCertificate = async (req, res, next) => {
     const { query } = req;
 
     if (query?.certificateFilePath?.length > 0)
-      fs.unlink(
-        `uploads\\images\\${
-          query.certificateFilePath.split("/")[
-            query.certificateFilePath.split("/").length - 1
-          ]
-        }`,
-        (err) => {
-          if (err) {
-            console.error(err);
-          }
-        }
+      deleteSelectedFile(
+        query.certificateFilePath.split("/")[
+          query.certificateFilePath.split("/").length - 1
+        ]
       );
+    // fs.unlink(
+    //   `uploads\\images\\${
+    //     query.certificateFilePath.split("/")[
+    //       query.certificateFilePath.split("/").length - 1
+    //     ]
+    //   }`,
+    //   (err) => {
+    //     if (err) {
+    //       console.error(err);
+    //     }
+    //   }
+    // );
 
     const deleteSelectedCert = await db.certificates.deleteOne({
       _id: query._id,

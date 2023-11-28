@@ -9,7 +9,7 @@ export default function System({ show, setShow }) {
   const { user, setUser } = useAuth();
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   useEffect(() => {
-    if (user.systemConfigurations._id) reset(user.systemConfigurations);
+    if (user.systemConfigurations?._id) reset(user.systemConfigurations);
   }, [user]);
 
   const newSystemConfiguration = async (newConfigurations) => {
@@ -17,22 +17,24 @@ export default function System({ show, setShow }) {
       const formdata = new FormData();
       formdata.append("systemData", JSON.stringify(newConfigurations));
       if (newConfigurations?.systemFavicon?.length) {
-        formdata.append("systemFevicon", newConfigurations.systemFavicon[0]);
-        const favIconUrl = URL.createObjectURL(
-          newConfigurations.systemFavicon[0]
-        );
-        const favIconElement = document.getElementById("favIcon-img");
-        favIconElement.href = favIconUrl;
+        if (newConfigurations?.systemFavicon[0]?.name) {
+          formdata.append("systemFevicon", newConfigurations.systemFavicon[0]);
+          const favIconUrl = URL.createObjectURL(
+            newConfigurations.systemFavicon[0]
+          );
+          const favIconElement = document.getElementById("favIcon-img");
+          favIconElement.href = favIconUrl;
+        }
       }
       if (newConfigurations?.systemLogo?.length)
-        formdata.append("systemLogo", newConfigurations.systemLogo[0]);
+        if (newConfigurations?.systemLogo[0]?.name)
+          formdata.append("systemLogo", newConfigurations.systemLogo[0]);
       const updateSystemConfiguration = await formAxiosInstance.post(
         "/config/system",
         formdata
       );
       if (newConfigurations?.name?.length) {
-        const systemElement = document.getElementById("tongaSystemName");
-        systemElement.textContent = newConfigurations?.name;
+        document.title = newConfigurations?.name;
       }
 
       setUser((old) => ({
@@ -63,38 +65,37 @@ export default function System({ show, setShow }) {
     <Card>
       <Card.Body>
         <form action="" onSubmit={handleSubmit(newSystemConfiguration)}>
-          <div class="tab-pane">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="mb-3">
-                  <label for="formrow-firstname-input" class="form-label">
-                    System Name
-                  </label>
+          <div className="tab-pane">
+            <div className="row">
+              <div className="col-md-4">
+                <div className="mb-3">
+                  <label className="form-label">System Name</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter System Name"
                     {...register("name")}
                   />
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="mb-3">
+              <div className="col-md-4">
+                <div className="mb-3">
                   <label>System Logo</label>
                   <input
                     type={
                       watch("systemLogo") ==
-                      user.systemConfigurations.systemLogo
+                        user.systemConfigurations?.systemLogo &&
+                      user.systemConfigurations?.systemLogo?.length
                         ? "text"
                         : "file"
                     }
-                    class="form-control"
+                    className="form-control"
                     {...register("systemLogo")}
-                    disabled={watch("systemLogo")}
+                    disabled={watch("systemLogo") && watch("systemLogo").length}
                   />
-                  {watch("systemLogo") && (
+                  {watch("systemLogo") && watch("systemLogo").length ? (
                     <div className="input-icons">
-                      {watch("systemLogo") && (
+                      {watch("systemLogo").length && (
                         <i
                           className="fas fa-trash text-danger cursor-pointer"
                           onClick={() => setValue("systemLogo", "")}
@@ -105,29 +106,34 @@ export default function System({ show, setShow }) {
                         onClick={() => openFile("systemLogo")}
                       ></i>
                     </div>
+                  ) : (
+                    ""
                   )}
                   <small>Upload files only: gif,png,jpg,jpeg</small> <br />
                   <small>- Best Size: 32x27</small> <br />
                   <small>- Light logo</small>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="mb-3">
-                  <label for="">Favicon</label>
+              <div className="col-md-4">
+                <div className="mb-3">
+                  <label>Favicon</label>
                   <input
                     type={
                       watch("systemFavicon") ==
-                      user.systemConfigurations.systemFavicon
+                        user.systemConfigurations?.systemFavicon &&
+                      user.systemConfigurations?.systemFavicon?.length
                         ? "text"
                         : "file"
                     }
-                    class="form-control"
+                    className="form-control"
                     {...register("systemFavicon")}
-                    disabled={watch("systemFavicon")}
+                    disabled={
+                      watch("systemFavicon") && watch("systemFavicon").length
+                    }
                   />
-                  {watch("systemFavicon") && (
+                  {watch("systemFavicon") && watch("systemFavicon").length ? (
                     <div className="input-icons">
-                      {watch("systemFavicon") && (
+                      {watch("systemFavicon").length && (
                         <i
                           className="fas fa-trash text-danger cursor-pointer"
                           onClick={() => setValue("systemFavicon", "")}
@@ -138,18 +144,20 @@ export default function System({ show, setShow }) {
                         onClick={() => openFile("systemFavicon")}
                       ></i>
                     </div>
+                  ) : (
+                    ""
                   )}
                   <small>- Upload files only: gif,ico,png</small> <br />
                   <small>- Best Size: 16x16</small> <br />
                 </div>
               </div>
 
-              {/* <div class="col-md-4">
-                <div class="mb-3">
-                  <label class="form-label">Footer Text</label>
+              {/* <div className="col-md-4">
+                <div className="mb-3">
+                  <label className="form-label">Footer Text</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter Footer Text"
                     {...register("footer")}
                   />
@@ -159,7 +167,7 @@ export default function System({ show, setShow }) {
           </div>
           <button
             type="submit"
-            class="btn btn-primary waves-effect waves-light w-25 float-end"
+            className="btn btn-primary waves-effect waves-light w-25 float-end"
           >
             SAVE
           </button>

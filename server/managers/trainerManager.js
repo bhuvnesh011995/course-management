@@ -3,6 +3,7 @@ const ClassModel = require("../models/classModel");
 const fs = require("fs");
 const classModel = require("../models/classModel");
 const db = require("../models");
+const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
 const addNewTrainer = async (req, res, next) => {
   try {
     let { body, file } = req;
@@ -117,17 +118,22 @@ const updateTrainer = async (req, res, next) => {
       }
     );
     if (query?.deleteImagePath) {
-      fs.unlink(
-        `uploads\\images\\${
-          query?.deleteImagePath.split("/")[
-            [query?.deleteImagePath.split("/").length - 1]
-          ]
-        }`,
-        (err) => {
-          if (err) {
-            console.error(err);
-          }
-        }
+      // fs.unlink(
+      //   `uploads\\images\\${
+      //     query?.deleteImagePath.split("/")[
+      //       [query?.deleteImagePath.split("/").length - 1]
+      //     ]
+      //   }`,
+      //   (err) => {
+      //     if (err) {
+      //       console.error(err);
+      //     }
+      //   }
+      // );
+      deleteSelectedFile(
+        query?.deleteImagePath.split("/")[
+          [query?.deleteImagePath.split("/").length - 1]
+        ]
       );
     }
     const trainer = await db.trainers.aggregate([
