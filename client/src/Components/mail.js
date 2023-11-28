@@ -1,3 +1,5 @@
+import { CommonFooter } from "../common-components/commonFooter";
+
 export const Mail = () => {
   return (
     <div id="layout-wrapper">
@@ -317,26 +319,3 @@ export const Mail = () => {
     </div>
   );
 };
-{
-  /* <!-- END layout-wrapper -->
-
-
-
-        <!-- JAVASCRIPT -->
-        <script src="assets/libs/jquery/jquery.min.js"></script>
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="assets/libs/node-waves/waves.min.js"></script>
-
-
-
-        <!-- email editor init -->
-        <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5.10.7-133/tinymce.min.js"></script>
-        <script src="assets/js/pages/email-editor.js"></script>
-        <!-- App js -->
-        <script src="assets/js/app.js"></script>
-
-    </body>
-</html> */
-}

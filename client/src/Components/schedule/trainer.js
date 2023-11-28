@@ -8,6 +8,7 @@ import { ViewTrainer } from "./modals/ViewTrainerModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { CommonFooter } from "../../common-components/commonFooter";
 
 export const Trainer = () => {
   const { user } = useAuth();

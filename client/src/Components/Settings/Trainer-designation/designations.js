@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { DesignationModal } from "./designationModal";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
+import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Designations = () => {
   const [designationModal, setDesignationModal] = useState(false);

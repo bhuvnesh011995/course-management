@@ -1,3 +1,5 @@
+import { CommonFooter } from "../common-components/commonFooter";
+
 export const MonitorVenueAvailability = () => {
   return (
     <div id="layout-wrapper">

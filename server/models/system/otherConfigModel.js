@@ -1,16 +1,26 @@
-const {Schema,model} = require("mongoose")
+const { Schema, model } = require("mongoose");
 
-const schema = new Schema({
-    leadLogo:{
-        type:String,
-        default:""
+const schema = new Schema(
+  {
+    attendanceLogo: {
+      type: String,
+      default: "",
     },
-    attendanceLogo:{
-        type:String,
-        default:""
+    paymentPdfLogo: {
+      type: String,
+      default: "",
     },
-    defaultLanguage:{type:Schema.Types.ObjectId,ref:"languages",default:null},
-},{collection:"otherConfig"})
+    loginLogo: {
+      type: String,
+      default: "",
+    },
+    defaultLanguage: {
+      type: Schema.Types.ObjectId,
+      ref: "languages",
+      default: null,
+    },
+  },
+  { collection: "otherConfig" }
+);
 
-
-module.exports = model("otherConfig",schema)
+module.exports = model("otherConfig", schema);

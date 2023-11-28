@@ -1,3 +1,5 @@
+import { CommonFooter } from "../common-components/commonFooter";
+
 export const ReadEmail = () => {
   return (
     <div id="layout-wrapper">

@@ -8,10 +8,8 @@ import { Certificate } from "../Components/course-management/certificate/certifi
 import { Class } from "../Components/course-management/class/class";
 import { Course } from "../Components/course-management/course/course";
 import { CustomerManagement } from "../Components/customers/customer-maagment";
-import { D } from "../Components/d";
 import { DateRange } from "../Components/schedule/date-range";
 import { Employee } from "../Components/hrms/employee/employee";
-import { F } from "../Components/f";
 import { FeedBack } from "../Components/course-management/feedback";
 import { Invoice } from "../Components/Quotation/invoice";
 import { LeadGrid } from "../Components/lead/lead-grid";
@@ -32,8 +30,7 @@ import { Table } from "../Components/table";
 import { TradeLevel } from "../Components/course-management/trade-level/trade-level";
 import { TradeType } from "../Components/course-management/trade-type/trade-type";
 import { Trainer } from "../Components/schedule/trainer";
-import { AdminRoutes } from "./adminRoutes";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Roles } from "../Components/admin/roles and permission/roles";
 import { UserManagement } from "../Components/admin/user-managment";
 import { LoginUser } from "../Components/registration/user-login";
@@ -46,13 +43,46 @@ import MultiLanguage from "../Components/Settings/MultiLanguage/MultiLanguage";
 import { Designations } from "../Components/Settings/Trainer-designation/designations";
 import { Constants } from "../Components/Settings/Constants/Constants";
 import { SystemConfig } from "../Components/Settings/SystemConfig/SystemConfig";
+import { useAuth } from "../context/authContext";
+import { AxiosInstance } from "../common-components/axiosInstance";
+import { filePath } from "../common-components/useCommonUsableFunctions";
 
 export const AllRoutes = () => {
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/login");
+    getSystemData();
+    getOtherData();
   }, []);
+
+  const getSystemData = useCallback(async () => {
+    try {
+      const systemData = await AxiosInstance.get("/config/system");
+      if (systemData.status == 200)
+        setUser((old) => ({ ...old, systemConfigurations: systemData.data }));
+      const favIconUrl = filePath(systemData.data.systemFavicon);
+      const favIconElement = document.getElementById("favIcon-img");
+      favIconElement.href = favIconUrl;
+
+      const systemElement = document.getElementById("tongaSystemName");
+      systemElement.textContent = systemData.data.name;
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  const getOtherData = useCallback(async () => {
+    try {
+      const otherData = await AxiosInstance.get("/config/other");
+      if (otherData.status == 200)
+        setUser((old) => ({ ...old, otherConfigurations: otherData.data }));
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
   return (
     <div>
       {localStorage.getItem("token") && (

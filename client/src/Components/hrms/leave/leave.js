@@ -7,6 +7,7 @@ import { leaveHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
+import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Leave = () => {
   const { user } = useAuth();

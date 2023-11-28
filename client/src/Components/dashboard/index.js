@@ -28,6 +28,7 @@ import {
 } from "chart.js";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { CommonFooter } from "../../common-components/commonFooter";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
