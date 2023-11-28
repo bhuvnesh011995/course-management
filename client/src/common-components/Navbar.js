@@ -68,9 +68,9 @@ export const CommonNavbar = () => {
           <div className="d-flex justify-content-center align-items-center">
             {/* LOGO */}
             <div className="navbar-brand-box d-flex justify-content-center align-items-center">
-              {/* <Link to="/" className="logo logo-light">
+              <Link to="/" className="logo logo-light">
                 <span className="logo-sm">
-                  <img
+                  {/* <img
                     id="systemLogoImg-sm"
                     height={100}
                     src={
@@ -78,10 +78,11 @@ export const CommonNavbar = () => {
                         ? filePath(user.systemConfigurations?.systemLogo)
                         : systemLogo
                     }
-                  />
+                  /> */}
+                  Tonga
                 </span>
                 <span className="logo-lg">
-                  <img
+                  {/* <img
                     id="systemLogoImg-lg"
                     height={90}
                     src={
@@ -89,9 +90,10 @@ export const CommonNavbar = () => {
                         ? filePath(user.systemConfigurations?.systemLogo)
                         : systemLogo
                     }
-                  />
+                  /> */}
+                  Tonga
                 </span>
-              </Link> */}
+              </Link>
             </div>
             <button
               type="button"
