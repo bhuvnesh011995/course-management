@@ -4,7 +4,6 @@ import { createContext } from "react";
 import { IntlProvider } from "react-intl";
 import { AxiosInstance } from "../common-components/axiosInstance";
 import { toast } from "react-toastify";
-import {} from "react-router-dom";
 import { filePath } from "../common-components/useCommonUsableFunctions";
 
 let initialUser = {
@@ -39,6 +38,7 @@ export default function AuthProvider({ children }) {
         toast.error("cannot get language data");
       }
     } catch (error) {
+      console.error(error);
       toast.error("error occured while fetching data");
     }
   }, []);
@@ -49,7 +49,7 @@ export default function AuthProvider({ children }) {
       if (tokenUser.status == 200)
         setUser((old) => ({ ...old, userData: tokenUser.data }));
     } catch (err) {
-      console.log(err.response, "errorroror");
+      console.error(err);
       // if (err.response.status == 401) {
       //   userLogOut();
       //   toast.error(err.response.data.message);

@@ -23,11 +23,12 @@ export const CommonNavbar = () => {
   const getLanguages = useCallback(async () => {
     try {
       let response = await AxiosInstance.get("/languages/lang");
-      if (response.status === 200) {
+      if (response?.status === 200) {
         setLanguages(response.data ?? []);
         response.data.length && setLanCode(response.data[0].code);
       }
     } catch (error) {
+      console.error(error);
       if (error.response.status == 401)
         toast.error(error.response.data.message);
       toast.error("error while fecting languages");

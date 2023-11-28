@@ -9,7 +9,7 @@ export default function System({ show, setShow }) {
   const { user, setUser } = useAuth();
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   useEffect(() => {
-    if (user.systemConfigurations._id) reset(user.systemConfigurations);
+    if (user.systemConfigurations?._id) reset(user.systemConfigurations);
   }, [user]);
 
   const newSystemConfiguration = async (newConfigurations) => {
@@ -84,7 +84,7 @@ export default function System({ show, setShow }) {
                   <input
                     type={
                       watch("systemLogo") ==
-                      user.systemConfigurations.systemLogo
+                      user.systemConfigurations?.systemLogo
                         ? "text"
                         : "file"
                     }
@@ -117,7 +117,7 @@ export default function System({ show, setShow }) {
                   <input
                     type={
                       watch("systemFavicon") ==
-                      user.systemConfigurations.systemFavicon
+                      user.systemConfigurations?.systemFavicon
                         ? "text"
                         : "file"
                     }
