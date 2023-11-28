@@ -7,26 +7,30 @@ import { filePath } from "../../../../common-components/useCommonUsableFunctions
 
 export default function Other({ show, setShow }) {
   const { user, setUser } = useAuth();
-  const { register, handleSubmit, watch, reset, setValue } = useForm();
+  const { register, handleSubmit, watch, reset, setValue, getValues } =
+    useForm();
 
   useEffect(() => {
     if (user.otherConfigurations?._id) reset(user.otherConfigurations);
-  }, []);
+  }, [user]);
   const newOtherConfiguration = async (otherConfigurations) => {
     try {
       const formdata = new FormData();
       if (otherConfigurations.loginLogo.length)
-        formdata.append("loginLogoImg", otherConfigurations.loginLogo[0]);
+        if (otherConfigurations.loginLogo[0]?.name)
+          formdata.append("loginLogoImg", otherConfigurations.loginLogo[0]);
       if (otherConfigurations.attendanceLogo.length)
-        formdata.append(
-          "attendanceLogoImg",
-          otherConfigurations.attendanceLogo[0]
-        );
+        if (otherConfigurations.attendanceLogo[0]?.name)
+          formdata.append(
+            "attendanceLogoImg",
+            otherConfigurations.attendanceLogo[0]
+          );
       if (otherConfigurations.paymentPdfLogo.length)
-        formdata.append(
-          "paymentPdfLogoImg",
-          otherConfigurations.paymentPdfLogo[0]
-        );
+        if (otherConfigurations.paymentPdfLogo[0]?.name)
+          formdata.append(
+            "paymentPdfLogoImg",
+            otherConfigurations.paymentPdfLogo[0]
+          );
       const updateOtherConfiguration = await formAxiosInstance.post(
         "/config/other",
         formdata
@@ -59,24 +63,26 @@ export default function Other({ show, setShow }) {
     <Card>
       <Card.Body>
         <form onSubmit={handleSubmit(newOtherConfiguration)}>
-          <div class="tab-pane">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="mb-3">
+          <div className="tab-pane">
+            <div className="row">
+              <div className="col-md-4">
+                <div className="mb-3">
                   <label>Login Logo</label>
                   <input
                     type={
-                      watch("loginLogo") == user.otherConfigurations.loginLogo
+                      watch("loginLogo") ==
+                        user.otherConfigurations?.loginLogo &&
+                      user.otherConfigurations?.loginLogo?.length
                         ? "text"
                         : "file"
                     }
-                    class="form-control"
+                    className="form-control"
                     {...register("loginLogo")}
-                    disabled={watch("loginLogo")}
+                    disabled={watch("loginLogo") && watch("loginLogo")?.length}
                   />
-                  {watch("loginLogo") && (
+                  {watch("loginLogo") && watch("loginLogo")?.length ? (
                     <div className="input-icons">
-                      {watch("loginLogo") && (
+                      {watch("loginLogo")?.length && (
                         <i
                           className="fas fa-trash text-danger cursor-pointer"
                           onClick={() => setValue("loginLogo", "")}
@@ -87,28 +93,34 @@ export default function Other({ show, setShow }) {
                         onClick={() => openFile("loginLogo")}
                       ></i>
                     </div>
+                  ) : (
+                    ""
                   )}
                   <small>Upload files only: gif,png,jpg,jpeg</small> <br />
                 </div>
               </div>
 
-              <div class="col-md-4">
-                <div class="mb-3">
-                  <label for="">Attendance Logo</label>
+              <div className="col-md-4">
+                <div className="mb-3">
+                  <label>Attendance Logo</label>
                   <input
                     type={
                       watch("attendanceLogo") ==
-                      user.otherConfigurations.attendanceLogo
+                        user.otherConfigurations?.attendanceLogo &&
+                      user.otherConfigurations?.attendanceLogo?.length
                         ? "text"
                         : "file"
                     }
-                    class="form-control"
+                    className="form-control"
                     {...register("attendanceLogo")}
-                    disabled={watch("attendanceLogo")}
+                    disabled={
+                      watch("attendanceLogo") && watch("attendanceLogo")?.length
+                    }
                   />
-                  {watch("attendanceLogo") && (
+                  {watch("attendanceLogo") &&
+                  watch("attendanceLogo")?.length ? (
                     <div className="input-icons">
-                      {watch("attendanceLogo") && (
+                      {watch("attendanceLogo")?.length && (
                         <i
                           className="fas fa-trash text-danger cursor-pointer"
                           onClick={() => setValue("attendanceLogo", "")}
@@ -119,28 +131,34 @@ export default function Other({ show, setShow }) {
                         onClick={() => openFile("attendanceLogo")}
                       ></i>
                     </div>
+                  ) : (
+                    ""
                   )}
                   <small>- Upload files only: jpg,jpeg,png</small> <br />
                 </div>
               </div>
 
-              <div class="col-md-4">
-                <div class="mb-3">
-                  <label for="">Lead Payment pdf Logo</label>
+              <div className="col-md-4">
+                <div className="mb-3">
+                  <label>Lead Payment pdf Logo</label>
                   <input
                     type={
                       watch("paymentPdfLogo") ==
-                      user.otherConfigurations.paymentPdfLogo
+                        user.otherConfigurations?.paymentPdfLogo &&
+                      user.otherConfigurations?.paymentPdfLogo?.length
                         ? "text"
                         : "file"
                     }
-                    class="form-control"
+                    className="form-control"
                     {...register("paymentPdfLogo")}
-                    disabled={watch("paymentPdfLogo")}
+                    disabled={
+                      watch("paymentPdfLogo") && watch("paymentPdfLogo")?.length
+                    }
                   />
-                  {watch("paymentPdfLogo") && (
+                  {watch("paymentPdfLogo") &&
+                  watch("paymentPdfLogo")?.length ? (
                     <div className="input-icons">
-                      {watch("paymentPdfLogo") && (
+                      {watch("paymentPdfLogo")?.length && (
                         <i
                           className="fas fa-trash text-danger cursor-pointer"
                           onClick={() => setValue("paymentPdfLogo", "")}
@@ -151,14 +169,16 @@ export default function Other({ show, setShow }) {
                         onClick={() => openFile("paymentPdfLogo")}
                       ></i>
                     </div>
+                  ) : (
+                    ""
                   )}
                   <small>- Upload files only: jpg,jpeg,png</small> <br />
                 </div>
               </div>
 
-              {/* <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="formrow-firstname-input" class="form-label">
+              {/* <div className="col-md-4">
+                  <div className="mb-3">
+                    <label "formrow-firstname-input" className="form-label">
                       Default Language
                     </label>
                     <select></select>
@@ -168,7 +188,7 @@ export default function Other({ show, setShow }) {
           </div>
           <button
             type="submit"
-            class="btn btn-primary waves-effect waves-light w-25 float-end"
+            className="btn btn-primary waves-effect waves-light w-25 float-end"
           >
             SAVE
           </button>

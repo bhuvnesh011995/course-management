@@ -1,3 +1,4 @@
+const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
 const { sendMail } = require("../managers/mailManager");
 const db = require("../models");
 const fs = require("fs");
@@ -257,12 +258,13 @@ const updateLead = async (req, res, next) => {
 
     if (query?.deleteFileList?.length > 0) {
       for (let path of query.deleteFileList) {
-        fs.unlink(
-          `uploads\\images\\${path.split("/")[path.split("/").length - 1]}`,
-          (err) => {
-            if (err) console.error(err);
-          }
-        );
+        // fs.unlink(
+        //   `uploads\\images\\${path.split("/")[path.split("/").length - 1]}`,
+        //   (err) => {
+        //     if (err) console.error(err);
+        //   }
+        // );
+        deleteSelectedFile(path.split("/")[path.split("/").length - 1]);
       }
     }
     if (query.selectedRegistration == "CTD") {
@@ -422,15 +424,20 @@ const deleteLead = async (req, res, next) => {
     const { query } = req;
     const selectedLead = await db.lead.findOne({ _id: query._id });
     Object.keys(selectedLead.fileLocations).map((e) =>
-      fs.unlink(
-        `uploads\\images\\${
-          selectedLead.fileLocations[e].split("/")[
-            selectedLead.fileLocations[e].split("/").length - 1
-          ]
-        }`,
-        (err) => {
-          if (err) console.error(err);
-        }
+      // fs.unlink(
+      //   `uploads\\images\\${
+      //     selectedLead.fileLocations[e].split("/")[
+      //       selectedLead.fileLocations[e].split("/").length - 1
+      //     ]
+      //   }`,
+      //   (err) => {
+      //     if (err) console.error(err);
+      //   }
+      // )
+      deleteSelectedFile(
+        selectedLead.fileLocations[e].split("/")[
+          selectedLead.fileLocations[e].split("/").length - 1
+        ]
       )
     );
     const deleteLead = await db.lead.deleteOne({ _id: query._id });

@@ -6,12 +6,11 @@ import profileImg from "../../assets/images/profile-img.png";
 import { AxiosInstance } from "../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
-import { CommonFooter } from "../../common-components/commonFooter";
+import { filePath } from "../../common-components/useCommonUsableFunctions";
 
 export const LoginUser = () => {
   const navigate = useNavigate();
   const { setUser, user, initialUser } = useAuth();
-
   useEffect(() => {
     if (user.token || localStorage.getItem("token")) navigate("/");
   }, []);
@@ -61,17 +60,31 @@ export const LoginUser = () => {
                   <div className="col-7">
                     <div className="text-primary p-4">
                       <h5 className="text-primary">Welcome Back !!!</h5>
-                      <p>Log in to continue to Tonga.</p>
+                      <p>
+                        Log in to continue to{" "}
+                        {user.systemConfigurations?.name?.length
+                          ? user.systemConfigurations?.name
+                          : "Tonga"}
+                        .
+                      </p>
                     </div>
                   </div>
                   <div className="col-5 align-self-end">
-                    <img src={profileImg} alt="" className="img-fluid" />
+                    {user.otherConfigurations?.loginLogo?.length ? (
+                      <img
+                        src={filePath(user.otherConfigurations?.loginLogo)}
+                        alt=""
+                        className="img-fluid"
+                      />
+                    ) : (
+                      <img src={profileImg} alt="" className="img-fluid" />
+                    )}
                   </div>
                 </div>
               </div>
               <div className="card-body pt-0">
                 <div className="auth-logo">
-                  <a className="auth-logo-light">
+                  <div className="auth-logo-light">
                     <div className="avatar-md profile-user-wid mb-4">
                       <span className="avatar-title rounded-circle bg-light">
                         <img
@@ -82,15 +95,7 @@ export const LoginUser = () => {
                         />
                       </span>
                     </div>
-                  </a>
-
-                  {/* <Link to="/" className="auth-logo-dark">
-                    <div className="avatar-md profile-user-wid mb-4">
-                      <span className="avatar-title rounded-circle bg-light">
-                        <img src={logo} alt="" className="rounded-circle" />
-                      </span>
-                    </div>
-                  </Link> */}
+                  </div>
                 </div>
                 <div className="p-2">
                   <form
@@ -98,9 +103,7 @@ export const LoginUser = () => {
                     onSubmit={handleSubmit(signIn)}
                   >
                     <div className="mb-3">
-                      <label for="username" className="form-label">
-                        Email
-                      </label>
+                      <label className="form-label">Email</label>
                       <input
                         type="text"
                         className="form-control"
@@ -142,9 +145,7 @@ export const LoginUser = () => {
                         type="checkbox"
                         id="remember-check"
                       />
-                      <label className="form-check-label" for="remember-check">
-                        Remember me
-                      </label>
+                      <label className="form-check-label">Remember me</label>
                     </div>
 
                     <div className="mt-3 d-grid">

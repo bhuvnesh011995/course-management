@@ -2,6 +2,7 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
+import { BASEURL } from "../config/config";
 
 export const onMenuClicked = () => {
   const x = document.getElementsByTagName("BODY")[0];
@@ -68,7 +69,7 @@ export const convertToMongooseStartEndTiming = (startTime, endTime) => {
 };
 
 export const filePath = (path) => {
-  return `http://localhost:5000/${path}`;
+  return `${BASEURL}/${path}`;
 };
 
 export const convertUtcDateAndTime = (date, time) => {

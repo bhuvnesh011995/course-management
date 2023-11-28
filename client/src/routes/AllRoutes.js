@@ -47,42 +47,10 @@ import { AxiosInstance } from "../common-components/axiosInstance";
 import { filePath } from "../common-components/useCommonUsableFunctions";
 
 export const AllRoutes = () => {
-  const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/login");
-    // getSystemData();
-    // getOtherData();
-  }, []);
-
-  const getSystemData = useCallback(async () => {
-    try {
-      const systemData = await AxiosInstance.get("/config/system");
-      if (systemData?.status == 200)
-        setUser((old) => ({ ...old, systemConfigurations: systemData.data }));
-      if (systemData?.data?.systemFavicon?.length) {
-        const favIconUrl = filePath(systemData.data.systemFavicon);
-        const favIconElement = document.getElementById("favIcon-img");
-        favIconElement.href = favIconUrl;
-      }
-      if (systemData?.data?.name?.length) {
-        const systemElement = document.getElementById("tongaSystemName");
-        systemElement.textContent = systemData.data.name;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
-
-  const getOtherData = useCallback(async () => {
-    try {
-      const otherData = await AxiosInstance.get("/config/other");
-      if (otherData?.status == 200)
-        setUser((old) => ({ ...old, otherConfigurations: otherData.data }));
-    } catch (err) {
-      console.error(err);
-    }
   }, []);
 
   return (

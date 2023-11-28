@@ -351,7 +351,8 @@ export const AddNewLeadModel = ({
       leadData["paymentPdfBase64"] = CreatePaymentPdfBase64(
         data.lead,
         Subject,
-        data.user
+        data.user,
+        user.otherConfigurations?.paymentPdfLogo
       );
       leadData["bankDetailsPdfBase64"] = CreateBankPdf();
       leadData.status = "assign";

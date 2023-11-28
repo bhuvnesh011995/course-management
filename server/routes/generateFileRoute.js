@@ -7,15 +7,14 @@ const ExcelJs = require("exceljs");
 
 const { Blob } = require("buffer");
 const { userAuth } = require("../middlewares/auth.middleware");
+const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
 
 routes.post("/excel", [userAuth], upload.single("file"), async (req, res) => {
   try {
     const { body, file } = req;
 
-    const { dataObj, batchNumber, cetCode, tableData } = body;
-
+    const { dataObj, batchNumber, cetCode, tableData, attendanceLogo } = body;
     const keys = Object.keys(dataObj[0]);
-
     const totalNumTable = [
       [
         {},
@@ -398,7 +397,7 @@ routes.post("/excel", [userAuth], upload.single("file"), async (req, res) => {
         const imagePath = "constants/tongaHeaderName.png";
 
         const logo = workbook.addImage({
-          filename: imagePath,
+          filename: attendanceLogo ? `uploads/${attendanceLogo}` : imagePath,
           extension: "png",
         });
 
@@ -636,6 +635,17 @@ routes.post("/excel", [userAuth], upload.single("file"), async (req, res) => {
     const bufferedFile = fs.readFileSync(filePath);
     const blob = new Blob(bufferedFile);
     res.status(200).send({ filePath: filePath, blob: blob, bufferedFile });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({ message: "Server Error !" });
+  }
+});
+
+routes.delete("/deleteDownloadedFile", (req, res, next) => {
+  try {
+    deleteSelectedFile(
+      req.query.fileName.split("/")[req.query.fileName.split("/").length - 1]
+    );
   } catch (err) {
     console.error(err);
     return res.status(500).send({ message: "Server Error !" });

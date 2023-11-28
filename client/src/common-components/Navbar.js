@@ -1,9 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-// import usIcon from "../assets/images/flags/us.jpg";
-// import italyIcon from "../assets/images/flags/italy.jpg";
-// import spainIcon from "../assets/images/flags/spain.jpg";
-// import germanIcon from "../assets/images/flags/germany.jpg";
-// import systemLogo from "../assets/images/clients/4.png";
 import headerAvatar from "../assets/images/users/avatar-1.jpg";
 import { filePath, onMenuClicked } from "./useCommonUsableFunctions";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,8 +11,6 @@ export const CommonNavbar = () => {
   const { initialUser, user, setUser, setLanCode, lanCode, getLanguage } =
     useAuth();
   const navigate = useNavigate();
-  const [showLanguages, setShowLanguages] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [languages, setLanguages] = useState([]);
   const getLanguages = useCallback(async () => {
@@ -38,23 +31,6 @@ export const CommonNavbar = () => {
     getLanguages();
   }, []);
 
-  const [isFullScreen, setIsFullScreen] = useState(false);
-
-  const fullScreen = () => {
-    if (!isFullScreen) {
-      document.getElementById("layout-wrapper").requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
-    setIsFullScreen(!isFullScreen);
-  };
-
-  const changeLanguage = (langUrl) => {
-    const languageElement = document.getElementById("header-lang-img");
-    languageElement.src = langUrl;
-    setShowLanguages(false);
-  };
-
   const userLogOut = () => {
     localStorage.removeItem("token");
     setUser(initialUser);
@@ -71,28 +47,32 @@ export const CommonNavbar = () => {
             <div className="navbar-brand-box d-flex justify-content-center align-items-center">
               <Link to="/" className="logo logo-light">
                 <span className="logo-sm">
-                  {/* <img
-                    id="systemLogoImg-sm"
-                    height={100}
-                    src={
-                      user.systemConfigurations?.systemLogo?.length
-                        ? filePath(user.systemConfigurations?.systemLogo)
-                        : systemLogo
-                    }
-                  /> */}
-                  Tonga
+                  {user.systemConfigurations?.systemLogo?.length ? (
+                    <img
+                      id="systemLogoImg-sm"
+                      height={100}
+                      src={
+                        user.systemConfigurations?.systemLogo?.length &&
+                        filePath(user.systemConfigurations?.systemLogo)
+                      }
+                    />
+                  ) : (
+                    "Tonga"
+                  )}
                 </span>
                 <span className="logo-lg">
-                  {/* <img
-                    id="systemLogoImg-lg"
-                    height={90}
-                    src={
-                      user.systemConfigurations?.systemLogo?.length
-                        ? filePath(user.systemConfigurations?.systemLogo)
-                        : systemLogo
-                    }
-                  /> */}
-                  Tonga
+                  {user.systemConfigurations?.systemLogo?.length ? (
+                    <img
+                      id="systemLogoImg-lg"
+                      height={90}
+                      src={
+                        user.systemConfigurations?.systemLogo?.length &&
+                        filePath(user.systemConfigurations?.systemLogo)
+                      }
+                    />
+                  ) : (
+                    "Tonga"
+                  )}
                 </span>
               </Link>
             </div>

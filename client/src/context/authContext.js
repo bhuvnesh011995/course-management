@@ -65,8 +65,40 @@ export default function AuthProvider({ children }) {
     } else setReady(true);
   }, [lanCode]);
 
+  const getSystemData = async () => {
+    try {
+      const systemData = await AxiosInstance.get("/config/system");
+      if (systemData?.status == 200)
+        setUser((old) => ({ ...old, systemConfigurations: systemData.data }));
+      if (systemData?.data?.systemFavicon?.length) {
+        const favIconUrl = filePath(systemData.data.systemFavicon);
+        const favIconElement = document.getElementById("favIcon-img");
+        if (favIconElement) favIconElement.href = favIconUrl;
+      }
+      if (systemData?.data?.name?.length) {
+        // const systemElement = document.getElementById("tongaSystemName");
+        // systemElement.textContent = systemData.data.name;
+        document.title = systemData.data.name;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getOtherData = async () => {
+    try {
+      const otherData = await AxiosInstance.get("/config/other");
+      if (otherData?.status == 200)
+        setUser((old) => ({ ...old, otherConfigurations: otherData.data }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     if (localStorage.getItem("token") || user.token) getTokenUser();
+    getSystemData();
+    getOtherData();
   }, [localStorage.getItem("token"), user.token]);
 
   return (
