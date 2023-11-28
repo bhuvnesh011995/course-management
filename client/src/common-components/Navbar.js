@@ -68,7 +68,7 @@ export const CommonNavbar = () => {
           <div className="d-flex justify-content-center align-items-center">
             {/* LOGO */}
             <div className="navbar-brand-box d-flex justify-content-center align-items-center">
-              <Link to="/" className="logo logo-light">
+              {/* <Link to="/" className="logo logo-light">
                 <span className="logo-sm">
                   <img
                     id="systemLogoImg-sm"
@@ -91,7 +91,7 @@ export const CommonNavbar = () => {
                     }
                   />
                 </span>
-              </Link>
+              </Link> */}
             </div>
             <button
               type="button"

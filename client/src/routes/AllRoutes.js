@@ -52,8 +52,8 @@ export const AllRoutes = () => {
 
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/login");
-    getSystemData();
-    getOtherData();
+    // getSystemData();
+    // getOtherData();
   }, []);
 
   const getSystemData = useCallback(async () => {
