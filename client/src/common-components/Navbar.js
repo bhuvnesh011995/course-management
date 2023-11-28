@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import usIcon from "../assets/images/flags/us.jpg";
-import italyIcon from "../assets/images/flags/italy.jpg";
-import spainIcon from "../assets/images/flags/spain.jpg";
-import germanIcon from "../assets/images/flags/germany.jpg";
-import systemLogo from "../assets/images/clients/4.png";
+// import usIcon from "../assets/images/flags/us.jpg";
+// import italyIcon from "../assets/images/flags/italy.jpg";
+// import spainIcon from "../assets/images/flags/spain.jpg";
+// import germanIcon from "../assets/images/flags/germany.jpg";
+// import systemLogo from "../assets/images/clients/4.png";
 import headerAvatar from "../assets/images/users/avatar-1.jpg";
 import { filePath, onMenuClicked } from "./useCommonUsableFunctions";
 import { Link, useNavigate } from "react-router-dom";
@@ -144,7 +144,7 @@ export const CommonNavbar = () => {
                 ))}
               </select>
             </div>
-            {/* <div className="dropdown d-inline-block">
+            <div className="dropdown d-inline-block">
               <button
                 type="button"
                 className="btn header-item waves-effect"
@@ -174,9 +174,9 @@ export const CommonNavbar = () => {
                   </a>
                 </div>
               )}
-            </div> */}
+            </div>
 
-            <Dropdown.Container
+            {/* <Dropdown.Container
               className="bg-transparent "
               closeOnClick
               toggle={
@@ -212,7 +212,7 @@ export const CommonNavbar = () => {
                   <span key="t-logout">Logout</span>
                 </a>
               </Dropdown.Item>
-            </Dropdown.Container>
+            </Dropdown.Container> */}
           </div>
         </div>
       </header>
