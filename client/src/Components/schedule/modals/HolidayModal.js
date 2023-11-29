@@ -140,7 +140,7 @@ export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
               >
                 Close
               </button>
-              {!eventData && (
+              {!eventData._id && (
                 <button type="submit" className="btn btn-primary">
                   Add Event
                 </button>

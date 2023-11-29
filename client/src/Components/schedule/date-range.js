@@ -86,9 +86,11 @@ export const DateRange = () => {
   }, [filteredQueries]);
 
   const addNewEvent = (data, type) => {
-    if (type) {
-      setShowEvent(true);
+    setShowEvent(true);
+    if (data) {
       setEventData(data);
+    } else {
+      setEventData(null);
     }
   };
 

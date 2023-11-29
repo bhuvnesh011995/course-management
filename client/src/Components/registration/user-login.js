@@ -56,19 +56,7 @@ export const LoginUser = () => {
           <div className="col-md-8 col-lg-6 col-xl-5">
             <div className="card overflow-hidden">
               <div className="bg-primary bg-soft">
-                <div className="row">
-                  <div className="col-7">
-                    <div className="text-primary p-4">
-                      <h5 className="text-primary">Welcome Back !!!</h5>
-                      <p>
-                        Log in to continue to{" "}
-                        {user.systemConfigurations?.name?.length
-                          ? user.systemConfigurations?.name
-                          : "Tonga"}
-                        .
-                      </p>
-                    </div>
-                  </div>
+                <div className="row d-flex align-items-center justify-content-center">
                   <div className="col-5 align-self-end">
                     {user.otherConfigurations?.loginLogo?.length ? (
                       <img
