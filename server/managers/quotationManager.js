@@ -25,11 +25,7 @@ const addNewQuotation = async (req, res, next) => {
           leadStatus: {
             $cond: {
               if: {
-                $and: [
-                  { $eq: ["$confirmed", true] },
-                  { $eq: ["$courseAssigned", true] },
-                  { $eq: ["$getPayment", true] },
-                ],
+                $and: [{ $eq: ["$status", "confirmed"] }],
               },
               then: true,
               else: false,
@@ -75,11 +71,7 @@ const getQuotations = async (req, res, next) => {
           leadStatus: {
             $cond: {
               if: {
-                $and: [
-                  { $eq: ["$confirmed", true] },
-                  { $eq: ["$courseAssigned", true] },
-                  { $eq: ["$getPayment", true] },
-                ],
+                $and: [{ $eq: ["$status", "confirmed"] }],
               },
               then: true,
               else: false,

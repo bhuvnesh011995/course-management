@@ -72,11 +72,11 @@ export default function AddQuotationModal({ show, setShow, callback }) {
     if (!selectedLead) {
       toast.error("Please Select Customer !");
       return;
-    } else if (!selectedLead?.courseAssigned) {
+    } else if (!selectedLead?.course?.length) {
       toast.error("Course is not assigned for this customer");
       return;
     }
-    if (selectedLead?.courseAssigned) {
+    if (selectedLead?.course?.length) {
       const chekedClass = await checkCourseInClass();
 
       if (chekedClass.status != 200) {
@@ -228,7 +228,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
         return;
       }
     }
-    if (!selectedLead.courseAssigned) {
+    if (!selectedLead?.course?.length) {
       toast.error("Course is not assigned for this customer");
       return;
     }

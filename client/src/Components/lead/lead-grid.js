@@ -71,13 +71,13 @@ export const LeadGrid = () => {
       };
       leadData.allLeads = data.leads;
       data.leads.filter((e) => {
-        if (!e.courseAssigned) {
+        if (e.status != "pending" && e.status == "new") {
           leadData.newLeads.push(e);
-        } else if (e.courseAssigned && !e.getPayment && !e.confirmed) {
+        } else if (e.status != "assign" && e.status == "pending") {
           leadData.pendingLeads.push(e);
-        } else if (e.getPayment && !e.confirmed && e.courseAssigned) {
+        } else if (e.status != "confirmed" && e.status == "assign") {
           leadData.assignCourseLeads.push(e);
-        } else if (e.getPayment && e.confirmed && e.courseAssigned) {
+        } else if (e.status == "confirmed") {
           leadData.completedLeads.push(e);
         }
       });
