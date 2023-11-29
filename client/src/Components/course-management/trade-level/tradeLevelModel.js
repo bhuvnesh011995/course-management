@@ -1,8 +1,8 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const TradeLevelModal = ({
   setIsOpen,
@@ -11,7 +11,7 @@ export const TradeLevelModal = ({
   tradeData,
   viewTradeLevel,
 }) => {
-  console.log(viewTradeLevel);
+  const { NewAxiosInstance } = useAuth();
   const handleClose = () => {
     setIsOpen(false);
     reset({});
@@ -31,7 +31,7 @@ export const TradeLevelModal = ({
   const saveTradeLevel = async (tradeLevel) => {
     try {
       toast.dismiss();
-      const newTradeLevel = await AxiosInstance.post(
+      const newTradeLevel = await NewAxiosInstance.post(
         "/trades/saveTradeLevel",
         tradeLevel
       );
@@ -51,7 +51,7 @@ export const TradeLevelModal = ({
   const editTradeLevel = async (tradeData) => {
     try {
       toast.dismiss();
-      const updatedTradeLevel = await AxiosInstance.post(
+      const updatedTradeLevel = await NewAxiosInstance.post(
         "/trades/updateTradeLevel",
         tradeData
       );

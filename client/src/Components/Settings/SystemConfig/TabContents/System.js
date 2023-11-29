@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { formAxiosInstance } from "../../../../common-components/axiosInstance";
 import { useAuth } from "../../../../context/authContext";
 import { filePath } from "../../../../common-components/useCommonUsableFunctions";
 
 export default function System({ show, setShow }) {
-  const { user, setUser } = useAuth();
+  const { user, setUser, NewAxiosInstance } = useAuth();
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   useEffect(() => {
     if (user.systemConfigurations?._id) reset(user.systemConfigurations);
@@ -29,7 +28,7 @@ export default function System({ show, setShow }) {
       if (newConfigurations?.systemLogo?.length)
         if (newConfigurations?.systemLogo[0]?.name)
           formdata.append("systemLogo", newConfigurations.systemLogo[0]);
-      const updateSystemConfiguration = await formAxiosInstance.post(
+      const updateSystemConfiguration = await NewAxiosInstance.post(
         "/config/system",
         formdata
       );

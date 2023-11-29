@@ -2,11 +2,10 @@ import { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { useAuth } from "../../../../context/authContext";
 import { useForm } from "react-hook-form";
-import { formAxiosInstance } from "../../../../common-components/axiosInstance";
 import { filePath } from "../../../../common-components/useCommonUsableFunctions";
 
 export default function Other({ show, setShow }) {
-  const { user, setUser } = useAuth();
+  const { user, setUser, NewAxiosInstance } = useAuth();
   const { register, handleSubmit, watch, reset, setValue, getValues } =
     useForm();
 
@@ -31,7 +30,7 @@ export default function Other({ show, setShow }) {
             "paymentPdfLogoImg",
             otherConfigurations.paymentPdfLogo[0]
           );
-      const updateOtherConfiguration = await formAxiosInstance.post(
+      const updateOtherConfiguration = await NewAxiosInstance.post(
         "/config/other",
         formdata
       );

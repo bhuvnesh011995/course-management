@@ -1,10 +1,8 @@
 import { Modal } from "react-bootstrap";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { quotationPreviewHeaders } from "../../Constants/table.constants";
-import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
 
 export default function ViewQuotationModal({
@@ -14,7 +12,7 @@ export default function ViewQuotationModal({
   isSalesQuotation,
   callback,
 }) {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [selectedQuotation, setSelectedQuotation] = useState(null);
   const [totalAmt, setTotalAmt] = useState(null);
 
@@ -53,7 +51,7 @@ export default function ViewQuotationModal({
 
   const getQuotation = async () => {
     try {
-      const { data } = await AxiosInstance.get("/quotations/getQuotation", {
+      const { data } = await NewAxiosInstance.get("/quotations/getQuotation", {
         params: quotationData,
       });
 
@@ -66,7 +64,7 @@ export default function ViewQuotationModal({
 
   const updateSalesQuotation = async () => {
     try {
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/quotations/updateQuotation",
         quotationData
       );

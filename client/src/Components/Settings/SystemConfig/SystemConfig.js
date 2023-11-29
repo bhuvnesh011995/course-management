@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import { AxiosInstance } from "../../common-components/axiosInstance";
 // import { CommonDataTable } from "../../common-components/CommonDataTable";
 // import { trainerHeaders } from "../../Constants/table.constants";
 import { toast } from "react-toastify";

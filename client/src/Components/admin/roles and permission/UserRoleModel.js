@@ -1,8 +1,8 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const UserRoleModel = ({
   isOpen,
@@ -10,6 +10,7 @@ export const UserRoleModel = ({
   viewRole = true,
   userData,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -31,7 +32,7 @@ export const UserRoleModel = ({
 
   const fetchRoleData = async () => {
     try {
-      const { data } = await AxiosInstance.get("/roles/selectedRoleData", {
+      const { data } = await NewAxiosInstance.get("/roles/selectedRoleData", {
         params: {
           id: userData.roleId,
         },

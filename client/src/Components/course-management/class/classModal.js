@@ -1,10 +1,10 @@
 import { Modal } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import { toast } from "react-toastify";
 import ReactSelect from "react-select";
+import { useAuth } from "../../../context/authContext";
 
 export const NewClassModal = ({
   setIsOpen,
@@ -14,6 +14,7 @@ export const NewClassModal = ({
   callback,
   isCalendar = false,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const lectureDayOptions = useMemo(
     () => [
       { label: "Monday", value: "Monday" },
@@ -54,7 +55,7 @@ export const NewClassModal = ({
 
   const getTrainers = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trainer/getTrainers");
+      const { data } = await NewAxiosInstance.get("/trainer/getTrainers");
       setTrainers(data);
     } catch (err) {
       console.error(err);
@@ -79,7 +80,7 @@ export const NewClassModal = ({
 
   const getClass = async () => {
     try {
-      const { data } = await AxiosInstance.get("/class/getClass", {
+      const { data } = await NewAxiosInstance.get("/class/getClass", {
         params: classData,
       });
       data[0].startDate = moment(data[0].startDate).format("YYYY-MM-DD");
@@ -105,7 +106,7 @@ export const NewClassModal = ({
         newClass.lectureDay = newClass.lectureDay.map((ele) => ele.value);
       }
       toast.dismiss();
-      const { data } = await AxiosInstance.post("/class/addClass", newClass);
+      const { data } = await NewAxiosInstance.post("/class/addClass", newClass);
       toast.success("New Class Added");
       callback(data);
       handleclose();
@@ -117,7 +118,7 @@ export const NewClassModal = ({
 
   const getCourses = async () => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getCourses");
+      const { data } = await NewAxiosInstance.get("/courses/getCourses");
       setCourses(data.allCourses);
     } catch (err) {
       console.error(err);
@@ -132,7 +133,7 @@ export const NewClassModal = ({
         );
       }
       toast.dismiss();
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/class/updateClass",
         updatedClass
       );

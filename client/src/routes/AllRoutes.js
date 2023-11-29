@@ -43,7 +43,6 @@ import MultiLanguage from "../Components/Settings/MultiLanguage/MultiLanguage";
 import { Constants } from "../Components/Settings/Constants/Constants";
 import { SystemConfig } from "../Components/Settings/SystemConfig/SystemConfig";
 import { useAuth } from "../context/authContext";
-import { AxiosInstance } from "../common-components/axiosInstance";
 import { filePath } from "../common-components/useCommonUsableFunctions";
 
 export const AllRoutes = () => {

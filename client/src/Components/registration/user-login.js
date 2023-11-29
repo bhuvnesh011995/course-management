@@ -3,14 +3,13 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import logoLight from "../../assets/images/logo-light.svg";
 import profileImg from "../../assets/images/profile-img.png";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 
 export const LoginUser = () => {
   const navigate = useNavigate();
-  const { setUser, user, initialUser } = useAuth();
+  const { setUser, user, NewAxiosInstance } = useAuth();
   useEffect(() => {
     if (user.token || localStorage.getItem("token")) navigate("/");
   }, []);
@@ -24,7 +23,7 @@ export const LoginUser = () => {
   const signIn = async (userData) => {
     try {
       toast.dismiss();
-      const response = await AxiosInstance.post("/users/signIn", userData);
+      const response = await NewAxiosInstance.post("/users/signIn", userData);
       if (response.status === 200) {
         if (response.data.token) {
           const token = response.data.token;

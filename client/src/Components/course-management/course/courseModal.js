@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const CourseModal = ({
   isOpen,
@@ -13,6 +13,7 @@ export const CourseModal = ({
   viewCourse,
   callback,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const [tradeLevels, setTradeLevels] = useState([]);
   const [registrationCode, setRegistrationCode] = useState("");
   const [durations, setDurations] = useState([]);
@@ -31,7 +32,7 @@ export const CourseModal = ({
 
   const getAllDurations = async () => {
     try {
-      const allDurations = await AxiosInstance.get("/constants/duration");
+      const allDurations = await NewAxiosInstance.get("/constants/duration");
       setDurations(allDurations.data);
     } catch (err) {
       console.error(err);
@@ -41,7 +42,7 @@ export const CourseModal = ({
   const addNewCourse = async (newCourse) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/courses/addNewCourse",
         newCourse
       );
@@ -56,7 +57,7 @@ export const CourseModal = ({
 
   const getSelectedCourse = async () => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getCourse", {
+      const { data } = await NewAxiosInstance.get("/courses/getCourse", {
         params: courseData,
       });
       reset(data[0]);
@@ -86,7 +87,7 @@ export const CourseModal = ({
   const updateCourse = async (updatedCourse) => {
     try {
       toast.dismiss();
-      const course = await AxiosInstance.post(
+      const course = await NewAxiosInstance.post(
         "/courses/updateCourse",
         updatedCourse
       );

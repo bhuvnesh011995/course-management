@@ -191,6 +191,7 @@ const signIn = async (req, res, next) => {
 
 const tokenUser = async (req, res, next) => {
   try {
+    console.log(req.headers);
     const tokenUserData = await db.user.aggregate([
       { $match: { email: req.user.email } },
       {

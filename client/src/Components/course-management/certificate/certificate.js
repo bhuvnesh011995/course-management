@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import AddNewCertificate from "./certificateModal";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { certificateHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
@@ -9,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
 
 export const Certificate = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [certificateModal, setCertificateModal] = useState(false);
   const [certificateData, setCertificateData] = useState({});
   const [certificates, setCertificates] = useState([]);
@@ -39,7 +38,9 @@ export const Certificate = () => {
 
   const getCertificates = async () => {
     try {
-      const { data } = await AxiosInstance.get("/certificates/getCertificates");
+      const { data } = await NewAxiosInstance.get(
+        "/certificates/getCertificates"
+      );
       setCertificates(data);
     } catch (err) {
       toast.error("something went wrong !");
@@ -62,7 +63,7 @@ export const Certificate = () => {
   const deleteSelectedCertificate = async (certificate) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.delete(
+      const { data } = await NewAxiosInstance.delete(
         "/certificates/deleteCertificate",
         { params: certificate }
       );

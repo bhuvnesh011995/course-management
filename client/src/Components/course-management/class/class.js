@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { NewClassModal } from "./classModal";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { classHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
-import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Class = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [classModal, setClassModal] = useState(false);
   const [classes, setClasses] = useState([]);
   const [classData, setClassData] = useState({});
@@ -40,7 +38,7 @@ export const Class = () => {
 
   const getClasses = async () => {
     try {
-      const { data } = await AxiosInstance.get("/class/getClasses");
+      const { data } = await NewAxiosInstance.get("/class/getClasses");
       setClasses(data.classes);
     } catch (err) {
       console.error(err);
@@ -60,7 +58,7 @@ export const Class = () => {
   const deleteSelectedClass = async (classData) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.delete("/class/deleteClass", {
+      const { data } = await NewAxiosInstance.delete("/class/deleteClass", {
         params: classData,
       });
       toast.success("class deleted");

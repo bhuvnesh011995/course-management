@@ -3,7 +3,6 @@ import { AddNewRoleModel } from "./RoleManagementModels";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { rolesTableHeaders } from "../../../Constants/table.constants";
 import { UserRoleModel } from "./UserRoleModel";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
@@ -11,7 +10,7 @@ import { useAuth } from "../../../context/authContext";
 import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Roles = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [roleModalOpen, setRoleModalOpen] = useState(false);
   const [roles, setRoles] = useState([]);
   const [filteredRoles, setFilteredRoles] = useState([]);
@@ -64,7 +63,7 @@ export const Roles = () => {
 
   const getRoleData = async () => {
     try {
-      const { data } = await AxiosInstance.get("/roles/getRoles", {
+      const { data } = await NewAxiosInstance.get("/roles/getRoles", {
         params: { token: localStorage.getItem("token") },
       });
       setRoles(data.roleData);
@@ -77,7 +76,7 @@ export const Roles = () => {
 
   const getUserRoleInfo = async () => {
     try {
-      const { data } = await AxiosInstance.get("/roles/getUserRoleInfo");
+      const { data } = await NewAxiosInstance.get("/roles/getUserRoleInfo");
       setUserRoles(data);
     } catch (err) {
       toast.error("something went wrong !");
@@ -101,7 +100,7 @@ export const Roles = () => {
   const deleteSelectedRole = async (roleId) => {
     try {
       toast.dismiss();
-      const deletedRole = await AxiosInstance.delete("/roles/deleteRole", {
+      const deletedRole = await NewAxiosInstance.delete("/roles/deleteRole", {
         params: { _id: roleId },
       });
       if (deletedRole.status == 200) {

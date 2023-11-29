@@ -7,8 +7,8 @@ import {
   passwordPattern,
   phonePattern,
 } from "../../common-components/validations";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
 
 export const AddNewUserModal = ({
   isOpen,
@@ -17,6 +17,7 @@ export const AddNewUserModal = ({
   callback,
   viewUser,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const [userRoles, setUserRoles] = useState([]);
   const {
     register,
@@ -42,7 +43,7 @@ export const AddNewUserModal = ({
 
   const getUserRoles = async () => {
     try {
-      const { data } = await AxiosInstance.get("/roles/getRoles");
+      const { data } = await NewAxiosInstance.get("/roles/getRoles");
       setUserRoles(data.roleData);
     } catch (err) {
       toast.error("something went wrong !");
@@ -53,7 +54,10 @@ export const AddNewUserModal = ({
     try {
       toast.dismiss();
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
-      const { data } = await AxiosInstance.post("/users/addNewUser", userData);
+      const { data } = await NewAxiosInstance.post(
+        "/users/addNewUser",
+        userData
+      );
       toast.success("New User Added");
       callback(data);
       handleClose();
@@ -67,7 +71,10 @@ export const AddNewUserModal = ({
     try {
       toast.dismiss();
       userData["name"] = userData["firstName"] + " " + userData["lastName"];
-      const { data } = await AxiosInstance.post("/users/updateUser", userData);
+      const { data } = await NewAxiosInstance.post(
+        "/users/updateUser",
+        userData
+      );
       toast.success("User Updated");
       callback(userData);
       handleClose();

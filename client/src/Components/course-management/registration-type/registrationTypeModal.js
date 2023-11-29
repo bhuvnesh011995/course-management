@@ -1,8 +1,8 @@
 import { Modal } from "react-bootstrap";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const RegistrationTypeModal = ({
   isOpen,
@@ -11,6 +11,7 @@ export const RegistrationTypeModal = ({
   registrationData,
   viewModal,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const [tradeLevels, setTradeLevels] = useState([]);
   const [selectAllTradeLevel, setSelectAllTradeLevel] = useState([]);
 
@@ -43,7 +44,7 @@ export const RegistrationTypeModal = ({
   const saveRegistrationData = async (registrationData) => {
     try {
       toast.dismiss();
-      const newRegistration = await AxiosInstance.post(
+      const newRegistration = await NewAxiosInstance.post(
         "/registrationType/addRegistrationType",
         registrationData
       );
@@ -63,7 +64,7 @@ export const RegistrationTypeModal = ({
 
   const getTradeLevels = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trades/getTradeLevels");
+      const { data } = await NewAxiosInstance.get("/trades/getTradeLevels");
       setTradeLevels(data.allTradeLevels);
     } catch (err) {
       console.error(err);
@@ -107,7 +108,7 @@ export const RegistrationTypeModal = ({
 
   const getRegistration = async () => {
     try {
-      const { data } = await AxiosInstance.get(
+      const { data } = await NewAxiosInstance.get(
         "/registrationType/getRegistrationType",
         { params: { registrationData } }
       );
@@ -121,7 +122,7 @@ export const RegistrationTypeModal = ({
   const editRegistrationType = async (newData) => {
     try {
       toast.dismiss();
-      const updatedRegistration = await AxiosInstance.post(
+      const updatedRegistration = await NewAxiosInstance.post(
         "/registrationType/updateRegistration",
         newData
       );

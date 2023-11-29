@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import AddPayrollModal from "./AddPayrollModal";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { payrollHeaders } from "../../../Constants/table.constants";
 import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
-import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const PayRoll = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [isAddPayrollModalOpen, setAddPayrollModal] = useState(false);
   const [allPayrolls, setAllPayrolls] = useState([]);
   const [deletePayroll, setDeletePayroll] = useState(false);
@@ -41,7 +39,7 @@ export const PayRoll = () => {
 
   const getAllPayrolls = async () => {
     try {
-      const payrolls = await AxiosInstance.get("/payrolls/getPayrolls");
+      const payrolls = await NewAxiosInstance.get("/payrolls/getPayrolls");
       if (payrolls.status == 200) setAllPayrolls(payrolls.data);
     } catch (err) {
       console.error(err);
@@ -63,7 +61,7 @@ export const PayRoll = () => {
   const deleteSelectedPayroll = async (data) => {
     try {
       toast.dismiss();
-      const deletedPayroll = await AxiosInstance.delete(
+      const deletedPayroll = await NewAxiosInstance.delete(
         "/payrolls/deletePayroll",
         { params: data }
       );

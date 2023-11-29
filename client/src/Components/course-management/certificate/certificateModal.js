@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import {
-  AxiosInstance,
-  formAxiosInstance,
-} from "../../../common-components/axiosInstance";
 import { filePath } from "../../../common-components/useCommonUsableFunctions";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 const AddNewCertificate = ({
   isOpen,
@@ -15,6 +12,7 @@ const AddNewCertificate = ({
   viewCertificate,
   callback,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const {
     register,
     handleSubmit,
@@ -52,7 +50,7 @@ const AddNewCertificate = ({
         formData.append("file", file);
 
       formData.append("certificateData", JSON.stringify(newCertificate));
-      const { data } = await formAxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/certificates/addCertificate",
         formData
       );
@@ -82,7 +80,7 @@ const AddNewCertificate = ({
           ];
 
       formData.append("certificateData", JSON.stringify(updatedCertificate));
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/certificates/updateCertificate",
         formData
       );
@@ -97,7 +95,7 @@ const AddNewCertificate = ({
 
   const getCourses = async () => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getCourses");
+      const { data } = await NewAxiosInstance.get("/courses/getCourses");
       setCourses(data.allCourses);
     } catch (err) {
       console.error(err);
@@ -106,9 +104,12 @@ const AddNewCertificate = ({
 
   const getCertificate = async () => {
     try {
-      const { data } = await AxiosInstance.get("/certificates/getCertificate", {
-        params: certificateData,
-      });
+      const { data } = await NewAxiosInstance.get(
+        "/certificates/getCertificate",
+        {
+          params: certificateData,
+        }
+      );
       reset(data);
     } catch (err) {
       console.error(err);

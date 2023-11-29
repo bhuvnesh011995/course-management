@@ -1,5 +1,4 @@
 import { Modal } from "react-bootstrap";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../../../common-components/validations";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const NewEmployeeManagementModal = ({
   isOpen,
@@ -18,6 +18,7 @@ export const NewEmployeeManagementModal = ({
   viewEmployee,
   callback,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const [roles, setRoles] = useState([]);
 
   const {
@@ -41,7 +42,7 @@ export const NewEmployeeManagementModal = ({
   const addEmployee = async (newEmployee) => {
     try {
       toast.dismiss();
-      const addedEmployee = await AxiosInstance.post(
+      const addedEmployee = await NewAxiosInstance.post(
         "/users/addNewUser",
         newEmployee
       );
@@ -59,7 +60,7 @@ export const NewEmployeeManagementModal = ({
   const updateEmployee = async (updatedEmployee) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/users/updateUser",
         updatedEmployee
       );
@@ -76,7 +77,7 @@ export const NewEmployeeManagementModal = ({
 
   const getRoles = async () => {
     try {
-      const { data } = await AxiosInstance.get("/roles/getRoles");
+      const { data } = await NewAxiosInstance.get("/roles/getRoles");
       setRoles(data.roleData);
     } catch (err) {
       console.error(err);

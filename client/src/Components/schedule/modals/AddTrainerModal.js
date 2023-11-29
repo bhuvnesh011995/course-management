@@ -6,13 +6,13 @@ import {
   namePattern,
   phonePattern,
 } from "../../../common-components/validations";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import {
   convertMongooseDate,
   filePath,
 } from "../../../common-components/useCommonUsableFunctions";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const NewTrainerModal = ({
   isOpen,
@@ -20,6 +20,7 @@ export const NewTrainerModal = ({
   trainerData,
   callback,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const [imageUrl, setImageUrl] = useState("");
   const [designations, setDesignations] = useState([]);
 
@@ -40,9 +41,7 @@ export const NewTrainerModal = ({
 
   const getAllDesignations = async () => {
     try {
-      const response = await AxiosInstance.get(
-        "/constants/designations"
-      );
+      const response = await NewAxiosInstance.get("/constants/designations");
       if (response.status == 200) {
         if (response.data?.length) {
           setDesignations(response.data);
@@ -64,13 +63,12 @@ export const NewTrainerModal = ({
 
   const addNewTrainer = async (trainerData) => {
     try {
-      console.log(trainerData)
       toast.dismiss();
       const formData = new FormData();
       if (trainerData?.trainerImage.length)
         formData.append("file", trainerData.trainerImage[0]);
       formData.append("trainerData", JSON.stringify(trainerData));
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/trainer/addNewTrainer",
         formData
       );
@@ -92,7 +90,7 @@ export const NewTrainerModal = ({
         trainerData["deleteImagePath"] = trainerData.trainerImagePath;
       }
       formData.append("trainerData", JSON.stringify(trainerData));
-      const updatedTrainer = await AxiosInstance.post(
+      const updatedTrainer = await NewAxiosInstance.post(
         "/trainer/updateTrainer",
         formData
       );
@@ -109,10 +107,9 @@ export const NewTrainerModal = ({
 
   const getTrainer = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trainer/getTrainer", {
+      const { data } = await NewAxiosInstance.get("/trainer/getTrainer", {
         params: trainerData,
       });
-      console.log(data)
       data.trainerDOB = convertMongooseDate(data.trainerDOB);
       reset(data);
     } catch (err) {
@@ -249,15 +246,25 @@ export const NewTrainerModal = ({
                       accept="image/*"
                     />
                   </label>
-                  {trainerData?.trainerImagePath && (
+                  {watch("trainerImage") && watch("trainerImage")[0]?.name && (
                     <span className="avatar avatar-rounded avatar-md">
                       {" "}
                       <img
                         src={
-                          imageUrl.length
-                            ? imageUrl
-                            : filePath(watch("trainerImagePath"))
+                          URL.createObjectURL(watch("trainerImage")[0])
+                          // imageUrl.length
+                          //   ? imageUrl
+                          //   : filePath(watch("trainerImagePath"))
                         }
+                        alt=""
+                      />{" "}
+                    </span>
+                  )}
+                  {!watch("trainerImage") && trainerData?.trainerImagePath && (
+                    <span className="avatar avatar-rounded avatar-md">
+                      {" "}
+                      <img
+                        src={filePath(watch("trainerImagePath"))}
                         alt=""
                       />{" "}
                     </span>

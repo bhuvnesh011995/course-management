@@ -3,10 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { AllCalendar } from "../../common-components/Calendar";
-import { MenuBar } from "../../common-components/MenuBar";
-import { CommonNavbar } from "../../common-components/Navbar";
 import { AddNewHoliday } from "./modals/HolidayModal";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 
@@ -71,6 +68,7 @@ import { useAuth } from "../../context/authContext";
 //         }
 
 export const DateRange = () => {
+  const { NewAxiosInstance } = useAuth();
   const type = {
     sortBy: "",
   };
@@ -96,7 +94,7 @@ export const DateRange = () => {
 
   const getAllEvents = async () => {
     try {
-      const { data } = await AxiosInstance.get("/events/getEvents", {
+      const { data } = await NewAxiosInstance.get("/events/getEvents", {
         params: filteredQueries,
       });
       setEvents(data);

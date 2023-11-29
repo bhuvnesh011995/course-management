@@ -1,9 +1,9 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { numberWithoutPrecedingZero } from "../../../common-components/validations";
+import { useAuth } from "../../../context/authContext";
 
 export const TradeTypeModal = ({
   setIsOpen,
@@ -12,6 +12,7 @@ export const TradeTypeModal = ({
   tradeData,
   viewTradeType,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const handleClose = () => {
     setIsOpen(false);
     reset({});
@@ -30,7 +31,7 @@ export const TradeTypeModal = ({
   const saveTradeType = async (tradeType) => {
     try {
       toast.dismiss();
-      const newTradeType = await AxiosInstance.post(
+      const newTradeType = await NewAxiosInstance.post(
         "/trades/saveTradeType",
         tradeType
       );
@@ -50,7 +51,7 @@ export const TradeTypeModal = ({
   const editTradeType = async (data) => {
     try {
       toast.dismiss();
-      const response = await AxiosInstance.put("/tradeType/" + data._id, {
+      const response = await NewAxiosInstance.put("/tradeType/" + data._id, {
         seat: data.seat,
       });
       if (response.status == 200) {

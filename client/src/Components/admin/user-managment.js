@@ -5,14 +5,12 @@ import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { userTableHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { EmailVerfificationModal } from "../../common-components/models/emailVerificationModal";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import { CommonFooter } from "../../common-components/commonFooter";
 
 export const UserManagement = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [users, setUsers] = useState([]);
   const [newUserModal, setNewUserModal] = useState(false);
   const [deleteUserModal, setDeleteUserModal] = useState(false);
@@ -44,7 +42,7 @@ export const UserManagement = () => {
 
   const getUsersData = async () => {
     try {
-      const { data } = await AxiosInstance.get("/users/getUsers", {
+      const { data } = await NewAxiosInstance.get("/users/getUsers", {
         params: { token: localStorage.getItem("token") },
       });
       setUsers(data.users);
@@ -57,7 +55,7 @@ export const UserManagement = () => {
   const deleteUser = async () => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.delete("/users/deleteUser", {
+      const { data } = await NewAxiosInstance.delete("/users/deleteUser", {
         params: userData,
       });
       toast.success("User Deleted");

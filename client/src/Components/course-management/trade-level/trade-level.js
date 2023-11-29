@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { TradeLevelModal } from "./tradeLevelModel";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { tradeLevelHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
-import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const TradeLevel = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [tradeModalOpen, setTradeModalOpen] = useState(false);
   const [tradeLevels, setTradeLevels] = useState([]);
   const [tradeIndex, setTradeIndex] = useState(null);
@@ -52,7 +50,7 @@ export const TradeLevel = () => {
 
   const getTrades = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trades/getTradeLevels");
+      const { data } = await NewAxiosInstance.get("/trades/getTradeLevels");
       setTradeLevels(data.allTradeLevels);
     } catch (err) {
       console.error(err);
@@ -62,7 +60,7 @@ export const TradeLevel = () => {
   const deleteTrade = async (tradeData) => {
     try {
       toast.dismiss();
-      const deleteTradeLevel = await AxiosInstance.delete(
+      const deleteTradeLevel = await NewAxiosInstance.delete(
         "/trades/deleteTradeLevel",
         {
           params: tradeData,

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { useAuth } from "../../../context/authContext";
 
 export default function AddLeaveModal({
   show,
@@ -12,6 +12,7 @@ export default function AddLeaveModal({
   viewLeave,
   leaveData,
 }) {
+  const { NewAxiosInstance } = useAuth();
   const [employees, setEmployees] = useState([]);
   const {
     handleSubmit,
@@ -32,7 +33,7 @@ export default function AddLeaveModal({
 
   const getLeave = async () => {
     try {
-      const selectedLeave = await AxiosInstance.get("/leaves/getLeave", {
+      const selectedLeave = await NewAxiosInstance.get("/leaves/getLeave", {
         params: leaveData,
       });
 
@@ -54,7 +55,7 @@ export default function AddLeaveModal({
 
   const getEmployees = async () => {
     try {
-      const { data } = await AxiosInstance.get("/users/getUsers");
+      const { data } = await NewAxiosInstance.get("/users/getUsers");
       setEmployees(data.users);
     } catch (err) {
       toast.error("something went wrong !");
@@ -65,7 +66,10 @@ export default function AddLeaveModal({
   const saveLeave = async (leaveData) => {
     try {
       toast.dismiss();
-      const newLeave = await AxiosInstance.post("/leaves/addLeave", leaveData);
+      const newLeave = await NewAxiosInstance.post(
+        "/leaves/addLeave",
+        leaveData
+      );
       if (newLeave.status == 200) {
         callback(newLeave.data.data[0]);
         toast.success(newLeave.data.message);
@@ -82,7 +86,7 @@ export default function AddLeaveModal({
   const updateLeave = async (updatedLeaveData) => {
     try {
       toast.dismiss();
-      const updatedLeave = await AxiosInstance.post(
+      const updatedLeave = await NewAxiosInstance.post(
         "/leaves/updateLeave",
         updatedLeaveData
       );

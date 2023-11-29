@@ -4,15 +4,13 @@
 import { useEffect, useState } from "react";
 import { customersHeaders } from "../../Constants/table.constants";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { AddNewLeadModel } from "../lead/addNewLeadModel";
 import { ViewCustomerModal } from "./customerModal";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import { CommonFooter } from "../../common-components/commonFooter";
 
 export const CustomerManagement = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [allCustomers, setAllCustomers] = useState([]);
   const [customerModal, setCustomerModal] = useState(false);
   const [customerData, setCustomerData] = useState(null);
@@ -24,7 +22,7 @@ export const CustomerManagement = () => {
 
   const getTradeTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trades/getTradeTypes");
+      const { data } = await NewAxiosInstance.get("/trades/getTradeTypes");
       setTradeTypes(data.allTradeTypes);
     } catch (err) {
       console.error(err);
@@ -33,7 +31,7 @@ export const CustomerManagement = () => {
 
   const getRegistrationTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get(
+      const { data } = await NewAxiosInstance.get(
         "/registrationType/getRegistrationTypes"
       );
       setRegistrationTypes(data);
@@ -60,7 +58,7 @@ export const CustomerManagement = () => {
 
   const getCustomers = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getAllLeads");
+      const { data } = await NewAxiosInstance.get("/leads/getAllLeads");
       setAllCustomers(data.leads);
     } catch (err) {
       console.error(err);

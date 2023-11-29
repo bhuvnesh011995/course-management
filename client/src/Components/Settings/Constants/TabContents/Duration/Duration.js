@@ -2,13 +2,13 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import AddNew from "./AddNew";
 import { Card } from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
-import { AxiosInstance } from "../../../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
-import { Axios } from "axios";
 import DeleteModal2 from "../../../../../common-components/models/DeleteModal2";
 import useCustomUseEffect from "../../../../../common-components/CustomUseEffect";
+import { useAuth } from "../../../../../context/authContext";
 
 export default function Duration() {
+  const { NewAxiosInstance } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,7 @@ export default function Duration() {
   const getDurations = useCallback(async () => {
     try {
       console.log("run");
-      let response = await AxiosInstance.get("/constants/duration");
+      let response = await NewAxiosInstance.get("/constants/duration");
       if (!response) toast.error("server error");
       if (response.status === 200) {
         setData(response.data);
@@ -31,7 +31,7 @@ export default function Duration() {
   const addDesignation = useCallback(
     async (formData) => {
       try {
-        let response = await AxiosInstance.post(
+        let response = await NewAxiosInstance.post(
           "/constants/duration",
           formData
         );
@@ -54,7 +54,7 @@ export default function Duration() {
   const updateDesignation = useCallback(
     async (id, formData) => {
       try {
-        let response = await AxiosInstance.put(
+        let response = await NewAxiosInstance.put(
           "/constants/duration/" + id,
           formData
         );
@@ -96,7 +96,9 @@ export default function Duration() {
   const handleDelete = useCallback(
     async (id) => {
       try {
-        let response = await AxiosInstance.delete("/constants/duration/" + id);
+        let response = await NewAxiosInstance.delete(
+          "/constants/duration/" + id
+        );
         if (response.status === 204) {
           let newArray = data.filter((ele) => ele._id != id);
           setData(newArray);

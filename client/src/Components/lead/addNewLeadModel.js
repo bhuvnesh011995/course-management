@@ -14,7 +14,6 @@ import {
   phonePattern,
 } from "../../common-components/validations";
 import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
 import { toast } from "react-toastify";
@@ -31,7 +30,7 @@ export const AddNewLeadModel = ({
   registrationTypes,
   tradeTypes,
 }) => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [tradeLevels, setTradeLevels] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState("");
@@ -94,9 +93,12 @@ export const AddNewLeadModel = ({
 
   const getFilteredCourses = async (selectedLead) => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getFilteredCourses", {
-        params: selectedLead,
-      });
+      const { data } = await NewAxiosInstance.get(
+        "/courses/getFilteredCourses",
+        {
+          params: selectedLead,
+        }
+      );
       setAllCourses(data);
     } catch (err) {
       console.error(err);
@@ -159,7 +161,10 @@ export const AddNewLeadModel = ({
             formdata.append("files", file);
           }
       formdata.append("leadData", JSON.stringify(newLead));
-      const { data } = await AxiosInstance.post("/leads/addNewLead", formdata);
+      const { data } = await NewAxiosInstance.post(
+        "/leads/addNewLead",
+        formdata
+      );
       toast.success("New Lead Added Successfully");
       callback(data.newLead);
       handleClose();
@@ -298,7 +303,10 @@ export const AddNewLeadModel = ({
       }
       newLeadData["deleteFileList"] = deleteFiles;
       formdata.append("leadData", JSON.stringify(newLeadData));
-      const { data } = await AxiosInstance.post("/leads/updateLead", formdata);
+      const { data } = await NewAxiosInstance.post(
+        "/leads/updateLead",
+        formdata
+      );
       toast.success("Lead Updated Successfully");
       callback(data.updatedLead);
       handleClose();
@@ -310,7 +318,7 @@ export const AddNewLeadModel = ({
 
   const getLead = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getLead", {
+      const { data } = await NewAxiosInstance.get("/leads/getLead", {
         params: leadData,
       });
       if (data[0]) {
@@ -342,7 +350,7 @@ export const AddNewLeadModel = ({
   const getPaymentRegistration = async () => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.get("/leads/getSelectedLead", {
+      const { data } = await NewAxiosInstance.get("/leads/getSelectedLead", {
         params: leadData,
       });
       const Subject = `APPROVAL OF ONLINE REGISTRATION ${leadData.tradeType} ${
@@ -356,7 +364,7 @@ export const AddNewLeadModel = ({
       );
       leadData["bankDetailsPdfBase64"] = CreateBankPdf();
       leadData.status = "assign";
-      const getPaymentData = await AxiosInstance.post(
+      const getPaymentData = await NewAxiosInstance.post(
         "/leads/getPayment",
         leadData
       );
@@ -378,7 +386,7 @@ export const AddNewLeadModel = ({
 
   const confirmRegistration = async () => {
     try {
-      const confirmPayment = await AxiosInstance.post(
+      const confirmPayment = await NewAxiosInstance.post(
         "/leads/confirmPayment",
         leadData
       );
@@ -478,20 +486,18 @@ export const AddNewLeadModel = ({
                       id="Please_Enter_Company_Name"
                       defaultMessage={"Please Emter Company Name"}
                     >
-                      {(requiredMsg) =>
-                        console.log(requiredMsg) || (
-                          <input
-                            type="text"
-                            className="form-control"
-                            {...register("companyName", {
-                              required: requiredMsg[0],
-                              pattern: namePattern,
-                            })}
-                            disabled={viewLead}
-                            placeholder={placeholder}
-                          />
-                        )
-                      }
+                      {(requiredMsg) => (
+                        <input
+                          type="text"
+                          className="form-control"
+                          {...register("companyName", {
+                            required: requiredMsg[0],
+                            pattern: namePattern,
+                          })}
+                          disabled={viewLead}
+                          placeholder={placeholder}
+                        />
+                      )}
                     </FormattedMessage>
                   )}
                 </FormattedMessage>

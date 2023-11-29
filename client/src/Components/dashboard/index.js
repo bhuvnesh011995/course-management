@@ -5,7 +5,6 @@ import {
   dashboardCourseHeaders,
   dashboardCustomerHeaders,
 } from "../../Constants/table.constants";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import moment from "moment";
@@ -42,6 +41,7 @@ ChartJS.register(
 );
 
 export const Index = () => {
+  const { NewAxiosInstance } = useAuth();
   const allRegistrationIcons = [Img1, Img2, Img3, Img4, Img5];
   const [dashboardClasses, setDashboardClasses] = useState([]);
   const [dashboardCustomers, setDashboardCustomers] = useState([]);
@@ -69,7 +69,7 @@ export const Index = () => {
   }, []);
   const getDashboardClasses = async () => {
     try {
-      const dashboardClassesData = await AxiosInstance.get(
+      const dashboardClassesData = await NewAxiosInstance.get(
         "/class/getDashboardClasses"
       );
       dashboardClassesData.data.map((course, index) => {
@@ -114,7 +114,7 @@ export const Index = () => {
 
   const getDashboardCustomers = async () => {
     try {
-      const dashboardCustomers = await AxiosInstance.get(
+      const dashboardCustomers = await NewAxiosInstance.get(
         "/leads/getDashboardCustomers"
       );
       setAll((old) => ({ ...old, customers: dashboardCustomers.data.length }));
@@ -136,7 +136,7 @@ export const Index = () => {
 
   const getDashboardTrainers = async () => {
     try {
-      const dashboardTrainers = await AxiosInstance.get(
+      const dashboardTrainers = await NewAxiosInstance.get(
         "/trainer/getDashboardTrainers"
       );
       setAll((old) => ({ ...old, trainers: dashboardTrainers.data.length }));
@@ -180,7 +180,7 @@ export const Index = () => {
 
   const allDashboardClassTypes = async () => {
     try {
-      const totalClassTypes = await AxiosInstance.get(
+      const totalClassTypes = await NewAxiosInstance.get(
         "/registrationType/allDashboardClassTypes"
       );
       setCategoryTypes(totalClassTypes.data);
@@ -191,7 +191,7 @@ export const Index = () => {
 
   const allDashboardCourses = async () => {
     try {
-      const allCourses = await AxiosInstance.get(
+      const allCourses = await NewAxiosInstance.get(
         "/courses/allDashboardCourses"
       );
       setAll((old) => ({ ...old, courses: allCourses.data.length }));
@@ -204,7 +204,7 @@ export const Index = () => {
 
   const allUsers = async () => {
     try {
-      const users = await AxiosInstance.get("/users/getUsers");
+      const users = await NewAxiosInstance.get("/users/getUsers");
       setAll((old) => ({ ...old, registrations: users.data.users.length }));
     } catch (err) {
       console.error(err);

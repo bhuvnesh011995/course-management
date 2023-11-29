@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 import { RegistrationTypeModal } from "./registrationTypeModal";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { registrationTypeHeaders } from "../../../Constants/table.constants";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
-import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const RegistrationType = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [registrationModal, setRegistrationModal] = useState(false);
   const [registrationTypes, setRegistrationTypes] = useState([]);
   const [registrationData, setRegistrationData] = useState(null);
@@ -39,7 +37,7 @@ export const RegistrationType = () => {
 
   const getRegistrationTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get(
+      const { data } = await NewAxiosInstance.get(
         "/registrationType/getRegistrationTypes"
       );
       data.map(
@@ -74,7 +72,7 @@ export const RegistrationType = () => {
 
   const deleteRegistrationType = async (selectedData) => {
     try {
-      const deletedRegistration = await AxiosInstance.delete(
+      const deletedRegistration = await NewAxiosInstance.delete(
         "/registrationType/deleteRegistration",
         { params: selectedData }
       );

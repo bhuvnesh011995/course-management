@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Modal, Tab, TabContainer, Tabs } from "react-bootstrap";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { useForm } from "react-hook-form";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import moment from "moment";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { quotationPreviewHeaders } from "../../Constants/table.constants";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
 
 export default function AddQuotationModal({ show, setShow, callback }) {
+  const { NewAxiosInstance } = useAuth();
   const filterTypes = {
     textSearch: "",
     company: "",
@@ -92,7 +93,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
   }
 
   const checkCourseInClass = async () => {
-    const checkClass = await AxiosInstance.get("/class/getCourseClass", {
+    const checkClass = await NewAxiosInstance.get("/class/getCourseClass", {
       params: { courseId: selectedLead?.course },
     });
     return checkClass;
@@ -108,7 +109,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
 
   const accountHistory = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/accountHistory", {
+      const { data } = await NewAxiosInstance.get("/leads/accountHistory", {
         params: { contactPersonEmail: selectedLead?.contactPersonEmail },
       });
       setCustomerCourses(data);
@@ -119,7 +120,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
 
   const getAllCompanies = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getAllCompanies", {
+      const { data } = await NewAxiosInstance.get("/leads/getAllCompanies", {
         params: selectedFilter,
       });
       setAllCompanies(data);
@@ -130,7 +131,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
 
   const getSelectedLead = async (id) => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getCompany", {
+      const { data } = await NewAxiosInstance.get("/leads/getCompany", {
         params: { _id: id },
       });
       if (data) {
@@ -154,7 +155,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
       const Obj = {};
       Obj["quotationCourses"] = newCourses;
       Obj["leadId"] = selectedLead._id;
-      const newQuotation = await AxiosInstance.post(
+      const newQuotation = await NewAxiosInstance.post(
         "/quotations/addNewQuotation",
         Obj
       );

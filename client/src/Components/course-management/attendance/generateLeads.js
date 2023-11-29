@@ -7,12 +7,11 @@ import {
 } from "../../../Constants/table.constants";
 import "jspdf-autotable";
 import React from "react";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/authContext";
 
 export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const {
     register,
     handleSubmit,
@@ -41,7 +40,7 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       generatedData["attendanceLogo"] =
         user.otherConfigurations?.attendanceLogo;
 
-    const { data } = await AxiosInstance.post(
+    const { data } = await NewAxiosInstance.post(
       "/generateFile/excel",
       generatedData
     );
@@ -59,7 +58,7 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
     link.click();
     if (data) {
       setTimeout(async () => {
-        await AxiosInstance.delete("/generateFile/deleteDownloadedFile", {
+        await NewAxiosInstance.delete("/generateFile/deleteDownloadedFile", {
           params: { fileName: data.filePath },
         });
       }, [2000]);

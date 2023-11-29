@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import AddLeaveModal from "./addLeaveModal";
 import { toast } from "react-toastify";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { leaveHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
-import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Leave = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [allLeaves, setAllLeaves] = useState([]);
   const [deleteLeave, setDeleteLeave] = useState(false);
@@ -41,7 +39,7 @@ export const Leave = () => {
 
   const getAllLeaves = async () => {
     try {
-      const leaves = await AxiosInstance.get("/leaves/getLeaves");
+      const leaves = await NewAxiosInstance.get("/leaves/getLeaves");
       if (leaves.status == 200) setAllLeaves(leaves.data);
     } catch (err) {
       console.error(err);
@@ -61,7 +59,7 @@ export const Leave = () => {
   const deleteSelectedLeave = async (data) => {
     try {
       toast.dismiss();
-      const deleteLeave = await AxiosInstance.delete("/leaves/deleteLeave", {
+      const deleteLeave = await NewAxiosInstance.delete("/leaves/deleteLeave", {
         params: data,
       });
 

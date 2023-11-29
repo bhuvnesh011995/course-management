@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useForm } from "react-hook-form";
 import { mustBeNumbers } from "../../../common-components/validations";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export default function AddPayrollModal({
   show,
@@ -12,6 +12,7 @@ export default function AddPayrollModal({
   viewPayroll,
   payrollData,
 }) {
+  const { NewAxiosInstance } = useAuth();
   const [employees, setEmployees] = useState([]);
   const {
     handleSubmit,
@@ -31,9 +32,12 @@ export default function AddPayrollModal({
 
   const getPayroll = async () => {
     try {
-      const selectedPayroll = await AxiosInstance.get("/payrolls/getPayroll", {
-        params: payrollData,
-      });
+      const selectedPayroll = await NewAxiosInstance.get(
+        "/payrolls/getPayroll",
+        {
+          params: payrollData,
+        }
+      );
       if (selectedPayroll.status == 200) reset(selectedPayroll.data);
     } catch (err) {
       toast.error("something went wrong !");
@@ -43,7 +47,7 @@ export default function AddPayrollModal({
 
   const getEmployees = async () => {
     try {
-      const { data } = await AxiosInstance.get("/users/getUsers");
+      const { data } = await NewAxiosInstance.get("/users/getUsers");
       setEmployees(data.users);
     } catch (err) {
       toast.error("something went wrong !");
@@ -54,7 +58,7 @@ export default function AddPayrollModal({
   const savePayroll = async (payrollData) => {
     try {
       toast.dismiss();
-      const newPayroll = await AxiosInstance.post(
+      const newPayroll = await NewAxiosInstance.post(
         "/payrolls/addPayroll",
         payrollData
       );
@@ -74,7 +78,7 @@ export default function AddPayrollModal({
   const updatePayroll = async (updatedPayrollData) => {
     try {
       toast.dismiss();
-      const updatedPayroll = await AxiosInstance.post(
+      const updatedPayroll = await NewAxiosInstance.post(
         "/payrolls/updatePayroll",
         updatedPayrollData
       );

@@ -3,19 +3,18 @@ import headerAvatar from "../assets/images/users/avatar-1.jpg";
 import { filePath, onMenuClicked } from "./useCommonUsableFunctions";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
-import { AxiosInstance } from "./axiosInstance";
 import { toast } from "react-toastify";
 import { Dropdown } from "./common-dropDown";
 
 export const CommonNavbar = () => {
-  const { initialUser, user, setUser, setLanCode, lanCode, getLanguage } =
+  const { initialUser, user, setUser, setLanCode, lanCode, NewAxiosInstance } =
     useAuth();
   const navigate = useNavigate();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [languages, setLanguages] = useState([]);
   const getLanguages = useCallback(async () => {
     try {
-      let response = await AxiosInstance.get("/languages/lang");
+      let response = await NewAxiosInstance.get("/languages/lang");
       if (response?.status === 200) {
         setLanguages(response.data ?? []);
         response.data.length && setLanCode(response.data[0].code);
