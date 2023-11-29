@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const init = require("./init");
-
+const path = require("path");
 const app = express();
 
 require("dotenv").config();
@@ -22,7 +22,9 @@ app.use(
   })
 );
 app.use(express.json({ limit: "50mb" }));
-app.use(express.static("uploads"));
+// app.use(express.static("uploads"));
+
+app.use(express.static(path.join(__dirname, "uploads")));
 
 app.listen(process.env.PORT, () => {
   console.log(`on port ${process.env.PORT}`);
