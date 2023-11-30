@@ -474,9 +474,12 @@ export const AddNewLeadModel = ({
             </div>
             <div className="row">
               <hr />
-              <h4 className="mb-3">Company Information</h4>
+              <h4 className="mb-3">Company Information</h4>{" "}
               <div className="col-md-12 mb-3">
-                <label className="form-label">Company Name</label>
+                <label className="form-label">
+                  Company Name <span className="text-danger">*</span>
+                </label>
+
                 <FormattedMessage
                   id="Enter_Company_Name"
                   defaultMessage={"Enter Company Name"}
@@ -507,7 +510,9 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-12 mb-3">
-                <label className="form-label">Company UEN No.</label>
+                <label className="form-label">
+                  Company UEN No. <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -523,7 +528,9 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-12 mb-3">
-                <label className="form-label">Company Address</label>
+                <label className="form-label">
+                  Company Address <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -539,7 +546,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Postal Code</label>
+                <label className="form-label">
+                  Postal Code <span className="text-danger">*</span>
+                </label>
+
                 <input
                   type="text"
                   className="form-control"
@@ -555,7 +565,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Contact Person</label>
+                <label className="form-label">
+                  Contact Person <span className="text-danger">*</span>
+                </label>
+
                 <input
                   type="text"
                   className="form-control"
@@ -571,7 +584,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Contact Person's Mobile</label>
+                <label className="form-label">
+                  Contact Person's Mobile <span className="text-danger">*</span>
+                </label>
+
                 <input
                   type="tel"
                   className="form-control"
@@ -589,8 +605,10 @@ export const AddNewLeadModel = ({
               </div>
               <div className="col-md-12 mb-3">
                 <label className="form-label">
-                  Contact Person's Email Address
+                  Contact Person's Email Address{" "}
+                  <span className="text-danger">*</span>
                 </label>
+
                 <input
                   type="email"
                   className="form-control"
@@ -607,7 +625,9 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Office Telephone No.</label>
+                <label className="form-label">
+                  Office Telephone No. <span className="text-danger">*</span>
+                </label>
                 <input
                   type="tel"
                   className="form-control"
@@ -626,7 +646,9 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Office Fax No.</label>
+                <label className="form-label">
+                  Office Fax No. <span className="text-danger">*</span>
+                </label>
                 <input
                   type="tel"
                   className="form-control"
@@ -649,7 +671,9 @@ export const AddNewLeadModel = ({
               <hr />
               <h4 className="mb-3">Participant's Particular</h4>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Name of Participant</label>
+                <label className="form-label">
+                  Name of Participant <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -665,7 +689,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Participant's Mobile</label>
+                <label className="form-label">
+                  Participant's Mobile <span className="text-danger">*</span>
+                </label>
+
                 <input
                   type="tel"
                   className="form-control"
@@ -682,7 +709,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Trade Type</label>
+                <label className="form-label">
+                  Trade Type <span className="text-danger">*</span>
+                </label>
+
                 <select
                   className="form-select"
                   {...register("tradeType", {
@@ -704,7 +734,8 @@ export const AddNewLeadModel = ({
               {selectedRegistration == "CRW" ? (
                 <div className="col-md-4 mb-3">
                   <label className="form-label">
-                    CoreTrade / Multi-skilling/Direct R1 Registration No
+                    CoreTrade / Multi-skilling/Direct R1 Registration No{" "}
+                    <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
@@ -722,7 +753,10 @@ export const AddNewLeadModel = ({
                 </div>
               ) : (
                 <div className="col-md-4 mb-3">
-                  <label className="form-label">Trade Level</label>
+                  <label className="form-label">
+                    Trade Level <span className="text-danger">*</span>
+                  </label>
+
                   <select
                     className="form-select"
                     {...register("tradeLevel", {
@@ -745,7 +779,11 @@ export const AddNewLeadModel = ({
               {selectedRegistration == "AMN" ? (
                 <div className="row">
                   <div className="col-md-4 mb-3">
-                    <label className="form-label">Participant's IC No.</label>
+                    <label className="form-label">
+                      Participant's IC No.{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+
                     <input
                       type="text"
                       className="form-control"
@@ -765,7 +803,10 @@ export const AddNewLeadModel = ({
                     </span>
                   </div>
                   <div className="col-md-4 mb-3">
-                    <label className="form-label">Date Of Birth</label>
+                    <label className="form-label">
+                      Date Of Birth <span className="text-danger">*</span>
+                    </label>
+
                     <input
                       type="date"
                       className="form-control"
@@ -779,7 +820,10 @@ export const AddNewLeadModel = ({
                     </span>
                   </div>
                   <div className="col-md-4 mb-3">
-                    <label className="form-label">Nationality</label>
+                    <label className="form-label">
+                      Nationality <span className="text-danger">*</span>
+                    </label>
+
                     <select
                       className="form-select"
                       {...register("nationality", {
@@ -800,8 +844,10 @@ export const AddNewLeadModel = ({
                   </div>
                   <div className="col-md-4 mb-3">
                     <label className="form-label">
-                      Educational / Vocational Level
+                      Educational / Vocational Level{" "}
+                      <span className="text-danger">*</span>
                     </label>
+
                     <select
                       className="form-select"
                       {...register("educationalLevel", {
@@ -827,7 +873,10 @@ export const AddNewLeadModel = ({
                     <hr />
                     <h4 className="mb-3">PA / MYE Particular</h4>
                     <div className="col-md-4 mb-3">
-                      <label className="form-label">MYE No.</label>
+                      <label className="form-label">
+                        MYE No. <span className="text-danger">*</span>
+                      </label>
+
                       <input
                         type="text"
                         className="form-control"
@@ -843,7 +892,10 @@ export const AddNewLeadModel = ({
                       </span>
                     </div>
                     <div className="col-md-4 mb-3">
-                      <label className="form-label">Pa Reference No.</label>
+                      <label className="form-label">
+                        Pa Reference No. <span className="text-danger">*</span>
+                      </label>
+
                       <input
                         type="text"
                         className="form-control"
@@ -864,8 +916,10 @@ export const AddNewLeadModel = ({
                 <div className="row">
                   <div className="col-md-4 mb-3">
                     <label className="form-label">
-                      Participant's NRIC / FIN No.
+                      Participant's NRIC / FIN No.{" "}
+                      <span className="text-danger">*</span>
                     </label>
+
                     <input
                       type="text"
                       className="form-control"
@@ -908,7 +962,10 @@ export const AddNewLeadModel = ({
 
               {leadData && (
                 <div className="col-md-4 mb-3">
-                  <label className="form-label">Course</label>
+                  <label className="form-label">
+                    Course <span className="text-danger">*</span>
+                  </label>
+
                   <select
                     className="form-select"
                     {...register("course", {
@@ -948,8 +1005,10 @@ export const AddNewLeadModel = ({
                     {selectedRegistration != "SK" && (
                       <div className="col-md-4 mb-3">
                         <label className="form-label">
-                          Valid BCA Acknowledgement Notice
+                          Valid BCA Acknowledgement Notice{" "}
+                          <span className="text-danger">*</span>
                         </label>
+
                         <input
                           type={
                             watch("bcaAcknowledgementNotice") &&
@@ -997,8 +1056,10 @@ export const AddNewLeadModel = ({
                     )}
                     <div className="col-md-4 mb-3">
                       <label className="form-label">
-                        Valid copy of NRIC / Work document
+                        Valid copy of NRIC / Work document{" "}
+                        <span className="text-danger">*</span>
                       </label>
+
                       <input
                         type={
                           watch("nricWorkDocument") &&
@@ -1046,8 +1107,10 @@ export const AddNewLeadModel = ({
                     {selectedRegistration != "CRW" && (
                       <div className="col-md-4 mb-3">
                         <label className="form-label">
-                          Valid Copy Of Passport
+                          Valid Copy Of Passport{" "}
+                          <span className="text-danger">*</span>
                         </label>
+
                         <input
                           type={
                             watch("passportCopy") &&
@@ -1087,8 +1150,10 @@ export const AddNewLeadModel = ({
                     {selectedRegistration != "CRW" && (
                       <div className="col-md-4 mb-3">
                         <label className="form-label">
-                          Valid Copy Of MOM Employment Details
+                          Valid Copy Of MOM Employment Details{" "}
+                          <span className="text-danger">*</span>
                         </label>
+
                         <input
                           type={
                             watch("MOMEploymentDetails") &&
@@ -1138,8 +1203,10 @@ export const AddNewLeadModel = ({
                       <div className="col-md-4 mb-3">
                         <label className="form-label">
                           1st Skill Evaluation Certificate / BCA Skills
-                          Qualification Statement
+                          Qualification Statement{" "}
+                          <span className="text-danger">*</span>
                         </label>
+
                         <input
                           type={
                             watch("skillEvaluationCertificate") &&
@@ -1193,7 +1260,9 @@ export const AddNewLeadModel = ({
                     <div className="col-md-4 mb-3">
                       <label className="form-label">
                         Copy Of PA Quota（PA复印件）
+                        <span className="text-danger">*</span>
                       </label>
+
                       <input
                         type={
                           watch("paQuotaCopy") && watch("paQuotaCopy")[0]?.name
@@ -1236,8 +1305,10 @@ export const AddNewLeadModel = ({
                     </div>
                     <div className="col-md-4 mb-3">
                       <label className="form-label">
-                        Copy Of Worker's IC 员工的身份证复印件
+                        Copy Of Worker's IC 员工的身份证复印件{" "}
+                        <span className="text-danger">*</span>
                       </label>
+
                       <input
                         type={
                           watch("workersIc") && watch("workersIc")[0]?.name
@@ -1281,7 +1352,8 @@ export const AddNewLeadModel = ({
                     <div className="col-md-4 mb-3">
                       <label className="form-label">
                         Copy Of Worker's Passport (if available)
-                        员工的护照复印件 - 如有请提供
+                        员工的护照复印件 - 如有请提供{" "}
+                        <span className="text-danger">*</span>
                       </label>
                       <input
                         type={

@@ -40,12 +40,11 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
             window.location.reload();
           } else {
             toast.error("error occured");
-            console.log(res);
           }
         }
       } catch (error) {
         toast.error("error occured");
-        console.log(error.response);
+        console.error(error.response);
       }
     },
     [data]

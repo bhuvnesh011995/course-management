@@ -153,7 +153,9 @@ const AddNewCertificate = ({
           >
             <div className="row">
               <div className="col-md-12 mb-3">
-                <label className="form-label">Certificate Number</label>
+                <label className="form-label">
+                  Certificate Number <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -170,7 +172,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Participant's Name</label>
+                <label className="form-label">
+                  Participant's Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -187,7 +191,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Course</label>
+                <label className="form-label">
+                  Course <span className="text-danger">*</span>
+                </label>
                 <select
                   className="form-select"
                   {...register("courseId", {
@@ -227,7 +233,9 @@ const AddNewCertificate = ({
                 )}
               </div> */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Grade</label>
+                <label className="form-label">
+                  Grade <span className="text-danger">*</span>
+                </label>
                 <select
                   className="form-select"
                   id="grade"
@@ -245,7 +253,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Date of Completion</label>
+                <label className="form-label">
+                  Date of Completion <span className="text-danger">*</span>
+                </label>
                 <input
                   type="date"
                   className="form-control"
@@ -261,7 +271,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Remarks</label>
+                <label className="form-label">
+                  Remarks <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -276,7 +288,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Attachment</label>
+                <label className="form-label">
+                  Attachment <span className="text-danger">*</span>
+                </label>
                 <input
                   type={
                     watch("certificateAttchment") &&

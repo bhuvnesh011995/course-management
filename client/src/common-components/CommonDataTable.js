@@ -15,6 +15,7 @@ import {
 } from "../Constants/newLeadContants";
 import { dayColors } from "../Constants/table.constants";
 import { FormattedMessage } from "react-intl";
+import { languageObject } from "../Constants/tableLanguageConstants";
 
 export const CommonDataTable = ({
   data,
@@ -59,7 +60,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
@@ -77,7 +78,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
@@ -107,7 +108,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
@@ -129,7 +130,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
@@ -157,7 +158,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
@@ -168,7 +169,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),

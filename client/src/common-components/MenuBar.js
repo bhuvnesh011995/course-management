@@ -89,7 +89,9 @@ export const MenuBar = () => {
                 onClick={() => showMenuList("schedule-menu")}
               >
                 <i className="bx bx-calendar" />
-                <span key="t-scedule">Schedule </span>
+                <span key="t-course">
+                  <FormattedMessage id="Schedule" defaultMessage={"Schedule"} />
+                </span>
               </a>
               <ul
                 className="sub-menu mm-collapse"
@@ -101,21 +103,36 @@ export const MenuBar = () => {
                     pathname.split("/")[2] == "scheduling" && "mm-active"
                   }`}
                 >
-                  <Link to="/schedule/scheduling">Calendar</Link>
+                  <Link to="/schedule/scheduling">
+                    <FormattedMessage
+                      id="Calendar"
+                      defaultMessage={"Calendar"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "trainer" && "mm-active"
                   }`}
                 >
-                  <Link to="/schedule/trainer">Trainers</Link>
+                  <Link to="/schedule/trainer">
+                    <FormattedMessage
+                      id="Trainers"
+                      defaultMessage={"Trainers"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "date-range" && "mm-active"
                   }`}
                 >
-                  <Link to="/schedule/date-range">Holidays</Link>
+                  <Link to="/schedule/date-range">
+                    <FormattedMessage
+                      id="Holidays"
+                      defaultMessage={"Holidays"}
+                    />
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -141,7 +158,10 @@ export const MenuBar = () => {
                   }`}
                 >
                   <Link to="/course-management/registration-type">
-                    Registration Type
+                    <FormattedMessage
+                      id="Registration_Type"
+                      defaultMessage={"Registration Type"}
+                    />
                   </Link>
                 </li>
                 <li
@@ -149,28 +169,42 @@ export const MenuBar = () => {
                     pathname.split("/")[2] == "trade-level" && "mm-active"
                   }`}
                 >
-                  <Link to="/course-management/trade-level">Trade Level</Link>
+                  <Link to="/course-management/trade-level">
+                    <FormattedMessage
+                      id="Trade_Level"
+                      defaultMessage={"Trade Level"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "trade-type" && "mm-active"
                   }`}
                 >
-                  <Link to="/course-management/trade-type">Trade Types</Link>
+                  <Link to="/course-management/trade-type">
+                    <FormattedMessage
+                      id="Trade_Types"
+                      defaultMessage={"Trade Types"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "course" && "mm-active"
                   }`}
                 >
-                  <Link to="/course-management/course">Courses</Link>
+                  <Link to="/course-management/course">
+                    <FormattedMessage id="Courses" defaultMessage={"Courses"} />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "class" && "mm-active"
                   }`}
                 >
-                  <Link to="/course-management/class">Class</Link>
+                  <Link to="/course-management/class">
+                    <FormattedMessage id="Class" defaultMessage={"Class"} />
+                  </Link>
                 </li>
                 <li
                   className={`${
@@ -178,7 +212,10 @@ export const MenuBar = () => {
                   }`}
                 >
                   <Link to="/course-management/certificate">
-                    Certificate Generation
+                    <FormattedMessage
+                      id="Certificate_Generation"
+                      defaultMessage={"Certificate Generation"}
+                    />
                   </Link>
                 </li>
                 <li
@@ -186,14 +223,24 @@ export const MenuBar = () => {
                     pathname.split("/")[2] == "attendance" && "mm-active"
                   }`}
                 >
-                  <Link to="/course-management/attendance">Attendance</Link>
+                  <Link to="/course-management/attendance">
+                    <FormattedMessage
+                      id="Attendance"
+                      defaultMessage={"Attendance"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "feedback" && "mm-active"
                   }`}
                 >
-                  <Link to="/course-management/feedback">Feedback</Link>
+                  <Link to="/course-management/feedback">
+                    <FormattedMessage
+                      id="Feedback"
+                      defaultMessage={"Feedback"}
+                    />
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -230,21 +277,36 @@ export const MenuBar = () => {
                     pathname.split("/")[2] == "quotation" && "mm-active"
                   }`}
                 >
-                  <Link to="/finance/quotation">Quotation Management</Link>
+                  <Link to="/finance/quotation">
+                    <FormattedMessage
+                      id="Quotation_Management"
+                      defaultMessage={"Quotation Management"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "sales-quotation" && "mm-active"
                   }`}
                 >
-                  <Link to="/finance/sales-quotation">Sales Quotation</Link>
+                  <Link to="/finance/sales-quotation">
+                    <FormattedMessage
+                      id="Sales_Quotation"
+                      defaultMessage={"Sales Quotation"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "invoice" && "mm-active"
                   }`}
                 >
-                  <Link to="/finance/invoice">Invoice Management</Link>
+                  <Link to="/finance/invoice">
+                    <FormattedMessage
+                      id="Invoice_Management"
+                      defaultMessage={"Invoice Management"}
+                    />
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -266,7 +328,12 @@ export const MenuBar = () => {
                     pathname.split("/")[2] == "user-management" && "mm-active"
                   }`}
                 >
-                  <Link to="/admin/user-management">User Managment</Link>
+                  <Link to="/admin/user-management">
+                    <FormattedMessage
+                      id="User_Managment"
+                      defaultMessage={"User Managment"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
@@ -274,7 +341,10 @@ export const MenuBar = () => {
                   }`}
                 >
                   <Link to="/admin/roles" className="sub-menu">
-                    Roles and Permission
+                    <FormattedMessage
+                      id="Roles_and_Permission"
+                      defaultMessage={"Roles and Permission"}
+                    />
                   </Link>
                 </li>
               </ul>
@@ -297,28 +367,48 @@ export const MenuBar = () => {
                     pathname.split("/")[2] == "employee" && "mm-active"
                   }`}
                 >
-                  <Link to="/hrms/employee">Employee Management</Link>
+                  <Link to="/hrms/employee">
+                    <FormattedMessage
+                      id="Employee_Management"
+                      defaultMessage={"Employee Management"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "payroll" && "mm-active"
                   }`}
                 >
-                  <Link to="/hrms/payroll">Payroll Maagment</Link>
+                  <Link to="/hrms/payroll">
+                    <FormattedMessage
+                      id="Payroll_Maagment"
+                      defaultMessage={"Payroll Maagment"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "leave" && "mm-active"
                   }`}
                 >
-                  <Link to="/hrms/leave">Leave Management</Link>
+                  <Link to="/hrms/leave">
+                    <FormattedMessage
+                      id="Leave_Management"
+                      defaultMessage={"Leave Management"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "timesheet" && "mm-active"
                   }`}
                 >
-                  <Link to="/hrms/timesheet">Timesheet Tracking</Link>
+                  <Link to="/hrms/timesheet">
+                    <FormattedMessage
+                      id="Timesheet_Tracking"
+                      defaultMessage={"Timesheet Tracking"}
+                    />
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -340,14 +430,24 @@ export const MenuBar = () => {
                     pathname.split("/")[2] == "multilanguage" && "mm-active"
                   }`}
                 >
-                  <Link to="/settings/multilanguage">Multi Language</Link>
+                  <Link to="/settings/multilanguage">
+                    <FormattedMessage
+                      id="Multi_Language"
+                      defaultMessage={"Multi Language"}
+                    />
+                  </Link>
                 </li>
                 <li
                   className={`${
                     pathname.split("/")[2] == "constants" && "mm-active"
                   }`}
                 >
-                  <Link to="/settings/constants">Constants</Link>
+                  <Link to="/settings/constants">
+                    <FormattedMessage
+                      id="Constants"
+                      defaultMessage={"Constants"}
+                    />
+                  </Link>
                 </li>
 
                 <li
@@ -355,7 +455,12 @@ export const MenuBar = () => {
                     pathname.split("/")[2] == "system" && "mm-active"
                   }`}
                 >
-                  <Link to="/settings/system">System Configuration</Link>
+                  <Link to="/settings/system">
+                    <FormattedMessage
+                      id="System_Configuration"
+                      defaultMessage={"System Configuration"}
+                    />
+                  </Link>
                 </li>
               </ul>
             </li>

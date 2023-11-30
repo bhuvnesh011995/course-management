@@ -139,9 +139,6 @@ export default function AddNew({
         </Modal.Body>
         <Modal.Footer>
           <button
-            onMouseEnter={() => {
-              console.log(watch("template"));
-            }}
             onClick={() => {
               setShow(false);
             }}

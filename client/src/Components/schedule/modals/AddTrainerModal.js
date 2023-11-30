@@ -137,7 +137,9 @@ export const NewTrainerModal = ({
           >
             <div className="row">
               <div className="col-md-6 mb-3">
-                <label className="form-label">Name</label>
+                <label className="form-label">
+                  Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -155,7 +157,9 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Email ID</label>
+                <label className="form-label">
+                  Email ID <span className="text-danger">*</span>
+                </label>
                 <input
                   type="email"
                   className="form-control"
@@ -173,7 +177,9 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Mobile No.</label>
+                <label className="form-label">
+                  Mobile No. <span className="text-danger">*</span>
+                </label>
                 <input
                   type="tel"
                   className="form-control"
@@ -190,7 +196,9 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">DOB (Date of Birth)</label>
+                <label className="form-label">
+                  DOB (Date of Birth) <span className="text-danger">*</span>
+                </label>
                 <input
                   type="date"
                   className="form-control"
@@ -206,7 +214,9 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Designation</label>
+                <label className="form-label">
+                  Designation <span className="text-danger">*</span>
+                </label>
                 <select
                   className="form-select"
                   {...register("trainerDesignation", {
@@ -272,7 +282,9 @@ export const NewTrainerModal = ({
                 </div>
               </div>
               <div className="col-md-12 mb-3">
-                <label className="form-label">Address</label>
+                <label className="form-label">
+                  Address <span className="text-danger">*</span>
+                </label>
                 <textarea
                   className="form-control"
                   rows={3}

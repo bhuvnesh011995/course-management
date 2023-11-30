@@ -30,7 +30,7 @@ export default function EmailTemplate() {
         setData(response.data);
       } else toast.error("error while fetching data");
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
       toast.error("error while fetching");
     }
   }, []);
@@ -46,11 +46,10 @@ export default function EmailTemplate() {
           setData((preVal) => [...preVal, response.data]);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while added Email Template");
         }
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         toast.error("error while adding Email Template");
       }
     },
@@ -60,7 +59,6 @@ export default function EmailTemplate() {
   const updateEmailTemplate = useCallback(
     async (id, formData) => {
       try {
-        console.log("run");
         let response = await NewAxiosInstance.put(
           "/constants/emailtemplate/" + id,
           formData
@@ -74,11 +72,10 @@ export default function EmailTemplate() {
           setData(newArray);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while updateing Email Template");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.error("error while updating Email Template");
       }
     },
@@ -117,7 +114,7 @@ export default function EmailTemplate() {
             message: "some error occured while deleting",
           };
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         return { success: false, message: "server error occured" };
       }
     },
@@ -140,6 +137,7 @@ export default function EmailTemplate() {
 
   const selectThisTemplate = async (template) => {
     try {
+      toast.dismiss();
       const updateUserSelectedTemplate = await NewAxiosInstance.post(
         "/users/selectedTemplate",
         template

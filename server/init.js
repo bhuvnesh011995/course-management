@@ -1,3 +1,4 @@
+const { languagesDataArray } = require("./constants/languageDataConstants");
 const db = require("./models");
 const adminRole = require("./utils/adminPermission");
 
@@ -26,16 +27,15 @@ module.exports = async () => {
         });
     }
 
-
     // this is for config
 
-    let systemConfig = await db.config.systemConfig.findOne({})
+    let systemConfig = await db.config.systemConfig.findOne({});
 
-    if(!systemConfig) await db.config.systemConfig.create({})
+    if (!systemConfig) await db.config.systemConfig.create({});
 
-    let otherConfig =await db.config.otherConfig.findOne({})
+    let otherConfig = await db.config.otherConfig.findOne({});
 
-    if(!otherConfig) await db.config.otherConfig.create({})
+    if (!otherConfig) await db.config.otherConfig.create({});
 
     let [
       TFS,
@@ -343,6 +343,12 @@ module.exports = async () => {
             $push: { tradeLevelIds: SRT._id },
           }
         );
+      }
+    }
+    const getLanguages = await db.language.find({});
+    if (!getLanguages.length) {
+      for (let language of languagesDataArray) {
+        await db.language.create(language);
       }
     }
   } catch (error) {

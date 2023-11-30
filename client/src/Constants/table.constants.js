@@ -35,7 +35,7 @@ export const tableHeaders = {
 };
 
 export const permissionTableHeaders = {
-  permissionName: "Name",
+  name: "Name",
   assignTo: "Assigned To",
   created_at: "Created At",
 };
@@ -116,7 +116,7 @@ export const trainerHeaders = {
   _id: "Trainer ID",
   trainerName: "Name",
   trainerEmail: "Email ID",
-  trainerMobile: "Mobile No.",
+  trainerMobile: "Mobile No",
   trainerDOB: "DOB",
   designation: "Designation",
 };
@@ -153,10 +153,10 @@ export const certificateHeaders = {
 export const employeeHeaders = {
   _id: "Employee ID",
   name: "Name",
-  position: "Position",
+  positionName: "Position",
   email: "Email",
   phoneNo: "Phone",
-  department: "Department",
+  departmentName: "Department",
   joinDate: "Join Date",
   status: "Status",
 };
@@ -171,30 +171,30 @@ export const attendanceHeaders = {
 
 export const generateAttendanceHeaders = {
   participantName: "Name Of Trainee",
-  participantNric: "NRIC/ FIN No.",
+  participantNric: "NRIC/ FIN No",
   coreTradeRegNo:
-    "Registration No. / Submission No. (CoreTrade / Multi-Skilling / Direct R1)",
+    "Registration No / Submission No (CoreTrade / Multi-Skilling / Direct R1)",
 };
 
 export const excelAttendanceHeaders = {
   participantName: "Name Of Trainee",
-  participantNric: "NRIC/ FIN No.",
+  participantNric: "NRIC/ FIN No",
   coreTradeRegNo:
-    "Registration No. / Submission No. (CoreTrade / Multi-Skilling / Direct R1)",
+    "Registration No / Submission No (CoreTrade / Multi-Skilling / Direct R1)",
   traineeAttendance: "Trainee's Attendance (Signature)",
   traineeResults: "Results (P/f) *",
 };
 
 export const quotationPreviewHeaders = {
   courseName: "Course Name",
-  unitPrice: " Unit Price",
+  unitPrice: "Unit Price",
   unit: "Quantity",
   grossAmt: "Gross Amount($)",
   discount: "Discount(%)",
 };
 
 export const quoatationListHeaders = {
-  _id: "Quotation No.",
+  _id: "Quotation No",
   contactPerson: "Customer Name",
   contactPersonEmail: "Email",
   contactPersonMobile: "Mobile",
@@ -202,7 +202,7 @@ export const quoatationListHeaders = {
 };
 
 export const salesQuoatationListHeaders = {
-  _id: "Sales Quotation No.",
+  _id: "Sales Quotation No",
   contactPerson: "Customer Name",
   contactPersonEmail: "Email",
   contactPersonMobile: "Mobile",
@@ -210,7 +210,7 @@ export const salesQuoatationListHeaders = {
 };
 
 export const invoiceQuoatationListHeaders = {
-  _id: "Invoice Quotation No.",
+  _id: "Invoice Quotation No",
   contactPerson: "Customer Name",
   contactPersonEmail: "Email",
   contactPersonMobile: "Mobile",
@@ -239,7 +239,7 @@ export const leaveHeaders = {
   name: "Employee Name",
   department: "Department",
   position: "Position",
-  leavetype: "Leave Type",
+  leaveName: "Leave Type",
   startDate: "Start Date",
   endDate: "End Date",
 };
@@ -264,7 +264,7 @@ export const dashboardCourseHeaders = {
   courseType: "Category",
   totalClasses: "Classes",
   updated_at: "Last Updated",
-  totalCustomers: "Cutomers",
+  totalCustomers: "Customers",
 };
 
 export const emailTemplateColumnHeaders = {

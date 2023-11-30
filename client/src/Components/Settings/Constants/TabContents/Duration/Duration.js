@@ -17,14 +17,13 @@ export default function Duration() {
 
   const getDurations = useCallback(async () => {
     try {
-      console.log("run");
       let response = await NewAxiosInstance.get("/constants/duration");
       if (!response) toast.error("server error");
       if (response.status === 200) {
         setData(response.data);
       } else toast.error("error while fetching data");
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
       toast.error("error while fetching");
     }
   }, []);
@@ -40,11 +39,10 @@ export default function Duration() {
           setData((preVal) => [...preVal, response.data]);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while added duration");
         }
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         toast.error("error while adding duration");
       }
     },
@@ -67,11 +65,10 @@ export default function Duration() {
           setData(newArray);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while updateing duration");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.error("error while updating duration");
       }
     },
@@ -106,10 +103,10 @@ export default function Duration() {
         } else
           return {
             success: false,
-            message: "some error occured while deleting",
+            message: response.data.message,
           };
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         return { success: false, message: "server error occured" };
       }
     },

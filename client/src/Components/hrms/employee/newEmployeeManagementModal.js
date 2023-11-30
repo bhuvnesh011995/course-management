@@ -7,7 +7,6 @@ import {
   passwordPattern,
   phonePattern,
 } from "../../../common-components/validations";
-import moment from "moment";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/authContext";
 
@@ -20,6 +19,8 @@ export const NewEmployeeManagementModal = ({
 }) => {
   const { NewAxiosInstance } = useAuth();
   const [roles, setRoles] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [positions, setPositions] = useState([]);
 
   const {
     register,
@@ -31,6 +32,9 @@ export const NewEmployeeManagementModal = ({
 
   useEffect(() => {
     getRoles();
+    getAllDepartments();
+
+    getAllPositions();
     if (employeeData?._id) reset(employeeData);
   }, []);
 
@@ -47,12 +51,46 @@ export const NewEmployeeManagementModal = ({
         newEmployee
       );
       if (addedEmployee.status == 200) {
-        toast.success("New Employee Added");
         callback(addedEmployee.data);
+        toast.success(addedEmployee.data.message);
+        handleClose();
+      } else {
+        toast.error(addedEmployee.data.message);
       }
-      handleClose();
     } catch (err) {
       toast.error("error occured");
+      console.error(err);
+    }
+  };
+
+  const getAllDepartments = async () => {
+    try {
+      const allDepartments = await NewAxiosInstance.get(
+        "/constants/department"
+      );
+      if (allDepartments.status == 200) {
+        if (allDepartments.data.length) {
+          setDepartments(allDepartments.data);
+        } else {
+          toast.error("Please add Departments");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getAllPositions = async () => {
+    try {
+      const allPositions = await NewAxiosInstance.get("/constants/position");
+      if (allPositions.status == 200) {
+        if (allPositions.data.length) {
+          setPositions(allPositions.data);
+        } else {
+          toast.error("Please add positions");
+        }
+      }
+    } catch (err) {
       console.error(err);
     }
   };
@@ -60,15 +98,19 @@ export const NewEmployeeManagementModal = ({
   const updateEmployee = async (updatedEmployee) => {
     try {
       toast.dismiss();
-      const { data } = await NewAxiosInstance.post(
+      const employeeDetails = await NewAxiosInstance.post(
         "/users/updateUser",
         updatedEmployee
       );
-      toast.success("employee updated");
-      updatedEmployee["name"] =
-        updatedEmployee["firstName"] + " " + updatedEmployee["lastName"];
-      callback(updatedEmployee);
-      handleClose();
+      if (employeeDetails.status == 200) {
+        toast.success(employeeDetails.data.message);
+        updatedEmployee["name"] =
+          updatedEmployee["firstName"] + " " + updatedEmployee["lastName"];
+        callback(updatedEmployee);
+        handleClose();
+      } else {
+        toast.error("Something Went Wrong");
+      }
     } catch (err) {
       toast.error("error occured");
       console.error(err);
@@ -103,7 +145,9 @@ export const NewEmployeeManagementModal = ({
             className="row"
           >
             <div className="col-md-6 mb-3">
-              <label className="form-label">First Name</label>
+              <label className="form-label">
+                First Name <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -119,7 +163,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Last Name</label>
+              <label className="form-label">
+                Last Name <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -135,7 +181,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Email</label>
+              <label className="form-label">
+                Email <span className="text-danger">*</span>
+              </label>
               <input
                 type="email"
                 className="form-control"
@@ -151,7 +199,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Phone</label>
+              <label className="form-label">
+                Phone <span className="text-danger">*</span>
+              </label>
               <input
                 type="tel"
                 className="form-control"
@@ -167,7 +217,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Position</label>
+              <label className="form-label">
+                Position <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("position", {
@@ -178,22 +230,25 @@ export const NewEmployeeManagementModal = ({
                 <option key={""} value="">
                   Select position
                 </option>
-                <option key={"Manager"} value="Manager">
-                  Manager
-                </option>
-                <option key={"Supervisor"} value="Supervisor">
-                  Supervisor
-                </option>
-                <option key={"Associate"} value="Associate">
-                  Associate
-                </option>
+                {positions?.length &&
+                  positions.map((e) => (
+                    <option
+                      key={e._id}
+                      value={e._id}
+                      selected={e._id == watch("position") && e._id}
+                    >
+                      {e.name}
+                    </option>
+                  ))}
               </select>
               {errors?.position && (
                 <span className="text-danger">{errors?.position.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Department</label>
+              <label className="form-label">
+                Department <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("department", {
@@ -204,15 +259,16 @@ export const NewEmployeeManagementModal = ({
                 <option key={""} value="">
                   Select department
                 </option>
-                <option key={"HR"} value="HR">
-                  HR
-                </option>
-                <option key={"Finance"} value="Finance">
-                  Finance
-                </option>
-                <option key={"IT"} value="IT">
-                  IT
-                </option>
+                {departments?.length &&
+                  departments.map((e) => (
+                    <option
+                      key={e._id}
+                      value={e._id}
+                      selected={e._id == watch("department") && e._id}
+                    >
+                      {e.name}
+                    </option>
+                  ))}
               </select>
               {errors?.department && (
                 <span className="text-danger">
@@ -221,7 +277,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Join Date</label>
+              <label className="form-label">
+                Join Date <span className="text-danger">*</span>
+              </label>
               <input
                 type="date"
                 className="form-control"
@@ -235,7 +293,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Salary</label>
+              <label className="form-label">
+                Salary <span className="text-danger">*</span>
+              </label>
               <input
                 type="number"
                 className="form-control"
@@ -250,7 +310,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Gender</label>
+              <label className="form-label">
+                Gender <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("gender", {
@@ -276,7 +338,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Role</label>
+              <label className="form-label">
+                Role <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("userRole", {
@@ -300,7 +364,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Status</label>
+              <label className="form-label">
+                Status <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("status", {
@@ -323,7 +389,9 @@ export const NewEmployeeManagementModal = ({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">User Name</label>
+              <label className="form-label">
+                User Name <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -339,7 +407,9 @@ export const NewEmployeeManagementModal = ({
               </span>
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Password</label>
+              <label className="form-label">
+                Password <span className="text-danger">*</span>
+              </label>
               <input
                 type="password"
                 className="form-control"
@@ -359,7 +429,9 @@ export const NewEmployeeManagementModal = ({
               </span>
             </div>
             <div className="col-md-12 mb-3">
-              <label className="form-label">Address</label>
+              <label className="form-label">
+                Address <span className="text-danger">*</span>
+              </label>
               <textarea
                 className="form-control"
                 rows={3}

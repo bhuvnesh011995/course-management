@@ -1,16 +1,23 @@
+import { useAuth } from "../context/authContext";
+
 export const CommonFooter = () => {
+  const { user } = useAuth();
   return (
-    <footer ClassName="footer">
-      <div ClassName="container-fluid">
-        <div ClassName="row">
-          <div ClassName="col-sm-6">
-            <script>{new Date().getFullYear()}</script> © Tonga.
-          </div>
-          <div ClassName="col-sm-6">
-            <div ClassName="text-sm-end d-none d-sm-block">
-              Design & Develop by{" "}
+    <footer className="footer">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-sm-6">
+            <script>{new Date().getFullYear()}</script> ©{" "}
+            {user.systemConfigurations?.name
+              ? user.systemConfigurations?.name
+              : "Tonga"}
+            .
+          </div>{" "}
+          <div className="col-sm-6">
+            <div className="text-sm-end d-none d-sm-block">
+              Design &amp; Develop by{" "}
               <a href="https://braincavesoft.com" target="_blank">
-                Braincave Software Pvt.Ltd.
+                BrainCave Software Pvt.Ltd.
               </a>
             </div>
           </div>

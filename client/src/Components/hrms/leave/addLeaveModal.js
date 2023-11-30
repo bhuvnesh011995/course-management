@@ -14,6 +14,7 @@ export default function AddLeaveModal({
 }) {
   const { NewAxiosInstance } = useAuth();
   const [employees, setEmployees] = useState([]);
+  const [leaveTypes, setLeaveTypes] = useState([]);
   const {
     handleSubmit,
     register,
@@ -26,6 +27,7 @@ export default function AddLeaveModal({
 
   useEffect(() => {
     getEmployees();
+    getAllLeaves();
     if (leaveData) {
       getLeave();
     }
@@ -123,6 +125,21 @@ export default function AddLeaveModal({
     }
   };
 
+  const getAllLeaves = async () => {
+    try {
+      const allLeaves = await NewAxiosInstance.get("/constants/leave");
+      if (allLeaves.status == 200) {
+        if (allLeaves.data.length) {
+          setLeaveTypes(allLeaves.data);
+        } else {
+          toast.error("Please add Leaves");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Modal
       show={show}
@@ -141,7 +158,9 @@ export default function AddLeaveModal({
         <form onSubmit={handleSubmit(leaveData ? updateLeave : saveLeave)}>
           <div className="row">
             <div className="col-md-6 mb-3">
-              <label className="form-label">Employee Name</label>
+              <label className="form-label">
+                Employee Name <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("employee", {
@@ -161,7 +180,9 @@ export default function AddLeaveModal({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Leave Type</label>
+              <label className="form-label">
+                Leave Type <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("leavetype", {
@@ -172,22 +193,25 @@ export default function AddLeaveModal({
                 <option key={""} value="">
                   Select Leave
                 </option>
-                <option key={"vacation"} value={"vacation"}>
-                  Vacation
-                </option>
-                <option key={"sick"} value={"sick"}>
-                  Sick{" "}
-                </option>
-                <option key={"unpaid"} value={"unpaid"}>
-                  Unpaid
-                </option>
+                {leaveTypes?.length &&
+                  leaveTypes.map((e) => (
+                    <option
+                      key={e._id}
+                      value={e._id}
+                      selected={e._id == watch("leaveType") && e._id}
+                    >
+                      {e.name}
+                    </option>
+                  ))}
               </select>
               {errors?.leavetype && (
                 <span className="text-danger">{errors?.leavetype.message}</span>
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Start Date</label>
+              <label className="form-label">
+                Start Date <span className="text-danger">*</span>
+              </label>
               <div className="input-group">
                 <input
                   type="date"
@@ -208,7 +232,9 @@ export default function AddLeaveModal({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">End Date</label>
+              <label className="form-label">
+                End Date <span className="text-danger">*</span>
+              </label>
               <div className="input-group" id="datepicker3">
                 <input
                   type="date"

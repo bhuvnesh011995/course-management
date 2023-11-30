@@ -18,64 +18,68 @@ pass a "setShow" which handle the value of "show"
 if callback response is success true or false a toast will appear with response messagge
 */
 
-
-
 import { useCallback, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-export default function DeleteModal2({callback,info,setInfo,show,setShow}) {
-    const [ready,setReady]= useState(false)
-    useEffect(()=>{
-return ()=>{
-    if(ready) setInfo({})
-    else setReady(true)
-}
-    },[])
-    const handleDelete = useCallback(async()=>{
-        let res = info?.id && await callback(info?.id)
-        if(res.success){
-            toast.success(res.message??"delete successfull")
-            setShow(false)
-        }else{
-            toast.error(res.message)
-        }
-    },[info])
+export default function DeleteModal2({
+  callback,
+  info,
+  setInfo,
+  show,
+  setShow,
+}) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    return () => {
+      if (ready) setInfo({});
+      else setReady(true);
+    };
+  }, []);
+  const handleDelete = useCallback(async () => {
+    let res = info?.id && (await callback(info?.id));
+    if (res.success) {
+      toast.success(res.message ?? "delete successfull");
+      setShow(false);
+    } else {
+      toast.error(res.message);
+    }
+  }, [info]);
 
-    return (
-        <div>
-          <Modal show={show} onHide={()=>setShow(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>
-                <h5 className="modal-title">Delete {" " + info?.Header}</h5>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="col-12 fv-plugins-icon-container">
-                <label className="form-label">{info?.message}</label>
+  return (
+    <div>
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <h5 className="modal-title">Delete {" " + info?.Header}</h5>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="col-12 fv-plugins-icon-container">
+            <label className="form-label">{info?.message}</label>
+          </div>
+          <Modal.Footer>
+            <div className="row">
+              <div className="col-12 text-center">
+                <button
+                  type="submit"
+                  onClick={handleDelete}
+                  className="btn btn-danger me-sm-3 me-1"
+                >
+                  Delete
+                </button>
+                <button
+                  type="reset"
+                  className="btn btn-label-secondary"
+                  onClick={() => setShow(false)}
+                >
+                  Discard
+                </button>
               </div>
-              <Modal.Footer>
-                <div className="row">
-                  <div className="col-12 text-center">
-                    <button
-                      type="submit"
-                      onClick={handleDelete}
-                      className="btn btn-danger me-sm-3 me-1"
-                    >
-                      Delete
-                    </button>
-                    <button
-                      type="reset"
-                      className="btn btn-label-secondary"
-                      onClick={()=>setShow(false)}
-                    >
-                      Discard
-                    </button>
-                  </div>
-                </div>
-              </Modal.Footer>
-            </Modal.Body>
-          </Modal>
-        </div>
-      );
-};
+            </div>
+          </Modal.Footer>
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+}

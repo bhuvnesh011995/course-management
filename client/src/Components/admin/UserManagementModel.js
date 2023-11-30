@@ -104,7 +104,9 @@ export const AddNewUserModal = ({
           <form onSubmit={handleSubmit(userData ? updateUser : addNewUser)}>
             <div className="row">
               <div className="col-md-6 mb-3">
-                <label className="form-label">First Name</label>
+                <label className="form-label">
+                  First Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -120,7 +122,9 @@ export const AddNewUserModal = ({
                 </span>
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Last Name</label>
+                <label className="form-label">
+                  Last Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -136,7 +140,9 @@ export const AddNewUserModal = ({
                 </span>
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Email</label>
+                <label className="form-label">
+                  Email <span className="text-danger">*</span>
+                </label>
                 <input
                   className="form-control"
                   placeholder="Enter email"
@@ -157,7 +163,9 @@ export const AddNewUserModal = ({
                 </span>
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Mobile</label>
+                <label className="form-label">
+                  Mobile <span className="text-danger">*</span>
+                </label>
                 <input
                   type="number"
                   className="form-control"
@@ -175,7 +183,9 @@ export const AddNewUserModal = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">User Name</label>
+                <label className="form-label">
+                  User Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -191,7 +201,9 @@ export const AddNewUserModal = ({
                 </span>
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Password</label>
+                <label className="form-label">
+                  Password <span className="text-danger">*</span>
+                </label>
                 <input
                   type="password"
                   className="form-control"
@@ -211,10 +223,12 @@ export const AddNewUserModal = ({
                 </span>
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">User Roles</label>
+                <label className="form-label">
+                  User Roles <span className="text-danger">*</span>
+                </label>
                 <select
                   className="form-select"
-                  {...register("userRole")}
+                  {...register("userRole", { required: "please select role" })}
                   disabled={viewUser}
                 >
                   <option value={""}>-- select --</option>
@@ -228,6 +242,11 @@ export const AddNewUserModal = ({
                     </option>
                   ))}
                 </select>
+                {errors?.userRole && (
+                  <span className="text-danger">
+                    {errors?.userRole.message}
+                  </span>
+                )}
               </div>
               <div className="col-md-6 mb-3">
                 <label className="form-label">Status</label>

@@ -47,11 +47,10 @@ export default function MultiLanguage() {
       } else {
         toast.error("error while fetching");
         setData([]);
-        console.log(res);
       }
     } catch (error) {
       toast.error("error while fetching");
-      console.log(error.response);
+      console.error(error.response);
     }
   }, []);
   useEffect(() => {
@@ -70,7 +69,7 @@ export default function MultiLanguage() {
           return { success: false, message: "error occured while deleting" };
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return { success: false, message: "server error occured" };
       }
     },
@@ -208,21 +207,6 @@ export default function MultiLanguage() {
             </div>
           </div>
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
   );

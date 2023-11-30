@@ -115,7 +115,9 @@ export default function AddPayrollModal({
         >
           <div className="row">
             <div className="col-md-6 mb-3">
-              <label className="form-label">Employee Name</label>
+              <label className="form-label">
+                Employee Name <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("employee", {
@@ -135,7 +137,9 @@ export default function AddPayrollModal({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Salary</label>
+              <label className="form-label">
+                Salary <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -151,7 +155,9 @@ export default function AddPayrollModal({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Allowances</label>
+              <label className="form-label">
+                Allowances <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -169,7 +175,9 @@ export default function AddPayrollModal({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Deductions</label>
+              <label className="form-label">
+                Deductions <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -187,7 +195,9 @@ export default function AddPayrollModal({
               )}
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Net Salary</label>
+              <label className="form-label">
+                Net Salary <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 className="form-control"

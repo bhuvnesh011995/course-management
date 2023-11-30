@@ -118,7 +118,9 @@ export default function AddTimesheetModal({
           )}
         >
           <div className="mb-3">
-            <label className="form-label">Date</label>
+            <label className="form-label">
+              Date <span className="text-danger">*</span>
+            </label>
             <input
               type="date"
               className="form-control"
@@ -130,7 +132,9 @@ export default function AddTimesheetModal({
             )}
           </div>
           <div className="mb-3">
-            <label className="form-label">Employee Name</label>
+            <label className="form-label">
+              Employee Name <span className="text-danger">*</span>
+            </label>
             <select
               className="form-select"
               {...register("employee", {
@@ -150,7 +154,9 @@ export default function AddTimesheetModal({
             )}
           </div>
           <div className="mb-3">
-            <label className="form-label">Hours Worked</label>
+            <label className="form-label">
+              Hours Worked <span className="text-danger">*</span>
+            </label>
             <input
               type="number"
               className="form-control"
@@ -166,7 +172,9 @@ export default function AddTimesheetModal({
             )}
           </div>
           <div className="mb-3">
-            <label className="form-label">Overtime Hours</label>
+            <label className="form-label">
+              Overtime Hours <span className="text-danger">*</span>
+            </label>
             <input
               type="number"
               className="form-control"
@@ -182,7 +190,9 @@ export default function AddTimesheetModal({
             )}
           </div>
           <div className="mb-3">
-            <label className="form-label">Shift</label>
+            <label className="form-label">
+              Shift <span className="text-danger">*</span>
+            </label>
             <select
               className="form-select"
               {...register("shiftTiming", {

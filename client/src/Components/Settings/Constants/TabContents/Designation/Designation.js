@@ -25,7 +25,7 @@ export default function Designation() {
         setData(response.data);
       } else toast.error("error while fetching data");
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
       toast.error("error while fetching");
     }
   }, []);
@@ -41,11 +41,10 @@ export default function Designation() {
           setData((preVal) => [...preVal, response.data]);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while added designation");
         }
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         toast.error("error while adding designation");
       }
     },
@@ -55,7 +54,6 @@ export default function Designation() {
   const updateDesignation = useCallback(
     async (id, formData) => {
       try {
-        console.log("run");
         let response = await NewAxiosInstance.put(
           "/constants/designations/" + id,
           formData
@@ -69,11 +67,10 @@ export default function Designation() {
           setData(newArray);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while updateing designation");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.error("error while updating designation");
       }
     },
@@ -106,10 +103,10 @@ export default function Designation() {
         } else
           return {
             success: false,
-            message: "some error occured while deleting",
+            message: response.data.message,
           };
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         return { success: false, message: "server error occured" };
       }
     },

@@ -25,7 +25,7 @@ export default function LanguageModal({
         toast.error("error occured while fetching");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("error occured while fetching");
     }
   }, []);

@@ -148,7 +148,11 @@ export const CommonNavbar = () => {
                     <span key="t-profile">Profile</span>
                   </a>
                   <div className="dropdown-divider" />
-                  <a className="dropdown-item text-danger" onClick={userLogOut}>
+                  <a
+                    id="logout-user"
+                    className="dropdown-item text-danger"
+                    onClick={userLogOut}
+                  >
                     <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />{" "}
                     <span key="t-logout">Logout</span>
                   </a>

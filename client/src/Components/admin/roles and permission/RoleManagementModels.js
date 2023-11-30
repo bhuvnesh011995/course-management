@@ -127,10 +127,10 @@ export const AddNewRoleModel = ({
       if (newRole.status == 200) {
         toast.success("Role Added Successfully");
         callback(newRole.data);
+        handleCloseRoleModal();
       } else {
         toast.error(newRole.data.message);
       }
-      handleCloseRoleModal();
     } catch (err) {
       toast.error("something went wrong !");
       console.error(err);
@@ -385,16 +385,22 @@ export const AddNewRoleModel = ({
         <Modal.Body>
           <form onSubmit={handleSubmit(roleId ? editRoleData : addNewRole)}>
             <div className="col-12 mb-4 fv-plugins-icon-container">
-              <label className="form-label">Role Name</label>
+              <label className="form-label">
+                Role Name <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 id="modalRoleName"
-                {...register("roleName")}
+                {...register("roleName", {
+                  required: "this field is required",
+                })}
                 className="form-control"
                 placeholder="Enter a role name"
-                tabIndex={-1}
                 disabled={viewRole}
               />
+              {errors?.roleName && (
+                <span className="text-danger">{errors?.roleName.message}</span>
+              )}
             </div>
             <div className="col-12">
               <h4>Role Permissions</h4>

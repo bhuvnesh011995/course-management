@@ -231,18 +231,7 @@ export const DateRange = () => {
         {/* container-fluid */}
       </div>
       {/* End Page-content */}
-      <footer className="footer">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-6">© Tonga.</div>
-            <div className="col-sm-6">
-              <div className="text-sm-end d-none d-sm-block">
-                Design &amp; Develop by Braincavesoft
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+
       {showEvent && (
         <AddNewHoliday
           isOpen={showEvent}
