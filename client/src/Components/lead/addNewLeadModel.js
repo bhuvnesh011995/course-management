@@ -32,7 +32,7 @@ export const AddNewLeadModel = ({
 }) => {
   const { user, NewAxiosInstance } = useAuth();
   const [tradeLevels, setTradeLevels] = useState([]);
-  const [allCourses, setAllCourses] = useState([]);
+  const [allClasses, setAllClasses] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState("");
 
   const {
@@ -65,13 +65,13 @@ export const AddNewLeadModel = ({
   }, []);
 
   useEffect(() => {
-    if (leadData?.status == "pending" && leadData.course) {
+    if (leadData?.status == "pending" && leadData.class) {
       if (
         watch("tradeType") ||
         watch("registrationType") ||
         watch("tradeLevel")
       )
-        getFilteredCourses({
+        getFilteredClasses({
           tradeType: watch("tradeType"),
           registrationType: watch("registrationType"),
           tradeLevel: watch("tradeLevel"),
@@ -91,15 +91,12 @@ export const AddNewLeadModel = ({
     return CTDnumber;
   };
 
-  const getFilteredCourses = async (selectedLead) => {
+  const getFilteredClasses = async (selectedLead) => {
     try {
-      const { data } = await NewAxiosInstance.get(
-        "/courses/getFilteredCourses",
-        {
-          params: selectedLead,
-        }
-      );
-      setAllCourses(data);
+      const { data } = await NewAxiosInstance.get("/class/getFilteredClasses", {
+        params: selectedLead,
+      });
+      setAllClasses(data);
     } catch (err) {
       console.error(err);
     }
@@ -178,6 +175,7 @@ export const AddNewLeadModel = ({
     const registrationLevels = registrationTypes.filter((e) => {
       if (e._id == value) return e;
     });
+    setValue("tradeLevel", "");
     setSelectedRegistration(registrationLevels[0].registrationCode);
     // setValue("registrationType", registrationLevels[0].registrationCode);
     if (registrationLevels[0].registrationCode !== "AMN") {
@@ -292,13 +290,13 @@ export const AddNewLeadModel = ({
           }
         }
 
-      if (watch("course")?.length) {
-        newLeadData["course"] = watch("course");
+      if (watch("class")?.length) {
+        newLeadData["class"] = watch("class");
         if (newLeadData["status"] == "new") newLeadData["status"] = "pending";
         else if (newLeadData["status"] == "assign")
           newLeadData["status"] = "assign";
       } else {
-        setError("course", { message: "Please Select Course" });
+        setError("class", { message: "Please Select Class" });
         return;
       }
       newLeadData["deleteFileList"] = deleteFiles;
@@ -325,7 +323,7 @@ export const AddNewLeadModel = ({
         if (data[0].DOB) data[0].DOB = moment(data[0].DOB).format("YYYY-MM-DD");
         reset(data[0]);
         if (leadData) {
-          getFilteredCourses(data[0]);
+          getFilteredClasses(data[0]);
         }
       }
     } catch (err) {
@@ -440,12 +438,12 @@ export const AddNewLeadModel = ({
                   {errors?.registrationType && errors?.registrationType.message}
                 </span>
               </div>
-              <div class="col-md-12 mb-3">
-                <label class="form-label">
-                  Status <span class="text-danger">*</span>
+              <div className="col-md-12 mb-3">
+                <label className="form-label">
+                  Status <span className="text-danger">*</span>
                 </label>
                 <select
-                  class="form-select"
+                  className="form-select"
                   disabled={viewLead}
                   {...register("status", { required: "Please Select Status" })}
                 >
@@ -460,12 +458,12 @@ export const AddNewLeadModel = ({
               <span className="text-danger">
                 {errors?.status && errors?.status.message}
               </span>
-              <div class="col-md-12 mb-3">
-                <label class="form-label">Remarks</label>
+              <div className="col-md-12 mb-3">
+                <label className="form-label">Remarks</label>
                 <textarea
                   {...register("remarks")}
                   disabled={viewLead}
-                  class="form-control"
+                  className="form-control"
                   cols="30"
                   rows="2"
                   placeholder="Enter Remarks"
@@ -721,11 +719,19 @@ export const AddNewLeadModel = ({
                   disabled={viewLead}
                 >
                   <option value=""> Select Trade Type</option>
-                  {tradeTypes.map((e) => (
-                    <option key={e._id} value={e._id}>
-                      {e.tradeType}
-                    </option>
-                  ))}
+                  {tradeTypes.map((e) =>
+                    selectedRegistration == "CRW"
+                      ? e?.isCet?.length && (
+                          <option key={e._id} value={e._id}>
+                            {e.tradeType}
+                          </option>
+                        )
+                      : !e?.isCet?.length && (
+                          <option key={e._id} value={e._id}>
+                            {e.tradeType}
+                          </option>
+                        )
+                  )}
                 </select>
                 <span className="text-danger">
                   {errors?.tradeType && errors?.tradeType.message}
@@ -963,30 +969,30 @@ export const AddNewLeadModel = ({
               {leadData && (
                 <div className="col-md-4 mb-3">
                   <label className="form-label">
-                    Course <span className="text-danger">*</span>
+                    Class <span className="text-danger">*</span>
                   </label>
 
                   <select
                     className="form-select"
-                    {...register("course", {
-                      required: "Please Select Course !",
+                    {...register("class", {
+                      required: "Please Select Class !",
                     })}
-                    disabled={leadData.course && viewLead}
+                    disabled={leadData.class && viewLead}
                   >
-                    <option value="">Select Course</option>
-                    {allCourses?.length &&
-                      allCourses.map((e) => (
+                    <option value="">Select Class</option>
+                    {allClasses?.length &&
+                      allClasses.map((e) => (
                         <option
                           key={e._id}
                           value={e._id}
-                          selected={watch("course") == e._id && e._id}
+                          selected={watch("class") == e._id && e._id}
                         >
                           {e.courseName}
                         </option>
                       ))}
                   </select>
                   <span className="text-danger">
-                    {errors?.course && errors?.course.message}
+                    {errors?.class && errors?.class.message}
                   </span>
                 </div>
               )}
@@ -1409,7 +1415,7 @@ export const AddNewLeadModel = ({
                     )}
                     {user.userData?.roleData?.lead?.write && viewLead && (
                       <div className="d-flex">
-                        {leadData.course && leadData.status == "pending" && (
+                        {leadData.class && leadData.status == "pending" && (
                           <button
                             type="button"
                             onClick={getPaymentRegistration}
@@ -1418,7 +1424,7 @@ export const AddNewLeadModel = ({
                             Get Payment
                           </button>
                         )}
-                        {leadData.course && leadData.status == "assign" && (
+                        {leadData.class && leadData.status == "assign" && (
                           <div className="d-flex">
                             <button
                               type="button"
@@ -1436,13 +1442,13 @@ export const AddNewLeadModel = ({
                             </button>
                           </div>
                         )}
-                        {!leadData.course && (
+                        {!leadData.class && (
                           <div className="d-flex">
                             <button
                               type="submit"
                               className="btn mx-1 btn-success"
                             >
-                              Assign Course
+                              Assign Class
                             </button>
                           </div>
                         )}

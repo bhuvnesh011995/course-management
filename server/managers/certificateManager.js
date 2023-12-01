@@ -92,33 +92,58 @@ const getCertificate = async (req, res, next) => {
 const getCertificates = async (req, res, next) => {
   try {
     const { query, user } = req;
-    const allCertificates = await db.certificates.aggregate([
+    const allCertificates = await db.lead.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: ["$status", "confirmed"],
+          },
+        },
+      },
       {
         $lookup: {
-          from: "courses",
-          let: { courseId: "$courseId" },
+          from: "classes",
+          let: { classId: "$class" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$courseId"],
+                  $eq: [{ $toString: "$_id" }, "$$classId"],
                 },
               },
             },
           ],
-          as: "courseData",
+          as: "classDetails",
         },
       },
-      { $unwind: "$courseData" },
+      { $unwind: "$classDetails" },
+
       {
         $lookup: {
-          from: "duration",
-          let: { durationId: "$courseData.duration" },
+          from: "courses",
+          let: { courseId: "$classDetails.course" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: ["$_id", "$$durationId"],
+                  $eq: ["$_id", "$$courseId"],
+                },
+              },
+            },
+          ],
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      {
+        $lookup: {
+          from: "duration",
+          let: { courseId: "$courseDetails.duration" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$courseId"],
                 },
               },
             },
@@ -131,13 +156,11 @@ const getCertificates = async (req, res, next) => {
         $project: {
           _id: 1,
           certificateNo: 1,
-          completionDate: 1,
+          completionDate: "$updated_at",
           courseDuration: "$durationDetails.name",
-          grade: 1,
           participantName: 1,
           created_at: 1,
-          updated_at: 1,
-          courseName: "$courseData.courseName",
+          courseName: "$courseDetails.courseName",
           certificateFilePath: 1,
           certificateAttchment: 1,
           remarks: 1,
@@ -276,10 +299,48 @@ const deleteCertificate = async (req, res, next) => {
   }
 };
 
+const getFilteredCertificate = async (req, res, next) => {
+  try {
+    const confirmedClassLeads = await db.lead.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: ["$class", req.params.classId],
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          companyName: 1,
+          contactPerson: 1,
+          participantName: 1,
+        },
+      },
+    ]);
+    return res.status(200).send(confirmedClassLeads);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getSelectedCertificates = async (req, res, next) => {
+  try {
+    const getSelectedCertificates = await db.lead.find({
+      _id: { $in: req.query.leads },
+    });
+    console.log(getSelectedCertificates);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   addCertificate,
   getCertificates,
   getCertificate,
   updateCertificate,
   deleteCertificate,
+  getFilteredCertificate,
+  getSelectedCertificates,
 };

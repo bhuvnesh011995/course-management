@@ -46,8 +46,10 @@ const deleteTradeLevel = async (req, res, next) => {
     const isAssignedInRegistrationType = await db.registrationType.find({
       tradeLevelIds: { $in: data._id },
     });
-    if(isAssignedInRegistrationType.length){
-      return res.status(202).send({message:'Trade Level is existed in registration type'})
+    if (isAssignedInRegistrationType.length) {
+      return res
+        .status(202)
+        .send({ message: "Trade Level is existed in registration type" });
     }
     await db.tradeLevel.deleteOne({ _id: data._id });
     return res
@@ -74,7 +76,24 @@ const saveTradeType = async (req, res, next) => {
 const getTradeTypes = async (req, res, next) => {
   try {
     let user = req.users;
-    const allTradeTypes = await db.tradeTypeModel.find({});
+    const allTradeTypes = await db.tradeTypeModel
+      // .aggregate([
+      //   {
+      //     $addFields: {
+      //       isCet: [{ $strLenCP: "$isCet" }, 0],
+      //     },
+      //   },
+      //   {
+      //     $match: {
+      //       $expr: {
+      //         $eq: ["$isCet", 0],
+      //       },
+      //     },
+      //   },
+      // ]);
+
+      .find({});
+
     return res.status(200).send({ user, allTradeTypes });
   } catch (err) {
     next(err);

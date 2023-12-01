@@ -119,7 +119,7 @@ const addNewLead = async (req, res, next) => {
           nationality: 1,
           educationalLevel: 1,
           coreTradeRegNo: 1,
-          course: 1,
+          class: 1,
           status: 1,
           remarks: 1,
         },
@@ -238,7 +238,7 @@ const getAllLeads = async (req, res, next) => {
           nationality: 1,
           educationalLevel: 1,
           coreTradeRegNo: 1,
-          course: 1,
+          class: 1,
           status: 1,
           remarks: 1,
         },
@@ -404,7 +404,7 @@ const updateLead = async (req, res, next) => {
           nationality: 1,
           educationalLevel: 1,
           coreTradeRegNo: 1,
-          course: 1,
+          class: 1,
           status: 1,
           remarks: 1,
         },
@@ -542,12 +542,12 @@ const accountHistory = async (req, res, next) => {
       {
         $lookup: {
           from: "classes",
-          let: { courseId: "$course" },
+          let: { classId: "$class" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$course" }, "$$courseId"],
+                  $eq: [{ $toString: "$_id" }, "$$classId"],
                 },
               },
             },
@@ -581,12 +581,12 @@ const accountHistory = async (req, res, next) => {
       {
         $lookup: {
           from: "courses",
-          let: { courseId: "$course" },
+          let: { courseId: "$classDetails.course" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$courseId"],
+                  $eq: ["$_id", "$$courseId"],
                 },
               },
             },
@@ -638,15 +638,34 @@ const getSelectedLead = async (req, res, next) => {
           },
         },
       },
+
       {
         $lookup: {
-          from: "courses",
-          let: { courseId: "$course" },
+          from: "classes",
+          let: { classId: "$class" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$courseId"],
+                  $eq: [{ $toString: "$_id" }, "$$classId"],
+                },
+              },
+            },
+          ],
+          as: "classDetails",
+        },
+      },
+      { $unwind: "$classDetails" },
+
+      {
+        $lookup: {
+          from: "courses",
+          let: { courseId: "$classDetails.course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$courseId"],
                 },
               },
             },
@@ -745,12 +764,12 @@ const getFilteredLeads = async (req, res, next) => {
       {
         $lookup: {
           from: "leads",
-          let: { courseId: "$course" },
+          let: { classId: "$class" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: ["$course", { $toString: "$$courseId" }],
+                  $eq: ["$_id", { $toString: "$$classId" }],
                 },
               },
             },

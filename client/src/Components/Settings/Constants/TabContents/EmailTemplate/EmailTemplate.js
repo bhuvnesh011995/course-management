@@ -4,8 +4,6 @@ import { Card } from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 import { toast } from "react-toastify";
 import DeleteModal2 from "../../../../../common-components/models/DeleteModal2";
-import { emailTemplateColumnHeaders } from "../../../../../Constants/table.constants";
-import { CommonDataTable } from "../../../../../common-components/CommonDataTable";
 import { useAuth } from "../../../../../context/authContext";
 
 export default function EmailTemplate() {

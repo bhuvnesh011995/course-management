@@ -274,7 +274,7 @@ export const NewTrainerModal = ({
                     <span className="avatar avatar-rounded avatar-md">
                       {" "}
                       <img
-                        src={filePath(watch("trainerImagePath"))}
+                        src={filePath(trainerData?.trainerImagePath)}
                         alt=""
                       />{" "}
                     </span>

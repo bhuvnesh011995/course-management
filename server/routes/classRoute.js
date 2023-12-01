@@ -13,6 +13,8 @@ routes.delete("/deleteClass", [userAuth], classManager.deleteClass);
 
 routes.get("/getCourseClasses", [userAuth], classManager.getCourseClasses);
 
+routes.get("/getFilteredClasses", [userAuth], classManager.getFilteredClasses);
+
 routes.get(
   "/getDashboardClasses",
   [userAuth],

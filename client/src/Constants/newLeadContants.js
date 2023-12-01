@@ -1,4 +1,16 @@
-export const tradeType = ["AFE", "EWI", "PPF", "SRW", "TL", "WP"];
+export const tradeType = [
+  "AFE",
+  "EWI",
+  "PPF",
+  "SRW",
+  "TL",
+  "WP",
+  "EW",
+  "PPW",
+  "RCW",
+  "TLFW",
+  "WW",
+];
 
 export const TradeLevels = [
   "TFS",

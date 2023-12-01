@@ -140,13 +140,13 @@ export const dayColors = [
 ];
 
 export const certificateHeaders = {
-  certificateNo: "Certificate Number",
+  // certificateNo: "Certificate Number",
   participantName: "Participant's Name",
   courseName: "Course Name",
   courseDuration: "Duration",
-  grade: "Grade",
+  // grade: "Grade",
   completionDate: "Date Of Completion",
-  certificateAttchment: "Attachment",
+  // certificateAttchment: "Attachment",
   remarks: "Remarks",
 };
 
@@ -271,4 +271,10 @@ export const emailTemplateColumnHeaders = {
   name: "Name",
   emailType: "Email Type",
   subject: "Subject",
+};
+
+export const generateCertificateHeaders = {
+  companyName: "Company Name",
+  contactPerson: "Contact Person",
+  participantName: "Participant Name",
 };

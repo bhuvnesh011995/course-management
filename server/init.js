@@ -140,46 +140,6 @@ module.exports = async () => {
         tradeCode: "SRT",
       });
 
-    let [AFE, EWI, PPF, SRW, TL, WP] = await Promise.all([
-      db.tradeTypeModel.findOne({ typeCode: "AFE" }),
-      db.tradeTypeModel.findOne({ typeCode: "EWI" }),
-      db.tradeTypeModel.findOne({ typeCode: "PPF" }),
-      db.tradeTypeModel.findOne({ typeCode: "SRW" }),
-      db.tradeTypeModel.findOne({ typeCode: "TL" }),
-      db.tradeTypeModel.findOne({ typeCode: "WP" }),
-    ]);
-
-    if (!AFE)
-      AFE = await db.tradeTypeModel.create({
-        tradeType: "Aluminium Formwork (Enhanced)",
-        typeCode: "AFE",
-      });
-    if (!EWI)
-      EWI = await db.tradeTypeModel.create({
-        tradeType: "Electrical Wiring Installation",
-        typeCode: "EWI",
-      });
-    if (!PPF)
-      PPF = await db.tradeTypeModel.create({
-        tradeType: "Plumbing & Pipefitting",
-        typeCode: "PPF",
-      });
-    if (!SRW)
-      SRW = await db.tradeTypeModel.create({
-        tradeType: "Steel Reinforcement Work",
-        typeCode: "SRW",
-      });
-    if (!TL)
-      TL = await db.tradeTypeModel.create({
-        tradeType: "Tiling",
-        typeCode: "TL",
-      });
-    if (!WP)
-      WP = await db.tradeTypeModel.create({
-        tradeType: "WaterProofing",
-        typeCode: "WP",
-      });
-
     let [CTD, MSG, SK, CRW, AMN] = await Promise.all([
       db.registrationType.findOne({ registrationCode: "CTD" }),
       db.registrationType.findOne({ registrationCode: "MSG" }),
@@ -345,6 +305,100 @@ module.exports = async () => {
         );
       }
     }
+
+    let [AFE, EWI, PPF, SRW, TL, WP, EW, PPW, RCW, TLFW, WW] =
+      await Promise.all([
+        db.tradeTypeModel.findOne({ typeCode: "AFE" }),
+        db.tradeTypeModel.findOne({ typeCode: "EWI" }),
+        db.tradeTypeModel.findOne({ typeCode: "PPF" }),
+        db.tradeTypeModel.findOne({ typeCode: "SRW" }),
+        db.tradeTypeModel.findOne({ typeCode: "TL" }),
+        db.tradeTypeModel.findOne({ typeCode: "WP" }),
+
+        db.tradeTypeModel.findOne({ typeCode: "EW" }),
+        db.tradeTypeModel.findOne({ typeCode: "PPW" }),
+        db.tradeTypeModel.findOne({ typeCode: "RCW" }),
+        db.tradeTypeModel.findOne({ typeCode: "TLFW" }),
+        db.tradeTypeModel.findOne({ typeCode: "WW" }),
+      ]);
+
+    if (!AFE)
+      AFE = await db.tradeTypeModel.create({
+        tradeType: "Aluminium Formwork (Enhanced)",
+        typeCode: "AFE",
+      });
+    if (!EWI)
+      EWI = await db.tradeTypeModel.create({
+        tradeType: "Electrical Wiring Installation",
+        typeCode: "EWI",
+      });
+    if (!PPF)
+      PPF = await db.tradeTypeModel.create({
+        tradeType: "Plumbing & Pipefitting",
+        typeCode: "PPF",
+      });
+    if (!SRW)
+      SRW = await db.tradeTypeModel.create({
+        tradeType: "Steel Reinforcement Work",
+        typeCode: "SRW",
+      });
+    if (!TL)
+      TL = await db.tradeTypeModel.create({
+        tradeType: "Tiling",
+        typeCode: "TL",
+      });
+    if (!WP)
+      WP = await db.tradeTypeModel.create({
+        tradeType: "WaterProofing",
+        typeCode: "WP",
+      });
+
+    if (!EW) {
+      EW = await db.tradeTypeModel.create({
+        tradeType: "Electrical Works",
+        typeCode: "EW",
+        isCet: CRW._id,
+      });
+    } else {
+      await db.tradeTypeModel.updateOne({ _id: EW._id }, { isCet: CRW._id });
+    }
+    if (!PPW) {
+      PPW = await db.tradeTypeModel.create({
+        tradeType: "Plumbing & Piping Works",
+        typeCode: "PPW",
+        isCet: CRW._id,
+      });
+    } else {
+      await db.tradeTypeModel.updateOne({ _id: PPW._id }, { isCet: CRW._id });
+    }
+    if (!RCW) {
+      RCW = await db.tradeTypeModel.create({
+        tradeType: "Reinforced Concrete Works",
+        typeCode: "RCW",
+        isCet: CRW._id,
+      });
+    } else {
+      await db.tradeTypeModel.updateOne({ _id: RCW._id }, { isCet: CRW._id });
+    }
+    if (!TLFW) {
+      TLFW = await db.tradeTypeModel.create({
+        tradeType: "Tiling Stone Laying & Floor Finishing Works",
+        typeCode: "TLFW",
+        isCet: CRW._id,
+      });
+    } else {
+      await db.tradeTypeModel.updateOne({ _id: TLFW._id }, { isCet: CRW._id });
+    }
+    if (!WW) {
+      WW = await db.tradeTypeModel.create({
+        tradeType: "Waterproofing Works",
+        typeCode: "WW",
+        isCet: CRW._id,
+      });
+    } else {
+      await db.tradeTypeModel.updateOne({ _id: WW._id }, { isCet: CRW._id });
+    }
+
     const getLanguages = await db.language.find({});
     if (!getLanguages.length) {
       for (let language of languagesDataArray) {

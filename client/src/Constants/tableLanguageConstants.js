@@ -82,4 +82,8 @@ export const languageObject = {
   Courses: "Courses",
   Completed: "Completed",
   Subject: "Subject",
+  "Company Name": "Company_Name",
+  "Contact Person": "Contact_Person",
+  "Participant Name": "Participant_Name",
+  Select: "Select",
 };

@@ -24,4 +24,16 @@ routes.delete(
   certificateManager.deleteCertificate
 );
 
+routes.get(
+  "/getFilteredCertificate/:classId",
+  [userAuth],
+  certificateManager.getFilteredCertificate
+);
+
+routes.get(
+  "/getSelectedCertificates",
+  [userAuth],
+  certificateManager.getSelectedCertificates
+);
+
 module.exports = routes;

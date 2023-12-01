@@ -324,6 +324,84 @@ const getDashboardClasses = async (req, res, next) => {
   }
 };
 
+const getFilteredClasses = async (req, res, next) => {
+  try {
+    const filteredClasses = await db.classes.aggregate([
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      // {
+      //   $addFields: {
+      //     hasTradeLevel: {
+      //       $gt: [{ $strLenCP: req.query.tradeLevel }, 0],
+      //     },
+      //   },
+      // },
+      // {
+      // $facet: {
+      //   tradeLevelExist: [
+      //     {
+      //       $match: {
+      //         $expr: {
+      //           $eq: ["$hasTradeLevel", true],
+      //         },
+      //       },
+      //     },
+      //   ],
+      //   tradeLevelNotExist: [
+      // {
+      //   $match: {
+      //     $expr: {
+      //       $eq: ["$hasTradeLevel", false],
+      //     },
+      //   },
+      // },
+      {
+        $match: {
+          $expr: {
+            $eq: [
+              { $toString: "$courseDetails.tradeType" },
+              req.query.tradeType,
+            ],
+          },
+        },
+      },
+      {
+        $match: {
+          $expr: {
+            $eq: ["$courseDetails.tradeLevel", req.query.tradeLevel],
+          },
+        },
+      },
+      {
+        $match: {
+          $expr: {
+            $eq: [
+              { $toString: "$courseDetails.registrationType" },
+              req.query.registrationType,
+            ],
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          courseName: "$courseDetails.courseName",
+        },
+      },
+    ]);
+    return res.status(200).send(filteredClasses);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getClasses,
   addClass,
@@ -333,4 +411,5 @@ module.exports = {
   getCourseClasses,
   getCourseClass,
   getDashboardClasses,
+  getFilteredClasses,
 };

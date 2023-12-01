@@ -135,4 +135,8 @@ module.exports = [
   "Date_Of_Completion",
   "CoreTrade_Registration_No",
   "Actions",
+  "Company_Name",
+  "Contact_Person",
+  "Participant_Name",
+  "Select",
 ];

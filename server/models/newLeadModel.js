@@ -45,7 +45,7 @@ const leadSchema = new mongoose.Schema(
     nationality: { type: String },
     educationalLevel: { type: String },
     coreTradeRegNo: { type: String },
-    course: { type: String },
+    class: { type: String },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
