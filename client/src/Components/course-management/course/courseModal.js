@@ -22,6 +22,7 @@ export const CourseModal = ({
     handleSubmit,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -148,11 +149,25 @@ export const CourseModal = ({
                 disabled={viewCourse}
               >
                 <option value="">-- Select Trade Type --</option>
-                {tradeTypes.map((e, index) => (
+                {/* {tradeTypes.map((e, index) => (
                   <option key={index} value={e._id}>
                     {e.tradeType}
                   </option>
-                ))}
+                ))} */}
+
+                {tradeTypes.map((e) =>
+                  registrationCode == "CRW"
+                    ? e?.isCet?.length && (
+                        <option key={e._id} value={e._id}>
+                          {e.tradeType}
+                        </option>
+                      )
+                    : !e?.isCet?.length && (
+                        <option key={e._id} value={e._id}>
+                          {e.tradeType}
+                        </option>
+                      )
+                )}
               </select>
               <span className="text-danger">
                 {errors?.tradeType && errors?.tradeType.message}

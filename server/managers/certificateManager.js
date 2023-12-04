@@ -2,6 +2,7 @@ const CertificateModel = require("../models/certificateModel");
 const db = require("../models");
 const fs = require("fs");
 const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
+const { default: mongoose } = require("mongoose");
 
 const addCertificate = async (req, res, next) => {
   try {
@@ -315,6 +316,7 @@ const getFilteredCertificate = async (req, res, next) => {
           companyName: 1,
           contactPerson: 1,
           participantName: 1,
+          status: 1,
         },
       },
     ]);
@@ -326,10 +328,84 @@ const getFilteredCertificate = async (req, res, next) => {
 
 const getSelectedCertificates = async (req, res, next) => {
   try {
-    const getSelectedCertificates = await db.lead.find({
-      _id: { $in: req.query.leads },
-    });
-    console.log(getSelectedCertificates);
+    console.log(req.query.leads);
+    const leadIds = await req.query.leads.map(
+      (leadId) => new mongoose.Types.ObjectId(leadId)
+    );
+    const selectedCertificates = await db.lead.aggregate([
+      {
+        $match: {
+          _id: { $in: leadIds },
+        },
+      },
+      {
+        $lookup: {
+          from: "classes",
+          let: { classId: "$class" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$classId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "classDetails",
+        },
+      },
+      { $unwind: "$classDetails" },
+      {
+        $lookup: {
+          from: "courses",
+          let: { courseId: "$classDetails.course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$courseId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      {
+        $lookup: {
+          from: "tradetypes",
+          let: { tradeTypeId: "$tradeType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$tradeTypeId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "tradeTypeDetails",
+        },
+      },
+      { $unwind: "$tradeTypeDetails" },
+      {
+        $project: {
+          participantNRIC: 1,
+          participantName: 1,
+          coreTradeRegNo: 1,
+          postalCode: 1,
+          updated_at: 1,
+          status: 1,
+          tradeType: "$tradeTypeDetails.tradeType",
+        },
+      },
+    ]);
+    console.log(selectedCertificates);
+    //   {
+    //   _id: { $in: req.query.leads },
+    // }
+    return res.status(200).send(selectedCertificates);
   } catch (err) {
     next(err);
   }

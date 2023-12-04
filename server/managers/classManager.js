@@ -326,6 +326,7 @@ const getDashboardClasses = async (req, res, next) => {
 
 const getFilteredClasses = async (req, res, next) => {
   try {
+    console.log(req.query);
     const filteredClasses = await db.classes.aggregate([
       {
         $lookup: {
@@ -336,32 +337,6 @@ const getFilteredClasses = async (req, res, next) => {
         },
       },
       { $unwind: "$courseDetails" },
-      // {
-      //   $addFields: {
-      //     hasTradeLevel: {
-      //       $gt: [{ $strLenCP: req.query.tradeLevel }, 0],
-      //     },
-      //   },
-      // },
-      // {
-      // $facet: {
-      //   tradeLevelExist: [
-      //     {
-      //       $match: {
-      //         $expr: {
-      //           $eq: ["$hasTradeLevel", true],
-      //         },
-      //       },
-      //     },
-      //   ],
-      //   tradeLevelNotExist: [
-      // {
-      //   $match: {
-      //     $expr: {
-      //       $eq: ["$hasTradeLevel", false],
-      //     },
-      //   },
-      // },
       {
         $match: {
           $expr: {
@@ -369,13 +344,6 @@ const getFilteredClasses = async (req, res, next) => {
               { $toString: "$courseDetails.tradeType" },
               req.query.tradeType,
             ],
-          },
-        },
-      },
-      {
-        $match: {
-          $expr: {
-            $eq: ["$courseDetails.tradeLevel", req.query.tradeLevel],
           },
         },
       },
@@ -390,9 +358,53 @@ const getFilteredClasses = async (req, res, next) => {
         },
       },
       {
+        $addFields: {
+          hasTradeLevel: {
+            $gt: [{ $strLenCP: req.query.tradeLevel }, 0],
+          },
+        },
+      },
+      {
+        $facet: {
+          tradeLevelExist: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$hasTradeLevel", true],
+                },
+              },
+            },
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$courseDetails.tradeLevel", req.query.tradeLevel],
+                },
+              },
+            },
+          ],
+          tradeLevelNotExist: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$hasTradeLevel", false],
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          bothcombined: {
+            $concatArrays: ["$tradeLevelExist", "$tradeLevelNotExist"],
+          },
+        },
+      },
+      { $unwind: "$bothcombined" },
+      {
         $project: {
-          _id: 1,
-          courseName: "$courseDetails.courseName",
+          _id: "$bothcombined._id",
+          courseName: "$bothcombined.courseDetails.courseName",
         },
       },
     ]);

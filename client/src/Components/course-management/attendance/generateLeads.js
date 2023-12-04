@@ -17,6 +17,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import tongaBoxDesign from "../../../assets/images/tongaBoxDesign.png";
 import tongaG from "../../../assets/images/tongaG.png";
+import moment from "moment";
 
 export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
   const { user, NewAxiosInstance } = useAuth();
@@ -204,6 +205,194 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
 
     doc.save("file.pdf");
   };
+
+  // const newGenerateLeadPdf = async (generatedData) => {
+  //   const doc = new jsPDF({
+  //     orientation: "p", // Portrait orientation
+  //     unit: "mm",
+  //     format: "a4",
+  //   });
+  //   let yPosition = 10;
+  //   let xPosition = 200;
+  //   doc.setFontSize(8);
+
+  //   doc.text(
+  //     "Attendance / Results Sheet for Continuing Education and Training",
+  //     xPosition,
+  //     10,
+  //     { angle: -90 }
+  //   );
+  //   xPosition -= 10;
+  //   doc.text("ATTC:", xPosition, yPosition, { angle: -90 });
+  //   yPosition += 10;
+  //   doc.text("SANTARLI CONSTRUCTION PTE LTD ", xPosition, yPosition, {
+  //     angle: -90,
+  //   });
+  //   xPosition -= 1;
+  //   doc.rect(xPosition, yPosition, 0.2, 50, "F");
+  //   yPosition += 180;
+  //   doc.rect(xPosition, yPosition, 0.2, 50, "F");
+  //   xPosition += 1;
+  //   yPosition -= 16;
+  //   doc.text("Batch No.: ", xPosition, yPosition, {
+  //     angle: -90,
+  //   });
+  //   yPosition += 16;
+  //   doc.text(generatedData.batchNumber, xPosition, yPosition, {
+  //     angle: -90,
+  //   });
+  //   yPosition -= 190;
+  //   xPosition -= 10;
+
+  //   doc.rect(xPosition, yPosition, 0.2, 280, "F");
+  //   doc.rect(xPosition, yPosition, -136, 0.2, "F");
+  //   doc.rect(xPosition, 290, -136, 0.2, "F");
+  //   xPosition -= 5;
+  //   doc.setFont("helvetica", "bold");
+  //   xPosition += 1.5;
+  //   yPosition += 1;
+
+  //   doc.text(
+  //     "ATTENDANCE/ RESULTS SHEET FOR CONTINUING EDUCATION AND TRAINING (CET)",
+  //     xPosition,
+  //     yPosition,
+  //     { angle: -90 }
+  //   );
+
+  //   doc.setFont("helvetica", "normal");
+  //   yPosition -= 1;
+  //   xPosition -= 1.5;
+  //   doc.rect(xPosition, yPosition, 0.2, 280, "F");
+  //   xPosition -= 3.5;
+  //   yPosition += 1;
+  //   doc.text("CET Course Date(s)", xPosition, yPosition, { angle: -90 });
+  //   yPosition -= 1;
+
+  //   const dateString = `${moment(tableData[0].startDate).format(
+  //     "YYYY-MM-DD"
+  //   )} (${moment(tableData[0].startTime, "HH:mm").format("hh:mm A")} - ${moment(
+  //     tableData[0].endTime,
+  //     "HH:mm"
+  //   ).format("hh:mm A")})`;
+
+  //   yPosition += 40;
+  //   doc.text(`:${dateString}`, xPosition, yPosition, { angle: -90 });
+  //   xPosition -= 1;
+  //   doc.rect(xPosition, yPosition, 0.2, 140, "F");
+  //   yPosition += 140;
+  //   xPosition += 4.5;
+
+  //   doc.rect(xPosition, yPosition, -19.4, 0.2, "F");
+  //   xPosition -= 4.5;
+  //   yPosition += 10;
+  //   doc.text(
+  //     `Trainer Name(s):     ${tableData[0].trainerName}`,
+  //     xPosition,
+  //     yPosition,
+  //     { angle: -90 }
+  //   );
+  //   xPosition -= 5;
+  //   doc.text(`(as captured in FVS, except Direct R1)`, xPosition, yPosition, {
+  //     angle: -90,
+  //   });
+
+  //   yPosition -= 190;
+  //   xPosition += 5;
+  //   xPosition -= 10;
+  //   doc.rect(xPosition, yPosition, 0.2, 280, "F");
+  //   xPosition -= 3.5;
+  //   yPosition += 1;
+  //   doc.text("Trade Category", xPosition, yPosition, { angle: -90 });
+  //   yPosition -= 1;
+  //   yPosition += 40;
+  //   doc.text(`:${tableData[0].tradeType}`, xPosition, yPosition, {
+  //     angle: -90,
+  //   });
+
+  //   xPosition -= 1;
+
+  //   yPosition += 150;
+  //   doc.text(
+  //     `CET Code :             ${generatedData.cetCode}`,
+  //     xPosition,
+  //     yPosition,
+  //     { angle: -90 }
+  //   );
+  //   yPosition -= 190;
+
+  //   xPosition -= 1;
+  //   doc.rect(xPosition, yPosition, 0.2, 280, "F");
+
+  //   xPosition -= 7;
+
+  //   yPosition += 3;
+  //   doc.text(`S/N`, xPosition, yPosition, { angle: -90 });
+  //   yPosition += 10;
+
+  //   yPosition += 20;
+  //   doc.text(`Name Of Trainee `, xPosition, yPosition, { angle: -90 });
+
+  //   yPosition += 60;
+  //   doc.text(`NRIC/ FIN No.:`, xPosition, yPosition, { angle: -90 });
+
+  //   yPosition += 40;
+  //   doc.text(`Registration No./ Submission No. `, xPosition, yPosition, {
+  //     angle: -90,
+  //   });
+
+  //   xPosition -= 4;
+  //   doc.text(
+  //     `(CoreTrade / Multi-Skilling / Direct R1) `,
+  //     xPosition,
+  //     yPosition,
+  //     { angle: -90 }
+  //   );
+  //   xPosition += 4;
+
+  //   yPosition += 60;
+  //   doc.text(`Trainee's Attendance `, xPosition, yPosition, {
+  //     angle: -90,
+  //   });
+
+  //   yPosition += 50;
+  //   doc.text(`Results (P/F) * `, xPosition, yPosition, {
+  //     angle: -90,
+  //   });
+  //   yPosition -= 243;
+  //   xPosition -= 6;
+  //   doc.rect(xPosition, yPosition, 0.2, 280, "F");
+  //   console.log(tableData);
+
+  //   // yPosition += 15;
+  //   // doc.rect(xPosition, yPosition, -100, 2, "F");
+  //   for (let i = 0; i < 14; i++) {
+  //     xPosition -= 7;
+  //     doc.rect(xPosition, yPosition, 0.2, 280, "F");
+  //   }
+
+  //   xPosition -= 3;
+  //   doc.text(
+  //     `* P - Passed and F- Failed (fill in as appropriate)`,
+  //     xPosition,
+  //     yPosition,
+  //     {
+  //       angle: -90,
+  //     }
+  //   );
+
+  //   xPosition -= 3;
+  //   doc.text(
+  //     `I hereby verified that all trainees have at least 75% attendance.`,
+  //     xPosition,
+  //     yPosition,
+  //     {
+  //       angle: -90,
+  //     }
+  //   );
+
+  //   doc.save("nice.pdf");
+  // };
+
   return (
     <div>
       <Modal show={isOpen} onHide={handleClose} size="xl">

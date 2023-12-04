@@ -65,18 +65,14 @@ export const AddNewLeadModel = ({
   }, []);
 
   useEffect(() => {
-    if (leadData?.status == "pending" && leadData.class) {
-      if (
-        watch("tradeType") ||
-        watch("registrationType") ||
-        watch("tradeLevel")
-      )
-        getFilteredClasses({
-          tradeType: watch("tradeType"),
-          registrationType: watch("registrationType"),
-          tradeLevel: watch("tradeLevel"),
-        });
-    }
+    // if (leadData?.status == "pending" && leadData.class) {
+    if (watch("tradeType") || watch("registrationType") || watch("tradeLevel"))
+      getFilteredClasses({
+        tradeType: watch("tradeType"),
+        registrationType: watch("registrationType"),
+        tradeLevel: watch("tradeLevel"),
+      });
+    // }
   }, [watch("tradeLevel"), watch("tradeType"), watch("registrationType")]);
 
   const setCoreTradeRegNo = () => {

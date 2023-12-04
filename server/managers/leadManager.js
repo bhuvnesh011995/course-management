@@ -753,37 +753,43 @@ const getFilteredLeads = async (req, res, next) => {
     const { query } = req;
     const leadQuery = [];
     if (query.course.length) {
-      leadQuery.push({
-        $match: {
-          $expr: { $eq: [query.course, { $toString: "$course" }] },
+      leadQuery.push(
+        {
+          $lookup: {
+            from: "classes",
+            let: { classId: "$class" },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ["$$classId", { $toString: "$_id" }],
+                  },
+                },
+              },
+            ],
+            as: "classDetails",
+          },
         },
-      });
+        {
+          $unwind: "$classDetails",
+        }
+      );
     }
 
     leadQuery.push(
       {
         $lookup: {
-          from: "leads",
-          let: { classId: "$class" },
+          from: "courses",
+          let: { courseId: "$classDetails.course" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: ["$_id", { $toString: "$$classId" }],
+                  $eq: [{ $toString: "$$courseId" }, query.course],
                 },
               },
             },
           ],
-          as: "leadDetails",
-        },
-      },
-      { $unwind: "$leadDetails" },
-
-      {
-        $lookup: {
-          from: "courses",
-          localField: "course",
-          foreignField: "_id",
           as: "courseData",
         },
       },
@@ -791,8 +797,16 @@ const getFilteredLeads = async (req, res, next) => {
       {
         $lookup: {
           from: "trainers",
-          localField: "trainer",
-          foreignField: "_id",
+          let: { trainerId: "$classDetails.trainer" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$trainerId", "$_id"],
+                },
+              },
+            },
+          ],
           as: "trainerData",
         },
       },
@@ -800,7 +814,7 @@ const getFilteredLeads = async (req, res, next) => {
       {
         $lookup: {
           from: "tradetypes",
-          let: { tradeTypeId: "$leadDetails.tradeType" },
+          let: { tradeTypeId: "$tradeType" },
           pipeline: [
             {
               $match: {
@@ -819,27 +833,26 @@ const getFilteredLeads = async (req, res, next) => {
     if (query.participantName.length) {
       leadQuery.push({
         $match: {
-          "leadDetails.participantName": { $regex: query.participantName },
+          participantName: { $regex: query.participantName },
         },
       });
     }
     leadQuery.push({
       $project: {
         _id: 1,
-        classCode: 1,
         course: "$courseData.courseName",
-        startDate: 1,
-        endDate: 1,
-        startTime: 1,
-        endTime: 1,
-        participantName: "$leadDetails.participantName",
-        participantNric: "$leadDetails.participantNRIC",
-        coreTradeRegNo: "$leadDetails.coreTradeRegNo",
+        startDate: "$classDetails.startDate",
+        endDate: "$classDetails.endDate",
+        startTime: "$classDetails.startTime",
+        endTime: "$classDetails.endTime",
+        participantName: 1,
+        participantNric: "$participantNRIC",
+        coreTradeRegNo: 1,
         trainerName: "$trainerData.trainerName",
         tradeType: "$tradeTypeData.tradeType",
       },
     });
-    const getClassParticipants = await db.classes.aggregate(leadQuery);
+    const getClassParticipants = await db.lead.aggregate(leadQuery);
     return res.status(200).send(getClassParticipants);
   } catch (err) {
     next(err);
@@ -1021,13 +1034,29 @@ const getDashboardCustomers = async (req, res, next) => {
     const dashboardCustomers = await db.lead.aggregate([
       {
         $lookup: {
-          from: "courses",
-          let: { courseId: "$course" },
+          from: "classes",
+          let: { classId: "$class" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: ["$$courseId", { $toString: "$_id" }],
+                  $eq: ["$$classId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "classDetails",
+        },
+      },
+      {
+        $lookup: {
+          from: "courses",
+          let: { courseId: "$classDetails.course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$courseId", "$_id"],
                 },
               },
             },

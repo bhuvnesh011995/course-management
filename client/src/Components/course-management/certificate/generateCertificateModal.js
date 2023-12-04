@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
 import { languageObject } from "../../../Constants/tableLanguageConstants";
 import MaterialReactTable from "material-react-table";
+import { DownloadCertificate } from "./downloadCertificate";
 
 const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
   const { NewAxiosInstance } = useAuth();
@@ -39,12 +40,17 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
         <input
           type="checkbox"
           onClick={() => {
-            if (selectedLeads.includes(row.original?._id)) {
-              const filterLeads = selectedLeads.filter(
-                (leadId) => leadId != row.original?._id
-              );
-              setSelectedLeads([...filterLeads]);
-            } else setSelectedLeads([...selectedLeads, row.original?._id]);
+            toast.dismiss();
+            if (row.original.status == "confirmed") {
+              if (selectedLeads.includes(row.original?._id)) {
+                const filterLeads = selectedLeads.filter(
+                  (leadId) => leadId != row.original?._id
+                );
+                setSelectedLeads([...filterLeads]);
+              } else setSelectedLeads([...selectedLeads, row.original?._id]);
+            } else {
+              toast.error("can not select this lead");
+            }
           }}
         />
       </div>
@@ -104,12 +110,14 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
 
   const generateSelectedCertificates = async () => {
     try {
-      console.log(selectedLeads);
       const getSelectedCertificates = await NewAxiosInstance.get(
         "/certificates/getSelectedCertificates",
         { params: { leads: selectedLeads } }
       );
-      console.log(getSelectedCertificates);
+      for (let certificate of getSelectedCertificates.data) {
+        DownloadCertificate(certificate);
+      }
+      handleClose();
     } catch (err) {
       console.error(err);
     }
