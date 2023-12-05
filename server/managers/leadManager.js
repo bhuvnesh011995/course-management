@@ -1093,7 +1093,7 @@ const getDashboardCustomers = async (req, res, next) => {
             $sum: {
               $cond: {
                 if: {
-                  $and: [{ $eq: ["$confirmed", false] }],
+                  $and: [{ $ne: ["$status", "confirmed"] }],
                 },
                 then: 1,
                 else: 0,
@@ -1114,6 +1114,7 @@ const getDashboardCustomers = async (req, res, next) => {
         },
       },
     ]);
+    console.log(dashboardCustomers);
     return res.status(200).send(dashboardCustomers);
   } catch (err) {
     console.error(err);
