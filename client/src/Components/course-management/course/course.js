@@ -75,7 +75,7 @@ export const Course = () => {
         inActive: 0,
       };
       data.allCourses.map((course) => {
-        if (course.ActiveCourses.length > 0) {
+        if (course?.ActiveCourses?.length > 0) {
           onOffCourses.active += 1;
         } else {
           onOffCourses.inActive += 1;
@@ -117,7 +117,7 @@ export const Course = () => {
           inActive: 0,
         };
         filteredCourses.map((course) => {
-          if (course.ActiveCourses.length > 0) {
+          if (course?.ActiveCourses?.length > 0) {
             onOffCourses.active += 1;
           } else {
             onOffCourses.inActive += 1;

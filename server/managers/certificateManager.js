@@ -328,7 +328,6 @@ const getFilteredCertificate = async (req, res, next) => {
 
 const getSelectedCertificates = async (req, res, next) => {
   try {
-    console.log(req.query.leads);
     const leadIds = await req.query.leads.map(
       (leadId) => new mongoose.Types.ObjectId(leadId)
     );
@@ -401,7 +400,6 @@ const getSelectedCertificates = async (req, res, next) => {
         },
       },
     ]);
-    console.log(selectedCertificates);
     //   {
     //   _id: { $in: req.query.leads },
     // }

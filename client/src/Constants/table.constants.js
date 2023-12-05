@@ -255,7 +255,7 @@ export const dashboardClassHeaders = {
 export const dashboardCustomerHeaders = {
   contactPerson: "Name",
   contactPersonEmail: "Email",
-  courseCount: "Courses",
+  classCount: "Classes",
   completedCount: "Completed",
 };
 

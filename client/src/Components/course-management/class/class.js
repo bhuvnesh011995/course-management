@@ -58,13 +58,19 @@ export const Class = () => {
   const deleteSelectedClass = async (classData) => {
     try {
       toast.dismiss();
-      const { data } = await NewAxiosInstance.delete("/class/deleteClass", {
-        params: classData,
-      });
-      toast.success("class deleted");
-      const filteredClasses = classes.filter((e) => e._id != classData._id);
-
-      setClasses([...filteredClasses]);
+      const deleteClassData = await NewAxiosInstance.delete(
+        "/class/deleteClass",
+        {
+          params: classData,
+        }
+      );
+      if (deleteClassData.status == 200) {
+        const filteredClasses = classes.filter((e) => e._id != classData._id);
+        setClasses([...filteredClasses]);
+        toast.success(deleteClassData.data.message);
+      } else {
+        toast.error(deleteClassData.data.message);
+      }
     } catch (err) {
       toast.error("error occured");
       console.error(err);

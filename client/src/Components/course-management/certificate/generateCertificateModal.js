@@ -34,7 +34,12 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
 
   tableColumns.push({
     header: "Select",
-    Header: () => <FormattedMessage id="Select" defaultMessage={"Select"} />,
+    Header: () => (
+      <div className="d-flex">
+        <FormattedMessage id="Select" defaultMessage={"Select"} />
+        <input type="checkbox" onClick={selectAllCertificates} />
+      </div>
+    ),
     Cell: ({ row }) => (
       <div className="d-flex align-items-center justify-content-center">
         <input
@@ -52,6 +57,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
               toast.error("can not select this lead");
             }
           }}
+          checked={selectedLeads.includes(row.original?._id)}
         />
       </div>
     ),
@@ -68,7 +74,6 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
 
   useEffect(() => {
     getAllClasses();
-    console.log(watch("classId"));
     if (watch("classId") && watch("classId").length) {
       getFilteredCertificate();
     }
@@ -118,6 +123,25 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
         DownloadCertificate(certificate);
       }
       handleClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const selectAllCertificates = async () => {
+    try {
+      classCertificates.map((e) => {
+        if (e.status == "confirmed") {
+          if (selectedLeads.includes(e?._id)) {
+            const filterLeads = selectedLeads.filter(
+              (leadId) => leadId != e?._id
+            );
+            setSelectedLeads([...filterLeads]);
+          } else setSelectedLeads([...selectedLeads, e?._id]);
+        } else {
+          toast.error("can not select this lead");
+        }
+      });
     } catch (err) {
       console.error(err);
     }
@@ -193,7 +217,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
                 Cancel
               </button>
               <button type="submit" className="btn btn-primary">
-                Generate Certificates
+                Generate Selected Certificates
               </button>
             </Modal.Footer>
           </form>

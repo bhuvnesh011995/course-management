@@ -10,28 +10,28 @@ export const Attendance = () => {
   const { NewAxiosInstance } = useAuth();
   const filterObject = {
     participantName: "",
-    course: "",
+    class: "",
   };
 
-  const [courses, setCourses] = useState([]);
+  const [classes, setClasses] = useState([]);
   const [filters, setFilters] = useState(filterObject);
   const [generatePdfModal, setGeneratePdfModal] = useState(false);
 
   const [filteredLeads, setFilteredLeads] = useState([]);
 
   useEffect(() => {
-    if (!filters.participantName.length && !filters.course.length) getCourses();
-    if (filters.participantName.length || filters.course.length)
+    if (!filters.participantName.length && !filters.class.length) getClasses();
+    if (filters.participantName.length || filters.class.length)
       getFilteredLeads();
   }, [filters]);
 
-  const getCourses = async () => {
+  const getClasses = async () => {
     try {
       toast.dismiss();
-      const { data } = await NewAxiosInstance.get("/courses/getCourses");
-      if (data?.allCourses.length) {
-        setCourses(data?.allCourses);
-        filters.course = data.allCourses[0]._id;
+      const { data } = await NewAxiosInstance.get("/class/getClasses");
+      if (data?.classes.length) {
+        setClasses(data?.classes);
+        filters.class = data.classes[0]._id;
         setFilters({ ...filters });
       }
     } catch (err) {
@@ -83,24 +83,24 @@ export const Attendance = () => {
                       <div className="row w-100">
                         <div className="col-xl-4">
                           <div className="className-select">
-                            <label>Search By Course:</label>
+                            <label>Search By Class:</label>
                             <select
                               onChange={({ target }) => {
-                                filters.course = target.value;
+                                filters.class = target.value;
                                 setFilters({ ...filters });
                               }}
                               className="form-select"
-                              value={filters.course}
+                              value={filters.class}
                             >
-                              {courses.length ? (
-                                courses.map((e) => (
+                              {classes.length ? (
+                                classes.map((e) => (
                                   <option key={e._id} value={e._id}>
-                                    {e.courseName}
+                                    {e.course}
                                   </option>
                                 ))
                               ) : (
                                 <option value={""} selected>
-                                  No Courses
+                                  No Classes
                                 </option>
                               )}
                             </select>

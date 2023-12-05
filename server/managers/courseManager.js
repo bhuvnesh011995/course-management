@@ -186,22 +186,6 @@ const getCourses = async (req, res, next) => {
         },
       },
       { $unwind: "$durationDetails" },
-      {
-        $lookup: {
-          from: "leads",
-          let: { courseId: "$_id" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: [{ $toString: "$$courseId" }, "$course"],
-                },
-              },
-            },
-          ],
-          as: "leadCourses",
-        },
-      },
 
       {
         $addFields: {
@@ -267,7 +251,6 @@ const getCourses = async (req, res, next) => {
           duration: "$bothCombined.durationDetails.name",
           registrationType:
             "$bothCombined.registrationTypeDetails.registrationName",
-          ActiveCourses: "$bothCombined.leadCourses",
           created_at: "$bothCombined.created_at",
         },
       },
@@ -509,41 +492,112 @@ const allDashboardCourses = async (req, res, next) => {
       {
         $lookup: {
           from: "classes",
-          localField: "_id",
-          foreignField: "course",
-          as: "classDetails",
-        },
-      },
-      {
-        $lookup: {
-          from: "leads",
           let: { courseId: "$_id" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: ["$course", { $toString: "$$courseId" }],
+                  $eq: ["$course", "$$courseId"],
                 },
               },
             },
           ],
-          as: "leadDetails",
+          as: "classDetails",
         },
       },
       {
         $addFields: {
           totalClasses: { $size: "$classDetails" },
-          totalCustomers: { $size: "$leadDetails" },
+        },
+      },
+      {
+        $addFields: {
+          hasClasses: {
+            $gt: [{ $size: "$classDetails" }, 0],
+          },
+          classCount: { $size: "$classDetails" },
+        },
+      },
+      {
+        $facet: {
+          hasClasses: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$hasClasses", true],
+                },
+              },
+            },
+            { $unwind: "$classDetails" },
+            {
+              $lookup: {
+                from: "leads",
+                let: { classId: "$classDetails._id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ["$class", { $toString: "$$classId" }],
+                      },
+                    },
+                  },
+                ],
+                as: "leadDetails",
+              },
+            },
+          ],
+          noClasses: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$hasClasses", false],
+                },
+              },
+            },
+            {
+              $addFields: {
+                leadDetails: [],
+              },
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasClasses", "$noClasses"],
+          },
+        },
+      },
+      {
+        $unwind: "$bothCombined",
+      },
+      {
+        $group: {
+          _id: {
+            courseName: "$bothCombined.courseName",
+            updated_at: "$bothCombined.updated_at",
+            courseType: "$bothCombined.registrationDetails.registrationName",
+            totalClasses: "$bothCombined.classCount",
+          },
+          leadCount: {
+            $sum: {
+              $cond: [
+                { $gt: [{ $size: "$bothCombined.leadDetails" }, 0] },
+                { $size: "$bothCombined.leadDetails" },
+                0,
+              ],
+            },
+          },
         },
       },
       {
         $project: {
-          _id: 1,
-          courseName: 1,
-          courseType: "$registrationDetails.registrationName",
-          totalClasses: 1,
-          totalCustomers: 1,
-          updated_at: 1,
+          courseName: "$_id.courseName",
+          courseType: "$_id.courseType",
+          totalClasses: "$_id.totalClasses",
+          totalCustomers: "$leadCount",
+          updated_at: "$_id.updated_at",
         },
       },
     ]);

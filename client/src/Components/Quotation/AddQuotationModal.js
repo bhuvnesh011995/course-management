@@ -73,13 +73,12 @@ export default function AddQuotationModal({ show, setShow, callback }) {
     if (!selectedLead) {
       toast.error("Please Select Customer !");
       return;
-    } else if (!selectedLead?.course?.length) {
-      toast.error("Course is not assigned for this customer");
+    } else if (!selectedLead?.class?.length) {
+      toast.error("Class is not assigned for this customer");
       return;
     }
-    if (selectedLead?.course?.length) {
+    if (selectedLead?.class?.length) {
       const chekedClass = await checkCourseInClass();
-
       if (chekedClass.status != 200) {
         toast.error(chekedClass.data.message);
         return;
@@ -94,7 +93,7 @@ export default function AddQuotationModal({ show, setShow, callback }) {
 
   const checkCourseInClass = async () => {
     const checkClass = await NewAxiosInstance.get("/class/getCourseClass", {
-      params: { courseId: selectedLead?.course },
+      params: { classId: selectedLead?.class },
     });
     return checkClass;
   };
@@ -229,8 +228,8 @@ export default function AddQuotationModal({ show, setShow, callback }) {
         return;
       }
     }
-    if (!selectedLead?.course?.length) {
-      toast.error("Course is not assigned for this customer");
+    if (!selectedLead?.class?.length) {
+      toast.error("Class is not assigned for this customer");
       return;
     }
     const chekedClass = await checkCourseInClass();
