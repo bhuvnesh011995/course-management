@@ -449,6 +449,7 @@ export const AddNewLeadModel = ({
                   <option value="new">New</option>
                   <option value="pending">Pending</option>
                   <option value="assign">Assign</option>
+                  <option value="confirmed">Confirmed</option>
                 </select>
               </div>
               <span className="text-danger">

@@ -54,7 +54,6 @@ export default function ViewQuotationModal({
       const { data } = await NewAxiosInstance.get("/quotations/getQuotation", {
         params: quotationData,
       });
-
       setSelectedQuotation(data);
       calculateQuotation(data.quotationCourses);
     } catch (err) {

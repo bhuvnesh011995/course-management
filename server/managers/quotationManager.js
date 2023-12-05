@@ -129,35 +129,18 @@ const getQuotation = async (req, res, next) => {
       { $unwind: "$leadDetails" },
       {
         $addFields: {
-          courseId: "$leadDetails.course",
+          classId: "$leadDetails.class",
         },
       },
-      {
-        $lookup: {
-          from: "courses",
-          let: { course: "$courseId" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$$course", { $toString: "$_id" }],
-                },
-              },
-            },
-          ],
-          as: "courseDetails",
-        },
-      },
-      { $unwind: "$courseDetails" },
       {
         $lookup: {
           from: "classes",
-          let: { course: "$courseId" },
+          let: { classId: "$classId" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: ["$$course", { $toString: "$course" }],
+                  $eq: ["$$classId", { $toString: "$_id" }],
                 },
               },
             },
@@ -166,6 +149,23 @@ const getQuotation = async (req, res, next) => {
         },
       },
       { $unwind: "$classDetails" },
+      {
+        $lookup: {
+          from: "courses",
+          let: { course: "$classDetails.course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$course", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
       {
         $project: {
           _id: 1,

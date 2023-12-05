@@ -105,5 +105,11 @@ export const DownloadCertificate = (data) => {
   yPosition += 5;
   doc.text(`OPERATION DIRECTOR (ATTC)`, 126, yPosition);
 
-  if (data.status == "confirmed") doc.save("certificate.pdf");
+  let name = "";
+
+  data.participantName.split(" ").map((e) => {
+    name += e;
+  });
+
+  doc.save(`${name}-certificate.pdf`);
 };

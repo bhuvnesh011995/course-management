@@ -752,40 +752,26 @@ const getFilteredLeads = async (req, res, next) => {
   try {
     const { query } = req;
     const leadQuery = [];
-    if (query.course.length) {
-      leadQuery.push(
-        {
-          $lookup: {
-            from: "classes",
-            let: { classId: "$class" },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $eq: ["$$classId", { $toString: "$_id" }],
-                  },
-                },
-              },
-            ],
-            as: "classDetails",
+    if (query.class.length) {
+      leadQuery.push({
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$_id" }, query.class],
           },
         },
-        {
-          $unwind: "$classDetails",
-        }
-      );
+      });
     }
 
     leadQuery.push(
       {
         $lookup: {
           from: "courses",
-          let: { courseId: "$classDetails.course" },
+          let: { courseId: "$course" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$$courseId" }, query.course],
+                  $eq: ["$$courseId", "$_id"],
                 },
               },
             },
@@ -796,8 +782,25 @@ const getFilteredLeads = async (req, res, next) => {
       { $unwind: "$courseData" },
       {
         $lookup: {
+          from: "leads",
+          let: { classId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$$classId" }, "$class"],
+                },
+              },
+            },
+          ],
+          as: "leadDetails",
+        },
+      },
+      { $unwind: "$leadDetails" },
+      {
+        $lookup: {
           from: "trainers",
-          let: { trainerId: "$classDetails.trainer" },
+          let: { trainerId: "$trainer" },
           pipeline: [
             {
               $match: {
@@ -814,7 +817,7 @@ const getFilteredLeads = async (req, res, next) => {
       {
         $lookup: {
           from: "tradetypes",
-          let: { tradeTypeId: "$tradeType" },
+          let: { tradeTypeId: "$leadDetails.tradeType" },
           pipeline: [
             {
               $match: {
@@ -833,7 +836,7 @@ const getFilteredLeads = async (req, res, next) => {
     if (query.participantName.length) {
       leadQuery.push({
         $match: {
-          participantName: { $regex: query.participantName },
+          "$leadDetails.participantName": { $regex: query.participantName },
         },
       });
     }
@@ -841,18 +844,18 @@ const getFilteredLeads = async (req, res, next) => {
       $project: {
         _id: 1,
         course: "$courseData.courseName",
-        startDate: "$classDetails.startDate",
-        endDate: "$classDetails.endDate",
-        startTime: "$classDetails.startTime",
-        endTime: "$classDetails.endTime",
-        participantName: 1,
-        participantNric: "$participantNRIC",
-        coreTradeRegNo: 1,
+        startDate: 1,
+        endDate: 1,
+        startTime: 1,
+        endTime: 1,
+        participantName: "$leadDetails.participantName",
+        participantNric: "$leadDetails.participantNRIC",
+        coreTradeRegNo: "$leadDetails.coreTradeRegNo",
         trainerName: "$trainerData.trainerName",
         tradeType: "$tradeTypeData.tradeType",
       },
     });
-    const getClassParticipants = await db.lead.aggregate(leadQuery);
+    const getClassParticipants = await db.classes.aggregate(leadQuery);
     return res.status(200).send(getClassParticipants);
   } catch (err) {
     next(err);
@@ -1019,7 +1022,7 @@ const getCompany = async (req, res, next) => {
           educationalLevel: "$bothCombined.educationalLevel",
           coreTradeRegNo: "$bothCombined.coreTradeRegNo",
           status: "$bothCombined.status",
-          course: "$bothCombined.course",
+          class: "$bothCombined.class",
         },
       },
     ]);
@@ -1070,9 +1073,9 @@ const getDashboardCustomers = async (req, res, next) => {
             contactPerson: "$contactPerson",
             contactPersonEmail: "$contactPersonEmail",
           },
-          courseCount: {
+          classCount: {
             $sum: {
-              $cond: [{ $gt: [{ $size: "$courseDetails" }, 0] }, 1, 0],
+              $cond: [{ $gt: [{ $size: "$classDetails" }, 0] }, 1, 0],
             },
           },
           completedCount: {
@@ -1105,7 +1108,7 @@ const getDashboardCustomers = async (req, res, next) => {
           _id: 0,
           contactPersonEmail: "$_id.contactPersonEmail",
           contactPerson: "$_id.contactPerson",
-          courseCount: 1,
+          classCount: 1,
           completedCount: 1,
           unCompletedCount: 1,
         },

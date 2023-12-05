@@ -57,6 +57,7 @@ export const Roles = () => {
       });
     } else {
       setRoles((old) => [...old, newData]);
+      setFilteredRoles((old) => [...old, newData]);
     }
   };
 

@@ -228,7 +228,7 @@ const updateClass = async (req, res, next) => {
 const getCourseClass = async (req, res, next) => {
   try {
     const getCourseClass = await db.classes.find({
-      course: req.query.courseId,
+      _id: req.query.classId,
     });
     if (getCourseClass.length) return res.status(200).send(getCourseClass);
     else
@@ -244,6 +244,10 @@ const getCourseClass = async (req, res, next) => {
 const deleteClass = async (req, res, next) => {
   try {
     const { query } = req;
+    const classInLead = await db.lead.find({ class: query._id });
+    if (classInLead) {
+      return res.status(202).send({ message: "class Existed in lead !!" });
+    }
     const deleteClass = await db.classes.deleteOne({ _id: query._id });
     return res.status(200).send({ message: "class deleted successfully !!" });
   } catch (err) {
@@ -326,7 +330,6 @@ const getDashboardClasses = async (req, res, next) => {
 
 const getFilteredClasses = async (req, res, next) => {
   try {
-    console.log(req.query);
     const filteredClasses = await db.classes.aggregate([
       {
         $lookup: {
