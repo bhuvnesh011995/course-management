@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-// import { AxiosInstance } from "../../common-components/axiosInstance";
 // import { CommonDataTable } from "../../common-components/CommonDataTable";
 // import { trainerHeaders } from "../../Constants/table.constants";
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { Card, Col, Nav, Row, Tab } from "react-bootstrap";
 import System from "./TabContents/System";
 import Other from "./TabContents/Other";
 
 export const SystemConfig = () => {
-
-
   return (
     <div id="layout-wrapper">
       <div className="main-content">
@@ -26,58 +22,46 @@ export const SystemConfig = () => {
                         <Link to="/">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">
-                      System Configuration
+                        System Configuration
                       </li>
                     </ol>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
-                  <Tab.Container id="left-tabs-example" defaultActiveKey="config">
-      <Row>
-        
-        <Col xl={3}>
-            <Card>
-          <Card.Body>
-            <Nav variant="pills" className="flex-column">
-              <Nav.Item>
-                <Nav.Link eventKey="config">System Configuration</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="other">Other</Nav.Link>
-              </Nav.Item>
-              </Nav>
-          </Card.Body>
-          </Card>
-        </Col>
-        <Col xl={9}>
-            <Tab.Content>
-                <Tab.Pane eventKey={"config"}><System/></Tab.Pane>
-                <Tab.Pane eventKey={"other"}><Other/></Tab.Pane>
-</Tab.Content>
-        </Col>
-      </Row>
-    </Tab.Container>
-                
-              
           </div>
+          <Tab.Container id="left-tabs-example" defaultActiveKey="config">
+            <Row>
+              <Col xl={3}>
+                <Card>
+                  <Card.Body>
+                    <Nav variant="pills" className="flex-column">
+                      <Nav.Item>
+                        <Nav.Link eventKey="config">
+                          System Configuration
+                        </Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link eventKey="other">Other</Nav.Link>
+                      </Nav.Item>
+                    </Nav>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xl={9}>
+                <Tab.Content>
+                  <Tab.Pane eventKey={"config"}>
+                    <System />
+                  </Tab.Pane>
+                  <Tab.Pane eventKey={"other"}>
+                    <Other />
+                  </Tab.Pane>
+                </Tab.Content>
+              </Col>
+            </Row>
+          </Tab.Container>
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
+    </div>
   );
 };

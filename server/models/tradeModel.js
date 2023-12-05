@@ -16,7 +16,8 @@ const tradeTypeSchema = new mongoose.Schema(
   {
     tradeType: { type: String, unique: true },
     typeCode: { type: String, unique: true },
-    seat:Number
+    isCet: { type: String },
+    seat: Number,
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

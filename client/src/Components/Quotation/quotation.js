@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import AddQuotationModal from "./AddQuotationModal";
 import ViewQuotationModal from "./ViewQuotationModal";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { quoatationListHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
@@ -12,7 +11,7 @@ import { useAuth } from "../../context/authContext";
 import { CommonFooter } from "../../common-components/commonFooter";
 
 export const Quotation = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [isAddModelOpen, setAddModal] = useState(false);
   const [isViewModalOpen, setViewModal] = useState(false);
   const [allQuoatations, setAllQuotations] = useState([]);
@@ -25,7 +24,7 @@ export const Quotation = () => {
 
   const getAllQuotations = async () => {
     try {
-      const { data } = await AxiosInstance.get("/quotations/getQuotations");
+      const { data } = await NewAxiosInstance.get("/quotations/getQuotations");
       data.map((quotation, index) => (quotation.quotationNo = index + 1));
       setAllQuotations(data);
     } catch (err) {
@@ -48,7 +47,7 @@ export const Quotation = () => {
   const deleteSelectedQuotation = async (quotation) => {
     try {
       toast.dismiss();
-      const deletedQuote = await AxiosInstance.delete(
+      const deletedQuote = await NewAxiosInstance.delete(
         "/quotations/deleteQuotation",
         { params: quotation }
       );
@@ -144,21 +143,6 @@ export const Quotation = () => {
             </div>
           </div>{" "}
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
 
       {isAddModelOpen && (

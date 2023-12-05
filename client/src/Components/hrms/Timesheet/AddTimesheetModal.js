@@ -1,9 +1,9 @@
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { useAuth } from "../../../context/authContext";
 
 export default function AddTimesheetModal({
   show,
@@ -12,6 +12,7 @@ export default function AddTimesheetModal({
   timesheetData,
   callback,
 }) {
+  const { NewAxiosInstance } = useAuth();
   const {
     handleSubmit,
     register,
@@ -28,7 +29,7 @@ export default function AddTimesheetModal({
 
   const getEmployees = async () => {
     try {
-      const { data } = await AxiosInstance.get("/users/getUsers");
+      const { data } = await NewAxiosInstance.get("/users/getUsers");
       setEmployees(data.users);
     } catch (err) {
       toast.error("something went wrong");
@@ -38,7 +39,7 @@ export default function AddTimesheetModal({
 
   const getTimesheet = async () => {
     try {
-      const selectedTimesheet = await AxiosInstance.get(
+      const selectedTimesheet = await NewAxiosInstance.get(
         "/timesheets/getTimesheet",
         { params: timesheetData }
       );
@@ -59,7 +60,7 @@ export default function AddTimesheetModal({
   const addNewTimesheet = async (data) => {
     try {
       toast.dismiss();
-      const addTimesheet = await AxiosInstance.post(
+      const addTimesheet = await NewAxiosInstance.post(
         "/timesheets/addTimeSheet",
         data
       );
@@ -79,7 +80,7 @@ export default function AddTimesheetModal({
   const updateTimeSheet = async (data) => {
     try {
       toast.dismiss();
-      const updatedTimesheet = await AxiosInstance.post(
+      const updatedTimesheet = await NewAxiosInstance.post(
         "/timesheets/updateTimeSheet",
         data
       );
@@ -117,7 +118,9 @@ export default function AddTimesheetModal({
           )}
         >
           <div className="mb-3">
-            <label className="form-label">Date</label>
+            <label className="form-label">
+              Date <span className="text-danger">*</span>
+            </label>
             <input
               type="date"
               className="form-control"
@@ -129,7 +132,9 @@ export default function AddTimesheetModal({
             )}
           </div>
           <div className="mb-3">
-            <label className="form-label">Employee Name</label>
+            <label className="form-label">
+              Employee Name <span className="text-danger">*</span>
+            </label>
             <select
               className="form-select"
               {...register("employee", {
@@ -149,7 +154,9 @@ export default function AddTimesheetModal({
             )}
           </div>
           <div className="mb-3">
-            <label className="form-label">Hours Worked</label>
+            <label className="form-label">
+              Hours Worked <span className="text-danger">*</span>
+            </label>
             <input
               type="number"
               className="form-control"
@@ -165,7 +172,9 @@ export default function AddTimesheetModal({
             )}
           </div>
           <div className="mb-3">
-            <label className="form-label">Overtime Hours</label>
+            <label className="form-label">
+              Overtime Hours <span className="text-danger">*</span>
+            </label>
             <input
               type="number"
               className="form-control"
@@ -181,7 +190,9 @@ export default function AddTimesheetModal({
             )}
           </div>
           <div className="mb-3">
-            <label className="form-label">Shift</label>
+            <label className="form-label">
+              Shift <span className="text-danger">*</span>
+            </label>
             <select
               className="form-select"
               {...register("shiftTiming", {

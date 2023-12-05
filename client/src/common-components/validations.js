@@ -4,7 +4,7 @@ export const emailPattern = {
 };
 
 export const phonePattern = {
-  value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
+  value: /^.{8,10}$/,
   message: "Invalid phone number.",
 };
 
@@ -40,7 +40,7 @@ export const mustBeNumbers = {
   message: "Must Be Numbers.",
 };
 
-
-export const numberWithoutPrecedingZero ={value:/^[1-9][0-9]?$/i,
-message:"wrong input field"
-}
+export const numberWithoutPrecedingZero = {
+  value: /^[1-9][0-9]?$/i,
+  message: "wrong input field",
+};

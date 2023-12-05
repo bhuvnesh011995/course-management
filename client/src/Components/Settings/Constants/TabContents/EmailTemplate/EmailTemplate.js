@@ -2,15 +2,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import AddNew from "./AddNew";
 import { Card } from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
-import { AxiosInstance } from "../../../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import DeleteModal2 from "../../../../../common-components/models/DeleteModal2";
-import { emailTemplateColumnHeaders } from "../../../../../Constants/table.constants";
-import { CommonDataTable } from "../../../../../common-components/CommonDataTable";
 import { useAuth } from "../../../../../context/authContext";
 
 export default function EmailTemplate() {
-  const { user, setUser } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -25,20 +22,20 @@ export default function EmailTemplate() {
 
   const getEmailTemplates = useCallback(async () => {
     try {
-      let response = await AxiosInstance.get("/constants/emailtemplate");
+      let response = await NewAxiosInstance.get("/constants/emailtemplate");
       if (!response) toast.error("server error");
       if (response.status === 200) {
         setData(response.data);
       } else toast.error("error while fetching data");
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
       toast.error("error while fetching");
     }
   }, []);
   const addEmailTemplate = useCallback(
     async (formData) => {
       try {
-        let response = await AxiosInstance.post(
+        let response = await NewAxiosInstance.post(
           "/constants/emailtemplate",
           formData
         );
@@ -47,11 +44,10 @@ export default function EmailTemplate() {
           setData((preVal) => [...preVal, response.data]);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while added Email Template");
         }
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         toast.error("error while adding Email Template");
       }
     },
@@ -61,8 +57,7 @@ export default function EmailTemplate() {
   const updateEmailTemplate = useCallback(
     async (id, formData) => {
       try {
-        console.log("run");
-        let response = await AxiosInstance.put(
+        let response = await NewAxiosInstance.put(
           "/constants/emailtemplate/" + id,
           formData
         );
@@ -75,11 +70,10 @@ export default function EmailTemplate() {
           setData(newArray);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while updateing Email Template");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.error("error while updating Email Template");
       }
     },
@@ -102,7 +96,7 @@ export default function EmailTemplate() {
   const handleDelete = useCallback(
     async (id) => {
       try {
-        let response = await AxiosInstance.delete(
+        let response = await NewAxiosInstance.delete(
           "/constants/emailtemplate/" + id
         );
         if (response.status === 204) {
@@ -118,7 +112,7 @@ export default function EmailTemplate() {
             message: "some error occured while deleting",
           };
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         return { success: false, message: "server error occured" };
       }
     },
@@ -141,7 +135,8 @@ export default function EmailTemplate() {
 
   const selectThisTemplate = async (template) => {
     try {
-      const updateUserSelectedTemplate = await AxiosInstance.post(
+      toast.dismiss();
+      const updateUserSelectedTemplate = await NewAxiosInstance.post(
         "/users/selectedTemplate",
         template
       );

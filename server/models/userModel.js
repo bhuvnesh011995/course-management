@@ -14,9 +14,9 @@ const userSchema = new mongoose.Schema(
     userImagePath: { type: String },
     userRole: { type: mongoose.Schema.Types.ObjectId },
     status: { type: String },
-    department: { type: String },
+    department: { type: mongoose.Schema.Types.ObjectId },
     joinDate: { type: Date },
-    position: { type: String },
+    position: { type: mongoose.Schema.Types.ObjectId },
     salary: { type: Number },
 
     gender: { type: String },

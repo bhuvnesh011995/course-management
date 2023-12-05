@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import AddTimesheetModal from "./AddTimesheetModal";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { timesheetHeaders } from "../../../Constants/table.constants";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
-import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const TimeSheet = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [isAddModalOpen, setAddModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [timesheetData, setTimesheetData] = useState(null);
@@ -42,7 +40,7 @@ export const TimeSheet = () => {
   const deleteSelectedTimeSheet = async (selectedTimeSheet) => {
     try {
       toast.dismiss();
-      const deletedTimesheet = await AxiosInstance.delete(
+      const deletedTimesheet = await NewAxiosInstance.delete(
         "/timesheets/deleteTimesheet",
         { params: selectedTimeSheet }
       );
@@ -60,7 +58,9 @@ export const TimeSheet = () => {
 
   const getAllTimesheets = async () => {
     try {
-      const timesheets = await AxiosInstance.get("/timesheets/getTimesheets");
+      const timesheets = await NewAxiosInstance.get(
+        "/timesheets/getTimesheets"
+      );
       setAllTimesheets(timesheets.data);
     } catch (err) {
       console.error(err);
@@ -149,21 +149,6 @@ export const TimeSheet = () => {
             </div>
           </div>{" "}
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
       {isAddModalOpen && (
         <AddTimesheetModal

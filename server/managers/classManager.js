@@ -324,6 +324,96 @@ const getDashboardClasses = async (req, res, next) => {
   }
 };
 
+const getFilteredClasses = async (req, res, next) => {
+  try {
+    console.log(req.query);
+    const filteredClasses = await db.classes.aggregate([
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      {
+        $match: {
+          $expr: {
+            $eq: [
+              { $toString: "$courseDetails.tradeType" },
+              req.query.tradeType,
+            ],
+          },
+        },
+      },
+      {
+        $match: {
+          $expr: {
+            $eq: [
+              { $toString: "$courseDetails.registrationType" },
+              req.query.registrationType,
+            ],
+          },
+        },
+      },
+      {
+        $addFields: {
+          hasTradeLevel: {
+            $gt: [{ $strLenCP: req.query.tradeLevel }, 0],
+          },
+        },
+      },
+      {
+        $facet: {
+          tradeLevelExist: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$hasTradeLevel", true],
+                },
+              },
+            },
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$courseDetails.tradeLevel", req.query.tradeLevel],
+                },
+              },
+            },
+          ],
+          tradeLevelNotExist: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$hasTradeLevel", false],
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          bothcombined: {
+            $concatArrays: ["$tradeLevelExist", "$tradeLevelNotExist"],
+          },
+        },
+      },
+      { $unwind: "$bothcombined" },
+      {
+        $project: {
+          _id: "$bothcombined._id",
+          courseName: "$bothcombined.courseDetails.courseName",
+        },
+      },
+    ]);
+    return res.status(200).send(filteredClasses);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getClasses,
   addClass,
@@ -333,4 +423,5 @@ module.exports = {
   getCourseClasses,
   getCourseClass,
   getDashboardClasses,
+  getFilteredClasses,
 };

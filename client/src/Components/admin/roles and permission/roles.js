@@ -3,7 +3,6 @@ import { AddNewRoleModel } from "./RoleManagementModels";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { rolesTableHeaders } from "../../../Constants/table.constants";
 import { UserRoleModel } from "./UserRoleModel";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
@@ -11,7 +10,7 @@ import { useAuth } from "../../../context/authContext";
 import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Roles = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [roleModalOpen, setRoleModalOpen] = useState(false);
   const [roles, setRoles] = useState([]);
   const [filteredRoles, setFilteredRoles] = useState([]);
@@ -57,14 +56,13 @@ export const Roles = () => {
         }
       });
     } else {
-      roles.push(newData);
-      setRoles([...roles]);
+      setRoles((old) => [...old, newData]);
     }
   };
 
   const getRoleData = async () => {
     try {
-      const { data } = await AxiosInstance.get("/roles/getRoles", {
+      const { data } = await NewAxiosInstance.get("/roles/getRoles", {
         params: { token: localStorage.getItem("token") },
       });
       setRoles(data.roleData);
@@ -77,7 +75,7 @@ export const Roles = () => {
 
   const getUserRoleInfo = async () => {
     try {
-      const { data } = await AxiosInstance.get("/roles/getUserRoleInfo");
+      const { data } = await NewAxiosInstance.get("/roles/getUserRoleInfo");
       setUserRoles(data);
     } catch (err) {
       toast.error("something went wrong !");
@@ -101,7 +99,7 @@ export const Roles = () => {
   const deleteSelectedRole = async (roleId) => {
     try {
       toast.dismiss();
-      const deletedRole = await AxiosInstance.delete("/roles/deleteRole", {
+      const deletedRole = await NewAxiosInstance.delete("/roles/deleteRole", {
         params: { _id: roleId },
       });
       if (deletedRole.status == 200) {
@@ -175,7 +173,7 @@ export const Roles = () => {
               </div>
             </div>
             <div className="row g-4">
-              {filteredRoles?.length > 0 ? (
+              {filteredRoles?.length ? (
                 filteredRoles.map((e) => (
                   <div className="col-xl-4 col-lg-6 col-md-6">
                     <div className="card">
@@ -195,7 +193,7 @@ export const Roles = () => {
                               </a>
                             </div>
                           ))} */}
-                            <div className="avatar-group-item">
+                            {/* <div className="avatar-group-item">
                               <a className="d-inline-block">
                                 <div className="avatar-xs">
                                   <span className="avatar-title rounded-circle bg-info text-white font-size-16">
@@ -203,7 +201,7 @@ export const Roles = () => {
                                   </span>
                                 </div>
                               </a>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                         <div className="d-flex justify-content-between align-items-end">
@@ -212,30 +210,31 @@ export const Roles = () => {
                               onClick={() => showRoleModal(e._id, "viewRole")}
                               className="mb-2 text-primary fw-bold cursor-pointer"
                             >
-                              <a>{e.roleName}</a>
+                              <a>{e?.roleName}</a>
                             </h4>
-                            {user.userData?.roleData._id != e._id && (
-                              <div>
-                                {user.userData?.roleData?.role?.write && (
-                                  <button
-                                    onClick={() => showRoleModal(e._id)}
-                                    className="btn btn-sm btn-primary role-edit-modal mx-1"
-                                  >
-                                    <small>Edit Role</small>
-                                  </button>
-                                )}
-                                {user.userData?.roleData?.role?.delete && (
-                                  <button
-                                    onClick={() =>
-                                      showRoleModal(e._id, "delete")
-                                    }
-                                    className="btn btn-sm btn-danger role-edit-modal"
-                                  >
-                                    <small>Delete Role</small>
-                                  </button>
-                                )}
-                              </div>
-                            )}
+                            {e?.roleName != "Admin" &&
+                              user.userData?.roleData?._id != e._id && (
+                                <div>
+                                  {user.userData?.roleData?.role?.write && (
+                                    <button
+                                      onClick={() => showRoleModal(e._id)}
+                                      className="btn btn-sm btn-primary role-edit-modal mx-1"
+                                    >
+                                      <small>Edit Role</small>
+                                    </button>
+                                  )}
+                                  {user.userData?.roleData?.role?.delete && (
+                                    <button
+                                      onClick={() =>
+                                        showRoleModal(e._id, "delete")
+                                      }
+                                      className="btn btn-sm btn-danger role-edit-modal"
+                                    >
+                                      <small>Delete Role</small>
+                                    </button>
+                                  )}
+                                </div>
+                              )}
                           </div>
                           <a className="text-muted cursor-pointer">
                             <i className="bx bx-copy fs-4" />
@@ -272,22 +271,6 @@ export const Roles = () => {
             </div>
           </div>{" "}
         </div>
-
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
       {/* end main content*/}
       {roleModalOpen && (

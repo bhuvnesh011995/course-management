@@ -5,7 +5,6 @@ import "./assets/css/app.min.css";
 import "./assets/css/bootstrap.min.css";
 import "./assets/css/custom.css";
 import "./assets/css/icons.min.css";
-import "./assets/js/pages/app-calendar-events";
 import { ToastContainer } from "react-toastify";
 import { AllRoutes } from "./routes/AllRoutes";
 import AuthProvider from "./context/authContext";

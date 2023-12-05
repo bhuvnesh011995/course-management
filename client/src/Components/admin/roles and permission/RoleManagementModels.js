@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const AddNewRoleModel = ({
   isOpen,
@@ -12,6 +12,7 @@ export const AddNewRoleModel = ({
   viewRole,
   callback,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const [isAllSelected, setIsAllSelected] = useState(false);
 
   const [permissionChecked, setPermissionChecked] = useState({
@@ -90,7 +91,7 @@ export const AddNewRoleModel = ({
 
   const setRoleData = async () => {
     try {
-      const { data } = await AxiosInstance.get("/roles/selectedRoleData", {
+      const { data } = await NewAxiosInstance.get("/roles/selectedRoleData", {
         params: {
           id: roleId,
         },
@@ -106,7 +107,7 @@ export const AddNewRoleModel = ({
   const editRoleData = async (roleData) => {
     try {
       toast.dismiss();
-      const { data } = AxiosInstance.post("/roles/editRole", roleData);
+      const { data } = NewAxiosInstance.post("/roles/editRole", roleData);
       toast.success("Role Updated");
       callback(roleData);
       handleCloseRoleModal();
@@ -119,14 +120,17 @@ export const AddNewRoleModel = ({
   const addNewRole = async (roleData) => {
     try {
       toast.dismiss();
-      const newRole = await AxiosInstance.post("/roles/addNewRole", roleData);
+      const newRole = await NewAxiosInstance.post(
+        "/roles/addNewRole",
+        roleData
+      );
       if (newRole.status == 200) {
         toast.success("Role Added Successfully");
         callback(newRole.data);
+        handleCloseRoleModal();
       } else {
         toast.error(newRole.data.message);
       }
-      handleCloseRoleModal();
     } catch (err) {
       toast.error("something went wrong !");
       console.error(err);
@@ -381,16 +385,22 @@ export const AddNewRoleModel = ({
         <Modal.Body>
           <form onSubmit={handleSubmit(roleId ? editRoleData : addNewRole)}>
             <div className="col-12 mb-4 fv-plugins-icon-container">
-              <label className="form-label">Role Name</label>
+              <label className="form-label">
+                Role Name <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 id="modalRoleName"
-                {...register("roleName")}
+                {...register("roleName", {
+                  required: "this field is required",
+                })}
                 className="form-control"
                 placeholder="Enter a role name"
-                tabIndex={-1}
                 disabled={viewRole}
               />
+              {errors?.roleName && (
+                <span className="text-danger">{errors?.roleName.message}</span>
+              )}
             </div>
             <div className="col-12">
               <h4>Role Permissions</h4>

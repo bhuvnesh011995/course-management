@@ -5,7 +5,6 @@ import {
   dashboardCourseHeaders,
   dashboardCustomerHeaders,
 } from "../../Constants/table.constants";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import moment from "moment";
@@ -28,7 +27,6 @@ import {
 } from "chart.js";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import { CommonFooter } from "../../common-components/commonFooter";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -42,6 +40,7 @@ ChartJS.register(
 );
 
 export const Index = () => {
+  const { NewAxiosInstance } = useAuth();
   const allRegistrationIcons = [Img1, Img2, Img3, Img4, Img5];
   const [dashboardClasses, setDashboardClasses] = useState([]);
   const [dashboardCustomers, setDashboardCustomers] = useState([]);
@@ -69,7 +68,7 @@ export const Index = () => {
   }, []);
   const getDashboardClasses = async () => {
     try {
-      const dashboardClassesData = await AxiosInstance.get(
+      const dashboardClassesData = await NewAxiosInstance.get(
         "/class/getDashboardClasses"
       );
       dashboardClassesData.data.map((course, index) => {
@@ -114,7 +113,7 @@ export const Index = () => {
 
   const getDashboardCustomers = async () => {
     try {
-      const dashboardCustomers = await AxiosInstance.get(
+      const dashboardCustomers = await NewAxiosInstance.get(
         "/leads/getDashboardCustomers"
       );
       setAll((old) => ({ ...old, customers: dashboardCustomers.data.length }));
@@ -136,7 +135,7 @@ export const Index = () => {
 
   const getDashboardTrainers = async () => {
     try {
-      const dashboardTrainers = await AxiosInstance.get(
+      const dashboardTrainers = await NewAxiosInstance.get(
         "/trainer/getDashboardTrainers"
       );
       setAll((old) => ({ ...old, trainers: dashboardTrainers.data.length }));
@@ -180,7 +179,7 @@ export const Index = () => {
 
   const allDashboardClassTypes = async () => {
     try {
-      const totalClassTypes = await AxiosInstance.get(
+      const totalClassTypes = await NewAxiosInstance.get(
         "/registrationType/allDashboardClassTypes"
       );
       setCategoryTypes(totalClassTypes.data);
@@ -191,7 +190,7 @@ export const Index = () => {
 
   const allDashboardCourses = async () => {
     try {
-      const allCourses = await AxiosInstance.get(
+      const allCourses = await NewAxiosInstance.get(
         "/courses/allDashboardCourses"
       );
       setAll((old) => ({ ...old, courses: allCourses.data.length }));
@@ -204,7 +203,7 @@ export const Index = () => {
 
   const allUsers = async () => {
     try {
-      const users = await AxiosInstance.get("/users/getUsers");
+      const users = await NewAxiosInstance.get("/users/getUsers");
       setAll((old) => ({ ...old, registrations: users.data.users.length }));
     } catch (err) {
       console.error(err);
@@ -556,323 +555,11 @@ export const Index = () => {
                       </div>
                       <div className="card-body p-0">
                         <div className="table-responsive">
-                          {/* <table className="table text-nowrap">
-                            <thead>
-                              <tr>
-                                <th scope="col">Course Title</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Duration</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Trainer</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="align-items-center" />{" "}
-                                    </div>
-                                    <div> ui/ux Designing </div>
-                                  </div>
-                                </th>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div
-                                      className="progress progress-xs course-status-progress progress-animate me-2"
-                                      role="progressbar"
-                                      aria-valuenow={60}
-                                      aria-valuemin={0}
-                                      aria-valuemax={100}
-                                    >
-                                      <div
-                                        className="progress-bar progress-bar-striped bg-primary"
-                                        style={{ width: "60%" }}
-                                      />
-                                    </div>
-                                    <div>60%</div>
-                                  </div>
-                                </td>
-                                <td>3 Months</td>
-                                <td>
-                                  <span className="badge bg-primary">
-                                    Full Time
-                                  </span>
-                                </td>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="avatar avatar-sm avatar-rounded">
-                                        <img
-                                          src="../assets/images/faces/2.jpg"
-                                          alt=""
-                                        />{" "}
-                                      </span>{" "}
-                                    </div>
-                                    <div className="fw-semibold">
-                                      Sarah Taylor
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="align-items-center" />{" "}
-                                    </div>
-                                    <div> Project Management </div>
-                                  </div>
-                                </th>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div
-                                      className="progress progress-xs course-status-progress progress-animate me-2"
-                                      role="progressbar"
-                                      aria-valuenow={100}
-                                      aria-valuemin={0}
-                                      aria-valuemax={100}
-                                    >
-                                      <div
-                                        className="progress-bar progress-bar-striped bg-success"
-                                        style={{ width: "100%" }}
-                                      />
-                                    </div>
-                                    <div>100%</div>
-                                  </div>
-                                </td>
-                                <td>45 Days</td>
-                                <td>
-                                  <span className="badge bg-success">
-                                    Completed
-                                  </span>
-                                </td>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="avatar avatar-sm avatar-rounded">
-                                        <img
-                                          src="../assets/images/faces/11.jpg"
-                                          alt=""
-                                        />{" "}
-                                      </span>{" "}
-                                    </div>
-                                    <div className="fw-semibold">
-                                      Jason Smith
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="align-items-center" />{" "}
-                                    </div>
-                                    <div> Python </div>
-                                  </div>
-                                </th>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div
-                                      className="progress progress-xs course-status-progress progress-animate me-2"
-                                      role="progressbar"
-                                      aria-valuenow={38}
-                                      aria-valuemin={0}
-                                      aria-valuemax={100}
-                                    >
-                                      <div
-                                        className="progress-bar progress-bar-striped bg-warning"
-                                        style={{ width: "38%" }}
-                                      />
-                                    </div>
-                                    <div>38%</div>
-                                  </div>
-                                </td>
-                                <td>90 Days</td>
-                                <td>
-                                  <span className="badge bg-warning">
-                                    Part Time
-                                  </span>
-                                </td>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="avatar avatar-sm avatar-rounded">
-                                        <img
-                                          src="../assets/images/faces/14.jpg"
-                                          alt=""
-                                        />{" "}
-                                      </span>{" "}
-                                    </div>
-                                    <div className="fw-semibold">
-                                      Alex Perira
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="align-items-center" />{" "}
-                                    </div>
-                                    <div> Digital Marketing </div>
-                                  </div>
-                                </th>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div
-                                      className="progress progress-xs course-status-progress progress-animate me-2"
-                                      role="progressbar"
-                                      aria-valuenow={75}
-                                      aria-valuemin={0}
-                                      aria-valuemax={100}
-                                    >
-                                      <div
-                                        className="progress-bar progress-bar-striped bg-info"
-                                        style={{ width: "75%" }}
-                                      />
-                                    </div>
-                                    <div>75%</div>
-                                  </div>
-                                </td>
-                                <td>24 Days</td>
-                                <td>
-                                  <span className="badge bg-info">
-                                    Week End
-                                  </span>
-                                </td>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="avatar avatar-sm avatar-rounded">
-                                        <img
-                                          src="../assets/images/faces/8.jpg"
-                                          alt=""
-                                        />{" "}
-                                      </span>{" "}
-                                    </div>
-                                    <div className="fw-semibold">
-                                      Kamala Singh
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="align-items-center" />{" "}
-                                    </div>
-                                    <div> Full Stack Development </div>
-                                  </div>
-                                </th>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div
-                                      className="progress progress-xs course-status-progress progress-animate me-2"
-                                      role="progressbar"
-                                      aria-valuenow={55}
-                                      aria-valuemin={0}
-                                      aria-valuemax={100}
-                                    >
-                                      <div
-                                        className="progress-bar progress-bar-striped bg-primary"
-                                        style={{ width: "55%" }}
-                                      />
-                                    </div>
-                                    <div>55%</div>
-                                  </div>
-                                </td>
-                                <td>6 Months</td>
-                                <td>
-                                  <span className="badge bg-primary">
-                                    Full Time
-                                  </span>
-                                </td>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="avatar avatar-sm avatar-rounded">
-                                        <img
-                                          src="../assets/images/faces/4.jpg"
-                                          alt=""
-                                        />{" "}
-                                      </span>{" "}
-                                    </div>
-                                    <div className="fw-semibold">
-                                      Jessica Leon
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row" className="border-bottom-0">
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="align-items-center" />{" "}
-                                    </div>
-                                    <div> Stocks &amp; Trading </div>
-                                  </div>
-                                </th>
-                                <td className="border-bottom-0">
-                                  <div className="d-flex align-items-center">
-                                    <div
-                                      className="progress progress-xs course-status-progress progress-animate me-2"
-                                      role="progressbar"
-                                      aria-valuenow={29}
-                                      aria-valuemin={0}
-                                      aria-valuemax={100}
-                                    >
-                                      <div
-                                        className="progress-bar progress-bar-striped bg-danger"
-                                        style={{ width: "29%" }}
-                                      />
-                                    </div>
-                                    <div>29%</div>
-                                  </div>
-                                </td>
-                                <td className="border-bottom-0">1 Month</td>
-                                <td className="border-bottom-0">
-                                  <span className="badge bg-danger">
-                                    Stopped
-                                  </span>
-                                </td>
-                                <td className="border-bottom-0">
-                                  <div className="d-flex align-items-center">
-                                    <div className="me-2">
-                                      {" "}
-                                      <span className="avatar avatar-sm avatar-rounded">
-                                        <img
-                                          src="../assets/images/faces/12.jpg"
-                                          alt=""
-                                        />{" "}
-                                      </span>{" "}
-                                    </div>
-                                    <div className="fw-semibold">
-                                      Israel Khan
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table> */}
                           <CommonDataTable
                             data={dashboardClasses}
                             tableHeaders={dashboardClassHeaders}
                             tableSearchBar={false}
+                            selectDataByOne
                           />
                         </div>
                       </div>
@@ -1126,21 +813,6 @@ export const Index = () => {
             </div>
           </div>
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
   );

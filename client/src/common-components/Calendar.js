@@ -7,7 +7,7 @@ import { convertUtcDateAndTime } from "./useCommonUsableFunctions";
 
 export const AllCalendar = ({ events, callback, type }) => {
   const localizer = useMemo(() => momentLocalizer(moment), []);
-
+  console.log(events);
   const viewSelectedEvent = (event) => {
     event["startDate"] = moment(event.startDate).format("YYYY-MM-DD");
     event["endDate"] = moment(event.endDate).format("YYYY-MM-DD");

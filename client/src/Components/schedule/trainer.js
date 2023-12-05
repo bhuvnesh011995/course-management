@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { NewTrainerModal } from "./modals/AddTrainerModal";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { trainerHeaders } from "../../Constants/table.constants";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
@@ -8,10 +7,9 @@ import { ViewTrainer } from "./modals/ViewTrainerModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import { CommonFooter } from "../../common-components/commonFooter";
 
 export const Trainer = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [trainers, setTrainers] = useState([]);
   const [trainerModal, setTrainerModal] = useState(false);
   const [viewTrainer, setViewTrainer] = useState(false);
@@ -48,7 +46,7 @@ export const Trainer = () => {
 
   const getAllTrainers = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trainer/getTrainers");
+      const { data } = await NewAxiosInstance.get("/trainer/getTrainers");
       setTrainers(data);
     } catch (err) {
       console.error(err);
@@ -58,7 +56,7 @@ export const Trainer = () => {
   const deleteSelectedTrainer = async (trainerData) => {
     try {
       toast.dismiss();
-      const deletedTrainer = await AxiosInstance.delete(
+      const deletedTrainer = await NewAxiosInstance.delete(
         "/trainer/deleteTrainer",
         {
           params: trainerData,
@@ -148,21 +146,6 @@ export const Trainer = () => {
             </div>
           </div>{" "}
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
       {trainerModal && (
         <NewTrainerModal

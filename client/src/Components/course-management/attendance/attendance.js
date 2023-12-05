@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { attendanceHeaders } from "../../../Constants/table.constants";
 import { AttendanceGenerateModal } from "./generateLeads";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { CommonFooter } from "../../../common-components/commonFooter";
+import { useAuth } from "../../../context/authContext";
 
 export const Attendance = () => {
+  const { NewAxiosInstance } = useAuth();
   const filterObject = {
     participantName: "",
     course: "",
@@ -28,7 +28,7 @@ export const Attendance = () => {
   const getCourses = async () => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.get("/courses/getCourses");
+      const { data } = await NewAxiosInstance.get("/courses/getCourses");
       if (data?.allCourses.length) {
         setCourses(data?.allCourses);
         filters.course = data.allCourses[0]._id;
@@ -41,7 +41,7 @@ export const Attendance = () => {
 
   const getFilteredLeads = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getFilteredLeads", {
+      const { data } = await NewAxiosInstance.get("/leads/getFilteredLeads", {
         params: filters,
       });
       setFilteredLeads(data);
@@ -166,24 +166,6 @@ export const Attendance = () => {
             </div>
           </div>
         </div>
-
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">
-                <script>{new Date().getFullYear()}</script> © Tonga.
-              </div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design & Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
       {generatePdfModal && (
         <AttendanceGenerateModal

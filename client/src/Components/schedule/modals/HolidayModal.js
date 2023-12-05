@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
+  const { NewAxiosInstance } = useAuth();
   const {
     register,
     formState: { errors },
@@ -25,7 +26,7 @@ export const AddNewHoliday = ({ isOpen, setIsOpen, eventData, callback }) => {
   const addNewEvent = async (newEventData) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/events/AddEvent",
         newEventData
       );

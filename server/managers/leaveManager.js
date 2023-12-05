@@ -21,15 +21,59 @@ const addLeave = async (req, res, next) => {
       },
       { $unwind: "$employeeDetails" },
       {
+        $lookup: {
+          from: "leave",
+          localField: "leavetype",
+          foreignField: "_id",
+          as: "leaveDetails",
+        },
+      },
+      { $unwind: "$leaveDetails" },
+      {
+        $lookup: {
+          from: "position",
+          let: { positionId: "$employeeDetails.position" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$positionId"],
+                },
+              },
+            },
+          ],
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          let: { departmentId: "$employeeDetails.department" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$departmentId"],
+                },
+              },
+            },
+          ],
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           leavetype: 1,
           startDate: 1,
           endDate: 1,
           employee: 1,
+          leaveName: "$leaveDetails.name",
           name: "$employeeDetails.name",
-          department: "$employeeDetails.department",
-          position: "$employeeDetails.position",
+          department: "$departmentDetails.name",
+          position: "$positionDetails.name",
         },
       },
     ]);
@@ -62,15 +106,59 @@ const getLeave = async (req, res, next) => {
       },
       { $unwind: "$employeeDetails" },
       {
+        $lookup: {
+          from: "leave",
+          localField: "leavetype",
+          foreignField: "_id",
+          as: "leaveDetails",
+        },
+      },
+      { $unwind: "$leaveDetails" },
+      {
+        $lookup: {
+          from: "position",
+          let: { positionId: "$employeeDetails.position" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$positionId"],
+                },
+              },
+            },
+          ],
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          let: { departmentId: "$employeeDetails.department" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$departmentId"],
+                },
+              },
+            },
+          ],
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           leavetype: 1,
           startDate: 1,
           endDate: 1,
           employee: 1,
+          leaveName: "$leaveDetails.name",
           name: "$employeeDetails.name",
-          department: "$employeeDetails.department",
-          position: "$employeeDetails.position",
+          department: "$departmentDetails.name",
+          position: "$positionDetails.name",
         },
       },
     ]);
@@ -107,15 +195,59 @@ const updateLeave = async (req, res, next) => {
       },
       { $unwind: "$employeeDetails" },
       {
+        $lookup: {
+          from: "leave",
+          localField: "leavetype",
+          foreignField: "_id",
+          as: "leaveDetails",
+        },
+      },
+      { $unwind: "$leaveDetails" },
+      {
+        $lookup: {
+          from: "position",
+          let: { positionId: "$employeeDetails.position" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$positionId"],
+                },
+              },
+            },
+          ],
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          let: { departmentId: "$employeeDetails.department" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$departmentId"],
+                },
+              },
+            },
+          ],
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           leavetype: 1,
           startDate: 1,
           endDate: 1,
           employee: 1,
+          leaveName: "$leaveDetails.name",
           name: "$employeeDetails.name",
-          department: "$employeeDetails.department",
-          position: "$employeeDetails.position",
+          department: "$departmentDetails.name",
+          position: "$positionDetails.name",
         },
       },
     ]);
@@ -151,15 +283,59 @@ const getLeaves = async (req, res, next) => {
       },
       { $unwind: "$employeeDetails" },
       {
+        $lookup: {
+          from: "leave",
+          localField: "leavetype",
+          foreignField: "_id",
+          as: "leaveDetails",
+        },
+      },
+      { $unwind: "$leaveDetails" },
+      {
+        $lookup: {
+          from: "position",
+          let: { positionId: "$employeeDetails.position" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$positionId"],
+                },
+              },
+            },
+          ],
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          let: { departmentId: "$employeeDetails.department" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$departmentId"],
+                },
+              },
+            },
+          ],
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           leavetype: 1,
           startDate: 1,
           endDate: 1,
           employee: 1,
+          leaveName: "$leaveDetails.name",
           name: "$employeeDetails.name",
-          department: "$employeeDetails.department",
-          position: "$employeeDetails.position",
+          department: "$departmentDetails.name",
+          position: "$positionDetails.name",
         },
       },
     ]);

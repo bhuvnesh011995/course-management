@@ -5,14 +5,15 @@ import { Box, IconButton } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import AddNew from "./AddNew";
 import { Link } from "react-router-dom";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import LanguageModal from "./LanguageModal";
 import { useMemo } from "react";
 import DeleteModal2 from "../../../common-components/models/DeleteModal2";
 import { CommonFooter } from "../../../common-components/commonFooter";
+import { useAuth } from "../../../context/authContext";
 
 export default function MultiLanguage() {
+  const { NewAxiosInstance } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState({});
   const [isOpen, setIsOpen] = useState(false);
@@ -40,17 +41,16 @@ export default function MultiLanguage() {
   );
   const getLanguages = useCallback(async () => {
     try {
-      let res = await AxiosInstance.get("/languages");
+      let res = await NewAxiosInstance.get("/languages");
       if (res.status === 200) {
         setData(res.data);
       } else {
         toast.error("error while fetching");
         setData([]);
-        console.log(res);
       }
     } catch (error) {
       toast.error("error while fetching");
-      console.log(error.response);
+      console.error(error.response);
     }
   }, []);
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function MultiLanguage() {
   const handleDelete = useCallback(
     async (id) => {
       try {
-        let response = await AxiosInstance.delete("/languages/" + id);
+        let response = await NewAxiosInstance.delete("/languages/" + id);
         if (response.status === 204) {
           let newArray = data.filter((ele) => ele._id != id);
           setData(newArray);
@@ -69,7 +69,7 @@ export default function MultiLanguage() {
           return { success: false, message: "error occured while deleting" };
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return { success: false, message: "server error occured" };
       }
     },
@@ -207,21 +207,6 @@ export default function MultiLanguage() {
             </div>
           </div>
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
   );

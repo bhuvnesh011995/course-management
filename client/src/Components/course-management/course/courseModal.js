@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 export const CourseModal = ({
   isOpen,
@@ -13,6 +13,7 @@ export const CourseModal = ({
   viewCourse,
   callback,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const [tradeLevels, setTradeLevels] = useState([]);
   const [registrationCode, setRegistrationCode] = useState("");
   const [durations, setDurations] = useState([]);
@@ -21,6 +22,7 @@ export const CourseModal = ({
     handleSubmit,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -31,7 +33,7 @@ export const CourseModal = ({
 
   const getAllDurations = async () => {
     try {
-      const allDurations = await AxiosInstance.get("/constants/duration");
+      const allDurations = await NewAxiosInstance.get("/constants/duration");
       setDurations(allDurations.data);
     } catch (err) {
       console.error(err);
@@ -41,7 +43,7 @@ export const CourseModal = ({
   const addNewCourse = async (newCourse) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/courses/addNewCourse",
         newCourse
       );
@@ -56,7 +58,7 @@ export const CourseModal = ({
 
   const getSelectedCourse = async () => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getCourse", {
+      const { data } = await NewAxiosInstance.get("/courses/getCourse", {
         params: courseData,
       });
       reset(data[0]);
@@ -86,7 +88,7 @@ export const CourseModal = ({
   const updateCourse = async (updatedCourse) => {
     try {
       toast.dismiss();
-      const course = await AxiosInstance.post(
+      const course = await NewAxiosInstance.post(
         "/courses/updateCourse",
         updatedCourse
       );
@@ -119,7 +121,9 @@ export const CourseModal = ({
             className="row"
           >
             <div className="col-md-6 mb-3">
-              <label className="form-label">Course Name:</label>
+              <label className="form-label">
+                Course Name: <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -134,7 +138,9 @@ export const CourseModal = ({
               </span>
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Trade Type:</label>
+              <label className="form-label">
+                Trade Type: <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("tradeType", {
@@ -143,18 +149,34 @@ export const CourseModal = ({
                 disabled={viewCourse}
               >
                 <option value="">-- Select Trade Type --</option>
-                {tradeTypes.map((e, index) => (
+                {/* {tradeTypes.map((e, index) => (
                   <option key={index} value={e._id}>
                     {e.tradeType}
                   </option>
-                ))}
+                ))} */}
+
+                {tradeTypes.map((e) =>
+                  registrationCode == "CRW"
+                    ? e?.isCet?.length && (
+                        <option key={e._id} value={e._id}>
+                          {e.tradeType}
+                        </option>
+                      )
+                    : !e?.isCet?.length && (
+                        <option key={e._id} value={e._id}>
+                          {e.tradeType}
+                        </option>
+                      )
+                )}
               </select>
               <span className="text-danger">
                 {errors?.tradeType && errors?.tradeType.message}
               </span>
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Registration Type:</label>
+              <label className="form-label">
+                Registration Type: <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("registrationType", {
@@ -164,7 +186,10 @@ export const CourseModal = ({
                 })}
                 disabled={viewCourse}
               >
-                <option value="">-- Select Registration Type --</option>
+                <option value="">
+                  -- Select Registration Type --{" "}
+                  <span className="text-danger">*</span>
+                </option>
                 {registrationTypes.map((e, index) => (
                   <option key={index} value={e._id}>
                     {e.registrationName}
@@ -177,7 +202,9 @@ export const CourseModal = ({
             </div>
             {registrationCode != "CRW" && (
               <div className="col-md-6 mb-3">
-                <label className="form-label">Trade Level:</label>
+                <label className="form-label">
+                  Trade Level: <span className="text-danger">*</span>
+                </label>
                 <select
                   className="form-select"
                   {...register("tradeLevel", {
@@ -185,7 +212,10 @@ export const CourseModal = ({
                   })}
                   disabled={viewCourse}
                 >
-                  <option value="">-- Select Registration Level --</option>
+                  <option value="">
+                    -- Select Registration Level --{" "}
+                    <span className="text-danger">*</span>
+                  </option>
                   {tradeLevels.map((e, index) => (
                     <option key={index} value={e._id}>
                       {e.tradeLevel}
@@ -198,7 +228,9 @@ export const CourseModal = ({
               </div>
             )}
             <div className="col-md-6 mb-3">
-              <label className="form-label">Price:</label>
+              <label className="form-label">
+                Price: <span className="text-danger">*</span>
+              </label>
               <input
                 type="number"
                 className="form-control"
@@ -211,7 +243,9 @@ export const CourseModal = ({
               </span>
             </div>
             <div className="col-md-6 mb-3">
-              <label className="form-label">Duration:</label>
+              <label className="form-label">
+                Duration: <span className="text-danger">*</span>
+              </label>
               <select
                 className="form-select"
                 {...register("duration", {

@@ -14,7 +14,6 @@ import {
   phonePattern,
 } from "../../common-components/validations";
 import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
 import { toast } from "react-toastify";
@@ -31,9 +30,9 @@ export const AddNewLeadModel = ({
   registrationTypes,
   tradeTypes,
 }) => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [tradeLevels, setTradeLevels] = useState([]);
-  const [allCourses, setAllCourses] = useState([]);
+  const [allClasses, setAllClasses] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState("");
 
   const {
@@ -66,18 +65,14 @@ export const AddNewLeadModel = ({
   }, []);
 
   useEffect(() => {
-    if (leadData?.status == "pending" && leadData.course) {
-      if (
-        watch("tradeType") ||
-        watch("registrationType") ||
-        watch("tradeLevel")
-      )
-        getFilteredCourses({
-          tradeType: watch("tradeType"),
-          registrationType: watch("registrationType"),
-          tradeLevel: watch("tradeLevel"),
-        });
-    }
+    // if (leadData?.status == "pending" && leadData.class) {
+    if (watch("tradeType") || watch("registrationType") || watch("tradeLevel"))
+      getFilteredClasses({
+        tradeType: watch("tradeType"),
+        registrationType: watch("registrationType"),
+        tradeLevel: watch("tradeLevel"),
+      });
+    // }
   }, [watch("tradeLevel"), watch("tradeType"), watch("registrationType")]);
 
   const setCoreTradeRegNo = () => {
@@ -92,12 +87,12 @@ export const AddNewLeadModel = ({
     return CTDnumber;
   };
 
-  const getFilteredCourses = async (selectedLead) => {
+  const getFilteredClasses = async (selectedLead) => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getFilteredCourses", {
+      const { data } = await NewAxiosInstance.get("/class/getFilteredClasses", {
         params: selectedLead,
       });
-      setAllCourses(data);
+      setAllClasses(data);
     } catch (err) {
       console.error(err);
     }
@@ -159,7 +154,10 @@ export const AddNewLeadModel = ({
             formdata.append("files", file);
           }
       formdata.append("leadData", JSON.stringify(newLead));
-      const { data } = await AxiosInstance.post("/leads/addNewLead", formdata);
+      const { data } = await NewAxiosInstance.post(
+        "/leads/addNewLead",
+        formdata
+      );
       toast.success("New Lead Added Successfully");
       callback(data.newLead);
       handleClose();
@@ -173,6 +171,7 @@ export const AddNewLeadModel = ({
     const registrationLevels = registrationTypes.filter((e) => {
       if (e._id == value) return e;
     });
+    setValue("tradeLevel", "");
     setSelectedRegistration(registrationLevels[0].registrationCode);
     // setValue("registrationType", registrationLevels[0].registrationCode);
     if (registrationLevels[0].registrationCode !== "AMN") {
@@ -287,18 +286,21 @@ export const AddNewLeadModel = ({
           }
         }
 
-      if (watch("course")?.length) {
-        newLeadData["course"] = watch("course");
+      if (watch("class")?.length) {
+        newLeadData["class"] = watch("class");
         if (newLeadData["status"] == "new") newLeadData["status"] = "pending";
         else if (newLeadData["status"] == "assign")
           newLeadData["status"] = "assign";
       } else {
-        setError("course", { message: "Please Select Course" });
+        setError("class", { message: "Please Select Class" });
         return;
       }
       newLeadData["deleteFileList"] = deleteFiles;
       formdata.append("leadData", JSON.stringify(newLeadData));
-      const { data } = await AxiosInstance.post("/leads/updateLead", formdata);
+      const { data } = await NewAxiosInstance.post(
+        "/leads/updateLead",
+        formdata
+      );
       toast.success("Lead Updated Successfully");
       callback(data.updatedLead);
       handleClose();
@@ -310,14 +312,14 @@ export const AddNewLeadModel = ({
 
   const getLead = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getLead", {
+      const { data } = await NewAxiosInstance.get("/leads/getLead", {
         params: leadData,
       });
       if (data[0]) {
         if (data[0].DOB) data[0].DOB = moment(data[0].DOB).format("YYYY-MM-DD");
         reset(data[0]);
         if (leadData) {
-          getFilteredCourses(data[0]);
+          getFilteredClasses(data[0]);
         }
       }
     } catch (err) {
@@ -342,7 +344,7 @@ export const AddNewLeadModel = ({
   const getPaymentRegistration = async () => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.get("/leads/getSelectedLead", {
+      const { data } = await NewAxiosInstance.get("/leads/getSelectedLead", {
         params: leadData,
       });
       const Subject = `APPROVAL OF ONLINE REGISTRATION ${leadData.tradeType} ${
@@ -356,7 +358,7 @@ export const AddNewLeadModel = ({
       );
       leadData["bankDetailsPdfBase64"] = CreateBankPdf();
       leadData.status = "assign";
-      const getPaymentData = await AxiosInstance.post(
+      const getPaymentData = await NewAxiosInstance.post(
         "/leads/getPayment",
         leadData
       );
@@ -378,7 +380,7 @@ export const AddNewLeadModel = ({
 
   const confirmRegistration = async () => {
     try {
-      const confirmPayment = await AxiosInstance.post(
+      const confirmPayment = await NewAxiosInstance.post(
         "/leads/confirmPayment",
         leadData
       );
@@ -432,12 +434,12 @@ export const AddNewLeadModel = ({
                   {errors?.registrationType && errors?.registrationType.message}
                 </span>
               </div>
-              <div class="col-md-12 mb-3">
-                <label class="form-label">
-                  Status <span class="text-danger">*</span>
+              <div className="col-md-12 mb-3">
+                <label className="form-label">
+                  Status <span className="text-danger">*</span>
                 </label>
                 <select
-                  class="form-select"
+                  className="form-select"
                   disabled={viewLead}
                   {...register("status", { required: "Please Select Status" })}
                 >
@@ -452,12 +454,12 @@ export const AddNewLeadModel = ({
               <span className="text-danger">
                 {errors?.status && errors?.status.message}
               </span>
-              <div class="col-md-12 mb-3">
-                <label class="form-label">Remarks</label>
+              <div className="col-md-12 mb-3">
+                <label className="form-label">Remarks</label>
                 <textarea
                   {...register("remarks")}
                   disabled={viewLead}
-                  class="form-control"
+                  className="form-control"
                   cols="30"
                   rows="2"
                   placeholder="Enter Remarks"
@@ -466,9 +468,12 @@ export const AddNewLeadModel = ({
             </div>
             <div className="row">
               <hr />
-              <h4 className="mb-3">Company Information</h4>
+              <h4 className="mb-3">Company Information</h4>{" "}
               <div className="col-md-12 mb-3">
-                <label className="form-label">Company Name</label>
+                <label className="form-label">
+                  Company Name <span className="text-danger">*</span>
+                </label>
+
                 <FormattedMessage
                   id="Enter_Company_Name"
                   defaultMessage={"Enter Company Name"}
@@ -478,20 +483,18 @@ export const AddNewLeadModel = ({
                       id="Please_Enter_Company_Name"
                       defaultMessage={"Please Emter Company Name"}
                     >
-                      {(requiredMsg) =>
-                        console.log(requiredMsg) || (
-                          <input
-                            type="text"
-                            className="form-control"
-                            {...register("companyName", {
-                              required: requiredMsg[0],
-                              pattern: namePattern,
-                            })}
-                            disabled={viewLead}
-                            placeholder={placeholder}
-                          />
-                        )
-                      }
+                      {(requiredMsg) => (
+                        <input
+                          type="text"
+                          className="form-control"
+                          {...register("companyName", {
+                            required: requiredMsg[0],
+                            pattern: namePattern,
+                          })}
+                          disabled={viewLead}
+                          placeholder={placeholder}
+                        />
+                      )}
                     </FormattedMessage>
                   )}
                 </FormattedMessage>
@@ -501,7 +504,9 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-12 mb-3">
-                <label className="form-label">Company UEN No.</label>
+                <label className="form-label">
+                  Company UEN No. <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -517,7 +522,9 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-12 mb-3">
-                <label className="form-label">Company Address</label>
+                <label className="form-label">
+                  Company Address <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -533,7 +540,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Postal Code</label>
+                <label className="form-label">
+                  Postal Code <span className="text-danger">*</span>
+                </label>
+
                 <input
                   type="text"
                   className="form-control"
@@ -549,7 +559,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Contact Person</label>
+                <label className="form-label">
+                  Contact Person <span className="text-danger">*</span>
+                </label>
+
                 <input
                   type="text"
                   className="form-control"
@@ -565,7 +578,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Contact Person's Mobile</label>
+                <label className="form-label">
+                  Contact Person's Mobile <span className="text-danger">*</span>
+                </label>
+
                 <input
                   type="tel"
                   className="form-control"
@@ -583,8 +599,10 @@ export const AddNewLeadModel = ({
               </div>
               <div className="col-md-12 mb-3">
                 <label className="form-label">
-                  Contact Person's Email Address
+                  Contact Person's Email Address{" "}
+                  <span className="text-danger">*</span>
                 </label>
+
                 <input
                   type="email"
                   className="form-control"
@@ -601,7 +619,9 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Office Telephone No.</label>
+                <label className="form-label">
+                  Office Telephone No. <span className="text-danger">*</span>
+                </label>
                 <input
                   type="tel"
                   className="form-control"
@@ -620,7 +640,9 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Office Fax No.</label>
+                <label className="form-label">
+                  Office Fax No. <span className="text-danger">*</span>
+                </label>
                 <input
                   type="tel"
                   className="form-control"
@@ -643,7 +665,9 @@ export const AddNewLeadModel = ({
               <hr />
               <h4 className="mb-3">Participant's Particular</h4>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Name of Participant</label>
+                <label className="form-label">
+                  Name of Participant <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -659,7 +683,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Participant's Mobile</label>
+                <label className="form-label">
+                  Participant's Mobile <span className="text-danger">*</span>
+                </label>
+
                 <input
                   type="tel"
                   className="form-control"
@@ -676,7 +703,10 @@ export const AddNewLeadModel = ({
                 </span>
               </div>
               <div className="col-md-4 mb-3">
-                <label className="form-label">Trade Type</label>
+                <label className="form-label">
+                  Trade Type <span className="text-danger">*</span>
+                </label>
+
                 <select
                   className="form-select"
                   {...register("tradeType", {
@@ -685,11 +715,19 @@ export const AddNewLeadModel = ({
                   disabled={viewLead}
                 >
                   <option value=""> Select Trade Type</option>
-                  {tradeTypes.map((e) => (
-                    <option key={e._id} value={e._id}>
-                      {e.tradeType}
-                    </option>
-                  ))}
+                  {tradeTypes.map((e) =>
+                    selectedRegistration == "CRW"
+                      ? e?.isCet?.length && (
+                          <option key={e._id} value={e._id}>
+                            {e.tradeType}
+                          </option>
+                        )
+                      : !e?.isCet?.length && (
+                          <option key={e._id} value={e._id}>
+                            {e.tradeType}
+                          </option>
+                        )
+                  )}
                 </select>
                 <span className="text-danger">
                   {errors?.tradeType && errors?.tradeType.message}
@@ -698,7 +736,8 @@ export const AddNewLeadModel = ({
               {selectedRegistration == "CRW" ? (
                 <div className="col-md-4 mb-3">
                   <label className="form-label">
-                    CoreTrade / Multi-skilling/Direct R1 Registration No
+                    CoreTrade / Multi-skilling/Direct R1 Registration No{" "}
+                    <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
@@ -716,7 +755,10 @@ export const AddNewLeadModel = ({
                 </div>
               ) : (
                 <div className="col-md-4 mb-3">
-                  <label className="form-label">Trade Level</label>
+                  <label className="form-label">
+                    Trade Level <span className="text-danger">*</span>
+                  </label>
+
                   <select
                     className="form-select"
                     {...register("tradeLevel", {
@@ -739,7 +781,11 @@ export const AddNewLeadModel = ({
               {selectedRegistration == "AMN" ? (
                 <div className="row">
                   <div className="col-md-4 mb-3">
-                    <label className="form-label">Participant's IC No.</label>
+                    <label className="form-label">
+                      Participant's IC No.{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+
                     <input
                       type="text"
                       className="form-control"
@@ -759,7 +805,10 @@ export const AddNewLeadModel = ({
                     </span>
                   </div>
                   <div className="col-md-4 mb-3">
-                    <label className="form-label">Date Of Birth</label>
+                    <label className="form-label">
+                      Date Of Birth <span className="text-danger">*</span>
+                    </label>
+
                     <input
                       type="date"
                       className="form-control"
@@ -773,7 +822,10 @@ export const AddNewLeadModel = ({
                     </span>
                   </div>
                   <div className="col-md-4 mb-3">
-                    <label className="form-label">Nationality</label>
+                    <label className="form-label">
+                      Nationality <span className="text-danger">*</span>
+                    </label>
+
                     <select
                       className="form-select"
                       {...register("nationality", {
@@ -794,8 +846,10 @@ export const AddNewLeadModel = ({
                   </div>
                   <div className="col-md-4 mb-3">
                     <label className="form-label">
-                      Educational / Vocational Level
+                      Educational / Vocational Level{" "}
+                      <span className="text-danger">*</span>
                     </label>
+
                     <select
                       className="form-select"
                       {...register("educationalLevel", {
@@ -821,7 +875,10 @@ export const AddNewLeadModel = ({
                     <hr />
                     <h4 className="mb-3">PA / MYE Particular</h4>
                     <div className="col-md-4 mb-3">
-                      <label className="form-label">MYE No.</label>
+                      <label className="form-label">
+                        MYE No. <span className="text-danger">*</span>
+                      </label>
+
                       <input
                         type="text"
                         className="form-control"
@@ -837,7 +894,10 @@ export const AddNewLeadModel = ({
                       </span>
                     </div>
                     <div className="col-md-4 mb-3">
-                      <label className="form-label">Pa Reference No.</label>
+                      <label className="form-label">
+                        Pa Reference No. <span className="text-danger">*</span>
+                      </label>
+
                       <input
                         type="text"
                         className="form-control"
@@ -858,8 +918,10 @@ export const AddNewLeadModel = ({
                 <div className="row">
                   <div className="col-md-4 mb-3">
                     <label className="form-label">
-                      Participant's NRIC / FIN No.
+                      Participant's NRIC / FIN No.{" "}
+                      <span className="text-danger">*</span>
                     </label>
+
                     <input
                       type="text"
                       className="form-control"
@@ -902,28 +964,31 @@ export const AddNewLeadModel = ({
 
               {leadData && (
                 <div className="col-md-4 mb-3">
-                  <label className="form-label">Course</label>
+                  <label className="form-label">
+                    Class <span className="text-danger">*</span>
+                  </label>
+
                   <select
                     className="form-select"
-                    {...register("course", {
-                      required: "Please Select Course !",
+                    {...register("class", {
+                      required: "Please Select Class !",
                     })}
-                    disabled={leadData.course && viewLead}
+                    disabled={leadData.class && viewLead}
                   >
-                    <option value="">Select Course</option>
-                    {allCourses?.length &&
-                      allCourses.map((e) => (
+                    <option value="">Select Class</option>
+                    {allClasses?.length &&
+                      allClasses.map((e) => (
                         <option
                           key={e._id}
                           value={e._id}
-                          selected={watch("course") == e._id && e._id}
+                          selected={watch("class") == e._id && e._id}
                         >
                           {e.courseName}
                         </option>
                       ))}
                   </select>
                   <span className="text-danger">
-                    {errors?.course && errors?.course.message}
+                    {errors?.class && errors?.class.message}
                   </span>
                 </div>
               )}
@@ -942,8 +1007,10 @@ export const AddNewLeadModel = ({
                     {selectedRegistration != "SK" && (
                       <div className="col-md-4 mb-3">
                         <label className="form-label">
-                          Valid BCA Acknowledgement Notice
+                          Valid BCA Acknowledgement Notice{" "}
+                          <span className="text-danger">*</span>
                         </label>
+
                         <input
                           type={
                             watch("bcaAcknowledgementNotice") &&
@@ -991,8 +1058,10 @@ export const AddNewLeadModel = ({
                     )}
                     <div className="col-md-4 mb-3">
                       <label className="form-label">
-                        Valid copy of NRIC / Work document
+                        Valid copy of NRIC / Work document{" "}
+                        <span className="text-danger">*</span>
                       </label>
+
                       <input
                         type={
                           watch("nricWorkDocument") &&
@@ -1040,8 +1109,10 @@ export const AddNewLeadModel = ({
                     {selectedRegistration != "CRW" && (
                       <div className="col-md-4 mb-3">
                         <label className="form-label">
-                          Valid Copy Of Passport
+                          Valid Copy Of Passport{" "}
+                          <span className="text-danger">*</span>
                         </label>
+
                         <input
                           type={
                             watch("passportCopy") &&
@@ -1081,8 +1152,10 @@ export const AddNewLeadModel = ({
                     {selectedRegistration != "CRW" && (
                       <div className="col-md-4 mb-3">
                         <label className="form-label">
-                          Valid Copy Of MOM Employment Details
+                          Valid Copy Of MOM Employment Details{" "}
+                          <span className="text-danger">*</span>
                         </label>
+
                         <input
                           type={
                             watch("MOMEploymentDetails") &&
@@ -1132,8 +1205,10 @@ export const AddNewLeadModel = ({
                       <div className="col-md-4 mb-3">
                         <label className="form-label">
                           1st Skill Evaluation Certificate / BCA Skills
-                          Qualification Statement
+                          Qualification Statement{" "}
+                          <span className="text-danger">*</span>
                         </label>
+
                         <input
                           type={
                             watch("skillEvaluationCertificate") &&
@@ -1187,7 +1262,9 @@ export const AddNewLeadModel = ({
                     <div className="col-md-4 mb-3">
                       <label className="form-label">
                         Copy Of PA Quota（PA复印件）
+                        <span className="text-danger">*</span>
                       </label>
+
                       <input
                         type={
                           watch("paQuotaCopy") && watch("paQuotaCopy")[0]?.name
@@ -1230,8 +1307,10 @@ export const AddNewLeadModel = ({
                     </div>
                     <div className="col-md-4 mb-3">
                       <label className="form-label">
-                        Copy Of Worker's IC 员工的身份证复印件
+                        Copy Of Worker's IC 员工的身份证复印件{" "}
+                        <span className="text-danger">*</span>
                       </label>
+
                       <input
                         type={
                           watch("workersIc") && watch("workersIc")[0]?.name
@@ -1275,7 +1354,8 @@ export const AddNewLeadModel = ({
                     <div className="col-md-4 mb-3">
                       <label className="form-label">
                         Copy Of Worker's Passport (if available)
-                        员工的护照复印件 - 如有请提供
+                        员工的护照复印件 - 如有请提供{" "}
+                        <span className="text-danger">*</span>
                       </label>
                       <input
                         type={
@@ -1331,7 +1411,7 @@ export const AddNewLeadModel = ({
                     )}
                     {user.userData?.roleData?.lead?.write && viewLead && (
                       <div className="d-flex">
-                        {leadData.course && leadData.status == "pending" && (
+                        {leadData.class && leadData.status == "pending" && (
                           <button
                             type="button"
                             onClick={getPaymentRegistration}
@@ -1340,7 +1420,7 @@ export const AddNewLeadModel = ({
                             Get Payment
                           </button>
                         )}
-                        {leadData.course && leadData.status == "assign" && (
+                        {leadData.class && leadData.status == "assign" && (
                           <div className="d-flex">
                             <button
                               type="button"
@@ -1358,13 +1438,13 @@ export const AddNewLeadModel = ({
                             </button>
                           </div>
                         )}
-                        {!leadData.course && (
+                        {!leadData.class && (
                           <div className="d-flex">
                             <button
                               type="submit"
                               className="btn mx-1 btn-success"
                             >
-                              Assign Course
+                              Assign Class
                             </button>
                           </div>
                         )}

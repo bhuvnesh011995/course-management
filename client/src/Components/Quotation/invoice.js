@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { useEffect, useState } from "react";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { invoiceQuoatationListHeaders } from "../../Constants/table.constants";
@@ -7,10 +6,9 @@ import ViewQuotationModal from "./ViewQuotationModal";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
-import { CommonFooter } from "../../common-components/commonFooter";
 
 export const Invoice = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [allQuoatations, setAllQuotations] = useState([]);
   const [isViewModalOpen, setViewModal] = useState(false);
   const [quotationData, setQuotationData] = useState(null);
@@ -22,7 +20,7 @@ export const Invoice = () => {
 
   const getAllQuotations = async () => {
     try {
-      const { data } = await AxiosInstance.get("/quotations/getQuotations");
+      const { data } = await NewAxiosInstance.get("/quotations/getQuotations");
       const filteredQuotation = data.filter((quotation, index) => {
         quotation.invoiceQuotationNo = index + 1;
         return quotation.isInvoice == true;
@@ -47,7 +45,7 @@ export const Invoice = () => {
   const deleteSelectedQuotation = async (quotation) => {
     try {
       toast.dismiss();
-      const deletedQuote = await AxiosInstance.delete(
+      const deletedQuote = await NewAxiosInstance.delete(
         "/quotations/deleteQuotation",
         { params: quotation }
       );
@@ -148,21 +146,6 @@ export const Invoice = () => {
             </div>
           </div>{" "}
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
       {isViewModalOpen && (
         <ViewQuotationModal

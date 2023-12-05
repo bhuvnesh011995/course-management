@@ -438,13 +438,6 @@ const updateCourse = async (req, res, next) => {
 const deleteCourse = async (req, res, next) => {
   try {
     const { query } = req;
-    const courseIsAssignedInLead = await db.lead.find({ course: query._id });
-
-    if (courseIsAssignedInLead.length) {
-      return res.status(202).send({
-        message: `course is existed in lead `,
-      });
-    }
 
     const courseIsAssignedInClass = await db.classes.find({
       course: query._id,

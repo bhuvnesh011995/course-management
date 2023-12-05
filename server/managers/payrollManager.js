@@ -21,6 +21,40 @@ const addPayroll = async (req, res, next) => {
       },
       { $unwind: "$employeeDetails" },
       {
+        $lookup: {
+          from: "position",
+          let: { positionId: "$employeeDetails.position" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$positionId"],
+                },
+              },
+            },
+          ],
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          let: { departmentId: "$employeeDetails.department" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$departmentId"],
+                },
+              },
+            },
+          ],
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           allowances: 1,
@@ -28,8 +62,8 @@ const addPayroll = async (req, res, next) => {
           netSalary: 1,
           salary: 1,
           name: "$employeeDetails.name",
-          department: "$employeeDetails.department",
-          position: "$employeeDetails.position",
+          department: "$departmentDetails.name",
+          position: "$positionDetails.name",
         },
       },
     ]);
@@ -62,6 +96,40 @@ const getPayroll = async (req, res, next) => {
       },
       { $unwind: "$employeeDetails" },
       {
+        $lookup: {
+          from: "position",
+          let: { positionId: "$employeeDetails.position" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$positionId"],
+                },
+              },
+            },
+          ],
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          let: { departmentId: "$employeeDetails.department" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$departmentId"],
+                },
+              },
+            },
+          ],
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           allowances: 1,
@@ -70,8 +138,8 @@ const getPayroll = async (req, res, next) => {
           salary: 1,
           employee: 1,
           name: "$employeeDetails.name",
-          department: "$employeeDetails.department",
-          position: "$employeeDetails.position",
+          department: "$departmentDetails.name",
+          position: "$positionDetails.name",
         },
       },
     ]);
@@ -108,6 +176,40 @@ const updatePayroll = async (req, res, next) => {
       },
       { $unwind: "$employeeDetails" },
       {
+        $lookup: {
+          from: "position",
+          let: { positionId: "$employeeDetails.position" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$positionId"],
+                },
+              },
+            },
+          ],
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          let: { departmentId: "$employeeDetails.department" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$departmentId"],
+                },
+              },
+            },
+          ],
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           allowances: 1,
@@ -115,8 +217,8 @@ const updatePayroll = async (req, res, next) => {
           netSalary: 1,
           salary: 1,
           name: "$employeeDetails.name",
-          department: "$employeeDetails.department",
-          position: "$employeeDetails.position",
+          department: "$departmentDetails.name",
+          position: "$positionDetails.name",
         },
       },
     ]);
@@ -152,6 +254,40 @@ const getPayrolls = async (req, res, next) => {
       },
       { $unwind: "$employeeDetails" },
       {
+        $lookup: {
+          from: "position",
+          let: { positionId: "$employeeDetails.position" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$positionId"],
+                },
+              },
+            },
+          ],
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          let: { departmentId: "$employeeDetails.department" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$departmentId"],
+                },
+              },
+            },
+          ],
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           allowances: 1,
@@ -159,8 +295,8 @@ const getPayrolls = async (req, res, next) => {
           netSalary: 1,
           salary: 1,
           name: "$employeeDetails.name",
-          department: "$employeeDetails.department",
-          position: "$employeeDetails.position",
+          department: "$departmentDetails.name",
+          position: "$positionDetails.name",
         },
       },
     ]);

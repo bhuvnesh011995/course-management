@@ -17,7 +17,6 @@ exports.updateConfig = async (req, res, next) => {
       obj["loginLogo"] = `images/${files.loginLogoImg[0].filename}`;
     }
     const getOtherConfiguration = await db.config.otherConfig.find({});
-    console.log(getOtherConfiguration);
     if (Object.keys(obj).length)
       if (getOtherConfiguration.length) {
         const updateData = await db.config.otherConfig.updateOne(

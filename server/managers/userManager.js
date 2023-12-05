@@ -8,6 +8,10 @@ const addNewUser = async (req, res, next) => {
   try {
     // const encryptedpass = await bcrypt.hash(req.body.password, 10);
     // req.body["password"] = encryptedpass;
+    const isUserEmail = await db.user.findOne({ email: req.body.email });
+    if (isUserEmail) {
+      return res.status(202).send({ message: "Email Already Exist" });
+    }
     req.body["name"] = req.body.firstName + " " + req.body.lastName;
     req.body["contactNumber"] = req.body.mobile;
     const user = await db.user.create(req.body);
@@ -29,6 +33,24 @@ const addNewUser = async (req, res, next) => {
       },
       { $unwind: "$roleDetails" },
       {
+        $lookup: {
+          from: "position",
+          localField: "position",
+          foreignField: "_id",
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          localField: "department",
+          foreignField: "_id",
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           firstName: 1,
@@ -44,9 +66,11 @@ const addNewUser = async (req, res, next) => {
           userRole: 1,
           roleName: "$roleDetails.roleName",
           status: 1,
-          department: 1,
-          joinDate: 1,
           position: 1,
+          department: 1,
+          departmentName: "$departmentDetails.name",
+          positionName: "$positionDetails.name",
+          joinDate: 1,
           salary: 1,
           created_at: 1,
           gender: 1,
@@ -78,6 +102,24 @@ const getUsers = async (req, res, next) => {
       },
       { $unwind: "$roleDetails" },
       {
+        $lookup: {
+          from: "position",
+          localField: "position",
+          foreignField: "_id",
+          as: "positionDetails",
+        },
+      },
+      { $unwind: "$positionDetails" },
+      {
+        $lookup: {
+          from: "department",
+          localField: "department",
+          foreignField: "_id",
+          as: "departmentDetails",
+        },
+      },
+      { $unwind: "$departmentDetails" },
+      {
         $project: {
           _id: 1,
           firstName: 1,
@@ -93,9 +135,11 @@ const getUsers = async (req, res, next) => {
           userRole: 1,
           roleName: "$roleDetails.roleName",
           status: 1,
-          department: 1,
-          joinDate: 1,
           position: 1,
+          department: 1,
+          departmentName: "$departmentDetails.name",
+          positionName: "$positionDetails.name",
+          joinDate: 1,
           salary: 1,
           created_at: 1,
           gender: 1,

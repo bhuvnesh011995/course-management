@@ -43,12 +43,11 @@ import MultiLanguage from "../Components/Settings/MultiLanguage/MultiLanguage";
 import { Constants } from "../Components/Settings/Constants/Constants";
 import { SystemConfig } from "../Components/Settings/SystemConfig/SystemConfig";
 import { useAuth } from "../context/authContext";
-import { AxiosInstance } from "../common-components/axiosInstance";
 import { filePath } from "../common-components/useCommonUsableFunctions";
+import { CommonFooter } from "../common-components/commonFooter";
 
 export const AllRoutes = () => {
   const navigate = useNavigate();
-
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/login");
   }, []);
@@ -126,6 +125,7 @@ export const AllRoutes = () => {
         <Route path="/settings/constants" Component={Constants}></Route>
         <Route path="/settings/system" Component={SystemConfig}></Route>
       </Routes>
+      <CommonFooter />
     </div>
   );
 };

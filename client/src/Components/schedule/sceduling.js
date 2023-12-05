@@ -3,13 +3,14 @@
 
 import { useEffect, useState } from "react";
 import { AllCalendar } from "../../common-components/Calendar";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { NewClassModal } from "../course-management/class/classModal";
 import { AddNewHoliday } from "./modals/HolidayModal";
 import { Link } from "react-router-dom";
 import { CommonFooter } from "../../common-components/commonFooter";
+import { useAuth } from "../../context/authContext";
 
 export const Scheduling = () => {
+  const { NewAxiosInstance } = useAuth();
   const filterObject = {
     course: "",
     trainer: "",
@@ -39,7 +40,7 @@ export const Scheduling = () => {
 
   const getCourses = async () => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getCourses");
+      const { data } = await NewAxiosInstance.get("/courses/getCourses");
       setCourses(data.allCourses);
     } catch (err) {
       console.error(err);
@@ -48,7 +49,7 @@ export const Scheduling = () => {
 
   const getClasses = async () => {
     try {
-      const { data } = await AxiosInstance.get("/class/getClasses");
+      const { data } = await NewAxiosInstance.get("/class/getClasses");
       setClasses(data.classes);
     } catch (err) {
       console.error(err);
@@ -57,7 +58,7 @@ export const Scheduling = () => {
 
   const getTrainers = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trainer/getTrainers");
+      const { data } = await NewAxiosInstance.get("/trainer/getTrainers");
       setTrainers(data);
     } catch (err) {
       console.error(err);
@@ -75,7 +76,7 @@ export const Scheduling = () => {
 
   const getEvents = async () => {
     try {
-      const { data } = await AxiosInstance.get("/class/getClasses", {
+      const { data } = await NewAxiosInstance.get("/class/getClasses", {
         params: selectedFilter,
       });
       setEvents(data.classes);
@@ -227,18 +228,7 @@ export const Scheduling = () => {
           </div>
         </div>{" "}
       </div>
-      <footer className="footer">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-6">© Tonga.</div>
-            <div className="col-sm-6">
-              <div className="text-sm-end d-none d-sm-block">
-                Design &amp; Develop by Braincavesoft
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+
       {classEventModal && (
         <NewClassModal
           setIsOpen={setClassEventModal}

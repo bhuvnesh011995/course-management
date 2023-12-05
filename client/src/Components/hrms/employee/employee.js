@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { NewEmployeeManagementModal } from "./newEmployeeManagementModal";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { employeeHeaders } from "../../../Constants/table.constants";
 import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
-import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Employee = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [employeeModal, setEmployeeModal] = useState(false);
   const [viewEmployee, setViewEmployee] = useState(false);
   const [deleteEmployee, setDeleteEmployee] = useState(false);
@@ -54,8 +52,7 @@ export const Employee = () => {
 
   const getEmployees = async () => {
     try {
-      const { data } = await AxiosInstance.get("/users/getUsers");
-      console.log(data);
+      const { data } = await NewAxiosInstance.get("/users/getUsers");
       setEmployees(data.users);
     } catch (err) {
       console.error(err);
@@ -65,7 +62,7 @@ export const Employee = () => {
   const deleteSelectedEmployee = async (employee) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.delete("/users/deleteUser", {
+      const { data } = await NewAxiosInstance.delete("/users/deleteUser", {
         params: employee,
       });
       toast.success("employee deleted");
@@ -149,22 +146,6 @@ export const Employee = () => {
             </div>
           </div>{" "}
         </div>
-
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-6">© Tonga.</div>
-              <div className="col-sm-6">
-                <div className="text-sm-end d-none d-sm-block">
-                  Design &amp; Develop by{" "}
-                  <a href="https://braincavesoft.com" target="_blank">
-                    Braincave Software Pvt.Ltd.
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
       {employeeModal && (
         <NewEmployeeManagementModal

@@ -2,9 +2,10 @@ import { useCallback, useContext, useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
 import { IntlProvider } from "react-intl";
-import { AxiosInstance } from "../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { filePath } from "../common-components/useCommonUsableFunctions";
+import axios from "axios";
+import { BASEURL } from "../config/config";
 
 let initialUser = {
   username: "",
@@ -26,10 +27,18 @@ export default function AuthProvider({ children }) {
     localStorage.removeItem("token");
     setUser(initialUser);
   };
+  const NewAxiosInstance = axios.create({
+    baseURL: BASEURL + "/api",
+    headers: {
+      "x-token-header": user?.token?.length
+        ? user?.token
+        : localStorage.getItem("token"),
+    },
+  });
 
   const getLanguage = useCallback(async (languageCode) => {
     try {
-      let response = await AxiosInstance.get(
+      let response = await NewAxiosInstance.get(
         "/languages/language/?code=" + languageCode ?? ""
       );
       if (response && response.status === 200) {
@@ -39,23 +48,25 @@ export default function AuthProvider({ children }) {
       }
     } catch (error) {
       console.error(error);
-      toast.error("error occured while fetching data");
+      toast.error("error occured while fetching Language data");
     }
   }, []);
 
-  const getTokenUser = useCallback(async () => {
+  const getTokenUser = useCallback(async (token) => {
     try {
-      const tokenUser = await AxiosInstance.get(`/users/tokenUser`);
+      const tokenUser = await axios.get(`${BASEURL}/api/users/tokenUser`, {
+        headers: {
+          "x-token-header": token,
+        },
+      });
       if (tokenUser.status == 200)
         setUser((old) => ({ ...old, userData: tokenUser.data }));
     } catch (err) {
       console.error(err);
-      // if (err.response.status == 401) {
-      //   userLogOut();
-      //   toast.error(err.response.data.message);
-      // } else
-      // console.log(err.response, "boom");
-      toast.error("error occured while fetching data");
+      if (err.response.status == 401) {
+        userLogOut();
+        toast.error(err.response.data.message);
+      } else toast.error("error occured while fetching user data");
     }
   }, []);
 
@@ -67,7 +78,7 @@ export default function AuthProvider({ children }) {
 
   const getSystemData = async () => {
     try {
-      const systemData = await AxiosInstance.get("/config/system");
+      const systemData = await NewAxiosInstance.get("/config/system");
       if (systemData?.status == 200)
         setUser((old) => ({ ...old, systemConfigurations: systemData.data }));
       if (systemData?.data?.systemFavicon?.length) {
@@ -87,7 +98,7 @@ export default function AuthProvider({ children }) {
 
   const getOtherData = async () => {
     try {
-      const otherData = await AxiosInstance.get("/config/other");
+      const otherData = await NewAxiosInstance.get("/config/other");
       if (otherData?.status == 200)
         setUser((old) => ({ ...old, otherConfigurations: otherData.data }));
     } catch (err) {
@@ -96,7 +107,8 @@ export default function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token") || user.token) getTokenUser();
+    const token = localStorage.getItem("token") || user.token;
+    if (token) getTokenUser(token);
     getSystemData();
     getOtherData();
   }, [localStorage.getItem("token"), user.token]);
@@ -104,7 +116,15 @@ export default function AuthProvider({ children }) {
   return (
     <IntlProvider locale={lanCode || "en"} messages={language}>
       <authContext.Provider
-        value={{ initialUser, user, setUser, lanCode, setLanCode, getLanguage }}
+        value={{
+          initialUser,
+          user,
+          setUser,
+          lanCode,
+          setLanCode,
+          getLanguage,
+          NewAxiosInstance,
+        }}
       >
         {children}
       </authContext.Provider>

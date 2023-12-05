@@ -1,11 +1,12 @@
 import { useCallback, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { useAuth } from "../../../context/authContext";
 
 export default function AddNew({ data, setData, show, setShow, getLanguages }) {
+  const { NewAxiosInstance } = useAuth();
   const [ready, setReady] = useState(false);
   const {
     register,
@@ -21,31 +22,29 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
       try {
         if (data) {
           if (!updateData) return;
-          let res = await AxiosInstance.put(
+          let res = await NewAxiosInstance.put(
             "/languages/language/" + data._id,
             updateData
           );
 
           if (res.status === 204) {
             toast.success("language update successfull");
-            window.location.reload()
+            window.location.reload();
           } else {
             toast.error("error occured while updating");
           }
         } else {
-          
-          let res = await AxiosInstance.post("/languages", languageData);
+          let res = await NewAxiosInstance.post("/languages", languageData);
           if (res.status === 201) {
             toast.success("language added successfully");
-            window.location.reload()
+            window.location.reload();
           } else {
             toast.error("error occured");
-            console.log(res);
           }
         }
       } catch (error) {
         toast.error("error occured");
-        console.log(error.response);
+        console.error(error.response);
       }
     },
     [data]
@@ -53,11 +52,11 @@ export default function AddNew({ data, setData, show, setShow, getLanguages }) {
   useEffect(() => {
     if (data) reset(data);
 
-    return ()=>{
-      if (ready){
+    return () => {
+      if (ready) {
         setUpdateData(null);
         setData(null);
-      }else setReady(true)
+      } else setReady(true);
     };
   }, [ready]);
 

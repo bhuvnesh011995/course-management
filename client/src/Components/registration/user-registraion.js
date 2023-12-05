@@ -8,10 +8,11 @@ import {
   passwordPattern,
   phonePattern,
 } from "../../common-components/validations";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
 
 export const UserRegistration = () => {
+  const { NewAxiosInstance } = useAuth();
   const {
     handleSubmit,
     register,
@@ -28,7 +29,7 @@ export const UserRegistration = () => {
       const formdata = new FormData();
       formdata.append("file", userData.userImage[0]);
       formdata.append("userData", JSON.stringify(userData));
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/users/updateUserWithImage",
         formdata
       );

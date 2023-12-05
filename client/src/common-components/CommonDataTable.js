@@ -15,6 +15,7 @@ import {
 } from "../Constants/newLeadContants";
 import { dayColors } from "../Constants/table.constants";
 import { FormattedMessage } from "react-intl";
+import { languageObject } from "../Constants/tableLanguageConstants";
 
 export const CommonDataTable = ({
   data,
@@ -32,6 +33,7 @@ export const CommonDataTable = ({
   verificationMailButton,
   leadModelButtons,
   enableRowNumbers = true,
+  selectDataByOne = false,
 }) => {
   useEffect(() => {
     if (leadModelButtons) updateLeadList("all");
@@ -59,7 +61,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
@@ -77,7 +79,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
@@ -107,7 +109,7 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
@@ -129,12 +131,14 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
       });
-    } else if (e == "lectureDay") {
+      return;
+    }
+    if (e == "lectureDay") {
       tableColumns.push({
         accessorKey: e,
         Cell: ({ row }) => (
@@ -157,23 +161,23 @@ export const CommonDataTable = ({
         header: tableHeaders[e],
         Header: () => (
           <FormattedMessage
-            id={tableHeaders[e]}
+            id={languageObject[tableHeaders[e]]}
             defaultMessage={tableHeaders[e]}
           />
         ),
       });
-    } else {
-      tableColumns.push({
-        accessorKey: e,
-        header: tableHeaders[e],
-        Header: () => (
-          <FormattedMessage
-            id={tableHeaders[e]}
-            defaultMessage={tableHeaders[e]}
-          />
-        ),
-      });
+      return;
     }
+    tableColumns.push({
+      accessorKey: e,
+      header: tableHeaders[e],
+      Header: () => (
+        <FormattedMessage
+          id={languageObject[tableHeaders[e]]}
+          defaultMessage={tableHeaders[e]}
+        />
+      ),
+    });
   });
   if (data[0]?.created_at) {
     data.map((e, index) => (e.created_at = convertMongooseDate(e.created_at)));

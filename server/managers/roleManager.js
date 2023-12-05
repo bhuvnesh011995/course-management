@@ -20,13 +20,7 @@ const addNewRole = async (req, res, next) => {
 const getRoles = async (req, res, next) => {
   try {
     let user = req.user;
-    const roleData = await RoleModel.aggregate([
-      {
-        $match: {
-          roleName: { $ne: "Admin" },
-        },
-      },
-    ]);
+    const roleData = await RoleModel.find({});
     return res.status(200).send({ roleData, user });
   } catch (err) {
     next(err);
@@ -61,11 +55,11 @@ const editRole = async (req, res, next) => {
 const getUserRoleInfo = async (req, res, next) => {
   try {
     const getUsers = await db.user.aggregate([
-      {
-        $match: {
-          email: { $ne: "admin@tonga.com" },
-        },
-      },
+      // {
+      //   $match: {
+      //     email: { $ne: "admin@tonga.com" },
+      //   },
+      // },
       {
         $lookup: {
           from: "roles",

@@ -4,7 +4,6 @@ import { AddNewLeadModel } from "./addNewLeadModel";
 import { Link } from "react-router-dom";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { leadTableHeaders } from "../../Constants/table.constants";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { tradeType } from "../../Constants/newLeadContants";
 import { toast } from "react-toastify";
@@ -12,7 +11,7 @@ import { FormattedMessage } from "react-intl";
 import { useAuth } from "../../context/authContext";
 
 export const Lead = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [newLeadModal, setNewLeadModal] = useState(false);
   const [leads, setLeads] = useState([]);
   const [filteredLeads, setFilteredLeads] = useState([]);
@@ -56,7 +55,7 @@ export const Lead = () => {
 
   const getTradeTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trades/getTradeTypes");
+      const { data } = await NewAxiosInstance.get("/trades/getTradeTypes");
       setTradeTypes(data.allTradeTypes);
     } catch (err) {
       console.error(err);
@@ -65,7 +64,7 @@ export const Lead = () => {
 
   const getRegistrationTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get(
+      const { data } = await NewAxiosInstance.get(
         "/registrationType/getRegistrationTypes"
       );
       setRegistrationTypes(data);
@@ -94,7 +93,7 @@ export const Lead = () => {
 
   const getAllLeads = async (filterLead) => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getAllLeads", {
+      const { data } = await NewAxiosInstance.get("/leads/getAllLeads", {
         params: selectedFilter,
       });
       data.leads.map((lead) => {
@@ -112,7 +111,7 @@ export const Lead = () => {
   const deleteLead = async (leadData) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.delete("/leads/deleteLead", {
+      const { data } = await NewAxiosInstance.delete("/leads/deleteLead", {
         params: leadData,
       });
       toast.success("lead deleted");

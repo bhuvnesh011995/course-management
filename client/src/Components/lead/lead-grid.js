@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { AddNewLeadModel } from "./addNewLeadModel";
 import { DeleteModel } from "../../common-components/models/DeleteModal";
 import { Link } from "react-router-dom";
 import { Dropdown } from "../../common-components/common-dropDown";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
-import { CommonFooter } from "../../common-components/commonFooter";
 
 export const LeadGrid = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const filterTypes = {
     registrationType: "",
     tradeType: "",
@@ -59,7 +57,7 @@ export const LeadGrid = () => {
 
   const getAllLeads = async () => {
     try {
-      const { data } = await AxiosInstance.get("/leads/getAllLeads", {
+      const { data } = await NewAxiosInstance.get("/leads/getAllLeads", {
         params: selectedFilter,
       });
       const leadData = {
@@ -90,7 +88,7 @@ export const LeadGrid = () => {
 
   const getTradeTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trades/getTradeTypes");
+      const { data } = await NewAxiosInstance.get("/trades/getTradeTypes");
       setTradeTypes(data.allTradeTypes);
     } catch (err) {
       console.error(err);
@@ -99,7 +97,7 @@ export const LeadGrid = () => {
 
   const getRegistrationTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get(
+      const { data } = await NewAxiosInstance.get(
         "/registrationType/getRegistrationTypes"
       );
       setRegistrationTypes(data);
@@ -148,7 +146,7 @@ export const LeadGrid = () => {
   const deleteLead = async (leadData) => {
     try {
       toast.dismiss();
-      const { data } = await AxiosInstance.delete("/leads/deleteLead", {
+      const { data } = await NewAxiosInstance.delete("/leads/deleteLead", {
         params: leadData,
       });
       toast.success("lead deleted");

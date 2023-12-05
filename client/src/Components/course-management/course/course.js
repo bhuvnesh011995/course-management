@@ -2,7 +2,6 @@
 // <html lang="en">
 
 import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CourseModal } from "./courseModal";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { courseHeaders } from "../../../Constants/table.constants";
@@ -10,10 +9,9 @@ import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
-import { CommonFooter } from "../../../common-components/commonFooter";
 
 export const Course = () => {
-  const { user } = useAuth();
+  const { user, NewAxiosInstance } = useAuth();
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
   const [courseModal, setCourseModal] = useState(false);
@@ -35,7 +33,7 @@ export const Course = () => {
 
   const getTradeTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get("/trades/getTradeTypes");
+      const { data } = await NewAxiosInstance.get("/trades/getTradeTypes");
       setTradeTypes(data.allTradeTypes);
     } catch (err) {
       console.error(err);
@@ -44,7 +42,7 @@ export const Course = () => {
 
   const getRegistrationTypes = async () => {
     try {
-      const { data } = await AxiosInstance.get(
+      const { data } = await NewAxiosInstance.get(
         "/registrationType/getRegistrationTypes"
       );
       setRegistrationTypes(data);
@@ -71,7 +69,7 @@ export const Course = () => {
 
   const getAllCourses = async () => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getCourses");
+      const { data } = await NewAxiosInstance.get("/courses/getCourses");
       const onOffCourses = {
         active: 0,
         inActive: 0,
@@ -106,7 +104,7 @@ export const Course = () => {
   const deleteSelectedCourse = async (course) => {
     try {
       toast.dismiss();
-      const deletedCourse = await AxiosInstance.delete(
+      const deletedCourse = await NewAxiosInstance.delete(
         "/courses/deleteCourse",
         {
           params: course,
@@ -289,21 +287,6 @@ export const Course = () => {
               </div>
             </div>{" "}
           </div>
-          <footer className="footer">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-sm-6">© Tonga.</div>
-                <div className="col-sm-6">
-                  <div className="text-sm-end d-none d-sm-block">
-                    Design &amp; Develop by{" "}
-                    <a href="https://braincavesoft.com" target="_blank">
-                      Braincave Software Pvt.Ltd.
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </footer>
         </div>
       </div>
       {courseModal && (

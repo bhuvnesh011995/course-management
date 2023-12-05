@@ -2,13 +2,13 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import AddNew from "./AddNew";
 import { Card } from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
-import { AxiosInstance } from "../../../../../common-components/axiosInstance";
 import { toast } from "react-toastify";
-import { Axios } from "axios";
 import DeleteModal2 from "../../../../../common-components/models/DeleteModal2";
 import useCustomUseEffect from "../../../../../common-components/CustomUseEffect";
+import { useAuth } from "../../../../../context/authContext";
 
 export default function Duration() {
+  const { NewAxiosInstance } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -17,21 +17,20 @@ export default function Duration() {
 
   const getDurations = useCallback(async () => {
     try {
-      console.log("run");
-      let response = await AxiosInstance.get("/constants/duration");
+      let response = await NewAxiosInstance.get("/constants/duration");
       if (!response) toast.error("server error");
       if (response.status === 200) {
         setData(response.data);
       } else toast.error("error while fetching data");
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
       toast.error("error while fetching");
     }
   }, []);
   const addDesignation = useCallback(
     async (formData) => {
       try {
-        let response = await AxiosInstance.post(
+        let response = await NewAxiosInstance.post(
           "/constants/duration",
           formData
         );
@@ -40,11 +39,10 @@ export default function Duration() {
           setData((preVal) => [...preVal, response.data]);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while added duration");
         }
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         toast.error("error while adding duration");
       }
     },
@@ -54,7 +52,7 @@ export default function Duration() {
   const updateDesignation = useCallback(
     async (id, formData) => {
       try {
-        let response = await AxiosInstance.put(
+        let response = await NewAxiosInstance.put(
           "/constants/duration/" + id,
           formData
         );
@@ -67,11 +65,10 @@ export default function Duration() {
           setData(newArray);
           setIsOpen(false);
         } else {
-          console.log(response);
           toast.error("error while updateing duration");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.error("error while updating duration");
       }
     },
@@ -96,7 +93,9 @@ export default function Duration() {
   const handleDelete = useCallback(
     async (id) => {
       try {
-        let response = await AxiosInstance.delete("/constants/duration/" + id);
+        let response = await NewAxiosInstance.delete(
+          "/constants/duration/" + id
+        );
         if (response.status === 204) {
           let newArray = data.filter((ele) => ele._id != id);
           setData(newArray);
@@ -104,10 +103,10 @@ export default function Duration() {
         } else
           return {
             success: false,
-            message: "some error occured while deleting",
+            message: response.data.message,
           };
       } catch (error) {
-        console.log(error.response);
+        console.error(error.response);
         return { success: false, message: "server error occured" };
       }
     },

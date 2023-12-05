@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import {
-  AxiosInstance,
-  formAxiosInstance,
-} from "../../../common-components/axiosInstance";
 import { filePath } from "../../../common-components/useCommonUsableFunctions";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/authContext";
 
 const AddNewCertificate = ({
   isOpen,
@@ -15,6 +12,7 @@ const AddNewCertificate = ({
   viewCertificate,
   callback,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const {
     register,
     handleSubmit,
@@ -52,7 +50,7 @@ const AddNewCertificate = ({
         formData.append("file", file);
 
       formData.append("certificateData", JSON.stringify(newCertificate));
-      const { data } = await formAxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/certificates/addCertificate",
         formData
       );
@@ -82,7 +80,7 @@ const AddNewCertificate = ({
           ];
 
       formData.append("certificateData", JSON.stringify(updatedCertificate));
-      const { data } = await AxiosInstance.post(
+      const { data } = await NewAxiosInstance.post(
         "/certificates/updateCertificate",
         formData
       );
@@ -97,7 +95,7 @@ const AddNewCertificate = ({
 
   const getCourses = async () => {
     try {
-      const { data } = await AxiosInstance.get("/courses/getCourses");
+      const { data } = await NewAxiosInstance.get("/courses/getCourses");
       setCourses(data.allCourses);
     } catch (err) {
       console.error(err);
@@ -106,9 +104,12 @@ const AddNewCertificate = ({
 
   const getCertificate = async () => {
     try {
-      const { data } = await AxiosInstance.get("/certificates/getCertificate", {
-        params: certificateData,
-      });
+      const { data } = await NewAxiosInstance.get(
+        "/certificates/getCertificate",
+        {
+          params: certificateData,
+        }
+      );
       reset(data);
     } catch (err) {
       console.error(err);
@@ -152,7 +153,9 @@ const AddNewCertificate = ({
           >
             <div className="row">
               <div className="col-md-12 mb-3">
-                <label className="form-label">Certificate Number</label>
+                <label className="form-label">
+                  Certificate Number <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -169,7 +172,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Participant's Name</label>
+                <label className="form-label">
+                  Participant's Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -186,7 +191,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Course</label>
+                <label className="form-label">
+                  Course <span className="text-danger">*</span>
+                </label>
                 <select
                   className="form-select"
                   {...register("courseId", {
@@ -226,7 +233,9 @@ const AddNewCertificate = ({
                 )}
               </div> */}
               <div className="col-md-6 mb-3">
-                <label className="form-label">Grade</label>
+                <label className="form-label">
+                  Grade <span className="text-danger">*</span>
+                </label>
                 <select
                   className="form-select"
                   id="grade"
@@ -244,7 +253,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Date of Completion</label>
+                <label className="form-label">
+                  Date of Completion <span className="text-danger">*</span>
+                </label>
                 <input
                   type="date"
                   className="form-control"
@@ -260,7 +271,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Remarks</label>
+                <label className="form-label">
+                  Remarks <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -275,7 +288,9 @@ const AddNewCertificate = ({
                 )}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Attachment</label>
+                <label className="form-label">
+                  Attachment <span className="text-danger">*</span>
+                </label>
                 <input
                   type={
                     watch("certificateAttchment") &&

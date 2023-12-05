@@ -1,9 +1,9 @@
 import { Modal } from "react-bootstrap";
 import { filePath } from "../../common-components/useCommonUsableFunctions";
 import { useState } from "react";
-import { AxiosInstance } from "../../common-components/axiosInstance";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
 import { accountHistoryHeaders } from "../../Constants/table.constants";
+import { useAuth } from "../../context/authContext";
 
 export const ViewCustomerModal = ({
   setIsOpen,
@@ -11,6 +11,7 @@ export const ViewCustomerModal = ({
   leadData,
   registrationData,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const [detailTab, setDetailTab] = useState("customer");
   const [accountHistory, setAccountHistory] = useState([]);
   const handleclose = () => {
@@ -26,7 +27,7 @@ export const ViewCustomerModal = ({
   const getAccountHistory = async () => {
     try {
       setDetailTab("account");
-      const { data } = await AxiosInstance.get("/leads/accountHistory", {
+      const { data } = await NewAxiosInstance.get("/leads/accountHistory", {
         params: leadData,
       });
       setAccountHistory(data);

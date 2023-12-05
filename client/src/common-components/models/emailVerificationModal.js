@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { CommonJoditEditor } from "../CommonJoditEditor";
-import { AxiosInstance } from "../axiosInstance";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
 
 export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
+  const { NewAxiosInstance } = useAuth();
   const [mailValue, setMailValue] = useState(
     `
       <p >Congratulations! Your account has been successfully registered. Please confirm your email address by clicking the link below.</p>\n
@@ -33,7 +34,7 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
     try {
       toast.dismiss();
       mailData["mailValue"] = mailValue;
-      const sendedMail = await AxiosInstance.get("/mail/sendEmail", {
+      const sendedMail = await NewAxiosInstance.get("/mail/sendEmail", {
         params: mailData,
       });
       if (sendedMail.status == 200) toast.success(sendedMail.data.message);

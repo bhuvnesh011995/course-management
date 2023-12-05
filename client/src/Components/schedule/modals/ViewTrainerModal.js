@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { AxiosInstance } from "../../../common-components/axiosInstance";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { viewTrainerHeaders } from "../../../Constants/table.constants";
 import { AllCalendar } from "../../../common-components/Calendar";
+import { useAuth } from "../../../context/authContext";
 
 export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
+  const { NewAxiosInstance } = useAuth();
   const [viewTab, setViewTab] = useState("trainerDetails");
   const [courses, setCourses] = useState([]);
 
@@ -16,9 +17,12 @@ export const ViewTrainer = ({ isOpen, setIsOpen, trainerData }) => {
   const getCourseDetails = async (type) => {
     try {
       setViewTab(type);
-      const { data } = await AxiosInstance.get("/trainer/trainerClassDetails", {
-        params: trainerData,
-      });
+      const { data } = await NewAxiosInstance.get(
+        "/trainer/trainerClassDetails",
+        {
+          params: trainerData,
+        }
+      );
       setCourses(data);
     } catch (err) {
       console.error(err);
