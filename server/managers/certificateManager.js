@@ -138,6 +138,30 @@ const getCertificates = async (req, res, next) => {
       { $unwind: "$courseDetails" },
       {
         $lookup: {
+          from: "registrationtypes",
+          let: { registrationId: "$courseDetails.registrationType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$registrationId", "$_id"],
+                },
+              },
+            },
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$registrationCode", "CRW"],
+                },
+              },
+            },
+          ],
+          as: "registrationDetails",
+        },
+      },
+      { $unwind: "$registrationDetails" },
+      {
+        $lookup: {
           from: "duration",
           let: { courseId: "$courseDetails.duration" },
           pipeline: [
@@ -311,11 +335,63 @@ const getFilteredCertificate = async (req, res, next) => {
         },
       },
       {
+        $lookup: {
+          from: "classes",
+          let: { classId: "$class" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$classId", { $toString: "$_id" }],
+                },
+              },
+            },
+          ],
+          as: "classDetails",
+        },
+      },
+      { $unwind: "$classDetails" },
+      {
+        $lookup: {
+          from: "courses",
+          let: { courseId: "$classDetails.course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$courseId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      {
+        $lookup: {
+          from: "tradetypes",
+          let: { tradeTypeId: "$courseDetails.tradeType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$tradeTypeId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "tradeTypeDetails",
+        },
+      },
+      { $unwind: "$tradeTypeDetails" },
+      {
         $project: {
           _id: 1,
           companyName: 1,
           contactPerson: 1,
           participantName: 1,
+          coreTradeRegNo: 1,
           status: 1,
         },
       },
@@ -397,6 +473,7 @@ const getSelectedCertificates = async (req, res, next) => {
           updated_at: 1,
           status: 1,
           tradeType: "$tradeTypeDetails.tradeType",
+          typeCode: "$tradeTypeDetails.typeCode",
         },
       },
     ]);

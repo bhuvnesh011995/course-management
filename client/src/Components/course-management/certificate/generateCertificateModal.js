@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../context/authContext";
-import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { generateCertificateHeaders } from "../../../Constants/table.constants";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
@@ -37,7 +36,6 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
     Header: () => (
       <div className="d-flex">
         <FormattedMessage id="Select" defaultMessage={"Select"} />
-        <input type="checkbox" onClick={selectAllCertificates} />
       </div>
     ),
     Cell: ({ row }) => (
@@ -45,7 +43,6 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
         <input
           type="checkbox"
           onClick={() => {
-            toast.dismiss();
             if (row.original.status == "confirmed") {
               if (selectedLeads.includes(row.original?._id)) {
                 const filterLeads = selectedLeads.filter(
@@ -54,7 +51,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
                 setSelectedLeads([...filterLeads]);
               } else setSelectedLeads([...selectedLeads, row.original?._id]);
             } else {
-              toast.error("can not select this lead");
+              toast.error("can not select unCompleted leads");
             }
           }}
           checked={selectedLeads.includes(row.original?._id)}
@@ -66,7 +63,6 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     watch,
     formState: { errors },
@@ -81,7 +77,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
 
   const getAllClasses = async () => {
     try {
-      const { data } = await NewAxiosInstance.get("/class/getClasses");
+      const { data } = await NewAxiosInstance.get("/class/getCETClasses");
       setClasses(data.classes);
     } catch (err) {
       console.error(err);

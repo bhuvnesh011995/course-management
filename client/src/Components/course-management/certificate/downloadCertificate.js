@@ -1,15 +1,16 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import santarliLeftImage from "../../../assets/images/santarliLeftImage.png";
-import tongaIcon from "../../../assets/images/tongaIcon.png";
+import newSantarliLeftImage from "../../../assets/images/newSantarliLeftImage.png";
+import newTongaIcon from "../../../assets/images/newTongaIcon.png";
 import moment from "moment";
 
 export const DownloadCertificate = (data) => {
   const doc = new jsPDF();
   let yPosition = 10;
 
-  doc.rect(0, yPosition, 240, 20, "F");
-  doc.rect(0, 270, 240, 20, "F");
+  doc.setFillColor(10, 186, 181);
+  doc.rect(0, 0, 240, 30, "F");
+  doc.rect(0, 270, 240, 40, "F");
 
   doc.setFillColor(255, 255, 255);
 
@@ -27,18 +28,19 @@ export const DownloadCertificate = (data) => {
   doc.setFontSize(60);
 
   yPosition += 55;
+  doc.setTextColor(0, 51, 102);
   doc.text(`SANTARLI`, 80, yPosition);
 
   yPosition -= 30;
 
-  doc.addImage(santarliLeftImage, "png", 30, yPosition, 40, 40);
-
+  doc.addImage(newSantarliLeftImage, "png", 30, yPosition, 40, 40);
   doc.setFontSize(25);
   doc.setFont("times", "italic", "bold");
 
   yPosition += 55;
   doc.text(`SANTARLI CONSTRUCTION PTE LTD`, 30, yPosition);
 
+  doc.setTextColor(0, 0, 0);
   doc.setFontSize(14);
   doc.setFont("helvetica", "normal");
 
@@ -61,11 +63,11 @@ export const DownloadCertificate = (data) => {
 
   doc.setFont("helvetica", "bold");
   yPosition += 20;
-  doc.text(data.participantName, 75, yPosition);
+  doc.text(data.participantName, 85, yPosition);
   yPosition += 10;
-  doc.text(`(NRIC/FIN NO: ${data.participantNRIC})`, 55, yPosition);
+  doc.text(`(NRIC/FIN NO: ${data.participantNRIC})`, 60, yPosition);
   yPosition += 10;
-  doc.text(`${data.coreTradeRegNo}`, 40, yPosition);
+  doc.text(`${data.coreTradeRegNo}`, 55, yPosition);
 
   doc.setFont("times", "italic");
   yPosition += 16;
@@ -89,7 +91,7 @@ export const DownloadCertificate = (data) => {
     75,
     yPosition
   );
-  doc.addImage(tongaIcon, "png", 15, yPosition, 60, 20);
+  doc.addImage(newTongaIcon, "png", 15, yPosition, 60, 20);
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(9);
@@ -104,6 +106,24 @@ export const DownloadCertificate = (data) => {
   doc.text(`DANIEL TONG`, 142, yPosition);
   yPosition += 5;
   doc.text(`OPERATION DIRECTOR (ATTC)`, 126, yPosition);
+
+  doc.setFont("helvetica", "normal");
+
+  yPosition += 10;
+  doc.text(
+    `Certificate No. ${data.typeCode}/${
+      data.coreTradeRegNo
+    }/${moment().year()}`,
+    20,
+    yPosition
+  );
+
+  yPosition += 6;
+  doc.text(
+    `Date: ${moment(data.updated_at).format("DD-MMM-YYYY")}`,
+    20,
+    yPosition
+  );
 
   let name = "";
 

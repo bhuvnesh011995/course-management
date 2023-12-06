@@ -71,12 +71,12 @@ module.exports = async () => {
 
     if (!TFS)
       TFS = await db.tradeLevel.create({
-        tradeLevel: "TradesMan (FC+SA)",
+        tradeLevel: "Tradesman (FC+SA)",
         tradeCode: "TFS",
       });
     if (!TRT)
       TRT = await db.tradeLevel.create({
-        tradeLevel: "TradesMan (Re-Test)",
+        tradeLevel: "Tradesman (Re-Test)",
         tradeCode: "TRT",
       });
     if (!TFFS)
@@ -91,12 +91,12 @@ module.exports = async () => {
       });
     if (!UFS)
       UFS = await db.tradeLevel.create({
-        tradeLevel: "Upgrade From TradesMan To Trade Foreman (FC+SA)",
+        tradeLevel: "Upgrade From Tradesman To Trade Foreman (FC+SA)",
         tradeCode: "UFS",
       });
     if (!URT)
       URT = await db.tradeLevel.create({
-        tradeLevel: "Upgrade From TradesMan To Trade Foreman (Re-Test)",
+        tradeLevel: "Upgrade From Tradesman To Trade Foreman (Re-Test)",
         tradeCode: "URT",
       });
     if (!MSF)
@@ -150,7 +150,7 @@ module.exports = async () => {
 
     if (!CTD) {
       CTD = await db.registrationType.create({
-        registrationName: "Core Trade",
+        registrationName: "CoreTrade",
         registrationCode: "CTD",
         tradeLevelIds: [TFS._id, TRT._id, TFFS._id, TFRT._id, UFS._id, URT._id],
       });
@@ -234,7 +234,7 @@ module.exports = async () => {
     }
     if (!SK) {
       SK = await db.registrationType.create({
-        registrationName: "SEC(k)",
+        registrationName: "SEC(K)",
         registrationCode: "SK",
         tradeLevelIds: [TT._id, DRT._id],
       });
@@ -349,7 +349,7 @@ module.exports = async () => {
       });
     if (!WP)
       WP = await db.tradeTypeModel.create({
-        tradeType: "WaterProofing",
+        tradeType: "Waterproofing",
         typeCode: "WP",
       });
 

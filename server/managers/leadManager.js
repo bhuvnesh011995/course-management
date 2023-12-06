@@ -1114,8 +1114,24 @@ const getDashboardCustomers = async (req, res, next) => {
         },
       },
     ]);
-    console.log(dashboardCustomers);
     return res.status(200).send(dashboardCustomers);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+const updateLeadStatus = async (req, res, next) => {
+  try {
+    const updateStatus = await db.lead.updateOne(
+      { _id: req.params.leadId },
+      {
+        $set: {
+          status: req.params.leadStatus == "pending" ? "assign" : "confirmed",
+        },
+      }
+    );
+    return res.status(200).send({ message: "status changed successfully" });
   } catch (err) {
     console.error(err);
     next(err);
@@ -1136,4 +1152,5 @@ module.exports = {
   getAllCompanies,
   getCompany,
   getDashboardCustomers,
+  updateLeadStatus,
 };

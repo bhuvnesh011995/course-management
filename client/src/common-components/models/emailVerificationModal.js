@@ -5,20 +5,17 @@ import { CommonJoditEditor } from "../CommonJoditEditor";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
 
-export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
+export const EmailVerfificationModal = ({
+  isOpen,
+  setIsOpen,
+  userData,
+  mailText,
+  mailHeader,
+  mailSubject,
+  afterSendMailCallback,
+}) => {
   const { NewAxiosInstance } = useAuth();
-  const [mailValue, setMailValue] = useState(
-    `
-      <p >Congratulations! Your account has been successfully registered. Please confirm your email address by clicking the link below.</p>\n
-      <p>We may need to send you critical information about our service, and it is important that we have an accurate email address.</p>\n    \n
-      <a href="http://localhost:3000/" class="verification-btn">Confirm email address</a><br>\n
-      <span>login with your email and password given below.</span>
-      <span> : ${userData.password}</span>
-      <p><strong>Tonga</strong> <br>\n
-      Support Team\n
-      </p>\n\n \n
-    `
-  );
+  const [mailValue, setMailValue] = useState(mailText);
   const {
     register,
     reset,
@@ -37,8 +34,10 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
       const sendedMail = await NewAxiosInstance.get("/mail/sendEmail", {
         params: mailData,
       });
-      if (sendedMail.status == 200) toast.success(sendedMail.data.message);
-      else toast.error("something went wrong !");
+      if (sendedMail.status == 200) {
+        toast.success(sendedMail.data.message);
+        if (afterSendMailCallback) afterSendMailCallback();
+      } else toast.error("something went wrong !");
       handleClose();
     } catch (err) {
       toast.error("something went wrong !");
@@ -57,7 +56,7 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
         <Modal.Header closeButton>
           <Modal.Title>
             <h5 className="modal-title" id="viewUserModalLabel">
-              Send Verification Email
+              Send {mailHeader} Email
             </h5>
           </Modal.Title>
         </Modal.Header>
@@ -77,8 +76,6 @@ export const EmailVerfificationModal = ({ isOpen, setIsOpen, userData }) => {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Subject : Verify Email Address"
-                  value={"Verify Your Account"}
                   {...register("subject")}
                 />
               </div>

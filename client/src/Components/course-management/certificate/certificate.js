@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import AddNewCertificate from "./certificateModal";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import { certificateHeaders } from "../../../Constants/table.constants";
-import { DeleteModel } from "../../../common-components/models/DeleteModal";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
@@ -12,29 +10,12 @@ export const Certificate = () => {
   const { user, NewAxiosInstance } = useAuth();
   const [certificateModal, setCertificateModal] = useState(false);
   const [certificates, setCertificates] = useState([]);
-  // const [certificateData, setCertificateData] = useState({});
-  // const [deleteCertificate, setDeleteCertificate] = useState(false);
-  // const [viewCertificate, setViewCertificate] = useState(false);
-  // const [certificateIndex, setCertificateIndex] = useState(null);
 
   useEffect(() => {
     getCertificates();
   }, []);
 
   const showCertificateModal = (e, type, index) => {
-    // setCertificateData(e);
-    // setCertificateIndex(index);
-    // if (type == "view") {
-    //   setViewCertificate(true);
-    //   setDeleteCertificate(false);
-    // } else if (type == "delete") {
-    //   setViewCertificate(false);
-    //   setDeleteCertificate(true);
-    // } else {
-    //   setViewCertificate(false);
-    //   setDeleteCertificate(false);
-    // }
-    // if (type != "delete")
     setCertificateModal(true);
   };
 
@@ -49,35 +30,6 @@ export const Certificate = () => {
       console.error(err);
     }
   };
-
-  // const updateCertificates = (certificate) => {
-  //   const filteredCertificates = certificates.filter(
-  //     (e) => e._id == certificate._id
-  //   );
-  //   if (filteredCertificates.length) {
-  //     certificates[certificateIndex] = certificate;
-  //     setCertificates([...certificates]);
-  //   } else {
-  //     setCertificates([...certificates, certificate]);
-  //   }
-  // };
-
-  // const deleteSelectedCertificate = async (certificate) => {
-  //   try {
-  //     toast.dismiss();
-  //     const { data } = await NewAxiosInstance.delete(
-  //       "/certificates/deleteCertificate",
-  //       { params: certificate }
-  //     );
-  //     toast.success("certificate deleted");
-  //     const filteredCertificates = certificates.filter(
-  //       (e) => e._id != certificate._id
-  //     );
-  //     setCertificates([...filteredCertificates]);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   return (
     <div id="layout-wrapper">
@@ -109,34 +61,7 @@ export const Certificate = () => {
                   <div className="card">
                     <div className="card-body p-3">
                       <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div className="row w-50">
-                          {/* <div className="col-xl-5">
-                          <select className="form-select">
-                            <option key={"CA"} value="CA">
-                              Newest
-                            </option>
-                            <option key={"NV"} value="NV">
-                              Oldest
-                            </option>
-                            <option key={"OR"} value="OR">
-                              Recent
-                            </option>
-                          </select>
-                        </div>
-                        <div className="col-xl-7">
-                          <div className="d-flex" role="search">
-                            <input
-                              className="form-control me-2"
-                              type="search"
-                              placeholder="Search"
-                              aria-label="Search"
-                            />{" "}
-                            <button className="btn btn-light" type="submit">
-                              Search
-                            </button>
-                          </div>
-                        </div> */}
-                        </div>
+                        <div className="row w-50"></div>
                         <button
                           className="btn btn-primary me-2"
                           onClick={() => showCertificateModal()}
@@ -160,14 +85,6 @@ export const Certificate = () => {
                     <CommonDataTable
                       tableHeaders={certificateHeaders}
                       data={certificates}
-                      // actionButtons
-                      // editButton={
-                      //   user.userData?.roleData?.certificateGeneration?.write
-                      // }
-                      // deleteButton={
-                      //   user.userData?.roleData?.certificateGeneration?.delete
-                      // }
-                      // viewButton
                       callback={(e, type, index) =>
                         showCertificateModal(e, type, index)
                       }
@@ -186,16 +103,6 @@ export const Certificate = () => {
           certificates={certificates}
         />
       )}
-      {/* {deleteCertificate && (
-        <DeleteModel
-          setIsOpen={setDeleteCertificate}
-          isOpen={deleteCertificate}
-          message={`do you really want to delete ${certificateData?.certificateNo} certificate.`}
-          callback={(e) => deleteSelectedCertificate(e)}
-          deleteHeader={"Certificate"}
-          data={certificateData}
-        />
-      )} */}
     </div>
   );
 };

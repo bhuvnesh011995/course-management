@@ -16,6 +16,7 @@ import {
 import { dayColors } from "../Constants/table.constants";
 import { FormattedMessage } from "react-intl";
 import { languageObject } from "../Constants/tableLanguageConstants";
+import { toast } from "react-toastify";
 
 export const CommonDataTable = ({
   data,
@@ -31,6 +32,8 @@ export const CommonDataTable = ({
   downloadExcel,
   downloadPdf,
   verificationMailButton,
+  checkMailButtonClick,
+  checkMailFunction,
   leadModelButtons,
   enableRowNumbers = true,
   selectDataByOne = false,
@@ -248,7 +251,13 @@ export const CommonDataTable = ({
             )}
           {verificationMailButton && (
             <button
-              onClick={() => callback(row.original, "verify", row.index)}
+              onClick={() => {
+                if (checkMailButtonClick) {
+                  const mailChecked = checkMailFunction(row);
+                  if (mailChecked) return;
+                }
+                callback(row.original, "sendMail", row.index);
+              }}
               className="btn btn-icon btn-sm btn-success rounded-pill"
             >
               <i className="mdi mdi-check-circle" />
