@@ -417,6 +417,63 @@ const getFilteredClasses = async (req, res, next) => {
   }
 };
 
+const getCETClasses = async (req, res, next) => {
+  try {
+    const allCetClasses = await db.classes.aggregate([
+      {
+        $lookup: {
+          from: "courses",
+          let: { courseId: "$course" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$courseId", "$_id"],
+                },
+              },
+            },
+          ],
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      {
+        $lookup: {
+          from: "registrationtypes",
+          let: { registrationId: "$courseDetails.registrationType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$$registrationId", "$_id"],
+                },
+              },
+            },
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$registrationCode", "CRW"],
+                },
+              },
+            },
+          ],
+          as: "registrationDetails",
+        },
+      },
+      { $unwind: "$registrationDetails" },
+      {
+        $project: {
+          _id: 1,
+          course: "$courseDetails.courseName",
+        },
+      },
+    ]);
+    return res.status(200).send({ classes: allCetClasses });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   getClasses,
   addClass,
@@ -427,4 +484,5 @@ module.exports = {
   getCourseClass,
   getDashboardClasses,
   getFilteredClasses,
+  getCETClasses,
 };

@@ -21,4 +21,6 @@ routes.get(
   classManager.getDashboardClasses
 );
 
+routes.get("/getCETClasses", [userAuth], classManager.getCETClasses);
+
 module.exports = routes;

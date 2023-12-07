@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { CommonFooter } from "../../common-components/commonFooter";
+import { BASEURL } from "../../config/config";
 
 export const UserManagement = () => {
   const { user, NewAxiosInstance } = useAuth();
@@ -25,7 +26,7 @@ export const UserManagement = () => {
     if (type == "view") setViewUser(true);
     else if (type == "delete") {
       setDeleteUserModal(true);
-    } else if (type == "verify") {
+    } else if (type == "sendMail") {
       setEmailModal(true);
     } else {
       setViewUser(false);
@@ -34,7 +35,7 @@ export const UserManagement = () => {
     }
     if (data) setUserData(data);
     else setUserData(null);
-    if (type != "delete" && type != "verify") setNewUserModal(true);
+    if (type != "delete" && type != "sendMail") setNewUserModal(true);
   };
 
   useEffect(() => {
@@ -191,7 +192,16 @@ export const UserManagement = () => {
         <EmailVerfificationModal
           isOpen={emailModal}
           setIsOpen={setEmailModal}
-          userData={userData}
+          mailHeader={"Verification"}
+          userData={{ email: userData.email, subject: "Verify Your Account" }}
+          mailText={`
+      <p >Congratulations! Your account has been successfully registered. Please confirm your email address by clicking the link below.</p>\n
+      <p>We may need to send you critical information about our service, and it is important that we have an accurate email address.</p>\n    \n
+      <a href=${BASEURL} class="verification-btn">Confirm email address</a><br>\n
+      <p><strong>Tonga</strong> <br>\n
+      Support Team\n
+      </p>\n\n \n
+    `}
         />
       )}
     </div>

@@ -39,4 +39,10 @@ routes.get(
   leadManager.getDashboardCustomers
 );
 
+routes.post(
+  "/updateLeadStatus/:leadId/:leadStatus",
+  [userAuth],
+  leadManager.updateLeadStatus
+);
+
 module.exports = routes;

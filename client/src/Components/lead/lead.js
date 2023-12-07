@@ -9,6 +9,7 @@ import { tradeType } from "../../Constants/newLeadContants";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
 import { useAuth } from "../../context/authContext";
+import { EmailVerfificationModal } from "../../common-components/models/emailVerificationModal";
 
 export const Lead = () => {
   const { user, NewAxiosInstance } = useAuth();
@@ -20,6 +21,7 @@ export const Lead = () => {
   const [deleteLeadModal, setDeleteLeadModal] = useState(false);
   const [viewLead, setViewLead] = useState(false);
   const [leadTab, setLeadTab] = useState("all");
+  const [mailModal, setMailModal] = useState(false);
 
   const [tradeTypes, setTradeTypes] = useState([]);
   const [registrationTypes, setRegistrationTypes] = useState([]);
@@ -39,12 +41,22 @@ export const Lead = () => {
     }
     if (type == "delete") {
       setDeleteLeadModal(true);
-    } else if (type == "view") setViewLead(true);
-    else {
+      setMailModal(false);
+      setViewLead(false);
+    } else if (type == "view") {
+      setViewLead(true);
+      setDeleteLeadModal(false);
+      setMailModal(false);
+    } else if (type == "sendMail") {
+      setMailModal(true);
+      setDeleteLeadModal(false);
+      setViewLead(false);
+    } else {
+      setMailModal(false);
       setDeleteLeadModal(false);
       setViewLead(false);
     }
-    if (type != "delete") setNewLeadModal(!newLeadModal);
+    if (type != "delete" && type != "sendMail") setNewLeadModal(!newLeadModal);
   };
 
   useEffect(() => {
@@ -204,6 +216,28 @@ export const Lead = () => {
     setSelectedFilter((old) => ({ ...filterTypes }));
   };
 
+  const updateLeadStatus = async () => {
+    try {
+      const updateLeadStatus = await NewAxiosInstance.post(
+        "/leads/updateLeadStatus" + `/${leadData._id}/${leadData.status}`
+      );
+      if (updateLeadStatus.status == 200) {
+        if (leadData.status == "pending") {
+          leadData.status = "assign";
+        } else if (leadData.status == "assign") {
+          leadData.status = "confirmed";
+        }
+        updateLeads(leadData);
+        toast.success(updateLeadStatus.data.message);
+      } else {
+        toast.error("something went wrong");
+      }
+    } catch (err) {
+      toast.error("something went wrong");
+      console.error(err);
+    }
+  };
+
   return (
     <div id="layout-wrapper">
       <div className="main-content">
@@ -321,6 +355,16 @@ export const Lead = () => {
                         callback={(e, type, index) =>
                           showLeadModal(e, type, index)
                         }
+                        verificationMailButton
+                        checkMailButtonClick
+                        checkMailFunction={(row) => {
+                          if (!row.original?.class?.length) {
+                            toast.error("please Select Course");
+                            return true;
+                          } else {
+                            return false;
+                          }
+                        }}
                         updateLeadList={(e) => updateLeadList(e)}
                         leadModelButtons
                       />
@@ -353,6 +397,16 @@ export const Lead = () => {
           callback={(e) => deleteLead(e)}
           deleteHeader={"Lead"}
           data={leadData}
+        />
+      )}
+      {mailModal && (
+        <EmailVerfificationModal
+          isOpen={mailModal}
+          setIsOpen={setMailModal}
+          mailHeader={"Customer"}
+          afterSendMailCallback={() => updateLeadStatus()}
+          userData={{ email: leadData.contactPersonEmail, subject: "" }}
+          mailText={``}
         />
       )}
     </div>
