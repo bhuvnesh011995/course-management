@@ -8,6 +8,7 @@ import { AddNewHoliday } from "./modals/HolidayModal";
 import { Link } from "react-router-dom";
 import { CommonFooter } from "../../common-components/commonFooter";
 import { useAuth } from "../../context/authContext";
+import moment from "moment";
 
 export const Scheduling = () => {
   const { NewAxiosInstance } = useAuth();
@@ -197,7 +198,9 @@ export const Scheduling = () => {
                         <option value="">All Classes</option>
                         {classes.map((e) => (
                           <option key={e._id} value={e._id}>
-                            {e.classCode}
+                            {moment(e.startDate).format("DD-MM-YYY") +
+                              "-" +
+                              moment(e.endDate).format("DD-MM-YYY")}
                           </option>
                         ))}
                       </select>

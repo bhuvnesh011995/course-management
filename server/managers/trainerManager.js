@@ -245,8 +245,7 @@ const trainerClassDetails = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          classCode: 1,
-          title: "$classCode",
+          title: "$courseDetails.courseName",
           course: "$courseDetails.courseName",
           created_at: "$startDate",
           startDate: 1,

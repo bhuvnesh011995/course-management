@@ -752,7 +752,7 @@ const getFilteredLeads = async (req, res, next) => {
   try {
     const { query } = req;
     const leadQuery = [];
-    if (query.class.length) {
+    if (query.class.length)
       leadQuery.push({
         $match: {
           $expr: {
@@ -760,7 +760,15 @@ const getFilteredLeads = async (req, res, next) => {
           },
         },
       });
-    }
+
+    if (query.course.length)
+      leadQuery.push({
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$course" }, query.course],
+          },
+        },
+      });
 
     leadQuery.push(
       {
@@ -832,11 +840,10 @@ const getFilteredLeads = async (req, res, next) => {
       },
       { $unwind: "$tradeTypeData" }
     );
-
     if (query.participantName.length) {
       leadQuery.push({
         $match: {
-          "$leadDetails.participantName": { $regex: query.participantName },
+          "leadDetails.participantName": { $regex: query.participantName },
         },
       });
     }
