@@ -5,23 +5,37 @@ import { AttendanceGenerateModal } from "./generateLeads";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
+import moment from "moment";
 
 export const Attendance = () => {
   const { NewAxiosInstance } = useAuth();
   const filterObject = {
     participantName: "",
     class: "",
+    course: "",
   };
 
   const [classes, setClasses] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [filters, setFilters] = useState(filterObject);
   const [generatePdfModal, setGeneratePdfModal] = useState(false);
 
   const [filteredLeads, setFilteredLeads] = useState([]);
 
   useEffect(() => {
-    if (!filters.participantName.length && !filters.class.length) getClasses();
-    if (filters.participantName.length || filters.class.length)
+    if (
+      !filters.participantName.length &&
+      !filters.class.length &&
+      !filters.course.length
+    ) {
+      getClasses();
+      getCourses();
+    }
+    if (
+      filters.participantName.length ||
+      filters.class.length ||
+      filters.course.length
+    )
       getFilteredLeads();
   }, [filters]);
 
@@ -32,6 +46,20 @@ export const Attendance = () => {
       if (data?.classes.length) {
         setClasses(data?.classes);
         filters.class = data.classes[0]._id;
+        setFilters({ ...filters });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getCourses = async () => {
+    try {
+      toast.dismiss();
+      const { data } = await NewAxiosInstance.get("/courses/getCourses");
+      if (data?.allCourses.length) {
+        setCourses(data?.allCourses);
+        filters.course = data.allCourses[0]._id;
         setFilters({ ...filters });
       }
     } catch (err) {
@@ -83,7 +111,32 @@ export const Attendance = () => {
                       <div className="row w-100">
                         <div className="col-xl-4">
                           <div className="className-select">
-                            <label>Search By Class:</label>
+                            <label>Search By course:</label>
+                            <select
+                              onChange={({ target }) => {
+                                filters.course = target.value;
+                                setFilters({ ...filters });
+                              }}
+                              className="form-select"
+                              value={filters.course}
+                            >
+                              {courses.length ? (
+                                courses.map((e) => (
+                                  <option key={e._id} value={e._id}>
+                                    {e.courseName}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value={""} selected>
+                                  No courses
+                                </option>
+                              )}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-xl-4">
+                          <div className="className-select">
+                            <label>Search By Class Slot:</label>
                             <select
                               onChange={({ target }) => {
                                 filters.class = target.value;
@@ -95,7 +148,11 @@ export const Attendance = () => {
                               {classes.length ? (
                                 classes.map((e) => (
                                   <option key={e._id} value={e._id}>
-                                    {e.course}
+                                    {`${moment(e.startDate).format(
+                                      "DD-MM-YYYY"
+                                    )} - ${moment(e.endDate).format(
+                                      "DD-MM-YYYY"
+                                    )}`}
                                   </option>
                                 ))
                               ) : (

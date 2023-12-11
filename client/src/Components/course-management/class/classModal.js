@@ -211,23 +211,6 @@ export const NewClassModal = ({
         <Modal.Body>
           <form onSubmit={handleSubmit(classData ? updateClass : addNewClass)}>
             <div className="row">
-              {/* <div className="col-md-6 mb-3">
-                <label className="form-label">Class Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter class code"
-                  {...register("classCode", {
-                    required: "Please Enter Class Code",
-                  })}
-                  disabled={viewClass ? viewClass : isCalendar}
-                />
-                {errors?.classCode && (
-                  <span className="text-danger">
-                    {errors?.classCode.message}
-                  </span>
-                )}
-              </div> */}
               <div className="col-md-6 mb-3">
                 <label className="form-label">
                   Course <span className="text-danger">*</span>

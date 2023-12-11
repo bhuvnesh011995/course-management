@@ -376,14 +376,19 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       doc.rect(xPosition, 290, -6.8, 0.2);
 
       yPosition += 17;
+      doc.rect(xPosition, yPosition, 13, 0.2);
       doc.rect(xPosition, yPosition, -6.8, 0.2);
       yPosition += 70;
+      doc.rect(xPosition, yPosition, 13, 0.2);
       doc.rect(xPosition, yPosition, -6.8, 0.2);
       yPosition += 40;
+      doc.rect(xPosition, yPosition, 13, 0.2);
       doc.rect(xPosition, yPosition, -6.8, 0.2);
       yPosition += 60;
+      doc.rect(xPosition, yPosition, 13, 0.2);
       doc.rect(xPosition, yPosition, -6.8, 0.2);
       yPosition += 40;
+      doc.rect(xPosition, yPosition, 13, 0.2);
       doc.rect(xPosition, yPosition, -6.8, 0.2);
 
       yPosition -= 227;

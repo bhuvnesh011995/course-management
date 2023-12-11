@@ -184,7 +184,7 @@ export const Class = () => {
         <DeleteModel
           isOpen={deleteClass}
           setIsOpen={setDeleteClass}
-          message={`Do You Really Want To Delete class ${classData.classCode}`}
+          message={`Do You Really Want To Delete class ${classData?.course}`}
           callback={(e) => deleteSelectedClass(e)}
           deleteHeader={"Class"}
           data={classData}

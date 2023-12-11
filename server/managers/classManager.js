@@ -34,7 +34,6 @@ const addClass = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          classCode: 1,
           course: "$courseData.courseName",
           classStatus: 1,
           startTime: 1,
@@ -131,11 +130,11 @@ const getClasses = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          classCode: 1,
-          title: "$classCode",
+          title: "$courseData.courseName",
           course: "$courseData.courseName",
           endDate: 1,
           startDate: 1,
+          lectureDay: 1,
           trainer: "$trainerDetails.trainerName",
           startTime: 1,
           endTime: 1,
@@ -204,8 +203,7 @@ const updateClass = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          classCode: 1,
-          title: "$classCode",
+          title: "$courseData.courseName",
           course: "$courseData.courseName",
           classStatus: 1,
           startTime: 1,
@@ -313,7 +311,6 @@ const getDashboardClasses = async (req, res, next) => {
       {
         $project: {
           _id: 1,
-          classCode: 1,
           trainerName: "$trainerDetails.trainerName",
           trainerImagePath: "$trainerDetails.trainerImagePath",
           courseName: "$courseDetails.courseName",
