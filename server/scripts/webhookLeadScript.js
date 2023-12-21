@@ -7,7 +7,7 @@ async function fetchLeadsData(req, res, next) {
     const filePath = path.join(
       __dirname + "../",
       "../uploads/images",
-      "webhook.log"
+      "webhook.log",
     );
 
     let logMessage;
@@ -15,7 +15,7 @@ async function fetchLeadsData(req, res, next) {
     logMessage += JSON.stringify(req?.body, 2, null);
     logMessage += JSON.stringify(req?.query, 2, null);
     logMessage += JSON.stringify(req?.params, 2, null);
-
+    logMessage += JSON.stringify(req, 2, null);
     const data = await db.lead.find({});
 
     console.log(data);
