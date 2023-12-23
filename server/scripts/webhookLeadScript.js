@@ -14,6 +14,7 @@ async function fetchLeadsData(req, res, next) {
     // const logMessage = JSON.parse(body.trainerData);
     // console.log(logMessage);
     logMessage = JSON.stringify(req?.body, 5, null);
+    logMessage += JSON.stringify(req?.headers, 5, null);
     // logMessage += JSON.stringify(JSON.parse(req?.query), 2, null);
     // logMessage += JSON.stringify(JSON.parse(req?.params), 2, null);
     // const data = await db.lead.find({});
