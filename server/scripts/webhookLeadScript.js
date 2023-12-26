@@ -9,13 +9,7 @@ async function fetchLeadsData(req, res, next) {
       "../uploads/images",
       "webhook.log",
     );
-
-    const bodyData = await req?.body;
-
-    const logMessage = JSON.stringify(bodyData.trainerData);
-
-    // logMessage = JSON.stringify(bodyData, 5, null);
-    // logMessage += JSON.stringify(req?.headers, 5, null);
+    let logMessage = JSON.stringify(req.body, 5, null);
 
     fs.appendFile(filePath, logMessage, (err) => {
       if (err) {
