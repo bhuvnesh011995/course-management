@@ -46,7 +46,7 @@ export const RegistrationTypeModal = ({
       toast.dismiss();
       const newRegistration = await NewAxiosInstance.post(
         "/registrationType/addRegistrationType",
-        registrationData
+        registrationData,
       );
 
       if (newRegistration.status == 200) {
@@ -98,7 +98,7 @@ export const RegistrationTypeModal = ({
   const changeSelected = (levelId) => {
     if (selectAllTradeLevel.includes(levelId)) {
       const filteredTradeLevels = selectAllTradeLevel.filter(
-        (e) => e != levelId
+        (e) => e != levelId,
       );
       setSelectAllTradeLevel([...filteredTradeLevels]);
     } else if (!selectAllTradeLevel.includes(levelId)) {
@@ -110,7 +110,7 @@ export const RegistrationTypeModal = ({
     try {
       const { data } = await NewAxiosInstance.get(
         "/registrationType/getRegistrationType",
-        { params: { registrationData } }
+        { params: { registrationData } },
       );
       setSelectAllTradeLevel([...data[0].tradeLevelIds]);
       reset(data[0]);
@@ -124,7 +124,7 @@ export const RegistrationTypeModal = ({
       toast.dismiss();
       const updatedRegistration = await NewAxiosInstance.post(
         "/registrationType/updateRegistration",
-        newData
+        newData,
       );
       if (updatedRegistration.status == 200) {
         callback(updatedRegistration.data.data);
@@ -144,7 +144,7 @@ export const RegistrationTypeModal = ({
       <Modal show={isOpen} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="modal-title" id="addRegistrationTypeModalLabel">
+            <h5 className='modal-title' id='addRegistrationTypeModalLabel'>
               {viewModal ? "View" : registrationData ? "Update" : "Add New"}{" "}
               Registration Type
             </h5>
@@ -153,65 +153,67 @@ export const RegistrationTypeModal = ({
         <Modal.Body>
           <form
             onSubmit={handleSubmit(
-              registrationData ? editRegistrationType : saveRegistrationData
+              registrationData ? editRegistrationType : saveRegistrationData,
             )}
           >
-            <div className="mb-3">
-              <label className="form-label">Registration Type:</label>
+            <div className='mb-3'>
+              <label className='form-label'>Registration Type:</label>
               <input
-                type="text"
-                className="form-control"
-                placeholder="Enter registration type"
+                type='text'
+                className='form-control'
+                placeholder='Enter registration type'
                 disabled={viewModal}
                 {...register("registrationName")}
               />
             </div>
-            <div className="mb-3">
-              <div className="form-label">
-                Trade Level
-                <span className="text-danger">*</span>
-              </div>
-              <div className="dropdown" id="onDropDown">
-                <label onClick={showDropDown} className="dropdown-label">
-                  {viewModal ? "View" : "Select"}
-                </label>
+            {registrationData.registrationCode != "CRW" && (
+              <div className='mb-3'>
+                <div className='form-label'>
+                  Trade Level
+                  <span className='text-danger'>*</span>
+                </div>
+                <div className='dropdown' id='onDropDown'>
+                  <label onClick={showDropDown} className='dropdown-label'>
+                    {viewModal ? "View" : "Select"}
+                  </label>
 
-                <div className="dropdown-list">
-                  {!viewModal && (
-                    <a
-                      className="dropdown-option border-bottom text-blue cursor-pointer"
-                      onClick={checkAll}
-                    >
-                      Check All
-                    </a>
-                  )}
-                  {tradeLevels.map((e, index) => (
-                    <label className="dropdown-option">
-                      <input
-                        type="checkbox"
-                        value={e._id}
-                        key={index}
-                        onClick={() => changeSelected(e._id)}
-                        checked={selectAllTradeLevel.includes(e._id)}
-                        {...register("tradeLevelIds")}
-                        disabled={viewModal}
-                      />
-                      {e.tradeLevel}
-                    </label>
-                  ))}{" "}
+                  <div className='dropdown-list'>
+                    {!viewModal && (
+                      <a
+                        className='dropdown-option border-bottom text-blue cursor-pointer'
+                        onClick={checkAll}
+                      >
+                        Check All
+                      </a>
+                    )}
+                    {tradeLevels.map((e, index) => (
+                      <label className='dropdown-option'>
+                        <input
+                          type='checkbox'
+                          value={e._id}
+                          key={index}
+                          onClick={() => changeSelected(e._id)}
+                          checked={selectAllTradeLevel.includes(e._id)}
+                          {...register("tradeLevelIds")}
+                          disabled={viewModal}
+                        />
+                        {e.tradeLevel}
+                      </label>
+                    ))}{" "}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <Modal.Header>
               <button
-                type="button"
+                type='button'
                 onClick={handleClose}
-                className="btn btn-secondary"
+                className='btn btn-secondary'
               >
                 Cancel
               </button>
               {!viewModal && (
-                <button type="submit" className="btn btn-primary">
+                <button type='submit' className='btn btn-primary'>
                   {registrationData ? "Update" : "Save"}
                 </button>
               )}

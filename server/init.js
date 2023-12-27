@@ -16,7 +16,7 @@ module.exports = async () => {
       if (isAdmin)
         await db.user.updateOne(
           { _id: isAdmin._id },
-          { $set: { userRole: adminrole._id } }
+          { $set: { userRole: adminrole._id } },
         );
       else
         await db.user.create({
@@ -160,7 +160,7 @@ module.exports = async () => {
           { _id: CTD._id },
           {
             $push: { tradeLevelIds: TFS._id },
-          }
+          },
         );
       }
       if (!CTD.tradeLevelIds.includes(TRT._id)) {
@@ -168,7 +168,7 @@ module.exports = async () => {
           { _id: CTD._id },
           {
             $push: { tradeLevelIds: TRT._id },
-          }
+          },
         );
       }
 
@@ -177,7 +177,7 @@ module.exports = async () => {
           { _id: CTD._id },
           {
             $push: { tradeLevelIds: TFFS._id },
-          }
+          },
         );
       }
 
@@ -186,7 +186,7 @@ module.exports = async () => {
           { _id: CTD._id },
           {
             $push: { tradeLevelIds: TFRT._id },
-          }
+          },
         );
       }
 
@@ -195,7 +195,7 @@ module.exports = async () => {
           { _id: CTD._id },
           {
             $push: { tradeLevelIds: UFS._id },
-          }
+          },
         );
       }
 
@@ -204,13 +204,13 @@ module.exports = async () => {
           { _id: CTD._id },
           {
             $push: { tradeLevelIds: URT._id },
-          }
+          },
         );
       }
     }
     if (!MSG) {
       MSG = await db.registrationType.create({
-        registrationName: "Multi-skilling",
+        registrationName: "Multi-Skilling",
         registrationCode: "MSG",
         tradeLevelIds: [MSF._id, MSRT._id],
       });
@@ -220,7 +220,7 @@ module.exports = async () => {
           { _id: MSG._id },
           {
             $push: { tradeLevelIds: MSF._id },
-          }
+          },
         );
       }
       if (!MSG.tradeLevelIds.includes(MSRT._id)) {
@@ -228,7 +228,7 @@ module.exports = async () => {
           { _id: MSG._id },
           {
             $push: { tradeLevelIds: MSRT._id },
-          }
+          },
         );
       }
     }
@@ -244,7 +244,7 @@ module.exports = async () => {
           { _id: SK._id },
           {
             $push: { tradeLevelIds: TT._id },
-          }
+          },
         );
       }
       if (!SK.tradeLevelIds.includes(DRT._id)) {
@@ -252,7 +252,7 @@ module.exports = async () => {
           { _id: SK._id },
           {
             $push: { tradeLevelIds: DRT._id },
-          }
+          },
         );
       }
     }
@@ -274,7 +274,7 @@ module.exports = async () => {
           { _id: AMN._id },
           {
             $push: { tradeLevelIds: ETT._id },
-          }
+          },
         );
       }
 
@@ -283,7 +283,7 @@ module.exports = async () => {
           { _id: AMN._id },
           {
             $push: { tradeLevelIds: ERT._id },
-          }
+          },
         );
       }
 
@@ -292,7 +292,7 @@ module.exports = async () => {
           { _id: AMN._id },
           {
             $push: { tradeLevelIds: STT._id },
-          }
+          },
         );
       }
 
@@ -301,7 +301,7 @@ module.exports = async () => {
           { _id: AMN._id },
           {
             $push: { tradeLevelIds: SRT._id },
-          }
+          },
         );
       }
     }
