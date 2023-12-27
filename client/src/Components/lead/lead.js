@@ -77,7 +77,7 @@ export const Lead = () => {
   const getRegistrationTypes = async () => {
     try {
       const { data } = await NewAxiosInstance.get(
-        "/registrationType/getRegistrationTypes"
+        "/registrationType/getRegistrationTypes",
       );
       setRegistrationTypes(data);
     } catch (err) {
@@ -157,7 +157,7 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const newLeads = filteredLeads.filter(
-              (e) => e.status != "pending" && e.status == "new"
+              (e) => e.status != "pending" && e.status == "new",
             );
             setFilteredLeads([...newLeads]);
           } else {
@@ -165,7 +165,7 @@ export const Lead = () => {
           }
         } else {
           const newLeads = leads.filter(
-            (e) => e.status != "pending" && e.status == "new"
+            (e) => e.status != "pending" && e.status == "new",
           );
           setFilteredLeads([...newLeads]);
         }
@@ -176,13 +176,13 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const pendingLeads = filteredLeads.filter(
-              (e) => e.status != "assign" && e.status == "pending"
+              (e) => e.status != "assign" && e.status == "pending",
             );
             setFilteredLeads([...pendingLeads]);
           }
         } else {
           const pendingLeads = leads.filter(
-            (e) => e.status != "assign" && e.status == "pending"
+            (e) => e.status != "assign" && e.status == "pending",
           );
           setFilteredLeads([...pendingLeads]);
         }
@@ -193,13 +193,13 @@ export const Lead = () => {
           if (checkLeads.length) {
             filteredLeads[leadIndex] = leadData;
             const assignedLeads = filteredLeads.filter(
-              (e) => e.status != "confirmed" && e.status == "assign"
+              (e) => e.status != "confirmed" && e.status == "assign",
             );
             setFilteredLeads([...assignedLeads]);
           }
         } else {
           const assignedLeads = leads.filter(
-            (e) => e.status != "confirmed" && e.status == "assign"
+            (e) => e.status != "confirmed" && e.status == "assign",
           );
           setFilteredLeads([...assignedLeads]);
         }
@@ -219,7 +219,7 @@ export const Lead = () => {
   const updateLeadStatus = async () => {
     try {
       const updateLeadStatus = await NewAxiosInstance.post(
-        "/leads/updateLeadStatus" + `/${leadData._id}/${leadData.status}`
+        "/leads/updateLeadStatus" + `/${leadData._id}/${leadData.status}`,
       );
       if (updateLeadStatus.status == 200) {
         if (leadData.status == "pending") {
@@ -239,24 +239,24 @@ export const Lead = () => {
   };
 
   return (
-    <div id="layout-wrapper">
-      <div className="main-content">
-        <div className="page-content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-md-12">
-                <div className="card">
-                  <div className="card-header d-flex align-items-center justify-content-between">
-                    <div className="card-title">
+    <div id='layout-wrapper'>
+      <div className='main-content'>
+        <div className='page-content'>
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-md-12'>
+                <div className='card'>
+                  <div className='card-header d-flex align-items-center justify-content-between'>
+                    <div className='card-title'>
                       <FormattedMessage
-                        id="Lead_List"
-                        defaultMessage="Lead List"
+                        id='Lead_List'
+                        defaultMessage='Lead List'
                       />
                     </div>
-                    <div className="row w-75">
-                      <div className="col-xl-4">
+                    <div className='row w-75'>
+                      <div className='col-xl-4'>
                         <select
-                          className="form-select"
+                          className='form-select'
                           onChange={({ target }) => {
                             setSelectedFilter((old) => ({
                               ...old,
@@ -265,7 +265,7 @@ export const Lead = () => {
                           }}
                           value={selectedFilter.tradeType}
                         >
-                          <option value="">Select Trade Type</option>
+                          <option value=''>Select Trade Type</option>
                           {tradeTypes.map((type) => (
                             <option key={type._id} value={type._id}>
                               {type?.tradeType}
@@ -273,9 +273,9 @@ export const Lead = () => {
                           ))}
                         </select>
                       </div>
-                      <div className="col-xl-4">
+                      <div className='col-xl-4'>
                         <select
-                          className="form-select"
+                          className='form-select'
                           onChange={({ target }) => {
                             setSelectedFilter((old) => ({
                               ...old,
@@ -284,7 +284,7 @@ export const Lead = () => {
                           }}
                           value={selectedFilter.registrationType}
                         >
-                          <option value="">Select Registration Type</option>
+                          <option value=''>Select Registration Type</option>
                           {registrationTypes.map((type) => (
                             <option key={type._id} value={type._id}>
                               {type?.registrationName}
@@ -292,12 +292,12 @@ export const Lead = () => {
                           ))}
                         </select>
                       </div>
-                      <div className="col-xl-4">
-                        <div className="d-flex" role="search">
+                      <div className='col-xl-4'>
+                        <div className='d-flex' role='search'>
                           <input
-                            className="form-control me-2"
-                            type="search"
-                            placeholder="Search"
+                            className='form-control me-2'
+                            type='search'
+                            placeholder='Search'
                             onChange={({ target }) => {
                               setSelectedFilter((old) => ({
                                 ...old,
@@ -308,43 +308,43 @@ export const Lead = () => {
                           />{" "}
                           <button
                             onClick={clearFilters}
-                            className=" btn btn-light"
-                            type="submit"
+                            className=' btn btn-light'
+                            type='submit'
                             style={{ width: "200px" }}
                           >
                             <FormattedMessage
-                              id="Clear_Filters"
-                              defaultMessage="Clear Filters"
+                              id='Clear_Filters'
+                              defaultMessage='Clear Filters'
                             />
                           </button>
                         </div>
                       </div>
                     </div>
-                    <div className="btns">
+                    <div className='btns'>
                       {user.userData?.roleData?.lead?.create && (
                         <button
-                          className="mx-1 btn btn-primary"
+                          className='mx-1 btn btn-primary'
                           onClick={() => showLeadModal()}
                           style={{ height: "20px", padding: "0 0.5rem" }}
                         >
-                          <i className="bx bx-plus fw-semibold align-middle" />{" "}
+                          <i className='bx bx-plus fw-semibold align-middle' />{" "}
                           <FormattedMessage
-                            id="Add_New"
-                            defaultMessage="Add New"
+                            id='Add_New'
+                            defaultMessage='Add New'
                           />
                         </button>
                       )}
                       <Link
-                        to="/lead-grid"
-                        className="btn mx-1 btn-primary me-2"
+                        to='/lead-grid'
+                        className='btn mx-1 btn-primary me-2'
                         style={{ height: "20px", padding: "0 0.5rem" }}
                       >
-                        <i className="bx bxs-grid-alt fw-semibold align-middle"></i>
+                        <i className='bx bxs-grid-alt fw-semibold align-middle'></i>
                       </Link>
                     </div>
                   </div>
                   <div>
-                    <div className="card-body">
+                    <div className='card-body'>
                       <CommonDataTable
                         data={filteredLeads}
                         tableHeaders={leadTableHeaders}
@@ -368,7 +368,7 @@ export const Lead = () => {
                         updateLeadList={(e) => updateLeadList(e)}
                         leadModelButtons
                       />
-                      <div className="category-container mb-0 "></div>
+                      <div className='category-container mb-0 '></div>
                     </div>
                   </div>
                 </div>

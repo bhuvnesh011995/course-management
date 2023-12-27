@@ -49,16 +49,16 @@ export const CommonDataTable = ({
       tableColumns.push({
         accessorKey: e,
         Cell: ({ row }) => (
-          <div className="d-flex align-items-center">
+          <div className='d-flex align-items-center'>
             {row.original?.trainerImagePath && (
-              <div className="me-2">
+              <div className='me-2'>
                 {" "}
-                <span className="avatar avatar-sm avatar-rounded">
-                  <img src={filePath(row.original?.trainerImagePath)} alt="" />{" "}
+                <span className='avatar avatar-sm avatar-rounded'>
+                  <img src={filePath(row.original?.trainerImagePath)} alt='' />{" "}
                 </span>{" "}
               </div>
             )}
-            <div className="fw-semibold">{row.original.trainerName}</div>
+            <div className='fw-semibold'>{row.original.trainerName}</div>
           </div>
         ),
         header: tableHeaders[e],
@@ -75,7 +75,7 @@ export const CommonDataTable = ({
       tableColumns.push({
         accessorKey: e,
         Cell: ({ row }) => (
-          <div className="d-flex align-items-center justify-content-center">
+          <div className='d-flex align-items-center justify-content-center'>
             {row.original.durationStatus}
           </div>
         ),
@@ -93,8 +93,8 @@ export const CommonDataTable = ({
       tableColumns.push({
         accessorKey: e,
         Cell: ({ row }) => (
-          <div className="row ">
-            <div className="d-flex flex-wrap">
+          <div className='row '>
+            <div className='d-flex flex-wrap'>
               <p
                 className={`badge badge-soft-${
                   row.original?.status == "Active" ? "success" : "danger"
@@ -126,7 +126,7 @@ export const CommonDataTable = ({
         Cell: ({ row }) => (
           <div
             onClick={() => callback(row.original, "view", row.index)}
-            className="cursor-pointer"
+            className='cursor-pointer'
           >
             {row.original.leadRegistrationName}
           </div>
@@ -145,8 +145,8 @@ export const CommonDataTable = ({
       tableColumns.push({
         accessorKey: e,
         Cell: ({ row }) => (
-          <div className="row ">
-            <div className="d-flex flex-wrap">
+          <div className='row '>
+            <div className='d-flex flex-wrap'>
               {row.original.lectureDay.map((e, index) => (
                 <p
                   className={dayColors[index]}
@@ -213,16 +213,16 @@ export const CommonDataTable = ({
     tableColumns.push({
       header: "Actions",
       Header: () => (
-        <FormattedMessage id="Actions" defaultMessage={"Actions"} />
+        <FormattedMessage id='Actions' defaultMessage={"Actions"} />
       ),
       Cell: ({ row }) => (
-        <div className="hstack gap-2 fs-1">
+        <div className='hstack gap-2 fs-1'>
           {viewButton && (
             <button
               onClick={() => callback(row.original, "view", row.index)}
-              className="btn btn-icon btn-sm btn-warning rounded-pill"
+              className='btn btn-icon btn-sm btn-warning rounded-pill'
             >
-              <i className="mdi mdi-eye"></i>
+              <i className='mdi mdi-eye'></i>
             </button>
           )}
           {/* !tradeType.includes(row.original?.typeCode) && */}
@@ -233,9 +233,9 @@ export const CommonDataTable = ({
                 onClick={() => {
                   callback(row.original, null, row.index);
                 }}
-                className="btn btn-icon btn-sm btn-info rounded-pill"
+                className='btn btn-icon btn-sm btn-info rounded-pill'
               >
-                <i className="bx bxs-edit-alt" />
+                <i className='bx bxs-edit-alt' />
               </button>
             )}
           {deleteButton &&
@@ -244,9 +244,9 @@ export const CommonDataTable = ({
             !registrationConstants.includes(row.original?.registrationCode) && (
               <button
                 onClick={() => callback(row.original, "delete", row.index)}
-                className="btn btn-icon btn-sm btn-danger rounded-pill"
+                className='btn btn-icon btn-sm btn-danger rounded-pill'
               >
-                <i className="bx bxs-trash" />
+                <i className='bx bxs-trash' />
               </button>
             )}
           {verificationMailButton && (
@@ -258,19 +258,19 @@ export const CommonDataTable = ({
                 }
                 callback(row.original, "sendMail", row.index);
               }}
-              className="btn btn-icon btn-sm btn-success rounded-pill"
+              className='btn btn-icon btn-sm btn-success rounded-pill'
             >
-              <i className="mdi mdi-check-circle" />
+              <i className='mdi mdi-check-circle' />
             </button>
           )}
           {leadModelButtons && row.original?.status == "confirmed" && (
-            <button className="btn btn-icon rounded-pill">
-              <i className="bx bx-money align-middle me-1 text-info" />
+            <button className='btn btn-icon rounded-pill'>
+              <i className='bx bx-money align-middle me-1 text-info' />
             </button>
           )}
           {leadModelButtons && row.original?.status == "confirmed" && (
-            <button className="btn btn-icon rounded-pill">
-              <i className="mdi mdi-check-circle align-middle text-success" />
+            <button className='btn btn-icon rounded-pill'>
+              <i className='mdi mdi-check-circle align-middle text-success' />
             </button>
           )}
         </div>
@@ -279,7 +279,7 @@ export const CommonDataTable = ({
   }
 
   return (
-    <div className="p-3">
+    <div className='p-3'>
       <MaterialReactTable
         columns={tableColumns}
         data={data}
@@ -299,7 +299,7 @@ export const CommonDataTable = ({
           <div>
             {downloadPdf && (
               <button
-                className="btn btn-primary me-2"
+                className='btn btn-primary me-2'
                 onClick={() =>
                   exportToPDFTable(data, dataKeys, tableHeaders, fileName)
                 }
@@ -309,14 +309,14 @@ export const CommonDataTable = ({
             )}
             {downloadExcel && (
               <button
-                className="btn btn-primary me-2"
+                className='btn btn-primary me-2'
                 onClick={() => exportToExcel(data, fileName, tableHeaders)}
               >
                 Download Excel
               </button>
             )}
             {leadModelButtons && (
-              <div className="column">
+              <div className='column'>
                 <button
                   className={`mx-1 btn ${leadValue == "all" && "btn-primary"}`}
                   onClick={() => {

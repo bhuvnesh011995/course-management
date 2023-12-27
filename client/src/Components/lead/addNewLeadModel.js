@@ -156,7 +156,7 @@ export const AddNewLeadModel = ({
       formdata.append("leadData", JSON.stringify(newLead));
       const { data } = await NewAxiosInstance.post(
         "/leads/addNewLead",
-        formdata
+        formdata,
       );
       toast.success("New Lead Added Successfully");
       callback(data.newLead);
@@ -299,7 +299,7 @@ export const AddNewLeadModel = ({
       formdata.append("leadData", JSON.stringify(newLeadData));
       const { data } = await NewAxiosInstance.post(
         "/leads/updateLead",
-        formdata
+        formdata,
       );
       toast.success("Lead Updated Successfully");
       callback(data.updatedLead);
@@ -336,7 +336,10 @@ export const AddNewLeadModel = ({
         return;
       }
     const selectedFilePath = leadData.fileLocations[fileName];
-
+    if (selectedFilePath.split("https://").length == 2) {
+      window.open(selectedFilePath);
+      return;
+    }
     const leadUrl = filePath(selectedFilePath);
     window.open(leadUrl);
   };
@@ -354,13 +357,13 @@ export const AddNewLeadModel = ({
         data.lead,
         Subject,
         data.user,
-        user.otherConfigurations?.paymentPdfLogo
+        user.otherConfigurations?.paymentPdfLogo,
       );
       leadData["bankDetailsPdfBase64"] = CreateBankPdf();
       leadData.status = "assign";
       const getPaymentData = await NewAxiosInstance.post(
         "/leads/getPayment",
-        leadData
+        leadData,
       );
       if (getPaymentData.status == 200) {
         toast.success(getPaymentData.data.message);
@@ -382,7 +385,7 @@ export const AddNewLeadModel = ({
     try {
       const confirmPayment = await NewAxiosInstance.post(
         "/leads/confirmPayment",
-        leadData
+        leadData,
       );
       if (confirmPayment.status == 200) {
         toast.success(confirmPayment.data.message);
@@ -400,94 +403,94 @@ export const AddNewLeadModel = ({
 
   return (
     <div>
-      <Modal show={isOpen} onHide={handleClose} size="lg">
+      <Modal show={isOpen} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="modal-title add-Customer-title">
+            <h5 className='modal-title add-Customer-title'>
               {viewLead ? "View" : leadData ? "Update" : "Add New"} Lead
             </h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit(leadData ? editLead : addNewLead)}>
-            <div className="row">
-              <div className="col-md-12 mb-3">
-                <label className="form-label">
-                  Registration Type <span className="text-danger">*</span>
+            <div className='row'>
+              <div className='col-md-12 mb-3'>
+                <label className='form-label'>
+                  Registration Type <span className='text-danger'>*</span>
                 </label>
                 <select
-                  className="form-select"
+                  className='form-select'
                   {...register("registrationType", {
                     required: "Please select registration type",
                     onChange: ({ target }) => changeRegistrationType(target),
                   })}
                   disabled={viewLead}
                 >
-                  <option value="">Select Registration Type</option>
+                  <option value=''>Select Registration Type</option>
                   {registrationTypes.map((e) => (
                     <option key={e._id} value={e._id}>
                       {e.registrationName}
                     </option>
                   ))}
                 </select>
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.registrationType && errors?.registrationType.message}
                 </span>
               </div>
-              <div className="col-md-12 mb-3">
-                <label className="form-label">
-                  Status <span className="text-danger">*</span>
+              <div className='col-md-12 mb-3'>
+                <label className='form-label'>
+                  Status <span className='text-danger'>*</span>
                 </label>
                 <select
-                  className="form-select"
+                  className='form-select'
                   disabled={viewLead}
                   {...register("status", { required: "Please Select Status" })}
                 >
-                  <option value="" selected>
+                  <option value='' selected>
                     Select Status
                   </option>
-                  <option value="new">New</option>
-                  <option value="pending">Pending</option>
-                  <option value="assign">Assign</option>
-                  <option value="confirmed">Confirmed</option>
+                  <option value='new'>New</option>
+                  <option value='pending'>Pending</option>
+                  <option value='assign'>Assign</option>
+                  <option value='confirmed'>Confirmed</option>
                 </select>
               </div>
-              <span className="text-danger">
+              <span className='text-danger'>
                 {errors?.status && errors?.status.message}
               </span>
-              <div className="col-md-12 mb-3">
-                <label className="form-label">Remarks</label>
+              <div className='col-md-12 mb-3'>
+                <label className='form-label'>Remarks</label>
                 <textarea
                   {...register("remarks")}
                   disabled={viewLead}
-                  className="form-control"
-                  cols="30"
-                  rows="2"
-                  placeholder="Enter Remarks"
+                  className='form-control'
+                  cols='30'
+                  rows='2'
+                  placeholder='Enter Remarks'
                 ></textarea>
               </div>
             </div>
-            <div className="row">
+            <div className='row'>
               <hr />
-              <h4 className="mb-3">Company Information</h4>{" "}
-              <div className="col-md-12 mb-3">
-                <label className="form-label">
-                  Company Name <span className="text-danger">*</span>
+              <h4 className='mb-3'>Company Information</h4>{" "}
+              <div className='col-md-12 mb-3'>
+                <label className='form-label'>
+                  Company Name <span className='text-danger'>*</span>
                 </label>
 
                 <FormattedMessage
-                  id="Enter_Company_Name"
+                  id='Enter_Company_Name'
                   defaultMessage={"Enter Company Name"}
                 >
                   {(placeholder) => (
                     <FormattedMessage
-                      id="Please_Enter_Company_Name"
+                      id='Please_Enter_Company_Name'
                       defaultMessage={"Please Emter Company Name"}
                     >
                       {(requiredMsg) => (
                         <input
-                          type="text"
-                          className="form-control"
+                          type='text'
+                          className='form-control'
                           {...register("companyName", {
                             required: requiredMsg[0],
                             pattern: namePattern,
@@ -500,92 +503,92 @@ export const AddNewLeadModel = ({
                   )}
                 </FormattedMessage>
 
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.companyName && errors?.companyName.message}
                 </span>
               </div>
-              <div className="col-md-12 mb-3">
-                <label className="form-label">
-                  Company UEN No. <span className="text-danger">*</span>
+              <div className='col-md-12 mb-3'>
+                <label className='form-label'>
+                  Company UEN No. <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="text"
-                  className="form-control"
+                  type='text'
+                  className='form-control'
                   {...register("companyUEN", {
                     required: "Please Enter Company UEN ",
                     pattern: mustBe9to10,
                   })}
                   disabled={viewLead}
-                  placeholder="Enter Company UEN "
+                  placeholder='Enter Company UEN '
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.companyUEN && errors?.companyUEN.message}
                 </span>
               </div>
-              <div className="col-md-12 mb-3">
-                <label className="form-label">
-                  Company Address <span className="text-danger">*</span>
+              <div className='col-md-12 mb-3'>
+                <label className='form-label'>
+                  Company Address <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="text"
-                  className="form-control"
+                  type='text'
+                  className='form-control'
                   {...register("companyAddress", {
                     required: "Please Enter Company Address",
                     pattern: namePattern,
                   })}
-                  placeholder="Enter Company Address"
+                  placeholder='Enter Company Address'
                   disabled={viewLead}
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.companyAddress && errors?.companyAddress.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">
-                  Postal Code <span className="text-danger">*</span>
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  Postal Code <span className='text-danger'>*</span>
                 </label>
 
                 <input
-                  type="text"
-                  className="form-control"
+                  type='text'
+                  className='form-control'
                   {...register("postalCode", {
                     required: "Please Enter Postal Code",
                     pattern: mustBe6to16,
                   })}
                   disabled={viewLead}
-                  placeholder="Enter Postal Code"
+                  placeholder='Enter Postal Code'
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.postalCode && errors?.postalCode.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">
-                  Contact Person <span className="text-danger">*</span>
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  Contact Person <span className='text-danger'>*</span>
                 </label>
 
                 <input
-                  type="text"
-                  className="form-control"
+                  type='text'
+                  className='form-control'
                   {...register("contactPerson", {
                     required: "Please Enter Contact Person",
                     pattern: namePattern,
                   })}
                   disabled={viewLead}
-                  placeholder="Enter Contact Person"
+                  placeholder='Enter Contact Person'
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.contactPerson && errors?.contactPerson.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">
-                  Contact Person's Mobile <span className="text-danger">*</span>
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  Contact Person's Mobile <span className='text-danger'>*</span>
                 </label>
 
                 <input
-                  type="tel"
-                  className="form-control"
+                  type='tel'
+                  className='form-control'
                   {...register("contactPersonMobile", {
                     required: "Please Enter Contact Person's Mobile",
                     pattern: phonePattern,
@@ -593,20 +596,20 @@ export const AddNewLeadModel = ({
                   disabled={viewLead}
                   placeholder="Enter Contact Person's Mobile"
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.contactPersonMobile &&
                     errors?.contactPersonMobile.message}
                 </span>
               </div>
-              <div className="col-md-12 mb-3">
-                <label className="form-label">
+              <div className='col-md-12 mb-3'>
+                <label className='form-label'>
                   Contact Person's Email Address{" "}
-                  <span className="text-danger">*</span>
+                  <span className='text-danger'>*</span>
                 </label>
 
                 <input
-                  type="email"
-                  className="form-control"
+                  type='email'
+                  className='form-control'
                   {...register("contactPersonEmail", {
                     required: "Please Enter Contact Person's Email Address",
                     pattern: emailPattern,
@@ -614,18 +617,18 @@ export const AddNewLeadModel = ({
                   disabled={viewLead}
                   placeholder="Enter Contact Person's Email Address"
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.contactPersonEmail &&
                     errors?.contactPersonEmail.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">
-                  Office Telephone No. <span className="text-danger">*</span>
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  Office Telephone No. <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="tel"
-                  className="form-control"
+                  type='tel'
+                  className='form-control'
                   {...register("officeTelephone", {
                     required: "Please Enter Office Telephone No.",
                     pattern: {
@@ -634,63 +637,63 @@ export const AddNewLeadModel = ({
                     },
                   })}
                   disabled={viewLead}
-                  placeholder="Enter Office Telephone No."
+                  placeholder='Enter Office Telephone No.'
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.officeTelephone && errors?.officeTelephone.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">
-                  Office Fax No. <span className="text-danger">*</span>
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  Office Fax No. <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="tel"
-                  className="form-control"
+                  type='tel'
+                  className='form-control'
                   {...register("officeFax", {
                     required: "Please Enter Office Fax No.",
                     pattern: {
-                      value: /^.[0-9]{8,10}$/,
+                      value: /^.[0-9]{7,10}$/,
                       message: "Must have 8 to 10 numeric characters",
                     },
                   })}
                   disabled={viewLead}
-                  placeholder="Enter Office Fax No."
+                  placeholder='Enter Office Fax No.'
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.officeFax && errors?.officeFax.message}
                 </span>
               </div>
             </div>
-            <div className="row">
+            <div className='row'>
               <hr />
-              <h4 className="mb-3">Participant's Particular</h4>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">
-                  Name of Participant <span className="text-danger">*</span>
+              <h4 className='mb-3'>Participant's Particular</h4>
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  Name of Participant <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="text"
-                  className="form-control"
+                  type='text'
+                  className='form-control'
                   {...register("participantName", {
                     required: "Please Enter Name of Participant",
                     pattern: namePattern,
                   })}
                   disabled={viewLead}
-                  placeholder="Enter Name of Participant"
+                  placeholder='Enter Name of Participant'
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.participantName && errors?.participantName.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">
-                  Participant's Mobile <span className="text-danger">*</span>
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  Participant's Mobile <span className='text-danger'>*</span>
                 </label>
 
                 <input
-                  type="tel"
-                  className="form-control"
+                  type='tel'
+                  className='form-control'
                   {...register("participantMobile", {
                     required: "Please Enter Participant's Mobile",
                     pattern: phonePattern,
@@ -698,24 +701,24 @@ export const AddNewLeadModel = ({
                   disabled={viewLead}
                   placeholder="Enter Participant's Mobile"
                 />
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.participantMobile &&
                     errors?.participantMobile.message}
                 </span>
               </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">
-                  Trade Type <span className="text-danger">*</span>
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  Trade Type <span className='text-danger'>*</span>
                 </label>
 
                 <select
-                  className="form-select"
+                  className='form-select'
                   {...register("tradeType", {
                     required: "This Field Is Required",
                   })}
                   disabled={viewLead}
                 >
-                  <option value=""> Select Trade Type</option>
+                  <option value=''> Select Trade Type</option>
                   {tradeTypes.map((e) =>
                     selectedRegistration == "CRW"
                       ? e?.isCet?.length && (
@@ -727,69 +730,69 @@ export const AddNewLeadModel = ({
                           <option key={e._id} value={e._id}>
                             {e.tradeType}
                           </option>
-                        )
+                        ),
                   )}
                 </select>
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.tradeType && errors?.tradeType.message}
                 </span>
               </div>
               {selectedRegistration == "CRW" ? (
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">
+                <div className='col-md-4 mb-3'>
+                  <label className='form-label'>
                     CoreTrade / Multi-skilling/Direct R1 Registration No{" "}
-                    <span className="text-danger">*</span>
+                    <span className='text-danger'>*</span>
                   </label>
                   <input
-                    type="text"
-                    className="form-control"
-                    id="coreTradeRegNo"
+                    type='text'
+                    className='form-control'
+                    id='coreTradeRegNo'
                     {...register("coreTradeRegNo", {
                       required: "This field is required !",
                     })}
                     disabled={viewLead}
-                    placeholder="Enter CoreTrade / Multi-skilling/Direct R1 Registration No"
+                    placeholder='Enter CoreTrade / Multi-skilling/Direct R1 Registration No'
                   />
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.coreTradeRegNo && errors?.coreTradeRegNo?.message}
                   </span>
                 </div>
               ) : (
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">
-                    Trade Level <span className="text-danger">*</span>
+                <div className='col-md-4 mb-3'>
+                  <label className='form-label'>
+                    Trade Level <span className='text-danger'>*</span>
                   </label>
 
                   <select
-                    className="form-select"
+                    className='form-select'
                     {...register("tradeLevel", {
                       required: "This Field Is Required",
                     })}
                     disabled={viewLead}
                   >
-                    <option value="">Select Trade Level</option>
+                    <option value=''>Select Trade Level</option>
                     {tradeLevels.map((e) => (
                       <option key={e._id} value={e._id}>
                         {e.tradeLevel}
                       </option>
                     ))}
                   </select>
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.tradeLevel && errors?.tradeLevel.message}
                   </span>
                 </div>
               )}
               {selectedRegistration == "AMN" ? (
-                <div className="row">
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">
+                <div className='row'>
+                  <div className='col-md-4 mb-3'>
+                    <label className='form-label'>
                       Participant's IC No.{" "}
-                      <span className="text-danger">*</span>
+                      <span className='text-danger'>*</span>
                     </label>
 
                     <input
-                      type="text"
-                      className="form-control"
+                      type='text'
+                      className='form-control'
                       {...register("participantIcNo", {
                         required: "Please Enter Participant's IC No",
                         pattern: {
@@ -800,132 +803,132 @@ export const AddNewLeadModel = ({
                       disabled={viewLead}
                       placeholder="Enter Participant's IC No"
                     />
-                    <span className="text-danger">
+                    <span className='text-danger'>
                       {errors?.participantIcNo &&
                         errors?.participantIcNo.message}
                     </span>
                   </div>
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">
-                      Date Of Birth <span className="text-danger">*</span>
+                  <div className='col-md-4 mb-3'>
+                    <label className='form-label'>
+                      Date Of Birth <span className='text-danger'>*</span>
                     </label>
 
                     <input
-                      type="date"
-                      className="form-control"
+                      type='date'
+                      className='form-control'
                       {...register("DOB", {
                         required: "Please Enter Date Of Birth",
                       })}
                       disabled={viewLead}
                     />
-                    <span className="text-danger">
+                    <span className='text-danger'>
                       {errors?.DOB && errors?.DOB.message}
                     </span>
                   </div>
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">
-                      Nationality <span className="text-danger">*</span>
+                  <div className='col-md-4 mb-3'>
+                    <label className='form-label'>
+                      Nationality <span className='text-danger'>*</span>
                     </label>
 
                     <select
-                      className="form-select"
+                      className='form-select'
                       {...register("nationality", {
                         required: "This Field Is Required",
                       })}
                       disabled={viewLead}
                     >
-                      <option value="">Select Nationality</option>
+                      <option value=''>Select Nationality</option>
                       {nationality.map((e) => (
-                        <option key={e.value} value={e.value}>
+                        <option key={e.name} value={e.name}>
                           {e.name}
                         </option>
                       ))}
                     </select>
-                    <span className="text-danger">
+                    <span className='text-danger'>
                       {errors?.nationality && errors?.nationality.message}
                     </span>
                   </div>
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">
+                  <div className='col-md-4 mb-3'>
+                    <label className='form-label'>
                       Educational / Vocational Level{" "}
-                      <span className="text-danger">*</span>
+                      <span className='text-danger'>*</span>
                     </label>
 
                     <select
-                      className="form-select"
+                      className='form-select'
                       {...register("educationalLevel", {
                         required: "This Field Is Required",
                       })}
                       disabled={viewLead}
                     >
-                      <option value="">
+                      <option value=''>
                         Select Educational / Vocational Level
                       </option>
                       {educationalConstant.map((e) => (
-                        <option key={e.value} value={e.value}>
+                        <option key={e.name} value={e.name}>
                           {e.name}
                         </option>
                       ))}
                     </select>
-                    <span className="text-danger">
+                    <span className='text-danger'>
                       {errors?.educationalLevel &&
                         errors?.educationalLevel.message}
                     </span>
                   </div>
-                  <div className="row">
+                  <div className='row'>
                     <hr />
-                    <h4 className="mb-3">PA / MYE Particular</h4>
-                    <div className="col-md-4 mb-3">
-                      <label className="form-label">
-                        MYE No. <span className="text-danger">*</span>
+                    <h4 className='mb-3'>PA / MYE Particular</h4>
+                    <div className='col-md-4 mb-3'>
+                      <label className='form-label'>
+                        MYE No. <span className='text-danger'>*</span>
                       </label>
 
                       <input
-                        type="text"
-                        className="form-control"
+                        type='text'
+                        className='form-control'
                         {...register("myeNo", {
                           required: "Please Enter MYE No",
                           pattern: mustBe10,
                         })}
                         disabled={viewLead}
-                        placeholder="Enter MYE No"
+                        placeholder='Enter MYE No'
                       />
-                      <span className="text-danger">
+                      <span className='text-danger'>
                         {errors?.myeNo && errors?.myeNo.message}
                       </span>
                     </div>
-                    <div className="col-md-4 mb-3">
-                      <label className="form-label">
-                        Pa Reference No. <span className="text-danger">*</span>
+                    <div className='col-md-4 mb-3'>
+                      <label className='form-label'>
+                        Pa Reference No. <span className='text-danger'>*</span>
                       </label>
 
                       <input
-                        type="text"
-                        className="form-control"
+                        type='text'
+                        className='form-control'
                         {...register("paReferenceNo", {
                           required: "Please Enter Pa Reference No.",
                           pattern: mustBe10,
                         })}
                         disabled={viewLead}
-                        placeholder="Enter Pa Reference No."
+                        placeholder='Enter Pa Reference No.'
                       />
-                      <span className="text-danger">
+                      <span className='text-danger'>
                         {errors?.paReferenceNo && errors?.paReferenceNo.message}
                       </span>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="row">
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">
+                <div className='row'>
+                  <div className='col-md-4 mb-3'>
+                    <label className='form-label'>
                       Participant's NRIC / FIN No.{" "}
-                      <span className="text-danger">*</span>
+                      <span className='text-danger'>*</span>
                     </label>
 
                     <input
-                      type="text"
-                      className="form-control"
+                      type='text'
+                      className='form-control'
                       {...register("participantNRIC", {
                         required: "Please Enter Participant's NRIC / FIN No.",
                         pattern: {
@@ -936,26 +939,26 @@ export const AddNewLeadModel = ({
                       disabled={viewLead}
                       placeholder="Enter Participant's NRIC / FIN No."
                     />
-                    <span className="text-danger">
+                    <span className='text-danger'>
                       {errors?.participantNRIC &&
                         errors?.participantNRIC.message}
                     </span>
                   </div>
 
-                  <div className="col-md-4 mb-3">
-                    <label className="form-label">
+                  <div className='col-md-4 mb-3'>
+                    <label className='form-label'>
                       Alternate Mobile Number (if any)
                     </label>
                     <input
-                      type="tel"
-                      className="form-control"
+                      type='tel'
+                      className='form-control'
                       {...register("alternateMobile", {
                         pattern: phonePattern,
                       })}
                       disabled={viewLead}
-                      placeholder="Enter Alternate Mobile Number (if any)"
+                      placeholder='Enter Alternate Mobile Number (if any)'
                     />
-                    <span className="text-danger">
+                    <span className='text-danger'>
                       {errors?.alternateMobile &&
                         errors?.alternateMobile.message}
                     </span>
@@ -964,19 +967,19 @@ export const AddNewLeadModel = ({
               )}
 
               {leadData && (
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">
-                    Class <span className="text-danger">*</span>
+                <div className='col-md-4 mb-3'>
+                  <label className='form-label'>
+                    Class <span className='text-danger'>*</span>
                   </label>
 
                   <select
-                    className="form-select"
+                    className='form-select'
                     {...register("class", {
                       required: "Please Select Class !",
                     })}
                     disabled={leadData.class && viewLead}
                   >
-                    <option value="">Select Class</option>
+                    <option value=''>Select Class</option>
                     {allClasses?.length &&
                       allClasses.map((e) => (
                         <option
@@ -988,28 +991,28 @@ export const AddNewLeadModel = ({
                         </option>
                       ))}
                   </select>
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.class && errors?.class.message}
                   </span>
                 </div>
               )}
             </div>
-            <div className="row">
-              <div className="col-md-12 mb-3">
+            <div className='row'>
+              <div className='col-md-12 mb-3'>
                 <hr />
                 <h4>
                   {viewLead ? "View" : "Upload"} Documents{" "}
-                  <span className="text-danger">*</span>
+                  <span className='text-danger'>*</span>
                 </h4>
               </div>
-              <div className="col-md-12">
+              <div className='col-md-12'>
                 {selectedRegistration && selectedRegistration != "AMN" && (
-                  <div className="row" id="show1">
+                  <div className='row' id='show1'>
                     {selectedRegistration != "SK" && (
-                      <div className="col-md-4 mb-3">
-                        <label className="form-label">
+                      <div className='col-md-4 mb-3'>
+                        <label className='form-label'>
                           Valid BCA Acknowledgement Notice{" "}
-                          <span className="text-danger">*</span>
+                          <span className='text-danger'>*</span>
                         </label>
 
                         <input
@@ -1021,7 +1024,7 @@ export const AddNewLeadModel = ({
                               ? "file"
                               : "text"
                           }
-                          className="form-control"
+                          className='form-control'
                           {...register("bcaAcknowledgementNotice", {
                             required: "This field is required",
                           })}
@@ -1029,38 +1032,38 @@ export const AddNewLeadModel = ({
                         />
                         {watch("bcaAcknowledgementNotice") && (
                           <div>
-                            <div className="input-icons">
+                            <div className='input-icons'>
                               {!viewLead && (
                                 <i
-                                  className="fas fa-trash text-danger cursor-pointer"
+                                  className='fas fa-trash text-danger cursor-pointer'
                                   onClick={() =>
                                     setValue("bcaAcknowledgementNotice", null)
                                   }
                                 ></i>
                               )}
                               <i
-                                className="fas fa-eye text-primary cursor-pointer"
+                                className='fas fa-eye text-primary cursor-pointer'
                                 onClick={() =>
                                   openFile(
                                     watch("bcaAcknowledgementNotice")[0]?.name
                                       ? "bcaAcknowledgementNotice"
-                                      : "notice"
+                                      : "notice",
                                   )
                                 }
                               ></i>
                             </div>
                           </div>
                         )}
-                        <span className="text-danger">
+                        <span className='text-danger'>
                           {errors?.bcaAcknowledgementNotice &&
                             errors?.bcaAcknowledgementNotice.message}
                         </span>
                       </div>
                     )}
-                    <div className="col-md-4 mb-3">
-                      <label className="form-label">
+                    <div className='col-md-4 mb-3'>
+                      <label className='form-label'>
                         Valid copy of NRIC / Work document{" "}
-                        <span className="text-danger">*</span>
+                        <span className='text-danger'>*</span>
                       </label>
 
                       <input
@@ -1072,7 +1075,7 @@ export const AddNewLeadModel = ({
                             ? "file"
                             : "text"
                         }
-                        className="form-control"
+                        className='form-control'
                         {...register("nricWorkDocument", {
                           required: "This field is required",
                         })}
@@ -1080,38 +1083,38 @@ export const AddNewLeadModel = ({
                       />
                       {watch("nricWorkDocument") && (
                         <div>
-                          <div className="input-icons">
+                          <div className='input-icons'>
                             {!viewLead && (
                               <i
-                                className="fas fa-trash text-danger cursor-pointer"
+                                className='fas fa-trash text-danger cursor-pointer'
                                 onClick={() =>
                                   setValue("nricWorkDocument", null)
                                 }
                               ></i>
                             )}
                             <i
-                              className="fas fa-eye text-primary cursor-pointer"
+                              className='fas fa-eye text-primary cursor-pointer'
                               onClick={() =>
                                 openFile(
                                   watch("nricWorkDocument")[0]?.name
                                     ? "nricWorkDocument"
-                                    : "nric"
+                                    : "nric",
                                 )
                               }
                             ></i>
                           </div>
                         </div>
                       )}
-                      <span className="text-danger">
+                      <span className='text-danger'>
                         {errors?.nricWorkDocument &&
                           errors?.nricWorkDocument.message}
                       </span>
                     </div>
                     {selectedRegistration != "CRW" && (
-                      <div className="col-md-4 mb-3">
-                        <label className="form-label">
+                      <div className='col-md-4 mb-3'>
+                        <label className='form-label'>
                           Valid Copy Of Passport{" "}
-                          <span className="text-danger">*</span>
+                          <span className='text-danger'>*</span>
                         </label>
 
                         <input
@@ -1123,7 +1126,7 @@ export const AddNewLeadModel = ({
                               ? "file"
                               : "text"
                           }
-                          className="form-control"
+                          className='form-control'
                           {...register("passportCopy", {
                             required: "This field is required",
                           })}
@@ -1131,30 +1134,30 @@ export const AddNewLeadModel = ({
                         />
                         {watch("passportCopy") && (
                           <div>
-                            <div className="input-icons">
+                            <div className='input-icons'>
                               {!viewLead && (
                                 <i
-                                  className="fas fa-trash text-danger cursor-pointer"
+                                  className='fas fa-trash text-danger cursor-pointer'
                                   onClick={() => setValue("passportCopy", null)}
                                 ></i>
                               )}
                               <i
-                                className="fas fa-eye text-primary cursor-pointer"
+                                className='fas fa-eye text-primary cursor-pointer'
                                 onClick={() => openFile("passportCopy")}
                               ></i>
                             </div>
                           </div>
                         )}
-                        <span className="text-danger">
+                        <span className='text-danger'>
                           {errors?.passportCopy && errors?.passportCopy.message}
                         </span>
                       </div>
                     )}
                     {selectedRegistration != "CRW" && (
-                      <div className="col-md-4 mb-3">
-                        <label className="form-label">
+                      <div className='col-md-4 mb-3'>
+                        <label className='form-label'>
                           Valid Copy Of MOM Employment Details{" "}
-                          <span className="text-danger">*</span>
+                          <span className='text-danger'>*</span>
                         </label>
 
                         <input
@@ -1166,7 +1169,7 @@ export const AddNewLeadModel = ({
                               ? "file"
                               : "text"
                           }
-                          className="form-control"
+                          className='form-control'
                           {...register("MOMEploymentDetails", {
                             required: "This field is required",
                           })}
@@ -1174,40 +1177,40 @@ export const AddNewLeadModel = ({
                         />
                         {watch("MOMEploymentDetails") && (
                           <div>
-                            <div className="input-icons">
+                            <div className='input-icons'>
                               {!viewLead && (
                                 <i
-                                  className="fas fa-trash text-danger cursor-pointer"
+                                  className='fas fa-trash text-danger cursor-pointer'
                                   onClick={() =>
                                     setValue("MOMEploymentDetails", null)
                                   }
                                 ></i>
                               )}
                               <i
-                                className="fas fa-eye text-primary cursor-pointer"
+                                className='fas fa-eye text-primary cursor-pointer'
                                 onClick={() =>
                                   openFile(
                                     watch("MOMEploymentDetails")[0]?.name
                                       ? "MOMEploymentDetails"
-                                      : "MOME"
+                                      : "MOME",
                                   )
                                 }
                               ></i>
                             </div>
                           </div>
                         )}
-                        <span className="text-danger">
+                        <span className='text-danger'>
                           {errors?.MOMEploymentDetails &&
                             errors?.MOMEploymentDetails.message}
                         </span>
                       </div>
                     )}
                     {selectedRegistration == "MSG" && (
-                      <div className="col-md-4 mb-3">
-                        <label className="form-label">
+                      <div className='col-md-4 mb-3'>
+                        <label className='form-label'>
                           1st Skill Evaluation Certificate / BCA Skills
                           Qualification Statement{" "}
-                          <span className="text-danger">*</span>
+                          <span className='text-danger'>*</span>
                         </label>
 
                         <input
@@ -1219,7 +1222,7 @@ export const AddNewLeadModel = ({
                               ? "file"
                               : "text"
                           }
-                          className="form-control"
+                          className='form-control'
                           {...register("skillEvaluationCertificate", {
                             required: "This field is required",
                           })}
@@ -1227,22 +1230,22 @@ export const AddNewLeadModel = ({
                         />
                         {watch("skillEvaluationCertificate") && (
                           <div>
-                            <div className="input-icons">
+                            <div className='input-icons'>
                               {!viewLead && (
                                 <i
-                                  className="fas fa-trash text-danger cursor-pointer"
+                                  className='fas fa-trash text-danger cursor-pointer'
                                   onClick={() =>
                                     setValue("skillEvaluationCertificate", "")
                                   }
                                 ></i>
                               )}
                               <i
-                                className="fas fa-eye text-primary cursor-pointer"
+                                className='fas fa-eye text-primary cursor-pointer'
                                 onClick={() =>
                                   openFile(
                                     watch("skillEvaluationCertificate")[0]?.name
                                       ? "skillEvaluationCertificate"
-                                      : "skill"
+                                      : "skill",
                                   )
                                 }
                               ></i>
@@ -1250,7 +1253,7 @@ export const AddNewLeadModel = ({
                           </div>
                         )}
 
-                        <span className="text-danger">
+                        <span className='text-danger'>
                           {errors?.skillEvaluationCertificate &&
                             errors?.skillEvaluationCertificate.message}
                         </span>
@@ -1259,11 +1262,11 @@ export const AddNewLeadModel = ({
                   </div>
                 )}
                 {selectedRegistration == "AMN" && (
-                  <div className="row" id="show5">
-                    <div className="col-md-4 mb-3">
-                      <label className="form-label">
+                  <div className='row' id='show5'>
+                    <div className='col-md-4 mb-3'>
+                      <label className='form-label'>
                         Copy Of PA Quota（PA复印件）
-                        <span className="text-danger">*</span>
+                        <span className='text-danger'>*</span>
                       </label>
 
                       <input
@@ -1274,7 +1277,7 @@ export const AddNewLeadModel = ({
                             ? "file"
                             : "text"
                         }
-                        className="form-control"
+                        className='form-control'
                         {...register("paQuotaCopy", {
                           required: "This field is required",
                         })}
@@ -1282,34 +1285,34 @@ export const AddNewLeadModel = ({
                       />
                       {watch("paQuotaCopy") && (
                         <div>
-                          <div className="input-icons">
+                          <div className='input-icons'>
                             {!viewLead && (
                               <i
-                                className="fas fa-trash text-danger cursor-pointer"
+                                className='fas fa-trash text-danger cursor-pointer'
                                 onClick={() => setValue("paQuotaCopy", null)}
                               ></i>
                             )}{" "}
                             <i
-                              className="fas fa-eye text-primary cursor-pointer"
+                              className='fas fa-eye text-primary cursor-pointer'
                               onClick={() =>
                                 openFile(
                                   watch("paQuotaCopy")[0]?.name
                                     ? "paQuotaCopy"
-                                    : "pa"
+                                    : "pa",
                                 )
                               }
                             ></i>
                           </div>
                         </div>
                       )}
-                      <span className="text-danger">
+                      <span className='text-danger'>
                         {errors?.paQuotaCopy && errors?.paQuotaCopy.message}
                       </span>
                     </div>
-                    <div className="col-md-4 mb-3">
-                      <label className="form-label">
+                    <div className='col-md-4 mb-3'>
+                      <label className='form-label'>
                         Copy Of Worker's IC 员工的身份证复印件{" "}
-                        <span className="text-danger">*</span>
+                        <span className='text-danger'>*</span>
                       </label>
 
                       <input
@@ -1320,7 +1323,7 @@ export const AddNewLeadModel = ({
                             ? "file"
                             : "text"
                         }
-                        className="form-control"
+                        className='form-control'
                         {...register("workersIc", {
                           required: "This field is required",
                         })}
@@ -1328,35 +1331,35 @@ export const AddNewLeadModel = ({
                       />
                       {watch("workersIc") && (
                         <div>
-                          <div className="input-icons">
+                          <div className='input-icons'>
                             {!viewLead && (
                               <i
-                                className="fas fa-trash text-danger cursor-pointer"
+                                className='fas fa-trash text-danger cursor-pointer'
                                 onClick={() => setValue("workersIc", null)}
                               ></i>
                             )}{" "}
                             <i
-                              className="fas fa-eye text-primary cursor-pointer"
+                              className='fas fa-eye text-primary cursor-pointer'
                               onClick={() =>
                                 openFile(
                                   watch("workersIc")[0]?.name
                                     ? "workersIc"
-                                    : "ISC"
+                                    : "ISC",
                                 )
                               }
                             ></i>
                           </div>
                         </div>
                       )}
-                      <span className="text-danger">
+                      <span className='text-danger'>
                         {errors?.workersIc && errors?.workersIc.message}
                       </span>
                     </div>
-                    <div className="col-md-4 mb-3">
-                      <label className="form-label">
+                    <div className='col-md-4 mb-3'>
+                      <label className='form-label'>
                         Copy Of Worker's Passport (if available)
                         员工的护照复印件 - 如有请提供{" "}
-                        <span className="text-danger">*</span>
+                        <span className='text-danger'>*</span>
                       </label>
                       <input
                         type={
@@ -1367,7 +1370,7 @@ export const AddNewLeadModel = ({
                             ? "file"
                             : "text"
                         }
-                        className="form-control"
+                        className='form-control'
                         {...register("workersPassport", {
                           required: "This field is required",
                         })}
@@ -1375,23 +1378,23 @@ export const AddNewLeadModel = ({
                       />
                       {watch("workersPassport") && (
                         <div>
-                          <div className="input-icons">
+                          <div className='input-icons'>
                             {!viewLead && (
                               <i
-                                className="fas fa-trash text-danger cursor-pointer"
+                                className='fas fa-trash text-danger cursor-pointer'
                                 onClick={() =>
                                   setValue("workersPassport", null)
                                 }
                               ></i>
                             )}
                             <i
-                              className="fas fa-eye text-primary cursor-pointer"
+                              className='fas fa-eye text-primary cursor-pointer'
                               onClick={() => openFile("workersPassport")}
                             ></i>
                           </div>
                         </div>
                       )}
-                      <span className="text-danger">
+                      <span className='text-danger'>
                         {errors?.workersPassport &&
                           errors?.workersPassport.message}
                       </span>
@@ -1403,47 +1406,47 @@ export const AddNewLeadModel = ({
             {/* </div> */}
             <Modal.Footer>
               <div>
-                <div className="d-flex">
-                  <div className="d-flex col-lg-12 text-end">
+                <div className='d-flex'>
+                  <div className='d-flex col-lg-12 text-end'>
                     {!viewLead && (
-                      <button type="submit" className="mx-1 btn btn-primary">
+                      <button type='submit' className='mx-1 btn btn-primary'>
                         {leadData ? "Update" : "Add New"}
                       </button>
                     )}
                     {user.userData?.roleData?.lead?.write && viewLead && (
-                      <div className="d-flex">
+                      <div className='d-flex'>
                         {leadData.class && leadData.status == "pending" && (
                           <button
-                            type="button"
+                            type='button'
                             onClick={getPaymentRegistration}
-                            className="btn mx-1 btn-primary"
+                            className='btn mx-1 btn-primary'
                           >
                             Get Payment
                           </button>
                         )}
                         {leadData.class && leadData.status == "assign" && (
-                          <div className="d-flex">
+                          <div className='d-flex'>
                             <button
-                              type="button"
+                              type='button'
                               onClick={confirmRegistration}
-                              className="btn mx-1 btn-success"
+                              className='btn mx-1 btn-success'
                             >
                               Confirm
                             </button>
                             <button
-                              type="button"
+                              type='button'
                               // onClick={rejectRegistration}
-                              className="btn mx-1 btn-danger"
+                              className='btn mx-1 btn-danger'
                             >
                               Reject
                             </button>
                           </div>
                         )}
                         {!leadData.class && (
-                          <div className="d-flex">
+                          <div className='d-flex'>
                             <button
-                              type="submit"
-                              className="btn mx-1 btn-success"
+                              type='submit'
+                              className='btn mx-1 btn-success'
                             >
                               Assign Class
                             </button>
@@ -1452,9 +1455,9 @@ export const AddNewLeadModel = ({
                       </div>
                     )}
                     <button
-                      type="button"
+                      type='button'
                       onClick={handleClose}
-                      className="mx-1 btn btn-secondary"
+                      className='mx-1 btn btn-secondary'
                     >
                       Discard
                     </button>
