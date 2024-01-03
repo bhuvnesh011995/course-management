@@ -8,8 +8,6 @@ import { convertUtcDateAndTime } from "./useCommonUsableFunctions";
 export const AllCalendar = ({ events, callback, type }) => {
   const localizer = useMemo(() => momentLocalizer(moment), []);
 
-  console.log(events);
-
   const [selectedMonth, setSelectedMonth] = useState(new Date());
 
   let [allDayEvents, setAllDayEvents] = useState([]);
@@ -53,28 +51,14 @@ export const AllCalendar = ({ events, callback, type }) => {
           new Date(selectedMonth).getFullYear()
         ) {
           if (
-            new Date(event.endDate).getMonth() < // if selected month greater than end month because year is greater
-            new Date(selectedMonth).getMonth()
-          ) {
-            dates = getAllDatesBetween(
-              selectedMonth,
-              new Date(
-                moment(selectedMonth)
-                  .add(1, "month")
-                  .startOf("month")
-                  .format("YYYY-MM-DD")
-              )
-            );
-            addDayByEvents(event, dates);
-          } else if (
             new Date(event.startDate).getMonth() == // if selected month equals end month because year is greater
             new Date(selectedMonth).getMonth()
           ) {
             dates = getAllDatesBetween(
               event.startDate,
               new Date(
-                moment(selectedMonth).endOf("month").format("YYYY-MM-DD")
-              )
+                moment(selectedMonth).endOf("month").format("YYYY-MM-DD"),
+              ),
             );
             addDayByEvents(event, dates);
           } else if (
@@ -84,8 +68,8 @@ export const AllCalendar = ({ events, callback, type }) => {
             dates = getAllDatesBetween(
               selectedMonth,
               new Date(
-                moment(selectedMonth).endOf("month").format("YYYY-MM-DD")
-              )
+                moment(selectedMonth).endOf("month").format("YYYY-MM-DD"),
+              ),
             );
             addDayByEvents(event, dates);
           }
@@ -103,8 +87,8 @@ export const AllCalendar = ({ events, callback, type }) => {
                 moment(selectedMonth)
                   .add(1, "month")
                   .startOf("month")
-                  .format("YYYY-MM-DD")
-              )
+                  .format("YYYY-MM-DD"),
+              ),
             );
             addDayByEvents(event, dates);
           } else if (
@@ -269,13 +253,13 @@ export const AllCalendar = ({ events, callback, type }) => {
         startAccessor={(val) =>
           convertUtcDateAndTime(
             val.startDate,
-            val?.startTime ? val.startTime : "00:00"
+            val?.startTime ? val.startTime : "00:00",
           )
         }
         endAccessor={(val) =>
           convertUtcDateAndTime(
             val.endDate,
-            val?.endTime ? val.endTime : "00:00"
+            val?.endTime ? val.endTime : "00:00",
           )
         }
         views={["month", "week", "day"]}
@@ -288,7 +272,9 @@ export const AllCalendar = ({ events, callback, type }) => {
         onSelectSlot={handleCreateSlot}
         onNavigate={(selectedDate) =>
           setSelectedMonth(
-            new Date(moment(selectedDate).startOf("month").format("YYYY-MM-DD"))
+            new Date(
+              moment(selectedDate).startOf("month").format("YYYY-MM-DD"),
+            ),
           )
         }
       />
