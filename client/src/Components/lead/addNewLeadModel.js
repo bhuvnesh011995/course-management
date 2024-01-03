@@ -92,6 +92,7 @@ export const AddNewLeadModel = ({
       const { data } = await NewAxiosInstance.get("/class/getFilteredClasses", {
         params: selectedLead,
       });
+      console.log("getting classes", data);
       setAllClasses(data);
     } catch (err) {
       console.error(err);

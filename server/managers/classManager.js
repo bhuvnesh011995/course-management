@@ -139,7 +139,7 @@ const getClasses = async (req, res, next) => {
           startTime: 1,
           endTime: 1,
         },
-      }
+      },
     );
 
     const allClasses = await db.classes.aggregate(aggregateQuery);
@@ -166,7 +166,7 @@ const updateClass = async (req, res, next) => {
       { _id: body._id },
       {
         $set: body,
-      }
+      },
     );
     const updatedClass = await db.classes.aggregate([
       {
@@ -327,7 +327,8 @@ const getDashboardClasses = async (req, res, next) => {
 
 const getFilteredClasses = async (req, res, next) => {
   try {
-    const filteredClasses = await db.classes.aggregate([
+    const filterClassQuery = [];
+    filterClassQuery.push(
       {
         $lookup: {
           from: "courses",
@@ -357,57 +358,24 @@ const getFilteredClasses = async (req, res, next) => {
           },
         },
       },
-      {
-        $addFields: {
-          hasTradeLevel: {
-            $gt: [{ $strLenCP: req.query.tradeLevel }, 0],
+    );
+    if (req.query.tradeLevel.length) {
+      filterClassQuery.push({
+        $match: {
+          $expr: {
+            $eq: ["$courseDetails.tradeLevel", req.query.tradeLevel],
           },
         },
+      });
+    }
+    filterClassQuery.push({
+      $project: {
+        _id: 1,
+        courseName: "$courseDetails.courseName",
       },
-      {
-        $facet: {
-          tradeLevelExist: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$hasTradeLevel", true],
-                },
-              },
-            },
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$courseDetails.tradeLevel", req.query.tradeLevel],
-                },
-              },
-            },
-          ],
-          tradeLevelNotExist: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$hasTradeLevel", false],
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        $addFields: {
-          bothcombined: {
-            $concatArrays: ["$tradeLevelExist", "$tradeLevelNotExist"],
-          },
-        },
-      },
-      { $unwind: "$bothcombined" },
-      {
-        $project: {
-          _id: "$bothcombined._id",
-          courseName: "$bothcombined.courseDetails.courseName",
-        },
-      },
-    ]);
+    });
+    const filteredClasses = await db.classes.aggregate(filterClassQuery);
+
     return res.status(200).send(filteredClasses);
   } catch (err) {
     next(err);
