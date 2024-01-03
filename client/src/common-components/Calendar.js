@@ -8,8 +8,6 @@ import { convertUtcDateAndTime } from "./useCommonUsableFunctions";
 export const AllCalendar = ({ events, callback, type }) => {
   const localizer = useMemo(() => momentLocalizer(moment), []);
 
-  console.log(events);
-
   const [selectedMonth, setSelectedMonth] = useState(new Date());
 
   let [allDayEvents, setAllDayEvents] = useState([]);
@@ -53,20 +51,6 @@ export const AllCalendar = ({ events, callback, type }) => {
           new Date(selectedMonth).getFullYear()
         ) {
           if (
-            new Date(event.endDate).getMonth() < // if selected month greater than end month because year is greater
-            new Date(selectedMonth).getMonth()
-          ) {
-            dates = getAllDatesBetween(
-              selectedMonth,
-              new Date(
-                moment(selectedMonth)
-                  .add(1, "month")
-                  .startOf("month")
-                  .format("YYYY-MM-DD"),
-              ),
-            );
-            addDayByEvents(event, dates);
-          } else if (
             new Date(event.startDate).getMonth() == // if selected month equals end month because year is greater
             new Date(selectedMonth).getMonth()
           ) {
