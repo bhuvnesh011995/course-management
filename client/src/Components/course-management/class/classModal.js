@@ -25,7 +25,7 @@ export const NewClassModal = ({
       { label: "Saturday", value: "Wednesday" },
       { label: "Sunday", value: "Sunday" },
     ],
-    []
+    [],
   );
   const [courses, setCourses] = useState([]);
   const [showLecDays, setShowLecDays] = useState(false);
@@ -129,13 +129,13 @@ export const NewClassModal = ({
     try {
       if (updatedClass.lectureDay) {
         updatedClass.lectureDay = updatedClass.lectureDay.map(
-          (ele) => ele.value
+          (ele) => ele.value,
         );
       }
       toast.dismiss();
       const { data } = await NewAxiosInstance.post(
         "/class/updateClass",
-        updatedClass
+        updatedClass,
       );
       toast.success("Class Updated");
       callback(data);
@@ -200,29 +200,29 @@ export const NewClassModal = ({
 
   return (
     <div>
-      <Modal show={isOpen} onHide={handleclose} size="lg">
+      <Modal show={isOpen} onHide={handleclose} size='lg'>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="modal-title">
+            <h5 className='modal-title'>
               {viewClass ? "View" : classData ? "Update" : "Add New"} Class
             </h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit(classData ? updateClass : addNewClass)}>
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Course <span className="text-danger">*</span>
+            <div className='row'>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Course <span className='text-danger'>*</span>
                 </label>
                 <select
-                  className="form-select"
+                  className='form-select'
                   {...register("course", {
                     required: "This Field Is Required",
                   })}
                   disabled={viewClass ? viewClass : isCalendar}
                 >
-                  <option value="">Select courses</option>
+                  <option value=''>Select courses</option>
                   {courses.map((e, index) => (
                     <option key={index} value={e._id}>
                       {e.courseName}
@@ -230,23 +230,23 @@ export const NewClassModal = ({
                   ))}
                 </select>
                 {errors?.course && (
-                  <span className="text-danger">{errors?.course.message}</span>
+                  <span className='text-danger'>{errors?.course.message}</span>
                 )}
               </div>
             </div>
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Trainer <span className="text-danger">*</span>
+            <div className='row'>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Trainer <span className='text-danger'>*</span>
                 </label>
                 <select
-                  className="form-select"
+                  className='form-select'
                   {...register("trainer", {
                     required: "Please Select Trainer",
                   })}
                   disabled={viewClass ? viewClass : isCalendar}
                 >
-                  <option value="">Select Trainer</option>
+                  <option value=''>Select Trainer</option>
                   {trainers.map((e, index) => (
                     <option key={index} value={e._id}>
                       {e.trainerName}
@@ -254,45 +254,45 @@ export const NewClassModal = ({
                   ))}
                 </select>
                 {errors?.trainer && (
-                  <span className="text-danger">{errors?.trainer.message}</span>
+                  <span className='text-danger'>{errors?.trainer.message}</span>
                 )}
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="col-form-label">
-                  Status<span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='col-form-label'>
+                  Status<span className='text-danger'>*</span>
                 </label>
-                <div className="col-lg-12">
+                <div className='col-lg-12'>
                   <select
-                    className="form-select validate"
+                    className='form-select validate'
                     {...register("classStatus", {
                       required: "This Field is Required",
                     })}
                     disabled={viewClass}
                   >
-                    <option key={""} value="">
+                    <option key={""} value=''>
                       Choose Status..
                     </option>
-                    <option key={"Active"} value="Active">
+                    <option key={"Active"} value='Active'>
                       Active
                     </option>
-                    <option key={"Inactive"} value="Inactive">
+                    <option key={"Inactive"} value='Inactive'>
                       Inactive
                     </option>
                   </select>
                   {errors?.classStatus && (
-                    <span className="text-danger">
+                    <span className='text-danger'>
                       {errors?.classStatus.message}
                     </span>
                   )}
                 </div>
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Class Starting Timing <span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Class Starting Timing <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="time"
-                  className="form-control"
+                  type='time'
+                  className='form-control'
                   {...register("startTime", {
                     required: "Please Enter Start Timing",
                     onChange: (e) => checkTime(),
@@ -300,18 +300,18 @@ export const NewClassModal = ({
                   disabled={viewClass}
                 />
                 {errors?.startTime && (
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.startTime.message}
                   </span>
                 )}
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Class Ending Timing <span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Class Ending Timing <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="time"
-                  className="form-control"
+                  type='time'
+                  className='form-control'
                   {...register("endTime", {
                     required: "Please Enter End Timing",
                     onChange: (e) => checkTime(),
@@ -319,76 +319,84 @@ export const NewClassModal = ({
                   disabled={viewClass}
                 />
                 {errors?.endTime && (
-                  <span className="text-danger">{errors?.endTime.message}</span>
+                  <span className='text-danger'>{errors?.endTime.message}</span>
                 )}
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Start Date <span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Start Date <span className='text-danger'>*</span>
                 </label>
-                <div className="input-group">
+                <div className='input-group'>
                   <input
-                    type="date"
-                    className="form-control"
-                    placeholder="dd M, yyyy"
+                    type='date'
+                    className='form-control'
+                    placeholder='dd M, yyyy'
                     {...register("startDate", {
                       required: "Please Enter Start Date",
                       onChange: (e) => checkDate(),
                     })}
                     disabled={viewClass}
                   />
-                  <span className="input-group-text">
-                    <i className="mdi mdi-calendar" />
+                  <span className='input-group-text'>
+                    <i className='mdi mdi-calendar' />
                   </span>
                 </div>
                 {errors?.startDate && (
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.startDate.message}
                   </span>
                 )}
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  End Date <span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  End Date <span className='text-danger'>*</span>
                 </label>
-                <div className="input-group" id="datepicker3">
+                <div className='input-group' id='datepicker3'>
                   <input
-                    type="date"
-                    className="form-control"
-                    placeholder="dd M, yyyy"
+                    type='date'
+                    className='form-control'
+                    placeholder='dd M, yyyy'
                     {...register("endDate", {
                       required: "Please Enter End Date",
                       onChange: (e) => checkDate(),
                     })}
                     disabled={viewClass}
                   />
-                  <span className="input-group-text">
-                    <i className="mdi mdi-calendar" />
+                  <span className='input-group-text'>
+                    <i className='mdi mdi-calendar' />
                   </span>
                 </div>
                 {errors?.endDate && (
-                  <span className="text-danger">{errors?.endDate.message}</span>
+                  <span className='text-danger'>{errors?.endDate.message}</span>
                 )}
               </div>
             </div>
-            <Controller
+            {/* <Controller
               name="lectureDay"
               control={control}
               render={({ field }) => (
                 <ReactSelect {...field} options={lectureDayOptions} isMulti />
               )}
-            />
+            /> */}
 
-            <div className="modal-footer">
+            <div className='col-md-12 mb-3'>
+              <label className='form-label'>Remarks</label>
+              <textarea
+                className='form-control'
+                {...register("classRemarks")}
+              />
+            </div>
+
+            <div className='modal-footer'>
               <button
-                type="button"
+                type='button'
                 onClick={handleclose}
-                className="btn btn-secondary"
+                className='btn btn-secondary'
               >
                 Cancel
               </button>
               {!viewClass && (
-                <button type="submit" className="btn btn-primary">
+                <button type='submit' className='btn btn-primary'>
                   {classData ? "Update" : "Add"} Class
                 </button>
               )}

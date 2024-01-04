@@ -43,7 +43,7 @@ export const Course = () => {
   const getRegistrationTypes = async () => {
     try {
       const { data } = await NewAxiosInstance.get(
-        "/registrationType/getRegistrationTypes"
+        "/registrationType/getRegistrationTypes",
       );
       setRegistrationTypes(data);
     } catch (err) {
@@ -108,7 +108,7 @@ export const Course = () => {
         "/courses/deleteCourse",
         {
           params: course,
-        }
+        },
       );
       if (deletedCourse.status == 200) {
         const filteredCourses = allCourses.filter((e) => e._id != course._id);
@@ -138,20 +138,20 @@ export const Course = () => {
 
   return (
     <div>
-      <div id="layout-wrapper">
-        <div className="main-content">
-          <div className="page-content">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-12">
-                  <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 className="mb-sm-0 font-size-18">Course Management</h4>
-                    <div className="page-title-right">
-                      <ol className="breadcrumb m-0">
-                        <li className="breadcrumb-item">
+      <div id='layout-wrapper'>
+        <div className='main-content'>
+          <div className='page-content'>
+            <div className='container-fluid'>
+              <div className='row'>
+                <div className='col-12'>
+                  <div className='page-title-box d-sm-flex align-items-center justify-content-between'>
+                    <h4 className='mb-sm-0 font-size-18'>Course Management</h4>
+                    <div className='page-title-right'>
+                      <ol className='breadcrumb m-0'>
+                        <li className='breadcrumb-item'>
                           <Link to={"/"}>Dashboard</Link>
                         </li>
-                        <li className="breadcrumb-item active">
+                        <li className='breadcrumb-item active'>
                           Course Management
                         </li>
                       </ol>
@@ -160,17 +160,17 @@ export const Course = () => {
                 </div>
               </div>
               {user.userData?.roleData?.courses?.create && (
-                <div className="row">
-                  <div className="col-xl-12">
-                    <div className="card">
-                      <div className="card-body p-3">
-                        <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                          <div className="row w-50"></div>
+                <div className='row'>
+                  <div className='col-xl-12'>
+                    <div className='card'>
+                      <div className='card-body p-3'>
+                        <div className='d-flex align-items-center justify-content-between flex-wrap gap-3'>
+                          <div className='row w-50'></div>
                           <button
-                            className="btn btn-primary me-2"
+                            className='btn btn-primary me-2'
                             onClick={() => showCourseModal()}
                           >
-                            <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                            <i className='bx bx-plus me-1 fw-semibold align-middle' />
                             Add New Course
                           </button>
                         </div>
@@ -179,79 +179,79 @@ export const Course = () => {
                   </div>
                 </div>
               )}
-              <div className="row">
-                <div className="col-lg-3">
-                  <div className="card mini-stats-wid">
-                    <div className="card-body">
-                      <div className="d-flex flex-wrap">
-                        <div className="me-3">
-                          <p className="text-muted mb-2">Active Course</p>
-                          <h5 className="mb-0">{onOffCourses.active}</h5>
+              <div className='row'>
+                <div className='col-lg-3'>
+                  <div className='card mini-stats-wid'>
+                    <div className='card-body'>
+                      <div className='d-flex flex-wrap'>
+                        <div className='me-3'>
+                          <p className='text-muted mb-2'>Active Course</p>
+                          <h5 className='mb-0'>{onOffCourses.active}</h5>
                         </div>
-                        <div className="avatar-sm ms-auto">
-                          <div className="avatar-title bg-light rounded-circle text-primary font-size-20">
-                            <i className="mdi mdi-book" />
+                        <div className='avatar-sm ms-auto'>
+                          <div className='avatar-title bg-light rounded-circle text-primary font-size-20'>
+                            <i className='mdi mdi-book' />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-3">
-                  <div className="card blog-stats-wid">
-                    <div className="card-body">
-                      <div className="d-flex flex-wrap">
-                        <div className="me-3">
-                          <p className="text-muted mb-2">Pending Course</p>
-                          <h5 className="mb-0">{onOffCourses.inActive}</h5>
+                <div className='col-lg-3'>
+                  <div className='card blog-stats-wid'>
+                    <div className='card-body'>
+                      <div className='d-flex flex-wrap'>
+                        <div className='me-3'>
+                          <p className='text-muted mb-2'>Pending Course</p>
+                          <h5 className='mb-0'>{onOffCourses.inActive}</h5>
                         </div>
-                        <div className="avatar-sm ms-auto">
-                          <div className="avatar-title bg-danger bg-soft rounded-circle text-primary font-size-20">
-                            <i className="mdi mdi-clock-alert text-danger" />
+                        <div className='avatar-sm ms-auto'>
+                          <div className='avatar-title bg-danger bg-soft rounded-circle text-primary font-size-20'>
+                            <i className='mdi mdi-clock-alert text-danger' />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-3">
-                  <div className="card blog-stats-wid">
-                    <div className="card-body">
-                      <div className="d-flex flex-wrap">
-                        <div className="me-3">
-                          <p className="text-muted mb-2">Free Courses</p>
-                          <h5 className="mb-0">
+                <div className='col-lg-3'>
+                  <div className='card blog-stats-wid'>
+                    <div className='card-body'>
+                      <div className='d-flex flex-wrap'>
+                        <div className='me-3'>
+                          <p className='text-muted mb-2'>Free Courses</p>
+                          <h5 className='mb-0'>
                             {
                               allCourses.filter((course) => course.price == 0)
                                 .length
                             }
                           </h5>
                         </div>
-                        <div className="avatar-sm ms-auto">
-                          <div className="avatar-title bg-success bg-soft rounded-circle text-success font-size-20">
-                            <i className="mdi mdi-note" />
+                        <div className='avatar-sm ms-auto'>
+                          <div className='avatar-title bg-success bg-soft rounded-circle text-success font-size-20'>
+                            <i className='mdi mdi-note' />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-3">
-                  <div className="card blog-stats-wid">
-                    <div className="card-body">
-                      <div className="d-flex flex-wrap">
-                        <div className="me-3">
-                          <p className="text-muted mb-2">Paid Courses</p>
-                          <h5 className="mb-0">
+                <div className='col-lg-3'>
+                  <div className='card blog-stats-wid'>
+                    <div className='card-body'>
+                      <div className='d-flex flex-wrap'>
+                        <div className='me-3'>
+                          <p className='text-muted mb-2'>Paid Courses</p>
+                          <h5 className='mb-0'>
                             {
                               allCourses.filter((course) => course.price > 0)
                                 .length
                             }
                           </h5>
                         </div>
-                        <div className="avatar-sm ms-auto">
-                          <div className="avatar-title bg-warning bg-soft rounded-circle text-warning font-size-20">
-                            <i className="bx bx-dollar" />
+                        <div className='avatar-sm ms-auto'>
+                          <div className='avatar-title bg-warning bg-soft rounded-circle text-warning font-size-20'>
+                            <i className='bx bx-dollar' />
                           </div>
                         </div>
                       </div>
@@ -259,14 +259,14 @@ export const Course = () => {
                   </div>
                 </div>
               </div>
-              <div className="row g-4">
-                <div className="col-md-12">
-                  <div className="card ">
-                    <div className="card-header justify-content-between">
-                      <div className="card-title">Course List </div>
+              <div className='row g-4'>
+                <div className='col-md-12'>
+                  <div className='card '>
+                    <div className='card-header justify-content-between'>
+                      <div className='card-title'>Course List </div>
                     </div>
-                    <div className="card-body">
-                      <div className="table-responsive">
+                    <div className='card-body'>
+                      <div className='table-responsive'>
                         <CommonDataTable
                           tableHeaders={courseHeaders}
                           data={allCourses}

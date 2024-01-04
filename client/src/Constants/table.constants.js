@@ -63,6 +63,7 @@ export const leadTableHeaders = {
   participantName: "Name of Participant",
   participantMobile: "Participant's Mobile",
   tradeType: "Trade Type",
+  created_at: "Date Received",
 };
 
 export const tradeLevelHeaders = {

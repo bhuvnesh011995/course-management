@@ -44,6 +44,7 @@ const addClass = async (req, res, next) => {
           lectureDay: 1,
           created_at: 1,
           updated_at: 1,
+          classRemarks: 1,
         },
       },
     ]);
@@ -138,6 +139,7 @@ const getClasses = async (req, res, next) => {
           trainer: "$trainerDetails.trainerName",
           startTime: 1,
           endTime: 1,
+          classRemarks: 1,
         },
       },
     );
@@ -214,6 +216,7 @@ const updateClass = async (req, res, next) => {
           trainer: "$trainerDetails.trainerName",
           created_at: 1,
           updated_at: 1,
+          classRemarks: 1,
         },
       },
     ]);
@@ -372,6 +375,11 @@ const getFilteredClasses = async (req, res, next) => {
       $project: {
         _id: 1,
         courseName: "$courseDetails.courseName",
+        startTime: 1,
+        endTime: 1,
+        startDate: 1,
+        endDate: 1,
+        classRemarks: 1,
       },
     });
     const filteredClasses = await db.classes.aggregate(filterClassQuery);

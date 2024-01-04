@@ -13,7 +13,7 @@ const courseSchema = new mongoose.Schema(
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
-  }
+  },
 );
 
 const courseModel = mongoose.model("course", courseSchema);

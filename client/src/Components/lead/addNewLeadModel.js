@@ -14,7 +14,12 @@ import {
   phonePattern,
 } from "../../common-components/validations";
 import { useEffect, useState } from "react";
-import { filePath } from "../../common-components/useCommonUsableFunctions";
+import {
+  convertMongooseDate,
+  convertToMongooseStartEndTiming,
+  convertUtcDateAndTime,
+  filePath,
+} from "../../common-components/useCommonUsableFunctions";
 import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
 import { toast } from "react-toastify";
 import moment from "moment";
@@ -92,7 +97,6 @@ export const AddNewLeadModel = ({
       const { data } = await NewAxiosInstance.get("/class/getFilteredClasses", {
         params: selectedLead,
       });
-      console.log("getting classes", data);
       setAllClasses(data);
     } catch (err) {
       console.error(err);
@@ -286,16 +290,16 @@ export const AddNewLeadModel = ({
             formdata.append("files", file);
           }
         }
-
-      if (watch("class")?.length) {
-        newLeadData["class"] = watch("class");
-        if (newLeadData["status"] == "new") newLeadData["status"] = "pending";
-        else if (newLeadData["status"] == "assign")
-          newLeadData["status"] = "assign";
-      } else {
-        setError("class", { message: "Please Select Class" });
-        return;
-      }
+      if (viewLead)
+        if (watch("class")?.length) {
+          newLeadData["class"] = watch("class");
+          if (newLeadData["status"] == "new") newLeadData["status"] = "pending";
+          else if (newLeadData["status"] == "assign")
+            newLeadData["status"] = "assign";
+        } else {
+          setError("class", { message: "Please Select Class" });
+          return;
+        }
       newLeadData["deleteFileList"] = deleteFiles;
       formdata.append("leadData", JSON.stringify(newLeadData));
       const { data } = await NewAxiosInstance.post(
@@ -968,16 +972,14 @@ export const AddNewLeadModel = ({
               )}
 
               {leadData && (
-                <div className='col-md-4 mb-3'>
+                <div className='col-md-12 mb-3'>
                   <label className='form-label'>
                     Class <span className='text-danger'>*</span>
                   </label>
 
                   <select
                     className='form-select'
-                    {...register("class", {
-                      required: "Please Select Class !",
-                    })}
+                    {...register("class")}
                     disabled={leadData.class && viewLead}
                   >
                     <option value=''>Select Class</option>
@@ -988,13 +990,18 @@ export const AddNewLeadModel = ({
                           value={e._id}
                           selected={watch("class") == e._id && e._id}
                         >
-                          {e.courseName}
+                          {`${e.courseName} ${convertMongooseDate(
+                            e.startDate,
+                          )} (${convertToMongooseStartEndTiming(
+                            e.startTime,
+                            e.endTime,
+                          )})`}
                         </option>
                       ))}
                   </select>
-                  <span className='text-danger'>
-                    {errors?.class && errors?.class.message}
-                  </span>
+                  {errors?.class && (
+                    <span className='text-danger'>{errors.class.message}</span>
+                  )}
                 </div>
               )}
             </div>

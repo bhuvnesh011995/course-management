@@ -45,8 +45,6 @@ export const NewTrainerModal = ({
       if (response.status == 200) {
         if (response.data?.length) {
           setDesignations(response.data);
-        } else {
-          toast.error("please add designations");
         }
       } else {
         toast.error("something went wrong");
@@ -70,7 +68,7 @@ export const NewTrainerModal = ({
       formData.append("trainerData", JSON.stringify(trainerData));
       const { data } = await NewAxiosInstance.post(
         "/trainer/addNewTrainer",
-        formData
+        formData,
       );
       toast.success("New Trainer Added");
       callback(data);
@@ -92,7 +90,7 @@ export const NewTrainerModal = ({
       formData.append("trainerData", JSON.stringify(trainerData));
       const updatedTrainer = await NewAxiosInstance.post(
         "/trainer/updateTrainer",
-        formData
+        formData,
       );
       if (updatedTrainer.status == 200) {
         callback(updatedTrainer.data.data);
@@ -126,7 +124,7 @@ export const NewTrainerModal = ({
       <Modal show={isOpen} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="modal-title" id="addTrainerModalLabel">
+            <h5 className='modal-title' id='addTrainerModalLabel'>
               {trainerData ? "Update" : "Add"} Trainer
             </h5>
           </Modal.Title>
@@ -135,15 +133,15 @@ export const NewTrainerModal = ({
           <form
             onSubmit={handleSubmit(trainerData ? updateTrainer : addNewTrainer)}
           >
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Name <span className="text-danger">*</span>
+            <div className='row'>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Name <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="text"
-                  className="form-control"
-                  id="trainerName"
+                  type='text'
+                  className='form-control'
+                  id='trainerName'
                   placeholder="Enter trainer's name"
                   {...register("trainerName", {
                     required: "Please Enter Trainer Name",
@@ -151,79 +149,68 @@ export const NewTrainerModal = ({
                   })}
                 />
                 {errors?.trainerName && (
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.trainerName?.message}
                   </span>
                 )}
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Email ID <span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Email ID <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="email"
-                  className="form-control"
-                  id="trainerEmail"
-                  placeholder="Enter email"
+                  type='email'
+                  className='form-control'
+                  id='trainerEmail'
+                  placeholder='Enter email'
                   {...register("trainerEmail", {
-                    required: "Please Enter Trainer Email Id",
                     pattern: emailPattern,
                   })}
                 />
                 {errors?.trainerEmail && (
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.trainerEmail?.message}
                   </span>
                 )}
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Mobile No. <span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Mobile No. <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="tel"
-                  className="form-control"
-                  placeholder="Enter mobile number"
+                  type='tel'
+                  className='form-control'
+                  placeholder='Enter mobile number'
                   {...register("trainerMobile", {
-                    required: "Please Enter Mobile No.",
                     pattern: phonePattern,
                   })}
                 />
                 {errors?.trainerMobile && (
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.trainerMobile?.message}
                   </span>
                 )}
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  DOB (Date of Birth) <span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  DOB (Date of Birth) <span className='text-danger'>*</span>
                 </label>
                 <input
-                  type="date"
-                  className="form-control"
-                  id="trainerDOB"
-                  {...register("trainerDOB", {
-                    required: "Please Enter Date Of Birth",
-                  })}
+                  type='date'
+                  className='form-control'
+                  id='trainerDOB'
+                  {...register("trainerDOB")}
                 />
-                {errors?.trainerDOB && (
-                  <span className="text-danger">
-                    {errors?.trainerDOB?.message}
-                  </span>
-                )}
               </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">
-                  Designation <span className="text-danger">*</span>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Designation <span className='text-danger'>*</span>
                 </label>
                 <select
-                  className="form-select"
-                  {...register("trainerDesignation", {
-                    required: "Please Select Designation",
-                  })}
+                  className='form-select'
+                  {...register("trainerDesignation")}
                 >
-                  <option key={""} value="">
+                  <option key={""} value=''>
                     Select Designation
                   </option>
                   {designations.length &&
@@ -237,27 +224,22 @@ export const NewTrainerModal = ({
                       </option>
                     ))}
                 </select>
-                {errors?.trainerDesignation && (
-                  <span className="text-danger">
-                    {errors?.trainerDesignation?.message}
-                  </span>
-                )}
               </div>
-              <div className="col-md-6 mb-3">
+              <div className='col-md-6 mb-3'>
                 <label>Upload Photo</label> <br />
-                <div className="d-flex gap-2">
-                  <label className="custom-file-input form-control">
-                    <span id="trainerFileName">Upload Photo</span>
+                <div className='d-flex gap-2'>
+                  <label className='custom-file-input form-control'>
+                    <span id='trainerFileName'>Upload Photo</span>
                     <input
-                      type="file"
+                      type='file'
                       {...register("trainerImage", {
                         onChange: (e) => changeImageUrl(e),
                       })}
-                      accept="image/*"
+                      accept='image/*'
                     />
                   </label>
                   {watch("trainerImage") && watch("trainerImage")[0]?.name && (
-                    <span className="avatar avatar-rounded avatar-md">
+                    <span className='avatar avatar-rounded avatar-md'>
                       {" "}
                       <img
                         src={
@@ -266,50 +248,32 @@ export const NewTrainerModal = ({
                           //   ? imageUrl
                           //   : filePath(watch("trainerImagePath"))
                         }
-                        alt=""
+                        alt=''
                       />{" "}
                     </span>
                   )}
                   {!watch("trainerImage") && trainerData?.trainerImagePath && (
-                    <span className="avatar avatar-rounded avatar-md">
+                    <span className='avatar avatar-rounded avatar-md'>
                       {" "}
                       <img
                         src={filePath(trainerData?.trainerImagePath)}
-                        alt=""
+                        alt=''
                       />{" "}
                     </span>
                   )}
                 </div>
               </div>
-              <div className="col-md-12 mb-3">
-                <label className="form-label">
-                  Address <span className="text-danger">*</span>
-                </label>
-                <textarea
-                  className="form-control"
-                  rows={3}
-                  placeholder="Enter Address"
-                  {...register("trainerAddress", {
-                    required: "Please Enter Trainer Address",
-                  })}
-                />
-                {errors?.trainerAddress && (
-                  <span className="text-danger">
-                    {errors?.trainerAddress?.message}
-                  </span>
-                )}
-              </div>
             </div>
             <Modal.Footer>
-              <div className="modal-footer">
+              <div className='modal-footer'>
                 <button
-                  type="button"
-                  className="btn btn-secondary"
+                  type='button'
+                  className='btn btn-secondary'
                   onClick={handleClose}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary">
+                <button type='submit' className='btn btn-primary'>
                   {trainerData ? "Update" : "Add"} Trainer
                 </button>
               </div>

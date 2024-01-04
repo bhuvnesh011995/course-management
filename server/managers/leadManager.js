@@ -122,6 +122,7 @@ const addNewLead = async (req, res, next) => {
           class: 1,
           status: 1,
           remarks: 1,
+          created_at: 1,
         },
       },
     ]);
@@ -202,6 +203,7 @@ const getAllLeads = async (req, res, next) => {
         },
       },
       { $unwind: "$registrationDetails" },
+      { $sort: { created_at: -1 } },
       {
         $project: {
           _id: 1,
@@ -241,8 +243,9 @@ const getAllLeads = async (req, res, next) => {
           class: 1,
           status: 1,
           remarks: 1,
+          created_at: 1,
         },
-      }
+      },
     );
     const allLeads = await db.lead.aggregate(leadQuery);
     return res.status(200).send({ leads: allLeads, user });
@@ -326,7 +329,7 @@ const updateLead = async (req, res, next) => {
       { _id: query._id },
       {
         $set: query,
-      }
+      },
     );
     const updatedLead = await db.lead.aggregate([
       {
@@ -407,6 +410,7 @@ const updateLead = async (req, res, next) => {
           class: 1,
           status: 1,
           remarks: 1,
+          created_at: 1,
         },
       },
     ]);
@@ -437,8 +441,8 @@ const deleteLead = async (req, res, next) => {
       deleteSelectedFile(
         selectedLead.fileLocations[e].split("/")[
           selectedLead.fileLocations[e].split("/").length - 1
-        ]
-      )
+        ],
+      ),
     );
     const deleteLead = await db.lead.deleteOne({ _id: query._id });
     return res.status(200).send({ message: "Lead Deleted Successfully !" });
@@ -500,7 +504,7 @@ const getPayment = async (req, res, next) => {
     await sendMail({ query: sendMailObj });
     const getLeadPayment = await db.lead.updateOne(
       { _id: body._id },
-      { $set: { status: "assign" } }
+      { $set: { status: "assign" } },
     );
     return res.status(200).send({ message: "Mail Sent !" });
   } catch (err) {
@@ -520,7 +524,7 @@ const confirmPayment = async (req, res, next) => {
     await sendMail({ query: sendMailObj });
     const getLeadPayment = await db.lead.updateOne(
       { _id: body._id },
-      { $set: { status: "confirmed" } }
+      { $set: { status: "confirmed" } },
     );
     return res.status(200).send({ message: "confirmation mail sent !" });
   } catch (err) {
@@ -838,7 +842,7 @@ const getFilteredLeads = async (req, res, next) => {
           as: "tradeTypeData",
         },
       },
-      { $unwind: "$tradeTypeData" }
+      { $unwind: "$tradeTypeData" },
     );
     if (query.participantName.length) {
       leadQuery.push({
@@ -1136,7 +1140,7 @@ const updateLeadStatus = async (req, res, next) => {
         $set: {
           status: req.params.leadStatus == "pending" ? "assign" : "confirmed",
         },
-      }
+      },
     );
     return res.status(200).send({ message: "status changed successfully" });
   } catch (err) {

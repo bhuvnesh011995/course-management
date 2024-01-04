@@ -182,32 +182,26 @@ export const CommonDataTable = ({
       ),
     });
   });
-  if (data[0]?.created_at) {
-    data.map((e, index) => (e.created_at = convertMongooseDate(e.created_at)));
-  }
-  if (data[0]?.updated_at) {
-    data.map((e, index) => (e.updated_at = convertMongooseDate(e.updated_at)));
-  }
-  if (data[0]?.date) {
-    data.map((e, index) => (e.date = convertMongooseDate(e.date)));
-  }
-  if (data[0]?.startDate) {
-    data.map((e, index) => (e.startDate = convertMongooseDate(e.startDate)));
-  }
-  if (data[0]?.endDate) {
-    data.map((e, index) => (e.endDate = convertMongooseDate(e.endDate)));
-  }
-  if (data[0]?.trainerDOB) {
-    data.map((e, index) => (e.trainerDOB = convertMongooseDate(e.trainerDOB)));
-  }
-  if (data[0]?.joinDate) {
-    data.map((e, index) => (e.joinDate = convertMongooseDate(e.joinDate)));
-  }
-  if (data[0]?.startTime && data[0]?.endTime) {
-    data.map((e, index) => {
+
+  data.map((e, index) => {
+    if (e?.created_at) {
+      e.created_at = convertMongooseDate(e.created_at);
+    } else if (e?.updated_at) {
+      e.updated_at = convertMongooseDate(e.updated_at);
+    } else if (e?.date) {
+      e.date = convertMongooseDate(e.date);
+    } else if (e?.startDate) {
+      e.startDate = convertMongooseDate(e.startDate);
+    } else if (e?.endDate) {
+      e.endDate = convertMongooseDate(e.endDate);
+    } else if (e?.trainerDOB) {
+      e.trainerDOB = convertMongooseDate(e.trainerDOB);
+    } else if (e?.joinDate) {
+      e.joinDate = convertMongooseDate(e.joinDate);
+    } else if (e?.startTime && e?.endTime) {
       e.classTiming = convertToMongooseStartEndTiming(e.startTime, e.endTime);
-    });
-  }
+    }
+  });
 
   if (actionButtons) {
     tableColumns.push({

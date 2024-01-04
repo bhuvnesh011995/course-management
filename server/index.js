@@ -9,9 +9,9 @@ const app = express();
 require("dotenv").config();
 
 require("./configs/database.config");
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");

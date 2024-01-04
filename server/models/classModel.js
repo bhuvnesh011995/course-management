@@ -10,11 +10,12 @@ const classSchema = new mongoose.Schema(
     startDate: { type: Date },
     endDate: { type: Date },
     lectureDay: [],
+    classRemarks: { type: String },
     trainer: { type: mongoose.Schema.Types.ObjectId },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
-  }
+  },
 );
 
 const classModel = mongoose.model("classes", classSchema);

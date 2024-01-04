@@ -16,6 +16,7 @@ export default function AddNew({
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function AddNew({
   }, [ready]);
 
   return (
-    <Modal size="lg" show={show} onHide={() => setShow(false)}>
+    <Modal size='lg' show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton>
         <Modal.Title>
           {data ? "Update Duration" : "Add New Duration"}
@@ -45,36 +46,36 @@ export default function AddNew({
           <label>Duration Title</label>
           <input
             {...register("name", { required: "this is required field" })}
-            type="text"
-            class="form-control mt-3"
-            placeholder="Enter Duration Title"
+            type='text'
+            class='form-control mt-3'
+            placeholder='Enter Duration Title'
           />
           {errors.name && (
             <span style={{ color: "red" }}>{errors.name.message}</span>
           )}
-
+          <div>
+            <label>Half Day</label>
+            <input {...register("isHalfDay")} className='m-4' type='checkbox' />
+          </div>
           <label>Value</label>
           <input
-            {...register("value", { required: "this is required field" })}
-            type="number"
-            class="form-control mt-3"
-            placeholder="Enter Value"
+            {...register("value")}
+            type='number'
+            class='form-control mt-3'
+            placeholder='Enter Value'
           />
-          {errors.value && (
-            <span style={{ color: "red" }}>{errors.value.message}</span>
-          )}
         </Modal.Body>
         <Modal.Footer>
           <button
             onClick={() => {
               setShow(false);
             }}
-            type="button"
-            class="btn btn-dander"
+            type='button'
+            class='btn btn-dander'
           >
             Cancel
           </button>
-          <button type="submit" class="btn btn-success">
+          <button type='submit' class='btn btn-success'>
             Save
           </button>
         </Modal.Footer>

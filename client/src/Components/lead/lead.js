@@ -97,7 +97,8 @@ export const Lead = () => {
       });
       updateLeadList(leadTab, leadData);
     } else {
-      setLeads((old) => [...old, leadData]);
+      const allLeads = [leadData].concat(leads);
+      setLeads([...allLeads]);
       if (leadTab == "new" || leadTab == "all")
         updateLeadList(leadTab, leadData);
     }
@@ -145,7 +146,8 @@ export const Lead = () => {
             filteredLeads[leadIndex] = leadData;
             setFilteredLeads([...filteredLeads]);
           } else {
-            setFilteredLeads((old) => [...old, leadData]);
+            const allLeads = [leadData].concat(filteredLeads);
+            setFilteredLeads([...allLeads]);
           }
         } else {
           setFilteredLeads([...leads]);
@@ -161,7 +163,8 @@ export const Lead = () => {
             );
             setFilteredLeads([...newLeads]);
           } else {
-            setFilteredLeads((old) => [...old, leadData]);
+            const allLeads = [leadData].concat(filteredLeads);
+            setFilteredLeads([...allLeads]);
           }
         } else {
           const newLeads = leads.filter(

@@ -44,3 +44,8 @@ export const numberWithoutPrecedingZero = {
   value: /^[1-9][0-9]?$/i,
   message: "wrong input field",
 };
+
+export const canBeDecimalNumber = {
+  value: /^[0-9]+(\.[0-9]+)?/,
+  message: "Must Be Numbers.",
+};

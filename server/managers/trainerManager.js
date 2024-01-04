@@ -22,36 +22,73 @@ const addNewTrainer = async (req, res, next) => {
         },
       },
       {
-        $lookup: {
-          from: "designation",
-          let: { designationId: "$trainerDesignation" },
-          pipeline: [
+        $addFields: {
+          showDesignation: {
+            $gt: [{ $strLenCP: "$trainerDesignation" }, 0],
+          },
+        },
+      },
+      {
+        $facet: {
+          hasDesignation: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$designationId"],
+                  $eq: ["$showDesignation", true],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: "designation",
+                let: { designationId: "$trainerDesignation" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: "$_id" }, "$$designationId"],
+                      },
+                    },
+                  },
+                ],
+                as: "designationDetails",
+              },
+            },
+            {
+              $unwind: "$designationDetails",
+            },
+          ],
+          hasNoDesignation: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$showDesignation", false],
                 },
               },
             },
           ],
-          as: "designationDetails",
         },
       },
       {
-        $unwind: "$designationDetails",
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasDesignation", "$hasNoDesignation"],
+          },
+        },
       },
+      { $unwind: "$bothCombined" },
       {
         $project: {
-          _id: 1,
-          trainerName: 1,
-          trainerEmail: 1,
-          trainerMobile: 1,
-          trainerDOB: 1,
-          trainerDesignation: 1,
-          designation: "$designationDetails.name",
-          trainerImagePath: 1,
-          trainerAddress: 1,
-          trainerImageName: 1,
+          _id: "$bothCombined._id",
+          trainerName: "$bothCombined.trainerName",
+          trainerEmail: "$bothCombined.trainerEmail",
+          trainerMobile: "$bothCombined.trainerMobile",
+          trainerDOB: "$bothCombined.trainerDOB",
+          trainerDesignation: "$bothCombined.trainerDesignation",
+          designation: "$bothCombined.designationDetails.name",
+          trainerImagePath: "$bothCombined.trainerImagePath",
+          trainerAddress: "$bothCombined.trainerAddress",
+          trainerImageName: "$bothCombined.trainerImageName",
         },
       },
     ]);
@@ -65,36 +102,75 @@ const getTrainers = async (req, res, next) => {
   try {
     const trainers = await db.trainers.aggregate([
       {
-        $lookup: {
-          from: "designation",
-          let: { designationId: "$trainerDesignation" },
-          pipeline: [
+        $addFields: {
+          showDesignation: {
+            $gt: [{ $strLenCP: "$trainerDesignation" }, 0],
+          },
+        },
+      },
+      {
+        $facet: {
+          hasDesignation: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$designationId"],
+                  $eq: ["$showDesignation", true],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: "designation",
+                let: { designationId: "$trainerDesignation" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: "$_id" }, "$$designationId"],
+                      },
+                    },
+                  },
+                ],
+                as: "designationDetails",
+              },
+            },
+            {
+              $unwind: "$designationDetails",
+            },
+          ],
+          hasNoDesignation: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$showDesignation", false],
                 },
               },
             },
           ],
-          as: "designationDetails",
         },
       },
       {
-        $unwind: "$designationDetails",
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasDesignation", "$hasNoDesignation"],
+          },
+        },
+      },
+      {
+        $unwind: "$bothCombined",
       },
       {
         $project: {
-          _id: 1,
-          trainerName: 1,
-          trainerEmail: 1,
-          trainerMobile: 1,
-          trainerDOB: 1,
-          trainerDesignation: 1,
-          designation: "$designationDetails.name",
-          trainerImagePath: 1,
-          trainerAddress: 1,
-          trainerImageName: 1,
+          _id: "$bothCombined._id",
+          trainerName: "$bothCombined.trainerName",
+          trainerEmail: "$bothCombined.trainerEmail",
+          trainerMobile: "$bothCombined.trainerMobile",
+          trainerDOB: "$bothCombined.trainerDOB",
+          trainerDesignation: "$bothCombined.trainerDesignation",
+          designation: "$bothCombined.designationDetails.name",
+          trainerImagePath: "$bothCombined.trainerImagePath",
+          trainerAddress: "$bothCombined.trainerAddress",
+          trainerImageName: "$bothCombined.trainerImageName",
         },
       },
     ]);
@@ -115,7 +191,7 @@ const updateTrainer = async (req, res, next) => {
       { _id: query._id },
       {
         $set: query,
-      }
+      },
     );
     if (query?.deleteImagePath) {
       // fs.unlink(
@@ -133,7 +209,7 @@ const updateTrainer = async (req, res, next) => {
       deleteSelectedFile(
         query?.deleteImagePath.split("/")[
           [query?.deleteImagePath.split("/").length - 1]
-        ]
+        ],
       );
     }
     const trainer = await db.trainers.aggregate([
@@ -145,36 +221,75 @@ const updateTrainer = async (req, res, next) => {
         },
       },
       {
-        $lookup: {
-          from: "designation",
-          let: { designationId: "$trainerDesignation" },
-          pipeline: [
+        $addFields: {
+          showDesignation: {
+            $gt: [{ $strLenCP: "trainerDesignation" }, 0],
+          },
+        },
+      },
+      {
+        $facet: {
+          hasDesignation: [
             {
               $match: {
                 $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$designationId"],
+                  $eq: ["$showDesignation", true],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: "designation",
+                let: { designationId: "$trainerDesignation" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: "$_id" }, "$$designationId"],
+                      },
+                    },
+                  },
+                ],
+                as: "designationDetails",
+              },
+            },
+            {
+              $unwind: "$designationDetails",
+            },
+          ],
+          hasNoDesignation: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$showDesignation", false],
                 },
               },
             },
           ],
-          as: "designationDetails",
         },
       },
       {
-        $unwind: "$designationDetails",
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasDesignation", "$hasNoDesignation"],
+          },
+        },
+      },
+      {
+        $unwind: "$bothCombined",
       },
       {
         $project: {
-          _id: 1,
-          trainerName: 1,
-          trainerEmail: 1,
-          trainerMobile: 1,
-          trainerDOB: 1,
-          trainerDesignation: 1,
-          designation: "$designationDetails.name",
-          trainerImagePath: 1,
-          trainerAddress: 1,
-          trainerImageName: 1,
+          _id: "$bothCombined._id",
+          trainerName: "$bothCombined.trainerName",
+          trainerEmail: "$bothCombined.trainerEmail",
+          trainerMobile: "$bothCombined.trainerMobile",
+          trainerDOB: "$bothCombined.trainerDOB",
+          trainerDesignation: "$bothCombined.trainerDesignation",
+          designation: "$bothCombined.designationDetails.name",
+          trainerImagePath: "$bothCombined.trainerImagePath",
+          trainerAddress: "$bothCombined.trainerAddress",
+          trainerImageName: "$bothCombined.trainerImageName",
         },
       },
     ]);
@@ -267,25 +382,6 @@ const getDashboardTrainers = async (req, res, next) => {
     const dashboardTrainers = await db.trainers.aggregate([
       {
         $lookup: {
-          from: "designation",
-          let: { designationId: "$trainerDesignation" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$designationId"],
-                },
-              },
-            },
-          ],
-          as: "designationDetails",
-        },
-      },
-      {
-        $unwind: "$designationDetails",
-      },
-      {
-        $lookup: {
           from: "classes",
           let: { trainerId: "$_id" },
           pipeline: [
@@ -301,20 +397,78 @@ const getDashboardTrainers = async (req, res, next) => {
         },
       },
       {
+        $addFields: {
+          showDesignation: {
+            $gt: [{ $strLenCP: "$trainerDesignation" }, 0],
+          },
+        },
+      },
+      {
+        $facet: {
+          hasDesignation: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$showDesignation", true],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: "designation",
+                let: { designationId: "$trainerDesignation" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: "$_id" }, "$$designationId"],
+                      },
+                    },
+                  },
+                ],
+                as: "designationDetails",
+              },
+            },
+            {
+              $unwind: "$designationDetails",
+            },
+          ],
+          hasNoDesignation: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$showDesignation", false],
+                },
+              },
+            },
+          ],
+        },
+      },
+
+      {
+        $addFields: {
+          bothCombined: {
+            $concatArrays: ["$hasDesignation", "$hasNoDesignation"],
+          },
+        },
+      },
+      { $unwind: "$bothCombined" },
+
+      {
         $group: {
           _id: {
-            trainerEmail: "$trainerEmail",
-            trainerName: "$trainerName",
-            designation: "$designationDetails.name",
-            trainerImagePath: "$trainerImagePath",
-            startTime: "$startTime",
-            endTime: "$endTime",
-            startDate: "$startDate",
-            endDate: "$endDate",
+            trainerEmail: "$bothCombined.trainerEmail",
+            trainerName: "$bothCombined.trainerName",
+            designation: "$bothCombined.designationDetails.name",
+            trainerImagePath: "$bothCombined.trainerImagePath",
+            startTime: "$bothCombined.startTime",
+            endTime: "$bothCombined.endTime",
+            startDate: "$bothCombined.startDate",
+            endDate: "$bothCombined.endDate",
           },
           classCount: {
             $sum: {
-              $size: "$classDetails",
+              $size: "$bothCombined.classDetails",
             },
           },
         },

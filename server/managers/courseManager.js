@@ -278,7 +278,7 @@ const updateCourse = async (req, res, next) => {
       { _id: body._id },
       {
         $set: body,
-      }
+      },
     );
     const getUpdatedCourse = await db.course.aggregate([
       {

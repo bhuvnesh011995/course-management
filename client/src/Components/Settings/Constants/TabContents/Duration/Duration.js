@@ -27,12 +27,19 @@ export default function Duration() {
       toast.error("error while fetching");
     }
   }, []);
-  const addDesignation = useCallback(
+  const addDuration = useCallback(
     async (formData) => {
       try {
+        if (formData.isHalfDay) {
+          if (formData.value) {
+            formData.value = formData.value + " and 1/2 ";
+          } else {
+            formData.value = "1/2";
+          }
+        }
         let response = await NewAxiosInstance.post(
           "/constants/duration",
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("duration added successfully");
@@ -46,15 +53,15 @@ export default function Duration() {
         toast.error("error while adding duration");
       }
     },
-    [data]
+    [data],
   );
 
-  const updateDesignation = useCallback(
+  const updateDuration = useCallback(
     async (id, formData) => {
       try {
         let response = await NewAxiosInstance.put(
           "/constants/duration/" + id,
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("duration updated successfully");
@@ -72,7 +79,7 @@ export default function Duration() {
         toast.error("error while updating duration");
       }
     },
-    [data]
+    [data],
   );
 
   useCustomUseEffect(getDurations);
@@ -88,13 +95,13 @@ export default function Duration() {
         header: "Value",
       },
     ],
-    []
+    [],
   );
   const handleDelete = useCallback(
     async (id) => {
       try {
         let response = await NewAxiosInstance.delete(
-          "/constants/duration/" + id
+          "/constants/duration/" + id,
         );
         if (response.status === 204) {
           let newArray = data.filter((ele) => ele._id != id);
@@ -110,7 +117,7 @@ export default function Duration() {
         return { success: false, message: "server error occured" };
       }
     },
-    [data]
+    [data],
   );
   return (
     <Card>
@@ -127,18 +134,18 @@ export default function Duration() {
         <AddNew
           show={isOpen}
           setShow={setIsOpen}
-          addNew={addDesignation}
+          addNew={addDuration}
           data={updateData}
           setData={setUpdateData}
-          update={updateDesignation}
+          update={updateDuration}
         />
       )}
       <Card.Body>
-        <div class="tab-pane">
+        <div class='tab-pane'>
           <h4>List All Duration</h4>
-          <p class="card-title-desc" style={{ textAlign: "right" }}>
+          <p class='card-title-desc' style={{ textAlign: "right" }}>
             <button
-              class="btn btn-primary text-right"
+              class='btn btn-primary text-right'
               onClick={() => setIsOpen(true)}
             >
               Add New Duration
@@ -153,19 +160,19 @@ export default function Duration() {
             enableSorting={false}
             enableTopToolbar={false}
             enableRowActions
-            positionActionsColumn="last"
+            positionActionsColumn='last'
             enableRowNumbers
-            rowNumberMode="static"
+            rowNumberMode='static'
             renderRowActions={({ row, table }) => (
-              <div className="hstack gap-2 fs-1">
+              <div className='hstack gap-2 fs-1'>
                 <button
                   onClick={() => {
                     setUpdateData(row.original);
                     setIsOpen(true);
                   }}
-                  className="btn btn-icon btn-sm btn-info rounded-pill"
+                  className='btn btn-icon btn-sm btn-info rounded-pill'
                 >
-                  <i className="bx bxs-edit-alt" />
+                  <i className='bx bxs-edit-alt' />
                 </button>
                 <button
                   onClick={async () => {
@@ -177,9 +184,9 @@ export default function Duration() {
                     });
                     setDeleteModalOpen(true);
                   }}
-                  className="btn btn-icon btn-sm btn-danger rounded-pill"
+                  className='btn btn-icon btn-sm btn-danger rounded-pill'
                 >
-                  <i className="bx bxs-trash" />
+                  <i className='bx bxs-trash' />
                 </button>
               </div>
             )}
