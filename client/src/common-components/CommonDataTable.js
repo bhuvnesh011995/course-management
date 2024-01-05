@@ -186,19 +186,26 @@ export const CommonDataTable = ({
   data.map((e, index) => {
     if (e?.created_at) {
       e.created_at = convertMongooseDate(e.created_at);
-    } else if (e?.updated_at) {
+    }
+    if (e?.updated_at) {
       e.updated_at = convertMongooseDate(e.updated_at);
-    } else if (e?.date) {
+    }
+    if (e?.date) {
       e.date = convertMongooseDate(e.date);
-    } else if (e?.startDate) {
+    }
+    if (e?.startDate) {
       e.startDate = convertMongooseDate(e.startDate);
-    } else if (e?.endDate) {
+    }
+    if (e?.endDate) {
       e.endDate = convertMongooseDate(e.endDate);
-    } else if (e?.trainerDOB) {
+    }
+    if (e?.trainerDOB) {
       e.trainerDOB = convertMongooseDate(e.trainerDOB);
-    } else if (e?.joinDate) {
+    }
+    if (e?.joinDate) {
       e.joinDate = convertMongooseDate(e.joinDate);
-    } else if (e?.startTime && e?.endTime) {
+    }
+    if (e?.startTime && e?.endTime) {
       e.classTiming = convertToMongooseStartEndTiming(e.startTime, e.endTime);
     }
   });

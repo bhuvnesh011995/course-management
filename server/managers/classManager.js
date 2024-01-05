@@ -438,6 +438,9 @@ const getCETClasses = async (req, res, next) => {
         $project: {
           _id: 1,
           course: "$courseDetails.courseName",
+          startDate: 1,
+          startTime: 1,
+          endTime: 1,
         },
       },
     ]);

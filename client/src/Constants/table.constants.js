@@ -57,13 +57,12 @@ export const userTableHeaders = {
 };
 
 export const leadTableHeaders = {
-  leadRegistrationName: "Registration Type",
+  created_at: "Date",
   companyName: "Company Name",
-  contactPerson: "Contact Person",
   participantName: "Name of Participant",
-  participantMobile: "Participant's Mobile",
+  participantNRIC: "Participant's Nric / FIN No.",
+  leadRegistrationName: "Registration Type",
   tradeType: "Trade Type",
-  created_at: "Date Received",
 };
 
 export const tradeLevelHeaders = {

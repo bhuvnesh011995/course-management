@@ -843,6 +843,23 @@ const getFilteredLeads = async (req, res, next) => {
         },
       },
       { $unwind: "$tradeTypeData" },
+      {
+        $lookup: {
+          from: "registrationtypes",
+          let: { registrationTypeId: "$courseData.registrationType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$_id", "$$registrationTypeId"],
+                },
+              },
+            },
+          ],
+          as: "registrationTypeData",
+        },
+      },
+      { $unwind: "$registrationTypeData" },
     );
     if (query.participantName.length) {
       leadQuery.push({
@@ -864,6 +881,7 @@ const getFilteredLeads = async (req, res, next) => {
         coreTradeRegNo: "$leadDetails.coreTradeRegNo",
         trainerName: "$trainerData.trainerName",
         tradeType: "$tradeTypeData.tradeType",
+        registrationTypeName: "$registrationTypeData.registrationName",
       },
     });
     const getClassParticipants = await db.classes.aggregate(leadQuery);

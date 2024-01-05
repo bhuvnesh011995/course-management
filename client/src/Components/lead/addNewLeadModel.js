@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import { FormattedMessage } from "react-intl";
 import { useAuth } from "../../context/authContext";
+import { CreatePaymentDetailsMail } from "./createPaymentDetailsMailDesign";
 
 export const AddNewLeadModel = ({
   setIsOpen,
@@ -402,6 +403,29 @@ export const AddNewLeadModel = ({
       handleClose();
     } catch (err) {
       toast.error("something went wrong");
+      console.error(err);
+    }
+  };
+
+  const sendPaymentAdviseMail = async () => {
+    try {
+      // const response = await NewAxiosInstance.get("/leads/");
+      const selectedTradeLevel = tradeLevels.filter(
+        (e) => e._id == watch("tradeLevel"),
+      );
+      const registrationLevels = registrationTypes.filter((e) => {
+        if (e._id == leadData.registrationType) return e;
+      });
+      const paymentDataObj = {
+        registrationType: registrationLevels[0],
+        tradeLevel: selectedTradeLevel.length ? selectedTradeLevel[0] : null,
+        tradeType: tradeTypes.filter((e) => e._id == watch("tradeType"))[0],
+      };
+      console.log(paymentDataObj);
+      CreatePaymentDetailsMail(paymentDataObj);
+      // console.log("send mail", leadData, paymentDataObj);
+    } catch (err) {
+      toast.error("Something went wrong !");
       console.error(err);
     }
   };
@@ -1426,12 +1450,22 @@ export const AddNewLeadModel = ({
                         {leadData.class && leadData.status == "pending" && (
                           <button
                             type='button'
+                            onClick={sendPaymentAdviseMail}
+                            className='btn mx-1 btn-success'
+                          >
+                            Payment Advise Mail
+                          </button>
+                        )}
+                        {leadData.class && leadData.status == "pending" && (
+                          <button
+                            type='button'
                             onClick={getPaymentRegistration}
                             className='btn mx-1 btn-primary'
                           >
                             Get Payment
                           </button>
                         )}
+
                         {leadData.class && leadData.status == "assign" && (
                           <div className='d-flex'>
                             <button

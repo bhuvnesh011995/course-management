@@ -122,6 +122,7 @@ const languagesDataArray = [
       Email_Type: "Email Type",
       Mobile_No: "Mobile No",
       Name_of_Participant: "Name of Participant",
+      Participants_NRIC_FIN_No: "Participant's Nric / FIN No.",
       Name_Of_Trainee: "Name Of Trainee",
       NRIC_FIN_No: "NRIC/ FIN No",
       Registration_No_Submission_No_CoreTrade_Multi_Skilling_Direct_R1:

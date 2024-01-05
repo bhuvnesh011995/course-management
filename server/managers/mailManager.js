@@ -21,18 +21,25 @@ const sendMail = async (req, res, next) => {
       to: [data.email],
       subject: data.subject,
       html: data.mailValue,
+      attachments: [],
     };
     if (data?.path) {
-      mailConfigs["attachments"] = [
-        {
-          fileName: data?.path[0].split("uploads/images/")[1],
-          path: data?.path[0],
-        },
-        {
-          fileName: data?.path[1].split("uploads/images/")[1],
-          path: data?.path[1],
-        },
-      ];
+      data?.path.map((path) =>
+        mailConfigs["attachments"].push({
+          fileName: path.split("uploads/images/")[1],
+          path: path,
+        }),
+      );
+      // mailConfigs["attachments"] = [
+      //   {
+      //     fileName: data?.path[0].split("uploads/images/")[1],
+      //     path: data?.path[0],
+      //   },
+      //   {
+      //     fileName: data?.path[1].split("uploads/images/")[1],
+      //     path: data?.path[1],
+      //   },
+      // ];
     }
     transporter.sendMail(mailConfigs, function (error, info) {
       if (error) {

@@ -52,6 +52,7 @@ export const languageObject = {
   "Date Of Completion": "Date_Of_Completion",
   "CoreTrade Registration No": "CoreTrade_Registration_No",
   "Date Received": "date_Received",
+  "Participant's Nric / FIN No.": "Participants_NRIC_FIN_No",
   Course: "Course",
   Category: "Category",
   Classes: "Classes",

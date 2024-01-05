@@ -3,6 +3,7 @@ const db = require("../models");
 const fs = require("fs");
 const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
 const { default: mongoose } = require("mongoose");
+const { sendMail } = require("./mailManager");
 
 const addCertificate = async (req, res, next) => {
   try {
@@ -219,7 +220,7 @@ const updateCertificate = async (req, res, next) => {
       { _id: query._id },
       {
         $set: query,
-      }
+      },
     );
     const updatedCertificate = await db.certificates.aggregate([
       {
@@ -298,7 +299,7 @@ const deleteCertificate = async (req, res, next) => {
       deleteSelectedFile(
         query.certificateFilePath.split("/")[
           query.certificateFilePath.split("/").length - 1
-        ]
+        ],
       );
     // fs.unlink(
     //   `uploads\\images\\${
@@ -405,7 +406,7 @@ const getFilteredCertificate = async (req, res, next) => {
 const getSelectedCertificates = async (req, res, next) => {
   try {
     const leadIds = await req.query.leads.map(
-      (leadId) => new mongoose.Types.ObjectId(leadId)
+      (leadId) => new mongoose.Types.ObjectId(leadId),
     );
     const selectedCertificates = await db.lead.aggregate([
       {
@@ -472,6 +473,7 @@ const getSelectedCertificates = async (req, res, next) => {
           postalCode: 1,
           updated_at: 1,
           status: 1,
+          contactPersonEmail: 1,
           tradeType: "$tradeTypeDetails.tradeType",
           typeCode: "$tradeTypeDetails.typeCode",
         },
@@ -486,6 +488,30 @@ const getSelectedCertificates = async (req, res, next) => {
   }
 };
 
+const sendLeadCertificateMail = async (req, res, next) => {
+  try {
+    const { body } = req;
+    const certificateBuffered = Buffer.from(body.base64Data, "base64");
+    const filepath = `uploads/images/${
+      Date.now() + Math.round(Math.random() * 1e9)
+    }-certificate.pdf`;
+    fs.writeFileSync(filepath, certificateBuffered, (err) => {
+      if (err) console.error(err);
+    });
+
+    const sendMailObj = {
+      email: body.contactPersonMail,
+      subject: "CET Course Lead Certificate",
+      mailValue: "<h3>Find Your Course Certificate Attachment Below :</h3>",
+      path: [filepath],
+    };
+    await sendMail({ query: sendMailObj });
+    return res.status(200).send({ message: "Certificate Sent Successfully !" });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   addCertificate,
   getCertificates,
@@ -494,4 +520,5 @@ module.exports = {
   deleteCertificate,
   getFilteredCertificate,
   getSelectedCertificates,
+  sendLeadCertificateMail,
 };

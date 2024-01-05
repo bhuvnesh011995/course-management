@@ -119,6 +119,7 @@ module.exports = [
   "Email_Type",
   "Mobile_No",
   "Name_of_Participant",
+  "Participants_NRIC_FIN_No",
   "Name_Of_Trainee",
   "NRIC_FIN_No",
   "Registration_No_Submission_No_CoreTrade_Multi_Skilling_Direct_R1",

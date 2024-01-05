@@ -3,8 +3,9 @@ import "jspdf-autotable";
 import newSantarliLeftImage from "../../../assets/images/newSantarliLeftImage.png";
 import newTongaIcon from "../../../assets/images/newTongaIcon.png";
 import moment from "moment";
+import certificateSignImage from "../../../assets/images/certificateSign.png";
 
-export const DownloadCertificate = (data) => {
+export const DownloadCertificate = (data, selectedDate, certificateType) => {
   const doc = new jsPDF();
   let yPosition = 10;
 
@@ -52,7 +53,7 @@ export const DownloadCertificate = (data) => {
   doc.text(
     `BUILDING CONSTRUCTION AND AUTHORITY (BCA),SINGAPORE`,
     25,
-    yPosition
+    yPosition,
   );
 
   doc.setFontSize(25);
@@ -86,11 +87,7 @@ export const DownloadCertificate = (data) => {
   yPosition += 10;
   doc.text(`${data.tradeType}`, 75, yPosition);
   yPosition += 13;
-  doc.text(
-    `ON ${moment(data.updated_at).format("DD-MMM-YYYY")}`,
-    75,
-    yPosition
-  );
+  doc.text(`ON ${moment(selectedDate).format("DD-MMM-YYYY")}`, 75, yPosition);
   doc.addImage(newTongaIcon, "png", 15, yPosition, 60, 20);
 
   doc.setFont("helvetica", "bold");
@@ -99,7 +96,9 @@ export const DownloadCertificate = (data) => {
   doc.text(`TRAINING PARTNERS`, 40, yPosition);
   yPosition -= 5;
   doc.rect(130, yPosition, 50, 0.5, "F");
-
+  yPosition -= 11;
+  doc.addImage(certificateSignImage, "png", 130, yPosition, 45, 10);
+  yPosition += 11;
   doc.setFontSize(13);
   doc.setFont("helvetica");
   yPosition += 5;
@@ -115,14 +114,14 @@ export const DownloadCertificate = (data) => {
       data.coreTradeRegNo
     }/${moment().year()}`,
     20,
-    yPosition
+    yPosition,
   );
 
   yPosition += 6;
   doc.text(
     `Date: ${moment(data.updated_at).format("DD-MMM-YYYY")}`,
     20,
-    yPosition
+    yPosition,
   );
 
   let name = "";
@@ -130,6 +129,14 @@ export const DownloadCertificate = (data) => {
   data.participantName.split(" ").map((e) => {
     name += e;
   });
-
-  doc.save(`${name}-certificate.pdf`);
+  if (certificateType == "sendMail") {
+    const pdfDataUri = doc.output("datauristring");
+    const pdfBase64Data = pdfDataUri.split(
+      "data:application/pdf;filename=generated.pdf;base64,",
+    );
+    return pdfBase64Data[1];
+  } else
+    doc.save(
+      `${name}-${Date.now() + Math.round(Math.random() * 1e9)}-certificate.pdf`,
+    );
 };

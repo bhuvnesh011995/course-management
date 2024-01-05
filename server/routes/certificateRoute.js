@@ -7,7 +7,7 @@ routes.post(
   "/addCertificate",
   [userAuth],
   upload.single("file"),
-  certificateManager.addCertificate
+  certificateManager.addCertificate,
 );
 routes.get("/getCertificates", [userAuth], certificateManager.getCertificates);
 routes.get("/getCertificate", [userAuth], certificateManager.getCertificate);
@@ -15,25 +15,31 @@ routes.post(
   "/updateCertificate",
   [userAuth],
   upload.single("file"),
-  certificateManager.updateCertificate
+  certificateManager.updateCertificate,
 );
 
 routes.delete(
   "/deleteCertificate",
   [userAuth],
-  certificateManager.deleteCertificate
+  certificateManager.deleteCertificate,
 );
 
 routes.get(
   "/getFilteredCertificate/:classId",
   [userAuth],
-  certificateManager.getFilteredCertificate
+  certificateManager.getFilteredCertificate,
 );
 
 routes.get(
   "/getSelectedCertificates",
   [userAuth],
-  certificateManager.getSelectedCertificates
+  certificateManager.getSelectedCertificates,
+);
+
+routes.post(
+  "/sendLeadCertificateMail",
+  [userAuth],
+  certificateManager.sendLeadCertificateMail,
 );
 
 module.exports = routes;

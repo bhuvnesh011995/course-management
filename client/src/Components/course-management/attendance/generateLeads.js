@@ -2,25 +2,25 @@ import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { CommonDataTable } from "../../../common-components/CommonDataTable";
 import {
-  excelAttendanceHeaders,
+  // excelAttendanceHeaders,
   generateAttendanceHeaders,
 } from "../../../Constants/table.constants";
 import "jspdf-autotable";
 import React from "react";
-import { toast } from "react-toastify";
-import { useAuth } from "../../../context/authContext";
-import {
-  convertMongooseDate,
-  convertToMongooseStartEndTiming,
-} from "../../../common-components/useCommonUsableFunctions";
+// import { toast } from "react-toastify";
+// import { useAuth } from "../../../context/authContext";
+// import {
+//   convertMongooseDate,
+//   convertToMongooseStartEndTiming,
+// } from "../../../common-components/useCommonUsableFunctions";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import tongaBoxDesign from "../../../assets/images/tongaBoxDesign.png";
-import tongaG from "../../../assets/images/tongaG.png";
+// import tongaBoxDesign from "../../../assets/images/tongaBoxDesign.png";
+// import tongaG from "../../../assets/images/tongaG.png";
 import moment from "moment";
 
 export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
-  const { user, NewAxiosInstance } = useAuth();
+  // const { user, NewAxiosInstance } = useAuth();
   const {
     register,
     handleSubmit,
@@ -220,7 +220,7 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       "Attendance / Results Sheet for Continuing Education and Training",
       xPosition,
       10,
-      { angle: -90 }
+      { angle: -90 },
     );
     xPosition -= 10;
     doc.text("ATTC:", xPosition, yPosition, { angle: -90 });
@@ -253,10 +253,14 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
     yPosition += 1;
 
     doc.text(
-      "ATTENDANCE/ RESULTS SHEET FOR CONTINUING EDUCATION AND TRAINING (CET)",
+      `ATTENDANCE/ RESULTS SHEET FOR ${
+        tableData[0].registrationTypeName == "CET(Renewal)"
+          ? "CONTINUING EDUCATION AND TRAINING (CET)"
+          : tableData[0].registrationTypeName
+      }`,
       xPosition,
       yPosition,
-      { angle: -90 }
+      { angle: -90 },
     );
 
     doc.setFont("helvetica", "normal");
@@ -265,14 +269,14 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
     doc.rect(xPosition, yPosition, 0.2, 280, "F");
     xPosition -= 3.5;
     yPosition += 1;
-    doc.text("CET Course Date(s)", xPosition, yPosition, { angle: -90 });
+    doc.text("Course Date(s)", xPosition, yPosition, { angle: -90 });
     yPosition -= 1;
 
     const dateString = `${moment(generatedData.classDate).format(
-      "YYYY-MM-DD"
+      "YYYY-MM-DD",
     )} (${moment(tableData[0].startTime, "HH:mm").format("hh:mm A")} - ${moment(
       tableData[0].endTime,
-      "HH:mm"
+      "HH:mm",
     ).format("hh:mm A")})`;
 
     yPosition += 40;
@@ -289,7 +293,7 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       `Trainer Name(s):     ${tableData[0].trainerName}`,
       xPosition,
       yPosition,
-      { angle: -90 }
+      { angle: -90 },
     );
     xPosition -= 5;
     doc.text(`(as captured in FVS, except Direct R1)`, xPosition, yPosition, {
@@ -316,7 +320,7 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       `CET Code :             ${generatedData.cetCode}`,
       xPosition,
       yPosition,
-      { angle: -90 }
+      { angle: -90 },
     );
     yPosition -= 190;
 
@@ -347,7 +351,7 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       `(CoreTrade / Multi-Skilling / Direct R1) `,
       xPosition,
       yPosition,
-      { angle: -90 }
+      { angle: -90 },
     );
     xPosition += 4;
 
@@ -435,7 +439,7 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       yPosition,
       {
         angle: -90,
-      }
+      },
     );
 
     xPosition -= 3;
@@ -445,19 +449,19 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       yPosition,
       {
         angle: -90,
-      }
+      },
     );
 
     xPosition -= 20;
     doc.text(
       `${tableData[0].trainerName} / ${moment(generatedData.classDate).format(
-        "DD-MM-YYYY"
+        "DD-MM-YYYY",
       )}`,
       xPosition,
       yPosition,
       {
         angle: -90,
-      }
+      },
     );
 
     xPosition -= 5;
@@ -526,17 +530,17 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
       `${
         moment(generatedData.classDate).format("DD-MM-YYYY") +
         tableData[0].course
-      }-Attendance.pdf`
+      }-Attendance.pdf`,
     );
     handleClose();
   };
 
   return (
     <div>
-      <Modal show={isOpen} onHide={handleClose} size="xl">
+      <Modal show={isOpen} onHide={handleClose} size='xl'>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="modal-title" id="addCourseModalLabel">
+            <h5 className='modal-title' id='addCourseModalLabel'>
               Generate Attendance
             </h5>
           </Modal.Title>
@@ -544,45 +548,45 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
         <Modal.Body>
           <form onSubmit={handleSubmit(newGenerateLeadPdf)}>
             <div>
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Cet Code:</label>
+              <div className='row'>
+                <div className='col-md-6 mb-3'>
+                  <label className='form-label'>Cet Code:</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Cet Code"
+                    type='text'
+                    className='form-control'
+                    placeholder='Cet Code'
                     {...register("cetCode", {
                       required: "Please Enter Cet Code",
                     })}
                   />
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.cetCode && errors?.cetCode.message}
                   </span>
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Class Date:</label>
+                <div className='col-md-6 mb-3'>
+                  <label className='form-label'>Class Date:</label>
                   <input
-                    type="date"
-                    className="form-control"
+                    type='date'
+                    className='form-control'
                     {...register("classDate", {
                       required: "Please Enter Class Date",
                     })}
                   />
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.classDate && errors?.classDate.message}
                   </span>
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Batch Number:</label>
+                <div className='col-md-6 mb-3'>
+                  <label className='form-label'>Batch Number:</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Batch Number"
+                    type='text'
+                    className='form-control'
+                    placeholder='Batch Number'
                     {...register("batchNumber", {
                       required: "Please Enter Batch Number",
                     })}
                   />
-                  <span className="text-danger">
+                  <span className='text-danger'>
                     {errors?.batchNumber && errors?.batchNumber.message}
                   </span>
                 </div>
@@ -602,7 +606,7 @@ export const AttendanceGenerateModal = ({ isOpen, setIsOpen, tableData }) => {
                 >
                   Generate Pdf
                 </button> */}
-                <button type="submit" className="btn btn-secondary">
+                <button type='submit' className='btn btn-secondary'>
                   Generate Pdf
                 </button>
               </div>

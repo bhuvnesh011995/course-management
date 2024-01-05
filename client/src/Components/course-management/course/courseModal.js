@@ -143,38 +143,20 @@ export const CourseModal = ({
             </div>
             <div className='col-md-6 mb-3'>
               <label className='form-label'>
-                Trade Type: <span className='text-danger'>*</span>
+                Price: <span className='text-danger'>*</span>
               </label>
-              <select
-                className='form-select'
-                {...register("tradeType", {
-                  required: "Trade Type is required",
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Enter price'
+                {...register("price", {
+                  required: "Price is required",
+                  pattern: canBeDecimalNumber,
                 })}
                 disabled={viewCourse}
-              >
-                <option value=''>-- Select Trade Type --</option>
-                {/* {tradeTypes.map((e, index) => (
-                  <option key={index} value={e._id}>
-                    {e.tradeType}
-                  </option>
-                ))} */}
-
-                {tradeTypes.map((e) =>
-                  registrationCode == "CRW"
-                    ? e?.isCet?.length && (
-                        <option key={e._id} value={e._id}>
-                          {e.tradeType}
-                        </option>
-                      )
-                    : !e?.isCet?.length && (
-                        <option key={e._id} value={e._id}>
-                          {e.tradeType}
-                        </option>
-                      ),
-                )}
-              </select>
+              />
               <span className='text-danger'>
-                {errors?.tradeType && errors?.tradeType.message}
+                {errors?.price && errors?.price.message}
               </span>
             </div>
             <div className='col-md-6 mb-3'>
@@ -233,20 +215,38 @@ export const CourseModal = ({
             )}
             <div className='col-md-6 mb-3'>
               <label className='form-label'>
-                Price: <span className='text-danger'>*</span>
+                Trade Type: <span className='text-danger'>*</span>
               </label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Enter price'
-                {...register("price", {
-                  required: "Price is required",
-                  pattern: canBeDecimalNumber,
+              <select
+                className='form-select'
+                {...register("tradeType", {
+                  required: "Trade Type is required",
                 })}
                 disabled={viewCourse}
-              />
+              >
+                <option value=''>-- Select Trade Type --</option>
+                {/* {tradeTypes.map((e, index) => (
+                  <option key={index} value={e._id}>
+                    {e.tradeType}
+                  </option>
+                ))} */}
+
+                {tradeTypes.map((e) =>
+                  registrationCode == "CRW"
+                    ? e?.isCet?.length && (
+                        <option key={e._id} value={e._id}>
+                          {e.tradeType}
+                        </option>
+                      )
+                    : !e?.isCet?.length && (
+                        <option key={e._id} value={e._id}>
+                          {e.tradeType}
+                        </option>
+                      ),
+                )}
+              </select>
               <span className='text-danger'>
-                {errors?.price && errors?.price.message}
+                {errors?.tradeType && errors?.tradeType.message}
               </span>
             </div>
             <div className='col-md-6 mb-3'>

@@ -10,7 +10,6 @@ import { Course } from "../Components/course-management/course/course";
 import { CustomerManagement } from "../Components/customers/customer-maagment";
 import { DateRange } from "../Components/schedule/date-range";
 import { Employee } from "../Components/hrms/employee/employee";
-import { FeedBack } from "../Components/course-management/feedback";
 import { Invoice } from "../Components/Quotation/invoice";
 import { LeadGrid } from "../Components/lead/lead-grid";
 import { Lead } from "../Components/lead/lead";
@@ -61,69 +60,68 @@ export const AllRoutes = () => {
         </div>
       )}
       <Routes>
-        <Route path="/admin/roles" Component={Roles}></Route>
-        <Route path="/admin/user-management" Component={UserManagement}></Route>
-        <Route path="/" Component={Index}></Route>
-        <Route path="/login" Component={LoginUser}></Route>
-        <Route path="/user-registration" Component={UserRegistration}></Route>
-        <Route path="/accountHistory" Component={AccountHistory}></Route>
+        <Route path='/admin/roles' Component={Roles}></Route>
+        <Route path='/admin/user-management' Component={UserManagement}></Route>
+        <Route path='/' Component={Index}></Route>
+        <Route path='/login' Component={LoginUser}></Route>
+        <Route path='/user-registration' Component={UserRegistration}></Route>
+        <Route path='/accountHistory' Component={AccountHistory}></Route>
         <Route
-          path="/course-management/attendance"
+          path='/course-management/attendance'
           Component={Attendance}
         ></Route>
-        <Route path="/category" Component={Category}></Route>
-        <Route path="/course-management/class" Component={Class}></Route>
-        <Route path="/SelectCourse" Component={SelectCourse}></Route>
+        <Route path='/category' Component={Category}></Route>
+        <Route path='/course-management/class' Component={Class}></Route>
+        <Route path='/SelectCourse' Component={SelectCourse}></Route>
         <Route
-          path="/course-management/Certificate"
+          path='/course-management/Certificate'
           Component={Certificate}
         ></Route>
-        <Route path="/course-management/course" Component={Course}></Route>
+        <Route path='/course-management/course' Component={Course}></Route>
         <Route
-          path="/customer-management"
+          path='/customer-management'
           Component={CustomerManagement}
         ></Route>
-        <Route path="/schedule/date-range" Component={DateRange}></Route>
-        <Route path="/hrms/employee" Component={Employee}></Route>
-        <Route path="/course-management/feedback" Component={FeedBack}></Route>
-        <Route path="/finance/invoice" Component={Invoice}></Route>
-        <Route path="/lead-grid" Component={LeadGrid}></Route>
-        <Route path="/lead" Component={Lead}></Route>
-        <Route path="/hrms/leave" Component={Leave}></Route>
-        <Route path="/mail" Component={Mail}></Route>
+        <Route path='/schedule/date-range' Component={DateRange}></Route>
+        <Route path='/hrms/employee' Component={Employee}></Route>
+        <Route path='/finance/invoice' Component={Invoice}></Route>
+        <Route path='/lead-grid' Component={LeadGrid}></Route>
+        <Route path='/lead' Component={Lead}></Route>
+        <Route path='/hrms/leave' Component={Leave}></Route>
+        <Route path='/mail' Component={Mail}></Route>
         <Route
-          path="/monitor-venue-availability"
+          path='/monitor-venue-availability'
           Component={MonitorVenueAvailability}
         ></Route>
-        <Route path="/hrms/payroll" Component={PayRoll}></Route>
-        <Route path="/profile" Component={Profile}></Route>
-        <Route path="/finance/quotation" Component={Quotation}></Route>
-        <Route path="/read-email" Component={ReadEmail}></Route>
+        <Route path='/hrms/payroll' Component={PayRoll}></Route>
+        <Route path='/profile' Component={Profile}></Route>
+        <Route path='/finance/quotation' Component={Quotation}></Route>
+        <Route path='/read-email' Component={ReadEmail}></Route>
         <Route
-          path="/course-management/registration-type"
+          path='/course-management/registration-type'
           Component={RegistrationType}
         ></Route>
-        <Route path="/s" Component={S}></Route>
+        <Route path='/s' Component={S}></Route>
         <Route
-          path="/finance/sales-quotation"
+          path='/finance/sales-quotation'
           Component={SalesQuotation}
         ></Route>
-        <Route path="/schedule/scheduling" Component={Scheduling}></Route>
-        <Route path="/sub-category" Component={SubCategory}></Route>
-        <Route path="/table" Component={Table}></Route>
-        <Route path="/hrms/timesheet" Component={TimeSheet}></Route>
+        <Route path='/schedule/scheduling' Component={Scheduling}></Route>
+        <Route path='/sub-category' Component={SubCategory}></Route>
+        <Route path='/table' Component={Table}></Route>
+        <Route path='/hrms/timesheet' Component={TimeSheet}></Route>
         <Route
-          path="/course-management/trade-level"
+          path='/course-management/trade-level'
           Component={TradeLevel}
         ></Route>
         <Route
-          path="/course-management/trade-type"
+          path='/course-management/trade-type'
           Component={TradeType}
         ></Route>
-        <Route path="/schedule/trainer" Component={Trainer}></Route>
-        <Route path="/settings/multilanguage" Component={MultiLanguage}></Route>
-        <Route path="/settings/constants" Component={Constants}></Route>
-        <Route path="/settings/system" Component={SystemConfig}></Route>
+        <Route path='/schedule/trainer' Component={Trainer}></Route>
+        <Route path='/settings/multilanguage' Component={MultiLanguage}></Route>
+        <Route path='/settings/constants' Component={Constants}></Route>
+        <Route path='/settings/system' Component={SystemConfig}></Route>
       </Routes>
       <CommonFooter />
     </div>
