@@ -36,7 +36,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 export const Index = () => {
@@ -59,6 +59,7 @@ export const Index = () => {
   const [dashoardCourses, setDashoardCourses] = useState([]);
 
   useEffect(() => {
+    googleAuthenticate();
     getDashboardClasses();
     getDashboardCustomers();
     getDashboardTrainers();
@@ -66,10 +67,25 @@ export const Index = () => {
     allDashboardCourses();
     allUsers();
   }, []);
+
+  const googleAuthenticate = async (classEvents) => {
+    try {
+      const response = await NewAxiosInstance.get("/google/googleAuthUrl");
+      if (response.status == 200) {
+        if (response.data?.isAuthenticated) {
+          return;
+        }
+        window.open(response.data.redirectCalendarUrl);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const getDashboardClasses = async () => {
     try {
       const dashboardClassesData = await NewAxiosInstance.get(
-        "/class/getDashboardClasses"
+        "/class/getDashboardClasses",
       );
       dashboardClassesData.data.map((course, index) => {
         const startDate = moment(course.startDate).format("YYYY-MM-DD");
@@ -99,8 +115,8 @@ export const Index = () => {
             Math.round(
               Math.abs(
                 (100 / totalClassDuration) *
-                  (Math.abs(totalClassDone) - Math.abs(totalClassDuration))
-              )
+                  (Math.abs(totalClassDone) - Math.abs(totalClassDuration)),
+              ),
             ) +
             " %";
         }
@@ -114,7 +130,7 @@ export const Index = () => {
   const getDashboardCustomers = async () => {
     try {
       const dashboardCustomers = await NewAxiosInstance.get(
-        "/leads/getDashboardCustomers"
+        "/leads/getDashboardCustomers",
       );
       setAll((old) => ({ ...old, customers: dashboardCustomers.data.length }));
 
@@ -136,7 +152,7 @@ export const Index = () => {
   const getDashboardTrainers = async () => {
     try {
       const dashboardTrainers = await NewAxiosInstance.get(
-        "/trainer/getDashboardTrainers"
+        "/trainer/getDashboardTrainers",
       );
       setAll((old) => ({ ...old, trainers: dashboardTrainers.data.length }));
       setDashboardTrainers(dashboardTrainers.data);
@@ -180,7 +196,7 @@ export const Index = () => {
   const allDashboardClassTypes = async () => {
     try {
       const totalClassTypes = await NewAxiosInstance.get(
-        "/registrationType/allDashboardClassTypes"
+        "/registrationType/allDashboardClassTypes",
       );
       setCategoryTypes(totalClassTypes.data);
     } catch (err) {
@@ -191,7 +207,7 @@ export const Index = () => {
   const allDashboardCourses = async () => {
     try {
       const allCourses = await NewAxiosInstance.get(
-        "/courses/allDashboardCourses"
+        "/courses/allDashboardCourses",
       );
       setAll((old) => ({ ...old, courses: allCourses.data.length }));
 
@@ -211,54 +227,54 @@ export const Index = () => {
   };
 
   return (
-    <div id="layout-wrapper">
-      <div className="main-content">
-        <div className="page-content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12">
-                <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Dashboard</h4>
+    <div id='layout-wrapper'>
+      <div className='main-content'>
+        <div className='page-content'>
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-12'>
+                <div className='page-title-box d-sm-flex align-items-center justify-content-between'>
+                  <h4 className='mb-sm-0 font-size-18'>Dashboard</h4>
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xxl-7 col-xl-7 col-lg-12">
-                <div className="row">
-                  <div className="col-xl-12">
-                    <div className="card">
-                      <div className="card-header d-flex justify-content-between bg border-bottom">
-                        <div className="card-title"> Top Categories </div>
+            <div className='row'>
+              <div className='col-xxl-7 col-xl-7 col-lg-12'>
+                <div className='row'>
+                  <div className='col-xl-12'>
+                    <div className='card'>
+                      <div className='card-header d-flex justify-content-between bg border-bottom'>
+                        <div className='card-title'> Top Categories </div>
                         <div>
                           {" "}
                           <Link
-                            className="d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer"
-                            to="/course-management/registration-type"
+                            className='d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer'
+                            to='/course-management/registration-type'
                           >
                             View All
                           </Link>
                         </div>
                       </div>
-                      <div className="card-body">
-                        <div className="row gy-xl-0 gy-3">
+                      <div className='card-body'>
+                        <div className='row gy-xl-0 gy-3'>
                           {categoryTypes.length ? (
                             categoryTypes.map((type, index) => (
-                              <div className="cursor-pointer col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 p-2">
+                              <div className='cursor-pointer col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 p-2'>
                                 <div>
                                   {" "}
-                                  <a className="category-link primary text-center">
+                                  <a className='category-link primary text-center'>
                                     {" "}
-                                    <div className="category-svg">
+                                    <div className='category-svg'>
                                       <img
                                         src={allRegistrationIcons[index]}
                                         width={40}
                                         height={40}
                                       />
                                     </div>
-                                    <p className="fs-6 mb-1 text-dark fw-semibold">
+                                    <p className='fs-6 mb-1 text-dark fw-semibold'>
                                       {type.registrationName}
                                     </p>
-                                    <span className="fs-11 text-muted">
+                                    <span className='fs-11 text-muted'>
                                       {type.totalRegistrations} Courses
                                     </span>
                                   </a>{" "}
@@ -366,25 +382,25 @@ export const Index = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-xl-12">
-                    <div className="card">
-                      <div className="card-header justify-content-between align-items-center">
-                        <div className="d-sm-flex flex-wrap">
-                          <div className="card-title mb-0">Earnings Report</div>
-                          <div className="ms-auto">
-                            <ul className="nav nav-pills">
-                              <li className="nav-item">
-                                <a className="nav-link" href="#">
+                  <div className='col-xl-12'>
+                    <div className='card'>
+                      <div className='card-header justify-content-between align-items-center'>
+                        <div className='d-sm-flex flex-wrap'>
+                          <div className='card-title mb-0'>Earnings Report</div>
+                          <div className='ms-auto'>
+                            <ul className='nav nav-pills'>
+                              <li className='nav-item'>
+                                <a className='nav-link' href='#'>
                                   Week
                                 </a>
                               </li>
-                              <li className="nav-item">
-                                <a className="nav-link" href="#">
+                              <li className='nav-item'>
+                                <a className='nav-link' href='#'>
                                   Month
                                 </a>
                               </li>
-                              <li className="nav-item">
-                                <a className="nav-link active" href="#">
+                              <li className='nav-item'>
+                                <a className='nav-link active' href='#'>
                                   Year
                                 </a>
                               </li>
@@ -392,30 +408,30 @@ export const Index = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="card-body">
+                      <div className='card-body'>
                         <BarChart />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-xxl-5 col-xl-5 col-lg-12">
-                <div className="row">
-                  <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <div className="card ">
-                      <div className="card-body">
-                        <div className="d-flex flex-wrap align-items-top gap-2">
-                          <div className="mini-stat-icon avatar-sm rounded-circle bg-primary">
-                            <span className="avatar-title rounded">
-                              <i className="bx bx-copy-alt font-size-24" />
+              <div className='col-xxl-5 col-xl-5 col-lg-12'>
+                <div className='row'>
+                  <div className='col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12'>
+                    <div className='card '>
+                      <div className='card-body'>
+                        <div className='d-flex flex-wrap align-items-top gap-2'>
+                          <div className='mini-stat-icon avatar-sm rounded-circle bg-primary'>
+                            <span className='avatar-title rounded'>
+                              <i className='bx bx-copy-alt font-size-24' />
                             </span>
                           </div>
-                          <div className="flex-fill">
-                            <h5 className="d-block fw-semibold fs-18 mb-1">
+                          <div className='flex-fill'>
+                            <h5 className='d-block fw-semibold fs-18 mb-1'>
                               {all.registrations}
                             </h5>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <div className="text-muted fs-12">
+                            <div className='d-flex justify-content-between align-items-center'>
+                              <div className='text-muted fs-12'>
                                 total Registration
                               </div>
                               {/* <div className="text-success">
@@ -424,32 +440,32 @@ export const Index = () => {
                               </div> */}
                             </div>{" "}
                             <Link
-                              to="/admin/user-management"
-                              className="text-primary fs-12"
+                              to='/admin/user-management'
+                              className='text-primary fs-12'
                             >
                               View All
-                              <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
+                              <i className='bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block' />
                             </Link>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <div className="card ">
-                      <div className="card-body">
-                        <div className="d-flex flex-wrap gap-2 align-items-top">
-                          <div className="mini-stat-icon avatar-sm rounded-circle bg-primary">
-                            <span className="avatar-title rounded">
-                              <i className="bx bx-copy-alt font-size-24" />
+                  <div className='col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12'>
+                    <div className='card '>
+                      <div className='card-body'>
+                        <div className='d-flex flex-wrap gap-2 align-items-top'>
+                          <div className='mini-stat-icon avatar-sm rounded-circle bg-primary'>
+                            <span className='avatar-title rounded'>
+                              <i className='bx bx-copy-alt font-size-24' />
                             </span>
                           </div>
-                          <div className="flex-fill">
-                            <h5 className="d-block fw-semibold fs-18 mb-1">
+                          <div className='flex-fill'>
+                            <h5 className='d-block fw-semibold fs-18 mb-1'>
                               {all.customers}
                             </h5>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <div className="text-muted fs-12">
+                            <div className='d-flex justify-content-between align-items-center'>
+                              <div className='text-muted fs-12'>
                                 Total Customers
                               </div>
                               {/* <div className="text-danger">
@@ -458,32 +474,32 @@ export const Index = () => {
                               </div> */}
                             </div>{" "}
                             <Link
-                              to="/customer-management"
-                              className="text-secondary fs-12"
+                              to='/customer-management'
+                              className='text-secondary fs-12'
                             >
                               View All
-                              <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
+                              <i className='bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block' />
                             </Link>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <div className="card ">
-                      <div className="card-body">
-                        <div className="d-flex flex-wrap gap-2 align-items-top">
-                          <div className="mini-stat-icon avatar-sm rounded-circle bg-primary">
-                            <span className="avatar-title rounded">
-                              <i className="bx bx-copy-alt font-size-24" />
+                  <div className='col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12'>
+                    <div className='card '>
+                      <div className='card-body'>
+                        <div className='d-flex flex-wrap gap-2 align-items-top'>
+                          <div className='mini-stat-icon avatar-sm rounded-circle bg-primary'>
+                            <span className='avatar-title rounded'>
+                              <i className='bx bx-copy-alt font-size-24' />
                             </span>
                           </div>
-                          <div className="flex-fill">
-                            <h5 className="d-block fw-semibold fs-18 mb-1">
+                          <div className='flex-fill'>
+                            <h5 className='d-block fw-semibold fs-18 mb-1'>
                               {all.trainers}
                             </h5>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <div className="text-muted fs-12">
+                            <div className='d-flex justify-content-between align-items-center'>
+                              <div className='text-muted fs-12'>
                                 Total Trainers
                               </div>
                               {/* <div className="text-danger">
@@ -492,32 +508,32 @@ export const Index = () => {
                               </div> */}
                             </div>{" "}
                             <Link
-                              to="/schedule/trainer"
-                              className="text-warning fs-12"
+                              to='/schedule/trainer'
+                              className='text-warning fs-12'
                             >
                               View All
-                              <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
+                              <i className='bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block' />
                             </Link>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <div className="card ">
-                      <div className="card-body">
-                        <div className="d-flex flex-wrap gap-2 align-items-top">
-                          <div className="mini-stat-icon avatar-sm rounded-circle bg-primary">
-                            <span className="avatar-title rounded">
-                              <i className="bx bx-copy-alt font-size-24" />
+                  <div className='col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12'>
+                    <div className='card '>
+                      <div className='card-body'>
+                        <div className='d-flex flex-wrap gap-2 align-items-top'>
+                          <div className='mini-stat-icon avatar-sm rounded-circle bg-primary'>
+                            <span className='avatar-title rounded'>
+                              <i className='bx bx-copy-alt font-size-24' />
                             </span>
                           </div>
-                          <div className="flex-fill">
-                            <h5 className="d-block fw-semibold fs-18 mb-1">
+                          <div className='flex-fill'>
+                            <h5 className='d-block fw-semibold fs-18 mb-1'>
                               {all.courses}
                             </h5>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <div className="text-muted fs-12">
+                            <div className='d-flex justify-content-between align-items-center'>
+                              <div className='text-muted fs-12'>
                                 Total Courses
                               </div>
                               {/* <div className="text-success">
@@ -526,11 +542,11 @@ export const Index = () => {
                               </div> */}
                             </div>{" "}
                             <Link
-                              to="/course-management/course"
-                              className="text-danger fs-12"
+                              to='/course-management/course'
+                              className='text-danger fs-12'
                             >
                               View All
-                              <i className="bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block" />
+                              <i className='bx bx-right-arrow-alt ms-2 fw-semibold d-inline-block' />
                             </Link>
                           </div>
                         </div>
@@ -538,23 +554,23 @@ export const Index = () => {
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-xl-12">
-                    <div className="card  overflow-hidden">
-                      <div className="card-header d-flex align-items-center justify-content-between">
-                        <div className="card-title"> All Classes </div>
+                <div className='row'>
+                  <div className='col-xl-12'>
+                    <div className='card  overflow-hidden'>
+                      <div className='card-header d-flex align-items-center justify-content-between'>
+                        <div className='card-title'> All Classes </div>
                         <div>
                           {" "}
                           <Link
-                            className="d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer"
-                            to="/course-management/class"
+                            className='d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer'
+                            to='/course-management/class'
                           >
                             View All
                           </Link>
                         </div>
                       </div>
-                      <div className="card-body p-0">
-                        <div className="table-responsive">
+                      <div className='card-body p-0'>
+                        <div className='table-responsive'>
                           <CommonDataTable
                             data={dashboardClasses}
                             tableHeaders={dashboardClassHeaders}
@@ -568,44 +584,44 @@ export const Index = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-3">
-                <div className="card ">
-                  <div className="card-header">
-                    <div className="card-title">Top Trainers</div>
+            <div className='row'>
+              <div className='col-xl-3'>
+                <div className='card '>
+                  <div className='card-header'>
+                    <div className='card-title'>Top Trainers</div>
                   </div>
-                  <div className="card-body">
-                    <ul className="list-unstyled courses-Trainers mb-0">
+                  <div className='card-body'>
+                    <ul className='list-unstyled courses-Trainers mb-0'>
                       {dashboardTrainers.length ? (
                         dashboardTrainers.map((trainer) => (
                           <li>
-                            <div className="d-flex">
-                              <div className="d-flex flex-fill align-items-center">
-                                <div className="me-2">
+                            <div className='d-flex'>
+                              <div className='d-flex flex-fill align-items-center'>
+                                <div className='me-2'>
                                   {" "}
-                                  <span className="avatar avatar-rounded">
+                                  <span className='avatar avatar-rounded'>
                                     {" "}
                                     {trainer.trainerImagePath && (
                                       <img
                                         src={filePath(trainer.trainerImagePath)}
-                                        alt=""
+                                        alt=''
                                       />
                                     )}{" "}
                                   </span>
                                 </div>
                                 <div>
                                   {" "}
-                                  <span className="d-block fw-semibold">
+                                  <span className='d-block fw-semibold'>
                                     {trainer.trainerName}
                                   </span>{" "}
-                                  <span className="text-muted">
+                                  <span className='text-muted'>
                                     {trainer.designation}
                                   </span>
                                 </div>
                               </div>
-                              <div className="text-end">
+                              <div className='text-end'>
                                 {" "}
-                                <span className="d-block text-primary fw-semibold">
+                                <span className='d-block text-primary fw-semibold'>
                                   {trainer.classCount} Classes
                                 </span>
                               </div>
@@ -619,22 +635,22 @@ export const Index = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-xl-5">
-                <div className="card ">
-                  <div className="card-header justify-content-between">
-                    <div className="card-title"> Customers </div>
+              <div className='col-xl-5'>
+                <div className='card '>
+                  <div className='card-header justify-content-between'>
+                    <div className='card-title'> Customers </div>
                     <div>
                       {" "}
                       <Link
-                        className="d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer"
-                        to="/lead"
+                        className='d-flex align-items-center justify-content-centerbtn btn-light btn-wave btn-sm waves-effect waves-light cursor-pointer'
+                        to='/lead'
                       >
                         View All
                       </Link>
                     </div>
                   </div>
-                  <div className="card-body p-0">
-                    <div className="table-responsive">
+                  <div className='card-body p-0'>
+                    <div className='table-responsive'>
                       <CommonDataTable
                         data={dashboardCustomers}
                         tableHeaders={dashboardCustomerHeaders}
@@ -644,11 +660,11 @@ export const Index = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-xl-4">
-                <div className="card ">
-                  <div className="card-header d-flex align-items-center justify-content-between">
-                    <div className="card-title"> Payouts </div>
-                    <div className="ms-auto">
+              <div className='col-xl-4'>
+                <div className='card '>
+                  <div className='card-header d-flex align-items-center justify-content-between'>
+                    <div className='card-title'> Payouts </div>
+                    <div className='ms-auto'>
                       {/* <ul className="nav nav-pills">
                         <li className="nav-item">
                           <a className="nav-link" href="#">
@@ -668,7 +684,7 @@ export const Index = () => {
                       </ul> */}
                     </div>
                   </div>
-                  <div className="card-body">
+                  <div className='card-body'>
                     {/* <DoughnutChart
                       paid={payoutLead.paid}
                       unPaid={payoutLead.unPaid}
@@ -682,14 +698,14 @@ export const Index = () => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card ">
-                  <div className="card-header justify-content-between">
-                    <div className="card-title"> Course List </div>
+            <div className='row'>
+              <div className='col-xl-12'>
+                <div className='card '>
+                  <div className='card-header justify-content-between'>
+                    <div className='card-title'> Course List </div>
                   </div>
-                  <div className="card-body">
-                    <div className="table-responsive">
+                  <div className='card-body'>
+                    <div className='table-responsive'>
                       <CommonDataTable
                         data={dashoardCourses}
                         tableHeaders={dashboardCourseHeaders}
@@ -702,98 +718,98 @@ export const Index = () => {
           </div>
         </div>
         <div
-          className="modal fade transaction-detailModal"
+          className='modal fade transaction-detailModal'
           tabIndex={-1}
-          role="dialog"
-          aria-labelledby="transaction-detailModalLabel"
-          aria-hidden="true"
+          role='dialog'
+          aria-labelledby='transaction-detailModalLabel'
+          aria-hidden='true'
         >
-          <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="transaction-detailModalLabel">
+          <div className='modal-dialog modal-dialog-centered' role='document'>
+            <div className='modal-content'>
+              <div className='modal-header'>
+                <h5 className='modal-title' id='transaction-detailModalLabel'>
                   Order Details
                 </h5>
                 <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
+                  type='button'
+                  className='btn-close'
+                  data-bs-dismiss='modal'
+                  aria-label='Close'
                 />
               </div>
-              <div className="modal-body">
-                <p className="mb-2">
-                  Product id: <span className="text-primary">#SK2540</span>
+              <div className='modal-body'>
+                <p className='mb-2'>
+                  Product id: <span className='text-primary'>#SK2540</span>
                 </p>
-                <p className="mb-4">
+                <p className='mb-4'>
                   Billing Name:{" "}
-                  <span className="text-primary">Neal Matthews</span>
+                  <span className='text-primary'>Neal Matthews</span>
                 </p>
-                <div className="table-responsive">
-                  <table className="table align-middle table-nowrap">
+                <div className='table-responsive'>
+                  <table className='table align-middle table-nowrap'>
                     <thead>
                       <tr>
-                        <th scope="col">Product</th>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Price</th>
+                        <th scope='col'>Product</th>
+                        <th scope='col'>Product Name</th>
+                        <th scope='col'>Price</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row">
+                        <th scope='row'>
                           <div>
                             <img
-                              src="assets/images/product/img-7.png"
-                              alt=""
-                              className="avatar-sm"
+                              src='assets/images/product/img-7.png'
+                              alt=''
+                              className='avatar-sm'
                             />
                           </div>
                         </th>
                         <td>
                           <div>
-                            <h5 className="text-truncate font-size-14">
+                            <h5 className='text-truncate font-size-14'>
                               Wireless Headphone (Black)
                             </h5>
-                            <p className="text-muted mb-0">$ 225 x 1</p>
+                            <p className='text-muted mb-0'>$ 225 x 1</p>
                           </div>
                         </td>
                         <td>$ 255</td>
                       </tr>
                       <tr>
-                        <th scope="row">
+                        <th scope='row'>
                           <div>
                             <img
-                              src="assets/images/product/img-4.png"
-                              alt=""
-                              className="avatar-sm"
+                              src='assets/images/product/img-4.png'
+                              alt=''
+                              className='avatar-sm'
                             />
                           </div>
                         </th>
                         <td>
                           <div>
-                            <h5 className="text-truncate font-size-14">
+                            <h5 className='text-truncate font-size-14'>
                               Phone patterned cases
                             </h5>
-                            <p className="text-muted mb-0">$ 145 x 1</p>
+                            <p className='text-muted mb-0'>$ 145 x 1</p>
                           </div>
                         </td>
                         <td>$ 145</td>
                       </tr>
                       <tr>
                         <td colSpan={2}>
-                          <h6 className="m-0 text-right">Sub Total:</h6>
+                          <h6 className='m-0 text-right'>Sub Total:</h6>
                         </td>
                         <td>$ 400</td>
                       </tr>
                       <tr>
                         <td colSpan={2}>
-                          <h6 className="m-0 text-right">Shipping:</h6>
+                          <h6 className='m-0 text-right'>Shipping:</h6>
                         </td>
                         <td>Free</td>
                       </tr>
                       <tr>
                         <td colSpan={2}>
-                          <h6 className="m-0 text-right">Total:</h6>
+                          <h6 className='m-0 text-right'>Total:</h6>
                         </td>
                         <td>$ 400</td>
                       </tr>
@@ -801,11 +817,11 @@ export const Index = () => {
                   </table>
                 </div>
               </div>
-              <div className="modal-footer">
+              <div className='modal-footer'>
                 <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
+                  type='button'
+                  className='btn btn-secondary'
+                  data-bs-dismiss='modal'
                 >
                   Close
                 </button>

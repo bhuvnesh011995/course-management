@@ -18,9 +18,15 @@ routes.get("/getFilteredClasses", [userAuth], classManager.getFilteredClasses);
 routes.get(
   "/getDashboardClasses",
   [userAuth],
-  classManager.getDashboardClasses
+  classManager.getDashboardClasses,
 );
 
 routes.get("/getCETClasses", [userAuth], classManager.getCETClasses);
+
+routes.get(
+  "/classCourseDetails/:classId",
+  [userAuth],
+  classManager.classCourseDetails,
+);
 
 module.exports = routes;

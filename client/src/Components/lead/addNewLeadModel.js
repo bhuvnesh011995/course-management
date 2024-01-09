@@ -416,14 +416,43 @@ export const AddNewLeadModel = ({
       const registrationLevels = registrationTypes.filter((e) => {
         if (e._id == leadData.registrationType) return e;
       });
+
+      if (!leadData.class?.length) {
+        toast.error("Need To Select Class First");
+        setError("class", { message: "Please Select Class" });
+        return;
+      }
+
+      const getCourseDetails = await NewAxiosInstance.get(
+        "/class/classCourseDetails/" + leadData.class,
+      );
       const paymentDataObj = {
         registrationType: registrationLevels[0],
         tradeLevel: selectedTradeLevel.length ? selectedTradeLevel[0] : null,
         tradeType: tradeTypes.filter((e) => e._id == watch("tradeType"))[0],
+        participantName: leadData.participantName,
+        participantNRIC: leadData.participantNRIC,
+        loginUserName: user.userData.name,
+        coursePrice: getCourseDetails.data.price,
       };
-      console.log(paymentDataObj);
-      CreatePaymentDetailsMail(paymentDataObj);
-      // console.log("send mail", leadData, paymentDataObj);
+      // console.log("send mail", leadData, paymentDataObj, user);
+      // return;
+      const createdMailMessage = CreatePaymentDetailsMail(paymentDataObj);
+      const mailData = {
+        email: leadData.contactPersonEmail,
+        subject: `The below payment advice is for our ${paymentDataObj.registrationType.registrationName.toUpperCase()} course`,
+        mailValue: createdMailMessage,
+      };
+      const sendedMail = await NewAxiosInstance.get("/mail/sendEmail", {
+        params: mailData,
+      });
+
+      if (sendedMail.status == 200) {
+        setIsOpen(false);
+        toast.success(sendedMail.data.message);
+      } else {
+        toast.error("Something Went Wrong ! ");
+      }
     } catch (err) {
       toast.error("Something went wrong !");
       console.error(err);

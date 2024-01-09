@@ -1,27 +1,30 @@
 export const CreatePaymentDetailsMail = (data) => {
-  console.log(data);
   let mailMessage = "";
 
-  if (data.registrationType.registrationCode) {
-    mailMessage += `<span>The below payment advice is for our ${data.registrationType.registrationName.toUpperCase()} course,</span><br>`;
-  }
+  // if (data.registrationType.registrationCode) {
+  //   mailMessage += `<span>The below payment advice is for our ${data.registrationType.registrationName.toUpperCase()} course,</span>`;
+  // }
   if (data.tradeType) {
-    mailMessage += `<h3>${data.tradeType.tradeType.toUpperCase()}</h3>`;
     if (data.tradeLevel) {
-      mailMessage += `<h3>( ${data.tradeLevel.tradeLevel.toUpperCase()} )</h3><br>`;
+      mailMessage += `<p style="display:flex;" >- APPROVAL OF ONLINE REGISTRATION - `;
+      mailMessage += `<b style="font-size: 15px; "> ${data.tradeType.tradeType.toUpperCase()}</b>`;
+      mailMessage += `<b style="font-size: 15px; "> ( ${data.tradeLevel.tradeLevel.toUpperCase()} )</b></p>`;
     } else if (data.registrationType.registrationCode == "CRW") {
-      mailMessage += `<h3>[${data.registrationType.registrationName}]</h3><br>`;
+      mailMessage += `<p style="display:flex;">- APPROVAL OF ONLINE APPLICATION - `;
+      mailMessage += `<b style="font-size: 15px; "> ${data.tradeType.tradeType.toUpperCase()}</b></p>`;
     }
   }
 
-  mailMessage += `<span>Dear Sir/Madam,</span><br><br>`;
-  mailMessage += `<span>The applicant as below-mentioned has been approved: </span><br><br>`;
+  mailMessage += `<span>Dear Sir/Madam,</span>`;
+  mailMessage += `<span>The applicant as below-mentioned has been approved: </span>`;
   mailMessage += `
   <table style="border: 2px solid salmon;" BORDER=1 WIDTH="50%">
   <tr style="background-color:#FFAD84;text-align: left;">
       <td style="padding:15px;">
         <p style="display:flex;">
-          Make the payment of <b style="padding:0 15px;color: red;">$</b> <b style="padding: 0 15px;color: red;">  (inclusive of GST) </b> to us
+          Make the payment of <b style="padding:0 15px;color: red;">$ ${
+            data.coursePrice
+          }</b> <b style="padding: 0 15px;color: red;">  (inclusive of GST) </b> to us
           <p>
             <b >Payment Mode </b>
           </p>
@@ -50,8 +53,8 @@ export const CreatePaymentDetailsMail = (data) => {
 </tr>
 <tr>
   <td>1.</td>
-  <td>participant name</td>
-  <td>87654ygv</td>
+  <td>${data.participantName}</td>
+  <td>${data.participantNRIC}</td>
 </tr>
 </table>
 <p style="padding-top: 50px;"></p>
@@ -68,18 +71,28 @@ export const CreatePaymentDetailsMail = (data) => {
 </tr>
 <tr >
   <td>ii</td>
-  <td></td>
+  <td>We will give you a call to arrange the test schedule when the payment is received. </td>
 </tr>
 <tr >
   <td>iii</td>
-  <td></td>
+  <td>Our invoice will be issued within 1 to 2 weeks after receiving the payment from you . </td>
 </tr>
 <tr >
   <td>iv</td>
-  <td></td>
+  <td>No WTU funding for CoreTrade registration .</td>
 </tr>
 </table>
   
+<p>
+  <b style="font-weight: bolder;">BEST REGARDS</b>
+</p>
+<p>
+  <b style="font-weight: bolder;">${data.loginUserName.toUpperCase()}</b>
+</p>
+<p>TONGA PTE LTD | A training partner of SANTARLI ATTC & OTC | </p>
+<p>531 Yishun Industrial Park A, #03-02 Santarli Building Singapore 768739</p>
+<p>T : <a href="tel:656-755-6676"><u>(65)67556676</u></a> | F : <a href="tel:656-755-4566"><u>(65)67554566</u></a> | W : <a href="https://www.santarli-attc.com/"><u>www.santarli-attc.com</u></a></p>
+
   `;
-  console.log(mailMessage);
+  return mailMessage;
 };

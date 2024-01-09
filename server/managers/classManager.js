@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 const classModel = require("../models/classModel");
 const EventModel = require("../models/eventModal");
 const db = require("../models");
+const {
+  auth2Client,
+  googleCalendar,
+} = require("../utils/googleCalendar.utils");
+const moment = require("moment");
+
 const addClass = async (req, res, next) => {
   try {
     const { body } = req;
@@ -48,6 +54,41 @@ const addClass = async (req, res, next) => {
         },
       },
     ]);
+    if (auth2Client.credentials.access_token) {
+      const startDateTime = new Date(
+        moment(
+          `${moment(classDetails[0].startDate).format("YYYY-MM-DD")} ${
+            classDetails[0].startTime
+          }`,
+          "YYYY-MM-DD HH:mm",
+        ).format("ddd MMM D YYYY HH:mm:ss [GMT]ZZ (z)"),
+      );
+
+      const endDateTime = new Date(
+        moment(
+          `${moment(classDetails[0].endDate).format("YYYY-MM-DD")} ${
+            classDetails[0].endTime
+          }`,
+          "YYYY-MM-DD HH:mm",
+        ).format("ddd MMM D YYYY HH:mm:ss [GMT]ZZ (z)"),
+      );
+
+      googleCalendar.events.insert({
+        calendarId: "primary",
+        requestBody: {
+          summary: classDetails[0].course,
+          description: classDetails[0].classRemarks,
+          start: {
+            dateTime: startDateTime.toISOString(),
+            // timeZone: "Asia/Singapore",
+          },
+          end: {
+            dateTime: endDateTime.toISOString(),
+            // timeZone: "Asia/Singapore",
+          },
+        },
+      });
+    }
     return res.status(200).send(classDetails[0]);
   } catch (err) {
     next(err);
@@ -245,7 +286,7 @@ const getCourseClass = async (req, res, next) => {
 const deleteClass = async (req, res, next) => {
   try {
     const { query } = req;
-    const classInLead = await db.lead.find({ class: query._id });
+    const classInLead = await db.lead.findOne({ class: query._id });
     if (classInLead) {
       return res.status(202).send({ message: "class Existed in lead !!" });
     }
@@ -450,6 +491,39 @@ const getCETClasses = async (req, res, next) => {
   }
 };
 
+const classCourseDetails = async (req, res, next) => {
+  try {
+    const classCourse = await db.classes.aggregate([
+      {
+        $match: {
+          $expr: {
+            $eq: [{ $toString: "$_id" }, req.params.classId],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      {
+        $project: {
+          _id: 1,
+          courseName: "$courseDetails.CourseName",
+          price: "$courseDetails.price",
+        },
+      },
+    ]);
+    return res.status(200).send(classCourse[0]);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getClasses,
   addClass,
@@ -461,4 +535,5 @@ module.exports = {
   getDashboardClasses,
   getFilteredClasses,
   getCETClasses,
+  classCourseDetails,
 };

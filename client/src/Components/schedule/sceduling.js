@@ -39,6 +39,48 @@ export const Scheduling = () => {
     getTrainers();
   }, []);
 
+  const googleAuthenticate = async (classEvents) => {
+    try {
+      const response = await NewAxiosInstance.get("/google/googleAuthUrl");
+      if (response.status == 200) {
+        if (response.data?.isAuthenticated) {
+          getGoogleEvents(classEvents);
+          return;
+        }
+        setEvents(classEvents);
+        window.open(response.data.redirectCalendarUrl);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getGoogleEvents = async (classEvents) => {
+    const eventArr = [];
+    // classEvents.map((classEvent) => eventArr.push(classEvent));
+    const response = await NewAxiosInstance.get("/google/calendarEvents");
+    response.data.map((googleEvent) => {
+      eventArr.push({
+        title: `${googleEvent.summary}  ${
+          googleEvent.description ? " ( " + googleEvent.description + " ) " : ""
+        } `,
+        startTime: googleEvent.start.dateTime
+          ? moment(googleEvent.start.dateTime).format("hh:mm A")
+          : null,
+        endTime: googleEvent.end.dateTime
+          ? moment(googleEvent.end.dateTime).format("hh:mm A")
+          : null,
+        startDate: googleEvent.start.dateTime
+          ? googleEvent.start.dateTime
+          : googleEvent.start.date,
+        endDate: googleEvent.end.dateTime
+          ? googleEvent.end.dateTime
+          : googleEvent.end.date,
+      });
+    });
+    setEvents(eventArr);
+  };
+
   const getCourses = async () => {
     try {
       const { data } = await NewAxiosInstance.get("/courses/getCourses");
@@ -80,7 +122,8 @@ export const Scheduling = () => {
       const { data } = await NewAxiosInstance.get("/class/getClasses", {
         params: selectedFilter,
       });
-      setEvents(data.classes);
+      // setEvents(data.classes);
+      googleAuthenticate(data.classes);
     } catch (err) {
       console.error(err);
     }
@@ -107,61 +150,61 @@ export const Scheduling = () => {
   };
 
   return (
-    <div id="layout-wrapper">
-      <div className="main-content">
-        <div className="page-content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12">
-                <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Schedule</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0">
-                      <li className="breadcrumb-item">
+    <div id='layout-wrapper'>
+      <div className='main-content'>
+        <div className='page-content'>
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-12'>
+                <div className='page-title-box d-sm-flex align-items-center justify-content-between'>
+                  <h4 className='mb-sm-0 font-size-18'>Schedule</h4>
+                  <div className='page-title-right'>
+                    <ol className='breadcrumb m-0'>
+                      <li className='breadcrumb-item'>
                         <Link to={"/"}>Dashboard</Link>
                       </li>
-                      <li className="breadcrumb-item active">Schedule</li>
+                      <li className='breadcrumb-item active'>Schedule</li>
                     </ol>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-lg-3">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="mb-3">
-                      <label className="form-label">Start Date</label>
+            <div className='row'>
+              <div className='col-lg-3'>
+                <div className='card'>
+                  <div className='card-body'>
+                    <div className='mb-3'>
+                      <label className='form-label'>Start Date</label>
                       <input
-                        type="date"
-                        className="form-control"
+                        type='date'
+                        className='form-control'
                         onChange={({ target }) =>
                           addFilter(target.value, "startDate")
                         }
                         value={selectedFilter.startDate}
                       />
                     </div>
-                    <div className="mb-3">
-                      <label className="form-label">End Date</label>
+                    <div className='mb-3'>
+                      <label className='form-label'>End Date</label>
                       <input
-                        type="date"
-                        className="form-control"
+                        type='date'
+                        className='form-control'
                         onChange={({ target }) =>
                           addFilter(target.value, "endDate")
                         }
                         value={selectedFilter.endDate}
                       />
                     </div>
-                    <div className="mb-3">
-                      <label className="form-label">Course Filter</label>
+                    <div className='mb-3'>
+                      <label className='form-label'>Course Filter</label>
                       <select
-                        className="selectpicker form-select"
+                        className='selectpicker form-select'
                         onChange={({ target }) =>
                           addFilter(target.value, "course")
                         }
                         value={selectedFilter.course}
                       >
-                        <option value="">All Courses</option>
+                        <option value=''>All Courses</option>
                         {courses.map((e) => (
                           <option key={e._id} value={e._id}>
                             {e.courseName}
@@ -169,16 +212,16 @@ export const Scheduling = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="mb-3">
-                      <label className="form-label">Trainer Filter</label>
+                    <div className='mb-3'>
+                      <label className='form-label'>Trainer Filter</label>
                       <select
-                        className="selectpicker form-select"
+                        className='selectpicker form-select'
                         onChange={({ target }) =>
                           addFilter(target.value, "trainer")
                         }
                         value={selectedFilter.trainer}
                       >
-                        <option value="">All Trainers</option>
+                        <option value=''>All Trainers</option>
                         {trainers.map((e) => (
                           <option key={e._id} value={e._id}>
                             {e.trainerName}
@@ -186,16 +229,16 @@ export const Scheduling = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="mb-3">
-                      <label className="form-label">Class Filter</label>
+                    <div className='mb-3'>
+                      <label className='form-label'>Class Filter</label>
                       <select
-                        className="selectpicker form-select"
+                        className='selectpicker form-select'
                         onChange={({ target }) =>
                           addFilter(target.value, "class")
                         }
                         value={selectedFilter.class}
                       >
-                        <option value="">All Classes</option>
+                        <option value=''>All Classes</option>
                         {classes.map((e) => (
                           <option key={e._id} value={e._id}>
                             {moment(e.startDate).format("DD-MM-YYY") +
@@ -205,9 +248,9 @@ export const Scheduling = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="d-grid">
+                    <div className='d-grid'>
                       <button
-                        className="btn font-16 btn-primary"
+                        className='btn font-16 btn-primary'
                         onClick={clearFilters}
                       >
                         {" "}
@@ -217,9 +260,9 @@ export const Scheduling = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-9">
-                <div className="card">
-                  <div className="card-body">
+              <div className='col-lg-9'>
+                <div className='card'>
+                  <div className='card-body'>
                     <AllCalendar
                       events={events}
                       callback={(e, type) => showSelectedEvent(e, type)}

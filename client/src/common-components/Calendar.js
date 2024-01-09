@@ -1,6 +1,6 @@
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CustomToolbar } from "./calendarCustomComponent";
 import { convertUtcDateAndTime } from "./useCommonUsableFunctions";
@@ -23,8 +23,6 @@ export const AllCalendar = ({ events, callback, type }) => {
     event["endTime"] = moment(event.endTime, "hh:mm A").format("HH:mm");
     if (event?.type) {
       if (callback) callback(event, "holiday");
-    } else {
-      if (callback) callback(event);
     }
   };
 
