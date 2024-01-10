@@ -115,6 +115,7 @@ async function fetchLeadsData(req, res, next) {
       const registrationType = await db.registrationType.findOne({
         registrationCode: "CRW",
       });
+      leadObj["tradeLevel"] = "";
       if (registrationType) {
         leadObj["registrationType"] = registrationType._id;
         if (webhookFormData["77340965"]["Value"]) {
@@ -491,6 +492,7 @@ async function fetchLeadsData(req, res, next) {
         await db.lead.create(leadObj);
       }
     }
+    return res.status(200).send({ message: "webhook lead added !" });
   } catch (err) {
     console.error(err);
   }

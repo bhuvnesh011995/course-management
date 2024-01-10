@@ -1,19 +1,36 @@
 const nodemailer = require("nodemailer");
-const cheerio = require("cheerio");
 const fs = require("fs");
 const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
+// const { google } = require("googleapis");
+
+// const oAuth2Client = new google.auth.OAuth2(
+//   process.env.CLIENT_ID,
+//   process.env.CLIENT_SECRET,
+//   "https://developers.google.com/oauthplayground",
+// );
+
+// oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
 
 const sendMail = async (req, res, next) => {
   try {
-    let data = req.query;
+    // const ACCESS_TOKEN = await oAuth2Client.getAccessToken();
+    let data = req.body;
     const myEmail = process.env.MYEMAIL;
     const myPass = process.env.MYPASS;
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
+        // type: "OAuth2",
         user: myEmail,
         pass: myPass,
+        // clientId: process.env.CLIENT_ID,
+        // clientSecret: process.env.CLIENT_SECRET,
+        // refreshToken: process.env.REFRESH_TOKEN,
+        // accessToken: ACCESS_TOKEN,
       },
+      // tls: {
+      //   rejectUnauthorized: true,
+      // },
     });
     let mailConfigs;
     mailConfigs = {
@@ -30,31 +47,13 @@ const sendMail = async (req, res, next) => {
           path: path,
         }),
       );
-      // mailConfigs["attachments"] = [
-      //   {
-      //     fileName: data?.path[0].split("uploads/images/")[1],
-      //     path: data?.path[0],
-      //   },
-      //   {
-      //     fileName: data?.path[1].split("uploads/images/")[1],
-      //     path: data?.path[1],
-      //   },
-      // ];
     }
     transporter.sendMail(mailConfigs, function (error, info) {
       if (error) {
-        console.error(error);
-
-        return res.status(204).send({ message: "An error has occured" });
+        return res.status(503).send({ error, message: "An error has occured" });
       }
       if (data?.path) {
         data?.path.map((e) => {
-          // fs.unlink(
-          //   `uploads\\images\\${e.split("uploads/images/")[1]}`,
-          //   (err) => {
-          //     if (err) console.error(err);
-          //   }
-          // );
           deleteSelectedFile(e.split("uploads/images/")[1]);
         });
       }

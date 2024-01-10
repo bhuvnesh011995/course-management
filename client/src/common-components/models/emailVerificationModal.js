@@ -31,9 +31,10 @@ export const EmailVerfificationModal = ({
     try {
       toast.dismiss();
       mailData["mailValue"] = mailValue;
-      const sendedMail = await NewAxiosInstance.get("/mail/sendEmail", {
-        params: mailData,
-      });
+      const sendedMail = await NewAxiosInstance.post(
+        "/mail/sendEmail",
+        mailData,
+      );
       if (sendedMail.status == 200) {
         toast.success(sendedMail.data.message);
         if (afterSendMailCallback) afterSendMailCallback();
@@ -55,7 +56,7 @@ export const EmailVerfificationModal = ({
       <Modal show={isOpen} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="modal-title" id="viewUserModalLabel">
+            <h5 className='modal-title' id='viewUserModalLabel'>
               Send {mailHeader} Email
             </h5>
           </Modal.Title>
@@ -64,22 +65,22 @@ export const EmailVerfificationModal = ({
         <Modal.Body>
           <div>
             <form onSubmit={handleSubmit(sendEmail)}>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <input
-                  type="email"
-                  className="form-control"
-                  placeholder="To : jhone@123"
+                  type='email'
+                  className='form-control'
+                  placeholder='To : jhone@123'
                   {...register("email")}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <input
-                  type="text"
-                  className="form-control"
+                  type='text'
+                  className='form-control'
                   {...register("subject")}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <CommonJoditEditor
                   editorValue={mailValue}
                   setEditorValue={setMailValue}
@@ -87,13 +88,13 @@ export const EmailVerfificationModal = ({
               </div>
               <Modal.Footer>
                 <div style={{ marginTop: "50px" }}>
-                  <button type="submit" className="mx-1 btn btn-success">
+                  <button type='submit' className='mx-1 btn btn-success'>
                     Send
                   </button>
                   <button
-                    type="button"
+                    type='button'
                     onClick={handleClose}
-                    className="mx-1 btn btn-secondary"
+                    className='mx-1 btn btn-secondary'
                   >
                     Close
                   </button>

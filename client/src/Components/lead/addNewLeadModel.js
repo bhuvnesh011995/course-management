@@ -443,10 +443,11 @@ export const AddNewLeadModel = ({
         subject: `The below payment advice is for our ${paymentDataObj.registrationType.registrationName.toUpperCase()} course`,
         mailValue: createdMailMessage,
       };
-      const sendedMail = await NewAxiosInstance.get("/mail/sendEmail", {
-        params: mailData,
-      });
-
+      const sendedMail = await NewAxiosInstance.post(
+        "/mail/sendEmail",
+        mailData,
+      );
+      console.log(sendedMail);
       if (sendedMail.status == 200) {
         setIsOpen(false);
         toast.success(sendedMail.data.message);

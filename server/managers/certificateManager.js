@@ -505,7 +505,7 @@ const sendLeadCertificateMail = async (req, res, next) => {
       mailValue: "<h3>Find Your Course Certificate Attachment Below :</h3>",
       path: [filepath],
     };
-    await sendMail({ query: sendMailObj });
+    await sendMail({ body: sendMailObj });
     return res.status(200).send({ message: "Certificate Sent Successfully !" });
   } catch (err) {
     next(err);
