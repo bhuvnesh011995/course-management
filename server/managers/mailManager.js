@@ -1,32 +1,32 @@
 const nodemailer = require("nodemailer");
 const fs = require("fs");
 const { deleteSelectedFile } = require("../commonUsableFunctions/deleteFile");
-// const { google } = require("googleapis");
+const { google } = require("googleapis");
 
-// const oAuth2Client = new google.auth.OAuth2(
-//   process.env.CLIENT_ID,
-//   process.env.CLIENT_SECRET,
-//   "https://developers.google.com/oauthplayground",
-// );
+const oAuth2Client = new google.auth.OAuth2(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  // "https://developers.google.com/oauthplayground",
+);
 
-// oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
+oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
 
 const sendMail = async (req, res, next) => {
   try {
-    // const ACCESS_TOKEN = await oAuth2Client.getAccessToken();
+    const ACCESS_TOKEN = oAuth2Client.getAccessToken();
     let data = req.body;
     const myEmail = process.env.MYEMAIL;
     const myPass = process.env.MYPASS;
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        // type: "OAuth2",
+        type: "OAuth2",
         user: myEmail,
-        pass: myPass,
-        // clientId: process.env.CLIENT_ID,
-        // clientSecret: process.env.CLIENT_SECRET,
-        // refreshToken: process.env.REFRESH_TOKEN,
-        // accessToken: ACCESS_TOKEN,
+        // pass: myPass,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: ACCESS_TOKEN,
       },
       // tls: {
       //   rejectUnauthorized: true,
