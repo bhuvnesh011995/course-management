@@ -12,7 +12,9 @@ const addNewLead = async (req, res, next) => {
     });
     if (query.tradeTypeSeats <= getTradeTypeLeadsCount.length) {
       files.map((file) => deleteSelectedFile(file.filename));
-      return res.status(405).send({ message: "Trade Type Limit Exceeded" });
+      return res
+        .status(405)
+        .send({ message: "All Seats for Trade Type Filled !" });
     }
 
     const fileLocations = {
