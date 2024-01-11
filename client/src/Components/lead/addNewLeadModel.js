@@ -107,6 +107,9 @@ export const AddNewLeadModel = ({
   const addNewLead = async (newLead) => {
     try {
       toast.dismiss();
+      newLead["tradeTypeSeats"] = tradeTypes.filter(
+        (e) => e._id == watch("tradeType"),
+      )[0].seat;
       newLead["selectedRegistration"] = selectedRegistration;
       if (selectedRegistration != "CRW")
         newLead["coreTradeRegNo"] = setCoreTradeRegNo();
@@ -168,7 +171,7 @@ export const AddNewLeadModel = ({
       callback(data.newLead);
       handleClose();
     } catch (err) {
-      toast.error("error occured");
+      toast.error(err?.response?.data?.message || "error occured");
       console.error(err);
     }
   };
@@ -435,8 +438,6 @@ export const AddNewLeadModel = ({
         loginUserName: user.userData.name,
         coursePrice: getCourseDetails.data.price,
       };
-      // console.log("send mail", leadData, paymentDataObj, user);
-      // return;
       const createdMailMessage = CreatePaymentDetailsMail(paymentDataObj);
       const mailData = {
         email: leadData.contactPersonEmail,
@@ -447,7 +448,7 @@ export const AddNewLeadModel = ({
         "/mail/sendEmail",
         mailData,
       );
-      console.log(sendedMail);
+
       if (sendedMail.status == 200) {
         setIsOpen(false);
         toast.success(sendedMail.data.message);
