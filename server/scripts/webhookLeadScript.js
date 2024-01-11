@@ -81,27 +81,27 @@ async function fetchLeadsData(req, res, next) {
 
         if (webhookFormData["77337495"]["Value"]) {
           leadObj["bcaAcknowledgementNotice"] =
-            webhookFormData["77337495"]["Value"][0]["url"];
-          leadObj.fileLocations.notice =
             webhookFormData["77337495"]["Value"][0]["filename"];
+          leadObj.fileLocations.notice =
+            webhookFormData["77337495"]["Value"][0]["url"];
         }
         if (webhookFormData["77337496"]["Value"]) {
           leadObj["nricWorkDocument"] =
-            webhookFormData["77337496"]["Value"][0]["url"];
-          leadObj.fileLocations.nric =
             webhookFormData["77337496"]["Value"][0]["filename"];
+          leadObj.fileLocations.nric =
+            webhookFormData["77337496"]["Value"][0]["url"];
         }
         if (webhookFormData["77337506"]["Value"]) {
           leadObj["passportCopy"] =
-            webhookFormData["77337506"]["Value"][0]["url"];
-          leadObj.fileLocations.passportCopy =
             webhookFormData["77337506"]["Value"][0]["filename"];
+          leadObj.fileLocations.passportCopy =
+            webhookFormData["77337506"]["Value"][0]["url"];
         }
         if (webhookFormData["77337507"]["Value"]) {
           leadObj["MOMEploymentDetails"] =
-            webhookFormData["77337507"]["Value"][0]["url"];
-          leadObj.fileLocations.MOME =
             webhookFormData["77337507"]["Value"][0]["filename"];
+          leadObj.fileLocations.MOME =
+            webhookFormData["77337507"]["Value"][0]["url"];
         }
         if (webhookFormData["77338060"]["Value"]) {
           leadObj["participantMobile"] = webhookFormData["77338060"]["Value"];
