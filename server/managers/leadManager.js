@@ -7,15 +7,15 @@ const addNewLead = async (req, res, next) => {
   try {
     const { body, files, user } = req;
     const query = JSON.parse(body.leadData);
-    const getTradeTypeLeadsCount = await db.lead.find({
-      tradeType: query.tradeType,
-    });
-    if (query.tradeTypeSeats <= getTradeTypeLeadsCount.length) {
-      files.map((file) => deleteSelectedFile(file.filename));
-      return res
-        .status(405)
-        .send({ message: "All Seats for Trade Type Filled !" });
-    }
+    // const getTradeTypeLeadsCount = await db.lead.find({
+    //   tradeType: query.tradeType,
+    // });
+    // if (query.tradeTypeSeats <= getTradeTypeLeadsCount.length) {
+    //   files.map((file) => deleteSelectedFile(file.filename));
+    //   return res
+    //     .status(405)
+    //     .send({ message: "All Seats for Trade Type Filled !" });
+    // }
 
     const fileLocations = {
       passportCopy: "",

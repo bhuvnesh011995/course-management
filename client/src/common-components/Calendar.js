@@ -242,7 +242,7 @@ export const AllCalendar = ({ events, callback, type }) => {
     };
   };
   return (
-    <div style={{ overflow: "auto", overflowY: "hidden", height: "500px" }}>
+    <div style={{ overflow: "auto", overflowY: "hidden", height: "680px" }}>
       <Calendar
         selectable={true}
         localizer={localizer}

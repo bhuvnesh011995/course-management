@@ -170,7 +170,7 @@ export const Scheduling = () => {
               </div>
             </div>
             <div className='row'>
-              <div className='col-lg-3'>
+              {/* <div className='col-lg-3'>
                 <div className='card'>
                   <div className='card-body'>
                     <div className='mb-3'>
@@ -259,8 +259,9 @@ export const Scheduling = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className='col-lg-9'>
+              </div> */}
+
+              <div className='col-lg-12'>
                 <div className='card'>
                   <div className='card-body'>
                     <AllCalendar
