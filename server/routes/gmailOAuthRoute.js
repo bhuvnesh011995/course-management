@@ -32,7 +32,6 @@ routes.get("/calendarEvents", async (req, res, next) => {
     singleEvents: true,
     orderBy: "startTime",
   });
-  console.log(response.data.items);
   return res.status(200).send(response.data.items);
 });
 

@@ -133,6 +133,7 @@ const addNewLead = async (req, res, next) => {
           status: 1,
           remarks: 1,
           created_at: 1,
+          course: 1,
         },
       },
     ]);
@@ -149,7 +150,17 @@ const getAllLeads = async (req, res, next) => {
   try {
     const leadQuery = [];
     const { user, query } = req;
+    const lookForParenthesis = /[\(\)\[\]\{\}\/\\]/.test(query.textSearch);
 
+    if (lookForParenthesis) {
+      query.textSearch = query.textSearch.replace(/\(/g, "\\(");
+      query.textSearch = query.textSearch.replace(/\)/g, "\\)");
+      query.textSearch = query.textSearch.replace(/\[/g, "\\[");
+      query.textSearch = query.textSearch.replace(/\]/g, "\\]");
+      query.textSearch = query.textSearch.replace(/\{/g, "\\{");
+      query.textSearch = query.textSearch.replace(/\}/g, "\\}");
+      query.textSearch = query.textSearch.replace(/\\/g, "\\\\");
+    }
     if (query?.registrationType?.length) {
       leadQuery.push({
         $match: {
@@ -166,14 +177,6 @@ const getAllLeads = async (req, res, next) => {
           $expr: {
             $eq: ["$tradeType", query.tradeType],
           },
-        },
-      });
-    }
-
-    if (query?.textSearch?.length) {
-      leadQuery.push({
-        $match: {
-          companyName: { $regex: query.textSearch },
         },
       });
     }
@@ -213,6 +216,33 @@ const getAllLeads = async (req, res, next) => {
         },
       },
       { $unwind: "$registrationDetails" },
+      {
+        $addFields: {
+          tradeTypeName: "$tradeType.tradeType",
+          registrationTypeName: "$registrationDetails.registrationName",
+        },
+      },
+    );
+
+    if (query?.textSearch?.length) {
+      leadQuery.push({
+        $match: {
+          $or: [
+            { companyName: { $regex: query.textSearch } },
+            { participantName: { $regex: query.textSearch } },
+            { participantNRIC: { $regex: query.textSearch } },
+            { tradeTypeName: { $regex: query.textSearch } },
+            {
+              registrationTypeName: {
+                $regex: query.textSearch,
+              },
+            },
+          ],
+        },
+      });
+    }
+
+    leadQuery.push(
       { $sort: { created_at: -1 } },
       {
         $project: {
@@ -254,6 +284,7 @@ const getAllLeads = async (req, res, next) => {
           status: 1,
           remarks: 1,
           created_at: 1,
+          course: 1,
         },
       },
     );
@@ -421,6 +452,7 @@ const updateLead = async (req, res, next) => {
           status: 1,
           remarks: 1,
           created_at: 1,
+          course: 1,
         },
       },
     ]);
@@ -652,34 +684,15 @@ const getSelectedLead = async (req, res, next) => {
           },
         },
       },
-
-      {
-        $lookup: {
-          from: "classes",
-          let: { classId: "$class" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: [{ $toString: "$_id" }, "$$classId"],
-                },
-              },
-            },
-          ],
-          as: "classDetails",
-        },
-      },
-      { $unwind: "$classDetails" },
-
       {
         $lookup: {
           from: "courses",
-          let: { courseId: "$classDetails.course" },
+          let: { courseId: "$course" },
           pipeline: [
             {
               $match: {
                 $expr: {
-                  $eq: ["$_id", "$$courseId"],
+                  $eq: [{ $toString: "$_id" }, "$$courseId"],
                 },
               },
             },
@@ -1062,6 +1075,7 @@ const getCompany = async (req, res, next) => {
           coreTradeRegNo: "$bothCombined.coreTradeRegNo",
           status: "$bothCombined.status",
           class: "$bothCombined.class",
+          course: "$bothCombined.course",
         },
       },
     ]);
@@ -1166,7 +1180,7 @@ const updateLeadStatus = async (req, res, next) => {
       { _id: req.params.leadId },
       {
         $set: {
-          status: req.params.leadStatus == "pending" ? "assign" : "confirmed",
+          status: req.params.leadStatus,
         },
       },
     );

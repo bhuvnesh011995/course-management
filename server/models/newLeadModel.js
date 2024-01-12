@@ -46,10 +46,11 @@ const leadSchema = new mongoose.Schema(
     educationalLevel: { type: String },
     coreTradeRegNo: { type: String },
     class: { type: String },
+    course: { type: String },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
-  }
+  },
 );
 
 const leadModel = mongoose.model("lead", leadSchema);

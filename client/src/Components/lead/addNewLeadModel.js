@@ -17,7 +17,6 @@ import { useEffect, useState } from "react";
 import {
   convertMongooseDate,
   convertToMongooseStartEndTiming,
-  convertUtcDateAndTime,
   filePath,
 } from "../../common-components/useCommonUsableFunctions";
 import { CreateBankPdf, CreatePaymentPdfBase64 } from "./createPdfDcument";
@@ -39,7 +38,10 @@ export const AddNewLeadModel = ({
   const { user, NewAxiosInstance } = useAuth();
   const [tradeLevels, setTradeLevels] = useState([]);
   const [allClasses, setAllClasses] = useState([]);
+  const [allCourses, setAllCourses] = useState([]);
+  const [showMailMessage, setShowMailMessage] = useState("");
   const [selectedRegistration, setSelectedRegistration] = useState("");
+  const [ccEmails, setCcEmails] = useState([]);
 
   const {
     register,
@@ -72,12 +74,18 @@ export const AddNewLeadModel = ({
 
   useEffect(() => {
     // if (leadData?.status == "pending" && leadData.class) {
-    if (watch("tradeType") || watch("registrationType") || watch("tradeLevel"))
+    if (
+      watch("tradeType") ||
+      watch("registrationType") ||
+      watch("tradeLevel")
+    ) {
       getFilteredClasses({
         tradeType: watch("tradeType"),
         registrationType: watch("registrationType"),
         tradeLevel: watch("tradeLevel"),
       });
+      getLeadTypeCourses();
+    }
     // }
   }, [watch("tradeLevel"), watch("tradeType"), watch("registrationType")]);
 
@@ -91,6 +99,17 @@ export const AddNewLeadModel = ({
       "-" +
       tradeTypes.filter((e) => e._id == watch("tradeType"))[0].typeCode;
     return CTDnumber;
+  };
+
+  const getLeadTypeCourses = async () => {
+    const response = await NewAxiosInstance.get(`/courses/getLeadTypeCourses`, {
+      params: {
+        tradeType: watch("tradeType"),
+        registrationType: watch("registrationType"),
+        tradeLevel: watch("tradeLevel"),
+      },
+    });
+    setAllCourses(response.data);
   };
 
   const getFilteredClasses = async (selectedLead) => {
@@ -295,14 +314,16 @@ export const AddNewLeadModel = ({
           }
         }
       if (viewLead)
-        if (watch("class")?.length) {
-          newLeadData["class"] = watch("class");
-          if (newLeadData["status"] == "new") newLeadData["status"] = "pending";
-          else if (newLeadData["status"] == "assign")
-            newLeadData["status"] = "assign";
+        if (newLeadData.status == "assign") {
+          if (watch("class")?.length) {
+            newLeadData["class"] = watch("class");
+            newLeadData.status = "confirmed";
+          } else {
+            setError("class", { message: "Please Select Class" });
+            return;
+          }
         } else {
-          setError("class", { message: "Please Select Class" });
-          return;
+          newLeadData.status = "pending";
         }
       newLeadData["deleteFileList"] = deleteFiles;
       formdata.append("leadData", JSON.stringify(newLeadData));
@@ -353,7 +374,7 @@ export const AddNewLeadModel = ({
     window.open(leadUrl);
   };
 
-  const getPaymentRegistration = async () => {
+  const getPaymentRegistration = async (type) => {
     try {
       toast.dismiss();
       const { data } = await NewAxiosInstance.get("/leads/getSelectedLead", {
@@ -367,8 +388,10 @@ export const AddNewLeadModel = ({
         Subject,
         data.user,
         user.otherConfigurations?.paymentPdfLogo,
+        type,
       );
-      leadData["bankDetailsPdfBase64"] = CreateBankPdf();
+      leadData["bankDetailsPdfBase64"] = CreateBankPdf(type);
+      if (type) return;
       leadData.status = "assign";
       const getPaymentData = await NewAxiosInstance.post(
         "/leads/getPayment",
@@ -390,29 +413,8 @@ export const AddNewLeadModel = ({
     }
   };
 
-  const confirmRegistration = async () => {
+  const sendPaymentAdviseMail = async (type) => {
     try {
-      const confirmPayment = await NewAxiosInstance.post(
-        "/leads/confirmPayment",
-        leadData,
-      );
-      if (confirmPayment.status == 200) {
-        toast.success(confirmPayment.data.message);
-        leadData.status = "confirmed";
-        callback(leadData, "confirm");
-      } else {
-        toast.error("something went wrong");
-      }
-      handleClose();
-    } catch (err) {
-      toast.error("something went wrong");
-      console.error(err);
-    }
-  };
-
-  const sendPaymentAdviseMail = async () => {
-    try {
-      // const response = await NewAxiosInstance.get("/leads/");
       const selectedTradeLevel = tradeLevels.filter(
         (e) => e._id == watch("tradeLevel"),
       );
@@ -420,14 +422,15 @@ export const AddNewLeadModel = ({
         if (e._id == leadData.registrationType) return e;
       });
 
-      if (!leadData.class?.length) {
-        toast.error("Need To Select Class First");
-        setError("class", { message: "Please Select Class" });
+      if (!leadData.course?.length) {
+        toast.error("Need To Select course First");
+        setError("course", { message: "Please Select Course" });
         return;
       }
 
       const getCourseDetails = await NewAxiosInstance.get(
-        "/class/classCourseDetails/" + leadData.class,
+        "/courses/getCourse",
+        { params: { _id: watch("course") } },
       );
       const paymentDataObj = {
         registrationType: registrationLevels[0],
@@ -436,24 +439,35 @@ export const AddNewLeadModel = ({
         participantName: leadData.participantName,
         participantNRIC: leadData.participantNRIC,
         loginUserName: user.userData.name,
-        coursePrice: getCourseDetails.data.price,
+        coursePrice: getCourseDetails.data[0].price,
       };
       const createdMailMessage = CreatePaymentDetailsMail(paymentDataObj);
-      const mailData = {
-        email: leadData.contactPersonEmail,
-        subject: `The below payment advice is for our ${paymentDataObj.registrationType.registrationName.toUpperCase()} course`,
-        mailValue: createdMailMessage,
-      };
-      const sendedMail = await NewAxiosInstance.post(
-        "/mail/sendEmail",
-        mailData,
-      );
+      if (type == "viewMail") {
+        setShowMailMessage(createdMailMessage);
+        // showMailMessage(createdMailMessage)
+        return;
+      } else if (type == "sendMail") {
+        const mailData = {
+          email: leadData.contactPersonEmail,
+          subject: `The below payment advice is for our ${paymentDataObj.registrationType.registrationName.toUpperCase()} course`,
+          mailValue: createdMailMessage,
+          cc: ccEmails,
+        };
+        const sendedMail = await NewAxiosInstance.post(
+          "/mail/sendEmail",
+          mailData,
+        );
 
-      if (sendedMail.status == 200) {
-        setIsOpen(false);
-        toast.success(sendedMail.data.message);
-      } else {
-        toast.error("Something Went Wrong ! ");
+        if (sendedMail.status == 200) {
+          leadData.status = "pending";
+          await NewAxiosInstance.post(
+            `/leads/updateLeadStatus/${leadData._id}/${leadData.status}`,
+          );
+          setIsOpen(false);
+          toast.success(sendedMail.data.message);
+        } else {
+          toast.error("Something Went Wrong ! ");
+        }
       }
     } catch (err) {
       toast.error("Something went wrong !");
@@ -1025,11 +1039,39 @@ export const AddNewLeadModel = ({
                   </div>
                 </div>
               )}
+              <div className='col-md-4 mb-3'>
+                <label className='form-label'>
+                  course <span className='text-danger'>*</span>
+                </label>
 
+                <select
+                  className='form-select'
+                  {...register("course", { required: "Please Select Course" })}
+                  disabled={viewLead}
+                >
+                  <option value=''>Select Course</option>
+                  {allCourses?.length &&
+                    allCourses.map((e) => (
+                      <option
+                        key={e?._id}
+                        value={e?._id}
+                        selected={watch("course") == e?._id && e?._id}
+                      >
+                        {e.courseName}
+                      </option>
+                    ))}
+                </select>
+                {errors?.course && (
+                  <span className='text-danger'>{errors.course.message}</span>
+                )}
+              </div>
               {leadData && (
                 <div className='col-md-12 mb-3'>
                   <label className='form-label'>
-                    Class <span className='text-danger'>*</span>
+                    Class{" "}
+                    {viewLead && leadData.status == "assign" && (
+                      <span className='text-danger'>*</span>
+                    )}
                   </label>
 
                   <select
@@ -1478,44 +1520,26 @@ export const AddNewLeadModel = ({
                     )}
                     {user.userData?.roleData?.lead?.write && viewLead && (
                       <div className='d-flex'>
-                        {leadData.class && leadData.status == "pending" && (
+                        {leadData.status == "new" && (
                           <button
                             type='button'
-                            onClick={sendPaymentAdviseMail}
                             className='btn mx-1 btn-success'
+                            onClick={() => sendPaymentAdviseMail("viewMail")}
                           >
                             Payment Advise Mail
                           </button>
                         )}
-                        {leadData.class && leadData.status == "pending" && (
+                        {leadData.status == "pending" && (
                           <button
                             type='button'
-                            onClick={getPaymentRegistration}
+                            onClick={() => getPaymentRegistration()}
                             className='btn mx-1 btn-primary'
                           >
                             Get Payment
                           </button>
                         )}
 
-                        {leadData.class && leadData.status == "assign" && (
-                          <div className='d-flex'>
-                            <button
-                              type='button'
-                              onClick={confirmRegistration}
-                              className='btn mx-1 btn-success'
-                            >
-                              Confirm
-                            </button>
-                            <button
-                              type='button'
-                              // onClick={rejectRegistration}
-                              className='btn mx-1 btn-danger'
-                            >
-                              Reject
-                            </button>
-                          </div>
-                        )}
-                        {!leadData.class && (
+                        {leadData.status == "assign" && (
                           <div className='d-flex'>
                             <button
                               type='submit'
@@ -1539,6 +1563,105 @@ export const AddNewLeadModel = ({
               </div>
             </Modal.Footer>
           </form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showMailMessage.length}
+        onHide={() => setShowMailMessage("")}
+        size='lg'
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <h5 className='modal-title add-Customer-title'>View Mail</h5>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className='row'>
+            <div className='col-md-12 mb-3'>
+              <label className='form-label'>
+                To: <span className='text-danger'>*</span>
+              </label>
+              <input
+                className='form-control'
+                value={leadData.contactPersonEmail}
+                disabled
+              />
+            </div>
+
+            <div className='col-md-12 mb-3'>
+              <label className='form-label'>CC:</label>
+              {ccEmails.map((ccMail, index) => (
+                <span className='btn btn-secondary'>
+                  {ccMail}{" "}
+                  <span
+                    className='mx-3 btn-close'
+                    onClick={() => {
+                      ccEmails.splice(index, 1);
+                      setCcEmails([...ccEmails]);
+                    }}
+                  ></span>
+                </span>
+              ))}
+              <input
+                className='form-control'
+                onKeyDown={({ key, target }) => {
+                  if (key == "Enter") {
+                    if (target.value.length) {
+                      if (
+                        /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i.test(
+                          target.value,
+                        )
+                      ) {
+                        ccEmails.push(target.value);
+                        setCcEmails([...ccEmails]);
+                        target.value = "";
+                      } else {
+                        toast.error("Please Enter an Email");
+                      }
+                    }
+                  } else if (key == "Backspace") {
+                    if (!target.value.length) {
+                      if (ccEmails.length) {
+                        ccEmails.splice(ccEmails.length - 1, 1);
+                        setCcEmails([...ccEmails]);
+                      }
+                    }
+                  }
+                }}
+                onBlur={({ target }) => {
+                  if (target.value.length) {
+                    if (
+                      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i.test(
+                        target.value,
+                      )
+                    ) {
+                      ccEmails.push(target.value);
+                      setCcEmails([...ccEmails]);
+                      target.value = "";
+                    } else {
+                      toast.error("Please Enter an Email");
+                    }
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div dangerouslySetInnerHTML={{ __html: showMailMessage }}></div>
+          <Modal.Footer>
+            <button
+              className='btn btn-success'
+              onClick={() => sendPaymentAdviseMail("sendMail")}
+            >
+              Send
+            </button>
+            <button
+              className='btn btn-danger'
+              onClick={() => setShowMailMessage("")}
+            >
+              Cancel
+            </button>
+          </Modal.Footer>
         </Modal.Body>
       </Modal>
     </div>

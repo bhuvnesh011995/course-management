@@ -7,7 +7,8 @@ export const CreatePaymentPdfBase64 = (
   lead,
   subject,
   userData,
-  paymentLogo
+  paymentLogo,
+  viewType,
 ) => {
   const doc = new jsPDF();
 
@@ -25,7 +26,7 @@ export const CreatePaymentPdfBase64 = (
 
   yPosition += 7;
   doc.text(`From: `, 20, yPosition);
-  doc.text(`astroastaroth58@gmail.com `, 65, yPosition);
+  doc.text(`santarliattc@gmail.com `, 65, yPosition);
   yPosition += 7;
   doc.text(`Sent: `, 20, yPosition);
   doc.text(`${createDate} `, 65, yPosition);
@@ -46,7 +47,7 @@ export const CreatePaymentPdfBase64 = (
   doc.text(
     `The applicant as below-mentioned has been approved :`,
     20,
-    yPosition
+    yPosition,
   );
 
   yPosition += 17;
@@ -119,13 +120,13 @@ export const CreatePaymentPdfBase64 = (
   doc.text(
     `TONGA PTE LTD | A training partner of SANTARLI ATTC & OTC |`,
     20,
-    yPosition
+    yPosition,
   );
   yPosition += 6;
   doc.text(
     `531 Yishun Industrial Park A, #03-02 Santarli Building Singapore 768739`,
     20,
-    yPosition
+    yPosition,
   );
   yPosition += 6;
   doc.text(`T | `, 20, yPosition);
@@ -158,12 +159,15 @@ export const CreatePaymentPdfBase64 = (
   }
   const pdfDataUri = doc.output("datauristring");
   const base64Data = pdfDataUri.split(
-    "data:application/pdf;filename=generated.pdf;base64,"
+    "data:application/pdf;filename=generated.pdf;base64,",
   )[1];
-  return base64Data;
+  console.log(viewType);
+  if (viewType) {
+    doc.save("paymentData.pdf");
+  } else return base64Data;
 };
 
-export const CreateBankPdf = () => {
+export const CreateBankPdf = (viewType) => {
   const doc = new jsPDF();
   let yPosition = 20;
   doc.setFontSize(17);
@@ -213,7 +217,9 @@ export const CreateBankPdf = () => {
   doc.text("NRIC/Fin no. that the payment you are making for. ", 40, yPosition);
   const pdfDataUri = doc.output("datauristring");
   const base64Data = pdfDataUri.split(
-    "data:application/pdf;filename=generated.pdf;base64,"
+    "data:application/pdf;filename=generated.pdf;base64,",
   )[1];
-  return base64Data;
+  if (viewType) {
+    doc.save("bank-details.pdf");
+  } else return base64Data;
 };

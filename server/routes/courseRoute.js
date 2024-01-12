@@ -16,7 +16,9 @@ routes.get("/getFilteredCourses", [userAuth], courseManager.getFilteredCourses);
 routes.get(
   "/allDashboardCourses",
   [userAuth],
-  courseManager.allDashboardCourses
+  courseManager.allDashboardCourses,
 );
+
+routes.get("/getLeadTypeCourses", [userAuth], courseManager.getLeadTypeCourses);
 
 module.exports = routes;

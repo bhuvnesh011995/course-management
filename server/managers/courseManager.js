@@ -607,6 +607,46 @@ const allDashboardCourses = async (req, res, next) => {
   }
 };
 
+const getLeadTypeCourses = async (req, res, next) => {
+  try {
+    const leadCoursesAggregation = [];
+    // if (req.query.registrationType?.length) {
+    leadCoursesAggregation.push({
+      $match: {
+        $expr: {
+          $eq: [{ $toString: "$registrationType" }, req.query.registrationType],
+        },
+      },
+    });
+    // }
+
+    // if (req.query.tradeType?.length) {
+    leadCoursesAggregation.push({
+      $match: {
+        $expr: {
+          $eq: [{ $toString: "$tradeType" }, req.query.tradeType],
+        },
+      },
+    });
+    // }
+
+    if (req.query.tradeLevel?.length) {
+      leadCoursesAggregation.push({
+        $match: {
+          $expr: {
+            $eq: ["$tradeLevel", req.query.tradeLevel],
+          },
+        },
+      });
+    }
+
+    const response = await db.course.aggregate(leadCoursesAggregation);
+    return res.status(200).send(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   addNewCourse,
   getCourses,
@@ -615,4 +655,5 @@ module.exports = {
   deleteCourse,
   getFilteredCourses,
   allDashboardCourses,
+  getLeadTypeCourses,
 };

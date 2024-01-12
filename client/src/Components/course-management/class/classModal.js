@@ -1,9 +1,8 @@
 import { Modal } from "react-bootstrap";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import { toast } from "react-toastify";
-import ReactSelect from "react-select";
 import { useAuth } from "../../../context/authContext";
 
 export const NewClassModal = ({

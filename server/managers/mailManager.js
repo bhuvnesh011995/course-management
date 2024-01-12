@@ -18,7 +18,8 @@ const sendMail = async (req, res, next) => {
     const myEmail = process.env.MYEMAIL;
     const myPass = process.env.MYPASS;
     const transporter = nodemailer.createTransport({
-      host: "tonga.santarli-attc.com",
+      host: "smtp.gmail.com",
+      // "tonga.santarli-attc.com",
       port: 465,
       // secure: true,
       auth: {
@@ -41,6 +42,7 @@ const sendMail = async (req, res, next) => {
       subject: data.subject,
       html: data.mailValue,
       attachments: [],
+      cc: data.cc,
     };
     if (data?.path) {
       data?.path.map((path) =>
