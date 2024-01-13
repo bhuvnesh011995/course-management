@@ -8,7 +8,7 @@ import useCustomUseEffect from "../../../../../common-components/CustomUseEffect
 import { useAuth } from "../../../../../context/authContext";
 
 export default function Department() {
-  const { NewAxiosInstance } = useAuth();
+  const { NewAxiosInstance, user } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function Department() {
       try {
         let response = await NewAxiosInstance.post(
           "/constants/department",
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("department added successfully");
@@ -46,7 +46,7 @@ export default function Department() {
         toast.error("error while adding department");
       }
     },
-    [data]
+    [data],
   );
 
   const updateDepartment = useCallback(
@@ -54,7 +54,7 @@ export default function Department() {
       try {
         let response = await NewAxiosInstance.put(
           "/constants/department/" + id,
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("department updated successfully");
@@ -72,7 +72,7 @@ export default function Department() {
         toast.error("error while updating department");
       }
     },
-    [data]
+    [data],
   );
 
   useCustomUseEffect(getDepartments);
@@ -84,13 +84,13 @@ export default function Department() {
         header: "Name",
       },
     ],
-    []
+    [],
   );
   const handleDelete = useCallback(
     async (id) => {
       try {
         let response = await NewAxiosInstance.delete(
-          "/constants/department/" + id
+          "/constants/department/" + id,
         );
         if (response.status === 204) {
           let newArray = data.filter((ele) => ele._id != id);
@@ -106,7 +106,7 @@ export default function Department() {
         return { success: false, message: "server error occured" };
       }
     },
-    [data]
+    [data],
   );
   return (
     <Card>
@@ -130,15 +130,17 @@ export default function Department() {
         />
       )}
       <Card.Body>
-        <div class="tab-pane">
+        <div class='tab-pane'>
           <h4>List All Department</h4>
-          <p class="card-title-desc" style={{ textAlign: "right" }}>
-            <button
-              class="btn btn-primary text-right"
-              onClick={() => setIsOpen(true)}
-            >
-              Add New Department
-            </button>
+          <p class='card-title-desc' style={{ textAlign: "right" }}>
+            {user.userData?.roleData?.constants?.create && (
+              <button
+                class='btn btn-primary text-right'
+                onClick={() => setIsOpen(true)}
+              >
+                Add New Department
+              </button>
+            )}
           </p>
 
           <MaterialReactTable
@@ -149,34 +151,38 @@ export default function Department() {
             enableSorting={false}
             enableTopToolbar={false}
             enableRowActions
-            positionActionsColumn="last"
+            positionActionsColumn='last'
             enableRowNumbers
-            rowNumberMode="static"
+            rowNumberMode='static'
             renderRowActions={({ row, table }) => (
-              <div className="hstack gap-2 fs-1">
-                <button
-                  onClick={() => {
-                    setUpdateData(row.original);
-                    setIsOpen(true);
-                  }}
-                  className="btn btn-icon btn-sm btn-info rounded-pill"
-                >
-                  <i className="bx bxs-edit-alt" />
-                </button>
-                <button
-                  onClick={async () => {
-                    setDeleteInfo({
-                      id: row.original._id,
-                      message: `Do you really want to delete ${row.original.name}
+              <div className='hstack gap-2 fs-1'>
+                {user.userData?.roleData?.constants?.write && (
+                  <button
+                    onClick={() => {
+                      setUpdateData(row.original);
+                      setIsOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-info rounded-pill'
+                  >
+                    <i className='bx bxs-edit-alt' />
+                  </button>
+                )}
+                {user.userData?.roleData?.constants?.delete && (
+                  <button
+                    onClick={async () => {
+                      setDeleteInfo({
+                        id: row.original._id,
+                        message: `Do you really want to delete ${row.original.name}
                               this cannot be undone`,
-                      header: "Delete Department",
-                    });
-                    setDeleteModalOpen(true);
-                  }}
-                  className="btn btn-icon btn-sm btn-danger rounded-pill"
-                >
-                  <i className="bx bxs-trash" />
-                </button>
+                        header: "Delete Department",
+                      });
+                      setDeleteModalOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-danger rounded-pill'
+                  >
+                    <i className='bx bxs-trash' />
+                  </button>
+                )}
               </div>
             )}
           />

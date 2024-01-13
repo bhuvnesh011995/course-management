@@ -1,5 +1,3 @@
-const UserModel = require("../models/userModel");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
 const ACCESSTOKENSECRET = process.env.ACCESSTOKENSECRET;
@@ -173,7 +171,7 @@ const updateUser = async (req, res, next) => {
       { _id: data._id },
       {
         $set: data,
-      }
+      },
     );
     return res.status(200).send({ message: "user Updated Successfully !" });
   } catch (err) {
@@ -193,7 +191,7 @@ const updateUserWithImage = async (req, res, next) => {
       { _id: query.userData._id },
       {
         $set: query,
-      }
+      },
     );
     return res.status(200).send({ message: "User Added Successfully !!" });
   } catch (err) {
@@ -272,7 +270,7 @@ const selectedTemplate = async (req, res, next) => {
     }
     const selectedTemplate = await db.user.updateOne(
       { _id: user._id },
-      { $set: templates }
+      { $set: templates },
     );
     return res.status(200).send({ message: "Template Selected Successfully" });
   } catch (err) {

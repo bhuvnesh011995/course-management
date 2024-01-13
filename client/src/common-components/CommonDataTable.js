@@ -17,6 +17,7 @@ import { dayColors } from "../Constants/table.constants";
 import { FormattedMessage } from "react-intl";
 import { languageObject } from "../Constants/tableLanguageConstants";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/authContext";
 
 export const CommonDataTable = ({
   data,
@@ -38,6 +39,7 @@ export const CommonDataTable = ({
   enableRowNumbers = true,
   selectDataByOne = false,
 }) => {
+  const { user } = useAuth();
   useEffect(() => {
     if (leadModelButtons) updateLeadList("all");
   }, []);
@@ -227,7 +229,8 @@ export const CommonDataTable = ({
             </button>
           )}
           {/* !tradeType.includes(row.original?.typeCode) && */}
-          {editButton &&
+          {row.original._id != user.userData._id &&
+            editButton &&
             !TradeLevels.includes(row.original?.tradeCode) &&
             !registrationConstants.includes(row.original?.registrationCode) && (
               <button

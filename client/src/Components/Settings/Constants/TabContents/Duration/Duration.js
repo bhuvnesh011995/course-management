@@ -8,7 +8,7 @@ import useCustomUseEffect from "../../../../../common-components/CustomUseEffect
 import { useAuth } from "../../../../../context/authContext";
 
 export default function Duration() {
-  const { NewAxiosInstance } = useAuth();
+  const { NewAxiosInstance, user } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -144,12 +144,14 @@ export default function Duration() {
         <div class='tab-pane'>
           <h4>List All Duration</h4>
           <p class='card-title-desc' style={{ textAlign: "right" }}>
-            <button
-              class='btn btn-primary text-right'
-              onClick={() => setIsOpen(true)}
-            >
-              Add New Duration
-            </button>
+            {user.userData?.roleData?.constants?.create && (
+              <button
+                class='btn btn-primary text-right'
+                onClick={() => setIsOpen(true)}
+              >
+                Add New Duration
+              </button>
+            )}
           </p>
 
           <MaterialReactTable
@@ -165,29 +167,33 @@ export default function Duration() {
             rowNumberMode='static'
             renderRowActions={({ row, table }) => (
               <div className='hstack gap-2 fs-1'>
-                <button
-                  onClick={() => {
-                    setUpdateData(row.original);
-                    setIsOpen(true);
-                  }}
-                  className='btn btn-icon btn-sm btn-info rounded-pill'
-                >
-                  <i className='bx bxs-edit-alt' />
-                </button>
-                <button
-                  onClick={async () => {
-                    setDeleteInfo({
-                      id: row.original._id,
-                      message: `Do you really want to delete ${row.original.name}
+                {user.userData?.roleData?.constants?.write && (
+                  <button
+                    onClick={() => {
+                      setUpdateData(row.original);
+                      setIsOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-info rounded-pill'
+                  >
+                    <i className='bx bxs-edit-alt' />
+                  </button>
+                )}
+                {user.userData?.roleData?.constants?.delete && (
+                  <button
+                    onClick={async () => {
+                      setDeleteInfo({
+                        id: row.original._id,
+                        message: `Do you really want to delete ${row.original.name}
                               this cannot be undone`,
-                      header: "Delete Duration",
-                    });
-                    setDeleteModalOpen(true);
-                  }}
-                  className='btn btn-icon btn-sm btn-danger rounded-pill'
-                >
-                  <i className='bx bxs-trash' />
-                </button>
+                        header: "Delete Duration",
+                      });
+                      setDeleteModalOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-danger rounded-pill'
+                  >
+                    <i className='bx bxs-trash' />
+                  </button>
+                )}
               </div>
             )}
           />

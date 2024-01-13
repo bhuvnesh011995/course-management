@@ -1,21 +1,46 @@
-import { CommonFooter } from "../common-components/commonFooter";
+import { useEffect, useState } from "react";
+import { useAuth } from "../context/authContext";
+import moment from "moment";
+import { Modal } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import {
+  emailPattern,
+  namePattern,
+  phonePattern,
+} from "../common-components/validations";
 
 export const Profile = () => {
+  // const {
+  //   handleSubmit,
+  //   register,
+  //   watch,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm();
+
+  // const [profileModal, setProfileModal] = useState(false);
+  const { user, NewAxiosInstance } = useAuth();
+
+  // const updateLoginUser = async (data) => {
+  //   const updateUser = await NewAxiosInstance.post("/users/updateUser", data);
+  //   console.log(updateUser);
+  // };
+
   return (
-    <div id="layout-wrapper">
-      <div className="main-content">
-        <div className="page-content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12">
-                <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Profile Management</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0">
-                      <li className="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+    <div id='layout-wrapper'>
+      <div className='main-content'>
+        <div className='page-content'>
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-12'>
+                <div className='page-title-box d-sm-flex align-items-center justify-content-between'>
+                  <h4 className='mb-sm-0 font-size-18'>Profile Management</h4>
+                  <div className='page-title-right'>
+                    <ol className='breadcrumb m-0'>
+                      <li className='breadcrumb-item'>
+                        <a href='index.html'>Dashboard</a>
                       </li>
-                      <li className="breadcrumb-item active">
+                      <li className='breadcrumb-item active'>
                         Profile Management
                       </li>
                     </ol>
@@ -23,82 +48,59 @@ export const Profile = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50"></div>
-                      <button
-                        className="btn btn-primary me-2"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addTrainerModal"
-                      >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
-                        Add New Profile
-                      </button>
-                    </div>
+            <div className='row g-4'>
+              <div className='col-md-12'>
+                <div className='card '>
+                  <div className='card-header justify-content-between'>
+                    <div className='card-title'>Profile List </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="row g-4">
-              <div className="col-md-12">
-                <div className="card ">
-                  <div className="card-header justify-content-between">
-                    <div className="card-title">Profile List </div>
-                  </div>
-                  <div className="card-body">
-                    <div className="table-responsive">
+                  <div className='card-body'>
+                    <div className='table-responsive'>
                       <table
-                        id="datatable-buttons"
-                        className="table table-bordered dt-responsive nowrap w-100"
+                        id='datatable-buttons'
+                        className='table table-bordered dt-responsive nowrap w-100'
                       >
                         <thead>
                           <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Date of Birth</th>
+                            {/* <th>Date of Birth</th> */}
                             <th>Email</th>
                             <th>Contact Number</th>
                             <th>Gender</th>
-                            <th>Specialization</th>
-                            <th>Description</th>
-                            <th>Actions</th>
+                            <th>Role</th>
+                            {/* <th>Actions</th> */}
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <td>1</td>
-                            <td
-                              data-bs-toggle="modal"
-                              data-bs-target="#viewTrainerModal"
-                              style={{ cursor: "pointer" }}
-                            >
-                              John Doe
+                            <td style={{ cursor: "pointer" }}>
+                              {user.userData?.name}
                             </td>
-                            <td>1 Jan, 1990</td>
-                            <td>john@example.com</td>
-                            <td>123-456-7890</td>
-                            <td>Male</td>
-                            <td>Web Development</td>
-                            <td>This is a trainer's description.</td>
+                            {/* <td>
+                              {user.userData?.DOB &&
+                                moment(user.userData?.DOB).format("YYYY-MM-DD")}
+                            </td> */}
+                            <td>{user.userData?.email}</td>
                             <td>
-                              <a
-                                aria-label="anchor"
-                                className="btn btn-icon btn-sm btn-primary rounded-pill"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editTrainerModal"
-                              >
-                                <i className="mdi mdi-pencil" />
-                              </a>
-                              <a
-                                aria-label="anchor"
-                                className="btn btn-icon btn-sm btn-danger rounded-pill"
-                              >
-                                <i className="mdi mdi-trash-can" />
-                              </a>
+                              {user.userData?.phoneNo && user.userData?.phoneNo}
                             </td>
+                            <td>
+                              {user.userData?.gender && user.userData?.gender}
+                            </td>
+                            <td>
+                              {user.userData?.roleData?.roleName &&
+                                user.userData?.roleData?.roleName}
+                            </td>
+                            {/* <td>
+                              <p
+                                onClick={() => setProfileModal(true)}
+                                className='btn btn-icon btn-sm btn-primary rounded-pill'
+                              >
+                                <i className='mdi mdi-pencil' />
+                              </p>
+                            </td> */}
                           </tr>
                         </tbody>
                       </table>
@@ -109,392 +111,85 @@ export const Profile = () => {
             </div>
           </div>{" "}
         </div>
-        <div
-          className="modal fade"
-          id="addTrainerModal"
-          tabIndex={-1}
-          aria-labelledby="addTrainerModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="addTrainerModalLabel">
-                  Add Trainer
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-body">
-                <form className="row">
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Photo</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="trainerPhoto"
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">First Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="trainerFirstName"
-                      placeholder="Enter first name"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Last Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="trainerLastName"
-                      placeholder="Enter last name"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="trainerEmail"
-                      placeholder="Enter email"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Contact Number</label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id="trainerPhone"
-                      placeholder="Enter contact number"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Gender</label>
-                    <select className="form-select" id="trainerGender">
-                      <option value={0}>Male</option>
-                      <option value={1}>Female</option>
-                      <option value={2}>Other</option>
-                    </select>
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Date of Birth</label>
-                    <input
-                      type="date"
-                      className="form-control"
-                      id="trainerDOB"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Specialization</label>
-                    <select
-                      className="form-control select2"
-                      id="trainerSpecialization"
-                      required
-                    >
-                      <option value="Web Development">Web Development</option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="UI/UX Design">UI/UX Design</option>
-                    </select>
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <label className="form-label">Description</label>
-                    <textarea
-                      className="form-control"
-                      id="trainerDescription"
-                      rows={4}
-                      placeholder="Enter trainer description"
-                      required
-                      defaultValue={""}
-                    />
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" className="btn btn-primary">
-                  Add Trainer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="modal fade"
-          id="viewTrainerModal"
-          tabIndex={-1}
-          aria-labelledby="viewTrainerModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="viewTrainerModalLabel">
-                  View Trainer
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-body">
-                <form className="row">
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Photo</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="viewTrainerPhoto"
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">First Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="viewTrainerFirstName"
-                      defaultValue="John"
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Last Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="viewTrainerLastName"
-                      defaultValue="Doe"
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Date of Birth</label>
-                    <input
-                      type="date"
-                      className="form-control"
-                      id="viewTrainerDOB"
-                      defaultValue="1990-01-01"
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="viewTrainerEmail"
-                      defaultValue="john@example.com"
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Contact Number</label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id="viewTrainerPhone"
-                      defaultValue="123-456-7890"
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Gender</label>
-                    <select
-                      className="form-select"
-                      id="viewTrainerGender"
-                      disabled
-                    >
-                      <option value={0}>Male</option>
-                      <option value={1}>Female</option>
-                      <option value={2}>Other</option>
-                    </select>
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Specialization</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="viewTrainerSpecialization"
-                      defaultValue="Web Development"
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <label className="form-label">Description</label>
-                    <textarea
-                      className="form-control"
-                      id="viewTrainerDescription"
-                      rows={4}
-                      disabled
-                      defaultValue={"This is a trainer's description."}
-                    />
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="modal fade"
-          id="editTrainerModal"
-          tabIndex={-1}
-          aria-labelledby="editTrainerModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="editTrainerModalLabel">
-                  Edit Trainer
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-body">
-                <form className="row">
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Photo</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="editTrainerPhoto"
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">First Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="editTrainerFirstName"
-                      defaultValue="John"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Last Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="editTrainerLastName"
-                      defaultValue="Doe"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Date of Birth</label>
-                    <input
-                      type="date"
-                      className="form-control"
-                      id="editTrainerDOB"
-                      defaultValue="1990-01-01"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="editTrainerEmail"
-                      defaultValue="john@example.com"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Contact Number</label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id="editTrainerPhone"
-                      defaultValue="123-456-7890"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Gender</label>
-                    <select
-                      className="form-select"
-                      id="editTrainerGender"
-                      required
-                    >
-                      <option value={0}>Male</option>
-                      <option value={1}>Female</option>
-                      <option value={2}>Other</option>
-                    </select>
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Specialization</label>
-                    <select
-                      className="form-control select2"
-                      id="editTrainerSpecialization"
-                      required
-                    >
-                      <option value="Web Development">Web Development</option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="UI/UX Design">UI/UX Design</option>
-                    </select>
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <label className="form-label">Description</label>
-                    <textarea
-                      className="form-control"
-                      id="editTrainerDescription"
-                      rows={4}
-                      required
-                      defaultValue={"This is a trainer's description."}
-                    />
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button type="button" className="btn btn-primary">
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
+      {/* <Modal show={profileModal} onHide={() => setProfileModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Your Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleSubmit(updateLoginUser)}>
+            <div className='row'>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>User Name</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  {...register("userName", { pattern: namePattern })}
+                />
+                {errors.userName && (
+                  <span className='text-danger'>
+                    {errors.userName?.message}
+                  </span>
+                )}
+              </div>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>Contact</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  {...register("phoneNo", { pattern: phonePattern })}
+                />
+                {errors.phoneNo && (
+                  <span className='text-danger'>{errors.phoneNo?.message}</span>
+                )}
+              </div>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>Date Of Birth</label>
+                <div className='input-group'>
+                  <input
+                    type='date'
+                    className='form-control'
+                    placeholder='dd M, yyyy'
+                    {...register("DOB")}
+                  />
+                </div>
+              </div>
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>
+                  Gender <span className='text-danger'>*</span>
+                </label>
+                <select className='form-select' {...register("gender")}>
+                  <option key={""} value=''>
+                    Select gender
+                  </option>
+                  <option key={"Male"} value='Male'>
+                    Male
+                  </option>
+                  <option key={"Female"} value='Female'>
+                    Female
+                  </option>
+                  <option key={"Other"} value='Other'>
+                    Other
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div className='modal-footer'>
+              <button
+                type='button'
+                onClick={() => setProfileModal(false)}
+                className='btn btn-secondary'
+              >
+                Cancel
+              </button>
+              <button type='submit' className='btn btn-primary'>
+                Update
+              </button>
+            </div>
+          </form>
+        </Modal.Body>
+      </Modal> */}
     </div>
   );
 };

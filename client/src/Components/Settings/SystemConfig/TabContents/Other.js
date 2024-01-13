@@ -22,17 +22,17 @@ export default function Other({ show, setShow }) {
         if (otherConfigurations.attendanceLogo[0]?.name)
           formdata.append(
             "attendanceLogoImg",
-            otherConfigurations.attendanceLogo[0]
+            otherConfigurations.attendanceLogo[0],
           );
       if (otherConfigurations.paymentPdfLogo.length)
         if (otherConfigurations.paymentPdfLogo[0]?.name)
           formdata.append(
             "paymentPdfLogoImg",
-            otherConfigurations.paymentPdfLogo[0]
+            otherConfigurations.paymentPdfLogo[0],
           );
       const updateOtherConfiguration = await NewAxiosInstance.post(
         "/config/other",
-        formdata
+        formdata,
       );
       setUser((old) => ({
         ...old,
@@ -62,10 +62,10 @@ export default function Other({ show, setShow }) {
     <Card>
       <Card.Body>
         <form onSubmit={handleSubmit(newOtherConfiguration)}>
-          <div className="tab-pane">
-            <div className="row">
-              <div className="col-md-4">
-                <div className="mb-3">
+          <div className='tab-pane'>
+            <div className='row'>
+              <div className='col-md-4'>
+                <div className='mb-3'>
                   <label>Login Logo</label>
                   <input
                     type={
@@ -75,20 +75,20 @@ export default function Other({ show, setShow }) {
                         ? "text"
                         : "file"
                     }
-                    className="form-control"
+                    className='form-control'
                     {...register("loginLogo")}
                     disabled={watch("loginLogo") && watch("loginLogo")?.length}
                   />
                   {watch("loginLogo") && watch("loginLogo")?.length ? (
-                    <div className="input-icons">
+                    <div className='input-icons'>
                       {watch("loginLogo")?.length && (
                         <i
-                          className="fas fa-trash text-danger cursor-pointer"
+                          className='fas fa-trash text-danger cursor-pointer'
                           onClick={() => setValue("loginLogo", "")}
                         ></i>
                       )}{" "}
                       <i
-                        className="fas fa-eye text-primary cursor-pointer"
+                        className='fas fa-eye text-primary cursor-pointer'
                         onClick={() => openFile("loginLogo")}
                       ></i>
                     </div>
@@ -99,8 +99,8 @@ export default function Other({ show, setShow }) {
                 </div>
               </div>
 
-              <div className="col-md-4">
-                <div className="mb-3">
+              <div className='col-md-4'>
+                <div className='mb-3'>
                   <label>Attendance Logo</label>
                   <input
                     type={
@@ -110,7 +110,7 @@ export default function Other({ show, setShow }) {
                         ? "text"
                         : "file"
                     }
-                    className="form-control"
+                    className='form-control'
                     {...register("attendanceLogo")}
                     disabled={
                       watch("attendanceLogo") && watch("attendanceLogo")?.length
@@ -118,15 +118,15 @@ export default function Other({ show, setShow }) {
                   />
                   {watch("attendanceLogo") &&
                   watch("attendanceLogo")?.length ? (
-                    <div className="input-icons">
+                    <div className='input-icons'>
                       {watch("attendanceLogo")?.length && (
                         <i
-                          className="fas fa-trash text-danger cursor-pointer"
+                          className='fas fa-trash text-danger cursor-pointer'
                           onClick={() => setValue("attendanceLogo", "")}
                         ></i>
                       )}{" "}
                       <i
-                        className="fas fa-eye text-primary cursor-pointer"
+                        className='fas fa-eye text-primary cursor-pointer'
                         onClick={() => openFile("attendanceLogo")}
                       ></i>
                     </div>
@@ -137,8 +137,8 @@ export default function Other({ show, setShow }) {
                 </div>
               </div>
 
-              <div className="col-md-4">
-                <div className="mb-3">
+              <div className='col-md-4'>
+                <div className='mb-3'>
                   <label>Lead Payment pdf Logo</label>
                   <input
                     type={
@@ -148,7 +148,7 @@ export default function Other({ show, setShow }) {
                         ? "text"
                         : "file"
                     }
-                    className="form-control"
+                    className='form-control'
                     {...register("paymentPdfLogo")}
                     disabled={
                       watch("paymentPdfLogo") && watch("paymentPdfLogo")?.length
@@ -156,15 +156,15 @@ export default function Other({ show, setShow }) {
                   />
                   {watch("paymentPdfLogo") &&
                   watch("paymentPdfLogo")?.length ? (
-                    <div className="input-icons">
+                    <div className='input-icons'>
                       {watch("paymentPdfLogo")?.length && (
                         <i
-                          className="fas fa-trash text-danger cursor-pointer"
+                          className='fas fa-trash text-danger cursor-pointer'
                           onClick={() => setValue("paymentPdfLogo", "")}
                         ></i>
                       )}{" "}
                       <i
-                        className="fas fa-eye text-primary cursor-pointer"
+                        className='fas fa-eye text-primary cursor-pointer'
                         onClick={() => openFile("paymentPdfLogo")}
                       ></i>
                     </div>
@@ -185,12 +185,14 @@ export default function Other({ show, setShow }) {
                 </div> */}
             </div>
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary waves-effect waves-light w-25 float-end"
-          >
-            SAVE
-          </button>
+          {user.userData?.roleData?.system?.write && (
+            <button
+              type='submit'
+              className='btn btn-primary waves-effect waves-light w-25 float-end'
+            >
+              SAVE
+            </button>
+          )}
         </form>
       </Card.Body>
     </Card>

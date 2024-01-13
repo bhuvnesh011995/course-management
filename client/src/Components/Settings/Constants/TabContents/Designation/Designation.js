@@ -10,7 +10,7 @@ import DeleteModal2 from "../../../../../common-components/models/DeleteModal2";
 import { useAuth } from "../../../../../context/authContext";
 
 export default function Designation() {
-  const { NewAxiosInstance } = useAuth();
+  const { NewAxiosInstance, user } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +34,7 @@ export default function Designation() {
       try {
         let response = await NewAxiosInstance.post(
           "/constants/designations",
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("designation added successfully");
@@ -48,7 +48,7 @@ export default function Designation() {
         toast.error("error while adding designation");
       }
     },
-    [data]
+    [data],
   );
 
   const updateDesignation = useCallback(
@@ -56,7 +56,7 @@ export default function Designation() {
       try {
         let response = await NewAxiosInstance.put(
           "/constants/designations/" + id,
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("designation updated successfully");
@@ -74,7 +74,7 @@ export default function Designation() {
         toast.error("error while updating designation");
       }
     },
-    [data]
+    [data],
   );
 
   useEffect(() => {
@@ -88,13 +88,13 @@ export default function Designation() {
         header: "Designation",
       },
     ],
-    []
+    [],
   );
   const handleDelete = useCallback(
     async (id) => {
       try {
         let response = await NewAxiosInstance.delete(
-          "/constants/designations/" + id
+          "/constants/designations/" + id,
         );
         if (response.status === 204) {
           let newArray = data.filter((ele) => ele._id != id);
@@ -110,7 +110,7 @@ export default function Designation() {
         return { success: false, message: "server error occured" };
       }
     },
-    [data]
+    [data],
   );
   return (
     <Card>
@@ -134,15 +134,17 @@ export default function Designation() {
         />
       )}
       <Card.Body>
-        <div class="tab-pane">
+        <div class='tab-pane'>
           <h4>List All Designations</h4>
-          <p class="card-title-desc" style={{ textAlign: "right" }}>
-            <button
-              class="btn btn-primary text-right"
-              onClick={() => setIsOpen(true)}
-            >
-              Add New Designation
-            </button>
+          <p class='card-title-desc' style={{ textAlign: "right" }}>
+            {user.userData?.roleData?.constants?.create && (
+              <button
+                class='btn btn-primary text-right'
+                onClick={() => setIsOpen(true)}
+              >
+                Add New Designation
+              </button>
+            )}
           </p>
 
           <MaterialReactTable
@@ -153,34 +155,38 @@ export default function Designation() {
             enableSorting={false}
             enableTopToolbar={false}
             enableRowActions
-            positionActionsColumn="last"
+            positionActionsColumn='last'
             enableRowNumbers
-            rowNumberMode="static"
+            rowNumberMode='static'
             renderRowActions={({ row, table }) => (
-              <div className="hstack gap-2 fs-1">
-                <button
-                  onClick={() => {
-                    setUpdateData(row.original);
-                    setIsOpen(true);
-                  }}
-                  className="btn btn-icon btn-sm btn-info rounded-pill"
-                >
-                  <i className="bx bxs-edit-alt" />
-                </button>
-                <button
-                  onClick={async () => {
-                    setDeleteInfo({
-                      id: row.original._id,
-                      message: `Do you really want to delete ${row.original.name}
+              <div className='hstack gap-2 fs-1'>
+                {user.userData?.roleData?.constants?.write && (
+                  <button
+                    onClick={() => {
+                      setUpdateData(row.original);
+                      setIsOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-info rounded-pill'
+                  >
+                    <i className='bx bxs-edit-alt' />
+                  </button>
+                )}
+                {user.userData?.roleData?.constants?.delete && (
+                  <button
+                    onClick={async () => {
+                      setDeleteInfo({
+                        id: row.original._id,
+                        message: `Do you really want to delete ${row.original.name}
                               this cannot be undone`,
-                      header: "Delete Designation",
-                    });
-                    setDeleteModalOpen(true);
-                  }}
-                  className="btn btn-icon btn-sm btn-danger rounded-pill"
-                >
-                  <i className="bx bxs-trash" />
-                </button>
+                        header: "Delete Designation",
+                      });
+                      setDeleteModalOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-danger rounded-pill'
+                  >
+                    <i className='bx bxs-trash' />
+                  </button>
+                )}
               </div>
             )}
           />

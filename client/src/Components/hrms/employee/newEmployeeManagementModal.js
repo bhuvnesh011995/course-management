@@ -29,7 +29,6 @@ export const NewEmployeeManagementModal = ({
     reset,
     formState: { errors },
   } = useForm();
-
   useEffect(() => {
     getRoles();
     getAllDepartments();
@@ -48,7 +47,7 @@ export const NewEmployeeManagementModal = ({
       toast.dismiss();
       const addedEmployee = await NewAxiosInstance.post(
         "/users/addNewUser",
-        newEmployee
+        newEmployee,
       );
       if (addedEmployee.status == 200) {
         callback(addedEmployee.data);
@@ -65,8 +64,9 @@ export const NewEmployeeManagementModal = ({
 
   const getAllDepartments = async () => {
     try {
+      toast.dismiss();
       const allDepartments = await NewAxiosInstance.get(
-        "/constants/department"
+        "/constants/department",
       );
       if (allDepartments.status == 200) {
         if (allDepartments.data.length) {
@@ -82,6 +82,7 @@ export const NewEmployeeManagementModal = ({
 
   const getAllPositions = async () => {
     try {
+      toast.dismiss();
       const allPositions = await NewAxiosInstance.get("/constants/position");
       if (allPositions.status == 200) {
         if (allPositions.data.length) {
@@ -100,7 +101,7 @@ export const NewEmployeeManagementModal = ({
       toast.dismiss();
       const employeeDetails = await NewAxiosInstance.post(
         "/users/updateUser",
-        updatedEmployee
+        updatedEmployee,
       );
       if (employeeDetails.status == 200) {
         toast.success(employeeDetails.data.message);
@@ -128,10 +129,10 @@ export const NewEmployeeManagementModal = ({
 
   return (
     <div>
-      <Modal onHide={handleClose} show={isOpen} size="lg">
+      <Modal onHide={handleClose} show={isOpen} size='lg'>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="modal-title" id="addCertificateModalLabel">
+            <h5 className='modal-title' id='addCertificateModalLabel'>
               {viewEmployee ? "View" : employeeData?._id ? "Update" : "Add"}{" "}
               Employee
             </h5>
@@ -140,36 +141,36 @@ export const NewEmployeeManagementModal = ({
         <Modal.Body>
           <form
             onSubmit={handleSubmit(
-              employeeData?._id ? updateEmployee : addEmployee
+              employeeData?._id ? updateEmployee : addEmployee,
             )}
-            className="row"
+            className='row'
           >
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                First Name <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                First Name <span className='text-danger'>*</span>
               </label>
               <input
-                type="text"
-                className="form-control"
+                type='text'
+                className='form-control'
                 {...register("firstName", {
                   required: "Please Enter First Name",
                   pattern: namePattern,
                 })}
-                placeholder="Enter first name"
+                placeholder='Enter first name'
                 disabled={viewEmployee}
               />
               {errors?.firstName && (
-                <span className="text-danger">{errors?.firstName.message}</span>
+                <span className='text-danger'>{errors?.firstName.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Last Name <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Last Name <span className='text-danger'>*</span>
               </label>
               <input
-                type="text"
-                className="form-control"
-                placeholder="Enter last name"
+                type='text'
+                className='form-control'
+                placeholder='Enter last name'
                 {...register("lastName", {
                   required: "Please Enter Last Name",
                   pattern: namePattern,
@@ -177,17 +178,17 @@ export const NewEmployeeManagementModal = ({
                 disabled={viewEmployee}
               />
               {errors?.lastName && (
-                <span className="text-danger">{errors?.lastName.message}</span>
+                <span className='text-danger'>{errors?.lastName.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Email <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Email <span className='text-danger'>*</span>
               </label>
               <input
-                type="email"
-                className="form-control"
-                placeholder="Enter employee email"
+                type='email'
+                className='form-control'
+                placeholder='Enter employee email'
                 {...register("email", {
                   required: "Please Enter Employee Email",
                   pattern: emailPattern,
@@ -195,17 +196,17 @@ export const NewEmployeeManagementModal = ({
                 disabled={viewEmployee}
               />
               {errors?.email && (
-                <span className="text-danger">{errors?.email.message}</span>
+                <span className='text-danger'>{errors?.email.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Phone <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Phone <span className='text-danger'>*</span>
               </label>
               <input
-                type="tel"
-                className="form-control"
-                placeholder="Enter employee phone"
+                type='tel'
+                className='form-control'
+                placeholder='Enter employee phone'
                 {...register("phoneNo", {
                   required: "Please Enter Employee Phone No.",
                   pattern: phonePattern,
@@ -213,21 +214,21 @@ export const NewEmployeeManagementModal = ({
                 disabled={viewEmployee}
               />
               {errors?.phoneNo && (
-                <span className="text-danger">{errors?.phoneNo.message}</span>
+                <span className='text-danger'>{errors?.phoneNo.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Position <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Position <span className='text-danger'>*</span>
               </label>
               <select
-                className="form-select"
+                className='form-select'
                 {...register("position", {
                   required: "Please Select Employee Position",
                 })}
                 disabled={viewEmployee}
               >
-                <option key={""} value="">
+                <option key={""} value=''>
                   Select position
                 </option>
                 {positions?.length &&
@@ -242,21 +243,21 @@ export const NewEmployeeManagementModal = ({
                   ))}
               </select>
               {errors?.position && (
-                <span className="text-danger">{errors?.position.message}</span>
+                <span className='text-danger'>{errors?.position.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Department <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Department <span className='text-danger'>*</span>
               </label>
               <select
-                className="form-select"
+                className='form-select'
                 {...register("department", {
                   required: "Please Select Employee Department",
                 })}
                 disabled={viewEmployee}
               >
-                <option key={""} value="">
+                <option key={""} value=''>
                   Select department
                 </option>
                 {departments?.length &&
@@ -271,84 +272,84 @@ export const NewEmployeeManagementModal = ({
                   ))}
               </select>
               {errors?.department && (
-                <span className="text-danger">
+                <span className='text-danger'>
                   {errors?.department.message}
                 </span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Join Date <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Join Date <span className='text-danger'>*</span>
               </label>
               <input
-                type="date"
-                className="form-control"
+                type='date'
+                className='form-control'
                 {...register("joinDate", {
                   required: "Please Enter Employee Join Date",
                 })}
                 disabled={viewEmployee}
               />
               {errors?.joinDate && (
-                <span className="text-danger">{errors?.joinDate.message}</span>
+                <span className='text-danger'>{errors?.joinDate.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Salary <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Salary <span className='text-danger'>*</span>
               </label>
               <input
-                type="number"
-                className="form-control"
-                placeholder="Enter employee salary"
+                type='number'
+                className='form-control'
+                placeholder='Enter employee salary'
                 {...register("salary", {
                   required: "Please Enter Employee Salary",
                 })}
                 disabled={viewEmployee}
               />
               {errors?.salary && (
-                <span className="text-danger">{errors?.salary.message}</span>
+                <span className='text-danger'>{errors?.salary.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Gender <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Gender <span className='text-danger'>*</span>
               </label>
               <select
-                className="form-select"
+                className='form-select'
                 {...register("gender", {
                   required: "Please Select Employee Gender",
                 })}
                 disabled={viewEmployee}
               >
-                <option key={""} value="">
+                <option key={""} value=''>
                   Select gender
                 </option>
-                <option key={"Male"} value="Male">
+                <option key={"Male"} value='Male'>
                   Male
                 </option>
-                <option key={"Female"} value="Female">
+                <option key={"Female"} value='Female'>
                   Female
                 </option>
-                <option key={"Other"} value="Other">
+                <option key={"Other"} value='Other'>
                   Other
                 </option>
               </select>
               {errors?.gender && (
-                <span className="text-danger">{errors?.gender.message}</span>
+                <span className='text-danger'>{errors?.gender.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Role <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Role <span className='text-danger'>*</span>
               </label>
               <select
-                className="form-select"
+                className='form-select'
                 {...register("userRole", {
                   required: "Please Select Employee Role",
                 })}
                 disabled={viewEmployee}
               >
-                <option value="">Select role</option>
+                <option value=''>Select role</option>
                 {roles.map((e, index) => (
                   <option
                     key={index}
@@ -360,60 +361,60 @@ export const NewEmployeeManagementModal = ({
                 ))}
               </select>
               {errors?.userRole && (
-                <span className="text-danger">{errors?.userRole.message}</span>
+                <span className='text-danger'>{errors?.userRole.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Status <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Status <span className='text-danger'>*</span>
               </label>
               <select
-                className="form-select"
+                className='form-select'
                 {...register("status", {
                   required: "Please Select Employee Status",
                 })}
                 disabled={viewEmployee}
               >
-                <option key={""} value="">
+                <option key={""} value=''>
                   Select status
                 </option>
-                <option key={"Active"} value="Active">
+                <option key={"Active"} value='Active'>
                   Active
                 </option>
-                <option key={"Inactive"} value="Inactive">
+                <option key={"Inactive"} value='Inactive'>
                   Inactive
                 </option>
               </select>
               {errors?.status && (
-                <span className="text-danger">{errors?.status.message}</span>
+                <span className='text-danger'>{errors?.status.message}</span>
               )}
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                User Name <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                User Name <span className='text-danger'>*</span>
               </label>
               <input
-                type="text"
-                className="form-control"
-                placeholder="Enter username"
+                type='text'
+                className='form-control'
+                placeholder='Enter username'
                 {...register("userName", {
                   required: "User Name is required",
                   pattern: namePattern,
                 })}
                 disabled={viewEmployee}
               />
-              <span className="text-danger">
+              <span className='text-danger'>
                 {errors?.userName && errors?.userName.message}
               </span>
             </div>
-            <div className="col-md-6 mb-3">
-              <label className="form-label">
-                Password <span className="text-danger">*</span>
+            <div className='col-md-6 mb-3'>
+              <label className='form-label'>
+                Password <span className='text-danger'>*</span>
               </label>
               <input
-                type="password"
-                className="form-control"
-                placeholder="Enter password"
+                type='password'
+                className='form-control'
+                placeholder='Enter password'
                 {...register("password", {
                   required: "Password is required",
                   pattern: passwordPattern,
@@ -424,18 +425,18 @@ export const NewEmployeeManagementModal = ({
                 })}
                 disabled={viewEmployee}
               />
-              <span className="text-danger">
+              <span className='text-danger'>
                 {errors?.password && errors?.password.message}
               </span>
             </div>
-            <div className="col-md-12 mb-3">
-              <label className="form-label">
-                Address <span className="text-danger">*</span>
+            <div className='col-md-12 mb-3'>
+              <label className='form-label'>
+                Address <span className='text-danger'>*</span>
               </label>
               <textarea
-                className="form-control"
+                className='form-control'
                 rows={3}
-                placeholder="Enter employee address"
+                placeholder='Enter employee address'
                 {...register("address", {
                   required: "Please Enter Employee Address",
                 })}
@@ -443,20 +444,20 @@ export const NewEmployeeManagementModal = ({
                 defaultValue={""}
               />
               {errors?.address && (
-                <span className="text-danger">{errors?.address.message}</span>
+                <span className='text-danger'>{errors?.address.message}</span>
               )}
             </div>
 
             <Modal.Footer>
               <button
-                type="button"
+                type='button'
                 onClick={handleClose}
-                className="btn btn-secondary"
+                className='btn btn-secondary'
               >
                 Cancel
               </button>
               {!viewEmployee && (
-                <button type="submit" className="btn btn-primary">
+                <button type='submit' className='btn btn-primary'>
                   {employeeData ? "Update" : "Add"} Employee
                 </button>
               )}

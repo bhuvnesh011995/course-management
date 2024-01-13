@@ -8,7 +8,7 @@ import AddNew from "../TabContents/Designation/AddNew";
 import MaterialReactTable from "material-react-table";
 
 export default function Leave() {
-  const { NewAxiosInstance } = useAuth();
+  const { NewAxiosInstance, user } = useAuth();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInfo, setDeleteInfo] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function Leave() {
       try {
         let response = await NewAxiosInstance.post(
           "/constants/leave",
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("leave added successfully");
@@ -46,7 +46,7 @@ export default function Leave() {
         toast.error("error while adding leave");
       }
     },
-    [data]
+    [data],
   );
 
   const updateLeave = useCallback(
@@ -54,7 +54,7 @@ export default function Leave() {
       try {
         let response = await NewAxiosInstance.put(
           "/constants/leave/" + id,
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("leave updated successfully");
@@ -72,7 +72,7 @@ export default function Leave() {
         toast.error("error while updating leave");
       }
     },
-    [data]
+    [data],
   );
 
   useCustomUseEffect(getLeaves);
@@ -84,7 +84,7 @@ export default function Leave() {
         header: "Name",
       },
     ],
-    []
+    [],
   );
   const handleDelete = useCallback(
     async (id) => {
@@ -104,7 +104,7 @@ export default function Leave() {
         return { success: false, message: "server error occured" };
       }
     },
-    [data]
+    [data],
   );
   return (
     <Card>
@@ -128,15 +128,17 @@ export default function Leave() {
         />
       )}
       <Card.Body>
-        <div class="tab-pane">
+        <div class='tab-pane'>
           <h4>List All Leave</h4>
-          <p class="card-title-desc" style={{ textAlign: "right" }}>
-            <button
-              class="btn btn-primary text-right"
-              onClick={() => setIsOpen(true)}
-            >
-              Add New Leave
-            </button>
+          <p class='card-title-desc' style={{ textAlign: "right" }}>
+            {user.userData?.roleData?.constants?.create && (
+              <button
+                class='btn btn-primary text-right'
+                onClick={() => setIsOpen(true)}
+              >
+                Add New Leave
+              </button>
+            )}
           </p>
 
           <MaterialReactTable
@@ -147,34 +149,38 @@ export default function Leave() {
             enableSorting={false}
             enableTopToolbar={false}
             enableRowActions
-            leaveActionsColumn="last"
+            leaveActionsColumn='last'
             enableRowNumbers
-            rowNumberMode="static"
+            rowNumberMode='static'
             renderRowActions={({ row, table }) => (
-              <div className="hstack gap-2 fs-1">
-                <button
-                  onClick={() => {
-                    setUpdateData(row.original);
-                    setIsOpen(true);
-                  }}
-                  className="btn btn-icon btn-sm btn-info rounded-pill"
-                >
-                  <i className="bx bxs-edit-alt" />
-                </button>
-                <button
-                  onClick={async () => {
-                    setDeleteInfo({
-                      id: row.original._id,
-                      message: `Do you really want to delete ${row.original.name}
+              <div className='hstack gap-2 fs-1'>
+                {user.userData?.roleData?.constants?.write && (
+                  <button
+                    onClick={() => {
+                      setUpdateData(row.original);
+                      setIsOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-info rounded-pill'
+                  >
+                    <i className='bx bxs-edit-alt' />
+                  </button>
+                )}
+                {user.userData?.roleData?.constants?.delete && (
+                  <button
+                    onClick={async () => {
+                      setDeleteInfo({
+                        id: row.original._id,
+                        message: `Do you really want to delete ${row.original.name}
                               this cannot be undone`,
-                      header: "Delete Leave",
-                    });
-                    setDeleteModalOpen(true);
-                  }}
-                  className="btn btn-icon btn-sm btn-danger rounded-pill"
-                >
-                  <i className="bx bxs-trash" />
-                </button>
+                        header: "Delete Leave",
+                      });
+                      setDeleteModalOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-danger rounded-pill'
+                  >
+                    <i className='bx bxs-trash' />
+                  </button>
+                )}
               </div>
             )}
           />

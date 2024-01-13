@@ -30,7 +30,7 @@ export default function AddNew({
   }, [ready]);
 
   return (
-    <Modal size="lg" show={show} onHide={() => setShow(false)}>
+    <Modal size='lg' show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton>
         <Modal.Title>
           {data ? "Update Position" : "Add New Position"}
@@ -45,9 +45,9 @@ export default function AddNew({
           <label>Position Name</label>
           <input
             {...register("name", { required: "this is required field" })}
-            type="text"
-            class="form-control"
-            placeholder="Enter Position"
+            type='text'
+            class='form-control'
+            placeholder='Enter Position'
           />
           {errors.name && (
             <span style={{ color: "red" }}>{errors.name.message}</span>
@@ -58,12 +58,12 @@ export default function AddNew({
             onClick={() => {
               setShow(false);
             }}
-            type="button"
-            class="btn btn-dander"
+            type='button'
+            class='btn btn-dander'
           >
             Cancel
           </button>
-          <button type="submit" class="btn btn-success">
+          <button type='submit' class='btn btn-success'>
             Save
           </button>
         </Modal.Footer>

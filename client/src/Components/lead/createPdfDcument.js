@@ -161,7 +161,6 @@ export const CreatePaymentPdfBase64 = (
   const base64Data = pdfDataUri.split(
     "data:application/pdf;filename=generated.pdf;base64,",
   )[1];
-  console.log(viewType);
   if (viewType) {
     doc.save("paymentData.pdf");
   } else return base64Data;

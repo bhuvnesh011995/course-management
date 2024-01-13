@@ -22,10 +22,15 @@ const roleSchema = new mongoose.Schema(
     courses: roleCommon,
     class: roleCommon,
     certificateGeneration: roleCommon,
+    multiLanguage: roleCommon,
+    constants: roleCommon,
+    system: roleCommon,
+    attendance: roleCommon,
+    calendar: roleCommon,
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
-  }
+  },
 );
 
 const roleModel = mongoose.model("roles", roleSchema);

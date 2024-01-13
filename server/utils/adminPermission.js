@@ -102,4 +102,31 @@ module.exports = {
     write: true,
     delete: true,
   },
+  multiLanguage: {
+    create: true,
+    read: true,
+    write: true,
+    delete: true,
+  },
+  system: {
+    create: true,
+    read: true,
+    write: true,
+    delete: true,
+  },
+  constants: {
+    create: true,
+    read: true,
+    write: true,
+    delete: true,
+  },
+  attendance: {
+    create: true,
+    read: true,
+    write: true,
+    delete: true,
+  },
+  calendar: {
+    read: true,
+  },
 };

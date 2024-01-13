@@ -338,7 +338,7 @@ export const Lead = () => {
                         </button>
                       )}
                       <Link
-                        to='/lead-grid'
+                        to='/lead/lead-grid'
                         className='btn mx-1 btn-primary me-2'
                         style={{ height: "20px", padding: "0 0.5rem" }}
                       >

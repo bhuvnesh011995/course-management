@@ -18,12 +18,15 @@ export const AddNewRoleModel = ({
   const [permissionChecked, setPermissionChecked] = useState({
     lead: false,
     holiday: false,
+    constants: false,
+    system: false,
     registrationType: false,
     tradeLevel: false,
     tradeType: false,
     courses: false,
     class: false,
     certificateGeneration: false,
+    attendance: false,
     userManagement: false,
     employeeManagement: false,
     finManagement: false,
@@ -33,10 +36,13 @@ export const AddNewRoleModel = ({
     admin: false,
     HRMS: false,
     schedule: false,
+    settings: false,
     courseManagement: false,
     timesheet: false,
     customer: false,
     trainer: false,
+    calendar: false,
+    multiLanguage: false,
   });
 
   useEffect(() => {
@@ -58,17 +64,22 @@ export const AddNewRoleModel = ({
   const checkArray = [
     "employeeManagement",
     "trainer",
+    "calendar",
+    "multiLanguage",
     "finManagement",
     "payroll",
     "leaveManagement",
     "userManagement",
     "lead",
     "holiday",
+    "constants",
+    "system",
     "registrationType",
     "tradeLevel",
     "courses",
     "class",
     "certificateGeneration",
+    "attendance",
     "tradeType",
     "customer",
     "timesheet",
@@ -78,13 +89,15 @@ export const AddNewRoleModel = ({
   const permissionType = {
     admin: ["role", "userManagement"],
     HRMS: ["timesheet", "leaveManagement", "payroll", "employeeManagement"],
-    schedule: ["trainer", "holiday"],
+    schedule: ["trainer", "holiday", "calendar"],
+    settings: ["multiLanguage", "constants", "system"],
     courseManagement: [
       "registrationType",
       "tradeLevel",
       "courses",
       "class",
       "certificateGeneration",
+      "attendance",
       "tradeType",
     ],
   };
@@ -122,7 +135,7 @@ export const AddNewRoleModel = ({
       toast.dismiss();
       const newRole = await NewAxiosInstance.post(
         "/roles/addNewRole",
-        roleData
+        roleData,
       );
       if (newRole.status == 200) {
         toast.success("Role Added Successfully");
@@ -149,13 +162,18 @@ export const AddNewRoleModel = ({
     setPermissionChecked({
       lead: isChecked,
       holiday: isChecked,
+      constants: isChecked,
+      system: isChecked,
       registrationType: isChecked,
       tradeLevel: isChecked,
       courses: isChecked,
       class: isChecked,
       certificateGeneration: isChecked,
+      attendance: isChecked,
       tradeType: isChecked,
       trainer: isChecked,
+      calendar: isChecked,
+      multiLanguage: isChecked,
       customer: isChecked,
       timesheet: isChecked,
       userManagement: isChecked,
@@ -163,6 +181,7 @@ export const AddNewRoleModel = ({
       HRMS: isChecked,
       courseManagement: isChecked,
       schedule: isChecked,
+      settings: isChecked,
       finManagement: isChecked,
       leaveManagement: isChecked,
       payroll: isChecked,
@@ -182,6 +201,9 @@ export const AddNewRoleModel = ({
 
   const onPermissionChange = (permission) => {
     setValue(permission, !getValues(permission));
+    if (getValues(permission)) {
+      setValue(permission.split(".")[0].concat(".read"), true);
+    }
     selectPermissionTab(permission);
     checkAllSelected();
   };
@@ -196,6 +218,12 @@ export const AddNewRoleModel = ({
         break;
       case "holiday.selectAll":
         selectAllTypes("holiday", getValues(permission));
+        break;
+      case "constants.selectAll":
+        selectAllTypes("constants", getValues(permission));
+        break;
+      case "system.selectAll":
+        selectAllTypes("system", getValues(permission));
         break;
       case "registrationType.selectAll":
         selectAllTypes("registrationType", getValues(permission));
@@ -212,6 +240,9 @@ export const AddNewRoleModel = ({
       case "certificateGeneration.selectAll":
         selectAllTypes("certificateGeneration", getValues(permission));
         break;
+      case "attendance.selectAll":
+        selectAllTypes("attendance", getValues(permission));
+        break;
       case "tradeType.selectAll":
         selectAllTypes("tradeType", getValues(permission));
         break;
@@ -227,6 +258,12 @@ export const AddNewRoleModel = ({
         break;
       case "trainer.selectAll":
         selectAllTypes("trainer", getValues(permission));
+        break;
+      case "calendar.selectAll":
+        selectAllTypes("calendar", getValues(permission));
+        break;
+      case "multiLanguage.selectAll":
+        selectAllTypes("multiLanguage", getValues(permission));
         break;
       case "finManagement.selectAll":
         selectAllTypes("finManagement", getValues(permission));
@@ -247,15 +284,20 @@ export const AddNewRoleModel = ({
     const isAllChecked = {
       lead: [],
       holiday: [],
+      constants: [],
+      system: [],
       registrationType: [],
       tradeLevel: [],
       courses: [],
       class: [],
       certificateGeneration: [],
+      attendance: [],
       tradeType: [],
       customer: [],
       timesheet: [],
       trainer: [],
+      calendar: [],
+      multiLanguage: [],
       userManagement: [],
       finManagement: [],
       payroll: [],
@@ -275,6 +317,14 @@ export const AddNewRoleModel = ({
       for (const checkbox in data.trainer) {
         isAllChecked.trainer.push(data.trainer[checkbox]);
         isAllChecked.isAllSelected.push(data.trainer[checkbox]);
+      }
+      for (const checkbox in data.calendar) {
+        isAllChecked.calendar.push(data.calendar[checkbox]);
+        isAllChecked.isAllSelected.push(data.calendar[checkbox]);
+      }
+      for (const checkbox in data.multiLanguage) {
+        isAllChecked.multiLanguage.push(data.multiLanguage[checkbox]);
+        isAllChecked.isAllSelected.push(data.multiLanguage[checkbox]);
       }
       if (isAllChecked.isAllSelected.includes(false)) setIsAllSelected(false);
       else setIsAllSelected(true);
@@ -316,7 +366,8 @@ export const AddNewRoleModel = ({
       isAllChecked.tradeType.includes(false) ||
       isAllChecked.courses.includes(false) ||
       isAllChecked.class.includes(false) ||
-      isAllChecked.certificateGeneration.includes(false)
+      isAllChecked.certificateGeneration.includes(false) ||
+      isAllChecked.attendance.includes(false)
     ) {
       permissionChecked.courseManagement = false;
     } else {
@@ -325,11 +376,22 @@ export const AddNewRoleModel = ({
 
     if (
       isAllChecked.trainer.includes(false) ||
-      isAllChecked.holiday.includes(false)
+      isAllChecked.holiday.includes(false) ||
+      isAllChecked.calendar.includes(false)
     ) {
       permissionChecked.schedule = false;
     } else {
       permissionChecked.schedule = true;
+    }
+
+    if (
+      isAllChecked.multiLanguage.includes(false) ||
+      isAllChecked.constants.includes(false) ||
+      isAllChecked.system.includes(false)
+    ) {
+      permissionChecked.settings = false;
+    } else {
+      permissionChecked.settings = true;
     }
 
     setPermissionChecked({ ...permissionChecked });
@@ -366,51 +428,57 @@ export const AddNewRoleModel = ({
           setValue(`${type}.selectAll`, tabName);
         });
         break;
+      case "settings":
+        permissionType.settings.map((type) => {
+          selectAllTypes(type, getValues(tabName));
+          setValue(`${type}.selectAll`, tabName);
+        });
+        break;
     }
     checkAllSelected();
   };
 
   return (
     <div>
-      <Modal show={isOpen} onHide={handleCloseRoleModal} size="lg">
+      <Modal show={isOpen} onHide={handleCloseRoleModal} size='lg'>
         <Modal.Header closeButton>
           <Modal.Title>
             {viewRole ? (
-              <h3 className="role-title">View Role</h3>
+              <h3 className='role-title'>View Role</h3>
             ) : (
-              <h3 className="role-title">{roleId ? "Edit" : "Add New"} Role</h3>
+              <h3 className='role-title'>{roleId ? "Edit" : "Add New"} Role</h3>
             )}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit(roleId ? editRoleData : addNewRole)}>
-            <div className="col-12 mb-4 fv-plugins-icon-container">
-              <label className="form-label">
-                Role Name <span className="text-danger">*</span>
+            <div className='col-12 mb-4 fv-plugins-icon-container'>
+              <label className='form-label'>
+                Role Name <span className='text-danger'>*</span>
               </label>
               <input
-                type="text"
-                id="modalRoleName"
+                type='text'
+                id='modalRoleName'
                 {...register("roleName", {
                   required: "this field is required",
                 })}
-                className="form-control"
-                placeholder="Enter a role name"
+                className='form-control'
+                placeholder='Enter a role name'
                 disabled={viewRole}
               />
               {errors?.roleName && (
-                <span className="text-danger">{errors?.roleName.message}</span>
+                <span className='text-danger'>{errors?.roleName.message}</span>
               )}
             </div>
-            <div className="col-12">
+            <div className='col-12'>
               <h4>Role Permissions</h4>
-              <div style={{ height: "400px" }} className="table-responsive">
-                <table className="table table-flush-spacing">
+              <div style={{ height: "400px" }} className='table-responsive'>
+                <table className='table table-flush-spacing'>
                   <tbody>
                     <tr>
-                      <td className="text-nowrap fw-medium">
+                      <td className='text-nowrap fw-medium'>
                         Administrator Access{" "}
-                        <i className="bx bx-info-circle bx-xs" />
+                        <i className='bx bx-info-circle bx-xs' />
                         {/* <ToggleButton
                           aria-label="Allows a full access to the system"
                           title="Allows a full access to the system"
@@ -418,15 +486,15 @@ export const AddNewRoleModel = ({
                         /> */}
                       </td>
                       <td>
-                        <div className="form-check ">
+                        <div className='form-check '>
                           <input
-                            className="form-check-input"
-                            type="checkbox"
+                            className='form-check-input'
+                            type='checkbox'
                             onChange={({ target }) => selectAll(target.checked)}
                             checked={isAllSelected}
                             disabled={viewRole}
                           />
-                          <label className="form-check-label">Select All</label>
+                          <label className='form-check-label'>Select All</label>
                         </div>
                       </td>
                     </tr>
@@ -434,41 +502,41 @@ export const AddNewRoleModel = ({
                       <tbody>
                         <tr>
                           <th>
-                            <div className="form-check mx-3">
+                            <div className='form-check mx-3'>
                               <input
-                                className="form-check-input"
-                                type="checkbox"
+                                className='form-check-input'
+                                type='checkbox'
                                 onChange={() =>
                                   selectMainPermissionTab("admin")
                                 }
                                 checked={permissionChecked.admin}
                                 disabled={viewRole}
                               />
-                              <td className="text-nowrap fw-medium">Admin</td>
+                              <td className='text-nowrap fw-medium'>Admin</td>
                             </div>
                           </th>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("userManagement.selectAll")
                               }
                               checked={permissionChecked.userManagement}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">
+                            <td className='text-nowrap fw-medium'>
                               User Management
                             </td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("userManagement.read")}
                                   onChange={() =>
                                     onPermissionChange("userManagement.read")
@@ -480,12 +548,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("userManagement.write")}
                                   onChange={() =>
                                     onPermissionChange("userManagement.write")
@@ -497,14 +565,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check  me-3 me-lg-5">
+                              <div className='form-check  me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("userManagement.create")}
                                   onChange={() =>
                                     onPermissionChange("userManagement.create")
@@ -516,14 +584,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("userManagement.delete")}
                                   onChange={() =>
                                     onPermissionChange("userManagement.delete")
@@ -535,7 +603,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -543,26 +611,26 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("role.selectAll")
                               }
                               checked={permissionChecked.role}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">
+                            <td className='text-nowrap fw-medium'>
                               Roles And Permission
                             </td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("role.read")}
                                   onChange={() =>
                                     onPermissionChange("role.read")
@@ -574,12 +642,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("role.write")}
                                   onChange={() =>
                                     onPermissionChange("role.write")
@@ -591,14 +659,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check  me-3 me-lg-5">
+                              <div className='form-check  me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("role.create")}
                                   onChange={() =>
                                     onPermissionChange("role.create")
@@ -610,14 +678,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("role.delete")}
                                   onChange={() =>
                                     onPermissionChange("role.delete")
@@ -629,7 +697,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -642,46 +710,46 @@ export const AddNewRoleModel = ({
                       <tbody>
                         <tr>
                           <th>
-                            <div className="form-check mx-3">
+                            <div className='form-check mx-3'>
                               <input
-                                className="form-check-input"
-                                type="checkbox"
+                                className='form-check-input'
+                                type='checkbox'
                                 onChange={() => selectMainPermissionTab("HRMS")}
                                 checked={permissionChecked.HRMS}
                                 disabled={viewRole}
                               />
-                              <td className="text-nowrap fw-medium">HRMS</td>
+                              <td className='text-nowrap fw-medium'>HRMS</td>
                             </div>
                           </th>
                         </tr>
 
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange(
-                                  "employeeManagement.selectAll"
+                                  "employeeManagement.selectAll",
                                 )
                               }
                               checked={permissionChecked.employeeManagement}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">
+                            <td className='text-nowrap fw-medium'>
                               employee Management
                             </td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("employeeManagement.read")}
                                   onChange={() =>
                                     onPermissionChange(
-                                      "employeeManagement.read"
+                                      "employeeManagement.read",
                                     )
                                   }
                                   checked={
@@ -691,16 +759,16 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("employeeManagement.write")}
                                   onChange={() =>
                                     onPermissionChange(
-                                      "employeeManagement.write"
+                                      "employeeManagement.write",
                                     )
                                   }
                                   checked={
@@ -710,18 +778,18 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("employeeManagement.create")}
                                   onChange={() =>
                                     onPermissionChange(
-                                      "employeeManagement.create"
+                                      "employeeManagement.create",
                                     )
                                   }
                                   checked={
@@ -731,18 +799,18 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("employeeManagement.delete")}
                                   onChange={() =>
                                     onPermissionChange(
-                                      "employeeManagement.delete"
+                                      "employeeManagement.delete",
                                     )
                                   }
                                   checked={
@@ -752,7 +820,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -760,26 +828,26 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("leaveManagement.selectAll")
                               }
                               checked={permissionChecked.leaveManagement}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">
+                            <td className='text-nowrap fw-medium'>
                               leaveManagement
                             </td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("leaveManagement.read")}
                                   onChange={() =>
                                     onPermissionChange("leaveManagement.read")
@@ -791,12 +859,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("leaveManagement.write")}
                                   onChange={() =>
                                     onPermissionChange("leaveManagement.write")
@@ -808,14 +876,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("leaveManagement.create")}
                                   onChange={() =>
                                     onPermissionChange("leaveManagement.create")
@@ -827,14 +895,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("leaveManagement.delete")}
                                   onChange={() =>
                                     onPermissionChange("leaveManagement.delete")
@@ -846,7 +914,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -854,24 +922,24 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("payroll.selectAll")
                               }
                               checked={permissionChecked.payroll}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">Payroll</td>
+                            <td className='text-nowrap fw-medium'>Payroll</td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("payroll.read")}
                                   onChange={() =>
                                     onPermissionChange("payroll.read")
@@ -883,12 +951,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("payroll.write")}
                                   onChange={() =>
                                     onPermissionChange("payroll.write")
@@ -900,14 +968,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("payroll.create")}
                                   onChange={() =>
                                     onPermissionChange("payroll.create")
@@ -919,14 +987,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("payroll.delete")}
                                   onChange={() =>
                                     onPermissionChange("payroll.delete")
@@ -938,7 +1006,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -946,24 +1014,24 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("timesheet.selectAll")
                               }
                               checked={permissionChecked.timesheet}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">Timesheet</td>
+                            <td className='text-nowrap fw-medium'>Timesheet</td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("timesheet.read")}
                                   onChange={() =>
                                     onPermissionChange("timesheet.read")
@@ -975,12 +1043,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("timesheet.write")}
                                   onChange={() =>
                                     onPermissionChange("timesheet.write")
@@ -992,14 +1060,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("timesheet.create")}
                                   onChange={() =>
                                     onPermissionChange("timesheet.create")
@@ -1011,14 +1079,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("timesheet.delete")}
                                   onChange={() =>
                                     onPermissionChange("timesheet.delete")
@@ -1030,7 +1098,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -1044,41 +1112,41 @@ export const AddNewRoleModel = ({
                       <tbody>
                         <tr>
                           <th>
-                            <div className="form-check mx-3">
+                            <div className='form-check mx-3'>
                               <input
-                                className="form-check-input"
-                                type="checkbox"
+                                className='form-check-input'
+                                type='checkbox'
                                 onChange={() =>
                                   selectMainPermissionTab("schedule")
                                 }
                                 checked={permissionChecked.schedule}
                                 disabled={viewRole}
                               />
-                              <td className="text-nowrap fw-medium">
+                              <td className='text-nowrap fw-medium'>
                                 Schedule
                               </td>
                             </div>
                           </th>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("trainer.selectAll")
                               }
                               checked={permissionChecked.trainer}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">Trainer</td>
+                            <td className='text-nowrap fw-medium'>Trainer</td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("trainer.read")}
                                   onChange={() =>
                                     onPermissionChange("trainer.read")
@@ -1090,12 +1158,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("trainer.write")}
                                   onChange={() =>
                                     onPermissionChange("trainer.write")
@@ -1107,14 +1175,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("trainer.create")}
                                   onChange={() =>
                                     onPermissionChange("trainer.create")
@@ -1126,14 +1194,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("trainer.delete")}
                                   onChange={() =>
                                     onPermissionChange("trainer.delete")
@@ -1145,7 +1213,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -1153,24 +1221,59 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
+                              onChange={() =>
+                                onPermissionChange("calendar.selectAll")
+                              }
+                              checked={permissionChecked.calendar}
+                              disabled={viewRole}
+                            />
+                            <td className='text-nowrap fw-medium'>Calendar</td>
+                          </div>
+                          <td>
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("calendar.read")}
+                                  onChange={() =>
+                                    onPermissionChange("calendar.read")
+                                  }
+                                  checked={
+                                    permissionChecked.calendar
+                                      ? permissionChecked.calendar
+                                      : watch("calendar.read")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>Read</label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <div className='form-check mx-3'>
+                            <input
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("holiday.selectAll")
                               }
                               checked={permissionChecked.holiday}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">Holiday</td>
+                            <td className='text-nowrap fw-medium'>Holiday</td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("holiday.read")}
                                   onChange={() =>
                                     onPermissionChange("holiday.read")
@@ -1182,12 +1285,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("holiday.write")}
                                   onChange={() =>
                                     onPermissionChange("holiday.write")
@@ -1199,14 +1302,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("holiday.create")}
                                   onChange={() =>
                                     onPermissionChange("holiday.create")
@@ -1218,14 +1321,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("holiday.delete")}
                                   onChange={() =>
                                     onPermissionChange("holiday.delete")
@@ -1237,7 +1340,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -1250,43 +1353,43 @@ export const AddNewRoleModel = ({
                       <tbody>
                         <tr>
                           <th>
-                            <div className="form-check mx-3">
+                            <div className='form-check mx-3'>
                               <input
-                                className="form-check-input"
-                                type="checkbox"
+                                className='form-check-input'
+                                type='checkbox'
                                 onChange={() =>
                                   selectMainPermissionTab("courseManagement")
                                 }
                                 checked={permissionChecked.courseManagement}
                                 disabled={viewRole}
                               />
-                              <td className="text-nowrap fw-medium">
+                              <td className='text-nowrap fw-medium'>
                                 Course Management
                               </td>
                             </div>
                           </th>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("registrationType.selectAll")
                               }
                               checked={permissionChecked.registrationType}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">
+                            <td className='text-nowrap fw-medium'>
                               Registration Type
                             </td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("registrationType.read")}
                                   onChange={() =>
                                     onPermissionChange("registrationType.read")
@@ -1298,12 +1401,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("registrationType.write")}
                                   onChange={() =>
                                     onPermissionChange("registrationType.write")
@@ -1315,18 +1418,18 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("registrationType.create")}
                                   onChange={() =>
                                     onPermissionChange(
-                                      "registrationType.create"
+                                      "registrationType.create",
                                     )
                                   }
                                   checked={
@@ -1336,18 +1439,18 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("registrationType.delete")}
                                   onChange={() =>
                                     onPermissionChange(
-                                      "registrationType.delete"
+                                      "registrationType.delete",
                                     )
                                   }
                                   checked={
@@ -1357,7 +1460,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -1365,26 +1468,26 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("tradeLevel.selectAll")
                               }
                               checked={permissionChecked.tradeLevel}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">
+                            <td className='text-nowrap fw-medium'>
                               Trade Level
                             </td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("tradeLevel.read")}
                                   onChange={() =>
                                     onPermissionChange("tradeLevel.read")
@@ -1396,12 +1499,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("tradeLevel.write")}
                                   onChange={() =>
                                     onPermissionChange("tradeLevel.write")
@@ -1413,14 +1516,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("tradeLevel.create")}
                                   onChange={() =>
                                     onPermissionChange("tradeLevel.create")
@@ -1432,14 +1535,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("tradeLevel.delete")}
                                   onChange={() =>
                                     onPermissionChange("tradeLevel.delete")
@@ -1451,7 +1554,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -1459,26 +1562,26 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("tradeType.selectAll")
                               }
                               checked={permissionChecked.tradeType}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">
+                            <td className='text-nowrap fw-medium'>
                               Trade Type
                             </td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("tradeType.read")}
                                   onChange={() =>
                                     onPermissionChange("tradeType.read")
@@ -1490,12 +1593,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("tradeType.write")}
                                   onChange={() =>
                                     onPermissionChange("tradeType.write")
@@ -1507,14 +1610,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("tradeType.create")}
                                   onChange={() =>
                                     onPermissionChange("tradeType.create")
@@ -1526,14 +1629,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("tradeType.delete")}
                                   onChange={() =>
                                     onPermissionChange("tradeType.delete")
@@ -1545,7 +1648,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -1553,24 +1656,24 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("courses.selectAll")
                               }
                               checked={permissionChecked.courses}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">Course</td>
+                            <td className='text-nowrap fw-medium'>Course</td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("courses.read")}
                                   onChange={() =>
                                     onPermissionChange("courses.read")
@@ -1582,12 +1685,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("courses.write")}
                                   onChange={() =>
                                     onPermissionChange("courses.write")
@@ -1599,14 +1702,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("courses.create")}
                                   onChange={() =>
                                     onPermissionChange("courses.create")
@@ -1618,14 +1721,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("courses.delete")}
                                   onChange={() =>
                                     onPermissionChange("courses.delete")
@@ -1637,7 +1740,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -1645,24 +1748,24 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange("class.selectAll")
                               }
                               checked={permissionChecked.class}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">Class</td>
+                            <td className='text-nowrap fw-medium'>Class</td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("class.read")}
                                   onChange={() =>
                                     onPermissionChange("class.read")
@@ -1674,12 +1777,12 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("class.write")}
                                   onChange={() =>
                                     onPermissionChange("class.write")
@@ -1691,14 +1794,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("class.create")}
                                   onChange={() =>
                                     onPermissionChange("class.create")
@@ -1710,14 +1813,14 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Create
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("class.delete")}
                                   onChange={() =>
                                     onPermissionChange("class.delete")
@@ -1729,7 +1832,7 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Delete
                                 </label>
                               </div>
@@ -1737,32 +1840,32 @@ export const AddNewRoleModel = ({
                           </td>
                         </tr>
                         <tr>
-                          <div className="form-check mx-3">
+                          <div className='form-check mx-3'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               onChange={() =>
                                 onPermissionChange(
-                                  "certificateGeneration.selectAll"
+                                  "certificateGeneration.selectAll",
                                 )
                               }
                               checked={permissionChecked.certificateGeneration}
                               disabled={viewRole}
                             />
-                            <td className="text-nowrap fw-medium">
+                            <td className='text-nowrap fw-medium'>
                               Certificate Generation
                             </td>
                           </div>
                           <td>
-                            <div className="d-flex">
-                              <div className="form-check me-3 me-lg-5">
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("certificateGeneration.read")}
                                   onChange={() =>
                                     onPermissionChange(
-                                      "certificateGeneration.read"
+                                      "certificateGeneration.read",
                                     )
                                   }
                                   checked={
@@ -1772,16 +1875,16 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">Read</label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
+                                  className='form-check-input'
+                                  type='checkbox'
                                   {...register("certificateGeneration.write")}
                                   onChange={() =>
                                     onPermissionChange(
-                                      "certificateGeneration.write"
+                                      "certificateGeneration.write",
                                     )
                                   }
                                   checked={
@@ -1791,50 +1894,64 @@ export const AddNewRoleModel = ({
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
+                                <label className='form-check-label'>
                                   Write
                                 </label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <div className='form-check mx-3'>
+                            <input
+                              className='form-check-input'
+                              type='checkbox'
+                              onChange={() =>
+                                onPermissionChange("attendance.selectAll")
+                              }
+                              checked={permissionChecked.attendance}
+                              disabled={viewRole}
+                            />
+                            <td className='text-nowrap fw-medium'>
+                              Attendance
+                            </td>
+                          </div>
+                          <td>
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  {...register("certificateGeneration.create")}
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("attendance.read")}
                                   onChange={() =>
-                                    onPermissionChange(
-                                      "certificateGeneration.create"
-                                    )
+                                    onPermissionChange("attendance.read")
                                   }
                                   checked={
-                                    permissionChecked.certificateGeneration
-                                      ? permissionChecked.certificateGeneration
-                                      : watch("certificateGeneration.create")
+                                    permissionChecked.attendance
+                                      ? permissionChecked.attendance
+                                      : watch("attendance.read")
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
-                                  Create
-                                </label>
+                                <label className='form-check-label'>Read</label>
                               </div>
-                              <div className="form-check me-3 me-lg-5">
+                              <div className='form-check me-3 me-lg-5'>
                                 <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  {...register("certificateGeneration.delete")}
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("attendance.write")}
                                   onChange={() =>
-                                    onPermissionChange(
-                                      "certificateGeneration.delete"
-                                    )
+                                    onPermissionChange("attendance.write")
                                   }
                                   checked={
-                                    permissionChecked.certificateGeneration
-                                      ? permissionChecked.certificateGeneration
-                                      : watch("certificateGeneration.delete")
+                                    permissionChecked.attendance
+                                      ? permissionChecked.attendance
+                                      : watch("attendance.write")
                                   }
                                   disabled={viewRole}
                                 />
-                                <label className="form-check-label">
-                                  Delete
+                                <label className='form-check-label'>
+                                  Write
                                 </label>
                               </div>
                             </div>
@@ -1844,26 +1961,26 @@ export const AddNewRoleModel = ({
                     </tr>
 
                     <tr>
-                      <div className="form-check mx-3">
+                      <div className='form-check mx-3'>
                         <input
-                          className="form-check-input"
-                          type="checkbox"
+                          className='form-check-input'
+                          type='checkbox'
                           onChange={() =>
                             onPermissionChange("finManagement.selectAll")
                           }
                           checked={permissionChecked.finManagement}
                           disabled={viewRole}
                         />
-                        <td className="text-nowrap fw-medium">
+                        <td className='text-nowrap fw-medium'>
                           Financial Management
                         </td>
                       </div>
                       <td>
-                        <div className="d-flex">
-                          <div className="form-check me-3 me-lg-5">
+                        <div className='d-flex'>
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("finManagement.read")}
                               onChange={() =>
                                 onPermissionChange("finManagement.read")
@@ -1875,12 +1992,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Read</label>
+                            <label className='form-check-label'>Read</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("finManagement.write")}
                               onChange={() =>
                                 onPermissionChange("finManagement.write")
@@ -1892,12 +2009,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Write</label>
+                            <label className='form-check-label'>Write</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("finManagement.create")}
                               onChange={() =>
                                 onPermissionChange("finManagement.create")
@@ -1909,12 +2026,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Create</label>
+                            <label className='form-check-label'>Create</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("finManagement.delete")}
                               onChange={() =>
                                 onPermissionChange("finManagement.delete")
@@ -1926,29 +2043,29 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Delete</label>
+                            <label className='form-check-label'>Delete</label>
                           </div>
                         </div>
                       </td>
                     </tr>
 
                     <tr>
-                      <div className="form-check mx-3">
+                      <div className='form-check mx-3'>
                         <input
-                          className="form-check-input"
-                          type="checkbox"
+                          className='form-check-input'
+                          type='checkbox'
                           onChange={() => onPermissionChange("lead.selectAll")}
                           checked={permissionChecked.lead}
                           disabled={viewRole}
                         />
-                        <td className="text-nowrap fw-medium">Lead</td>
+                        <td className='text-nowrap fw-medium'>Lead</td>
                       </div>
                       <td>
-                        <div className="d-flex">
-                          <div className="form-check me-3 me-lg-5">
+                        <div className='d-flex'>
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("lead.read")}
                               onChange={() => onPermissionChange("lead.read")}
                               checked={
@@ -1958,12 +2075,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Read</label>
+                            <label className='form-check-label'>Read</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("lead.write")}
                               onChange={() => onPermissionChange("lead.write")}
                               checked={
@@ -1973,12 +2090,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Write</label>
+                            <label className='form-check-label'>Write</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("lead.create")}
                               onChange={() => onPermissionChange("lead.create")}
                               checked={
@@ -1988,12 +2105,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Create</label>
+                            <label className='form-check-label'>Create</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("lead.delete")}
                               onChange={() => onPermissionChange("lead.delete")}
                               checked={
@@ -2003,31 +2120,31 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Delete</label>
+                            <label className='form-check-label'>Delete</label>
                           </div>
                         </div>
                       </td>
                     </tr>
 
                     <tr>
-                      <div className="form-check mx-3">
+                      <div className='form-check mx-3'>
                         <input
-                          className="form-check-input"
-                          type="checkbox"
+                          className='form-check-input'
+                          type='checkbox'
                           onChange={() =>
                             onPermissionChange("customer.selectAll")
                           }
                           checked={permissionChecked.customer}
                           disabled={viewRole}
                         />
-                        <td className="text-nowrap fw-medium">Customer</td>
+                        <td className='text-nowrap fw-medium'>Customer</td>
                       </div>
                       <td>
-                        <div className="d-flex">
-                          <div className="form-check me-3 me-lg-5">
+                        <div className='d-flex'>
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("customer.read")}
                               onChange={() =>
                                 onPermissionChange("customer.read")
@@ -2039,12 +2156,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Read</label>
+                            <label className='form-check-label'>Read</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("customer.write")}
                               onChange={() =>
                                 onPermissionChange("customer.write")
@@ -2056,12 +2173,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Write</label>
+                            <label className='form-check-label'>Write</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("customer.create")}
                               onChange={() =>
                                 onPermissionChange("customer.create")
@@ -2073,12 +2190,12 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Create</label>
+                            <label className='form-check-label'>Create</label>
                           </div>
-                          <div className="form-check me-3 me-lg-5">
+                          <div className='form-check me-3 me-lg-5'>
                             <input
-                              className="form-check-input"
-                              type="checkbox"
+                              className='form-check-input'
+                              type='checkbox'
                               {...register("customer.delete")}
                               onChange={() =>
                                 onPermissionChange("customer.delete")
@@ -2090,10 +2207,273 @@ export const AddNewRoleModel = ({
                               }
                               disabled={viewRole}
                             />
-                            <label className="form-check-label">Delete</label>
+                            <label className='form-check-label'>Delete</label>
                           </div>
                         </div>
                       </td>
+                    </tr>
+
+                    <tr>
+                      <tbody>
+                        <tr>
+                          <th>
+                            <div className='form-check mx-3'>
+                              <input
+                                className='form-check-input'
+                                type='checkbox'
+                                onChange={() =>
+                                  selectMainPermissionTab("settings")
+                                }
+                                checked={permissionChecked.settings}
+                                disabled={viewRole}
+                              />
+                              <td className='text-nowrap fw-medium'>
+                                Settings
+                              </td>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr>
+                          <div className='form-check mx-3'>
+                            <input
+                              className='form-check-input'
+                              type='checkbox'
+                              onChange={() =>
+                                onPermissionChange("multiLanguage.selectAll")
+                              }
+                              checked={permissionChecked.multiLanguage}
+                              disabled={viewRole}
+                            />
+                            <td className='text-nowrap fw-medium'>
+                              multiLanguage
+                            </td>
+                          </div>
+                          <td>
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("multiLanguage.read")}
+                                  onChange={() =>
+                                    onPermissionChange("multiLanguage.read")
+                                  }
+                                  checked={
+                                    permissionChecked.multiLanguage
+                                      ? permissionChecked.multiLanguage
+                                      : watch("multiLanguage.read")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>Read</label>
+                              </div>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("multiLanguage.write")}
+                                  onChange={() =>
+                                    onPermissionChange("multiLanguage.write")
+                                  }
+                                  checked={
+                                    permissionChecked.multiLanguage
+                                      ? permissionChecked.multiLanguage
+                                      : watch("multiLanguage.write")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>
+                                  Write
+                                </label>
+                              </div>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("multiLanguage.create")}
+                                  onChange={() =>
+                                    onPermissionChange("multiLanguage.create")
+                                  }
+                                  checked={
+                                    permissionChecked.multiLanguage
+                                      ? permissionChecked.multiLanguage
+                                      : watch("multiLanguage.create")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>
+                                  Create
+                                </label>
+                              </div>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("multiLanguage.delete")}
+                                  onChange={() =>
+                                    onPermissionChange("multiLanguage.delete")
+                                  }
+                                  checked={
+                                    permissionChecked.multiLanguage
+                                      ? permissionChecked.multiLanguage
+                                      : watch("multiLanguage.delete")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>
+                                  Delete
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <div className='form-check mx-3'>
+                            <input
+                              className='form-check-input'
+                              type='checkbox'
+                              onChange={() =>
+                                onPermissionChange("constants.selectAll")
+                              }
+                              checked={permissionChecked.constants}
+                              disabled={viewRole}
+                            />
+                            <td className='text-nowrap fw-medium'>constants</td>
+                          </div>
+                          <td>
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("constants.read")}
+                                  onChange={() =>
+                                    onPermissionChange("constants.read")
+                                  }
+                                  checked={
+                                    permissionChecked.constants
+                                      ? permissionChecked.constants
+                                      : watch("constants.read")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>Read</label>
+                              </div>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("constants.write")}
+                                  onChange={() =>
+                                    onPermissionChange("constants.write")
+                                  }
+                                  checked={
+                                    permissionChecked.constants
+                                      ? permissionChecked.constants
+                                      : watch("constants.write")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>
+                                  Write
+                                </label>
+                              </div>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("constants.create")}
+                                  onChange={() =>
+                                    onPermissionChange("constants.create")
+                                  }
+                                  checked={
+                                    permissionChecked.constants
+                                      ? permissionChecked.constants
+                                      : watch("constants.create")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>
+                                  Create
+                                </label>
+                              </div>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("constants.delete")}
+                                  onChange={() =>
+                                    onPermissionChange("constants.delete")
+                                  }
+                                  checked={
+                                    permissionChecked.constants
+                                      ? permissionChecked.constants
+                                      : watch("constants.delete")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>
+                                  Delete
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <div className='form-check mx-3'>
+                            <input
+                              className='form-check-input'
+                              type='checkbox'
+                              onChange={() =>
+                                onPermissionChange("system.selectAll")
+                              }
+                              checked={permissionChecked.system}
+                              disabled={viewRole}
+                            />
+                            <td className='text-nowrap fw-medium'>system</td>
+                          </div>
+                          <td>
+                            <div className='d-flex'>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("system.read")}
+                                  onChange={() =>
+                                    onPermissionChange("system.read")
+                                  }
+                                  checked={
+                                    permissionChecked.system
+                                      ? permissionChecked.system
+                                      : watch("system.read")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>Read</label>
+                              </div>
+                              <div className='form-check me-3 me-lg-5'>
+                                <input
+                                  className='form-check-input'
+                                  type='checkbox'
+                                  {...register("system.write")}
+                                  onChange={() =>
+                                    onPermissionChange("system.write")
+                                  }
+                                  checked={
+                                    permissionChecked.system
+                                      ? permissionChecked.system
+                                      : watch("system.write")
+                                  }
+                                  disabled={viewRole}
+                                />
+                                <label className='form-check-label'>
+                                  Write
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
                     </tr>
                   </tbody>
                 </table>
@@ -2101,19 +2481,19 @@ export const AddNewRoleModel = ({
             </div>
 
             <Modal.Footer>
-              <div className="row">
-                <div className="col-12 text-center">
+              <div className='row'>
+                <div className='col-12 text-center'>
                   {!viewRole && (
                     <button
-                      type="submit"
-                      className="btn btn-primary me-sm-3 me-1"
+                      type='submit'
+                      className='btn btn-primary me-sm-3 me-1'
                     >
                       {roleId ? "Update" : "Submit"}
                     </button>
                   )}
                   <button
-                    type="reset"
-                    className="btn btn-label-secondary"
+                    type='reset'
+                    className='btn btn-label-secondary'
                     onClick={handleCloseRoleModal}
                   >
                     Cancel

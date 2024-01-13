@@ -37,7 +37,7 @@ export default function EmailTemplate() {
       try {
         let response = await NewAxiosInstance.post(
           "/constants/emailtemplate",
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("Email Template added successfully");
@@ -51,7 +51,7 @@ export default function EmailTemplate() {
         toast.error("error while adding Email Template");
       }
     },
-    [data]
+    [data],
   );
 
   const updateEmailTemplate = useCallback(
@@ -59,7 +59,7 @@ export default function EmailTemplate() {
       try {
         let response = await NewAxiosInstance.put(
           "/constants/emailtemplate/" + id,
-          formData
+          formData,
         );
         if (response.status === 200) {
           toast.success("Email Template updated successfully");
@@ -77,7 +77,7 @@ export default function EmailTemplate() {
         toast.error("error while updating Email Template");
       }
     },
-    [data]
+    [data],
   );
 
   useEffect(() => {
@@ -91,13 +91,13 @@ export default function EmailTemplate() {
         header: "Name",
       },
     ],
-    []
+    [],
   );
   const handleDelete = useCallback(
     async (id) => {
       try {
         let response = await NewAxiosInstance.delete(
-          "/constants/emailtemplate/" + id
+          "/constants/emailtemplate/" + id,
         );
         if (response.status === 204) {
           let newArray = data.filter((ele) => ele._id != id);
@@ -116,7 +116,7 @@ export default function EmailTemplate() {
         return { success: false, message: "server error occured" };
       }
     },
-    [data]
+    [data],
   );
 
   const showModal = (data, type, index) => {
@@ -138,7 +138,7 @@ export default function EmailTemplate() {
       toast.dismiss();
       const updateUserSelectedTemplate = await NewAxiosInstance.post(
         "/users/selectedTemplate",
-        template
+        template,
       );
       if (updateUserSelectedTemplate.status == 200) {
         if (template == "leadPayment") {
@@ -177,15 +177,17 @@ export default function EmailTemplate() {
         />
       )}
       <Card.Body>
-        <div class="tab-pane">
+        <div class='tab-pane'>
           <h4>List All Email Templates</h4>
-          <p class="card-title-desc" style={{ textAlign: "right" }}>
-            <button
-              class="btn btn-primary text-right"
-              onClick={() => showModal()}
-            >
-              Add New Email Template
-            </button>
+          <p class='card-title-desc' style={{ textAlign: "right" }}>
+            {user.userData?.roleData?.constants?.create && (
+              <button
+                class='btn btn-primary text-right'
+                onClick={() => showModal()}
+              >
+                Add New Email Template
+              </button>
+            )}
           </p>
 
           <MaterialReactTable
@@ -196,41 +198,45 @@ export default function EmailTemplate() {
             enableSorting={false}
             enableTopToolbar={false}
             enableRowActions
-            positionActionsColumn="last"
+            positionActionsColumn='last'
             enableRowNumbers
-            rowNumberMode="static"
+            rowNumberMode='static'
             renderRowActions={({ row, table }) => (
-              <div className="hstack  fs-1">
-                <button
-                  onClick={() => {
-                    setUpdateData(row.original);
-                    setIsOpen(true);
-                  }}
-                  className="btn btn-icon btn-sm btn-info rounded-pill"
-                >
-                  <i className="bx bxs-edit-alt" />
-                </button>
-                <button
-                  onClick={async () => {
-                    setDeleteInfo({
-                      id: row.original._id,
-                      message: `Do you really want to delete ${row.original.name} email template. 
+              <div className='hstack  fs-1'>
+                {user.userData?.roleData?.constants?.write && (
+                  <button
+                    onClick={() => {
+                      setUpdateData(row.original);
+                      setIsOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-info rounded-pill'
+                  >
+                    <i className='bx bxs-edit-alt' />
+                  </button>
+                )}
+                {user.userData?.roleData?.constants?.delete && (
+                  <button
+                    onClick={async () => {
+                      setDeleteInfo({
+                        id: row.original._id,
+                        message: `Do you really want to delete ${row.original.name} email template. 
                               this cannot be undone`,
-                      header: "Delete Email Template",
-                    });
-                    setDeleteModalOpen(true);
-                  }}
-                  className="btn btn-icon btn-sm btn-danger rounded-pill"
-                >
-                  <i className="bx bxs-trash" />
-                </button>
+                        header: "Delete Email Template",
+                      });
+                      setDeleteModalOpen(true);
+                    }}
+                    className='btn btn-icon btn-sm btn-danger rounded-pill'
+                  >
+                    <i className='bx bxs-trash' />
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     selectThisTemplate(row.original);
                   }}
-                  className="btn btn-icon rounded-pill"
+                  className='btn btn-icon rounded-pill'
                 >
-                  <i className="mdi mdi-check-circle align-middle text-success" />
+                  <i className='mdi mdi-check-circle align-middle text-success' />
                 </button>
               </div>
             )}

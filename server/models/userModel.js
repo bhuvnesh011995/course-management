@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema(
     joinDate: { type: Date },
     position: { type: mongoose.Schema.Types.ObjectId },
     salary: { type: Number },
+    DOB: { type: Date },
 
     gender: { type: String },
     address: { type: String },
@@ -26,7 +27,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
-  }
+  },
 );
 
 const userModel = mongoose.model("user", userSchema);
