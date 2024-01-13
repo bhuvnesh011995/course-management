@@ -448,7 +448,7 @@ export const AddNewLeadModel = ({
         return;
       } else if (type == "sendMail") {
         const mailData = {
-          email: leadData.contactPersonEmail,
+          email: leadData?.contactPersonEmail,
           subject: `The below payment advice is for our ${paymentDataObj.registrationType.registrationName.toUpperCase()} course`,
           mailValue: createdMailMessage,
           cc: ccEmails,
@@ -1584,7 +1584,7 @@ export const AddNewLeadModel = ({
               </label>
               <input
                 className='form-control'
-                value={leadData.contactPersonEmail}
+                value={leadData?.contactPersonEmail}
                 disabled
               />
             </div>
