@@ -18,8 +18,8 @@ const sendMail = async (req, res, next) => {
     const myEmail = process.env.MYEMAIL;
     const myPass = process.env.MYPASS;
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      // "tonga.santarli-attc.com",
+      host: "tonga.santarli-attc.com",
+      // "smtp.gmail.com",
       port: 465,
       // secure: true,
       auth: {
