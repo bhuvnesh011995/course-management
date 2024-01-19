@@ -10,6 +10,9 @@ import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
 import { useAuth } from "../../context/authContext";
 import { EmailVerfificationModal } from "../../common-components/models/emailVerificationModal";
+import jsPDF from "jspdf";
+import { filePath } from "../../common-components/useCommonUsableFunctions";
+import * as pdfjsLib from "pdfjs-dist/webpack.mjs";
 
 export const Lead = () => {
   const { user, NewAxiosInstance } = useAuth();
@@ -241,6 +244,210 @@ export const Lead = () => {
     }
   };
 
+  const downloadSelectedLead = async (leadId) => {
+    try {
+      const response = await NewAxiosInstance.get("/leads/getSelectedLead", {
+        params: { _id: leadId },
+      });
+      if (response.status == 200) downloadSelectedLeadPdf(response.data?.lead);
+    } catch (err) {
+      toast.error("something went wrong");
+      console.error(err);
+    }
+  };
+
+  const downloadSelectedLeadPdf = async (data) => {
+    const doc = new jsPDF();
+
+    let yPosition = 15;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(
+      `${data.registrationType.toUpperCase()} Registration Form : ${
+        data.tradeType
+      }`,
+      20,
+      yPosition,
+    );
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    yPosition += 15;
+    doc.text(data.companyName, 20, yPosition);
+
+    doc.setFontSize(10);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Company Name* : `, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.companyName, 54, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Company UEN No.* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.companyUEN, 60, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Company Address* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.companyAddress, 60, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Postal Code* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.postalCode, 45, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Contact Person* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.contactPerson, 54, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Contact Person's Mobile* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(`${data.contactPersonMobile}`, 70, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Contact Person's EMAIL Address* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.contactPersonEmail, 85, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Office Telephone No.* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(`${data.officeTelephone}`, 60, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Office Fax No.* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.officeFax, 54, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Name Of Participant* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.participantName, 60, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Participant's NRIC / FIN No.* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.participantNRIC, 75, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Participant's Mobile* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(`${data.participantMobile}`, 60, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Alternat Mobile No. (if any)* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(
+      data.alternateMobile?.length ? `${data.alternateMobile}` : "NA",
+      70,
+      yPosition,
+    );
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(`Trade Type* :`, 20, yPosition);
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.tradeType, 45, yPosition);
+
+    doc.setFont("helvetica", "bold");
+    yPosition += 10;
+    doc.text(
+      `CoreTrade / Multi-Skilling / Direct R1 Registration No.* :`,
+      20,
+      yPosition,
+    );
+
+    doc.setFont("helvetica", "normal");
+    doc.text(data.coreTradeRegNo, 116, yPosition);
+
+    yPosition += 10;
+    doc.text("Attachments : ", 20, yPosition);
+    doc.setTextColor("blue");
+
+    for (let file of Object.keys(data.fileLocations)) {
+      if (data.fileLocations[file]?.length) {
+        doc.addPage();
+        const type = data.fileLocations[file].split(".")[1];
+        if (
+          type == "jpg" ||
+          type == "jpeg" ||
+          type == "png" ||
+          type == "wpeg"
+        ) {
+          doc.addImage(
+            filePath(data.fileLocations[file]),
+            "PDF",
+            0,
+            0,
+            210,
+            300,
+          );
+        } else {
+          const pdfUrl = filePath(data.fileLocations[file]);
+
+          const pdfData = await pdfjsLib.getDocument(pdfUrl).promise;
+
+          const getPageAsImage = async (pdf, pageNum) => {
+            const page = await pdf.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            await page.render({ canvasContext: context, viewport }).promise;
+
+            return canvas.toDataURL("image/png");
+          };
+
+          for (let pageNum = 1; pageNum <= pdfData.numPages; pageNum++) {
+            const imageDataUrl = await getPageAsImage(pdfData, pageNum);
+            doc.addImage(imageDataUrl, "PNG", 0, 0, 210, 300); // Adjust the coordinates and size as needed
+
+            if (pageNum !== pdfData.numPages) {
+              doc.addPage();
+            }
+          }
+        }
+      }
+    }
+    doc.save(
+      `${
+        data.contactPerson + Date.now() + Math.round(Math.random() + 1e9)
+      }.pdf`,
+    );
+  };
+
   return (
     <div id='layout-wrapper'>
       <div className='main-content'>
@@ -370,6 +577,10 @@ export const Lead = () => {
                         }}
                         updateLeadList={(e) => updateLeadList(e)}
                         leadModelButtons
+                        downloadbutton
+                        downloadFunction={(leadId) =>
+                          downloadSelectedLead(leadId)
+                        }
                       />
                       <div className='category-container mb-0 '></div>
                     </div>

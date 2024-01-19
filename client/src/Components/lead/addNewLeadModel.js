@@ -706,7 +706,7 @@ export const AddNewLeadModel = ({
                   {...register("officeTelephone", {
                     required: "Please Enter Office Telephone No.",
                     pattern: {
-                      value: /^.[0-9]{8,10}$/,
+                      value: /^.[0-9]{7,10}$/,
                       message: "Must have 8 to 10 numeric characters",
                     },
                   })}

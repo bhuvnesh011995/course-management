@@ -7,14 +7,14 @@ routes.post(
   "/addNewLead",
   [userAuth],
   upload.array("files", 10),
-  leadManager.addNewLead
+  leadManager.addNewLead,
 );
 routes.get("/getAllLeads", [userAuth], leadManager.getAllLeads);
 routes.post(
   "/updateLead",
   [userAuth],
   upload.array("files", 10),
-  leadManager.updateLead
+  leadManager.updateLead,
 );
 routes.delete("/deleteLead", [userAuth], leadManager.deleteLead);
 
@@ -36,13 +36,13 @@ routes.get("/getCompany", [userAuth], leadManager.getCompany);
 routes.get(
   "/getDashboardCustomers",
   [userAuth],
-  leadManager.getDashboardCustomers
+  leadManager.getDashboardCustomers,
 );
 
 routes.post(
   "/updateLeadStatus/:leadId/:leadStatus",
   [userAuth],
-  leadManager.updateLeadStatus
+  leadManager.updateLeadStatus,
 );
 
 module.exports = routes;

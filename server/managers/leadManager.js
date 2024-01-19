@@ -703,6 +703,42 @@ const getSelectedLead = async (req, res, next) => {
       { $unwind: "$courseDetails" },
 
       {
+        $lookup: {
+          from: "tradetypes",
+          let: { typeId: "$tradeType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$typeId"],
+                },
+              },
+            },
+          ],
+          as: "tradeTypeDetails",
+        },
+      },
+      { $unwind: "$tradeTypeDetails" },
+
+      {
+        $lookup: {
+          from: "registrationtypes",
+          let: { registrationId: "$registrationType" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: "$_id" }, "$$registrationId"],
+                },
+              },
+            },
+          ],
+          as: "registrationTypeDetails",
+        },
+      },
+      { $unwind: "$registrationTypeDetails" },
+
+      {
         $addFields: {
           showLookup: {
             $gt: [{ $strLenCP: "$tradeLevel" }, 0],
@@ -766,6 +802,38 @@ const getSelectedLead = async (req, res, next) => {
           courseName: "$bothCombined.courseDetails.courseName",
           price: "$bothCombined.courseDetails.price",
           participantNRIC: "$bothCombined.participantNRIC",
+          bcaAcknowledgementNotice: "$bothCombined.bcaAcknowledgementNotice",
+          MOMEploymentDetails: "$bothCombined.MOMEploymentDetails",
+          nricWorkDocument: "$bothCombined.nricWorkDocument",
+          paQuotaCopy: "$bothCombined.paQuotaCopy",
+          passportCopy: "$bothCombined.passportCopy",
+          workersIc: "$bothCombined.workersIc",
+          workersPassport: "$bothCombined.workersPassport",
+          skillEvaluationCertificate:
+            "$bothCombined.skillEvaluationCertificate",
+          companyAddress: "$bothCombined.companyAddress",
+          alternateMobile: "$bothCombined.alternateMobile",
+          companyName: "$bothCombined.companyName",
+          companyUEN: "$bothCombined.companyUEN",
+          contactPerson: "$bothCombined.contactPerson",
+          contactPersonMobile: "$bothCombined.contactPersonMobile",
+          myeNo: "$bothCombined.myeNo",
+          officeFax: "$bothCombined.officeFax",
+          officeTelephone: "$bothCombined.officeTelephone",
+          paReferenceNo: "$bothCombined.paReferenceNo",
+          participantIcNo: "$bothCombined.participantIcNo",
+          participantMobile: "$bothCombined.participantMobile",
+          postalCode: "$bothCombined.postalCode",
+          registrationType:
+            "$bothCombined.registrationTypeDetails.registrationName",
+          status: "$bothCombined.status",
+          remarks: "$bothCombined.remarks",
+          tradeType: "$bothCombined.tradeTypeDetails.tradeType",
+          DOB: "$bothCombined.DOB",
+          nationality: "$bothCombined.nationality",
+          educationalLevel: "$bothCombined.educationalLevel",
+          coreTradeRegNo: "$bothCombined.coreTradeRegNo",
+          fileLocations: "$bothCombined.fileLocations",
         },
       },
     ]);

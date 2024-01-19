@@ -38,6 +38,8 @@ export const CommonDataTable = ({
   leadModelButtons,
   enableRowNumbers = true,
   selectDataByOne = false,
+  downloadbutton,
+  downloadFunction,
 }) => {
   const { user } = useAuth();
   useEffect(() => {
@@ -267,15 +269,23 @@ export const CommonDataTable = ({
               <i className='mdi mdi-check-circle' />
             </button>
           )}
-          {leadModelButtons && row.original?.status == "confirmed" && (
+          {/* {leadModelButtons && row.original?.status == "confirmed" && (
             <button className='btn btn-icon rounded-pill'>
               <i className='bx bx-money align-middle me-1 text-info' />
             </button>
-          )}
+          )} */}
           {leadModelButtons && row.original?.status == "confirmed" && (
             <button className='btn btn-icon rounded-pill'>
               <i className='mdi mdi-check-circle align-middle text-success' />
             </button>
+          )}
+          {downloadbutton && (
+            <span
+              className='cursor-pointer'
+              onClick={() => downloadFunction(row.original._id)}
+            >
+              <i className='mdi mdi-arrow-down-bold-circle text-secondary' />
+            </span>
           )}
         </div>
       ),
