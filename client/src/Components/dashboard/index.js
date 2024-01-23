@@ -59,7 +59,7 @@ export const Index = () => {
   const [dashoardCourses, setDashoardCourses] = useState([]);
 
   useEffect(() => {
-    googleAuthenticate();
+    // googleAuthenticate();
     getDashboardClasses();
     getDashboardCustomers();
     getDashboardTrainers();
@@ -68,19 +68,19 @@ export const Index = () => {
     allUsers();
   }, []);
 
-  const googleAuthenticate = async (classEvents) => {
-    try {
-      const response = await NewAxiosInstance.get("/google/googleAuthUrl");
-      if (response.status == 200) {
-        if (response.data?.isAuthenticated) {
-          return;
-        }
-        window.open(response.data.redirectCalendarUrl);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const googleAuthenticate = async (classEvents) => {
+  //   try {
+  //     const response = await NewAxiosInstance.get("/google/googleAuthUrl");
+  //     if (response.status == 200) {
+  //       if (response.data?.isAuthenticated) {
+  //         return;
+  //       }
+  //       window.open(response.data.redirectCalendarUrl);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   const getDashboardClasses = async () => {
     try {
