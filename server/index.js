@@ -1,10 +1,8 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const init = require("./init");
 const path = require("path");
 const bodyParser = require("body-parser");
-const passport = require("passport");
 const app = express();
 
 require("dotenv").config();
@@ -13,9 +11,6 @@ require("./configs/database.config");
 app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 app.use(
   cors({
