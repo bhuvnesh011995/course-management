@@ -11,11 +11,11 @@ import AuthProvider from "./context/authContext";
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <AuthProvider>
         <BrowserRouter>
           <ToastContainer
-            position="top-right"
+            position='top-right'
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -23,7 +23,7 @@ function App() {
             rtl={false}
             draggable
             pauseOnHover
-            theme="light"
+            theme='light'
           />
           <AllRoutes />
         </BrowserRouter>

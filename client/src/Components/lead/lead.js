@@ -405,7 +405,9 @@ export const Lead = () => {
           type == "wpeg"
         ) {
           doc.addImage(
-            filePath(data.fileLocations[file]),
+            data.fileLocations[file].split("https://").length == 2
+              ? data.fileLocations[file]
+              : filePath(data.fileLocations[file]),
             "PDF",
             0,
             0,
@@ -413,7 +415,10 @@ export const Lead = () => {
             300,
           );
         } else {
-          const pdfUrl = filePath(data.fileLocations[file]);
+          const pdfUrl =
+            data.fileLocations[file].split("https://").length == 2
+              ? data.fileLocations[file]
+              : filePath(data.fileLocations[file]);
 
           const pdfData = await pdfjsLib.getDocument(pdfUrl).promise;
 
