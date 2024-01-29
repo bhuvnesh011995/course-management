@@ -406,7 +406,16 @@ export const MenuBar = () => {
               user.userData?.roleData?.leaveManagement?.read ||
               user.userData?.roleData?.timesheet?.read) && (
               <li>
-                <a
+                <li>
+                  <a href='https://hrms.tonga.santarli-attc.com'>
+                    <i className='bx bx-task' />
+                    <span key='t-hrms'>
+                      <FormattedMessage id='HRMS' defaultMessage={"HRMS"} />{" "}
+                    </span>
+                  </a>
+                </li>
+
+                {/* <a
                   className={`has-arrow waves-effect ${
                     pathname.split("/")[1] == "hrms" && "mm-active"
                   }`}
@@ -416,8 +425,8 @@ export const MenuBar = () => {
                   <span key='t-hrms'>
                     <FormattedMessage id='HRMS' defaultMessage={"HRMS"} />
                   </span>
-                </a>
-                <ul className='sub-menu mm-collapse' id='hrms-menu'>
+                </a> */}
+                {/* <ul className='sub-menu mm-collapse' id='hrms-menu'>
                   {user.userData?.roleData?.employeeManagement?.read && (
                     <li
                       className={`${
@@ -474,7 +483,7 @@ export const MenuBar = () => {
                       </Link>
                     </li>
                   )}
-                </ul>
+                </ul> */}
               </li>
             )}
             {(user.userData?.roleData?.multiLanguage?.read ||
