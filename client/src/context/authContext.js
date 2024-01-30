@@ -39,7 +39,7 @@ export default function AuthProvider({ children }) {
   const getLanguage = useCallback(async (languageCode) => {
     try {
       let response = await NewAxiosInstance.get(
-        "/languages/language/?code=" + languageCode ?? ""
+        "/languages/language/?code=" + languageCode ?? "",
       );
       if (response && response.status === 200) {
         setLanguage(response.data.language);

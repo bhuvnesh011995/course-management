@@ -246,6 +246,9 @@ export const Lead = () => {
 
   const downloadSelectedLead = async (leadId) => {
     try {
+      if (!filteredLeads.filter((lead) => lead._id == leadId)[0]?.course) {
+        return toast.error("Please Select Course !");
+      }
       const response = await NewAxiosInstance.get("/leads/getSelectedLead", {
         params: { _id: leadId },
       });
@@ -273,7 +276,7 @@ export const Lead = () => {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
     yPosition += 15;
-    doc.text(data.companyName, 20, yPosition);
+    doc.text(data?.companyName ? data.companyName : "", 20, yPosition);
 
     doc.setFontSize(10);
 
@@ -282,84 +285,109 @@ export const Lead = () => {
     doc.text(`Company Name* : `, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.companyName, 54, yPosition);
+    doc.text(data?.companyName ? data.companyName : "", 54, yPosition);
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Company UEN No.* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.companyUEN, 60, yPosition);
+    doc.text(data?.companyUEN ? data.companyUEN : "", 60, yPosition);
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Company Address* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.companyAddress, 60, yPosition);
+    doc.text(data?.companyAddress ? data.companyAddress : "", 60, yPosition);
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Postal Code* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.postalCode, 45, yPosition);
+    doc.text(data?.postalCode ? data.postalCode : "", 45, yPosition);
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Contact Person* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.contactPerson, 54, yPosition);
+    doc.text(data?.contactPerson ? data.contactPerson : "", 54, yPosition);
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Contact Person's Mobile* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(`${data.contactPersonMobile}`, 70, yPosition);
+    doc.text(
+      `${data?.contactPersonMobile ? data.contactPersonMobile : ""}`,
+      70,
+      yPosition,
+    );
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Contact Person's EMAIL Address* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.contactPersonEmail, 85, yPosition);
+    doc.text(
+      data?.contactPersonEmail ? data.contactPersonEmail : "",
+      85,
+      yPosition,
+    );
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Office Telephone No.* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(`${data.officeTelephone}`, 60, yPosition);
+    doc.text(
+      `${data?.officeTelephone ? data.officeTelephone : ""}`,
+      60,
+      yPosition,
+    );
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Office Fax No.* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.officeFax, 54, yPosition);
+    doc.text(data?.officeFax ? data.officeFax : "", 54, yPosition);
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Name Of Participant* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.participantName, 60, yPosition);
+    doc.text(data?.participantName ? data.participantName : "", 60, yPosition);
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Participant's NRIC / FIN No.* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.participantNRIC, 75, yPosition);
+    doc.text(
+      data?.participantNRIC
+        ? data.participantNRIC
+        : data.participantIcNo
+        ? data.participantIcNo
+        : "",
+      75,
+      yPosition,
+    );
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
     doc.text(`Participant's Mobile* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(`${data.participantMobile}`, 60, yPosition);
+    console.log(data.fileLocations);
+    doc.text(
+      `${data?.participantMobile ? data?.participantMobile : "NA"}`,
+      60,
+      yPosition,
+    );
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
@@ -367,7 +395,7 @@ export const Lead = () => {
 
     doc.setFont("helvetica", "normal");
     doc.text(
-      data.alternateMobile?.length ? `${data.alternateMobile}` : "NA",
+      data?.alternateMobile?.length ? `${data.alternateMobile}` : "NA",
       70,
       yPosition,
     );
@@ -377,7 +405,7 @@ export const Lead = () => {
     doc.text(`Trade Type* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.tradeType, 45, yPosition);
+    doc.text(data?.tradeType ? data.tradeType : "", 45, yPosition);
 
     doc.setFont("helvetica", "bold");
     yPosition += 10;
@@ -388,7 +416,7 @@ export const Lead = () => {
     );
 
     doc.setFont("helvetica", "normal");
-    doc.text(data.coreTradeRegNo, 116, yPosition);
+    doc.text(data?.coreTradeRegNo ? data.coreTradeRegNo : "", 116, yPosition);
 
     yPosition += 10;
     doc.text("Attachments : ", 20, yPosition);
