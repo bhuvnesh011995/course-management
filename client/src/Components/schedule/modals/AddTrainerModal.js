@@ -135,9 +135,7 @@ export const NewTrainerModal = ({
           >
             <div className='row'>
               <div className='col-md-6 mb-3'>
-                <label className='form-label'>
-                  Name <span className='text-danger'>*</span>
-                </label>
+                <label className='form-label'>Name</label>
                 <input
                   type='text'
                   className='form-control'
@@ -155,9 +153,7 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className='col-md-6 mb-3'>
-                <label className='form-label'>
-                  Email ID <span className='text-danger'>*</span>
-                </label>
+                <label className='form-label'>Email ID</label>
                 <input
                   type='email'
                   className='form-control'
@@ -174,9 +170,7 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className='col-md-6 mb-3'>
-                <label className='form-label'>
-                  Mobile No. <span className='text-danger'>*</span>
-                </label>
+                <label className='form-label'>Mobile No.</label>
                 <input
                   type='tel'
                   className='form-control'
@@ -192,9 +186,7 @@ export const NewTrainerModal = ({
                 )}
               </div>
               <div className='col-md-6 mb-3'>
-                <label className='form-label'>
-                  DOB (Date of Birth) <span className='text-danger'>*</span>
-                </label>
+                <label className='form-label'>DOB (Date of Birth)</label>
                 <input
                   type='date'
                   className='form-control'
@@ -203,9 +195,7 @@ export const NewTrainerModal = ({
                 />
               </div>
               <div className='col-md-6 mb-3'>
-                <label className='form-label'>
-                  Designation <span className='text-danger'>*</span>
-                </label>
+                <label className='form-label'>Designation</label>
                 <select
                   className='form-select'
                   {...register("trainerDesignation")}
