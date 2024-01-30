@@ -423,56 +423,57 @@ export const Lead = () => {
     doc.setTextColor("blue");
 
     for (let file of Object.keys(data.fileLocations)) {
-      if (data.fileLocations[file]?.length) {
-        doc.addPage();
-        const type = data.fileLocations[file].split(".")[1];
-        if (
-          type == "jpg" ||
-          type == "jpeg" ||
-          type == "png" ||
-          type == "wpeg"
-        ) {
-          doc.addImage(
-            data.fileLocations[file].split("https://").length == 2
-              ? data.fileLocations[file]
-              : filePath(data.fileLocations[file]),
-            "PDF",
-            0,
-            0,
-            210,
-            300,
-          );
-        } else {
-          const pdfUrl =
-            data.fileLocations[file].split("https://").length == 2
-              ? data.fileLocations[file]
-              : filePath(data.fileLocations[file]);
+      if (!data.fileLocations[file].split("https://").length == 2)
+        if (data.fileLocations[file]?.length) {
+          doc.addPage();
+          const type = data.fileLocations[file].split(".")[1];
+          if (
+            type == "jpg" ||
+            type == "jpeg" ||
+            type == "png" ||
+            type == "wpeg"
+          ) {
+            doc.addImage(
+              data.fileLocations[file].split("https://").length == 2
+                ? data.fileLocations[file]
+                : filePath(data.fileLocations[file]),
+              "PDF",
+              0,
+              0,
+              210,
+              300,
+            );
+          } else {
+            const pdfUrl =
+              data.fileLocations[file].split("https://").length == 2
+                ? data.fileLocations[file]
+                : filePath(data.fileLocations[file]);
 
-          const pdfData = await pdfjsLib.getDocument(pdfUrl).promise;
+            const pdfData = await pdfjsLib.getDocument(pdfUrl).promise;
 
-          const getPageAsImage = async (pdf, pageNum) => {
-            const page = await pdf.getPage(pageNum);
-            const viewport = page.getViewport({ scale: 2 });
-            const canvas = document.createElement("canvas");
-            const context = canvas.getContext("2d");
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
+            const getPageAsImage = async (pdf, pageNum) => {
+              const page = await pdf.getPage(pageNum);
+              const viewport = page.getViewport({ scale: 2 });
+              const canvas = document.createElement("canvas");
+              const context = canvas.getContext("2d");
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
 
-            await page.render({ canvasContext: context, viewport }).promise;
+              await page.render({ canvasContext: context, viewport }).promise;
 
-            return canvas.toDataURL("image/png");
-          };
+              return canvas.toDataURL("image/png");
+            };
 
-          for (let pageNum = 1; pageNum <= pdfData.numPages; pageNum++) {
-            const imageDataUrl = await getPageAsImage(pdfData, pageNum);
-            doc.addImage(imageDataUrl, "PNG", 0, 0, 210, 300); // Adjust the coordinates and size as needed
+            for (let pageNum = 1; pageNum <= pdfData.numPages; pageNum++) {
+              const imageDataUrl = await getPageAsImage(pdfData, pageNum);
+              doc.addImage(imageDataUrl, "PNG", 0, 0, 210, 300); // Adjust the coordinates and size as needed
 
-            if (pageNum !== pdfData.numPages) {
-              doc.addPage();
+              if (pageNum !== pdfData.numPages) {
+                doc.addPage();
+              }
             }
           }
         }
-      }
     }
     doc.save(
       `${
