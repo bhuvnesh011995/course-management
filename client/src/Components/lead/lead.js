@@ -601,7 +601,7 @@ export const Lead = () => {
                         verificationMailButton
                         checkMailButtonClick
                         checkMailFunction={(row) => {
-                          if (!row.original?.class?.length) {
+                          if (!row.original?.course?.length) {
                             toast.error("please Select Course");
                             return true;
                           } else {
