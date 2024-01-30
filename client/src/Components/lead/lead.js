@@ -423,7 +423,7 @@ export const Lead = () => {
     doc.setTextColor("blue");
 
     for (let file of Object.keys(data.fileLocations)) {
-      if (!data.fileLocations[file].split("https://").length == 2)
+      if (data.fileLocations[file].split("https://").length != 2)
         if (data.fileLocations[file]?.length) {
           doc.addPage();
           const type = data.fileLocations[file].split(".")[1];
