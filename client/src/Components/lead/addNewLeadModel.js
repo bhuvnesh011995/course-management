@@ -41,7 +41,7 @@ export const AddNewLeadModel = ({
   const [allCourses, setAllCourses] = useState([]);
   const [showMailMessage, setShowMailMessage] = useState("");
   const [selectedRegistration, setSelectedRegistration] = useState("");
-  const [ccEmails, setCcEmails] = useState([]);
+  const [ccEmails, setCcEmails] = useState([user?.userData?.email]);
 
   const {
     register,
