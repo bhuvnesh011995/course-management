@@ -30,24 +30,24 @@ const addNewUser = async (req, res, next) => {
         },
       },
       { $unwind: "$roleDetails" },
-      {
-        $lookup: {
-          from: "position",
-          localField: "position",
-          foreignField: "_id",
-          as: "positionDetails",
-        },
-      },
-      { $unwind: "$positionDetails" },
-      {
-        $lookup: {
-          from: "department",
-          localField: "department",
-          foreignField: "_id",
-          as: "departmentDetails",
-        },
-      },
-      { $unwind: "$departmentDetails" },
+      // {
+      //   $lookup: {
+      //     from: "position",
+      //     localField: "position",
+      //     foreignField: "_id",
+      //     as: "positionDetails",
+      //   },
+      // },
+      // { $unwind: "$positionDetails" },
+      // {
+      //   $lookup: {
+      //     from: "department",
+      //     localField: "department",
+      //     foreignField: "_id",
+      //     as: "departmentDetails",
+      //   },
+      // },
+      // { $unwind: "$departmentDetails" },
       {
         $project: {
           _id: 1,
@@ -66,8 +66,8 @@ const addNewUser = async (req, res, next) => {
           status: 1,
           position: 1,
           department: 1,
-          departmentName: "$departmentDetails.name",
-          positionName: "$positionDetails.name",
+          // departmentName: "$departmentDetails.name",
+          // positionName: "$positionDetails.name",
           joinDate: 1,
           salary: 1,
           created_at: 1,
@@ -99,24 +99,24 @@ const getUsers = async (req, res, next) => {
         },
       },
       { $unwind: "$roleDetails" },
-      {
-        $lookup: {
-          from: "position",
-          localField: "position",
-          foreignField: "_id",
-          as: "positionDetails",
-        },
-      },
-      { $unwind: "$positionDetails" },
-      {
-        $lookup: {
-          from: "department",
-          localField: "department",
-          foreignField: "_id",
-          as: "departmentDetails",
-        },
-      },
-      { $unwind: "$departmentDetails" },
+      // {
+      //   $lookup: {
+      //     from: "position",
+      //     localField: "position",
+      //     foreignField: "_id",
+      //     as: "positionDetails",
+      //   },
+      // },
+      // { $unwind: "$positionDetails" },
+      // {
+      //   $lookup: {
+      //     from: "department",
+      //     localField: "department",
+      //     foreignField: "_id",
+      //     as: "departmentDetails",
+      //   },
+      // },
+      // { $unwind: "$departmentDetails" },
       {
         $project: {
           _id: 1,
@@ -135,8 +135,8 @@ const getUsers = async (req, res, next) => {
           status: 1,
           position: 1,
           department: 1,
-          departmentName: "$departmentDetails.name",
-          positionName: "$positionDetails.name",
+          // departmentName: "$departmentDetails.name",
+          // positionName: "$positionDetails.name",
           joinDate: 1,
           salary: 1,
           created_at: 1,

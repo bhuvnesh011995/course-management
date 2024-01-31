@@ -228,13 +228,49 @@ const getAllLeads = async (req, res, next) => {
       leadQuery.push({
         $match: {
           $or: [
-            { companyName: { $regex: query.textSearch } },
-            { participantName: { $regex: query.textSearch } },
-            { participantNRIC: { $regex: query.textSearch } },
-            { tradeTypeName: { $regex: query.textSearch } },
             {
-              registrationTypeName: {
-                $regex: query.textSearch,
+              $expr: {
+                $regexMatch: {
+                  input: { $toLower: "$companyName" },
+                  regex: { $toLower: query.textSearch },
+                  options: "i",
+                },
+              },
+            },
+            {
+              $expr: {
+                $regexMatch: {
+                  input: { $toLower: "$participantName" },
+                  regex: { $toLower: query.textSearch },
+                  options: "i",
+                },
+              },
+            },
+            {
+              $expr: {
+                $regexMatch: {
+                  input: { $toLower: "$participantNRIC" },
+                  regex: { $toLower: query.textSearch },
+                  options: "i",
+                },
+              },
+            },
+            {
+              $expr: {
+                $regexMatch: {
+                  input: { $toLower: "$tradeTypeName" },
+                  regex: { $toLower: query.textSearch },
+                  options: "i",
+                },
+              },
+            },
+            {
+              $expr: {
+                $regexMatch: {
+                  input: { $toLower: "$registrationTypeName" },
+                  regex: { $toLower: query.textSearch },
+                  options: "i",
+                },
               },
             },
           ],
