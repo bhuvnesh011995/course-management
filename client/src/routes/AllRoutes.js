@@ -52,111 +52,105 @@ export const AllRoutes = () => {
       <Routes>
         <Route path='/' Component={Index}></Route>
         <Route path='/login' Component={LoginUser}></Route>
-        {Object.keys(user.userData).length && (
-          <Route path='/profile' Component={Profile}></Route>
-        )}
-        {user.userData?.roleData?.role?.read && (
-          <Route path='/admin/roles' Component={Roles}></Route>
-        )}
-        {user.userData?.roleData?.userManagement?.read && (
-          <Route
-            path='/admin/user-management'
-            Component={UserManagement}
-          ></Route>
-        )}{" "}
-        {user.userData?.roleData?.attendance?.read && (
-          <Route
-            path='/course-management/attendance'
-            Component={Attendance}
-          ></Route>
-        )}
-        {user.userData?.roleData?.class?.read && (
-          <Route path='/course-management/class' Component={Class}></Route>
-        )}
-        {user.userData?.roleData?.certificateGeneration?.read && (
-          <Route
-            path='/course-management/Certificate'
-            Component={Certificate}
-          ></Route>
-        )}
-        {user.userData?.roleData?.courses?.read && (
-          <Route path='/course-management/course' Component={Course}></Route>
-        )}
-        {user.userData?.roleData?.customer?.read && (
-          <Route
-            path='/customer-management'
-            Component={CustomerManagement}
-          ></Route>
-        )}
-        {user.userData?.roleData?.holiday?.read && (
-          <Route path='/schedule/date-range' Component={DateRange}></Route>
-        )}
-        {user.userData?.roleData?.employeeManagement?.read && (
-          <Route path='/hrms/employee' Component={Employee}></Route>
-        )}
-        {user.userData?.roleData?.finManagement?.read && (
-          <Route path='/finance/invoice' Component={Invoice}></Route>
-        )}
-        {user.userData?.roleData?.lead?.read && (
-          <Route path='/lead/lead-grid' Component={LeadGrid}></Route>
-        )}
-        {user.userData?.roleData?.lead?.read && (
-          <Route path='/lead' Component={Lead}></Route>
-        )}
-        {user.userData?.roleData?.leaveManagement?.read && (
-          <Route path='/hrms/leave' Component={Leave}></Route>
-        )}
-        {user.userData?.roleData?.payroll?.read && (
-          <Route path='/hrms/payroll' Component={PayRoll}></Route>
-        )}
-        {user.userData?.roleData?.finManagement?.read && (
-          <Route path='/finance/quotation' Component={Quotation}></Route>
-        )}
-        {user.userData?.roleData?.registrationType?.read && (
-          <Route
-            path='/course-management/registration-type'
-            Component={RegistrationType}
-          ></Route>
-        )}
-        {user.userData?.roleData?.finManagement?.read && (
-          <Route
-            path='/finance/sales-quotation'
-            Component={SalesQuotation}
-          ></Route>
-        )}
-        {user.userData?.roleData?.calendar?.read && (
-          <Route path='/schedule/scheduling' Component={Scheduling}></Route>
-        )}
-        {user.userData?.roleData?.timesheet?.read && (
-          <Route path='/hrms/timesheet' Component={TimeSheet}></Route>
-        )}
-        {user.userData?.roleData?.tradeLevel?.read && (
-          <Route
-            path='/course-management/trade-level'
-            Component={TradeLevel}
-          ></Route>
-        )}
-        {user.userData?.roleData?.tradeType?.read && (
-          <Route
-            path='/course-management/trade-type'
-            Component={TradeType}
-          ></Route>
-        )}
-        {user.userData?.roleData?.trainer?.read && (
-          <Route path='/schedule/trainer' Component={Trainer}></Route>
-        )}
-        {user.userData?.roleData?.multiLanguage?.read && (
-          <Route
-            path='/settings/multilanguage'
-            Component={MultiLanguage}
-          ></Route>
-        )}
-        {user.userData?.roleData?.constants?.read && (
-          <Route path='/settings/constants' Component={Constants}></Route>
-        )}
-        {user.userData?.roleData?.system?.read && (
-          <Route path='/settings/system' Component={SystemConfig}></Route>
-        )}
+        {/* {Object.keys(user.userData).length && ( */}
+        <Route path='/profile' Component={Profile}></Route>
+        {/* // )}
+        // {user.userData?.roleData?.role?.read && ( */}
+        <Route path='/admin/roles' Component={Roles}></Route>
+        {/* // )}
+        // {user.userData?.roleData?.userManagement?.read && ( */}
+        <Route path='/admin/user-management' Component={UserManagement}></Route>
+        {/* // )}{" "}
+        // {user.userData?.roleData?.attendance?.read && ( */}
+        <Route
+          path='/course-management/attendance'
+          Component={Attendance}
+        ></Route>
+        {/* )}
+        {user.userData?.roleData?.class?.read && ( */}
+        <Route path='/course-management/class' Component={Class}></Route>
+        {/* )}
+        {user.userData?.roleData?.certificateGeneration?.read && ( */}
+        <Route
+          path='/course-management/Certificate'
+          Component={Certificate}
+        ></Route>
+        {/* )}
+        {user.userData?.roleData?.courses?.read && ( */}
+        <Route path='/course-management/course' Component={Course}></Route>
+        {/* )}
+        {user.userData?.roleData?.customer?.read && ( */}
+        <Route
+          path='/customer-management'
+          Component={CustomerManagement}
+        ></Route>
+        {/* )}
+        {user.userData?.roleData?.holiday?.read && ( */}
+        <Route path='/schedule/date-range' Component={DateRange}></Route>
+        {/* )}
+        {user.userData?.roleData?.employeeManagement?.read && ( */}
+        <Route path='/hrms/employee' Component={Employee}></Route>
+        {/* )}
+        {user.userData?.roleData?.finManagement?.read && ( */}
+        <Route path='/finance/invoice' Component={Invoice}></Route>
+        {/* )}
+        {user.userData?.roleData?.lead?.read && ( */}
+        <Route path='/lead/lead-grid' Component={LeadGrid}></Route>
+        {/* )}
+        {user.userData?.roleData?.lead?.read && ( */}
+        <Route path='/lead' Component={Lead}></Route>
+        {/* )}
+        {user.userData?.roleData?.leaveManagement?.read && ( */}
+        <Route path='/hrms/leave' Component={Leave}></Route>
+        {/* )}
+        {user.userData?.roleData?.payroll?.read && ( */}
+        <Route path='/hrms/payroll' Component={PayRoll}></Route>
+        {/* )}
+        {user.userData?.roleData?.finManagement?.read && ( */}
+        <Route path='/finance/quotation' Component={Quotation}></Route>
+        {/* )}
+        {user.userData?.roleData?.registrationType?.read && ( */}
+        <Route
+          path='/course-management/registration-type'
+          Component={RegistrationType}
+        ></Route>
+        {/* )}
+        {user.userData?.roleData?.finManagement?.read && ( */}
+        <Route
+          path='/finance/sales-quotation'
+          Component={SalesQuotation}
+        ></Route>
+        {/* )}
+        {user.userData?.roleData?.calendar?.read && ( */}
+        <Route path='/schedule/scheduling' Component={Scheduling}></Route>
+        {/* )}
+        {user.userData?.roleData?.timesheet?.read && ( */}
+        <Route path='/hrms/timesheet' Component={TimeSheet}></Route>
+        {/* )}
+        {user.userData?.roleData?.tradeLevel?.read && ( */}
+        <Route
+          path='/course-management/trade-level'
+          Component={TradeLevel}
+        ></Route>
+        {/* )}
+        {user.userData?.roleData?.tradeType?.read && ( */}
+        <Route
+          path='/course-management/trade-type'
+          Component={TradeType}
+        ></Route>
+        {/* )}
+        {user.userData?.roleData?.trainer?.read && ( */}
+        <Route path='/schedule/trainer' Component={Trainer}></Route>
+        {/* )}
+        {user.userData?.roleData?.multiLanguage?.read && ( */}
+        <Route path='/settings/multilanguage' Component={MultiLanguage}></Route>
+        {/* )}
+        {user.userData?.roleData?.constants?.read && ( */}
+        <Route path='/settings/constants' Component={Constants}></Route>
+        {/* )}
+        {user.userData?.roleData?.system?.read && ( */}
+        <Route path='/settings/system' Component={SystemConfig}></Route>
+        {/* )} */}
       </Routes>
       <CommonFooter />
     </div>

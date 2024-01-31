@@ -1,4 +1,3 @@
-/* eslint-disable default-case */
 import { useEffect, useState } from "react";
 import { AddNewUserModal } from "./UserManagementModel";
 import { CommonDataTable } from "../../common-components/CommonDataTable";
@@ -8,7 +7,6 @@ import { EmailVerfificationModal } from "../../common-components/models/emailVer
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import { CommonFooter } from "../../common-components/commonFooter";
 import { BASEURL } from "../../config/config";
 
 export const UserManagement = () => {
@@ -47,6 +45,7 @@ export const UserManagement = () => {
       const { data } = await NewAxiosInstance.get("/users/getUsers", {
         params: { token: localStorage.getItem("token") },
       });
+      console.log(data);
       setUsers(data.users);
     } catch (err) {
       toast.error("something went wrong !");
@@ -83,13 +82,13 @@ export const UserManagement = () => {
     switch (target.value) {
       case "Old":
         const oldestSorted = users.sort(
-          (a, b) => new Date(a.created_at) - new Date(b.created_at)
+          (a, b) => new Date(a.created_at) - new Date(b.created_at),
         );
         setUsers([...oldestSorted]);
         break;
       case "New":
         const newSorted = users.sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          (a, b) => new Date(b.created_at) - new Date(a.created_at),
         );
         setUsers([...newSorted]);
         break;
@@ -97,20 +96,20 @@ export const UserManagement = () => {
   };
 
   return (
-    <div id="layout-wrapper">
-      <div className="main-content">
-        <div className="page-content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12">
-                <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">User Management</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0">
-                      <li className="breadcrumb-item">
-                        <Link to="/">Dashboard</Link>
+    <div id='layout-wrapper'>
+      <div className='main-content'>
+        <div className='page-content'>
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-12'>
+                <div className='page-title-box d-sm-flex align-items-center justify-content-between'>
+                  <h4 className='mb-sm-0 font-size-18'>User Management</h4>
+                  <div className='page-title-right'>
+                    <ol className='breadcrumb m-0'>
+                      <li className='breadcrumb-item'>
+                        <Link to='/'>Dashboard</Link>
                       </li>
-                      <li className="breadcrumb-item active">
+                      <li className='breadcrumb-item active'>
                         User Management
                       </li>
                     </ol>
@@ -118,32 +117,32 @@ export const UserManagement = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="row">
-              <div className="col-xl-12">
-                <div className="card">
-                  <div className="card-body p-3">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                      <div className="row w-50"></div>
+            <div className='row'>
+              <div className='col-xl-12'>
+                <div className='card'>
+                  <div className='card-body p-3'>
+                    <div className='d-flex align-items-center justify-content-between flex-wrap gap-3'>
+                      <div className='row w-50'></div>
                       <button
-                        className="btn btn-primary me-2"
+                        className='btn btn-primary me-2'
                         onClick={() => showNewUserModal()}
                       >
-                        <i className="bx bx-plus me-1 fw-semibold align-middle" />
+                        <i className='bx bx-plus me-1 fw-semibold align-middle' />
                         Add New User
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div> */}
-            <div className="row g-4">
-              <div className="col-md-12">
-                <div className="card ">
-                  <div className="card-header justify-content-between">
-                    <div className="card-title">User List </div>
+            </div>
+            <div className='row g-4'>
+              <div className='col-md-12'>
+                <div className='card '>
+                  <div className='card-header justify-content-between'>
+                    <div className='card-title'>User List </div>
                   </div>
-                  <div className="card-body">
-                    <div className="table-responsive">
+                  <div className='card-body'>
+                    <div className='table-responsive'>
                       <CommonDataTable
                         data={users}
                         tableHeaders={userTableHeaders}

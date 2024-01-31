@@ -12,50 +12,50 @@ import Leave from "./Leave/leave";
 
 export const Constants = () => {
   return (
-    <div id="layout-wrapper">
-      <div className="main-content">
-        <div className="page-content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12">
-                <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Constants</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0">
-                      <li className="breadcrumb-item">
-                        <Link to="/">Dashboard</Link>
+    <div id='layout-wrapper'>
+      <div className='main-content'>
+        <div className='page-content'>
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-12'>
+                <div className='page-title-box d-sm-flex align-items-center justify-content-between'>
+                  <h4 className='mb-sm-0 font-size-18'>Constants</h4>
+                  <div className='page-title-right'>
+                    <ol className='breadcrumb m-0'>
+                      <li className='breadcrumb-item'>
+                        <Link to='/'>Dashboard</Link>
                       </li>
-                      <li className="breadcrumb-item active">Constants</li>
+                      <li className='breadcrumb-item active'>Constants</li>
                     </ol>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <Tab.Container id="left-tabs-example" defaultActiveKey="designation">
+          <Tab.Container id='left-tabs-example' defaultActiveKey='designation'>
             <Row>
               <Col xl={3}>
                 <Card>
                   <Card.Body>
-                    <Nav variant="pills" className="flex-column">
+                    <Nav variant='pills' className='flex-column'>
                       <Nav.Item>
-                        <Nav.Link eventKey="designation">Designation</Nav.Link>
+                        <Nav.Link eventKey='designation'>Designation</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="email">Email Template</Nav.Link>
+                        <Nav.Link eventKey='email'>Email Template</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="duration">Duration</Nav.Link>
+                        <Nav.Link eventKey='duration'>Duration</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="department">Department</Nav.Link>
+                        <Nav.Link eventKey='department'>Department</Nav.Link>
                       </Nav.Item>
-                      <Nav.Item>
+                      {/* <Nav.Item>
                         <Nav.Link eventKey="position">Position</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
                         <Nav.Link eventKey="leave">Leave</Nav.Link>
-                      </Nav.Item>
+                      </Nav.Item> */}
                     </Nav>
                   </Card.Body>
                 </Card>
@@ -74,12 +74,12 @@ export const Constants = () => {
                   <Tab.Pane eventKey={"department"}>
                     <Department />
                   </Tab.Pane>
-                  <Tab.Pane eventKey={"position"}>
+                  {/* <Tab.Pane eventKey={"position"}>
                     <Position />
                   </Tab.Pane>
                   <Tab.Pane eventKey={"leave"}>
                     <Leave />
-                  </Tab.Pane>
+                  </Tab.Pane> */}
                 </Tab.Content>
               </Col>
             </Row>

@@ -113,67 +113,67 @@ export const DateRange = () => {
   };
 
   return (
-    <div id="layout-wrapper">
-      <div className="main-content">
-        <div className="page-content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12">
-                <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                  <h4 className="mb-sm-0 font-size-18">Date Range</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0">
-                      <li className="breadcrumb-item">
-                        <Link to="/">Dashboard</Link>
+    <div id='layout-wrapper'>
+      <div className='main-content'>
+        <div className='page-content'>
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-12'>
+                <div className='page-title-box d-sm-flex align-items-center justify-content-between'>
+                  <h4 className='mb-sm-0 font-size-18'>Date Range</h4>
+                  <div className='page-title-right'>
+                    <ol className='breadcrumb m-0'>
+                      <li className='breadcrumb-item'>
+                        <Link to='/'>Dashboard</Link>
                       </li>
-                      <li className="breadcrumb-item active">Date Range</li>
+                      <li className='breadcrumb-item active'>Date Range</li>
                     </ol>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="card">
-              <div className="card-body">
-                <div className="row">
+            <div className='card'>
+              <div className='card-body'>
+                <div className='row'>
                   {user.userData?.roleData?.holiday?.create && (
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <button
-                        className="btn font-16 btn-primary text-end"
+                        className='btn font-16 btn-primary text-end'
                         onClick={() => addNewEvent()}
                       >
-                        <i className="mdi mdi-plus-circle-outline" /> Add New
+                        <i className='mdi mdi-plus-circle-outline' /> Add New
                       </button>
                     </div>
                   )}
-                  <div className="col-lg-3">
-                    <div className="form-group">
+                  <div className='col-lg-3'>
+                    <div className='form-group'>
                       <select
-                        className="form-select"
+                        className='form-select'
                         onChange={({ target }) => filteredType(target.value)}
                       >
                         <option key={""} value={""}>
                           Sort By :
                         </option>
-                        <option key={"all"} value="all">
+                        <option key={"all"} value='all'>
                           All
                         </option>
-                        <option key={"holiday"} value="holiday">
+                        <option key={"holiday"} value='holiday'>
                           Holiday
                         </option>
-                        <option key={"weekend"} value="weekend">
+                        <option key={"weekend"} value='weekend'>
                           Weekend
                         </option>
                         {/* <option value="leave">Leave</option> */}
                       </select>
                     </div>
                   </div>
-                  <div className="col-lg-6">
+                  <div className='col-lg-6'>
                     <div
-                      id="legend"
-                      className="d-flex align-items-center justify-content-end gap-3"
+                      id='legend'
+                      className='d-flex align-items-center justify-content-end gap-3'
                     >
                       <h6>Label :</h6>
-                      <div className="d-flex align-items-center justify-content-center ">
+                      <div className='d-flex align-items-center justify-content-center '>
                         <div
                           style={{
                             backgroundColor: "green",
@@ -181,11 +181,11 @@ export const DateRange = () => {
                             height: "10px",
                             borderRadius: "5rem",
                           }}
-                          className="mx-1"
+                          className='mx-1'
                         ></div>
-                        <div className="legend-label">Holiday</div>
+                        <div className='legend-label'>Holiday</div>
                       </div>
-                      <div className="d-flex align-items-center justify-content-center">
+                      <div className='d-flex align-items-center justify-content-center'>
                         <div
                           style={{
                             backgroundColor: "blue",
@@ -194,9 +194,9 @@ export const DateRange = () => {
                             borderRadius: "5rem",
                           }}
                         />
-                        <div className="mx-1 legend-label">Weekend</div>
+                        <div className='mx-1 legend-label'>Weekend</div>
                       </div>
-                      <div className="d-flex align-items-center justify-content-center">
+                      <div className='d-flex align-items-center justify-content-center'>
                         <div
                           style={{
                             backgroundColor: "red",
@@ -205,17 +205,17 @@ export const DateRange = () => {
                             borderRadius: "5rem",
                           }}
                         />
-                        <div className="mx-1 legend-label">Leave</div>
+                        <div className='mx-1 legend-label'>Leave</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="card">
-                  <div className="card-body">
+            <div className='row'>
+              <div className='col-lg-12'>
+                <div className='card'>
+                  <div className='card-body'>
                     <AllCalendar
                       events={events}
                       callback={(e, type) => addNewEvent(e, type)}

@@ -6,9 +6,9 @@ import { AllCalendar } from "../../common-components/Calendar";
 import { NewClassModal } from "../course-management/class/classModal";
 import { AddNewHoliday } from "./modals/HolidayModal";
 import { Link } from "react-router-dom";
-import { CommonFooter } from "../../common-components/commonFooter";
 import { useAuth } from "../../context/authContext";
 import moment from "moment";
+import { CalendarEventModal } from "./calendarEventModal";
 
 export const Scheduling = () => {
   const { NewAxiosInstance } = useAuth();
@@ -20,11 +20,11 @@ export const Scheduling = () => {
     endDate: "",
   };
 
-  const [courses, setCourses] = useState([]);
-  const [classes, setClasses] = useState([]);
-  const [trainers, setTrainers] = useState([]);
+  // const [courses, setCourses] = useState([]);
+  // const [classes, setClasses] = useState([]);
+  // const [trainers, setTrainers] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(filterObject);
-  const [classEventModal, setClassEventModal] = useState(false);
+  const [calendarEventModal, setCalendarEventModal] = useState(false);
   const [eventData, setEventData] = useState(null);
   const [events, setEvents] = useState([]);
   const [holidayEventModal, setHolidayEventModal] = useState(false);
@@ -33,11 +33,11 @@ export const Scheduling = () => {
     getEvents();
   }, [selectedFilter]);
 
-  useEffect(() => {
-    getCourses();
-    getClasses();
-    getTrainers();
-  }, []);
+  // useEffect(() => {
+  //   getCourses();
+  //   getClasses();
+  //   getTrainers();
+  // }, []);
 
   const googleAuthenticate = async (classEvents) => {
     try {
@@ -64,6 +64,7 @@ export const Scheduling = () => {
         title: `${googleEvent.summary}  ${
           googleEvent.description ? " ( " + googleEvent.description + " ) " : ""
         } `,
+        classRemarks: googleEvent?.description ? googleEvent.description : "",
         startTime: googleEvent.start.dateTime
           ? moment(googleEvent.start.dateTime).format("hh:mm A")
           : null,
@@ -81,41 +82,41 @@ export const Scheduling = () => {
     setEvents(eventArr);
   };
 
-  const getCourses = async () => {
-    try {
-      const { data } = await NewAxiosInstance.get("/courses/getCourses");
-      setCourses(data.allCourses);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const getCourses = async () => {
+  //   try {
+  //     const { data } = await NewAxiosInstance.get("/courses/getCourses");
+  //     setCourses(data.allCourses);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  const getClasses = async () => {
-    try {
-      const { data } = await NewAxiosInstance.get("/class/getClasses");
-      setClasses(data.classes);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const getClasses = async () => {
+  //   try {
+  //     const { data } = await NewAxiosInstance.get("/class/getClasses");
+  //     setClasses(data.classes);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  const getTrainers = async () => {
-    try {
-      const { data } = await NewAxiosInstance.get("/trainer/getTrainers");
-      setTrainers(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const getTrainers = async () => {
+  //   try {
+  //     const { data } = await NewAxiosInstance.get("/trainer/getTrainers");
+  //     setTrainers(data);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  const addFilter = (value, type) => {
-    selectedFilter[type] = value;
-    setSelectedFilter({ ...selectedFilter });
-  };
+  // const addFilter = (value, type) => {
+  //   selectedFilter[type] = value;
+  //   setSelectedFilter({ ...selectedFilter });
+  // };
 
-  const clearFilters = () => {
-    setSelectedFilter(filterObject);
-  };
+  // const clearFilters = () => {
+  //   setSelectedFilter(filterObject);
+  // };
 
   const getEvents = async () => {
     try {
@@ -130,10 +131,11 @@ export const Scheduling = () => {
   };
 
   const showSelectedEvent = (data, type) => {
+    console.log(data);
     if (type == "holiday") {
       setHolidayEventModal(true);
     } else {
-      setClassEventModal(true);
+      setCalendarEventModal(true);
     }
     setEventData(data);
   };
@@ -276,13 +278,11 @@ export const Scheduling = () => {
         </div>{" "}
       </div>
 
-      {classEventModal && (
-        <NewClassModal
-          setIsOpen={setClassEventModal}
-          isOpen={classEventModal}
-          classData={eventData}
-          isCalendar
-          callback={(e) => updateEvent(e)}
+      {calendarEventModal && (
+        <CalendarEventModal
+          isOpen={calendarEventModal}
+          setIsOpen={setCalendarEventModal}
+          eventData={eventData}
         />
       )}
       {holidayEventModal && (

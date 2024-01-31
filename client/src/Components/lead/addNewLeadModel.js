@@ -422,7 +422,7 @@ export const AddNewLeadModel = ({
         if (e._id == leadData.registrationType) return e;
       });
 
-      if (!leadData.course?.length) {
+      if (!watch("course")?.length) {
         toast.error("Need To Select course First");
         setError("course", { message: "Please Select Course" });
         return;
@@ -1047,7 +1047,7 @@ export const AddNewLeadModel = ({
                 <select
                   className='form-select'
                   {...register("course", { required: "Please Select Course" })}
-                  disabled={viewLead}
+                  disabled={viewLead && leadData.course}
                 >
                   <option value=''>Select Course</option>
                   {allCourses?.length &&
