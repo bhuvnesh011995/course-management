@@ -7,6 +7,11 @@ routes.get("/getClasses", [userAuth], classManager.getClasses);
 routes.get("/getClass", [userAuth], classManager.getClass);
 routes.post("/updateClass", [userAuth], classManager.updateClass);
 
+routes.post(
+  "/updateCalendarEvent",
+  [userAuth],
+  classManager.updateCalendarEvent,
+);
 routes.get("/getCourseClass", [userAuth], classManager.getCourseClass);
 
 routes.delete("/deleteClass", [userAuth], classManager.deleteClass);

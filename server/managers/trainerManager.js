@@ -187,6 +187,12 @@ const updateTrainer = async (req, res, next) => {
     if (file) {
       query["trainerImagePath"] = `images/${file.filename}`;
     }
+    if (
+      query.trainerDOB == null ||
+      query.trainerDOB == "Invalid date" ||
+      !query.tarinerDOB
+    )
+      delete query.trainerDOB;
     const updatedTrainer = await db.trainers.updateOne(
       { _id: query._id },
       {
@@ -223,7 +229,7 @@ const updateTrainer = async (req, res, next) => {
       {
         $addFields: {
           showDesignation: {
-            $gt: [{ $strLenCP: "trainerDesignation" }, 0],
+            $gt: [{ $strLenCP: "$trainerDesignation" }, 0],
           },
         },
       },

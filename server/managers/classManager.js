@@ -1,6 +1,3 @@
-const mongoose = require("mongoose");
-const classModel = require("../models/classModel");
-const EventModel = require("../models/eventModal");
 const db = require("../models");
 const {
   auth2Client,
@@ -73,7 +70,7 @@ const addClass = async (req, res, next) => {
         ).format("ddd MMM D YYYY HH:mm:ss [GMT]ZZ (z)"),
       );
 
-      googleCalendar.events.insert({
+      const newEventData = await googleCalendar.events.insert({
         calendarId: "primary",
         requestBody: {
           summary: classDetails[0].course,
@@ -86,8 +83,17 @@ const addClass = async (req, res, next) => {
             dateTime: endDateTime.toISOString(),
             // timeZone: "Asia/Singapore",
           },
+          extendedProperties: {
+            private: {
+              classId: newClass._id,
+            },
+          },
         },
       });
+      await db.classes.findOneAndUpdate(
+        { _id: newClass._id },
+        { calendarEventId: newEventData.data.id },
+      );
     }
     return res.status(200).send(classDetails[0]);
   } catch (err) {
@@ -197,7 +203,6 @@ const getClasses = async (req, res, next) => {
     );
 
     const allClasses = await db.classes.aggregate(aggregateQuery);
-    console.log(allClasses);
     return res.status(200).send({ classes: allClasses, user: user });
   } catch (err) {
     next(err);
@@ -270,9 +275,52 @@ const updateClass = async (req, res, next) => {
           created_at: 1,
           updated_at: 1,
           classRemarks: 1,
+          calendarEventId: 1,
         },
       },
     ]);
+    if (auth2Client.credentials.access_token) {
+      const startDateTime = new Date(
+        moment(
+          `${moment(updatedClass[0].startDate).format("YYYY-MM-DD")} ${
+            updatedClass[0].startTime
+          }`,
+          "YYYY-MM-DD HH:mm",
+        ).format("ddd MMM D YYYY HH:mm:ss [GMT]ZZ (z)"),
+      );
+
+      const endDateTime = new Date(
+        moment(
+          `${moment(updatedClass[0].endDate).format("YYYY-MM-DD")} ${
+            updatedClass[0].endTime
+          }`,
+          "YYYY-MM-DD HH:mm",
+        ).format("ddd MMM D YYYY HH:mm:ss [GMT]ZZ (z)"),
+      );
+
+      await googleCalendar.events.patch(
+        {
+          calendarId: "primary",
+          eventId: updatedClass[0].calendarEventId,
+          requestBody: {
+            summary: updatedClass[0].title,
+            description: updatedClass[0].classRemarks,
+            start: {
+              dateTime: startDateTime.toISOString(),
+              timeZone: "Asia/Singapore",
+            },
+            end: {
+              dateTime: endDateTime.toISOString(),
+              timeZone: "Asia/Singapore",
+            },
+          },
+        },
+        (err, res) => {
+          if (err)
+            return console.error("The API returned an error:", err.message);
+        },
+      );
+    }
     return res.status(200).send(updatedClass[0]);
   } catch (err) {
     next(err);
@@ -536,6 +584,52 @@ const classCourseDetails = async (req, res, next) => {
   }
 };
 
+const updateCalendarEvent = async (req, res, next) => {
+  try {
+    const startDateTime = new Date(
+      moment(
+        `${moment(req.body.startDate).format("YYYY-MM-DD")} ${
+          req.body.startTime
+        }`,
+        "YYYY-MM-DD HH:mm",
+      ).format("ddd MMM D YYYY HH:mm:ss [GMT]ZZ (z)"),
+    );
+
+    const endDateTime = new Date(
+      moment(
+        `${moment(req.body.endDate).format("YYYY-MM-DD")} ${req.body.endTime}`,
+        "YYYY-MM-DD HH:mm",
+      ).format("ddd MMM D YYYY HH:mm:ss [GMT]ZZ (z)"),
+    );
+
+    const updatedEvent = await googleCalendar.events.patch(
+      {
+        calendarId: "primary",
+        eventId: req.body.event_id,
+        requestBody: {
+          summary: req.body.title,
+          description: req.body.classRemarks,
+          start: {
+            dateTime: startDateTime.toISOString(),
+            timeZone: "Asia/Singapore",
+          },
+          end: {
+            dateTime: endDateTime.toISOString(),
+            timeZone: "Asia/Singapore",
+          },
+        },
+      },
+      (err, res) => {
+        if (err)
+          return console.error("The API returned an error:", err.message);
+      },
+    );
+    return res.status(200).send({ message: "event updated successfully !" });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getClasses,
   addClass,
@@ -548,4 +642,5 @@ module.exports = {
   getFilteredClasses,
   getCETClasses,
   classCourseDetails,
+  updateCalendarEvent,
 };

@@ -3,6 +3,7 @@ const moment = require("moment");
 
 const classSchema = new mongoose.Schema(
   {
+    calendarEventId: { type: String },
     course: { type: mongoose.Schema.Types.ObjectId },
     classStatus: { type: String },
     startTime: { type: String },

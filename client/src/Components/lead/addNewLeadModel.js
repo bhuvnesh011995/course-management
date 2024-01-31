@@ -95,7 +95,8 @@ export const AddNewLeadModel = ({
       "-" +
       tradeLevels.filter((e) => e._id == watch("tradeLevel"))[0].tradeCode +
       "-" +
-      Date.now() +
+      (Number(Date.now().toString().substring(6, 8)) +
+        Number(Date.now().toString().substring(8, Date.now().length))) +
       "-" +
       tradeTypes.filter((e) => e._id == watch("tradeType"))[0].typeCode;
     return CTDnumber;
@@ -442,6 +443,15 @@ export const AddNewLeadModel = ({
         coursePrice: getCourseDetails.data[0].price,
       };
       const createdMailMessage = CreatePaymentDetailsMail(paymentDataObj);
+      let subject = "";
+      if (paymentDataObj.tradeLevel) {
+        subject += ` APPROVAL OF ONLINE REGISTRATION `;
+        subject += ` ${paymentDataObj.tradeType.tradeType.toUpperCase()}`;
+        subject += ` ( ${paymentDataObj.tradeLevel.tradeLevel.toUpperCase()} )`;
+      } else if (paymentDataObj.registrationType.registrationCode == "CRW") {
+        subject += `APPROVAL OF ONLINE APPLICATION `;
+        subject += ` ${paymentDataObj.tradeType.tradeType.toUpperCase()}`;
+      }
       if (type == "viewMail") {
         setShowMailMessage(createdMailMessage);
         // showMailMessage(createdMailMessage)
@@ -449,7 +459,7 @@ export const AddNewLeadModel = ({
       } else if (type == "sendMail") {
         const mailData = {
           email: leadData?.contactPersonEmail,
-          subject: `The below payment advice is for our ${paymentDataObj.registrationType.registrationName.toUpperCase()} course`,
+          subject: subject,
           mailValue: createdMailMessage,
           cc: ccEmails,
         };

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import moment from "moment";
+import { useAuth } from "../../context/authContext";
 
 export const CalendarEventModal = ({
   isOpen,
@@ -9,6 +10,7 @@ export const CalendarEventModal = ({
   eventData,
   callback,
 }) => {
+  const { NewAxiosInstance } = useAuth();
   const {
     register,
     formState: { errors },
@@ -77,6 +79,19 @@ export const CalendarEventModal = ({
     }
   };
 
+  const updateEvent = async (updatedEvent) => {
+    try {
+      const updateEvent = await NewAxiosInstance.post(
+        "/class/updateCalendarEvent",
+        updatedEvent,
+      );
+      callback(updatedEvent);
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
       <Modal show={isOpen} onHide={handleClose}>
@@ -88,7 +103,7 @@ export const CalendarEventModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
+          <form onSubmit={handleSubmit(updateEvent)}>
             <div className='form-group mb-3'>
               <label>Event Title:</label>
               <input
@@ -96,7 +111,7 @@ export const CalendarEventModal = ({
                 className='form-control'
                 placeholder='Enter Event Title'
                 {...register("title", { required: "Please Enter End Date" })}
-                disabled={eventData?.title}
+                // disabled={eventData?.title}
               />
               {errors?.title && (
                 <span className='text-danger'>{errors?.title.message}</span>
@@ -114,7 +129,7 @@ export const CalendarEventModal = ({
                   required: "Please Enter Start Timing",
                   onChange: (e) => checkTime(),
                 })}
-                disabled={eventData?.title}
+                // disabled={eventData?.title}
               />
               {errors?.startTime && (
                 <span className='text-danger'>{errors?.startTime.message}</span>
@@ -131,7 +146,7 @@ export const CalendarEventModal = ({
                   required: "Please Enter End Timing",
                   onChange: (e) => checkTime(),
                 })}
-                disabled={eventData?.title}
+                // disabled={eventData?.title}
               />
               {errors?.endTime && (
                 <span className='text-danger'>{errors?.endTime.message}</span>
@@ -146,7 +161,7 @@ export const CalendarEventModal = ({
                   required: "Please Enter Start Date",
                   onChange: () => checkDate(),
                 })}
-                disabled={eventData?.title}
+                // disabled={eventData?.title}
               />
               {errors?.startDate && (
                 <span className='text-danger'>{errors?.startDate.message}</span>
@@ -161,7 +176,7 @@ export const CalendarEventModal = ({
                   required: "Please Enter End Date",
                   onChange: () => checkDate(),
                 })}
-                disabled={eventData?.title}
+                // disabled={eventData?.title}
               />
               {errors?.endDate && (
                 <span className='text-danger'>{errors?.endDate.message}</span>
@@ -172,10 +187,13 @@ export const CalendarEventModal = ({
               <textarea
                 className='form-control'
                 {...register("classRemarks")}
-                disabled={eventData?.title}
+                // disabled={eventData?.title}
               />
             </div>
             <Modal.Footer>
+              <button type='submit' className='btn btn-primary'>
+                Update
+              </button>
               <button
                 type='button'
                 onClick={() => handleClose()}

@@ -48,16 +48,12 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
         <input
           type='checkbox'
           onClick={() => {
-            if (row.original.status == "confirmed") {
-              if (selectedLeads.includes(row.original?._id)) {
-                const filterLeads = selectedLeads.filter(
-                  (leadId) => leadId != row.original?._id,
-                );
-                setSelectedLeads([...filterLeads]);
-              } else setSelectedLeads([...selectedLeads, row.original?._id]);
-            } else {
-              toast.error("can not select unCompleted leads");
-            }
+            if (selectedLeads.includes(row.original?._id)) {
+              const filterLeads = selectedLeads.filter(
+                (leadId) => leadId != row.original?._id,
+              );
+              setSelectedLeads([...filterLeads]);
+            } else setSelectedLeads([...selectedLeads, row.original?._id]);
           }}
           checked={selectedLeads.includes(row.original?._id)}
         />

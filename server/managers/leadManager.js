@@ -873,7 +873,6 @@ const getSelectedLead = async (req, res, next) => {
         },
       },
     ]);
-    console.log(leadData);
 
     return res.status(200).send({ lead: leadData[0], user: user });
   } catch (err) {

@@ -382,7 +382,6 @@ export const Lead = () => {
     doc.text(`Participant's Mobile* :`, 20, yPosition);
 
     doc.setFont("helvetica", "normal");
-    console.log(data.fileLocations);
     doc.text(
       `${data?.participantMobile ? data?.participantMobile : "NA"}`,
       60,
