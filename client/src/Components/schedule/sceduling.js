@@ -61,7 +61,7 @@ export const Scheduling = () => {
     const response = await NewAxiosInstance.get("/google/calendarEvents");
     response.data.map((googleEvent) => {
       eventArr.push({
-        title: `${googleEvent.summary}  ${
+        title: `${googleEvent.summary} description : ${
           googleEvent.description ? " ( " + googleEvent.description + " ) " : ""
         } `,
         classRemarks: googleEvent?.description ? googleEvent.description : "",

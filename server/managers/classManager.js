@@ -170,9 +170,20 @@ const getClasses = async (req, res, next) => {
       },
       { $unwind: "$trainerDetails" },
       {
+        $addFields: {
+          title: {
+            $concat: [
+              "$courseData.courseName",
+              " Description : ",
+              "$classRemarks",
+            ],
+          },
+        },
+      },
+      {
         $project: {
           _id: 1,
-          title: "$courseData.courseName",
+          title: 1,
           course: "$courseData.courseName",
           endDate: 1,
           startDate: 1,
@@ -186,6 +197,7 @@ const getClasses = async (req, res, next) => {
     );
 
     const allClasses = await db.classes.aggregate(aggregateQuery);
+    console.log(allClasses);
     return res.status(200).send({ classes: allClasses, user: user });
   } catch (err) {
     next(err);
