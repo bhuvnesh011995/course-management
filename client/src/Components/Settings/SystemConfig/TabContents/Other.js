@@ -15,6 +15,7 @@ export default function Other({ show, setShow }) {
   const newOtherConfiguration = async (otherConfigurations) => {
     try {
       const formdata = new FormData();
+      formdata.append("data", JSON.stringify(otherConfigurations));
       if (otherConfigurations.loginLogo.length)
         if (otherConfigurations.loginLogo[0]?.name)
           formdata.append("loginLogoImg", otherConfigurations.loginLogo[0]);
@@ -98,7 +99,16 @@ export default function Other({ show, setShow }) {
                   <small>Upload files only: gif,png,jpg,jpeg</small> <br />
                 </div>
               </div>
-
+              <div className='col-md-4'>
+                <div className='mb-3'>
+                  <label>Certificate Number Start</label>
+                  <input
+                    type='number'
+                    className='form-control'
+                    {...register("certificateNumberStart")}
+                  />
+                </div>
+              </div>
               <div className='col-md-4'>
                 <div className='mb-3'>
                   <label>Attendance Logo</label>

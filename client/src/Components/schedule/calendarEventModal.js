@@ -92,6 +92,15 @@ export const CalendarEventModal = ({
     }
   };
 
+  // const handleDelete = async () => {
+  //   try {
+  //     const response = await NewAxiosInstance.delete(
+  //       "/class/deleteCalendarEvent" + `/${eventData.event_id}`+,
+  //     );
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
   return (
     <div>
       <Modal show={isOpen} onHide={handleClose}>
@@ -194,6 +203,14 @@ export const CalendarEventModal = ({
               <button type='submit' className='btn btn-primary'>
                 Update
               </button>
+              {/* <button
+                type='button'
+                onClick={handleDelete}
+                className='btn btn-danger'
+              >
+                Delete
+              </button> */}
+
               <button
                 type='button'
                 onClick={() => handleClose()}

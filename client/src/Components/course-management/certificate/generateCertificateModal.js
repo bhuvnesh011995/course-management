@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../context/authContext";
@@ -13,15 +13,38 @@ import {
   convertMongooseDate,
   convertToMongooseStartEndTiming,
 } from "../../../common-components/useCommonUsableFunctions";
+import { CreateCertificateMailMessage } from "./createCertificateMailMessage";
 
 const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
-  const { NewAxiosInstance } = useAuth();
+  const { NewAxiosInstance, user } = useAuth();
   const [classes, setClasses] = useState([]);
   const [classCertificates, setClassCertificates] = useState([]);
   const [selectedLeads, setSelectedLeads] = useState([]);
+  const [selectedDetails, setSelectedDetails] = useState([]);
+  const [tradeTypeCodes, setTradeTypeCodes] = useState([]);
 
   const dataKeys = Object.keys(generateCertificateHeaders);
   const tableColumns = [];
+
+  tableColumns.push({
+    header: "Certificate Number",
+    Cell: ({ row }) => (
+      <div>{row.index + user.otherConfigurations.certificateNumberStart}</div>
+    ),
+  });
+
+  const getTradeTypes = useCallback(async () => {
+    try {
+      let response = await NewAxiosInstance.get("/constants/tradeTypeCode");
+      if (!response) toast.error("server error");
+      if (response.status === 200) {
+        setTradeTypeCodes(response.data);
+      } else toast.error("error while fetching data");
+    } catch (error) {
+      console.error(error.response);
+      toast.error("error while fetching");
+    }
+  }, []);
 
   dataKeys.map((e, index) => {
     tableColumns.push({
@@ -52,8 +75,24 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
               const filterLeads = selectedLeads.filter(
                 (leadId) => leadId != row.original?._id,
               );
+              const filterDetails = selectedDetails.filter(
+                (selectedDetail) =>
+                  selectedDetail.selectedLeadId != row.original._id,
+              );
+              setSelectedDetails([...filterDetails]);
               setSelectedLeads([...filterLeads]);
-            } else setSelectedLeads([...selectedLeads, row.original?._id]);
+            } else {
+              setSelectedLeads([...selectedLeads, row.original?._id]);
+
+              setSelectedDetails([
+                ...selectedDetails,
+                {
+                  selectedLeadId: row.original._id,
+                  leadCertificateNumber:
+                    row.index + user.otherConfigurations.certificateNumberStart,
+                },
+              ]);
+            }
           }}
           checked={selectedLeads.includes(row.original?._id)}
         />
@@ -75,6 +114,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
 
   useEffect(() => {
     getAllClasses();
+    getTradeTypes();
     if (watch("classId") && watch("classId").length) {
       getFilteredCertificate();
     }
@@ -121,17 +161,35 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
         { params: { leads: selectedLeads } },
       );
       for (let certificate of getSelectedCertificates.data) {
+        const filterDetails = selectedDetails.filter(
+          (selectedDetail) => selectedDetail.selectedLeadId == certificate._id,
+        );
         const certificateBase64Data = DownloadCertificate(
           certificate,
-          watch("certificateDate"),
+          {
+            certificateDate: watch("certificateDate"),
+            tradeTypeCode: watch("tradeTypeCode"),
+          },
           type,
+          filterDetails[0],
         );
         if (type == "sendMail") {
+          const certificateMailMessage = CreateCertificateMailMessage(
+            certificate,
+            user,
+          );
+          const mailObject = {
+            subject: `CET E-CERTIFICATE - ${certificate.tradeType.toUpperCase()} ${moment(
+              certificate.startDate,
+            ).format("DD MMM YYYY")}&nbsp; `,
+            html: certificateMailMessage,
+          };
           const response = await NewAxiosInstance.post(
             "/certificates/sendLeadCertificateMail",
             {
               contactPersonMail: certificate.contactPersonEmail,
               base64Data: certificateBase64Data,
+              mailObject: mailObject,
             },
           );
           if (response.status == 200) {
@@ -145,24 +203,24 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
     }
   };
 
-  const selectAllCertificates = async () => {
-    try {
-      classCertificates.map((e) => {
-        if (e.status == "confirmed") {
-          if (selectedLeads.includes(e?._id)) {
-            const filterLeads = selectedLeads.filter(
-              (leadId) => leadId != e?._id,
-            );
-            setSelectedLeads([...filterLeads]);
-          } else setSelectedLeads([...selectedLeads, e?._id]);
-        } else {
-          toast.error("can not select this lead");
-        }
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const selectAllCertificates = async () => {
+  //   try {
+  //     classCertificates.map((e) => {
+  //       if (e.status == "confirmed") {
+  //         if (selectedLeads.includes(e?._id)) {
+  //           const filterLeads = selectedLeads.filter(
+  //             (leadId) => leadId != e?._id,
+  //           );
+  //           setSelectedLeads([...filterLeads]);
+  //         } else setSelectedLeads([...selectedLeads, e?._id]);
+  //       } else {
+  //         toast.error("can not select this lead");
+  //       }
+  //     });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   return (
     <div>
@@ -178,9 +236,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
           <form onSubmit={handleSubmit(generateSelectedCertificates)}>
             <div className='row'>
               <div className='col-md-6 mb-3'>
-                <label className='form-label'>
-                  Date <span className='text-danger'>*</span>
-                </label>
+                <label className='form-label'>Date</label>
                 <input
                   type='date'
                   className='form-control'
@@ -194,9 +250,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
                 />
               </div>
               <div className='col-md-6 mb-3'>
-                <label className='form-label'>
-                  Class <span className='text-danger'>*</span>
-                </label>
+                <label className='form-label'>Class</label>
                 <select
                   className='form-select'
                   {...register("classId", {
@@ -213,6 +267,24 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
                           classData.startTime,
                           classData.endTime,
                         )})`}
+                      </option>
+                    ))}
+                </select>
+                {errors?.courseId && (
+                  <span className='text-danger'>
+                    {errors?.courseId.message}
+                  </span>
+                )}
+              </div>
+
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>Trade Type Code</label>
+                <select className='form-select' {...register("tradeTypeCode")}>
+                  <option value=''>Select Code</option>
+                  {tradeTypeCodes?.length &&
+                    tradeTypeCodes.map((tradeTypeCode, index) => (
+                      <option key={index} value={tradeTypeCode.name}>
+                        {tradeTypeCode.name}
                       </option>
                     ))}
                 </select>

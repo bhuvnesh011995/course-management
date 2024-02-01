@@ -9,6 +9,7 @@ import Duration from "./TabContents/Duration/Duration";
 import Department from "./TabContents/Department/department";
 import Position from "./TabContents/Position/position";
 import Leave from "./Leave/leave";
+import TypeCode from "./TabContents/TypeCode/typeCode";
 
 export const Constants = () => {
   return (
@@ -50,6 +51,11 @@ export const Constants = () => {
                       <Nav.Item>
                         <Nav.Link eventKey='department'>Department</Nav.Link>
                       </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link eventKey='tradeTypeCode'>
+                          Trade Type Code
+                        </Nav.Link>
+                      </Nav.Item>
                       {/* <Nav.Item>
                         <Nav.Link eventKey="position">Position</Nav.Link>
                       </Nav.Item>
@@ -73,6 +79,9 @@ export const Constants = () => {
                   </Tab.Pane>
                   <Tab.Pane eventKey={"department"}>
                     <Department />
+                  </Tab.Pane>
+                  <Tab.Pane eventKey={"tradeTypeCode"}>
+                    <TypeCode />
                   </Tab.Pane>
                   {/* <Tab.Pane eventKey={"position"}>
                     <Position />

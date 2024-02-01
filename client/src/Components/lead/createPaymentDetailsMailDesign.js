@@ -14,105 +14,109 @@ export const CreatePaymentDetailsMail = (data) => {
   mailMessage += `<span>Dear Sir/Madam,</span>`;
   mailMessage += `<span>The applicant as below-mentioned has been approved: </span>`;
   mailMessage += `
-  <table style="border: 2px solid ${
+  <div style="border: 2px solid ${
     data.registrationType.registrationName == "CET(Renewal)" ? "blue" : "salmon"
-  };" BORDER=1 WIDTH="50%">
-  <tr style="background-color:${
+  }; width:765px; background-color:${
     data.registrationType.registrationName == "CET(Renewal)"
       ? "#7CB9E8"
       : "#FFAD84"
-  };text-align: left;">
-      <td style="padding:15px;">
+  };" >
+
         <p style="display:flex;">
-          Make the payment of <b style="padding:0 15px;color: red;">$ ${
+          Make the payment of <b style="color: red;">&nbsp; $ ${
             data.coursePrice
-          }</b> <b style="padding: 0 15px;color: red;">  (inclusive of GST) </b> to us
-          <p>
+          }</b> &nbsp;<b style="color: red;">(inclusive of GST)&nbsp; </b> to us
+          <p style="margin-top:-13px;">
             <b >Payment Mode </b>
           </p>
-          <p style="color: red;text-align: left;">
+          <p style="color: red;text-align: left; margin-top:-13px;">
             <b>
               <i>Bank Transfer</i>
             </b>
           </p>
-          <p>- Name of Account : SANTARLI CONSTRUCTION PTE LTD</p>
-          <p>- Name of Bank    : OCBC BANK</p>
-          <p>- Account No      : 601-069800-001</p>
-        <p style="background-color: yellow;">* Please provide us the bank transaction copy (with transaction date), including the applicant's name and NRIC/Fin No.</p>
-<p style="color: red;">Cheque</p>
-<p>- Payable to SANTARLI CONSTRUCTION PTE LTD</p>
+          <p style="margin-top:-13px;">- Name of Account : SANTARLI CONSTRUCTION PTE LTD</p>
+          <p style="margin-top:-13px;">- Name of Bank    : OCBC BANK</p>
+          <p style="margin-top:-13px;">- Account No      : 601-069800-001</p>
+        <p style="background-color: yellow; margin-top:-13px;">* Please provide us the bank transaction copy (with transaction date), including the applicant's name and NRIC/Fin No.</p>
+<p style="color: red; margin-top:-13px;">Cheque</p>
+<p style="margin-top:-13px;">- Payable to SANTARLI CONSTRUCTION PTE LTD</p>
         </p>
-        
-      </td>
-  </tr>
 
-</table>
+</div>
 <table style="border: 2px solid ${
     data.registrationType.registrationName == "CET(Renewal)" ? "blue" : "salmon"
   };" BORDER=1 WIDTH="50%">
+  <thead>
 <tr style="background-color: ${
     data.registrationType.registrationName == "CET(Renewal)"
       ? "#F0F8FF"
       : "#ffdfcf"
   };" >
-  <th>S/N</th>
-  <th><u>NAME OF APPLICANT</u></th>
-  <th>NRIC/FIN NO</th>
+  <th style="width:6%; text-align: center;">S/N</th>
+  <th style="width:47%; text-align: center;"><u>NAME OF APPLICANT</u></th>
+  <th style="width:47%; text-align: center;">NRIC/FIN NO</th>
 </tr>
+</thead>
+<tbody>
 <tr>
-  <td>1.</td>
-  <td>${data.participantName}</td>
-  <td>${data.participantNRIC}</td>
+  <td style="text-align: center;">1.</td>
+  <td style="text-align: center;">${data.participantName}</td>
+  <td style="text-align: center;">${data.participantNRIC}</td>
 </tr>
+</tbody>
 </table>
-<p style="padding-top: 50px;"></p>
+<p style="padding-top: 25px;"></p>
 ${
   data.registrationType.registrationName == "CET(Renewal)"
     ? `
-    <p> * The course will be conducted via ZOOM, and the duration of class will be >4hrs.</p>
-    <p> * For applicants to attend this online course, all they need is a smart phone with video capability and network connection. </p>
-    <p> * Please issue the payment of CoreTrade (New Course Registration) & CET (Renewal) <u style="color:red">SEPARATELY</u></p>
-    <P style="color:red"> * Our confirmation of training place is based on first come, first serve basis </P>
-    <p style="color:red"> * We will arrange the earliest test date for you when the payment is received .</p>
-    <p > * INVOICE will be issued within 1 - 2 weeks after receiving the payment.</p>`
+    <p style="margin-top:-13px;"> * The course will be conducted via ZOOM, and the duration of class will be >4hrs.</p>
+    <p style="margin-top:-13px;"> * For applicants to attend this online course, all they need is a smart phone with video capability and network connection. </p>
+    <p style="margin-top:-13px;"> * Please issue the payment of CoreTrade (New Course Registration) & CET (Renewal) <u style="color:red">SEPARATELY</u></p>
+    <P style="color:red; margin-top:-13px;"> * Our confirmation of training place is based on first come, first serve basis </P>
+    <p style="color:red; margin-top:-13px;"> * We will arrange the earliest test date for you when the payment is received .</p>
+    <p style="margin-top:-13px;"> * INVOICE will be issued within 1 - 2 weeks after receiving the payment.</p>`
     : `
 
-<table  style="border: 2px solid ;" BORDER=1 WIDTH="50%">
+<table  style="border: 2px solid ; " BORDER=1 WIDTH="50%">
+<thead>
 <tr style="background-color: #ff4800;">
-<th style="padding-left:50%;">NOTE</th>
+<th style="text-align: center;" width:20%; colspan="2">NOTE</th>
 </tr>
+</thead>
 </table>
 
-<table  style="border: 2px solid ;" BORDER=1 WIDTH="50%">
+<table  style="border: 2px solid ; " BORDER=1 WIDTH="50%">
+<thead>
 <tr>
-  <td>i</td>
-  <td>Our confirmation of training place is based on first come , first serve basis. </td>
+  <th style="width:6%">i</th>
+  <th style="width:96% text-align:center;">Our confirmation of training place is based on first come , first serve basis. </th>
 </tr>
 <tr >
-  <td>ii</td>
-  <td>We will give you a call to arrange the test schedule when the payment is received. </td>
+  <th style="width:6%">ii</th>
+  <th style="width:96% text-align:center;">We will give you a call to arrange the test schedule when the payment is received. </th>
 </tr>
 <tr >
-  <td>iii</td>
-  <td>Our invoice will be issued within 1 to 2 weeks after receiving the payment from you . </td>
+  <th style="width:6%">iii</th>
+  <th style="width:96% text-align:center;">Our invoice will be issued within 1 to 2 weeks after receiving the payment from you . </th>
 </tr>
 <tr >
-  <td>iv</td>
-  <td>No WTU funding for CoreTrade registration .</td>
+  <th style="width:6%">iv</th>
+  <th style="width:96% text-align:center;">No WTU funding for CoreTrade registration .</th>
 </tr>
+</thead>
 </table>
 `
 }
-  
-<p>
+<p style="padding-top: 15px;"></p>
+<p >
   <b style="font-weight: bolder;">BEST REGARDS</b>
 </p>
-<p>
+<p style="margin-top:-13px;">
   <b style="font-weight: bolder;">${data.loginUserName.toUpperCase()}</b>
 </p>
-<p>TONGA PTE LTD | A training partner of SANTARLI ATTC & OTC | </p>
-<p>531 Yishun Industrial Park A, #03-02 Santarli Building Singapore 768739</p>
-<p>T : <a href="tel:656-755-6676"><u>(65)67556676</u></a> | F : <a href="tel:656-755-4566"><u>(65)67554566</u></a> | W : <a href="https://www.santarli-attc.com/"><u>www.santarli-attc.com</u></a></p>
+<p style="margin-top:-13px;">TONGA PTE LTD | A training partner of SANTARLI ATTC & OTC | </p>
+<p style="margin-top:-13px;">531 Yishun Industrial Park A, #03-02 Santarli Building Singapore 768739</p>
+<p style="margin-top:-13px;">T : <a href="tel:656-755-6676"><u>(65)67556676</u></a> | F : <a href="tel:656-755-4566"><u>(65)67554566</u></a> | W : <a href="https://www.santarli-attc.com/"><u>www.santarli-attc.com</u></a></p>
 
   `;
   return mailMessage;

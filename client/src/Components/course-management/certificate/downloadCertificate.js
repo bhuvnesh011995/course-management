@@ -5,7 +5,12 @@ import newTongaIcon from "../../../assets/images/newTongaIcon.png";
 import moment from "moment";
 import certificateSignImage from "../../../assets/images/certificateSign.png";
 
-export const DownloadCertificate = (data, selectedDate, certificateType) => {
+export const DownloadCertificate = (
+  data,
+  inputData,
+  certificateType,
+  leadDetail,
+) => {
   const doc = new jsPDF();
   let yPosition = 10;
   doc.setFillColor(10, 186, 181);
@@ -86,7 +91,11 @@ export const DownloadCertificate = (data, selectedDate, certificateType) => {
   yPosition += 10;
   doc.text(`${data.tradeType}`, 75, yPosition);
   yPosition += 13;
-  doc.text(`ON ${moment(selectedDate).format("DD-MMM-YYYY")}`, 75, yPosition);
+  doc.text(
+    `ON ${moment(inputData.certificateDate).format("DD-MMM-YYYY")}`,
+    75,
+    yPosition,
+  );
   doc.addImage(newTongaIcon, "png", 26, yPosition + 5, 60, 16);
 
   doc.setFont("helvetica", "bold");
@@ -109,8 +118,10 @@ export const DownloadCertificate = (data, selectedDate, certificateType) => {
 
   yPosition += 10;
   doc.text(
-    `Certificate No. ${data.typeCode}/${
-      data.coreTradeRegNo
+    `Certificate No. ${inputData.tradeTypeCode}/${
+      leadDetail.leadCertificateNumber
+        ? leadDetail.leadCertificateNumber
+        : Date.now()
     }/${moment().year()}`,
     20,
     yPosition,
@@ -118,7 +129,7 @@ export const DownloadCertificate = (data, selectedDate, certificateType) => {
 
   yPosition += 6;
   doc.text(
-    `Date: ${moment(data.updated_at).format("DD-MMM-YYYY")}`,
+    `Date: ${moment(data.updated_at).format("DD MMM YYYY")}`,
     20,
     yPosition,
   );
