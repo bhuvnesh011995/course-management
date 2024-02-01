@@ -5,4 +5,5 @@ module.exports = {
   department: require("./departmentModel"),
   position: require("./positionModel"),
   leave: require("./leaveModel"),
+  tradeTypeCode: require("./tradeTypeCode.model"),
 };

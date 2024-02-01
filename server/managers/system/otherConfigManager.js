@@ -5,7 +5,7 @@ const db = require("../../models");
 
 exports.updateConfig = async (req, res, next) => {
   try {
-    const { files } = req;
+    const { files, body } = req;
     const obj = {};
     if (files.attendanceLogoImg) {
       obj["attendanceLogo"] = `images/${files.attendanceLogoImg[0].filename}`;
@@ -16,12 +16,15 @@ exports.updateConfig = async (req, res, next) => {
     if (files.loginLogoImg) {
       obj["loginLogo"] = `images/${files.loginLogoImg[0].filename}`;
     }
+    obj["certificateNumberStart"] = JSON.parse(
+      body.data,
+    ).certificateNumberStart;
     const getOtherConfiguration = await db.config.otherConfig.find({});
     if (Object.keys(obj).length)
       if (getOtherConfiguration.length) {
         const updateData = await db.config.otherConfig.updateOne(
           { _id: getOtherConfiguration[0]._id },
-          { $set: obj }
+          { $set: obj },
         );
         const updatedData = await db.config.otherConfig.findOne({
           _id: getOtherConfiguration[0]._id,
@@ -32,7 +35,7 @@ exports.updateConfig = async (req, res, next) => {
               deleteSelectedFile(
                 getOtherConfiguration[0]?.attendanceLogo.split("/")[
                   getOtherConfiguration[0]?.attendanceLogo.split("/").length - 1
-                ]
+                ],
               );
           }
           if (files.paymentPdfLogoImg) {
@@ -40,7 +43,7 @@ exports.updateConfig = async (req, res, next) => {
               deleteSelectedFile(
                 getOtherConfiguration[0]?.paymentPdfLogo.split("/")[
                   getOtherConfiguration[0]?.paymentPdfLogo.split("/").length - 1
-                ]
+                ],
               );
           }
           if (files.loginLogoImg) {
@@ -48,7 +51,7 @@ exports.updateConfig = async (req, res, next) => {
               deleteSelectedFile(
                 getOtherConfiguration[0]?.loginLogo.split("/")[
                   getOtherConfiguration[0]?.loginLogo.split("/").length - 1
-                ]
+                ],
               );
           }
         }

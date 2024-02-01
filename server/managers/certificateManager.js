@@ -473,9 +473,14 @@ const getSelectedCertificates = async (req, res, next) => {
           postalCode: 1,
           updated_at: 1,
           status: 1,
+          contactPerson: 1,
           contactPersonEmail: 1,
           tradeType: "$tradeTypeDetails.tradeType",
           typeCode: "$tradeTypeDetails.typeCode",
+          startDate: "$classDetails.startDate",
+          endDate: "$classDetails.endDate",
+          startTime: "$classDetails.startTime",
+          endTime: "$classDetails.endTime",
         },
       },
     ]);
@@ -501,8 +506,8 @@ const sendLeadCertificateMail = async (req, res, next) => {
 
     const sendMailObj = {
       email: body.contactPersonMail,
-      subject: "CET Course Lead Certificate",
-      mailValue: "<h3>Find Your Course Certificate Attachment Below :</h3>",
+      subject: body.mailObject.subject,
+      mailValue: body.html,
       path: [filepath],
     };
     await sendMail({ body: sendMailObj });

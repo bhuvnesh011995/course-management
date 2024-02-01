@@ -19,8 +19,9 @@ const schema = new Schema(
       ref: "languages",
       default: null,
     },
+    certificateNumberStart: { type: Number },
   },
-  { collection: "otherConfig" }
+  { collection: "otherConfig" },
 );
 
 module.exports = model("otherConfig", schema);
