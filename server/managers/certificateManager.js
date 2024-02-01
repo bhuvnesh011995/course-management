@@ -503,11 +503,10 @@ const sendLeadCertificateMail = async (req, res, next) => {
     fs.writeFileSync(filepath, certificateBuffered, (err) => {
       if (err) console.error(err);
     });
-
     const sendMailObj = {
       email: body.contactPersonMail,
       subject: body.mailObject.subject,
-      mailValue: body.html,
+      mailValue: body.mailObject.html,
       path: [filepath],
     };
     await sendMail({ body: sendMailObj });

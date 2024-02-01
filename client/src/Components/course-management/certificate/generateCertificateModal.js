@@ -169,6 +169,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
           {
             certificateDate: watch("certificateDate"),
             tradeTypeCode: watch("tradeTypeCode"),
+            certificateType: watch("certificateType"),
           },
           type,
           filterDetails[0],
@@ -287,6 +288,23 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
                         {tradeTypeCode.name}
                       </option>
                     ))}
+                </select>
+                {errors?.courseId && (
+                  <span className='text-danger'>
+                    {errors?.courseId.message}
+                  </span>
+                )}
+              </div>
+
+              <div className='col-md-6 mb-3'>
+                <label className='form-label'>Certificate Type</label>
+                <select
+                  className='form-select'
+                  {...register("certificateType")}
+                >
+                  <option value=''>Select Certificate Type</option>
+                  <option value={"DR"}>DR</option>
+                  <option value={"MS"}>MS</option>
                 </select>
                 {errors?.courseId && (
                   <span className='text-danger'>

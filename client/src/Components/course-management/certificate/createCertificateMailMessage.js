@@ -1,6 +1,5 @@
 import moment from "moment";
 import { convertToMongooseStartEndTiming } from "../../../common-components/useCommonUsableFunctions";
-import pdflogo from "../../../assets/images/pdfLogo.png";
 
 export const CreateCertificateMailMessage = (data, user) => {
   const message = `  <p >Dear Sir/Madam,</p>
@@ -22,7 +21,6 @@ export const CreateCertificateMailMessage = (data, user) => {
   <p style="margin-top:-13px;">TONGA PTE LTD | A training partner of SANTARLI ATTC & OTC | </p>
 <p style="margin-top:-13px;">531 Yishun Industrial Park A, #03-02 Santarli Building Singapore 768739</p>
 <p style="margin-top:-13px;">T : <a href="tel:656-755-6676"><u>(65)67556676</u></a> | F : <a href="tel:656-755-4566"><u>(65)67554566</u></a> | W : <a href="https://www.santarli-attc.com/"><u>www.santarli-attc.com</u></a></p>
-<img src=${pdflogo} />
 `;
   return message;
 };

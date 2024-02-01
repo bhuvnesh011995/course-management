@@ -147,6 +147,8 @@ export const DownloadCertificate = (
     return pdfBase64Data[1];
   } else
     doc.save(
-      `${name}-${Date.now() + Math.round(Math.random() * 1e9)}-certificate.pdf`,
+      `${inputData?.tradeTypeCode?.length ? inputData.tradeTypeCode : ""}${
+        inputData?.certificateType?.length ? inputData.certificateType : ""
+      }${leadDetail.leadCertificateNumber}.pdf`,
     );
 };
