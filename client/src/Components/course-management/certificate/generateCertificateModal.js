@@ -22,6 +22,8 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
   const [selectedLeads, setSelectedLeads] = useState([]);
   const [selectedDetails, setSelectedDetails] = useState([]);
   const [tradeTypeCodes, setTradeTypeCodes] = useState([]);
+  const [mailMessage, setMailMessage] = useState("");
+  const [singleSelectedLead, setSingleSelectedLead] = useState({});
 
   const dataKeys = Object.keys(generateCertificateHeaders);
   const tableColumns = [];
@@ -29,7 +31,11 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
   tableColumns.push({
     header: "Certificate Number",
     Cell: ({ row }) => (
-      <div>{row.index + user.otherConfigurations.certificateNumberStart}</div>
+      <div>
+        {row.index + user.otherConfigurations.certificateNumberStart > 0
+          ? user.otherConfigurations.certificateNumberStart
+          : 1}
+      </div>
     ),
   });
 
@@ -185,20 +191,54 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
             ).format("DD MMM YYYY")}&nbsp; `,
             html: certificateMailMessage,
           };
-          const response = await NewAxiosInstance.post(
-            "/certificates/sendLeadCertificateMail",
-            {
+          if (getSelectedCertificates.data.length != 1) {
+            // const response = await NewAxiosInstance.post(
+            //   "/certificates/sendLeadCertificateMail",
+            //   {
+            //     contactPersonMail: certificate.contactPersonEmail,
+            //     base64Data: certificateBase64Data,
+            //     mailObject: mailObject,
+            //   },
+            // );
+            // if (response.status == 200) {
+            //   toast.success(response.data.message);
+            // }
+            sendCertificateMail({
               contactPersonMail: certificate.contactPersonEmail,
               base64Data: certificateBase64Data,
               mailObject: mailObject,
-            },
-          );
-          if (response.status == 200) {
-            toast.success(response.data.message);
+            });
+            handleClose();
+          } else {
+            setMailMessage(certificateMailMessage);
+            setSingleSelectedLead({
+              contactPersonMail: certificate.contactPersonEmail,
+              base64Data: certificateBase64Data,
+              mailObject: mailObject,
+            });
           }
         }
       }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const sendCertificateMail = async (data) => {
+    try {
+      const response = await NewAxiosInstance.post(
+        "/certificates/sendLeadCertificateMail",
+        {
+          contactPersonMail: data.contactPersonMail,
+          base64Data: data.base64Data,
+          mailObject: data.mailObject,
+        },
+      );
+      if (response.status == 200) {
+        toast.success(response.data.message);
+      }
       handleClose();
+      setMailMessage("");
     } catch (err) {
       console.error(err);
     }
@@ -360,6 +400,47 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
               </button>
             </Modal.Footer>
           </form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={mailMessage.length}
+        onHide={() => setMailMessage("")}
+        size='lg'
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <h5 className='modal-title add-Customer-title'>View Mail</h5>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className='row'>
+            <div className='col-md-12 mb-3'>
+              <label className='form-label'>
+                To: <span className='text-danger'>*</span>
+              </label>
+              <input
+                className='form-control'
+                value={singleSelectedLead?.contactPersonMail}
+                disabled
+              />
+            </div>
+          </div>
+          <div dangerouslySetInnerHTML={{ __html: mailMessage }}></div>
+          <Modal.Footer>
+            <button
+              className='btn btn-success'
+              onClick={() => sendCertificateMail(singleSelectedLead)}
+            >
+              Send
+            </button>
+            <button
+              className='btn btn-danger'
+              onClick={() => setMailMessage("")}
+            >
+              Cancel
+            </button>
+          </Modal.Footer>
         </Modal.Body>
       </Modal>
     </div>
