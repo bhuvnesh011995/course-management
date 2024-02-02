@@ -17,7 +17,7 @@ export const MenuBar = () => {
         element.classList.add("mm-show");
         element.parentElement.classList.add("mm-active");
       }
-  }, [pathname]);
+  }, [pathname, user]);
 
   const showMenuList = (menuName) => {
     const element = document.getElementById(menuName);
