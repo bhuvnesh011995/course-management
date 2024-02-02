@@ -32,9 +32,10 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
     header: "Certificate Number",
     Cell: ({ row }) => (
       <div>
-        {row.index + user.otherConfigurations.certificateNumberStart > 0
-          ? user.otherConfigurations.certificateNumberStart
-          : 1}
+        {row.index +
+          (user?.otherConfigurations?.certificateNumberStart != null
+            ? user.otherConfigurations.certificateNumberStart
+            : 1)}
       </div>
     ),
   });
