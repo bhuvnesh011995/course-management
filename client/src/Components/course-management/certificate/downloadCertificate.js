@@ -1,9 +1,11 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import newSantarliLeftImage from "../../../assets/images/newSantarliLeftImage.png";
-import newTongaIcon from "../../../assets/images/newTongaIcon.png";
+import newSantarliLeftImage from "../../../assets/images/santarlicertificateimage.png";
+import tongaHakken2 from "../../../assets/images/tongaHakken2.png";
 import moment from "moment";
-import certificateSignImage from "../../../assets/images/certificateSign.png";
+import tongaCertificateSign from "../../../assets/images/tongaCertificateSign.png";
+import tongaUpperText from "../../../assets/images/tongaUpperText.png";
+import tongaDownText from "../../../assets/images/tongaDownText.png";
 
 export const DownloadCertificate = (
   data,
@@ -12,108 +14,168 @@ export const DownloadCertificate = (
   leadDetail,
 ) => {
   const doc = new jsPDF();
+  let textWidth, pageWidth, centerX;
   let yPosition = 10;
-  doc.setFillColor(10, 186, 181);
-  doc.rect(0, 0, 240, 30, "F");
-  doc.rect(0, 270, 240, 40, "F");
+  doc.setFillColor(33, 158, 188);
+  doc.rect(0, 0, 240, 23, "F");
+  doc.rect(0, 274, 240, 23, "F");
 
   doc.setFillColor(255, 255, 255);
 
-  doc.rect(6, 0, 5, 300, "F");
-  doc.rect(200, 0, 5, 300, "F");
+  doc.rect(8.4, 0, 2.7, 300, "F");
+  doc.rect(200.4, 0, 2.7, 300, "F");
 
-  doc.setFillColor(0, 0, 0);
+  doc.setFillColor(0, 119, 182);
 
-  doc.rect(6, 0, 0.2, 300, "F");
-  doc.rect(205, 0, 0.2, 300, "F");
+  doc.rect(8, 0, 0.2, 300, "F");
+  doc.rect(203, 0, 0.2, 300, "F");
   doc.rect(11, 0, 0.2, 300, "F");
   doc.rect(200, 0, 0.2, 300, "F");
 
-  doc.setFont("times", "normal");
-  doc.setFontSize(80);
+  doc.setFillColor(0, 0, 0);
 
-  yPosition += 55;
-  doc.setTextColor(0, 51, 102);
-  doc.text(`SANTARLI`, 57, yPosition);
+  // doc.setFont("times", "normal");
+  // doc.setFontSize(80);
 
-  yPosition -= 30;
+  yPosition += 20;
+  // doc.setTextColor(0, 51, 102);
+  // doc.text(`SANTARLI`, 57, yPosition);
 
-  doc.addImage(newSantarliLeftImage, "png", 15, yPosition, 40, 40);
-  doc.setFontSize(25);
-  doc.setFont("times", "italic", "bold");
+  // yPosition -= 30;
 
-  yPosition += 55;
-  doc.text(`SANTARLI CONSTRUCTION PTE LTD`, 30, yPosition);
+  doc.addImage(newSantarliLeftImage, "png", 20, yPosition, 170, 36);
+  yPosition += 45;
 
-  doc.setTextColor(0, 0, 0);
-  doc.setFontSize(14);
-  doc.setFont("helvetica", "normal");
+  doc.addImage(tongaUpperText, "png", 20, yPosition, 170, 56);
 
+  // doc.setFontSize(25);
+  // doc.setFont("times", "italic", "bold");
+  // doc.setTextColor(0, 4, 94);
+
+  // doc.text(`SANTARLI CONSTRUCTION PTE LTD`, 30.5, yPosition);
+
+  // doc.setTextColor(0, 0, 0);
+  // doc.setFontSize(15);
+  // doc.setFont("helvetica", "normal");
+
+  // yPosition += 13;
+  // doc.text(`ACCREDITED TRAINING PROVIDER`, 60, yPosition);
+  // yPosition += 10;
+  // doc.text(`APPROVED BY`, 85, yPosition);
+  // yPosition += 10;
+  // doc.text(
+  //   `BUILDING CONSTRUCTION AND AUTHORITY (BCA),SINGAPORE`,
+  //   26,
+  //   yPosition,
+  // );
+
+  // doc.setFontSize(28);
+  // doc.setFont("times", "normal");
+
+  // yPosition += 16;
+  // doc.text(`It is hereby certified that`, 61, yPosition);
+  doc.setFontSize(21);
+  doc.setFont("helvetica", "bold");
+
+  textWidth = doc.getTextDimensions(data.participantName).w;
+
+  pageWidth = doc.internal.pageSize.getWidth();
+
+  centerX = (pageWidth - textWidth) / 2;
+
+  // Set the text to be centered
+  // doc.text(text, centerX, 150);
+  yPosition += 70;
+  doc.text(data.participantName, centerX, yPosition);
   yPosition += 10;
-  doc.text(`ACCREDITED TRAINING PROVIDER`, 60, yPosition);
+
+  textWidth = doc.getTextDimensions(`(NRIC/FIN NO: ${data.participantNRIC})`).w;
+
+  pageWidth = doc.internal.pageSize.getWidth();
+
+  centerX = (pageWidth - textWidth) / 2;
+
+  doc.text(`(NRIC/FIN NO: ${data.participantNRIC})`, centerX, yPosition);
   yPosition += 10;
-  doc.text(`APPROVED BY`, 80, yPosition);
-  yPosition += 10;
+
+  textWidth = doc.getTextDimensions(
+    `${
+      inputData.certificateType?.length ? `${inputData.certificateType}/` : ""
+    }${data.coreTradeRegNo}`,
+  ).w;
+
+  pageWidth = doc.internal.pageSize.getWidth();
+
+  centerX = (pageWidth - textWidth) / 2;
+
   doc.text(
-    `BUILDING CONSTRUCTION AND AUTHORITY (BCA),SINGAPORE`,
-    25,
+    `${
+      inputData.certificateType?.length ? `${inputData.certificateType}/` : ""
+    }${data.coreTradeRegNo}`,
+    centerX,
     yPosition,
   );
 
-  doc.setFontSize(25);
-  doc.setFont("times", "italic");
+  // doc.setFont("times", "normal");
+  yPosition += 7;
 
-  yPosition += 14;
-  doc.text(`It is hereby certified that`, 65, yPosition);
+  doc.addImage(tongaDownText, "png", 20, yPosition, 170, 40);
 
-  doc.setFont("helvetica", "bold");
-  yPosition += 20;
-  doc.text(data.participantName, 85, yPosition);
-  yPosition += 10;
-  doc.text(`(NRIC/FIN NO: ${data.participantNRIC})`, 58, yPosition);
-  yPosition += 10;
-  doc.text(`${data.coreTradeRegNo}`, 66, yPosition);
+  // doc.setFontSize(25);
+  // doc.text(`has attained and successfully completed the`, 32, yPosition);
 
-  doc.setFont("times", "italic");
-  yPosition += 16;
-  doc.text(`has attained and successfully completed the`, 28, yPosition);
+  // doc.setFontSize(20);
+  // doc.setFont("helvetica", "bold");
+  // yPosition += 16;
+  // doc.text(`CONTINUING EDUCATION AND TRAINING (CET)`, 27, yPosition);
+
+  // doc.setFont("times", "normal");
+  // doc.setFontSize(23);
+  // yPosition += 8;
+  // doc.text(`for`, 100, yPosition);
+
+  textWidth = doc.getTextDimensions(`${data.tradeType}`).w;
+
+  pageWidth = doc.internal.pageSize.getWidth();
+
+  centerX = (pageWidth - textWidth) / 2;
 
   doc.setFontSize(20);
   doc.setFont("helvetica", "bold");
-  yPosition += 16;
-  doc.text(`CONTINUING EDUCATION AND TRAINING (CET)`, 27, yPosition);
+  yPosition += 50;
+  doc.text(`${data.tradeType}`, centerX, yPosition);
 
-  doc.setFont("times", "italic");
-  yPosition += 10;
-  doc.text(`for`, 100, yPosition);
+  textWidth = doc.getTextDimensions(
+    `ON ${moment(inputData.certificateDate).format("DD-MMM-YYYY")}`,
+  ).w;
 
-  doc.setFont("helvetica", "bold");
-  yPosition += 10;
-  doc.text(`${data.tradeType}`, 75, yPosition);
-  yPosition += 13;
+  pageWidth = doc.internal.pageSize.getWidth();
+
+  centerX = (pageWidth - textWidth) / 2;
+
+  yPosition += 12;
   doc.text(
     `ON ${moment(inputData.certificateDate).format("DD-MMM-YYYY")}`,
-    75,
+    centerX,
     yPosition,
   );
-  doc.addImage(newTongaIcon, "png", 26, yPosition + 5, 60, 16);
+  doc.addImage(tongaHakken2, "png", 20, yPosition + 5, 75, 23);
 
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(9);
-  yPosition += 25;
-  doc.text(`TRAINING PARTNERS`, 51, yPosition);
+  doc.setFontSize(12);
+  yPosition += 32;
+  doc.text(`TRAINING PARTNERS`, 47, yPosition);
   yPosition -= 5;
-  doc.rect(115, yPosition, 50, 0.5, "F");
-  yPosition -= 11;
-  doc.addImage(certificateSignImage, "png", 115, yPosition, 45, 10);
-  yPosition += 11;
+  doc.rect(115, yPosition, 80, 0.5, "F");
+  yPosition -= 18;
+  doc.addImage(tongaCertificateSign, "png", 115, yPosition, 70, 17);
+  yPosition += 18;
   doc.setFontSize(13);
   doc.setFont("helvetica");
   yPosition += 5;
-  doc.text(`DANIEL TONG`, 127, yPosition);
+  doc.text(`DANIEL TONG`, 135, yPosition);
   yPosition += 5;
-  doc.text(`OPERATION DIRECTOR (ATTC)`, 111, yPosition);
-  console.log(Math.random() * 1e9);
+  doc.text(`OPERATION DIRECTOR (ATTC)`, 118, yPosition);
   doc.setFont("helvetica", "normal");
 
   yPosition += 10;
@@ -134,11 +196,6 @@ export const DownloadCertificate = (
     yPosition,
   );
 
-  let name = "";
-
-  data.participantName.split(" ").map((e) => {
-    name += e;
-  });
   if (certificateType == "sendMail") {
     const pdfDataUri = doc.output("datauristring");
     const pdfBase64Data = pdfDataUri.split(
@@ -148,7 +205,9 @@ export const DownloadCertificate = (
   } else
     doc.save(
       `${inputData?.tradeTypeCode?.length ? inputData.tradeTypeCode : ""} ${
-        inputData?.certificateType?.length ? inputData.certificateType : ""
+        inputData?.certificateType?.length
+          ? `(${inputData.certificateType})`
+          : ""
       } ${leadDetail.leadCertificateNumber}.pdf`,
     );
 };

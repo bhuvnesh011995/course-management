@@ -157,6 +157,7 @@ export const AllRoutes = () => {
         {user.userData?.roleData?.system?.read && (
           <Route path='/settings/system' Component={SystemConfig}></Route>
         )}
+        <Route path='*' component={Index} />
       </Routes>
       <CommonFooter />
     </div>

@@ -9,14 +9,16 @@ export const MenuBar = () => {
   const [previousMenu, setPreviousMenu] = useState("");
 
   useEffect(() => {
-    showMenuList(`${pathname.split("/")[1]}-menu`);
-    const element = document.getElementById(`${pathname.split("/")[1]}-menu`);
+    if (user.userData?.userRole) {
+      showMenuList(`${pathname.split("/")[1]}-menu`);
+      const element = document.getElementById(`${pathname.split("/")[1]}-menu`);
 
-    if (element)
-      if (!element.classList.contains("mm-show")) {
-        element.classList.add("mm-show");
-        element.parentElement.classList.add("mm-active");
-      }
+      if (element)
+        if (!element.classList.contains("mm-show")) {
+          element.classList.add("mm-show");
+          element.parentElement.classList.add("mm-active");
+        }
+    }
   }, [pathname, user]);
 
   const showMenuList = (menuName) => {

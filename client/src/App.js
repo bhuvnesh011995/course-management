@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import "./assets/css/app-calendar.css";
 import "./assets/css/app-email.css";
 import "./assets/css/app.min.css";
@@ -13,7 +13,7 @@ function App() {
   return (
     <div className='App'>
       <AuthProvider>
-        <BrowserRouter>
+        <HashRouter>
           <ToastContainer
             position='top-right'
             autoClose={5000}
@@ -26,7 +26,7 @@ function App() {
             theme='light'
           />
           <AllRoutes />
-        </BrowserRouter>
+        </HashRouter>
         {/* <Course /> */}
       </AuthProvider>
     </div>

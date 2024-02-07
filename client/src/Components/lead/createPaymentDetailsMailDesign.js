@@ -11,40 +11,59 @@ export const CreatePaymentDetailsMail = (data) => {
   //   }
   // }
 
-  mailMessage += `<span>Dear Sir/Madam,</span>`;
-  mailMessage += `<span>The applicant as below-mentioned has been approved: </span>`;
+  mailMessage += `<p>Dear Sir/Madam,</p>`;
+  mailMessage += `<p>The applicant as below-mentioned has been approved: </p>`;
   mailMessage += `
-  <div style="border: 2px solid ${
-    data.registrationType.registrationName == "CET(Renewal)" ? "blue" : "salmon"
-  }; width:765px; background-color:${
+  <table WIDTH="50%" style="border: 2px solid ${
     data.registrationType.registrationName == "CET(Renewal)"
-      ? "#7CB9E8"
-      : "#FFAD84"
-  };" >
+      ? "#B4D4FF"
+      : "#FFC288"
+  };
+    background-color:${
+      data.registrationType.registrationName == "CET(Renewal)"
+        ? "#7CB9E8"
+        : "#FFAB73"
+    };" 
+  >
+<tr>
+<td>
+  <p>
+  (i) Make the payment of <b style=" color: ${
+    data.registrationType.registrationName == "CET(Renewal)"
+      ? "black"
+      : "#D04848"
+  };">&nbsp; $ ${data.coursePrice}</b> &nbsp;<b style=" color: ${
+    data.registrationType.registrationName == "CET(Renewal)"
+      ? "black"
+      : "#D04848"
+  };">(inclusive of GST)&nbsp; </b> to us
+  </p>
+  <p style="margin-top:-15px">
+    <b >Payment Mode </b>
+  </p>
+  <pstyle="color:#D04848;text-align: left; ">
+    <b>
+      <i>Bank Transfer</i>
+    </b>
+  </p>
+  <p>- Name of Account : SANTARLI CONSTRUCTION PTE LTD</p>
+  <p>- Name of Bank    : OCBC BANK</p>
+  <p>- Account No      : 601-069800-001</p>
+  <div style="background-color: yellow; ">
+  <p>* Please provide us the bank transaction copy (with transaction date), including the applicant's name <p> and NRIC/Fin No.</p></p>
+  </div>
+  <pstyle="color: #D04848; "><b>Cheque</b></p>
+  <p>- Payable to SANTARLI CONSTRUCTION PTE LTD</p>
+</td>
+</tr>
+  
 
-        <p style="display:flex;">
-          Make the payment of <b style="color: red;">&nbsp; $ ${
-            data.coursePrice
-          }</b> &nbsp;<b style="color: red;">(inclusive of GST)&nbsp; </b> to us
-          <p style="margin-top:-13px;">
-            <b >Payment Mode </b>
-          </p>
-          <p style="color: red;text-align: left; margin-top:-13px;">
-            <b>
-              <i>Bank Transfer</i>
-            </b>
-          </p>
-          <p style="margin-top:-13px;">- Name of Account : SANTARLI CONSTRUCTION PTE LTD</p>
-          <p style="margin-top:-13px;">- Name of Bank    : OCBC BANK</p>
-          <p style="margin-top:-13px;">- Account No      : 601-069800-001</p>
-        <p style="background-color: yellow; margin-top:-13px;">* Please provide us the bank transaction copy (with transaction date), including the applicant's name and NRIC/Fin No.</p>
-<p style="color: red; margin-top:-13px;">Cheque</p>
-<p style="margin-top:-13px;">- Payable to SANTARLI CONSTRUCTION PTE LTD</p>
-        </p>
 
-</div>
+</table>
 <table style="border: 2px solid ${
-    data.registrationType.registrationName == "CET(Renewal)" ? "blue" : "salmon"
+    data.registrationType.registrationName == "CET(Renewal)"
+      ? "#B4D4FF"
+      : "#FFC288"
   };" BORDER=1 WIDTH="50%">
   <thead>
 <tr style="background-color: ${
@@ -69,12 +88,12 @@ export const CreatePaymentDetailsMail = (data) => {
 ${
   data.registrationType.registrationName == "CET(Renewal)"
     ? `
-    <p style="margin-top:-13px;"> * The course will be conducted via ZOOM, and the duration of class will be >4hrs.</p>
-    <p style="margin-top:-13px;"> * For applicants to attend this online course, all they need is a smart phone with video capability and network connection. </p>
-    <p style="margin-top:-13px;"> * Please issue the payment of CoreTrade (New Course Registration) & CET (Renewal) <u style="color:red">SEPARATELY</u></p>
-    <P style="color:red; margin-top:-13px;"> * Our confirmation of training place is based on first come, first serve basis </P>
-    <p style="color:red; margin-top:-13px;"> * We will arrange the earliest test date for you when the payment is received .</p>
-    <p style="margin-top:-13px;"> * INVOICE will be issued within 1 - 2 weeks after receiving the payment.</p>`
+    <p> * The course will be conducted via ZOOM, and the duration of class will be >4hrs.</p>
+    <p> * For applicants to attend this online course, all they need is a smart phone with video capability and network connection. </p>
+    <p> * Please issue the payment of CoreTrade (New Course Registration) & CET (Renewal) <u style="color:red">SEPARATELY</u></p>
+    <P style="color:red; "> * Our confirmation of training place is based on first come, first serve basis </P>
+    <p style="color:red; "> * We will arrange the earliest test date for you when the payment is received .</p>
+    <p> * INVOICE will be issued within 1 - 2 weeks after receiving the payment.</p>`
     : `
 
 <table  style="border: 2px solid ; " BORDER=1 WIDTH="50%">
@@ -108,15 +127,15 @@ ${
 `
 }
 <p style="padding-top: 15px;"></p>
-<p >
+<p>
   <b style="font-weight: bolder;">BEST REGARDS</b>
 </p>
-<p style="margin-top:-13px;">
+<p>
   <b style="font-weight: bolder;">${data.loginUserName.toUpperCase()}</b>
 </p>
-<p style="margin-top:-13px;">TONGA PTE LTD | A training partner of SANTARLI ATTC & OTC | </p>
-<p style="margin-top:-13px;">531 Yishun Industrial Park A, #03-02 Santarli Building Singapore 768739</p>
-<p style="margin-top:-13px;">T : <a href="tel:656-755-6676"><u>(65)67556676</u></a> | F : <a href="tel:656-755-4566"><u>(65)67554566</u></a> | W : <a href="https://www.santarli-attc.com/"><u>www.santarli-attc.com</u></a></p>
+<p>TONGA PTE LTD | A training partner of SANTARLI ATTC & OTC | </p>
+<p>531 Yishun Industrial Park A, #03-02 Santarli Building Singapore 768739</p>
+<p>T : <a href="tel:656-755-6676"><u>(65)67556676</u></a> | F : <a href="tel:656-755-4566"><u>(65)67554566</u></a> | W : <a href="https://www.santarli-attc.com/"><u>www.santarli-attc.com</u></a></p>
 
   `;
   return mailMessage;
