@@ -497,9 +497,16 @@ const sendLeadCertificateMail = async (req, res, next) => {
   try {
     const { body } = req;
     const certificateBuffered = Buffer.from(body.base64Data, "base64");
-    const filepath = `uploads/images/${
-      Date.now() + Math.round(Math.random() * 1e9)
-    }-certificate.pdf`;
+    const filepath = `uploads/images/    ${
+      body.mailObject?.tradeTypeCode?.length
+        ? body.mailObject.tradeTypeCode
+        : ""
+    } ${
+      body.mailObject?.certificateType?.length
+        ? `(${body.mailObject.certificateType})`
+        : ""
+    } ${body.mailObject.leadCertificateNumber}.pdf`;
+
     fs.writeFileSync(filepath, certificateBuffered, (err) => {
       if (err) console.error(err);
     });

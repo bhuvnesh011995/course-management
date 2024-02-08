@@ -191,6 +191,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
               certificate.startDate,
             ).format("DD MMM YYYY")}&nbsp; `,
             html: certificateMailMessage,
+            leadCertificateNumber: filterDetails[0].leadCertificateNumber,
           };
           if (getSelectedCertificates.data.length != 1) {
             // const response = await NewAxiosInstance.post(
@@ -216,6 +217,7 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
               contactPersonMail: certificate.contactPersonEmail,
               base64Data: certificateBase64Data,
               mailObject: mailObject,
+              leadCertificateNumber: filterDetails[0].leadCertificateNumber,
             });
           }
         }
@@ -227,6 +229,11 @@ const GenerateCertificate = ({ isOpen, setIsOpen, certificates }) => {
 
   const sendCertificateMail = async (data) => {
     try {
+      data.mailObject["tradeTypeCode"] = watch("tradeTypeCode");
+      data.mailObject["certificateType"] = watch("certificateType");
+      if (mailMessage?.length)
+        data.mailObject["leadCertificateNumber"] =
+          singleSelectedLead.leadCertificateNumber;
       const response = await NewAxiosInstance.post(
         "/certificates/sendLeadCertificateMail",
         {
