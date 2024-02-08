@@ -14,52 +14,54 @@ export const CreatePaymentDetailsMail = (data) => {
   mailMessage += `<p>Dear Sir/Madam,</p>`;
   mailMessage += `<p>The applicant as below-mentioned has been approved: </p>`;
   mailMessage += `
-  <table WIDTH="50%" style="border: 2px solid ${
+  <table
+  WIDTH="50%"
+  style="border: 2px solid ${
     data.registrationType.registrationName == "CET(Renewal)"
       ? "#B4D4FF"
       : "#FFC288"
-  };
-    background-color:${
-      data.registrationType.registrationName == "CET(Renewal)"
-        ? "#7CB9E8"
-        : "#FFAB73"
-    };" 
-  >
-<tr>
-<td>
-  <p>
-  (i) Make the payment of <b style=" color: ${
+  }; background-color:${
     data.registrationType.registrationName == "CET(Renewal)"
-      ? "black"
-      : "#D04848"
-  };">&nbsp; $ ${data.coursePrice}</b> &nbsp;<b style=" color: ${
-    data.registrationType.registrationName == "CET(Renewal)"
-      ? "black"
-      : "#D04848"
-  };">(inclusive of GST)&nbsp; </b> to us
-  </p>
-  <p style="margin-top:-15px">
-    <b >Payment Mode </b>
-  </p>
-  <pstyle="color:#D04848;text-align: left; ">
-    <b>
-      <i>Bank Transfer</i>
-    </b>
-  </p>
-  <p>- Name of Account : SANTARLI CONSTRUCTION PTE LTD</p>
-  <p>- Name of Bank    : OCBC BANK</p>
-  <p>- Account No      : 601-069800-001</p>
-  <div style="background-color: yellow; ">
-  <p>* Please provide us the bank transaction copy (with transaction date), including the applicant's name <p> and NRIC/Fin No.</p></p>
-  </div>
-  <pstyle="color: #D04848; "><b>Cheque</b></p>
-  <p>- Payable to SANTARLI CONSTRUCTION PTE LTD</p>
-</td>
-</tr>
-  
-
-
+      ? "#7CB9E8"
+      : "#FFAB73"
+  };"
+>
+  <tr>
+    <td>
+      <p>
+        (i) Make the payment of
+        <b style="color: ${
+          data.registrationType.registrationName == "CET(Renewal)"
+            ? "black"
+            : "#D04848"
+        };">&nbsp; $ ${data.coursePrice}</b>
+        &nbsp;<b style="color: ${
+          data.registrationType.registrationName == "CET(Renewal)"
+            ? "black"
+            : "#D04848"
+        };">(inclusive of GST)&nbsp; </b> to us
+      </p>
+      <p style="line-height: .3;">
+        <b>Payment Mode </b>
+      </p>
+      <p style="color: #D04848; text-align: left; line-height: .3;">
+        <b><i>Bank Transfer</i></b>
+      </p>
+      <p style="line-height: .3;">- Name of Account : SANTARLI CONSTRUCTION PTE LTD</p>
+      <p style="line-height: .3;">- Name of Bank : OCBC BANK</p>
+      <p style="line-height: .3;">- Account No : 601-069800-001</p>
+      <div style="background-color: yellow;">
+        <p >
+          * Please provide us the bank transaction copy (with transaction date), including the applicant's 
+        name and NRIC/Fin No.
+        </p>
+      </div>
+      <p style="color: #D04848; line-height: .3;"><b>Cheque</b></p>
+      <p style="line-height: .3;">- Payable to SANTARLI CONSTRUCTION PTE LTD</p>
+    </td>
+  </tr>
 </table>
+
 <table style="border: 2px solid ${
     data.registrationType.registrationName == "CET(Renewal)"
       ? "#B4D4FF"
@@ -90,9 +92,9 @@ ${
     ? `
     <p> * The course will be conducted via ZOOM, and the duration of class will be >4hrs.</p>
     <p> * For applicants to attend this online course, all they need is a smart phone with video capability and network connection. </p>
-    <p> * Please issue the payment of CoreTrade (New Course Registration) & CET (Renewal) <u style="color:red">SEPARATELY</u></p>
-    <P style="color:red; "> * Our confirmation of training place is based on first come, first serve basis </P>
-    <p style="color:red; "> * We will arrange the earliest test date for you when the payment is received .</p>
+    <p> * Please issue the payment of CoreTrade (New Course Registration) & CET (Renewal) <u style="color:#D04848">SEPARATELY</u></p>
+    <P style="color:#D04848; "> * Our confirmation of training place is based on first come, first serve basis </P>
+    <p style="color:#D04848; "> * We will arrange the earliest test date for you when the payment is received .</p>
     <p> * INVOICE will be issued within 1 - 2 weeks after receiving the payment.</p>`
     : `
 
@@ -126,7 +128,7 @@ ${
 </table>
 `
 }
-<p style="padding-top: 15px;"></p>
+<p style="padding-top: 15px; "></p>
 <p>
   <b style="font-weight: bolder;">BEST REGARDS</b>
 </p>
